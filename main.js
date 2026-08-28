@@ -1,6 +1,6 @@
 // RentoCampo landing - Formulario funcional
-// IMPORTANTE: Reemplazá este número con el WhatsApp real en formato internacional, sin + ni espacios.
-const WHATSAPP_NUMBER = "549XXXXXXXXXX";
+// Número de WhatsApp configurado
+const WHATSAPP_NUMBER = "5491130524228";
 
 const form = document.getElementById("leadForm");
 
@@ -23,11 +23,6 @@ form?.addEventListener("submit", (event) => {
     "*Hectáreas aprox.:* " + (hectareas || "Sin informar"),
     "*Comentario:* " + (comentario || "Sin comentario"),
   ].join("\n");
-
-  if (WHATSAPP_NUMBER.includes("X")) {
-    alert("⚠️ Completá el número de WhatsApp en main.js antes de publicar este formulario.\n\nBuscá WHATSAPP_NUMBER = \"549XXXXXXXXXX\" y reemplazá con tu número.");
-    return;
-  }
 
   // Abre WhatsApp con el mensaje pre-llenado
   window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`, "_blank");
