@@ -3,8 +3,14 @@
 .env.local
 .env.*.local
 
-# IDE
-.vscode/
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
 .idea/
 *.swp
 *.swo
@@ -12,9 +18,8 @@
 *.sublime-project
 *.sublime-workspace
 
-# OS
-.DS_Store
-Thumbs.db
+# Vercel
+.vercel
 
 # Dependencies
 node_modules/

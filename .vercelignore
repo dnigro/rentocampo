@@ -15,4 +15,5 @@ build/
 coverage/
 .next/
 out/
+README.md
 WORKFLOW.md

@@ -1,10 +1,12 @@
 {
   "recommendations": [
-    "esbenp.prettier-vscode",
     "ritwickdey.liveserver",
+    "esbenp.prettier-vscode",
+    "dbaeumer.vscode-eslint",
+    "formulahendry.auto-rename-tag",
     "bradlc.vscode-tailwindcss",
     "ecmel.vscode-html-css",
-    "ms-vscode.vscode-js-profile-flame",
+    "eamodio.gitlens",
     "sonarsource.sonarlint-vscode"
   ]
 }

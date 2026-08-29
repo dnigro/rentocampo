@@ -8,6 +8,8 @@
   "css.lint.compatibleVendorPrefixes": "warning",
   "css.lint.vendorPrefix": "warning",
   "javascript.format.insertSpaceBeforeFunctionParenthesis": false,
+  "liveServer.settings.port": 5500,
+  "liveServer.settings.donotShowInfoMsg": true,
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": false
   },
