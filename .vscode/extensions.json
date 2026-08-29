@@ -5,6 +5,8 @@
     "dbaeumer.vscode-eslint",
     "formulahendry.auto-rename-tag",
     "bradlc.vscode-tailwindcss",
-    "eamodio.gitlens"
+    "ecmel.vscode-html-css",
+    "eamodio.gitlens",
+    "sonarsource.sonarlint-vscode"
   ]
 }

@@ -1,11 +1,30 @@
 {
-  "editor.formatOnSave": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": true,
+  "html.format.indentInnerHtml": true,
+  "html.format.wrapAttributes": "auto",
+  "html.format.wrapLineLength": 120,
+  "css.lint.compatibleVendorPrefixes": "warning",
+  "css.lint.vendorPrefix": "warning",
+  "javascript.format.insertSpaceBeforeFunctionParenthesis": false,
   "liveServer.settings.port": 5500,
   "liveServer.settings.donotShowInfoMsg": true,
-  "files.associations": {
-    "*.html": "html",
-    "*.css": "css",
-    "*.js": "javascript"
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": false
+  },
+  "files.exclude": {
+    "**/node_modules": true,
+    "**/.git": true,
+    "**/.DS_Store": true
+  },
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[css]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   }
 }
