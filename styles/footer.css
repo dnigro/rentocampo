@@ -1,0 +1,145 @@
+/* styles/footer.css */
+
+.footer {
+  background: #f3f5ee;
+  border-top: 1px solid rgba(31, 90, 56, 0.12);
+  padding: 56px 24px 0;
+}
+
+.footer-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 48px;
+  padding-bottom: 48px;
+}
+
+@media (max-width: 900px) {
+  .footer-inner {
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+
+  .footer-brand {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 500px) {
+  .footer-inner {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-brand {
+    grid-column: 1;
+  }
+}
+
+/* Brand */
+.footer-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  margin-bottom: 12px;
+}
+
+.footer-logo-text {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1a3a1a;
+  letter-spacing: -0.3px;
+}
+
+.footer-desc {
+  font-size: 13px;
+  color: #667066;
+  line-height: 1.6;
+  margin: 0;
+  max-width: 280px;
+}
+
+/* Columnas */
+.footer-col-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 16px;
+  letter-spacing: -0.1px;
+}
+
+.footer-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.footer-link {
+  font-size: 13px;
+  color: #777;
+  text-decoration: none;
+  transition: color 0.12s;
+}
+
+.footer-link:hover {
+  color: #2d6a2d;
+}
+
+.footer-socials {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.footer-social-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 7px 11px;
+  border: 1px solid #dedbd2;
+  border-radius: 999px;
+  color: #2d6a2d;
+  background: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.footer-social-link:hover {
+  border-color: #2d6a2d;
+  background: #f0f7f0;
+}
+
+/* Bottom */
+.footer-bottom {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 20px 0;
+  border-top: 1px solid #e8e6e0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  font-size: 12px;
+  color: #aaa;
+  flex-wrap: wrap;
+}
+
+.footer-bottom-links {
+  display: flex;
+  gap: 20px;
+}
+
+.footer-bottom-link {
+  font-size: 12px;
+  color: #aaa;
+  text-decoration: none;
+  transition: color 0.12s;
+}
+
+.footer-bottom-link:hover {
+  color: #555;
+}

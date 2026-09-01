@@ -1,0 +1,100 @@
+/* styles/favoritos.css */
+
+/* ── Botón favorito como texto ── */
+.fav-text-btn {
+  all: unset;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  color: #bbb;
+  padding: 4px 0 0;
+  transition: color 0.15s;
+}
+
+.fav-text-btn:hover {
+  color: #e53e3e;
+}
+
+.fav-text-btn-activo {
+  color: #e53e3e;
+}
+
+.fav-text-btn-activo:hover {
+  color: #bbb;
+}
+
+.fav-text-btn-icon {
+  font-size: 13px;
+}
+
+.fav-text-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ── Favoritos page ── */
+.fav-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.fav-item .campo-card-pub {
+  border-radius: 20px 20px 0 0;
+  border-bottom: none;
+}
+
+.fav-item-acciones {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  background: #fff;
+  border: 1px solid #e8e6e0;
+  border-top: 1px solid #f5f3ef;
+  border-radius: 0 0 20px 20px;
+}
+
+.fav-accion-ver {
+  font-size: 13px;
+  font-weight: 600;
+  color: #2d6a2d;
+  text-decoration: none;
+  transition: opacity 0.12s;
+}
+
+.fav-accion-ver:hover {
+  opacity: 0.75;
+}
+
+.fav-accion-quitar {
+  font-size: 12px;
+  color: #bbb;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  padding: 0;
+  transition: color 0.12s;
+}
+
+.fav-accion-quitar:hover {
+  color: #e53e3e;
+}
+
+/* ── Fix cards ── */
+.campo-card-pub-img-link {
+  display: block;
+  text-decoration: none;
+}
+
+.campo-card-pub-titulo-link {
+  text-decoration: none;
+}
+
+.campo-card-pub-titulo-link:hover .campo-card-pub-titulo {
+  color: #2d6a2d;
+}

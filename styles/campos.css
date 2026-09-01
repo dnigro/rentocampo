@@ -1,0 +1,605 @@
+/* styles/campos.css */
+
+/* ── Contenedor general de páginas ── */
+.page-container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 48px 24px 80px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.page-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 36px;
+}
+
+.page-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1a3a1a;
+  margin: 0 0 4px;
+  letter-spacing: -0.3px;
+}
+
+.page-subtitle {
+  font-size: 14px;
+  color: #888;
+  margin: 0;
+}
+
+.btn-primary-lg {
+  background: #2d6a2d;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.15s;
+  font-family: inherit;
+  display: inline-block;
+}
+
+.btn-primary-lg:hover {
+  background: #235223;
+}
+
+.btn-secondary-lg {
+  background: #fff;
+  color: #444;
+  border: 1px solid #ddd;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    border-color 0.15s,
+    background 0.15s;
+  font-family: inherit;
+}
+
+.btn-secondary-lg:hover {
+  border-color: #aaa;
+  background: #fafafa;
+}
+
+/* ── Empty state ── */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 80px 24px;
+  text-align: center;
+}
+
+.empty-icon {
+  font-size: 48px;
+  line-height: 1;
+}
+
+.empty-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+}
+
+.empty-desc {
+  font-size: 14px;
+  color: #888;
+  margin: 0;
+  max-width: 340px;
+}
+
+/* ── Grid de campos (admin) ── */
+.campos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.campo-card-admin {
+  background: #fff;
+  border: 1px solid #e8e6e0;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: box-shadow 0.15s;
+}
+
+.campo-card-admin:hover {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.07);
+}
+
+.campo-card-img {
+  position: relative;
+  height: 160px;
+  background: #f4f2ec;
+  overflow: hidden;
+}
+
+.campo-card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.campo-card-img-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40px;
+  color: #ccc;
+}
+
+.estado-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.estado-activo {
+  background: #dcfce7;
+  color: #15803d;
+}
+.estado-borrador {
+  background: #f3f4f6;
+  color: #6b7280;
+}
+.estado-pausado {
+  background: #fef9c3;
+  color: #a16207;
+}
+.estado-arrendado {
+  background: #e0f2fe;
+  color: #0369a1;
+}
+
+.campo-card-body {
+  padding: 16px;
+}
+
+.campo-card-titulo {
+  font-size: 15px;
+  font-weight: 600;
+  color: #1a3a1a;
+  margin: 0 0 4px;
+}
+
+.campo-card-ubicacion {
+  font-size: 13px;
+  color: #888;
+  margin: 0 0 8px;
+}
+
+.campo-card-datos {
+  font-size: 13px;
+  color: #555;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  align-items: center;
+}
+
+.dot {
+  color: #ccc;
+}
+.capitalize {
+  text-transform: capitalize;
+}
+
+.campo-card-actions {
+  display: flex;
+  gap: 8px;
+  padding: 12px 16px;
+  border-top: 1px solid #f0eeea;
+}
+
+.btn-action {
+  flex: 1;
+  text-align: center;
+  padding: 7px;
+  border: 1px solid #e0ddd8;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #444;
+  background: #fff;
+  cursor: pointer;
+  text-decoration: none;
+  transition:
+    background 0.12s,
+    border-color 0.12s;
+  font-family: inherit;
+}
+
+.btn-action:hover {
+  background: #f7f5f0;
+  border-color: #c8c5be;
+}
+
+/* ── Formulario de campo ── */
+.campo-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.form-section {
+  background: #fff;
+  border: 1px solid #e8e6e0;
+  border-radius: 12px;
+  padding: 28px;
+  margin-bottom: 20px;
+}
+
+.form-section-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #1a3a1a;
+  margin: 0 0 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #f0eeea;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.form-section-hint {
+  font-size: 12px;
+  font-weight: 400;
+  color: #aaa;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.form-field:last-child {
+  margin-bottom: 0;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 600px) {
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.form-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #333;
+}
+
+.required {
+  color: #e53e3e;
+}
+
+.form-input {
+  padding: 10px 14px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #1a1a1a;
+  background: #fff;
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
+  font-family: inherit;
+  outline: none;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.form-input:focus {
+  border-color: #2d6a2d;
+  box-shadow: 0 0 0 3px rgba(45, 106, 45, 0.1);
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.form-select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23888' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 36px;
+  cursor: pointer;
+}
+
+.form-check {
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
+.form-check input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: #2d6a2d;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.form-check-label {
+  font-size: 14px;
+  color: #444;
+  cursor: pointer;
+}
+
+/* Precio con prefijo */
+.input-with-prefix {
+  display: flex;
+  align-items: stretch;
+}
+
+.input-prefix {
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-right: none;
+  border-radius: 8px 0 0 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #555;
+  background: #f7f5f0;
+  font-family: inherit;
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+}
+
+.input-after-prefix {
+  border-radius: 0 8px 8px 0 !important;
+  flex: 1;
+}
+
+/* ── Fotos ── */
+.fotos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 12px;
+}
+
+.foto-thumb {
+  position: relative;
+  aspect-ratio: 4/3;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #f4f2ec;
+}
+
+.foto-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.foto-remove {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 22px;
+  height: 22px;
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.12s;
+}
+
+.foto-remove:hover {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+.foto-principal {
+  position: absolute;
+  bottom: 6px;
+  left: 6px;
+  font-size: 10px;
+  font-weight: 700;
+  background: #2d6a2d;
+  color: #fff;
+  padding: 2px 7px;
+  border-radius: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.foto-add {
+  aspect-ratio: 4/3;
+  border: 2px dashed #d0cdc6;
+  border-radius: 8px;
+  background: #faf9f6;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  cursor: pointer;
+  transition:
+    border-color 0.15s,
+    background 0.15s;
+  font-family: inherit;
+}
+
+.foto-add:hover {
+  border-color: #2d6a2d;
+  background: #f0f7f0;
+}
+
+.foto-add-icon {
+  font-size: 24px;
+  color: #aaa;
+  line-height: 1;
+}
+
+.foto-add-label {
+  font-size: 12px;
+  color: #aaa;
+  font-weight: 500;
+}
+
+/* ── Acciones del form ── */
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding-top: 8px;
+}
+
+.form-error {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 13px;
+  color: #b91c1c;
+  margin-bottom: 8px;
+}
+
+/* Geocoder custom */
+.geocoder-custom-wrapper {
+  position: relative;
+}
+
+.geocoder-input-row {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #fff;
+  padding: 0 12px;
+  gap: 8px;
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
+}
+
+.geocoder-input-row:focus-within {
+  border-color: #2d6a2d;
+  box-shadow: 0 0 0 3px rgba(45, 106, 45, 0.1);
+}
+
+.geocoder-icon {
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.geocoder-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  padding: 10px 0;
+  font-size: 14px;
+  font-family: inherit;
+  color: #1a1a1a;
+  background: transparent;
+}
+
+.geocoder-input::placeholder {
+  color: #bbb;
+}
+
+.geocoder-spinner {
+  font-size: 14px;
+  color: #aaa;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.geocoder-clear {
+  background: none;
+  border: none;
+  font-size: 18px;
+  color: #aaa;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.geocoder-clear:hover {
+  color: #666;
+}
+
+.geocoder-dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  background: #fff;
+  border: 1px solid #e0ddd8;
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  list-style: none;
+  margin: 0;
+  padding: 4px;
+  z-index: 100;
+}
+
+.geocoder-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 7px;
+  cursor: pointer;
+  transition: background 0.1s;
+}
+
+.geocoder-option:hover {
+  background: #f4f2ec;
+}
+
+.geocoder-option-icon {
+  font-size: 13px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.geocoder-option-text {
+  font-size: 13px;
+  color: #333;
+  line-height: 1.4;
+}

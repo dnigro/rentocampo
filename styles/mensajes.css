@@ -1,0 +1,378 @@
+/* styles/mensajes.css */
+
+/* ── Badge no leído en título ── */
+.badge-noLeido {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #e53e3e;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  min-width: 20px;
+  height: 20px;
+  border-radius: 10px;
+  padding: 0 6px;
+  margin-left: 8px;
+  vertical-align: middle;
+}
+
+/* ── Lista de hilos ── */
+.hilos-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.hilo-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px;
+  background: #fff;
+  border: 1px solid #e8e6e0;
+  border-radius: 18px;
+  text-decoration: none;
+  transition:
+    box-shadow 0.12s,
+    border-color 0.12s;
+  position: relative;
+}
+
+.hilo-item:hover {
+  border-color: #c8c5be;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.hilo-no-leido {
+  background: #fafff8;
+  border-color: #c3dfc3;
+}
+
+.hilo-avatar {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: #f0f7f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 700;
+  color: #2d6a2d;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.hilo-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hilo-body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.hilo-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.hilo-nombre {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1a3a1a;
+}
+
+.hilo-fecha {
+  font-size: 12px;
+  color: #aaa;
+  flex-shrink: 0;
+}
+
+.hilo-campo {
+  font-size: 12px;
+  color: #2d6a2d;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.hilo-preview {
+  font-size: 13px;
+  color: #888;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.hilo-dot {
+  width: 8px;
+  height: 8px;
+  background: #2d6a2d;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ── Header del hilo ── */
+.hilo-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #e8e6e0;
+}
+
+.hilo-back {
+  font-size: 13px;
+  color: #888;
+  text-decoration: none;
+  flex-shrink: 0;
+  transition: color 0.12s;
+}
+
+.hilo-back:hover {
+  color: #1a3a1a;
+}
+
+.hilo-header-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.hilo-header-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #f0f7f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 700;
+  color: #2d6a2d;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.hilo-header-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hilo-header-nombre {
+  font-size: 15px;
+  font-weight: 700;
+  color: #1a3a1a;
+  margin: 0 0 2px;
+}
+
+.hilo-header-campo {
+  font-size: 12px;
+  color: #2d6a2d;
+  text-decoration: none;
+}
+
+.hilo-header-campo:hover {
+  text-decoration: underline;
+}
+
+/* ── Contenedor del chat ── */
+.hilo-container {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 280px);
+  min-height: 400px;
+  background: #fff;
+  border: 1px solid #e8e6e0;
+  border-radius: 22px;
+  box-shadow: 0 16px 42px rgba(26, 58, 26, 0.08);
+  overflow: hidden;
+}
+
+.hilo-mensajes {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  scroll-behavior: smooth;
+}
+
+.hilo-vacio {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #bbb;
+  font-size: 14px;
+}
+
+/* Separador de fecha */
+.fecha-separador {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 16px 0 8px;
+}
+
+.fecha-separador::before,
+.fecha-separador::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #f0eeea;
+}
+
+.fecha-separador span {
+  font-size: 11px;
+  color: #bbb;
+  font-weight: 500;
+  white-space: nowrap;
+  text-transform: capitalize;
+}
+
+/* Mensajes */
+.mensaje-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.mensaje-mio {
+  flex-direction: row-reverse;
+}
+
+.mensaje-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #f0f7f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: #2d6a2d;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.mensaje-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.mensaje-burbuja-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  max-width: 65%;
+}
+
+.mensaje-mio .mensaje-burbuja-wrap {
+  align-items: flex-end;
+}
+
+.mensaje-burbuja {
+  padding: 10px 14px;
+  border-radius: 16px;
+  font-size: 14px;
+  line-height: 1.5;
+  word-break: break-word;
+}
+
+.burbuja-mia {
+  background: #2d6a2d;
+  color: #fff;
+  border-bottom-right-radius: 4px;
+}
+
+.burbuja-otra {
+  background: #f4f2ec;
+  color: #1a1a1a;
+  border-bottom-left-radius: 4px;
+}
+
+.mensaje-hora {
+  font-size: 10px;
+  color: #bbb;
+  padding: 0 4px;
+}
+
+/* Input de mensaje */
+.mensaje-form {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  border-top: 1px solid #f0eeea;
+  background: #fff;
+}
+
+.mensaje-input {
+  flex: 1;
+  padding: 10px 16px;
+  border: 1px solid #e0ddd8;
+  border-radius: 24px;
+  font-size: 14px;
+  font-family: inherit;
+  outline: none;
+  background: #faf9f6;
+  transition: border-color 0.15s;
+  color: #1a1a1a;
+}
+
+.mensaje-input:focus {
+  border-color: #2d6a2d;
+  background: #fff;
+}
+
+.mensaje-input::placeholder {
+  color: #bbb;
+}
+
+.mensaje-send {
+  width: 40px;
+  height: 40px;
+  background: #2d6a2d;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition:
+    background 0.15s,
+    transform 0.1s;
+  font-family: inherit;
+}
+
+.mensaje-send:hover:not(:disabled) {
+  background: #235223;
+  transform: scale(1.05);
+}
+
+.mensaje-send:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+}
