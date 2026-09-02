@@ -4,6 +4,7 @@
 // ENUMS
 // ============================================================
 export type TipoPerfil = "propietario" | "productor";
+export type RolPerfil = TipoPerfil;
 
 export type AptitudCampo =
   | "agricola"
@@ -27,6 +28,7 @@ export type MonedaCampo = "USD" | "ARS";
 export interface Profile {
   id: string;
   tipo: TipoPerfil;
+  roles: RolPerfil[];
   nombre: string;
   email: string;
   telefono?: string;
