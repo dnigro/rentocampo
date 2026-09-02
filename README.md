@@ -1,5 +1,18 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## Variables de entorno
+
+La aplicación requiere las variables públicas de Supabase y Mapbox. La
+eliminación segura de cuentas también requiere, solo del lado servidor:
+
+```bash
+SUPABASE_SERVICE_ROLE_KEY=...
+```
+
+No expongas esta clave con el prefijo `NEXT_PUBLIC_`. Antes de publicar los
+cambios de perfiles, ejecutá las migraciones de `supabase/migrations` en el
+proyecto de Supabase.
+
 ## Getting Started
 
 First, run the development server:
