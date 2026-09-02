@@ -1,16 +1,19 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { Suspense, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 
-export default function RegisterPage() {
+function RegisterForm() {
+  const searchParams = useSearchParams();
+  const tipoInicial =
+    searchParams.get("tipo") === "propietario" ? "propietario" : "productor";
   const [form, setForm] = useState({
     nombre: "",
     email: "",
     password: "",
-    tipo: "productor" as "propietario" | "productor",
+    tipo: tipoInicial as "propietario" | "productor",
   });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -174,5 +177,26 @@ export default function RegisterPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+function RegisterFallback() {
+  return (
+    <div className="auth-page">
+      <div className="auth-card" aria-busy="true">
+        <div className="auth-header">
+          <h1 className="auth-title">Crear cuenta</h1>
+          <p className="auth-subtitle">Preparando el formulario…</p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default function RegisterPage() {
+  return (
+    <Suspense fallback={<RegisterFallback />}>
+      <RegisterForm />
+    </Suspense>
   );
 }
