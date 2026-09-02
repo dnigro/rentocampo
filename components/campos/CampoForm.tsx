@@ -157,6 +157,22 @@ export default function CampoForm({
       } = await supabase.auth.getUser();
       if (!user) throw new Error("No autenticado");
 
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("tipo, roles")
+        .eq("id", user.id)
+        .single();
+      const roles = profile?.roles?.length
+        ? profile.roles
+        : [profile?.tipo ?? "productor"];
+      if (!roles.includes("propietario")) {
+        const { error: roleError } = await supabase
+          .from("profiles")
+          .update({ roles: [...roles, "propietario"] })
+          .eq("id", user.id);
+        if (roleError) throw roleError;
+      }
+
       let id = campoId;
 
       if (campoId) {
@@ -191,8 +207,12 @@ export default function CampoForm({
 
       router.push("/mis-campos");
       router.refresh();
-    } catch (err: any) {
-      setError(err.message ?? "Ocurrió un error al guardar el campo.");
+    } catch (err: unknown) {
+      setError(
+        err instanceof Error
+          ? err.message
+          : "Ocurrió un error al guardar el campo.",
+      );
       setSaving(false);
     }
   }
