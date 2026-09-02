@@ -9,6 +9,53 @@
   gap: 28px;
 }
 
+.perfil-role-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.perfil-role-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid #dedbd2;
+  border-radius: 14px;
+  background: #fff;
+  cursor: pointer;
+}
+
+.perfil-role-option:has(input:checked) {
+  border-color: #71845b;
+  background: #f3f5ee;
+}
+
+.perfil-role-option input { margin-top: 4px; accent-color: #1f5a38; }
+.perfil-role-option span { display: grid; gap: 4px; }
+.perfil-role-option strong { color: #1a3a1a; }
+.perfil-role-option small { color: #667066; line-height: 1.4; }
+
+.perfil-danger-zone { border-color: #fecaca; background: #fffafa; }
+.perfil-danger-zone .perfil-section-title { color: #991b1b; }
+.perfil-danger-text { color: #7f1d1d; line-height: 1.6; margin: 0 0 20px; }
+.btn-danger-lg {
+  padding: 12px 18px;
+  border: 0;
+  border-radius: 999px;
+  color: #fff;
+  background: #b91c1c;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+.btn-danger-lg:hover:not(:disabled) { background: #991b1b; }
+.btn-danger-lg:disabled { opacity: .45; cursor: not-allowed; }
+
+@media (max-width: 640px) {
+  .perfil-role-options { grid-template-columns: 1fr; }
+}
+
 .perfil-section {
   background: #fff;
   border: 1px solid #e8e6e0;
