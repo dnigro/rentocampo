@@ -3,9 +3,10 @@
 import { useState, useRef } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { PROVINCIAS_ARG } from "@/types";
+import type { Profile } from "@/types";
 
 interface Props {
-  profile: any;
+  profile: Partial<Profile> | null;
   userId: string;
   email: string;
 }
@@ -19,6 +20,9 @@ export default function PerfilForm({ profile, userId, email }: Props) {
     telefono: profile?.telefono ?? "",
     provincia: profile?.provincia ?? "",
     descripcion: profile?.descripcion ?? "",
+    roles: (profile?.roles?.length
+      ? profile.roles
+      : [profile?.tipo ?? "productor"]) as ("productor" | "propietario")[],
   });
 
   const [avatarUrl, setAvatarUrl] = useState(profile?.avatar_url ?? "");
@@ -36,6 +40,9 @@ export default function PerfilForm({ profile, userId, email }: Props) {
   const [successPass, setSuccessPass] = useState("");
   const [error, setError] = useState("");
   const [errorPass, setErrorPass] = useState("");
+  const [deleting, setDeleting] = useState(false);
+  const [deleteConfirm, setDeleteConfirm] = useState("");
+  const [deleteError, setDeleteError] = useState("");
 
   function handleChange(
     e: React.ChangeEvent<
@@ -50,6 +57,19 @@ export default function PerfilForm({ profile, userId, email }: Props) {
     if (!file) return;
     setAvatarFile(file);
     setAvatarPreview(URL.createObjectURL(file));
+  }
+
+  function toggleRole(role: "productor" | "propietario") {
+    setForm((prev) => {
+      const activo = prev.roles.includes(role);
+      if (activo && prev.roles.length === 1) return prev;
+      return {
+        ...prev,
+        roles: activo
+          ? prev.roles.filter((item) => item !== role)
+          : [...prev.roles, role],
+      };
+    });
   }
 
   async function handleSavePerfil(e: React.FormEvent) {
@@ -87,13 +107,16 @@ export default function PerfilForm({ profile, userId, email }: Props) {
           provincia: form.provincia,
           descripcion: form.descripcion,
           avatar_url: newAvatarUrl || null,
+          roles: form.roles,
         })
         .eq("id", userId);
 
       if (error) throw error;
       setSuccessMsg("Perfil actualizado correctamente.");
-    } catch (err: any) {
-      setError(err.message ?? "Error al guardar el perfil.");
+    } catch (err: unknown) {
+      setError(
+        err instanceof Error ? err.message : "Error al guardar el perfil.",
+      );
     } finally {
       setSaving(false);
     }
@@ -124,6 +147,32 @@ export default function PerfilForm({ profile, userId, email }: Props) {
       setPasswords({ nueva: "", confirmar: "" });
     }
     setSavingPass(false);
+  }
+
+  async function handleEliminarCuenta() {
+    if (deleteConfirm !== "ELIMINAR") {
+      setDeleteError("Escribí ELIMINAR para confirmar.");
+      return;
+    }
+
+    setDeleting(true);
+    setDeleteError("");
+    const response = await fetch("/api/account", {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ confirmation: deleteConfirm }),
+    });
+
+    if (!response.ok) {
+      setDeleteError(
+        "No pudimos eliminar la cuenta. Volvé a intentarlo o contactanos.",
+      );
+      setDeleting(false);
+      return;
+    }
+
+    await supabase.auth.signOut();
+    window.location.assign("/");
   }
 
   const iniciales = form.nombre
@@ -206,17 +255,32 @@ export default function PerfilForm({ profile, userId, email }: Props) {
         </div>
 
         <div className="form-field">
-          <label className="form-label">Tipo de cuenta</label>
-          <input
-            type="text"
-            className="form-input form-input-disabled"
-            value={
-              profile?.tipo === "propietario"
-                ? "🏡 Propietario"
-                : "🌱 Productor"
-            }
-            disabled
-          />
+          <label className="form-label">Cómo querés usar RentoCampo</label>
+          <div className="perfil-role-options">
+            <label className="perfil-role-option">
+              <input
+                type="checkbox"
+                checked={form.roles.includes("productor")}
+                onChange={() => toggleRole("productor")}
+              />
+              <span>
+                <strong>🌱 Productor</strong>
+                <small>Buscar campos, guardar favoritos y consultar.</small>
+              </span>
+            </label>
+            <label className="perfil-role-option">
+              <input
+                type="checkbox"
+                checked={form.roles.includes("propietario")}
+                onChange={() => toggleRole("propietario")}
+              />
+              <span>
+                <strong>🏡 Propietario</strong>
+                <small>Publicar y administrar campos.</small>
+              </span>
+            </label>
+          </div>
+          <span className="form-hint">Podés elegir las dos opciones.</span>
         </div>
 
         <div className="form-row">
@@ -263,7 +327,7 @@ export default function PerfilForm({ profile, userId, email }: Props) {
 
         <div className="form-field">
           <label className="form-label">
-            {profile?.tipo === "propietario"
+            {form.roles.includes("propietario")
               ? "Sobre vos / tu empresa"
               : "Sobre vos / tu actividad"}
           </label>
@@ -330,6 +394,37 @@ export default function PerfilForm({ profile, userId, email }: Props) {
           </button>
         </div>
       </form>
+
+      <section className="perfil-section perfil-danger-zone">
+        <h2 className="perfil-section-title">Eliminar cuenta</h2>
+        <p className="perfil-danger-text">
+          Esta acción elimina tu perfil, publicaciones, fotos, favoritos y
+          mensajes. No se puede deshacer.
+        </p>
+        {deleteError && <div className="form-error">{deleteError}</div>}
+        <div className="form-field">
+          <label className="form-label" htmlFor="delete-confirmation">
+            Para confirmar, escribí <strong>ELIMINAR</strong>
+          </label>
+          <input
+            id="delete-confirmation"
+            className="form-input"
+            value={deleteConfirm}
+            onChange={(event) => setDeleteConfirm(event.target.value)}
+            autoComplete="off"
+          />
+        </div>
+        <div className="form-actions">
+          <button
+            type="button"
+            className="btn-danger-lg"
+            onClick={handleEliminarCuenta}
+            disabled={deleting || deleteConfirm !== "ELIMINAR"}
+          >
+            {deleting ? "Eliminando cuenta..." : "Eliminar mi cuenta"}
+          </button>
+        </div>
+      </section>
     </div>
   );
 }
