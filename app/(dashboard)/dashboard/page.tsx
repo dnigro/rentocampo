@@ -17,7 +17,15 @@ export default async function DashboardPage() {
     .eq("id", user.id)
     .single();
 
-  const esPropietario = profile?.tipo === "propietario";
+  const roles = profile?.roles?.length ? profile.roles : [profile?.tipo];
+  const esPropietario = roles.includes("propietario");
+  const esProductor = roles.includes("productor");
+  const etiquetaPerfil =
+    esPropietario && esProductor
+      ? "🌱🏡 Productor y propietario"
+      : esPropietario
+        ? "🏡 Propietario"
+        : "🌱 Productor";
 
   return (
     <div className="dashboard-page">
@@ -28,12 +36,12 @@ export default async function DashboardPage() {
           </h1>
           <p className="dashboard-subtitle">
             {esPropietario
-              ? "Administrá tus campos y consultás recibidas"
-              : "Explorá campos disponibles o publicá los tuyos"}
+              ? "Buscá oportunidades y administrá tus campos"
+              : "Explorá campos disponibles y contactá propietarios"}
           </p>
         </div>
-        <span className={`badge-tipo ${profile?.tipo}`}>
-          {esPropietario ? "🏡 Propietario" : "🌱 Productor"}
+        <span className={`badge-tipo ${esPropietario ? "propietario" : "productor"}`}>
+          {etiquetaPerfil}
         </span>
       </div>
 
