@@ -20,6 +20,31 @@ alter table public.profiles
     and roles <@ array['productor', 'propietario']::text[]
   );
 
+-- El alta histórica de perfiles solo escribía `tipo`. Como `roles` tenía un
+-- default productor, una cuenta creada como propietario podía quedar con el
+-- rol incorrecto. Este trigger conserva ambos conceptos: `tipo` es el perfil
+-- activo y `roles` contiene los perfiles que la cuenta tiene habilitados.
+create or replace function public.sync_initial_profile_roles()
+returns trigger
+language plpgsql
+set search_path = ''
+as $$
+begin
+  if new.tipo = 'propietario'
+     and new.roles = array['productor']::text[] then
+    new.roles := array['propietario']::text[];
+  elsif new.roles is null or cardinality(new.roles) = 0 then
+    new.roles := array[coalesce(new.tipo, 'productor')]::text[];
+  end if;
+  return new;
+end;
+$$;
+
+drop trigger if exists profiles_sync_initial_roles on public.profiles;
+create trigger profiles_sync_initial_roles
+before insert on public.profiles
+for each row execute function public.sync_initial_profile_roles();
+
 create or replace function public.delete_own_account(confirmation text)
 returns void
 language plpgsql
