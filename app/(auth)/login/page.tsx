@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 
@@ -10,7 +9,6 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
   const supabase = createClient();
 
   async function handleSubmit(e: React.FormEvent) {
@@ -33,8 +31,13 @@ export default function LoginPage() {
       return;
     }
 
-    router.push("/dashboard");
-    router.refresh();
+    // Una navegación completa garantiza que la cookie de Supabase ya esté
+    // disponible para Proxy y los Server Components protegidos.
+    const next = new URLSearchParams(window.location.search).get("next");
+    const destino = next?.startsWith("/") && !next.startsWith("//")
+      ? next
+      : "/dashboard";
+    window.location.assign(destino);
   }
 
   return (
