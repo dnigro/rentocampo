@@ -157,22 +157,6 @@ export default function CampoForm({
       } = await supabase.auth.getUser();
       if (!user) throw new Error("No autenticado");
 
-      const { data: profile } = await supabase
-        .from("profiles")
-        .select("tipo, roles")
-        .eq("id", user.id)
-        .single();
-      const roles = profile?.roles?.length
-        ? profile.roles
-        : [profile?.tipo ?? "productor"];
-      if (!roles.includes("propietario")) {
-        const { error: roleError } = await supabase
-          .from("profiles")
-          .update({ roles: [...roles, "propietario"] })
-          .eq("id", user.id);
-        if (roleError) throw roleError;
-      }
-
       let id = campoId;
 
       if (campoId) {
@@ -203,6 +187,23 @@ export default function CampoForm({
             })),
           );
         }
+      }
+
+      // Publicar un campo habilita el perfil propietario, pero esta
+      // actualización nunca debe bloquear ni deshacer la publicación.
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("tipo, roles")
+        .eq("id", user.id)
+        .maybeSingle();
+      const roles = profile?.roles?.length
+        ? profile.roles
+        : [profile?.tipo ?? "productor"];
+      if (profile && !roles.includes("propietario")) {
+        await supabase
+          .from("profiles")
+          .update({ roles: [...roles, "propietario"] })
+          .eq("id", user.id);
       }
 
       router.push("/mis-campos");
