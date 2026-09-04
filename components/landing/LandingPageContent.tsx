@@ -7,7 +7,7 @@ import LandingCTA from "@/components/landing/LandingCTA";
 
 export default function LandingPageContent() {
   return (
-    <main>
+    <main className="rc-landing">
       <LandingHero />
       <LandingActividad />
       <LandingComo />
