@@ -4,10 +4,10 @@
   position: sticky;
   top: 0;
   z-index: 50;
-  background: #fff;
-  border-bottom: 1px solid #e8e6e0;
+  background: rgba(255, 253, 247, 0.96);
+  border-bottom: 1px solid #e7dfd0;
   height: 72px;
-  box-shadow: 0 8px 30px rgba(26, 58, 26, 0.05);
+  box-shadow: 0 8px 30px rgba(36, 68, 47, 0.06);
 }
 
 .navbar-inner {
@@ -39,11 +39,11 @@
 }
 
 .brand-wordmark-rento {
-  color: #71845b;
+  color: #536d4d;
 }
 
 .brand-wordmark-campo {
-  color: #df7953;
+  color: #c96e4c;
 }
 
 .brand-wordmark-nav {
