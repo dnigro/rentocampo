@@ -3,6 +3,7 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import LandingPageContent from "@/components/landing/LandingPageContent";
 import "@/styles/public.css";
+import "@/styles/landing-bold.css";
 
 export const metadata: Metadata = {
   title: "RentoCampo | Publicá tu campo gratis",
