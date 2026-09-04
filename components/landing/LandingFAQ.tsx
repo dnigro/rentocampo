@@ -2,9 +2,9 @@
 import { useState } from "react";
 const faqs = [
   ["¿Publicar tiene costo?", "No. Publicar tu campo es gratis en esta etapa de RentoCampo."],
-  ["¿Estoy obligado a alquilar?", "No. Vos decidís si hablás, negociás o avanzás con cada consulta."],
+  ["¿Quién puede registrarse?", "Propietarios que publican campos y productores que buscan oportunidades. Un usuario puede tener ambos perfiles."],
   ["¿RentoCampo interviene en el acuerdo?", "Facilitamos el contacto directo; las condiciones las definen las partes."],
-  ["¿Qué necesito para publicar?", "Ubicación aproximada, hectáreas, tipo de uso, fotos y características principales."],
+  ["¿Cómo me contactan?", "Los productores interesados pueden enviarte una consulta directa desde la publicación."],
 ];
 export default function LandingFAQ() {
   const [open, setOpen] = useState(0);
