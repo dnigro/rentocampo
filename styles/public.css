@@ -30,7 +30,8 @@
 
 .brand-wordmark {
   display: inline-flex;
-  align-items: baseline;
+  align-items: center;
+  gap: 9px;
   font-size: 34px;
   font-weight: 850;
   line-height: 1;
@@ -38,13 +39,18 @@
   white-space: nowrap;
 }
 
-.brand-wordmark-rento {
-  color: #536d4d;
+.brand-symbol {
+  width: 1.18em;
+  height: 1.18em;
+  flex: 0 0 auto;
+  overflow: visible;
 }
 
-.brand-wordmark-campo {
-  color: #c96e4c;
-}
+.brand-symbol-pin { fill: #061e16; }
+.brand-symbol-field { fill: #d2ad00; }
+.brand-wordmark-text { color: #061e16; }
+
+.brand-wordmark-rento, .brand-wordmark-campo { color: #061e16; }
 
 .brand-wordmark-nav {
   font-size: clamp(30px, 3vw, 38px);
