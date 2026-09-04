@@ -32,9 +32,24 @@ body { background: var(--brand-paper); color: var(--brand-ink); }
 .dashboard-header, .page-header, .explorador-header { border-bottom: 1px solid var(--brand-line); padding-bottom: 24px; }
 
 /* Acceso, registro y recuperación centrados. */
-.auth-page { background: url('/hero-campo.jpeg') center / cover no-repeat !important; justify-content: center !important; }
-.auth-page::before { background: rgba(255,212,0,.74) !important; }
-.auth-card { margin: 0 auto !important; background: #fff !important; border: 1px solid rgba(6,30,22,.09) !important; border-radius: 18px !important; box-shadow: 0 24px 70px rgba(6,30,22,.18) !important; backdrop-filter: none !important; }
+.auth-page { background: #fff !important; justify-content: center !important; overflow: hidden; }
+.auth-page::before { background: none !important; }
+.auth-page::after {
+  content: "01  CUENTA\A 02  PERFIL\A 03  CAMPO";
+  white-space: pre;
+  position: absolute;
+  left: max(38px, calc(50% - 520px));
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(48px, 5.3vw, 82px);
+  line-height: 1.12;
+  color: var(--brand-ink);
+  letter-spacing: .02em;
+  border-left: 10px solid var(--brand-yellow);
+  padding-left: 28px;
+}
+.auth-card { margin: 0 0 0 min(34vw, 390px) !important; background: #fff !important; border: 1px solid rgba(6,30,22,.09) !important; border-radius: 18px !important; box-shadow: 0 20px 55px rgba(6,30,22,.11) !important; backdrop-filter: none !important; }
 .auth-title { font-size: 48px !important; line-height: .95; }
 
 /* Formularios suaves y claros. */
@@ -88,13 +103,16 @@ body { background: var(--brand-paper); color: var(--brand-ink); }
 .footer { background: var(--brand-yellow) !important; color: #050505 !important; border-top: 1px solid #17251d !important; padding-top: 42px !important; }
 .footer-inner { max-width: 1180px !important; }
 .footer-desc, .footer-link, .footer-col-title, .footer-social-link, .footer-bottom { color: #050505 !important; }
-.footer-social-link { gap: 8px; border-radius: 9px !important; border-color: rgba(5,5,5,.28) !important; background: rgba(255,255,255,.2) !important; }
+.footer-socials { gap: 10px !important; }
+.footer-social-link { width: 42px; height: 42px; padding: 0 !important; gap: 0; border-radius: 9px !important; border-color: rgba(5,5,5,.28) !important; background: rgba(255,255,255,.2) !important; }
+.footer-social-link svg { width: 20px; height: 20px; }
 .footer-social-link:hover { background: #fff !important; border-color: #050505 !important; }
 .footer-bottom { border-top-color: rgba(5,5,5,.3) !important; }
 
 @media (max-width: 640px) {
   .auth-page { padding: 48px 18px !important; }
-  .auth-page::before { background: rgba(255,212,0,.82) !important; }
+  .auth-page::before { background: none !important; }
+  .auth-page::after { display: none; }
   .auth-card { margin: 0 !important; border-radius: 14px !important; box-shadow: 0 18px 48px rgba(6,30,22,.18) !important; }
   .auth-title { font-size: 40px !important; }
   .navbar { height: 64px; }
