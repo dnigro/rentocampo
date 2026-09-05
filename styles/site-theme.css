@@ -120,3 +120,41 @@ body { background: var(--brand-paper); color: var(--brand-ink); }
   .brand-wordmark-nav { font-size: 28px !important; }
   .dash-card { padding-top: 56px !important; }
 }
+
+/* Sistema visual compartido: referencia editorial rural 2026. */
+:root{--brand-yellow:#f5bd00;--brand-ink:#073f30;--brand-paper:#fff;--brand-line:#d8e1dc;--brand-clay:#a84f2d}
+body{background:#fff;color:#263a32}
+.navbar{height:68px!important;background:#fff!important;border-bottom:1px solid var(--brand-line)!important;box-shadow:none!important}
+.navbar-inner{max-width:1180px!important}
+.brand-wordmark{gap:9px!important;letter-spacing:-1.5px!important}
+.brand-symbol-image{width:46px;height:46px;object-fit:contain;flex:0 0 auto}
+.brand-wordmark-copy{display:flex;flex-direction:column;align-items:flex-start;line-height:1}
+.brand-wordmark-text{color:var(--brand-ink)!important}
+.brand-wordmark-tagline{margin-top:5px;color:#718078;font-size:7px;font-weight:700;letter-spacing:.22em;text-transform:uppercase}
+.brand-wordmark-footer .brand-symbol-image{width:52px;height:52px}
+.brand-wordmark-footer .brand-wordmark-tagline{display:block}
+.nav-link,.btn-ghost,.navbar-mensajes,.hamburguesa{color:var(--brand-ink)!important;font-size:13px}
+.nav-link:hover,.btn-ghost:hover,.navbar-mensajes:hover{background:#f3f6f4!important}
+.navbar .btn-primary{background:var(--brand-yellow)!important;color:#16271f!important;border:0!important;border-radius:11px!important;padding:10px 20px!important}
+.main-content,.auth-main{background:#fff!important}
+.page-title,.dashboard-title,.explorador-title,.ficha-titulo,.auth-title,.form-section-title,.perfil-section-title{color:var(--brand-ink)!important}
+.dashboard-header,.page-header,.explorador-header{border-bottom:1px dashed #b7c9bf!important}
+.auth-page{background:#fff!important;padding-top:54px!important;padding-bottom:54px!important}
+.auth-page::after{color:var(--brand-ink)!important;border-left:4px solid var(--brand-yellow)!important}
+.auth-card{border:1px solid var(--brand-line)!important;border-radius:14px!important;box-shadow:0 14px 42px rgba(7,63,48,.08)!important}
+.tipo-option input:checked + .tipo-label{background:#fff9df!important;border-color:var(--brand-yellow)!important}
+.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:#66897a!important;box-shadow:0 0 0 3px rgba(7,63,48,.08)!important}
+.btn-submit,.btn-primary-lg,.btn-aplicar,.btn-consultar,.mapa-panel-btn,.mensaje-send,.fav-accion-ver{background:var(--brand-ink)!important;border-color:var(--brand-ink)!important;border-radius:10px!important}
+.dash-card,.campo-card,.campo-card-pub,.filtros-panel,.ficha-precio-card,.ficha-propietario,.perfil-section,.perfil-danger-zone,.hilo-item,.empty-state,.campo-form{border:1px solid var(--brand-line)!important;border-radius:12px!important;box-shadow:0 8px 24px rgba(7,63,48,.045)!important;background:#fff!important}
+.dash-card::before,.form-section-title::before{color:var(--brand-yellow)!important}
+.footer{background:#fff!important;color:var(--brand-ink)!important;border-top:1px solid var(--brand-line)!important;padding-top:34px!important}
+.footer-desc,.footer-link,.footer-col-title,.footer-social-link,.footer-bottom{color:var(--brand-ink)!important}
+.footer-social-link{background:#fff!important;border-color:#cbd8d1!important}
+.footer-social-link:hover{background:#f3f6f4!important;border-color:var(--brand-ink)!important}
+.footer-bottom{border-top-color:var(--brand-line)!important}
+@media(max-width:640px){
+ .brand-symbol-image{width:38px;height:38px}
+ .brand-wordmark-tagline{display:none}
+ .navbar{height:62px!important}
+ .auth-page{padding:34px 16px!important}
+}
