@@ -56,3 +56,56 @@ body:has(.rc-landing) .footer-social-link{
   .rc-stat{border-top-color:#cfdad4}
   .rc-step,.rc-step:first-child{border-bottom-color:#cfdad4}
 }
+
+/* Separadores editoriales punteados entre bloques de la landing. */
+.rc-impact,.rc-how,.rc-map-section,.rc-faq,.rc-final{position:relative}
+.rc-impact::before,.rc-how::before,.rc-map-section::before,.rc-faq::before,.rc-final::before{
+  content:"";
+  position:absolute;
+  z-index:3;
+  top:0;
+  left:50%;
+  width:min(1180px,calc(100% - 40px));
+  transform:translateX(-50%);
+  border-top:2px dashed #b7c9bf;
+  pointer-events:none;
+}
+.rc-impact::after,.rc-how::after,.rc-map-section::after,.rc-faq::after,.rc-final::after{
+  content:"";
+  position:absolute;
+  z-index:4;
+  top:-4px;
+  left:50%;
+  width:9px;
+  height:9px;
+  border-radius:50%;
+  background:#f4c400;
+  box-shadow:-18px 0 0 #fff,18px 0 0 #fff;
+  pointer-events:none;
+}
+.rc-manifesto{position:relative}
+.rc-manifesto::before{
+  content:"";
+  position:absolute;
+  z-index:3;
+  top:0;
+  left:50%;
+  width:min(1180px,calc(100% - 40px));
+  transform:translateX(-50%);
+  border-top:2px dashed #b7c9bf;
+  pointer-events:none;
+}
+body:has(.rc-landing) .footer{position:relative}
+body:has(.rc-landing) .footer::before{
+  content:"";
+  position:absolute;
+  top:0;
+  left:50%;
+  width:min(1180px,calc(100% - 40px));
+  transform:translateX(-50%);
+  border-top:2px dashed #b7c9bf;
+}
+@media(max-width:760px){
+  .rc-impact::before,.rc-how::before,.rc-map-section::before,.rc-faq::before,.rc-final::before,.rc-manifesto::before,
+  body:has(.rc-landing) .footer::before{width:calc(100% - 28px)}
+}
