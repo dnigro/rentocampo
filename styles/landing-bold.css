@@ -128,3 +128,81 @@ body:has(.rc-landing) .footer::before{
   .rc-manifesto{margin-top:52px}
   .rc-final{padding:44px 0}
 }
+
+/* Referencia definitiva 2026: editorial rural blanca, compacta y funcional. */
+.rc-landing{--rc-yellow:#f5bd00;--rc-ink:#073f30;--rc-bone:#fff;background:#fff;color:#263a32}
+.rc-shell{width:min(1180px,calc(100% - 48px))}
+.rc-kicker{color:#a84f2d;letter-spacing:.2em;margin-bottom:14px}
+.rc-hero{min-height:570px;background:#fff}
+.rc-hero-image{width:58%!important;clip-path:polygon(17% 0,100% 0,100% 100%,6% 100%,0 60%);filter:saturate(.9) contrast(1.08)}
+.rc-hero-shade{width:58%;clip-path:polygon(17% 0,100% 0,100% 100%,6% 100%,0 60%);background:rgba(6,48,36,.05)}
+.rc-hero-content{padding:50px 0}
+.rc-hero h1{max-width:520px;font-size:clamp(62px,6.7vw,96px);color:var(--rc-ink)}
+.rc-hero h1 em{color:var(--rc-yellow)}
+.rc-hero-copy{max-width:430px;margin:16px 0;font-size:18px}
+.rc-actions{gap:12px}
+.rc-button{min-height:48px;padding:0 24px;border-radius:10px;border-width:1px}
+.rc-button:hover{transform:translateY(-2px)}
+.rc-hero .rc-button-yellow{background:var(--rc-ink);color:#fff;border-color:var(--rc-ink)}
+.rc-button-light{border-color:#83a095}
+.rc-proof{margin-top:15px;font-size:12px}
+.rc-impact{padding:28px 0;background:#fff;color:var(--rc-ink)}
+.rc-impact>.rc-shell{grid-template-columns:130px 1fr;gap:20px}
+.rc-impact .rc-kicker{font-size:17px;color:#a84f2d}
+.rc-stats{grid-template-columns:repeat(4,1fr)}
+.rc-stat{padding:4px 24px;border-left-color:#cfdbd5}
+.rc-stat strong{font-size:clamp(46px,5vw,68px);color:var(--rc-yellow)}
+.rc-stat span{margin-top:8px;font-size:10px;letter-spacing:.08em}
+.rc-how{padding:54px 0;background:#fff}
+.rc-steps{margin-left:230px}
+.rc-steps:before{color:var(--rc-yellow);font-size:225px}
+.rc-step{position:relative;padding:22px 26px;border-right-color:#cfdbd5}
+.rc-step-icon{display:grid;place-items:center;width:42px;height:42px;border-radius:50%;background:#f2f3ef;color:var(--rc-ink);font-size:20px;margin-bottom:14px}
+.rc-step-num{position:absolute;top:28px;right:25px;color:#a84f2d;margin:0}
+.rc-step h3{font-size:37px;color:var(--rc-ink)}
+.rc-step p{font-size:14px;margin-bottom:0}
+.rc-map-section{padding:54px 0 0;background:#fff;color:var(--rc-ink)}
+.rc-map-section>.rc-shell{grid-template-columns:.8fr 1.2fr;gap:36px}
+.rc-map-copy h2{font-size:clamp(52px,5.5vw,76px)}
+.rc-map-copy p:not(.rc-kicker){color:#40534b;margin:17px 0;font-size:16px}
+.rc-map-copy .rc-button{display:inline-flex;background:var(--rc-yellow);color:var(--rc-ink);border-color:var(--rc-yellow)}
+.rc-map{height:410px;border-radius:12px}
+.rc-manifesto{margin-top:54px;grid-template-columns:.42fr .58fr;background:#fff;color:var(--rc-ink)}
+.rc-manifesto-copy{display:block;padding:38px max(24px,calc((100vw - 1180px)/2));order:1}
+.rc-manifesto-copy h2{font-size:clamp(44px,4.6vw,68px)}
+.rc-manifesto-copy p:not(.rc-kicker){max-width:460px;line-height:1.5}
+.rc-manifesto-sign{display:block;margin-top:18px;color:#60736a;text-transform:uppercase;letter-spacing:.2em;font-size:10px}
+.rc-manifesto-image{order:2;min-height:290px;clip-path:polygon(10% 0,100% 0,100% 100%,0 100%)}
+.rc-faq{padding:52px 0;background:#fff}
+.rc-faq-grid{grid-template-columns:.8fr 1.2fr;gap:52px}
+.rc-faq h2{display:block;font-size:clamp(46px,5vw,68px)}
+.rc-question{border-top-color:#cfdbd5}
+.rc-question:last-child{border-bottom-color:#cfdbd5}
+.rc-question button{font-size:15px}
+.rc-final{padding:38px 0;color:#fff;background:linear-gradient(90deg,rgba(4,48,35,.88),rgba(4,48,35,.32)),url('/landing-campo-rentocampo.jpg') center 58%/cover}
+.rc-final>.rc-shell{min-height:115px}
+.rc-final h2{font-size:clamp(48px,5.8vw,76px);color:#fff}
+.rc-final .rc-button{background:var(--rc-yellow);color:var(--rc-ink);border-color:var(--rc-yellow)}
+.rc-impact::after,.rc-how::after,.rc-map-section::after,.rc-faq::after,.rc-final::after{display:none!important}
+@media(max-width:760px){
+ .rc-shell{width:calc(100% - 28px)}
+ .rc-hero{min-height:650px}
+ .rc-hero-content{padding:36px 0 275px}
+ .rc-hero h1{font-size:56px}
+ .rc-impact{padding:30px 0}
+ .rc-impact>.rc-shell{grid-template-columns:1fr}
+ .rc-stats{grid-template-columns:1fr 1fr}
+ .rc-stat{padding:18px 10px;border-top:1px solid #cfdbd5;border-left:0}
+ .rc-how,.rc-map-section,.rc-faq{padding-top:44px}
+ .rc-steps{margin-top:118px}
+ .rc-steps:before{font-size:132px;top:-112px}
+ .rc-step{padding:20px 0}
+ .rc-step-num{right:4px}
+ .rc-map-section>.rc-shell{grid-template-columns:1fr;gap:28px}
+ .rc-map{height:360px}
+ .rc-manifesto{margin-top:44px;grid-template-columns:1fr}
+ .rc-manifesto-copy{order:1;padding:34px 20px}
+ .rc-manifesto-image{order:2;clip-path:none;min-height:210px}
+ .rc-faq-grid{grid-template-columns:1fr;gap:25px}
+ .rc-final>.rc-shell{display:block;min-height:0}
+}
