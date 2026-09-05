@@ -9,7 +9,10 @@ export default function LandingHero() {
       <div className="rc-hero-shade" />
       <div className="rc-shell rc-hero-content">
         <p className="rc-kicker">Marketplace rural · Argentina</p>
-        <h1>Tu campo tiene potencial.<br /><em>Hacelo visible.</em></h1>
+        <h1>
+          <span className="rc-hero-pretitle">Tu campo tiene potencial.</span>
+          <span className="rc-hero-primary">Hacelo <em>visible.</em></span>
+        </h1>
         <p className="rc-hero-copy">Publicá gratis y conectá directamente con productores.</p>
         <div className="rc-actions">
           <Link href="/register?tipo=propietario" className="rc-button rc-button-yellow">Publicar campo →</Link>

@@ -1,0 +1,81 @@
+/* Hero aprobado: bloque gris cálido y jerarquía editorial de alto impacto. */
+.rc-hero {
+  min-height: 570px;
+  background: #ebeae6;
+}
+
+.rc-hero-content {
+  padding: 50px 0;
+}
+
+.rc-hero-content > * {
+  position: relative;
+  z-index: 1;
+}
+
+.rc-hero h1 {
+  max-width: 545px;
+  margin: 0;
+  color: #073f30;
+}
+
+.rc-hero-pretitle,
+.rc-hero-primary {
+  display: block;
+  font-family: var(--font-display), sans-serif;
+  font-weight: 400;
+}
+
+.rc-hero-pretitle {
+  max-width: 390px;
+  font-size: clamp(43px, 4.2vw, 62px);
+  line-height: .92;
+  text-transform: uppercase;
+}
+
+.rc-hero-primary {
+  margin-top: 20px;
+  font-size: clamp(76px, 7.1vw, 108px);
+  line-height: .78;
+  letter-spacing: -.02em;
+}
+
+.rc-hero-primary em {
+  display: block;
+  color: #f5bd00 !important;
+  font-style: normal;
+}
+
+.rc-hero-copy {
+  color: #40534b;
+}
+
+@media (max-width: 760px) {
+  .rc-hero {
+    min-height: 840px;
+  }
+
+  .rc-hero-content {
+    padding: 34px 0 340px;
+  }
+
+  .rc-hero-pretitle {
+    max-width: 285px;
+    font-size: 42px;
+  }
+
+  .rc-hero-primary {
+    margin-top: 16px;
+    font-size: clamp(68px, 22vw, 88px);
+    line-height: .8;
+  }
+
+  .rc-hero-copy {
+    margin: 20px 0;
+  }
+
+  .rc-hero-image,
+  .rc-hero-shade {
+    height: 36% !important;
+  }
+}

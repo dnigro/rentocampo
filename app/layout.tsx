@@ -1,6 +1,7 @@
 import { Bebas_Neue, DM_Sans } from "next/font/google";
 import "./globals.css";
 import "@/styles/site-theme.css";
+import "@/styles/hero-refined.css";
 
 const dmSans = DM_Sans({
   subsets: ["latin"],
