@@ -677,3 +677,7 @@
 .mobile-menu-btn:hover {
   background: #235223;
 }
+
+/* Marca rural circular de la referencia definitiva. */
+.brand-symbol-image{display:block;border-radius:50%}
+.brand-wordmark-copy{min-width:0}
