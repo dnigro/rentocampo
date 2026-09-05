@@ -109,3 +109,22 @@ body:has(.rc-landing) .footer::before{
   .rc-impact::before,.rc-how::before,.rc-map-section::before,.rc-faq::before,.rc-final::before,.rc-manifesto::before,
   body:has(.rc-landing) .footer::before{width:calc(100% - 28px)}
 }
+
+/* Ritmo compacto: conserva estructura y separadores, sin puntos decorativos. */
+.rc-impact::after,.rc-how::after,.rc-map-section::after,.rc-faq::after,.rc-final::after{display:none!important}
+.rc-hero{min-height:640px}
+.rc-hero-content{padding:60px 0}
+.rc-impact{padding:38px 0}
+.rc-how{padding:64px 0}
+.rc-map-section{padding:64px 0 0}
+.rc-manifesto{margin-top:60px}
+.rc-faq{padding:56px 0}
+.rc-final{padding:48px 0}
+@media(max-width:760px){
+  .rc-hero{min-height:650px}
+  .rc-hero-content{padding:40px 0 275px}
+  .rc-how,.rc-map-section,.rc-faq{padding-top:52px}
+  .rc-how{padding-bottom:52px}
+  .rc-manifesto{margin-top:52px}
+  .rc-final{padding:44px 0}
+}
