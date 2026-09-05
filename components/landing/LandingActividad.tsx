@@ -3,7 +3,10 @@ import { createClient } from "@/lib/supabase/server";
 
 export default async function LandingActividad() {
   const supabase = await createClient();
-  const { data: campos } = await supabase.from("campos").select("hectareas, provincia").eq("estado", "activo");
+  const [{ data: campos }, { count: productores }] = await Promise.all([
+    supabase.from("campos").select("hectareas, provincia").eq("estado", "activo"),
+    supabase.from("profiles").select("id", { count: "exact", head: true }).contains("roles", ["productor"]),
+  ]);
   const activos = campos ?? [];
   const hectareas = activos.reduce((total, campo) => total + Number(campo.hectareas ?? 0), 0);
   const provincias = new Set(activos.map((campo) => campo.provincia).filter(Boolean)).size;
@@ -14,7 +17,8 @@ export default async function LandingActividad() {
         <div className="rc-stats">
           <div className="rc-stat"><strong>{activos.length.toLocaleString("es-AR")}</strong><span>Campos publicados</span></div>
           <div className="rc-stat"><strong>{hectareas.toLocaleString("es-AR")}</strong><span>Hectáreas disponibles</span></div>
-          <div className="rc-stat"><strong>{provincias}</strong><span>Provincias</span></div>
+          <div className="rc-stat"><strong>{(productores ?? 0).toLocaleString("es-AR")}</strong><span>Productores registrados</span></div>
+          <div className="rc-stat"><strong>{provincias}</strong><span>Provincias alcanzadas</span></div>
         </div>
       </div>
     </section>
