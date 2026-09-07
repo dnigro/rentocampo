@@ -52,34 +52,76 @@
 
 @media (max-width: 760px) {
   .rc-hero {
-    display: block;
-    min-height: 0;
-    padding-bottom: 350px;
+    display: flex;
+    min-height: 400px;
+    padding-bottom: 0;
+    align-items: center;
   }
 
   .rc-hero-content {
-    padding: 34px 0 28px;
+    padding: 32px 0;
   }
 
   .rc-hero-pretitle {
-    max-width: 285px;
-    font-size: 42px;
+    max-width: 190px;
+    font-size: 28px;
   }
 
   .rc-hero-primary {
-    margin-top: 16px;
-    font-size: clamp(68px, 22vw, 88px);
-    line-height: .8;
+    max-width: 210px;
+    margin-top: 12px;
+    font-size: 51px;
+    line-height: .78;
   }
 
   .rc-hero-copy {
-    margin: 20px 0;
+    max-width: 205px;
+    margin: 14px 0;
+    font-size: 12px;
+    line-height: 1.35;
   }
 
-  .rc-hero-image,
+  .rc-hero .rc-kicker {
+    margin-bottom: 10px;
+    font-size: 8px;
+  }
+
+  .rc-hero .rc-actions {
+    display: flex;
+    flex-wrap: nowrap;
+    width: max-content;
+    gap: 7px;
+  }
+
+  .rc-hero .rc-button {
+    width: auto;
+    min-height: 36px;
+    padding: 0 13px;
+    border-radius: 6px;
+    font-size: 9px;
+  }
+
+  .rc-hero .rc-proof {
+    max-width: 245px;
+    margin-top: 10px;
+    font-size: 8px;
+    white-space: nowrap;
+  }
+
+  .rc-hero-image {
+    top: 0 !important;
+    right: 0 !important;
+    bottom: auto !important;
+    left: auto !important;
+    width: 58% !important;
+    height: 100% !important;
+    clip-path: polygon(17% 0, 100% 0, 100% 100%, 6% 100%, 0 60%);
+  }
+
   .rc-hero-shade {
-    top: auto !important;
-    bottom: 0 !important;
-    height: 350px !important;
+    inset: 0 0 0 auto !important;
+    width: 58% !important;
+    height: 100% !important;
+    clip-path: polygon(17% 0, 100% 0, 100% 100%, 6% 100%, 0 60%);
   }
 }
