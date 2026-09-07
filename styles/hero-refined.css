@@ -52,11 +52,13 @@
 
 @media (max-width: 760px) {
   .rc-hero {
-    min-height: 840px;
+    display: block;
+    min-height: 0;
+    padding-bottom: 350px;
   }
 
   .rc-hero-content {
-    padding: 34px 0 340px;
+    padding: 34px 0 28px;
   }
 
   .rc-hero-pretitle {
@@ -76,6 +78,8 @@
 
   .rc-hero-image,
   .rc-hero-shade {
-    height: 36% !important;
+    top: auto !important;
+    bottom: 0 !important;
+    height: 350px !important;
   }
 }
