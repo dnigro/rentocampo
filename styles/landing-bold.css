@@ -206,3 +206,106 @@ body:has(.rc-landing) .footer::before{
  .rc-faq-grid{grid-template-columns:1fr;gap:25px}
  .rc-final>.rc-shell{display:block;min-height:0}
 }
+
+/* Mobile editorial compacto: conserva la composición horizontal aprobada. */
+@media (max-width: 760px) {
+  .rc-shell { width: calc(100% - 24px); }
+
+  .rc-hero {
+    display: flex !important;
+    min-height: 390px !important;
+    padding: 0 !important;
+    align-items: center !important;
+    background: #fff !important;
+  }
+  .rc-hero-content { padding: 28px 0 !important; }
+  .rc-hero-image {
+    inset: 0 0 0 auto !important;
+    width: 58% !important;
+    height: 100% !important;
+    clip-path: polygon(17% 0,100% 0,100% 100%,6% 100%,0 60%) !important;
+  }
+  .rc-hero-shade {
+    inset: 0 0 0 auto !important;
+    width: 58% !important;
+    height: 100% !important;
+    clip-path: polygon(17% 0,100% 0,100% 100%,6% 100%,0 60%) !important;
+  }
+  .rc-hero .rc-kicker { margin-bottom: 8px !important; font-size: 7px !important; }
+  .rc-hero-pretitle { max-width: 185px !important; font-size: 27px !important; }
+  .rc-hero-primary { max-width: 205px !important; margin-top: 10px !important; font-size: 49px !important; }
+  .rc-hero-copy { max-width: 205px !important; margin: 12px 0 !important; font-size: 11px !important; }
+  .rc-hero .rc-actions {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    width: max-content !important;
+    gap: 6px !important;
+  }
+  .rc-hero .rc-button {
+    width: auto !important;
+    min-height: 34px !important;
+    padding: 0 12px !important;
+    border-radius: 6px !important;
+    font-size: 8px !important;
+  }
+  .rc-hero .rc-proof { margin-top: 9px !important; font-size: 7px !important; white-space: nowrap; }
+
+  .rc-impact { padding: 24px 0 !important; }
+  .rc-impact > .rc-shell {
+    display: grid !important;
+    grid-template-columns: 82px 1fr !important;
+    gap: 8px !important;
+  }
+  .rc-impact .rc-kicker { margin: 0 !important; font-size: 12px !important; }
+  .rc-stats { grid-template-columns: repeat(4, minmax(0,1fr)) !important; }
+  .rc-stat { padding: 2px 7px !important; border-top: 0 !important; border-left: 1px solid #cfdbd5 !important; }
+  .rc-stat strong { font-size: 34px !important; }
+  .rc-stat span { margin-top: 5px !important; font-size: 6px !important; }
+
+  .rc-how { padding: 34px 0 !important; }
+  .rc-steps {
+    grid-template-columns: repeat(3,minmax(0,1fr)) !important;
+    margin: 0 0 0 78px !important;
+    border-top: 1px solid #cfdbd5 !important;
+  }
+  .rc-steps::before {
+    left: auto !important;
+    right: calc(100% + 10px) !important;
+    top: 4px !important;
+    font-size: 92px !important;
+  }
+  .rc-step,
+  .rc-step:first-child {
+    padding: 14px 9px !important;
+    border-right: 1px solid #cfdbd5 !important;
+    border-bottom: 0 !important;
+  }
+  .rc-step:last-child { border-right: 0 !important; }
+  .rc-step-icon { width: 27px !important; height: 27px !important; margin-bottom: 8px !important; font-size: 12px !important; }
+  .rc-step-num { top: 17px !important; right: 7px !important; font-size: 8px !important; }
+  .rc-step h3 { font-size: 22px !important; }
+  .rc-step p { font-size: 8px !important; line-height: 1.45 !important; }
+
+  .rc-map-section { padding-top: 32px !important; }
+  .rc-map-section > .rc-shell { grid-template-columns: .8fr 1.2fr !important; gap: 12px !important; }
+  .rc-map-copy h2 { font-size: 34px !important; }
+  .rc-map-copy p:not(.rc-kicker) { margin: 10px 0 !important; font-size: 9px !important; }
+  .rc-map-copy .rc-button { width: auto !important; min-height: 34px !important; padding: 0 10px !important; font-size: 8px !important; }
+  .rc-map { height: 220px !important; }
+  .rc-manifesto { grid-template-columns: .46fr .54fr !important; margin-top: 32px !important; }
+  .rc-manifesto-copy { padding: 24px 12px !important; }
+  .rc-manifesto-copy h2 { font-size: 30px !important; }
+  .rc-manifesto-copy p:not(.rc-kicker) { font-size: 8px !important; }
+  .rc-manifesto-image { min-height: 190px !important; clip-path: polygon(10% 0,100% 0,100% 100%,0 100%) !important; }
+
+  .rc-faq { padding: 32px 0 !important; }
+  .rc-faq-grid { grid-template-columns: .8fr 1.2fr !important; gap: 18px !important; }
+  .rc-faq h2 { font-size: 31px !important; }
+  .rc-question button { padding: 9px 0 !important; font-size: 9px !important; }
+  .rc-question p { padding: 0 20px 10px 0 !important; font-size: 8px !important; }
+
+  .rc-final { padding: 26px 0 !important; }
+  .rc-final > .rc-shell { display: flex !important; min-height: 70px !important; }
+  .rc-final h2 { font-size: 34px !important; }
+  .rc-final .rc-button { width: auto !important; min-width: 130px !important; margin: 0 !important; font-size: 8px !important; }
+}
