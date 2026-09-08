@@ -11,6 +11,15 @@ export default async function MisCamposPage() {
   } = await supabase.auth.getUser();
   if (!user) redirect("/login");
 
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("roles")
+    .eq("id", user.id)
+    .single();
+
+  const esPropietario = profile?.roles?.includes("propietario");
+  if (!esPropietario) redirect("/perfil?activar=propietario");
+
   const { data: campos } = await supabase
     .from("campos")
     .select("*, fotos:campos_fotos(url, orden)")

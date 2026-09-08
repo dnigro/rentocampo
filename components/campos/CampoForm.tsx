@@ -159,16 +159,27 @@ export default function CampoForm({
 
       let id = campoId;
 
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("roles")
+        .eq("id", user.id)
+        .single();
+      if (!profile?.roles?.includes("propietario")) {
+        throw new Error(
+          "Solo los propietarios pueden publicar o administrar campos. Activá el rol Propietario desde tu perfil.",
+        );
+      }
+
       if (campoId) {
         const { error } = await supabase
           .from("campos")
-          .update({ ...form, estado })
+          .update({ ...form, status: estado })
           .eq("id", campoId);
         if (error) throw error;
       } else {
         const { data, error } = await supabase
           .from("campos")
-          .insert({ ...form, propietario_id: user.id, estado })
+          .insert({ ...form, propietario_id: user.id, status: estado })
           .select("id")
           .single();
         if (error) throw error;
@@ -187,23 +198,6 @@ export default function CampoForm({
             })),
           );
         }
-      }
-
-      // Publicar un campo habilita el perfil propietario, pero esta
-      // actualización nunca debe bloquear ni deshacer la publicación.
-      const { data: profile } = await supabase
-        .from("profiles")
-        .select("tipo, roles")
-        .eq("id", user.id)
-        .maybeSingle();
-      const roles = profile?.roles?.length
-        ? profile.roles
-        : [profile?.tipo ?? "productor"];
-      if (profile && !roles.includes("propietario")) {
-        await supabase
-          .from("profiles")
-          .update({ roles: [...roles, "propietario"] })
-          .eq("id", user.id);
       }
 
       router.push("/mis-campos");

@@ -16,6 +16,15 @@ export default async function EditarCampoPage({
   } = await supabase.auth.getUser();
   if (!user) redirect("/login");
 
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("roles")
+    .eq("id", user.id)
+    .single();
+  if (!profile?.roles?.includes("propietario")) {
+    redirect("/perfil?activar=propietario");
+  }
+
   const { data: campo } = await supabase
     .from("campos")
     .select("*")
