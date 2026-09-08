@@ -194,7 +194,7 @@ body:has(.rc-landing) .footer::before{
  .rc-stats{grid-template-columns:1fr 1fr}
  .rc-stat{padding:18px 10px;border-top:1px solid #cfdbd5;border-left:0}
  .rc-how,.rc-map-section,.rc-faq{padding-top:44px}
- .rc-steps{margin-top:118px}
+ .rc-steps{margin:118px 0 0}
  .rc-steps:before{font-size:132px;top:-112px}
  .rc-step{padding:20px 0}
  .rc-step-num{right:4px}
