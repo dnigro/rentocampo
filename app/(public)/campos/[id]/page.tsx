@@ -21,10 +21,10 @@ export default async function CampoFichaPage({
   const { data: campo } = await supabase
     .from("campos")
     .select(
-      "*, propietario:profiles(id, nombre, provincia, verificado, avatar_url)",
+      "*, propietario:profiles(id, nombre, apellido, avatar_url)",
     )
     .eq("id", id)
-    .eq("estado", "activo")
+    .eq("status", "activo")
     .single();
 
   if (!campo) notFound();
@@ -49,11 +49,11 @@ export default async function CampoFichaPage({
     otro: "Otro",
   };
 
-  const DISP_LABEL: Record<string, string> = {
-    inmediata: "Disponible ahora",
-    campaña_próxima: "Campaña próxima",
-    a_convenir: "A convenir",
-  };
+  const disponibilidad = campo.disponibilidad_desde
+    ? new Date(campo.disponibilidad_desde) <= new Date()
+      ? "Disponible ahora"
+      : "Campaña próxima"
+    : "A convenir";
 
   return (
     <div className="ficha-container">
@@ -69,11 +69,7 @@ export default async function CampoFichaPage({
               {APTITUD_LABEL[campo.aptitud] ?? campo.aptitud}
             </span>
             {campo.mejoras && <span className="mejoras-tag">Con mejoras</span>}
-            <span
-              className={`disp-badge disp-${campo.disponibilidad.replace("_", "-").replace("ó", "o")}`}
-            >
-              {DISP_LABEL[campo.disponibilidad]}
-            </span>
+            <span className="disp-badge disp-a-convenir">{disponibilidad}</span>
           </div>
 
           <h1 className="ficha-titulo">{campo.titulo}</h1>
@@ -136,15 +132,15 @@ export default async function CampoFichaPage({
         {/* Sidebar de contacto */}
         <aside className="ficha-sidebar">
           <div className="ficha-precio-card">
-            {campo.precio_ha ? (
+            {campo.precio ? (
               <div className="ficha-precio">
                 <span className="precio-valor">
-                  {campo.moneda} {campo.precio_ha.toLocaleString("es-AR")}
+                  {campo.moneda} {Number(campo.precio).toLocaleString("es-AR")}
                 </span>
-                <span className="precio-unit">por hectárea</span>
+                <span className="precio-unit">total estimado</span>
                 <span className="precio-total">
-                  Total aprox: {campo.moneda}{" "}
-                  {(campo.precio_ha * campo.hectareas).toLocaleString("es-AR")}
+                  Total publicado: {campo.moneda}{" "}
+                  {Number(campo.precio).toLocaleString("es-AR")}
                 </span>
               </div>
             ) : (
@@ -177,11 +173,8 @@ export default async function CampoFichaPage({
                   {campo.propietario.nombre}
                 </span>
                 <span className="propietario-provincia">
-                  {campo.propietario.provincia}
+                  {campo.propietario.apellido ?? "Propietario RentoCampo"}
                 </span>
-                {campo.propietario.verificado && (
-                  <span className="propietario-verificado">✓ Verificado</span>
-                )}
               </div>
             </div>
           )}

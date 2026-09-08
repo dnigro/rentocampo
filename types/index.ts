@@ -53,11 +53,15 @@ export interface Campo {
   aptitud: AptitudCampo;
   ambiente?: string;
   precio_ha?: number;
+  precio?: number;
   moneda: MonedaCampo;
   disponibilidad: DisponibilidadCampo;
+  disponibilidad_desde?: string;
   rendimiento_est?: number;
-  mejoras: boolean;
+  rendimiento_estimado?: string;
+  mejoras: boolean | string;
   estado: EstadoCampo;
+  status?: EstadoCampo;
   created_at: string;
   updated_at: string;
   // joins opcionales

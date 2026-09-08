@@ -33,8 +33,8 @@ export default async function CamposPage({
 
   let query = supabase
     .from("campos")
-    .select("*, fotos:campos_fotos(url, orden)", { count: "exact" })
-    .eq("estado", "activo")
+    .select("*, fotos:campos_fotos(id, url, orden, storage_path)", { count: "exact" })
+    .eq("status", "activo")
     .order("created_at", { ascending: false })
     .range(from, to);
 
@@ -45,11 +45,13 @@ export default async function CamposPage({
   if (params.hectareas_max)
     query = query.lte("hectareas", Number(params.hectareas_max));
   if (params.precio_min)
-    query = query.gte("precio_ha", Number(params.precio_min));
+    query = query.gte("precio", Number(params.precio_min));
   if (params.precio_max)
-    query = query.lte("precio_ha", Number(params.precio_max));
-  if (params.disponibilidad)
-    query = query.eq("disponibilidad", params.disponibilidad);
+    query = query.lte("precio", Number(params.precio_max));
+  if (params.disponibilidad === "inmediata")
+    query = query.or("disponibilidad_desde.is.null,disponibilidad_desde.lte." + new Date().toISOString().slice(0, 10));
+  if (params.disponibilidad === "campaña_próxima")
+    query = query.gt("disponibilidad_desde", new Date().toISOString().slice(0, 10));
 
   const { data: campos, count } = await query;
 

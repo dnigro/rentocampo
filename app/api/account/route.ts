@@ -13,8 +13,15 @@ async function removeFolder(
   if (error) throw error;
   if (!data?.length) return;
 
-  const paths = data.map((item) => `${folder}/${item.name}`);
-  const { error: removeError } = await admin.storage.from(bucket).remove(paths);
+  const files = data.filter((item) => item.id).map((item) => `${folder}/${item.name}`);
+  const directories = data.filter((item) => !item.id);
+
+  for (const directory of directories) {
+    await removeFolder(admin, bucket, `${folder}/${directory.name}`);
+  }
+
+  if (!files.length) return;
+  const { error: removeError } = await admin.storage.from(bucket).remove(files);
   if (removeError) throw removeError;
 }
 
@@ -35,21 +42,11 @@ export async function DELETE(request: Request) {
 
   try {
     const admin = createAdminClient();
-    const { data: campos, error: camposError } = await admin
-      .from("campos")
-      .select("id")
-      .eq("propietario_id", user.id);
-    if (camposError) throw camposError;
-
     await removeFolder(admin, "avatars", user.id);
-    await Promise.all(
-      (campos ?? []).map((campo) =>
-        removeFolder(admin, "campos-fotos", campo.id),
-      ),
-    );
+    await removeFolder(admin, "campos-fotos", user.id);
 
     const { error } = await supabase.rpc("delete_own_account", {
-      confirmation: body.confirmation,
+      confirm_text: body.confirmation,
     });
     if (error) throw error;
 

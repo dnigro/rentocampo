@@ -52,10 +52,19 @@ function RegisterForm() {
     });
 
     if (error) {
+      const normalizedError = error.message.toLowerCase();
+      const isDuplicateAccount =
+        normalizedError.includes("already registered") ||
+        normalizedError.includes("already exists") ||
+        normalizedError.includes("already been registered") ||
+        error.code === "user_already_exists";
+
       setError(
-        error.message === "User already registered"
-          ? "Ya existe una cuenta con ese email."
-          : error.message,
+        isDuplicateAccount
+          ? "Ya existe una cuenta con ese email. Ingresá o usá otro email."
+          : normalizedError.includes("password")
+            ? "La contraseña no cumple los requisitos mínimos."
+            : "No pudimos crear la cuenta. Revisá los datos e intentá nuevamente.",
       );
       setLoading(false);
       return;
