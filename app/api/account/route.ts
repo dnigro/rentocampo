@@ -43,13 +43,13 @@ export async function DELETE(request: Request) {
 
     await removeFolder(admin, "avatars", user.id);
     await Promise.all(
-      (campos ?? []).map((campo) =>
-        removeFolder(admin, "campos-fotos", campo.id),
+      (campos ?? []).map(() =>
+        removeFolder(admin, "campos-fotos", user.id),
       ),
     );
 
     const { error } = await supabase.rpc("delete_own_account", {
-      confirmation: body.confirmation,
+      confirm_text: body.confirmation,
     });
     if (error) throw error;
 
