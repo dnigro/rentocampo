@@ -71,10 +71,14 @@ function parsearResultado(feature: Sugerencia): LugarSeleccionado {
   let departamento = "";
   let provincia = "";
 
-  // El texto del resultado principal puede ser la localidad
+  // El resultado principal puede ser una localidad, un departamento o una provincia.
   const tipoResultado = feature.id?.split(".")?.[0];
   if (tipoResultado === "place" || tipoResultado === "locality") {
     localidad = feature.text;
+  } else if (tipoResultado === "district") {
+    departamento = feature.text;
+  } else if (tipoResultado === "region") {
+    provincia = normalizarProvincia(feature.text);
   }
 
   for (const item of ctx) {
@@ -127,7 +131,7 @@ export default function GeocoderInput({ onSelect, valorInicial }: Props) {
     }
     setCargando(true);
     try {
-      const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(texto)}.json?access_token=${MAPBOX_TOKEN}&country=ar&language=es&types=place,locality,district,address&limit=6`;
+      const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(texto)}.json?access_token=${MAPBOX_TOKEN}&country=ar&language=es&types=region,district,place,locality,neighborhood,address&limit=10`;
       const res = await fetch(url);
       const data = await res.json();
       setSugerencias(data.features ?? []);
@@ -180,7 +184,7 @@ export default function GeocoderInput({ onSelect, valorInicial }: Props) {
         <input
           type="text"
           className="geocoder-input"
-          placeholder="Buscá la ubicación del campo..."
+          placeholder="Buscá provincia, localidad, partido o dirección..."
           value={query}
           onChange={handleInput}
           onFocus={() => sugerencias.length > 0 && setAbierto(true)}

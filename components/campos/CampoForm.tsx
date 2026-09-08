@@ -159,11 +159,12 @@ export default function CampoForm({
 
       let id = campoId;
 
-      const { data: profile } = await supabase
+      const { data: profile, error: profileError } = await supabase
         .from("profiles")
         .select("roles")
         .eq("id", user.id)
         .single();
+      if (profileError) throw profileError;
       if (!profile?.roles?.includes("propietario")) {
         throw new Error(
           "Solo los propietarios pueden publicar o administrar campos. Activá el rol Propietario desde tu perfil.",
@@ -188,26 +189,36 @@ export default function CampoForm({
 
       if (id) {
         const subidas = await uploadFotos(id);
-        await supabase.from("campos_fotos").delete().eq("campo_id", id);
+        const { error: deleteFotosError } = await supabase
+          .from("campos_fotos")
+          .delete()
+          .eq("campo_id", id);
+        if (deleteFotosError) throw deleteFotosError;
         if (subidas.length) {
-          await supabase.from("campos_fotos").insert(
-            subidas.map((f) => ({
-              campo_id: id,
-              url: f.url,
-              orden: f.orden,
-            })),
-          );
+          const { error: insertFotosError } = await supabase
+            .from("campos_fotos")
+            .insert(
+              subidas.map((f) => ({
+                campo_id: id,
+                url: f.url,
+                orden: f.orden,
+              })),
+            );
+          if (insertFotosError) throw insertFotosError;
         }
       }
 
       router.push("/mis-campos");
       router.refresh();
     } catch (err: unknown) {
-      setError(
+      const message =
         err instanceof Error
           ? err.message
-          : "Ocurrió un error al guardar el campo.",
-      );
+          : typeof err === "object" && err && "message" in err &&
+              typeof err.message === "string"
+            ? err.message
+            : "Ocurrió un error al guardar el campo.";
+      setError(message);
       setSaving(false);
     }
   }

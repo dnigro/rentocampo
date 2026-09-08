@@ -4,7 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 export default async function LandingActividad() {
   const supabase = await createClient();
   const [{ data: campos }, { count: productores }] = await Promise.all([
-    supabase.from("campos").select("hectareas, provincia").eq("status", "activo"),
+    supabase.from("campos").select("hectareas, provincia").eq("estado", "activo"),
     supabase.from("profiles").select("id", { count: "exact", head: true }).contains("roles", ["productor"]),
   ]);
   const activos = campos ?? [];
