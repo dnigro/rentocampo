@@ -24,7 +24,7 @@ export default async function CampoFichaPage({
       "*, propietario:profiles(id, nombre, apellido, avatar_url)",
     )
     .eq("id", id)
-    .eq("status", "activo")
+    .eq("estado", "activo")
     .single();
 
   if (!campo) notFound();

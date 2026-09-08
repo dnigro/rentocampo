@@ -61,7 +61,6 @@ export interface Campo {
   rendimiento_estimado?: string;
   mejoras: boolean | string;
   estado: EstadoCampo;
-  status?: EstadoCampo;
   created_at: string;
   updated_at: string;
   // joins opcionales

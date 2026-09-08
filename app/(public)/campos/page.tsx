@@ -34,7 +34,7 @@ export default async function CamposPage({
   let query = supabase
     .from("campos")
     .select("*, fotos:campos_fotos(id, url, orden, storage_path)", { count: "exact" })
-    .eq("status", "activo")
+    .eq("estado", "activo")
     .order("created_at", { ascending: false })
     .range(from, to);
 
