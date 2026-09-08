@@ -15,14 +15,15 @@ const APTITUD_LABEL: Record<string, string> = {
   otro: "Otro",
 };
 
-const DISPONIBILIDAD_LABEL: Record<string, string> = {
-  inmediata: "Disponible ahora",
-  campaña_próxima: "Campaña próxima",
-  a_convenir: "A convenir",
-};
+function getDisponibilidad(campo: Campo) {
+  if (!campo.disponibilidad_desde) return "A convenir";
+  const fecha = new Date(campo.disponibilidad_desde);
+  return fecha <= new Date() ? "Disponible ahora" : "Campaña próxima";
+}
 
 export default function CampoCard({ campo, userId }: Props) {
   const foto = campo.fotos?.sort((a, b) => a.orden - b.orden)[0];
+  const disponibilidad = getDisponibilidad(campo);
 
   return (
     <div className="campo-card-pub">
@@ -34,11 +35,7 @@ export default function CampoCard({ campo, userId }: Props) {
           ) : (
             <div className="campo-card-pub-placeholder">🌿</div>
           )}
-          <span
-            className={`disp-badge disp-${campo.disponibilidad === "inmediata" ? "inmediata" : campo.disponibilidad === "campaña_próxima" ? "campana-proxima" : "a-convenir"}`}
-          >
-            {DISPONIBILIDAD_LABEL[campo.disponibilidad]}
-          </span>
+          <span className="disp-badge disp-a-convenir">{disponibilidad}</span>
         </div>
       </Link>
 
@@ -60,19 +57,19 @@ export default function CampoCard({ campo, userId }: Props) {
 
         <p className="campo-card-pub-ubicacion">
           📍{" "}
-          {[campo.localidad, campo.departamento, campo.provincia]
+          {[campo.localidad, campo.provincia]
             .filter(Boolean)
             .join(", ")}
         </p>
 
         <div className="campo-card-pub-footer">
           <span className="campo-ha">
-            {campo.hectareas.toLocaleString("es-AR")} ha
+            {Number(campo.hectareas).toLocaleString("es-AR")} ha
           </span>
-          {campo.precio_ha ? (
+          {campo.precio ? (
             <span className="campo-precio">
-              {campo.moneda} {campo.precio_ha.toLocaleString("es-AR")}
-              <span className="precio-unit">/ha</span>
+              {campo.moneda} {Number(campo.precio).toLocaleString("es-AR")}
+              <span className="precio-unit"> total</span>
             </span>
           ) : (
             <span className="campo-precio-consultar">Precio a consultar</span>
