@@ -44,11 +44,12 @@ export interface Campo {
   propietario_id: string;
   titulo: string;
   descripcion?: string;
+  ubicacion: string;
   provincia: string;
   departamento?: string;
   localidad?: string;
-  lat?: number;
-  lng?: number;
+  latitud?: number;
+  longitud?: number;
   hectareas: number;
   aptitud: AptitudCampo;
   ambiente?: string;
@@ -56,9 +57,8 @@ export interface Campo {
   moneda: MonedaCampo;
   disponibilidad: DisponibilidadCampo;
   disponibilidad_desde?: string;
-  rendimiento_est?: number;
   rendimiento_estimado?: string;
-  mejoras: boolean | string;
+  mejoras: string;
   status: EstadoCampo;
   created_at: string;
   updated_at: string;
@@ -117,19 +117,20 @@ export interface CampoFiltros {
 export interface CampoFormData {
   titulo: string;
   descripcion?: string;
+  ubicacion: string;
   provincia: string;
   departamento?: string;
   localidad?: string;
-  lat?: number;
-  lng?: number;
+  latitud?: number;
+  longitud?: number;
   hectareas: number;
   aptitud: AptitudCampo;
   ambiente?: string;
   precio?: number;
   moneda: MonedaCampo;
   disponibilidad: DisponibilidadCampo;
-  rendimiento_est?: number;
-  mejoras: boolean;
+  rendimiento_estimado?: string;
+  mejoras: string;
 }
 
 export interface RegisterFormData {

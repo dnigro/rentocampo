@@ -68,7 +68,7 @@ export default async function CampoFichaPage({
             <span className="aptitud-tag">
               {APTITUD_LABEL[campo.aptitud] ?? campo.aptitud}
             </span>
-            {campo.mejoras && <span className="mejoras-tag">Con mejoras</span>}
+            {campo.mejoras === "Sí" && <span className="mejoras-tag">Con mejoras</span>}
             <span className="disp-badge disp-a-convenir">{disponibilidad}</span>
           </div>
 
@@ -94,12 +94,12 @@ export default async function CampoFichaPage({
               <span className="dato-valor">{APTITUD_LABEL[campo.aptitud]}</span>
               <span className="dato-label">Aptitud</span>
             </div>
-            {campo.rendimiento_est && (
+            {campo.rendimiento_estimado && (
               <>
                 <div className="dato-sep" />
                 <div className="dato-item">
                   <span className="dato-valor">
-                    {campo.rendimiento_est} qq/ha
+                    {campo.rendimiento_estimado} qq/ha
                   </span>
                   <span className="dato-label">Rend. estimado</span>
                 </div>
@@ -107,7 +107,7 @@ export default async function CampoFichaPage({
             )}
             <div className="dato-sep" />
             <div className="dato-item">
-              <span className="dato-valor">{campo.mejoras ? "Sí" : "No"}</span>
+              <span className="dato-valor">{campo.mejoras === "Sí" ? "Sí" : "No"}</span>
               <span className="dato-label">Mejoras</span>
             </div>
           </div>

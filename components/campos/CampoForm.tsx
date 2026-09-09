@@ -41,6 +41,7 @@ export default function CampoForm({
   const [form, setForm] = useState<CampoFormData>({
     titulo: "",
     descripcion: "",
+    ubicacion: "",
     provincia: "",
     departamento: "",
     localidad: "",
@@ -50,8 +51,8 @@ export default function CampoForm({
     precio: undefined,
     moneda: "USD",
     disponibilidad: "a_convenir",
-    rendimiento_est: undefined,
-    mejoras: false,
+    rendimiento_estimado: "",
+    mejoras: "No",
     ...initialData,
   });
 
@@ -143,9 +144,9 @@ export default function CampoForm({
     setError("");
     setSaving(true);
 
-    if (!form.titulo || !form.provincia || !form.hectareas || !form.aptitud) {
+    if (!form.titulo || !form.ubicacion || !form.provincia || !form.hectareas || !form.aptitud) {
       setError(
-        "Completá los campos obligatorios: título, provincia, hectáreas y aptitud.",
+        "Completá los campos obligatorios: título, ubicación, provincia, hectáreas y aptitud.",
       );
       setSaving(false);
       return;
@@ -270,8 +271,9 @@ export default function CampoForm({
             onSelect={(lugar: LugarSeleccionado) => {
               setForm((prev) => ({
                 ...prev,
-                lat: lugar.lat,
-                lng: lugar.lng,
+                ubicacion: lugar.lugar,
+                latitud: lugar.lugar ? lugar.lat : undefined,
+                longitud: lugar.lugar ? lugar.lng : undefined,
                 ...(lugar.localidad && { localidad: lugar.localidad }),
                 ...(lugar.departamento && { departamento: lugar.departamento }),
                 ...(lugar.provincia && { provincia: lugar.provincia }),
@@ -279,10 +281,10 @@ export default function CampoForm({
               setLugarGeocodificado(lugar.lugar);
             }}
           />
-          {form.lat && form.lng ? (
+          {form.latitud !== undefined && form.longitud !== undefined ? (
             <span className="geocoder-coords">
-              ✓ Ubicación seleccionada: {form.lat.toFixed(4)},{" "}
-              {form.lng.toFixed(4)}
+              ✓ Ubicación seleccionada: {form.latitud.toFixed(4)},{" "}
+              {form.longitud.toFixed(4)}
             </span>
           ) : (
             <span className="geocoder-hint">
@@ -392,13 +394,12 @@ export default function CampoForm({
           <div className="form-field">
             <label className="form-label">Rendimiento estimado (qq/ha)</label>
             <input
-              name="rendimiento_est"
-              type="number"
+              name="rendimiento_estimado"
+              type="text"
               className="form-input"
               placeholder="Ej: 35"
-              value={form.rendimiento_est ?? ""}
+              value={form.rendimiento_estimado ?? ""}
               onChange={handleChange}
-              min={0}
             />
           </div>
         </div>
@@ -408,8 +409,10 @@ export default function CampoForm({
             type="checkbox"
             id="mejoras"
             name="mejoras"
-            checked={form.mejoras}
-            onChange={handleChange}
+            checked={form.mejoras === "Sí"}
+            onChange={(e) =>
+              setForm((prev) => ({ ...prev, mejoras: e.target.checked ? "Sí" : "No" }))
+            }
           />
           <label htmlFor="mejoras" className="form-check-label">
             El campo tiene mejoras (galpones, corrales, silos, perforaciones,

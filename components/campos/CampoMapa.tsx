@@ -11,8 +11,8 @@ interface CampoPin {
   titulo: string;
   provincia: string;
   localidad?: string;
-  lat: number;
-  lng: number;
+  latitud: number;
+  longitud: number;
   hectareas: number;
   aptitud: string;
   precio?: number;
@@ -62,7 +62,7 @@ export default function CampoMapa({ campos }: Props) {
           type: "FeatureCollection",
           features: campos.map((c) => ({
             type: "Feature",
-            geometry: { type: "Point", coordinates: [c.lng, c.lat] },
+            geometry: { type: "Point", coordinates: [c.longitud, c.latitud] },
             properties: { ...c },
           })),
         },

@@ -45,7 +45,7 @@ export default function CampoCard({ campo, userId }: Props) {
           <span className="aptitud-tag">
             {APTITUD_LABEL[campo.aptitud] ?? campo.aptitud}
           </span>
-          {campo.mejoras && <span className="mejoras-tag">Con mejoras</span>}
+          {campo.mejoras === "Sí" && <span className="mejoras-tag">Con mejoras</span>}
         </div>
 
         <Link
