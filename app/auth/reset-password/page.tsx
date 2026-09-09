@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import "@/styles/public.css";
@@ -10,9 +10,26 @@ export default function ResetPasswordPage() {
   const [confirmar, setConfirmar] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [linkError, setLinkError] = useState("");
   const [listo, setListo] = useState(false);
+  const [validandoLink, setValidandoLink] = useState(true);
   const router = useRouter();
-  const supabase = createClient();
+  const supabase = useMemo(() => createClient(), []);
+
+  useEffect(() => {
+    async function validarLink() {
+      const code = new URLSearchParams(window.location.search).get("code");
+      if (code) {
+        const { error } = await supabase.auth.exchangeCodeForSession(code);
+        if (error) setLinkError("El link de recuperación expiró o ya fue usado.");
+      } else {
+        const { data } = await supabase.auth.getSession();
+        if (!data.session) setLinkError("El link de recuperación expiró o ya fue usado.");
+      }
+      setValidandoLink(false);
+    }
+    validarLink();
+  }, [supabase]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -65,7 +82,7 @@ export default function ResetPasswordPage() {
         </div>
 
         <form className="auth-form" onSubmit={handleSubmit}>
-          {error && <div className="auth-error">{error}</div>}
+          {(linkError || error) && <div className="auth-error">{linkError || error}</div>}
 
           <div className="form-field">
             <label className="form-label" htmlFor="password">
@@ -99,8 +116,8 @@ export default function ResetPasswordPage() {
             />
           </div>
 
-          <button type="submit" className="btn-submit" disabled={loading}>
-            {loading ? "Guardando..." : "Guardar nueva contraseña"}
+          <button type="submit" className="btn-submit" disabled={loading || validandoLink || Boolean(linkError)}>
+            {validandoLink ? "Validando link..." : loading ? "Guardando..." : "Guardar nueva contraseña"}
           </button>
         </form>
       </div>
