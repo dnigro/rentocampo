@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { MAPBOX_TOKEN } from "@/lib/mapbox";
+import { PROVINCIAS_ARG } from "@/types";
 
 export interface LugarSeleccionado {
   lat: number;
@@ -14,6 +15,7 @@ export interface LugarSeleccionado {
 
 interface Props {
   onSelect: (lugar: LugarSeleccionado) => void;
+  onChange?: (texto: string) => void;
   valorInicial?: string;
 }
 
@@ -102,7 +104,7 @@ function parsearResultado(feature: Sugerencia): LugarSeleccionado {
   };
 }
 
-export default function GeocoderInput({ onSelect, valorInicial }: Props) {
+export default function GeocoderInput({ onSelect, onChange, valorInicial }: Props) {
   const [query, setQuery] = useState(valorInicial ?? "");
   const [sugerencias, setSugerencias] = useState<Sugerencia[]>([]);
   const [abierto, setAbierto] = useState(false);
@@ -123,6 +125,10 @@ export default function GeocoderInput({ onSelect, valorInicial }: Props) {
     document.addEventListener("mousedown", handleClick);
     return () => document.removeEventListener("mousedown", handleClick);
   }, []);
+
+  const provinciasVisibles = PROVINCIAS_ARG.filter((provincia) =>
+    provincia.toLocaleLowerCase("es-AR").includes(query.toLocaleLowerCase("es-AR")),
+  );
 
   async function buscar(texto: string) {
     if (texto.length < 3) {
@@ -147,6 +153,7 @@ export default function GeocoderInput({ onSelect, valorInicial }: Props) {
     const val = e.target.value;
 
     setQuery(val);
+    onChange?.(val);
 
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
@@ -155,9 +162,16 @@ export default function GeocoderInput({ onSelect, valorInicial }: Props) {
     timeoutRef.current = setTimeout(() => buscar(val), 350);
   }
 
+  function handleSeleccionarProvincia(provincia: string) {
+    setQuery(provincia);
+    onChange?.(provincia);
+    buscar(provincia);
+  }
+
   function handleSeleccionar(sug: Sugerencia) {
     const lugar = parsearResultado(sug);
     setQuery(sug.place_name);
+    onChange?.(sug.place_name);
     setSugerencias([]);
     setAbierto(false);
     onSelect(lugar);
@@ -165,6 +179,7 @@ export default function GeocoderInput({ onSelect, valorInicial }: Props) {
 
   function handleLimpiar() {
     setQuery("");
+    onChange?.("");
     setSugerencias([]);
     setAbierto(false);
     onSelect({
@@ -187,7 +202,7 @@ export default function GeocoderInput({ onSelect, valorInicial }: Props) {
           placeholder="Buscá provincia, localidad, partido o dirección..."
           value={query}
           onChange={handleInput}
-          onFocus={() => sugerencias.length > 0 && setAbierto(true)}
+          onFocus={() => setAbierto(true)}
           autoComplete="off"
         />
         {cargando && <span className="geocoder-spinner">⟳</span>}
@@ -202,18 +217,31 @@ export default function GeocoderInput({ onSelect, valorInicial }: Props) {
         )}
       </div>
 
-      {abierto && sugerencias.length > 0 && (
+      {abierto && (sugerencias.length > 0 || provinciasVisibles.length > 0) && (
         <ul className="geocoder-dropdown">
-          {sugerencias.map((sug) => (
-            <li
-              key={sug.id}
-              className="geocoder-option"
-              onMouseDown={() => handleSeleccionar(sug)}
-            >
-              <span className="geocoder-option-icon">📍</span>
-              <span className="geocoder-option-text">{sug.place_name}</span>
-            </li>
-          ))}
+          {sugerencias.length > 0 ? (
+            sugerencias.map((sug) => (
+              <li
+                key={sug.id}
+                className="geocoder-option"
+                onMouseDown={() => handleSeleccionar(sug)}
+              >
+                <span className="geocoder-option-icon">📍</span>
+                <span className="geocoder-option-text">{sug.place_name}</span>
+              </li>
+            ))
+          ) : (
+            provinciasVisibles.map((provincia) => (
+              <li
+                key={provincia}
+                className="geocoder-option"
+                onMouseDown={() => handleSeleccionarProvincia(provincia)}
+              >
+                <span className="geocoder-option-icon">⌖</span>
+                <span className="geocoder-option-text">{provincia}, Argentina</span>
+              </li>
+            ))
+          )}
         </ul>
       )}
     </div>
