@@ -108,7 +108,11 @@ export default function MensajeHilo({
     if (error) {
       setTexto(contenido);
       console.error("Error enviando mensaje:", error);
-      setError("No pudimos enviar el mensaje. Intentá nuevamente.");
+      setError(
+        error.code === "23502" || error.code === "42501"
+          ? "Los mensajes directos todavía no están habilitados en la base de datos. Ejecutá la migración 20260909_add_direct_messages.sql en Supabase."
+          : "No pudimos enviar el mensaje. Intentá nuevamente.",
+      );
       setEnviando(false);
       return;
     }
