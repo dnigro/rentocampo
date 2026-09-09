@@ -13,16 +13,21 @@ export async function POST(request: Request) {
   }
 
   const body = await request.json().catch(() => null);
-  if (body?.tipo !== "propietario" && body?.tipo !== "productor") {
-    return NextResponse.json({ error: "Tipo de perfil inválido" }, { status: 400 });
+  const roles = body?.roles;
+  if (
+    !Array.isArray(roles) ||
+    roles.length === 0 ||
+    roles.some((role) => role !== "propietario" && role !== "productor")
+  ) {
+    return NextResponse.json({ error: "Roles de perfil inválidos" }, { status: 400 });
   }
 
   const admin = createAdminClient();
   const { data, error } = await admin
     .from("profiles")
-    .update({ tipo: body.tipo })
+    .update({ roles })
     .eq("id", user.id)
-    .select("tipo")
+    .select("roles")
     .single();
 
   if (error || !data) {
@@ -32,5 +37,5 @@ export async function POST(request: Request) {
     );
   }
 
-  return NextResponse.json({ tipo: data.tipo });
+  return NextResponse.json({ roles: data.roles });
 }

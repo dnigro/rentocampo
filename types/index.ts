@@ -27,16 +27,15 @@ export type MonedaCampo = "USD" | "ARS";
 // ============================================================
 export interface Profile {
   id: string;
-  tipo: TipoPerfil;
   roles: RolPerfil[];
   nombre: string;
-  email: string;
+  apellido?: string;
   telefono?: string;
-  provincia?: string;
-  descripcion?: string;
+  bio?: string;
   avatar_url?: string;
-  verificado: boolean;
+  activo: boolean;
   created_at: string;
+  updated_at: string;
 }
 
 export interface Campo {
@@ -137,7 +136,6 @@ export interface RegisterFormData {
   email: string;
   password: string;
   nombre: string;
-  tipo: TipoPerfil;
   telefono?: string;
   provincia?: string;
 }

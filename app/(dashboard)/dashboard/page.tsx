@@ -17,7 +17,7 @@ export default async function DashboardPage() {
     .eq("id", user.id)
     .single();
 
-  const roles = profile?.roles?.length ? profile.roles : [profile?.tipo];
+  const roles = profile?.roles ?? [];
   const esPropietario = roles.includes("propietario");
   const esProductor = roles.includes("productor");
   const etiquetaPerfil =

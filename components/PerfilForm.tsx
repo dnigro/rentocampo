@@ -2,7 +2,6 @@
 
 import { useState, useRef } from "react";
 import { createClient } from "@/lib/supabase/client";
-import { PROVINCIAS_ARG } from "@/types";
 import type { Profile } from "@/types";
 
 interface Props {
@@ -18,9 +17,10 @@ export default function PerfilForm({ profile, userId, email }: Props) {
   const [form, setForm] = useState({
     nombre: profile?.nombre ?? "",
     telefono: profile?.telefono ?? "",
-    provincia: profile?.provincia ?? "",
-    descripcion: profile?.descripcion ?? "",
-    roles: [profile?.tipo ?? "productor"] as ("productor" | "propietario")[],
+    bio: profile?.bio ?? "",
+    roles: profile?.roles?.length
+      ? profile.roles
+      : ["productor" as const],
   });
 
   const [avatarUrl, setAvatarUrl] = useState(profile?.avatar_url ?? "");
@@ -102,21 +102,17 @@ export default function PerfilForm({ profile, userId, email }: Props) {
         .update({
           nombre: form.nombre,
           telefono: form.telefono,
-          provincia: form.provincia,
-          descripcion: form.descripcion,
+          bio: form.bio,
           avatar_url: newAvatarUrl || null,
         })
         .eq("id", userId);
 
       if (error) throw error;
 
-      const tipo = form.roles.includes("propietario")
-        ? "propietario"
-        : "productor";
       const roleResponse = await fetch("/api/profile/role", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ tipo }),
+        body: JSON.stringify({ roles: form.roles }),
       });
       const roleResult = await roleResponse.json();
       if (!roleResponse.ok) {
@@ -325,33 +321,16 @@ export default function PerfilForm({ profile, userId, email }: Props) {
         </div>
 
         <div className="form-field">
-          <label className="form-label">Provincia</label>
-          <select
-            name="provincia"
-            className="form-input form-select"
-            value={form.provincia}
-            onChange={handleChange}
-          >
-            <option value="">Seleccioná...</option>
-            {PROVINCIAS_ARG.map((p) => (
-              <option key={p} value={p}>
-                {p}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div className="form-field">
           <label className="form-label">
             {form.roles.includes("propietario")
               ? "Sobre vos / tu empresa"
               : "Sobre vos / tu actividad"}
           </label>
           <textarea
-            name="descripcion"
+            name="bio"
             className="form-input form-textarea"
             placeholder="Contá brevemente quién sos y tu experiencia..."
-            value={form.descripcion}
+            value={form.bio}
             onChange={handleChange}
             rows={3}
           />
