@@ -32,12 +32,19 @@ export default function Navbar() {
     const userId = user.id;
 
     async function contarNoLeidos() {
-      const { count } = await supabase
-        .from("mensajes")
-        .select("id", { count: "exact", head: true })
-        .eq("destinatario_id", userId)
-        .eq("leido", false);
-      setNoLeidos(count ?? 0);
+      const [{ count: mensajesCount }, { count: directosCount }] = await Promise.all([
+        supabase
+          .from("mensajes")
+          .select("id", { count: "exact", head: true })
+          .eq("destinatario_id", userId)
+          .eq("leido", false),
+        supabase
+          .from("mensajes_directos")
+          .select("id", { count: "exact", head: true })
+          .eq("destinatario_id", userId)
+          .eq("leido", false),
+      ]);
+      setNoLeidos((mensajesCount ?? 0) + (directosCount ?? 0));
     }
 
     contarNoLeidos();
@@ -60,6 +67,26 @@ export default function Navbar() {
           event: "UPDATE",
           schema: "public",
           table: "mensajes",
+          filter: `destinatario_id=eq.${userId}`,
+        },
+        () => contarNoLeidos(),
+      )
+      .on(
+        "postgres_changes",
+        {
+          event: "INSERT",
+          schema: "public",
+          table: "mensajes_directos",
+          filter: `destinatario_id=eq.${userId}`,
+        },
+        () => contarNoLeidos(),
+      )
+      .on(
+        "postgres_changes",
+        {
+          event: "UPDATE",
+          schema: "public",
+          table: "mensajes_directos",
           filter: `destinatario_id=eq.${userId}`,
         },
         () => contarNoLeidos(),

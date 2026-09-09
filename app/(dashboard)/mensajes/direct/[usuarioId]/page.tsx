@@ -21,9 +21,16 @@ export default async function MensajeDirectoPage({ params }: { params: Promise<{
   if (!contacto) notFound();
 
   const { data: mensajes } = await supabase.from("mensajes_directos")
-    .select("id, contenido, created_at, remitente_id")
+    .select("id, contenido, created_at, remitente_id, leido")
     .or(`and(remitente_id.eq.${user.id},destinatario_id.eq.${usuarioId}),and(remitente_id.eq.${usuarioId},destinatario_id.eq.${user.id})`)
     .order("created_at", { ascending: true });
+
+  await supabase
+    .from("mensajes_directos")
+    .update({ leido: true })
+    .eq("destinatario_id", user.id)
+    .eq("remitente_id", usuarioId)
+    .eq("leido", false);
 
   const mensajesIniciales = mensajes ?? [];
 
