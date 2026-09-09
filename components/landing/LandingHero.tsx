@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import heroCampo from "@/public/landing-campo-rentocampo.jpg";
+import BuscadorHero from "@/components/BuscadorHero";
 
 export default function LandingHero() {
   return (
@@ -13,12 +14,13 @@ export default function LandingHero() {
           <span className="rc-hero-pretitle">Tu campo tiene potencial.</span>
           <span className="rc-hero-primary">Hacelo <em>visible.</em></span>
         </h1>
-        <p className="rc-hero-copy">Publicá gratis y conectá directamente con productores.</p>
+        <p className="rc-hero-copy">Encontrá tierra para producir o publicá tu campo y recibí consultas directas.</p>
+        <BuscadorHero />
         <div className="rc-actions">
-          <Link href="/register?tipo=propietario" className="rc-button rc-button-yellow">Publicar campo →</Link>
-          <Link href="/campos" className="rc-button rc-button-light">Explorar campos</Link>
+          <Link href="/register?tipo=propietario" className="rc-button rc-button-yellow">Publicar mi campo →</Link>
+          <Link href="/campos" className="rc-button rc-button-light">Ver oportunidades</Link>
         </div>
-        <p className="rc-proof">Sin comisiones · Contacto directo · Vos decidís</p>
+        <p className="rc-proof">Sin comisiones · Contacto directo · Cobertura nacional</p>
       </div>
     </section>
   );
