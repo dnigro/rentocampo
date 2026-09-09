@@ -5,7 +5,7 @@ import "@/styles/mapa.css";
 
 export default async function LandingMapa() {
   const supabase = await createClient();
-  const { data: campos } = await supabase.from("campos").select("id, titulo, provincia, localidad, lat, lng, hectareas, aptitud, precio, moneda").eq("status", "activo").not("lat", "is", null).not("lng", "is", null);
+  const { data: campos } = await supabase.from("campos").select("id, titulo, provincia, localidad, latitud, longitud, hectareas, aptitud, precio, moneda").eq("status", "activo").not("latitud", "is", null).not("longitud", "is", null);
   return (
     <section className="rc-map-section" id="visibilidad"><div className="rc-shell">
       <div className="rc-map-copy"><p className="rc-kicker">Campos en todo el país</p><h2>Una red federal que produce.</h2><p>Explorá campos disponibles en todo el país. Conectamos oportunidades en cada región productiva.</p><Link href="/campos/mapa" className="rc-button rc-button-yellow">Ver mapa de campos →</Link></div>
