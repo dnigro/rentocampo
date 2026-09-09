@@ -29,13 +29,13 @@ export default async function MensajesPage() {
     .or(`remitente_id.eq.${user.id},destinatario_id.eq.${user.id}`)
     .order("created_at", { ascending: false });
 
-  // Agrupar por campo — quedarse con el último mensaje de cada hilo
+  // Agrupar por campo o por interlocutor en las conversaciones directas.
   const hilosMap = new Map<string, NonNullable<typeof mensajes>[number]>();
   for (const m of mensajes ?? []) {
     const campoId = (m.campo as any)?.id;
-    if (campoId && !hilosMap.has(campoId)) {
-      hilosMap.set(campoId, m);
-    }
+    const otroId = m.remitente_id === user.id ? m.destinatario_id : m.remitente_id;
+    const clave = campoId ? `campo:${campoId}` : `directo:${otroId}`;
+    if (!hilosMap.has(clave)) hilosMap.set(clave, m);
   }
   const hilos = Array.from(hilosMap.values());
 
@@ -58,6 +58,7 @@ export default async function MensajesPage() {
               : "No tenés conversaciones todavía"}
           </p>
         </div>
+        <Link href="/mensajes/nuevo" className="btn-primary-lg">Nuevo mensaje</Link>
       </div>
 
       {hilos.length === 0 ? (
@@ -75,6 +76,7 @@ export default async function MensajesPage() {
         <div className="hilos-lista">
           {hilos.map((hilo) => {
             const campo = hilo.campo as any;
+            const esDirecto = !campo?.id;
             const remitente = hilo.remitente as any;
             const destinatario = hilo.destinatario as any;
             const esRemitente = hilo.remitente_id === user.id;
@@ -84,7 +86,7 @@ export default async function MensajesPage() {
             return (
               <Link
                 key={hilo.id}
-                href={`/mensajes/${campo?.id}`}
+                href={esDirecto ? `/mensajes/direct/${otroUsuario?.id}` : `/mensajes/${campo.id}`}
                 className={`hilo-item ${noLeido ? "hilo-no-leido" : ""}`}
               >
                 <div className="hilo-avatar">
@@ -107,7 +109,7 @@ export default async function MensajesPage() {
                       })}
                     </span>
                   </div>
-                  <span className="hilo-campo">{campo?.titulo}</span>
+                  <span className="hilo-campo">{esDirecto ? "Conversación directa" : campo.titulo}</span>
                   <p className="hilo-preview">
                     {esRemitente ? "Vos: " : ""}
                     {hilo.contenido}
