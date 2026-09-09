@@ -28,6 +28,7 @@ export default function MensajeHilo({
   const [mensajes, setMensajes] = useState<Mensaje[]>(mensajesIniciales);
   const [texto, setTexto] = useState("");
   const [enviando, setEnviando] = useState(false);
+  const [error, setError] = useState("");
   const bottomRef = useRef<HTMLDivElement>(null);
   const supabase = createClient();
 
@@ -90,6 +91,7 @@ export default function MensajeHilo({
     if (!contenido || enviando) return;
 
     setEnviando(true);
+    setError("");
     setTexto("");
 
     const { data, error } = await supabase
@@ -106,6 +108,7 @@ export default function MensajeHilo({
     if (error) {
       setTexto(contenido);
       console.error("Error enviando mensaje:", error);
+      setError("No pudimos enviar el mensaje. Intentá nuevamente.");
       setEnviando(false);
       return;
     }
@@ -206,6 +209,7 @@ export default function MensajeHilo({
         <div ref={bottomRef} />
       </div>
 
+      {error && <p role="alert" className="mensaje-error">{error}</p>}
       <form className="mensaje-form" onSubmit={handleEnviar}>
         <input
           type="text"

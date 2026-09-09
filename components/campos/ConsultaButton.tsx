@@ -19,6 +19,7 @@ export default function ConsultaButton({
   const supabase = createClient();
   const [loading, setLoading] = useState(false);
   const [enviado, setEnviado] = useState(false);
+  const [error, setError] = useState("");
 
   const esPropietario = userId && userId === propietarioId;
 
@@ -30,6 +31,7 @@ export default function ConsultaButton({
     if (esPropietario) return;
 
     setLoading(true);
+    setError("");
 
     // Verificar si ya existe un hilo para este campo
     const { data: existente } = await supabase
@@ -41,6 +43,7 @@ export default function ConsultaButton({
       .single();
 
     if (existente) {
+      setLoading(false);
       router.push(`/mensajes/${campoId}`);
       return;
     }
@@ -53,11 +56,15 @@ export default function ConsultaButton({
       contenido: "Hola, me interesa este campo. ¿Podemos hablar?",
     });
 
-    if (!error) {
-      setEnviado(true);
-      setTimeout(() => router.push(`/mensajes/${campoId}`), 800);
+    if (error) {
+      console.error("Error creando consulta:", error);
+      setError("No pudimos enviar la consulta. Intentá nuevamente.");
+      setLoading(false);
+      return;
     }
 
+    setEnviado(true);
+    setTimeout(() => router.push(`/mensajes/${campoId}`), 800);
     setLoading(false);
   }
 
@@ -74,6 +81,7 @@ export default function ConsultaButton({
   }
 
   return (
+    <>
     <button
       className="btn-consultar"
       onClick={handleConsulta}
@@ -85,5 +93,7 @@ export default function ConsultaButton({
           ? "Consultar campo"
           : "Ingresá para consultar"}
     </button>
+    {error && <p role="alert">{error}</p>}
+    </>
   );
 }
