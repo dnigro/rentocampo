@@ -119,19 +119,16 @@ export default function CampoForm({
         continue;
       }
       if (!foto.file) continue;
-      const ext = foto.file.name.split(".").pop();
-      const path = `${id}/${Date.now()}-${foto.orden}.${ext}`;
-      const { error: uploadError } = await supabase.storage
-        .from("campos-fotos")
-        .upload(path, foto.file, { upsert: true });
-      if (uploadError) {
-        console.error("Error subiendo foto:", uploadError);
-        continue;
+
+      const body = new FormData();
+      body.set("campoId", id);
+      body.set("file", foto.file);
+      const response = await fetch("/api/campos/fotos", { method: "POST", body });
+      const result = await response.json();
+      if (!response.ok || !result.url) {
+        throw new Error(result.error ?? "No se pudo subir la foto del campo");
       }
-      const {
-        data: { publicUrl },
-      } = supabase.storage.from("campos-fotos").getPublicUrl(path);
-      subidas.push({ url: publicUrl, orden: foto.orden });
+      subidas.push({ url: result.url, orden: foto.orden });
     }
     return subidas;
   }
