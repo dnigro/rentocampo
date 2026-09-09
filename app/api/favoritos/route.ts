@@ -15,7 +15,7 @@ export async function GET(request: Request) {
   if (!campoId) return NextResponse.json({ error: "campoId requerido" }, { status: 400 });
 
   const { data, error } = await createAdminClient().from("favoritos")
-    .select("id").eq("campo_id", campoId).eq("usuario_id", user.id).maybeSingle();
+    .select("campo_id").eq("campo_id", campoId).eq("usuario_id", user.id).maybeSingle();
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
   return NextResponse.json({ esFavorito: Boolean(data) });
 }
