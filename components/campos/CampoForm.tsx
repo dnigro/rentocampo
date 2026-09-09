@@ -268,6 +268,9 @@ export default function CampoForm({
           <label className="form-label">Buscar ubicación en el mapa</label>
           <GeocoderInput
             valorInicial={lugarGeocodificado}
+            onChange={(ubicacion) =>
+              setForm((prev) => ({ ...prev, ubicacion }))
+            }
             onSelect={(lugar: LugarSeleccionado) => {
               setForm((prev) => ({
                 ...prev,
