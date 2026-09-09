@@ -8,7 +8,7 @@ export default async function MapaPage() {
   const { data: campos } = await supabase
     .from("campos")
     .select(
-      "id, titulo, provincia, localidad, lat, lng, hectareas, aptitud, precio_ha, moneda",
+      "id, titulo, provincia, localidad, lat, lng, hectareas, aptitud, precio, moneda",
     )
     .eq("status", "activo")
     .not("lat", "is", null)

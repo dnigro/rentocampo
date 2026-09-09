@@ -73,12 +73,12 @@ export default function MisCamposLista({ campos }: Props) {
                 <span>{campo.hectareas.toLocaleString("es-AR")} ha</span>
                 <span className="dot">·</span>
                 <span className="capitalize">{campo.aptitud}</span>
-                {campo.precio_ha && (
+                {campo.precio && (
                   <>
                     <span className="dot">·</span>
                     <span>
-                      {campo.moneda} {campo.precio_ha.toLocaleString("es-AR")}
-                      /ha
+                      {campo.moneda} {campo.precio.toLocaleString("es-AR")}
+                      total
                     </span>
                   </>
                 )}

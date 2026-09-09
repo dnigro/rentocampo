@@ -52,7 +52,6 @@ export interface Campo {
   hectareas: number;
   aptitud: AptitudCampo;
   ambiente?: string;
-  precio_ha?: number;
   precio?: number;
   moneda: MonedaCampo;
   disponibilidad: DisponibilidadCampo;
@@ -126,7 +125,7 @@ export interface CampoFormData {
   hectareas: number;
   aptitud: AptitudCampo;
   ambiente?: string;
-  precio_ha?: number;
+  precio?: number;
   moneda: MonedaCampo;
   disponibilidad: DisponibilidadCampo;
   rendimiento_est?: number;

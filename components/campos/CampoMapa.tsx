@@ -15,7 +15,7 @@ interface CampoPin {
   lng: number;
   hectareas: number;
   aptitud: string;
-  precio_ha?: number;
+  precio?: number;
   moneda?: string;
 }
 
@@ -206,10 +206,10 @@ export default function CampoMapa({ campos }: Props) {
           </p>
           <div className="mapa-panel-datos">
             <span>{selectedCampo.hectareas.toLocaleString("es-AR")} ha</span>
-            {selectedCampo.precio_ha && (
+            {selectedCampo.precio && (
               <span>
                 {selectedCampo.moneda}{" "}
-                {selectedCampo.precio_ha.toLocaleString("es-AR")}/ha
+                {selectedCampo.precio.toLocaleString("es-AR")} total
               </span>
             )}
           </div>
