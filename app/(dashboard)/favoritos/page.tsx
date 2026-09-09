@@ -31,7 +31,7 @@ export default async function FavoritosPage() {
     favoritos
       ?.map((f) => f.campo)
       .filter(Boolean)
-      .filter((c: any) => c.estado === "activo") ?? [];
+      .filter((c: any) => c.status === "activo") ?? [];
 
   return (
     <div className="page-container">
