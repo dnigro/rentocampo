@@ -1,6 +1,7 @@
 import Link from "next/link";
 import CampoCard from "@/components/campos/CampoCard";
 import { createClient } from "@/lib/supabase/server";
+import "@/styles/explorador.css";
 
 export default async function LandingDestacados() {
   const supabase = await createClient();
