@@ -55,6 +55,7 @@ export async function POST(request: Request) {
     .insert({
       campo_id: campoId,
       propietario_id: campo.propietario_id,
+      storage_path: path,
       url: publicUrl,
       orden,
     });
