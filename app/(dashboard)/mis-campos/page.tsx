@@ -13,11 +13,11 @@ export default async function MisCamposPage() {
 
   const { data: profile } = await supabase
     .from("profiles")
-    .select("roles, tipo")
+    .select("tipo")
     .eq("id", user.id)
     .single();
 
-  const esPropietario = profile?.roles?.includes("propietario") || profile?.tipo === "propietario";
+  const esPropietario = profile?.tipo === "propietario";
   if (!esPropietario) redirect("/perfil?activar=propietario");
 
   const { data: campos } = await supabase
