@@ -46,6 +46,7 @@ export default async function MensajesPage() {
 
   return (
     <div className="page-container">
+      <div className={`mensajes-page ${hilos.length === 0 ? "mensajes-page-vacia" : ""}`}>
       <div className="page-header">
         <div>
           <h1 className="page-title">
@@ -58,19 +59,14 @@ export default async function MensajesPage() {
               : "No tenés conversaciones todavía"}
           </p>
         </div>
-        <Link href="/mensajes/nuevo" className="btn-primary-lg">Nuevo mensaje</Link>
+        {hilos.length > 0 && <Link href="/mensajes/nuevo" className="btn-primary-lg">Nuevo mensaje</Link>}
       </div>
 
       {hilos.length === 0 ? (
-        <div className="empty-state">
-          <span className="empty-icon">💬</span>
-          <p className="empty-title">Sin mensajes aún</p>
-          <p className="empty-desc">
-            Las consultas sobre campos aparecerán acá.
-          </p>
-          <Link href="/campos" className="btn-primary-lg">
-            Explorar campos
-          </Link>
+        <div className="mensajes-empty-state">
+          <span className="mensajes-empty-icon" aria-hidden="true">✉</span>
+          <h2>Sin conversaciones todavía</h2>
+          <p>Cuando alguien te escriba, la conversación aparecerá acá.</p>
         </div>
       ) : (
         <div className="hilos-lista">
@@ -121,6 +117,7 @@ export default async function MensajesPage() {
           })}
         </div>
       )}
+      </div>
     </div>
   );
 }
