@@ -211,7 +211,7 @@ body:has(.rc-landing) .footer::before{
 @media(max-width:760px){
   .rc-hero{
     display:grid;
-    grid-template-rows:auto 280px;
+    grid-template-rows:auto 200px;
     min-height:0;
     align-items:initial;
   }
