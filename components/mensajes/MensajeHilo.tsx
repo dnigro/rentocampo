@@ -94,39 +94,35 @@ export default function MensajeHilo({
     setError("");
     setTexto("");
 
-    const { data, error } = await supabase
-      .from("mensajes")
-      .insert({
-        ...(campoId ? { campo_id: campoId } : {}),
-        remitente_id: userId,
-        destinatario_id: destinatarioId,
-        contenido,
-      })
-      .select("id")
-      .single();
+    try {
+      const response = await fetch("/api/mensajes", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ campoId, destinatarioId, contenido }),
+      });
+      const result = await response.json();
 
-    if (error) {
-      setTexto(contenido);
-      console.error("Error enviando mensaje:", error);
-      setError(
-        error.code === "23502" || error.code === "42501"
-          ? "Los mensajes directos todavía no están habilitados en la base de datos. Ejecutá la migración 20260909_add_direct_messages.sql en Supabase."
-          : "No pudimos enviar el mensaje. Intentá nuevamente.",
-      );
-      setEnviando(false);
-      return;
-    }
+      if (!response.ok || !result.mensaje) {
+        setTexto(contenido);
+        console.error("Error enviando mensaje:", result.error);
+        setError(result.error ?? "No pudimos enviar el mensaje. Intentá nuevamente.");
+        return;
+      }
 
-    // Disparar email de notificación en background
-    if (data?.id) {
+      const mensaje: Mensaje = { ...result.mensaje, remitente: null };
+      setMensajes((prev) => prev.some((item) => item.id === mensaje.id) ? prev : [...prev, mensaje]);
       fetch("/api/notificar-mensaje", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ mensajeId: data.id }),
+        body: JSON.stringify({ mensajeId: mensaje.id }),
       }).catch(console.error);
+    } catch (cause) {
+      console.error("Error enviando mensaje:", cause);
+      setTexto(contenido);
+      setError("No pudimos conectar para enviar el mensaje. Intentá nuevamente.");
+    } finally {
+      setEnviando(false);
     }
-
-    setEnviando(false);
   }
 
   function formatFecha(fecha: string) {
