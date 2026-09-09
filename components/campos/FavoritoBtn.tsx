@@ -2,121 +2,47 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { createClient } from "@/lib/supabase/client";
 
-interface Props {
-  campoId: string;
-  userId?: string;
-}
+interface Props { campoId: string; userId?: string }
 
 export default function FavoritoBtn({ campoId, userId }: Props) {
   const [esFavorito, setEsFavorito] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const router = useRouter();
-  const supabase = createClient();
 
   useEffect(() => {
-    if (!userId) {
-      setEsFavorito(false);
-      return;
-    }
-
-    let active = true;
-
-    async function cargarFavorito() {
-      const { data, error: queryError } = await supabase
-        .from("favoritos")
-        .select("id")
-        .eq("campo_id", campoId)
-        .eq("usuario_id", userId)
-        .maybeSingle();
-
-      if (!active) return;
-
-      if (queryError) {
-        console.error("No se pudo consultar el favorito", queryError);
-        setError("No pudimos consultar tus favoritos.");
-        return;
-      }
-
-      setEsFavorito(Boolean(data));
-    }
-
-    void cargarFavorito();
-
-    return () => {
-      active = false;
-    };
+    if (!userId) return;
+    let activo = true;
+    fetch(`/api/favoritos?campoId=${encodeURIComponent(campoId)}`)
+      .then(async (response) => {
+        const body = await response.json();
+        if (!response.ok) throw new Error(body.error);
+        if (activo) setEsFavorito(body.esFavorito);
+      })
+      .catch((cause) => activo && setError(cause instanceof Error ? cause.message : "No pudimos consultar tus favoritos."));
+    return () => { activo = false; };
   }, [campoId, userId]);
 
-  async function handleToggle(e: React.MouseEvent) {
-    e.preventDefault();
-    e.stopPropagation();
+  async function handleToggle(event: React.MouseEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+    if (!userId) { router.push(`/login?redirect=/campos/${campoId}`); return; }
 
-    if (!userId) {
-      router.push(`/login?redirect=/campos/${campoId}`);
-      return;
-    }
-
-    setLoading(true);
-    setError("");
-
-    if (esFavorito) {
-      const { error: deleteError } = await supabase
-        .from("favoritos")
-        .delete()
-        .eq("campo_id", campoId)
-        .eq("usuario_id", userId);
-
-      if (deleteError) {
-        console.error("No se pudo quitar el favorito", deleteError);
-        setError("No pudimos quitar el campo de favoritos.");
-        setLoading(false);
-        return;
-      }
-
-      setEsFavorito(false);
-    } else {
-      const { error: insertError } = await supabase
-        .from("favoritos")
-        .insert({ campo_id: campoId, usuario_id: userId });
-
-      if (insertError && insertError.code !== "23505") {
-        console.error("No se pudo guardar el favorito", insertError);
-        setError("No pudimos guardar el campo. Intentá nuevamente.");
-        setLoading(false);
-        return;
-      }
-
-      setEsFavorito(true);
-    }
-
-    setLoading(false);
-    router.refresh();
+    setLoading(true); setError("");
+    try {
+      const response = await fetch(
+        esFavorito ? `/api/favoritos?campoId=${encodeURIComponent(campoId)}` : "/api/favoritos",
+        esFavorito ? { method: "DELETE" } : { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ campoId }) },
+      );
+      const body = await response.json();
+      if (!response.ok) throw new Error(body.error);
+      setEsFavorito(body.esFavorito);
+      router.refresh();
+    } catch (cause) {
+      setError(cause instanceof Error ? cause.message : "No pudimos guardar el campo.");
+    } finally { setLoading(false); }
   }
 
-  return (
-    <div>
-      <button
-        type="button"
-        onClick={handleToggle}
-        disabled={loading}
-        aria-pressed={esFavorito}
-        className={`fav-text-btn ${esFavorito ? "fav-text-btn-activo" : ""}`}
-      >
-        <span className="fav-text-btn-icon" aria-hidden="true">
-          {esFavorito ? "♥" : "♡"}
-        </span>
-        <span className="fav-text-btn-label">
-          {loading ? "Guardando..." : esFavorito ? "Guardado" : "Guardar campo"}
-        </span>
-      </button>
-      {error && (
-        <p role="alert" className="fav-text-error">
-          {error}
-        </p>
-      )}
-    </div>
-  );
+  return <div><button type="button" onClick={handleToggle} disabled={loading} aria-pressed={esFavorito} className={`fav-text-btn ${esFavorito ? "fav-text-btn-activo" : ""}`}><span className="fav-text-btn-icon" aria-hidden="true">{esFavorito ? "♥" : "♡"}</span><span className="fav-text-btn-label">{loading ? "Guardando..." : esFavorito ? "Guardado" : "Guardar campo"}</span></button>{error && <p role="alert" className="fav-text-error">{error}</p>}</div>;
 }

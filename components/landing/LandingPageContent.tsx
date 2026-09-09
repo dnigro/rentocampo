@@ -10,7 +10,6 @@ export default function LandingPageContent() {
       <LandingHero />
       <LandingActividad />
       <LandingComo />
-      <LandingFAQ />
       <LandingCTA />
     </main>
   );

@@ -27,3 +27,12 @@
   .rc-landing .rc-hero .rc-actions{display:grid;gap:10px}
   .rc-landing .rc-hero .rc-button{width:100%}
 }
+
+/* Tres pasos y landing breve. */
+.rc-landing .rc-how{background:#050505;color:#fff;border:0;padding:48px 0}
+.rc-landing .rc-how .rc-steps{border-color:#ffffff45}
+.rc-landing .rc-how .rc-steps:before{color:#ffd400}
+.rc-landing .rc-how .rc-step{border-color:#ffffff35}.rc-landing .rc-how .rc-step h3{color:#fff}
+.rc-landing .rc-how .rc-step p{color:#ffffffbf}.rc-landing .rc-how .rc-step-icon{background:#ffd400;color:#050505}
+.rc-landing .rc-how .rc-step-num{color:#ffd400}
+@media(max-width:760px){.rc-landing .rc-how{padding:38px 0}.rc-landing .rc-how .rc-step{border-bottom:1px solid #ffffff35}}
