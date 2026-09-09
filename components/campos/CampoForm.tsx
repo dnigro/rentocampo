@@ -284,7 +284,7 @@ export default function CampoForm({
               setLugarGeocodificado(lugar.lugar);
             }}
           />
-          {form.latitud !== undefined && form.longitud !== undefined ? (
+          {typeof form.latitud === "number" && typeof form.longitud === "number" ? (
             <span className="geocoder-coords">
               ✓ Ubicación seleccionada: {form.latitud.toFixed(4)},{" "}
               {form.longitud.toFixed(4)}
