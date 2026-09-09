@@ -13,7 +13,7 @@ interface Mensaje {
 }
 
 interface Props {
-  campoId: string;
+  campoId?: string;
   userId: string;
   destinatarioId: string;
   mensajesIniciales: Mensaje[];
@@ -45,7 +45,7 @@ export default function MensajeHilo({
           event: "INSERT",
           schema: "public",
           table: "mensajes",
-          filter: `campo_id=eq.${campoId}`,
+          filter: campoId ? `campo_id=eq.${campoId}` : "campo_id=is.null",
         },
         async (payload) => {
           const { data } = await supabase
@@ -97,7 +97,7 @@ export default function MensajeHilo({
     const { data, error } = await supabase
       .from("mensajes")
       .insert({
-        campo_id: campoId,
+        ...(campoId ? { campo_id: campoId } : {}),
         remitente_id: userId,
         destinatario_id: destinatarioId,
         contenido,
