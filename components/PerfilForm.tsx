@@ -105,11 +105,24 @@ export default function PerfilForm({ profile, userId, email }: Props) {
           provincia: form.provincia,
           descripcion: form.descripcion,
           avatar_url: newAvatarUrl || null,
-          tipo: form.roles.includes("propietario") ? "propietario" : "productor",
         })
         .eq("id", userId);
 
       if (error) throw error;
+
+      const tipo = form.roles.includes("propietario")
+        ? "propietario"
+        : "productor";
+      const roleResponse = await fetch("/api/profile/role", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ tipo }),
+      });
+      const roleResult = await roleResponse.json();
+      if (!roleResponse.ok) {
+        throw new Error(roleResult.error ?? "No se pudo actualizar el perfil");
+      }
+
       setSuccessMsg("Perfil actualizado correctamente.");
     } catch (err: unknown) {
       const message =
