@@ -28,7 +28,7 @@ export async function POST(request: Request) {
 
   const { data: campo, error: campoError } = await supabase
     .from("campos")
-    .select("id")
+    .select("id, propietario_id")
     .eq("id", campoId)
     .eq("propietario_id", user.id)
     .maybeSingle();
@@ -52,7 +52,12 @@ export async function POST(request: Request) {
   } = admin.storage.from("campos-fotos").getPublicUrl(path);
   const { error: photoError } = await admin
     .from("campos_fotos")
-    .insert({ campo_id: campoId, url: publicUrl, orden });
+    .insert({
+      campo_id: campoId,
+      propietario_id: campo.propietario_id,
+      url: publicUrl,
+      orden,
+    });
 
   if (photoError) {
     await admin.storage.from("campos-fotos").remove([path]);
