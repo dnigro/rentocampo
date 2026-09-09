@@ -22,13 +22,13 @@ export default function FavoritoBtn({ campoId, userId }: Props) {
       return;
     }
 
-       let active = true;
+    let active = true;
 
     async function cargarFavorito() {
-           const { data, error: queryError } = await supabase
-               .from("favoritos")
+      const { data, error: queryError } = await supabase
+        .from("favoritos")
         .select("id")
-        .eq("        .eq("campo_id",", campoId)
+        .eq("campo_id", campoId)
         .eq("usuario_id", userId)
         .maybeSingle();
 
