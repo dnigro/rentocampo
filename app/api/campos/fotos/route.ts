@@ -16,9 +16,10 @@ export async function POST(request: Request) {
 
   const formData = await request.formData();
   const campoId = formData.get("campoId");
+  const orden = Number(formData.get("orden"));
   const file = formData.get("file");
 
-  if (typeof campoId !== "string" || !(file instanceof File)) {
+  if (typeof campoId !== "string" || !Number.isInteger(orden) || orden < 0 || !(file instanceof File)) {
     return NextResponse.json({ error: "Foto o campo inválidos" }, { status: 400 });
   }
   if (!file.type.startsWith("image/") || file.size > MAX_FOTO_BYTES) {
@@ -49,6 +50,14 @@ export async function POST(request: Request) {
   const {
     data: { publicUrl },
   } = admin.storage.from("campos-fotos").getPublicUrl(path);
+  const { error: photoError } = await admin
+    .from("campos_fotos")
+    .insert({ campo_id: campoId, url: publicUrl, orden });
 
-  return NextResponse.json({ url: publicUrl });
+  if (photoError) {
+    await admin.storage.from("campos-fotos").remove([path]);
+    return NextResponse.json({ error: photoError.message }, { status: 500 });
+  }
+
+  return NextResponse.json({ url: publicUrl, orden });
 }
