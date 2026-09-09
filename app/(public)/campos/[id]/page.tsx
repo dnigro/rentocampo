@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { notFound } from "next/navigation";
 import ConsultaButton from "@/components/campos/ConsultaButton";
 import GaleriaCarrusel from "@/components/campos/GaleriaCarrusel";
@@ -17,23 +18,34 @@ export default async function CampoFichaPage({
 }) {
   const { id } = await params;
   const supabase = await createClient();
+  const admin = createAdminClient();
 
-  const { data: campo } = await supabase
+  // La ficha es pública, pero solo expone campos publicados.
+  // La lectura administrativa evita que las políticas RLS privadas conviertan
+  // un campo activo en un 404 para visitantes no propietarios.
+  const { data: campo, error: campoError } = await admin
     .from("campos")
-    .select(
-      "*, propietario:profiles(id, nombre, apellido, avatar_url)",
-    )
+    .select("*")
     .eq("id", id)
     .eq("status", "activo")
-    .single();
+    .maybeSingle();
 
-  if (!campo) notFound();
+  if (campoError || !campo) notFound();
 
-  const { data: fotos } = await supabase
-    .from("campos_fotos")
-    .select("url, orden")
-    .eq("campo_id", id)
-    .order("orden");
+  const [{ data: fotos }, { data: propietario }] = await Promise.all([
+    admin
+      .from("campos_fotos")
+      .select("url, orden")
+      .eq("campo_id", id)
+      .order("orden"),
+    admin
+      .from("profiles")
+      .select("id, nombre, apellido, avatar_url")
+      .eq("id", campo.propietario_id)
+      .maybeSingle(),
+  ]);
+
+  const campoConPropietario = { ...campo, propietario };
 
   const {
     data: { user },
@@ -49,8 +61,8 @@ export default async function CampoFichaPage({
     otro: "Otro",
   };
 
-  const disponibilidad = campo.disponibilidad_desde
-    ? new Date(campo.disponibilidad_desde) <= new Date()
+  const disponibilidad = campoConPropietario.disponibilidad_desde
+    ? new Date(campoConPropietario.disponibilidad_desde) <= new Date()
       ? "Disponible ahora"
       : "Campaña próxima"
     : "A convenir";
@@ -59,24 +71,24 @@ export default async function CampoFichaPage({
     <div className="ficha-container">
       <VolverButton />
       {/* Galería de fotos */}
-      <GaleriaCarrusel fotos={fotosOrdenadas} titulo={campo.titulo} />
+      <GaleriaCarrusel fotos={fotosOrdenadas} titulo={campoConPropietario.titulo} />
 
       <div className="ficha-body">
         {/* Columna principal */}
         <div className="ficha-main">
           <div className="ficha-tags">
             <span className="aptitud-tag">
-              {APTITUD_LABEL[campo.aptitud] ?? campo.aptitud}
+              {APTITUD_LABEL[campoConPropietario.aptitud] ?? campoConPropietario.aptitud}
             </span>
-            {campo.mejoras === "Sí" && <span className="mejoras-tag">Con mejoras</span>}
+            {campoConPropietario.mejoras === "Sí" && <span className="mejoras-tag">Con mejoras</span>}
             <span className="disp-badge disp-a-convenir">{disponibilidad}</span>
           </div>
 
-          <h1 className="ficha-titulo">{campo.titulo}</h1>
+          <h1 className="ficha-titulo">{campoConPropietario.titulo}</h1>
 
           <p className="ficha-ubicacion">
             📍{" "}
-            {[campo.localidad, campo.departamento, campo.provincia]
+            {[campoConPropietario.localidad, campoConPropietario.departamento, campoConPropietario.provincia]
               .filter(Boolean)
               .join(", ")}
           </p>
@@ -85,21 +97,21 @@ export default async function CampoFichaPage({
           <div className="ficha-datos">
             <div className="dato-item">
               <span className="dato-valor">
-                {campo.hectareas.toLocaleString("es-AR")}
+                {campoConPropietario.hectareas.toLocaleString("es-AR")}
               </span>
               <span className="dato-label">Hectáreas</span>
             </div>
             <div className="dato-sep" />
             <div className="dato-item">
-              <span className="dato-valor">{APTITUD_LABEL[campo.aptitud]}</span>
+              <span className="dato-valor">{APTITUD_LABEL[campoConPropietario.aptitud]}</span>
               <span className="dato-label">Aptitud</span>
             </div>
-            {campo.rendimiento_estimado && (
+            {campoConPropietario.rendimiento_estimado && (
               <>
                 <div className="dato-sep" />
                 <div className="dato-item">
                   <span className="dato-valor">
-                    {campo.rendimiento_estimado} qq/ha
+                    {campoConPropietario.rendimiento_estimado} qq/ha
                   </span>
                   <span className="dato-label">Rend. estimado</span>
                 </div>
@@ -107,24 +119,24 @@ export default async function CampoFichaPage({
             )}
             <div className="dato-sep" />
             <div className="dato-item">
-              <span className="dato-valor">{campo.mejoras === "Sí" ? "Sí" : "No"}</span>
+              <span className="dato-valor">{campoConPropietario.mejoras === "Sí" ? "Sí" : "No"}</span>
               <span className="dato-label">Mejoras</span>
             </div>
           </div>
 
           {/* Descripción */}
-          {campo.descripcion && (
+          {campoConPropietario.descripcion && (
             <div className="ficha-seccion">
               <h2 className="ficha-seccion-titulo">Descripción</h2>
-              <p className="ficha-descripcion">{campo.descripcion}</p>
+              <p className="ficha-descripcion">{campoConPropietario.descripcion}</p>
             </div>
           )}
 
           {/* Ambiente */}
-          {campo.ambiente && (
+          {campoConPropietario.ambiente && (
             <div className="ficha-seccion">
               <h2 className="ficha-seccion-titulo">Ambiente y suelo</h2>
-              <p className="ficha-descripcion">{campo.ambiente}</p>
+              <p className="ficha-descripcion">{campoConPropietario.ambiente}</p>
             </div>
           )}
         </div>
@@ -132,15 +144,15 @@ export default async function CampoFichaPage({
         {/* Sidebar de contacto */}
         <aside className="ficha-sidebar">
           <div className="ficha-precio-card">
-            {campo.precio ? (
+            {campoConPropietario.precio ? (
               <div className="ficha-precio">
                 <span className="precio-valor">
-                  {campo.moneda} {Number(campo.precio).toLocaleString("es-AR")}
+                  {campoConPropietario.moneda} {Number(campoConPropietario.precio).toLocaleString("es-AR")}
                 </span>
                 <span className="precio-unit">total estimado</span>
                 <span className="precio-total">
-                  Total publicado: {campo.moneda}{" "}
-                  {Number(campo.precio).toLocaleString("es-AR")}
+                  Total publicado: {campoConPropietario.moneda}{" "}
+                  {Number(campoConPropietario.precio).toLocaleString("es-AR")}
                 </span>
               </div>
             ) : (
@@ -148,32 +160,32 @@ export default async function CampoFichaPage({
             )}
 
             <ConsultaButton
-              campoId={campo.id}
-              propietarioId={campo.propietario?.id}
+              campoId={campoConPropietario.id}
+              propietarioId={campoConPropietario.propietario?.id}
               userId={user?.id}
             />
-            <FavoritoBtn campoId={campo.id} userId={user?.id} />
+            <FavoritoBtn campoId={campoConPropietario.id} userId={user?.id} />
           </div>
 
           {/* Info propietario */}
-          {campo.propietario && (
+          {campoConPropietario.propietario && (
             <div className="ficha-propietario">
               <div className="propietario-avatar">
-                {campo.propietario.avatar_url ? (
+                {campoConPropietario.propietario.avatar_url ? (
                   <img
-                    src={campo.propietario.avatar_url}
-                    alt={campo.propietario.nombre}
+                    src={campoConPropietario.propietario.avatar_url}
+                    alt={campoConPropietario.propietario.nombre}
                   />
                 ) : (
-                  <span>{campo.propietario.nombre?.[0]?.toUpperCase()}</span>
+                  <span>{campoConPropietario.propietario.nombre?.[0]?.toUpperCase()}</span>
                 )}
               </div>
               <div className="propietario-info">
                 <span className="propietario-nombre">
-                  {campo.propietario.nombre}
+                  {campoConPropietario.propietario.nombre}
                 </span>
                 <span className="propietario-provincia">
-                  {campo.propietario.apellido ?? "Propietario RentoCampo"}
+                  {campoConPropietario.propietario.apellido ?? "Propietario RentoCampo"}
                 </span>
               </div>
             </div>
