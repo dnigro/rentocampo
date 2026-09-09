@@ -376,3 +376,12 @@
   cursor: not-allowed;
   transform: none;
 }
+
+/* Estado vacío centrado y consistente con el dashboard. */
+.mensajes-page-vacia{min-height:calc(100vh - 240px);display:flex;flex-direction:column}
+.mensajes-page-vacia .page-header{justify-content:center;text-align:center;margin-bottom:0}
+.mensajes-empty-state{flex:1;min-height:360px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:48px 24px;border:1px solid #e8e6e0;border-radius:22px;background:#fff;box-shadow:0 16px 42px rgba(26,58,26,.06)}
+.mensajes-empty-icon{width:58px;height:58px;display:grid;place-items:center;border-radius:18px;background:#edf5ed;color:#2d6a2d;font-size:26px;margin-bottom:18px}
+.mensajes-empty-state h2{margin:0 0 8px;color:#1a3a1a;font-size:21px;letter-spacing:-.02em}
+.mensajes-empty-state p{margin:0;max-width:340px;color:#788078;font-size:14px;line-height:1.55}
+@media(max-width:640px){.mensajes-page-vacia{min-height:calc(100vh - 190px)}.mensajes-empty-state{min-height:300px;padding:36px 20px}.mensajes-page-vacia .page-title{font-size:28px}}
