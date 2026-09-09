@@ -37,7 +37,7 @@ export async function POST(request: Request) {
   }
 
   const extension = file.name.split(".").pop()?.toLowerCase() || "jpg";
-  const path = `${campoId}/${crypto.randomUUID()}.${extension}`;
+  const path = `${campo.propietario_id}/${crypto.randomUUID()}.${extension}`;
   const admin = createAdminClient();
   const { error: uploadError } = await admin.storage
     .from("campos-fotos")
@@ -55,6 +55,7 @@ export async function POST(request: Request) {
     .insert({
       campo_id: campoId,
       propietario_id: campo.propietario_id,
+      storage_path: path,
       url: publicUrl,
       orden,
     });
