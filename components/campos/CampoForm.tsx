@@ -162,11 +162,11 @@ export default function CampoForm({
 
       const { data: profile, error: profileError } = await supabase
         .from("profiles")
-        .select("tipo")
+        .select("roles")
         .eq("id", user.id)
         .single();
       if (profileError) throw profileError;
-      if (!(profile?.tipo === "propietario")) {
+      if (!(profile?.roles?.includes("propietario"))) {
         throw new Error(
           "Solo los propietarios pueden publicar o administrar campos. Activá el rol Propietario desde tu perfil.",
         );

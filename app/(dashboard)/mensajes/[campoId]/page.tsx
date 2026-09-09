@@ -50,7 +50,7 @@ export default async function HiloCampoPage({
 
   const { data: otroUsuario } = await supabase
     .from("profiles")
-    .select("id, nombre, avatar_url, tipo")
+    .select("id, nombre, avatar_url")
     .eq("id", otroId ?? "")
     .single();
 

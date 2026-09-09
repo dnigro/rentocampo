@@ -18,10 +18,10 @@ export default async function EditarCampoPage({
 
   const { data: profile } = await supabase
     .from("profiles")
-    .select("tipo")
+    .select("roles")
     .eq("id", user.id)
     .single();
-  if (!(profile?.tipo === "propietario")) {
+  if (!(profile?.roles?.includes("propietario"))) {
     redirect("/perfil?activar=propietario");
   }
 
