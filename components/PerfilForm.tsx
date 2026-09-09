@@ -20,9 +20,7 @@ export default function PerfilForm({ profile, userId, email }: Props) {
     telefono: profile?.telefono ?? "",
     provincia: profile?.provincia ?? "",
     descripcion: profile?.descripcion ?? "",
-    roles: (profile?.roles?.length
-      ? profile.roles
-      : [profile?.tipo ?? "productor"]) as ("productor" | "propietario")[],
+    roles: [profile?.tipo ?? "productor"] as ("productor" | "propietario")[],
   });
 
   const [avatarUrl, setAvatarUrl] = useState(profile?.avatar_url ?? "");
@@ -107,7 +105,6 @@ export default function PerfilForm({ profile, userId, email }: Props) {
           provincia: form.provincia,
           descripcion: form.descripcion,
           avatar_url: newAvatarUrl || null,
-          roles: form.roles,
           tipo: form.roles.includes("propietario") ? "propietario" : "productor",
         })
         .eq("id", userId);
@@ -115,9 +112,14 @@ export default function PerfilForm({ profile, userId, email }: Props) {
       if (error) throw error;
       setSuccessMsg("Perfil actualizado correctamente.");
     } catch (err: unknown) {
-      setError(
-        err instanceof Error ? err.message : "Error al guardar el perfil.",
-      );
+      const message =
+        err instanceof Error
+          ? err.message
+          : typeof err === "object" && err && "message" in err &&
+              typeof err.message === "string"
+            ? err.message
+            : "Error al guardar el perfil.";
+      setError(message);
     } finally {
       setSaving(false);
     }
