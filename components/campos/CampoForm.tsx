@@ -122,6 +122,7 @@ export default function CampoForm({
 
       const body = new FormData();
       body.set("campoId", id);
+      body.set("orden", String(foto.orden));
       body.set("file", foto.file);
       const response = await fetch("/api/campos/fotos", { method: "POST", body });
       const result = await response.json();
@@ -186,24 +187,7 @@ export default function CampoForm({
       }
 
       if (id) {
-        const subidas = await uploadFotos(id);
-        const { error: deleteFotosError } = await supabase
-          .from("campos_fotos")
-          .delete()
-          .eq("campo_id", id);
-        if (deleteFotosError) throw deleteFotosError;
-        if (subidas.length) {
-          const { error: insertFotosError } = await supabase
-            .from("campos_fotos")
-            .insert(
-              subidas.map((f) => ({
-                campo_id: id,
-                url: f.url,
-                orden: f.orden,
-              })),
-            );
-          if (insertFotosError) throw insertFotosError;
-        }
+        await uploadFotos(id);
       }
 
       router.push("/mis-campos");

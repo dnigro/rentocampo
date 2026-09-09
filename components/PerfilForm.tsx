@@ -77,24 +77,16 @@ export default function PerfilForm({ profile, userId, email }: Props) {
     setSuccessMsg("");
 
     try {
-      let newAvatarUrl = avatarUrl;
-
-      // Subir avatar si cambió
+      // Subir avatar mediante la ruta autenticada y actualizar el perfil.
       if (avatarFile) {
-        const ext = avatarFile.name.split(".").pop();
-        const path = `${userId}/avatar.${ext}`;
-        const { error: uploadError } = await supabase.storage
-          .from("avatars")
-          .upload(path, avatarFile, { upsert: true });
-
-        if (uploadError) throw uploadError;
-
-        const {
-          data: { publicUrl },
-        } = supabase.storage.from("avatars").getPublicUrl(path);
-
-        newAvatarUrl = publicUrl;
-        setAvatarUrl(newAvatarUrl);
+        const body = new FormData();
+        body.set("file", avatarFile);
+        const response = await fetch("/api/profile/avatar", { method: "POST", body });
+        const result = await response.json();
+        if (!response.ok || !result.url) {
+          throw new Error(result.error ?? "No se pudo subir la foto de perfil");
+        }
+        setAvatarUrl(result.url);
       }
 
       const { error } = await supabase
@@ -103,7 +95,6 @@ export default function PerfilForm({ profile, userId, email }: Props) {
           nombre: form.nombre,
           telefono: form.telefono,
           bio: form.bio,
-          avatar_url: newAvatarUrl || null,
         })
         .eq("id", userId);
 
