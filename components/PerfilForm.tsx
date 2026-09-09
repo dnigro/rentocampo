@@ -108,6 +108,7 @@ export default function PerfilForm({ profile, userId, email }: Props) {
           descripcion: form.descripcion,
           avatar_url: newAvatarUrl || null,
           roles: form.roles,
+          tipo: form.roles.includes("propietario") ? "propietario" : "productor",
         })
         .eq("id", userId);
 
