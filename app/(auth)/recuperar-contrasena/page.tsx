@@ -23,9 +23,7 @@ export default function RecuperarPage() {
     });
 
     if (error) {
-      setError(
-        "No pudimos enviar el email. Verificá que la dirección sea correcta.",
-      );
+      setError(error.message);
       setLoading(false);
       return;
     }
