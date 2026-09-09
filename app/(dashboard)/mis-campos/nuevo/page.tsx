@@ -2,6 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import CampoForm from "@/components/campos/CampoForm";
 import "@/styles/campos.css";
+import "@/styles/campo-location-improvements.css";
 
 export default async function NuevoCampoPage() {
   const supabase = await createClient();

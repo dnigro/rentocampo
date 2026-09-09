@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { MAPBOX_TOKEN } from "@/lib/mapbox";
 import { PROVINCIAS_ARG } from "@/types";
 
 export interface LugarSeleccionado {
@@ -19,106 +18,46 @@ interface Props {
   valorInicial?: string;
 }
 
-interface Sugerencia {
-  id: string;
-  place_name: string;
-  center: [number, number];
-  context: { id: string; text: string }[];
-  text: string;
-}
-
-function normalizarProvincia(nombre: string): string {
-  // Limpiar prefijos comunes de Mapbox
-  const limpio = nombre
-    .replace(/^Provincia de /i, "")
-    .replace(/^Provincia del /i, "")
-    .replace(/^Ciudad Autónoma de Buenos Aires$/i, "CABA")
-    .trim();
-
-  const mapa: Record<string, string> = {
-    "Buenos Aires": "Buenos Aires",
-    CABA: "CABA",
-    Córdoba: "Córdoba",
-    "Santa Fe": "Santa Fe",
-    Mendoza: "Mendoza",
-    Tucumán: "Tucumán",
-    "Entre Ríos": "Entre Ríos",
-    Salta: "Salta",
-    Misiones: "Misiones",
-    Chaco: "Chaco",
-    Corrientes: "Corrientes",
-    "Santiago del Estero": "Santiago del Estero",
-    "San Juan": "San Juan",
-    Jujuy: "Jujuy",
-    "Río Negro": "Río Negro",
-    Neuquén: "Neuquén",
-    Formosa: "Formosa",
-    Chubut: "Chubut",
-    "San Luis": "San Luis",
-    Catamarca: "Catamarca",
-    "La Rioja": "La Rioja",
-    "La Pampa": "La Pampa",
-    "Santa Cruz": "Santa Cruz",
-    "Tierra del Fuego": "Tierra del Fuego",
+interface ResultadoOsm {
+  place_id: number;
+  display_name: string;
+  lat: string;
+  lon: string;
+  address?: {
+    city?: string;
+    town?: string;
+    village?: string;
+    municipality?: string;
+    county?: string;
+    state?: string;
+    province?: string;
   };
-
-  return mapa[limpio] ?? limpio;
 }
 
-function parsearResultado(feature: Sugerencia): LugarSeleccionado {
-  const [lng, lat] = feature.center;
-  const ctx = feature.context ?? [];
-
-  let localidad = "";
-  let departamento = "";
-  let provincia = "";
-
-  // El resultado principal puede ser una localidad, un departamento o una provincia.
-  const tipoResultado = feature.id?.split(".")?.[0];
-  if (tipoResultado === "place" || tipoResultado === "locality") {
-    localidad = feature.text;
-  } else if (tipoResultado === "district") {
-    departamento = feature.text;
-  } else if (tipoResultado === "region") {
-    provincia = normalizarProvincia(feature.text);
-  }
-
-  for (const item of ctx) {
-    const tipo = item.id?.split(".")?.[0];
-    if (!localidad && (tipo === "place" || tipo === "locality")) {
-      localidad = item.text;
-    } else if (tipo === "district") {
-      departamento = item.text;
-    } else if (tipo === "region") {
-      provincia = normalizarProvincia(item.text);
-    }
-  }
-
+function seleccionarResultado(resultado: ResultadoOsm): LugarSeleccionado {
+  const address = resultado.address ?? {};
   return {
-    lat,
-    lng,
-    lugar: feature.place_name,
-    localidad,
-    departamento: departamento || "", // dejar vacío, el usuario completa
-    provincia,
+    lat: Number(resultado.lat),
+    lng: Number(resultado.lon),
+    lugar: resultado.display_name,
+    localidad: address.city ?? address.town ?? address.village ?? address.municipality ?? "",
+    departamento: address.county ?? "",
+    provincia: address.state ?? address.province ?? "",
   };
 }
 
 export default function GeocoderInput({ onSelect, onChange, valorInicial }: Props) {
   const [query, setQuery] = useState(valorInicial ?? "");
-  const [sugerencias, setSugerencias] = useState<Sugerencia[]>([]);
+  const [resultados, setResultados] = useState<ResultadoOsm[]>([]);
   const [abierto, setAbierto] = useState(false);
   const [cargando, setCargando] = useState(false);
+  const [errorUbicacion, setErrorUbicacion] = useState("");
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
 
-  // Cerrar al hacer click afuera
   useEffect(() => {
     function handleClick(e: MouseEvent) {
-      if (
-        wrapperRef.current &&
-        !wrapperRef.current.contains(e.target as Node)
-      ) {
+      if (wrapperRef.current && !wrapperRef.current.contains(e.target as Node)) {
         setAbierto(false);
       }
     }
@@ -131,35 +70,32 @@ export default function GeocoderInput({ onSelect, onChange, valorInicial }: Prop
   );
 
   async function buscar(texto: string) {
-    if (texto.length < 3) {
-      setSugerencias([]);
+    if (texto.trim().length < 2) {
+      setResultados([]);
       return;
     }
+
     setCargando(true);
     try {
-      const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(texto)}.json?access_token=${MAPBOX_TOKEN}&country=ar&language=es&types=region,district,place,locality,neighborhood,address&limit=10`;
-      const res = await fetch(url);
-      const data = await res.json();
-      setSugerencias(data.features ?? []);
+      const response = await fetch(`/api/geocoding?q=${encodeURIComponent(texto)}`);
+      const data = await response.json();
+      setResultados(response.ok ? data.results ?? [] : []);
       setAbierto(true);
     } catch {
-      setSugerencias([]);
+      setResultados([]);
     } finally {
       setCargando(false);
     }
   }
 
   function handleInput(e: React.ChangeEvent<HTMLInputElement>) {
-    const val = e.target.value;
+    const value = e.target.value;
+    setQuery(value);
+    onChange?.(value);
+    setAbierto(true);
 
-    setQuery(val);
-    onChange?.(val);
-
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-    }
-
-    timeoutRef.current = setTimeout(() => buscar(val), 350);
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    timeoutRef.current = setTimeout(() => buscar(value), 350);
   }
 
   function handleSeleccionarProvincia(provincia: string) {
@@ -168,34 +104,77 @@ export default function GeocoderInput({ onSelect, onChange, valorInicial }: Prop
     buscar(provincia);
   }
 
-  function handleSeleccionar(sug: Sugerencia) {
-    const lugar = parsearResultado(sug);
-    setQuery(sug.place_name);
-    onChange?.(sug.place_name);
-    setSugerencias([]);
+  function handleSeleccionar(resultado: ResultadoOsm) {
+    const lugar = seleccionarResultado(resultado);
+    setQuery(lugar.lugar);
+    onChange?.(lugar.lugar);
+    setResultados([]);
     setAbierto(false);
     onSelect(lugar);
+  }
+
+  function usarUbicacionActual() {
+    if (!navigator.geolocation) {
+      setErrorUbicacion("Tu navegador no permite geolocalización.");
+      return;
+    }
+
+    setCargando(true);
+    setErrorUbicacion("");
+    navigator.geolocation.getCurrentPosition(
+      async ({ coords }) => {
+        try {
+          const response = await fetch(
+            `/api/geocoding?lat=${coords.latitude}&lon=${coords.longitude}`,
+          );
+          const data = await response.json();
+          const resultado = data.results?.[0] as ResultadoOsm | undefined;
+          const lugar = resultado
+            ? seleccionarResultado(resultado)
+            : {
+                lat: coords.latitude,
+                lng: coords.longitude,
+                lugar: `Ubicación precisa (${coords.latitude.toFixed(5)}, ${coords.longitude.toFixed(5)})`,
+              };
+          setQuery(lugar.lugar);
+          onChange?.(lugar.lugar);
+          onSelect(lugar);
+        } catch {
+          const lugar = {
+            lat: coords.latitude,
+            lng: coords.longitude,
+            lugar: `Ubicación precisa (${coords.latitude.toFixed(5)}, ${coords.longitude.toFixed(5)})`,
+          };
+          setQuery(lugar.lugar);
+          onChange?.(lugar.lugar);
+          onSelect(lugar);
+        } finally {
+          setCargando(false);
+        }
+      },
+      () => {
+        setErrorUbicacion("No pudimos obtener tu ubicación. Revisá los permisos del navegador.");
+        setCargando(false);
+      },
+      { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 },
+    );
   }
 
   function handleLimpiar() {
     setQuery("");
     onChange?.("");
-    setSugerencias([]);
+    setResultados([]);
     setAbierto(false);
-    onSelect({
-      lat: 0,
-      lng: 0,
-      lugar: "",
-      localidad: "",
-      departamento: "",
-      provincia: "",
-    });
+    setErrorUbicacion("");
+    onSelect({ lat: 0, lng: 0, lugar: "", localidad: "", departamento: "", provincia: "" });
   }
+
+  const mostrarListado = abierto && (resultados.length > 0 || provinciasVisibles.length > 0);
 
   return (
     <div ref={wrapperRef} className="geocoder-custom-wrapper">
       <div className="geocoder-input-row">
-        <span className="geocoder-icon">🔍</span>
+        <span className="geocoder-icon" aria-hidden="true">⌕</span>
         <input
           type="text"
           className="geocoder-input"
@@ -206,42 +185,27 @@ export default function GeocoderInput({ onSelect, onChange, valorInicial }: Prop
           autoComplete="off"
         />
         {cargando && <span className="geocoder-spinner">⟳</span>}
-        {query && !cargando && (
-          <button
-            type="button"
-            className="geocoder-clear"
-            onClick={handleLimpiar}
-          >
-            ×
-          </button>
-        )}
+        {query && !cargando && <button type="button" className="geocoder-clear" onClick={handleLimpiar} aria-label="Limpiar ubicación">×</button>}
       </div>
+      <button type="button" className="geocoder-precise" onClick={usarUbicacionActual} disabled={cargando}>
+        Usar mi ubicación precisa
+      </button>
+      {errorUbicacion && <span className="geocoder-error">{errorUbicacion}</span>}
 
-      {abierto && (sugerencias.length > 0 || provinciasVisibles.length > 0) && (
+      {mostrarListado && (
         <ul className="geocoder-dropdown">
-          {sugerencias.length > 0 ? (
-            sugerencias.map((sug) => (
-              <li
-                key={sug.id}
-                className="geocoder-option"
-                onMouseDown={() => handleSeleccionar(sug)}
-              >
-                <span className="geocoder-option-icon">📍</span>
-                <span className="geocoder-option-text">{sug.place_name}</span>
-              </li>
-            ))
-          ) : (
-            provinciasVisibles.map((provincia) => (
-              <li
-                key={provincia}
-                className="geocoder-option"
-                onMouseDown={() => handleSeleccionarProvincia(provincia)}
-              >
-                <span className="geocoder-option-icon">⌖</span>
-                <span className="geocoder-option-text">{provincia}, Argentina</span>
-              </li>
-            ))
-          )}
+          {resultados.map((resultado) => (
+            <li key={resultado.place_id} className="geocoder-option" onMouseDown={() => handleSeleccionar(resultado)}>
+              <span className="geocoder-option-icon" aria-hidden="true">⌖</span>
+              <span className="geocoder-option-text">{resultado.display_name}</span>
+            </li>
+          ))}
+          {!resultados.length && provinciasVisibles.map((provincia) => (
+            <li key={provincia} className="geocoder-option" onMouseDown={() => handleSeleccionarProvincia(provincia)}>
+              <span className="geocoder-option-icon" aria-hidden="true">⌖</span>
+              <span className="geocoder-option-text">{provincia}, Argentina</span>
+            </li>
+          ))}
         </ul>
       )}
     </div>
