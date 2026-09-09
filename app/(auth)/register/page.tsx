@@ -64,7 +64,7 @@ function RegisterForm() {
           ? "Ya existe una cuenta con ese email. Ingresá o usá otro email."
           : normalizedError.includes("password")
             ? "La contraseña no cumple los requisitos mínimos."
-            : "No pudimos crear la cuenta. Revisá los datos e intentá nuevamente.",
+            : `No pudimos crear la cuenta: ${error.message}`,
       );
       setLoading(false);
       return;
