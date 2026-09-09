@@ -2,6 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { redirect, notFound } from "next/navigation";
 import CampoForm from "@/components/campos/CampoForm";
 import "@/styles/campos.css";
+import "@/styles/campo-location-improvements.css";
 
 export default async function EditarCampoPage({
   params,
