@@ -22,9 +22,9 @@ export default function MisCamposLista({ campos }: Props) {
 
   async function toggleEstado(id: string, estadoActual: string) {
     const nuevoEstado = estadoActual === "activo" ? "pausado" : "activo";
-    await supabase.from("campos").update({ estado: nuevoEstado }).eq("id", id);
+    await supabase.from("campos").update({ status: nuevoEstado }).eq("id", id);
     setLista((prev) =>
-      prev.map((c) => (c.id === id ? { ...c, estado: nuevoEstado as any } : c)),
+      prev.map((c) => (c.id === id ? { ...c, status: nuevoEstado } : c)),
     );
   }
 
@@ -47,7 +47,7 @@ export default function MisCamposLista({ campos }: Props) {
     <div className="campos-grid">
       {lista.map((campo) => {
         const foto = campo.fotos?.sort((a, b) => a.orden - b.orden)[0];
-        const estado = ESTADO_LABEL[campo.estado] ?? ESTADO_LABEL.borrador;
+        const estado = ESTADO_LABEL[campo.status] ?? ESTADO_LABEL.borrador;
 
         return (
           <div key={campo.id} className="campo-card-admin">
@@ -93,12 +93,12 @@ export default function MisCamposLista({ campos }: Props) {
                 Editar
               </Link>
               <button
-                onClick={() => toggleEstado(campo.id, campo.estado)}
+                onClick={() => toggleEstado(campo.id, campo.status)}
                 className="btn-action"
               >
-                {campo.estado === "activo" ? "Pausar" : "Activar"}
+                {campo.status === "activo" ? "Pausar" : "Activar"}
               </button>
-              {campo.estado === "activo" && (
+              {campo.status === "activo" && (
                 <Link
                   href={`/campos/${campo.id}`}
                   className="btn-action"

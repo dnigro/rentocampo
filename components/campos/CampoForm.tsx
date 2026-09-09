@@ -174,13 +174,13 @@ export default function CampoForm({
       if (campoId) {
         const { error } = await supabase
           .from("campos")
-          .update({ ...form, estado })
+          .update({ ...form, status: estado })
           .eq("id", campoId);
         if (error) throw error;
       } else {
         const { data, error } = await supabase
           .from("campos")
-          .insert({ ...form, propietario_id: user.id, estado })
+          .insert({ ...form, propietario_id: user.id, status: estado })
           .select("id")
           .single();
         if (error) throw error;

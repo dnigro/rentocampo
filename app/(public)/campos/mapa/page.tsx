@@ -10,7 +10,7 @@ export default async function MapaPage() {
     .select(
       "id, titulo, provincia, localidad, lat, lng, hectareas, aptitud, precio_ha, moneda",
     )
-    .eq("estado", "activo")
+    .eq("status", "activo")
     .not("lat", "is", null)
     .not("lng", "is", null);
 
