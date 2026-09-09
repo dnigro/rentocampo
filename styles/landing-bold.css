@@ -206,3 +206,34 @@ body:has(.rc-landing) .footer::before{
  .rc-faq-grid{grid-template-columns:1fr;gap:25px}
  .rc-final>.rc-shell{display:block;min-height:0}
 }
+
+/* En móvil el hero apila contenido e imagen: evita que la imagen absoluta invada los CTA. */
+@media(max-width:760px){
+  .rc-hero{
+    display:grid;
+    grid-template-rows:auto 280px;
+    min-height:0;
+    align-items:initial;
+  }
+  .rc-hero-content{
+    grid-row:1;
+    padding:36px 0 24px;
+  }
+  .rc-hero-image{
+    position:relative!important;
+    grid-row:2;
+    top:auto!important;
+    bottom:auto!important;
+    width:100%!important;
+    height:100%!important;
+    clip-path:polygon(0 10%,100% 0,100% 100%,0 100%);
+  }
+  .rc-hero-shade{
+    grid-row:2;
+    position:relative;
+    inset:auto;
+    width:100%;
+    height:100%;
+    clip-path:polygon(0 10%,100% 0,100% 100%,0 100%);
+  }
+}
