@@ -47,7 +47,7 @@ export default function CampoForm({
     hectareas: 0,
     aptitud: "agricola",
     ambiente: "",
-    precio_ha: undefined,
+    precio: undefined,
     moneda: "USD",
     disponibilidad: "a_convenir",
     rendimiento_est: undefined,
@@ -424,7 +424,7 @@ export default function CampoForm({
 
         <div className="form-row">
           <div className="form-field form-field-price">
-            <label className="form-label">Precio por hectárea</label>
+            <label className="form-label">Precio total estimado</label>
             <div className="input-with-prefix">
               <select
                 name="moneda"
@@ -436,11 +436,11 @@ export default function CampoForm({
                 <option value="ARS">ARS</option>
               </select>
               <input
-                name="precio_ha"
+                name="precio"
                 type="number"
                 className="form-input input-after-prefix"
                 placeholder="Ej: 320"
-                value={form.precio_ha ?? ""}
+                value={form.precio ?? ""}
                 onChange={handleChange}
                 min={0}
               />
