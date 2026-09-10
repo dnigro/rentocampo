@@ -78,4 +78,41 @@
   .rc-hero-shade {
     height: 36% !important;
   }
+
+  /* La landing conserva márgenes y una escala legible en pantallas pequeñas. */
+  .rc-landing .rc-hero {
+    min-height: 0;
+  }
+
+  .rc-landing .rc-hero-content {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 34px 16px 225px;
+  }
+
+  .rc-landing .rc-hero-pretitle {
+    max-width: 270px;
+    font-size: 38px;
+    line-height: .94;
+  }
+
+  .rc-landing .rc-hero-primary {
+    margin-top: 14px;
+    font-size: clamp(58px, 17vw, 68px);
+    line-height: .84;
+  }
+
+  .rc-landing .rc-hero-copy {
+    max-width: 330px;
+    margin: 18px 0;
+  }
+
+  .rc-landing .rc-actions {
+    max-width: none;
+  }
+
+  .rc-landing .rc-hero-image,
+  .rc-landing .rc-hero-shade {
+    height: 190px !important;
+  }
 }
