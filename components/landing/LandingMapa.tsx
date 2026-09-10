@@ -19,7 +19,7 @@ export default function LandingMapa() {
             preload="metadata"
             aria-label="Vista aérea de campos agrícolas argentinos"
           >
-            <source src="/RentoCampo_video_real_dron_tractor_silos_mar_16x9.mp4.mp4" type="video/mp4" />
+            <source src="/RentoCampo_video_real_dron_tractor_silos_mar_16x9.mp4.mp4#t=2" type="video/mp4" />
           </video>
         </div>
       </div>
