@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { notificarMensaje } from "@/lib/notificar-mensaje";
 
 export async function POST(request: Request) {
   const supabase = await createClient();
@@ -19,20 +20,42 @@ export async function POST(request: Request) {
   }
 
   const admin = createAdminClient();
-  const { data: campo, error: campoError } = await admin.from("campos")
-    .select("id, propietario_id").eq("id", campoId).maybeSingle();
+  const { data: campo, error: campoError } = await admin
+    .from("campos")
+    .select("id, titulo, provincia, propietario_id")
+    .eq("id", campoId)
+    .maybeSingle();
   if (campoError || !campo) return NextResponse.json({ error: "Campo no encontrado" }, { status: 404 });
   if (campo.propietario_id !== user.id && campo.propietario_id !== destinatarioId) {
     return NextResponse.json({ error: "El destinatario no participa de esta conversación" }, { status: 403 });
   }
 
-  const { data, error } = await admin.from("mensajes").insert({
-    campo_id: campoId,
-    remitente_id: user.id,
-    destinatario_id: destinatarioId,
-    contenido,
-  }).select("id, contenido, created_at, leido, remitente_id").single();
+  const { data, error } = await admin
+    .from("mensajes")
+    .insert({
+      campo_id: campoId,
+      remitente_id: user.id,
+      destinatario_id: destinatarioId,
+      contenido,
+    })
+    .select("id, contenido, created_at, leido, remitente_id")
+    .single();
   if (error || !data) return NextResponse.json({ error: error?.message ?? "No se pudo guardar el mensaje" }, { status: 500 });
+
+  const [{ data: remitente }, { data: destinatario }] = await Promise.all([
+    admin.from("profiles").select("nombre").eq("id", user.id).maybeSingle(),
+    admin.from("profiles").select("nombre, email").eq("id", destinatarioId).maybeSingle(),
+  ]);
+
+  if (destinatarioId === campo.propietario_id && destinatario?.email) {
+    notificarMensaje({
+      campo,
+      contenido,
+      destinatario,
+      remitente: { nombre: remitente?.nombre ?? null },
+      origin: new URL(request.url).origin,
+    }).catch((cause) => console.error("Error enviando email:", cause));
+  }
 
   return NextResponse.json({ mensaje: data });
 }
