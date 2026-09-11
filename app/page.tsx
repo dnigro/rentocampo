@@ -6,6 +6,7 @@ import "@/styles/public.css";
 import "@/styles/landing-bold.css";
 import "@/styles/landing-marketplace.css";
 import "@/styles/landing-editorial-reference.css";
+import "@/styles/hero-refined.css";
 
 export const metadata: Metadata = {
   title: "RentoCampo | Publicá tu campo gratis",
