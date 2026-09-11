@@ -1,11 +1,11 @@
 /* Hero aprobado: bloque gris cálido y jerarquía editorial de alto impacto. */
 .rc-hero {
-  min-height: 570px;
+  min-height: 500px;
   background: #ebeae6;
 }
 
 .rc-hero-content {
-  padding: 50px 0;
+  padding: 40px 0;
 }
 
 .rc-hero-content > * {
