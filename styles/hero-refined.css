@@ -1,11 +1,27 @@
-/* Hero aprobado: bloque gris cálido y jerarquía editorial de alto impacto. */
+/* Hero panorámico: imagen a todo el ancho con una altura de escritorio contenida. */
 .rc-hero {
-  min-height: 500px;
-  background: #ebeae6;
+  min-height: 430px;
+  background: #073f30;
+}
+
+.rc-hero-image {
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  clip-path: none;
+  object-position: center 58%;
+}
+
+.rc-hero-shade {
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  clip-path: none;
+  background: linear-gradient(90deg, rgba(255, 255, 255, .96) 0%, rgba(255, 255, 255, .86) 36%, rgba(255, 255, 255, .18) 65%, rgba(6, 59, 42, .12) 100%);
 }
 
 .rc-hero-content {
-  padding: 40px 0;
+  padding: 34px 0;
 }
 
 .rc-hero-content > * {
