@@ -1,6 +1,6 @@
 /* Hero panorámico: imagen a todo el ancho con una altura de escritorio contenida. */
 .rc-hero {
-  height: 440px;
+  height: 480px;
   min-height: 0;
   background: #073f30;
 }
@@ -31,12 +31,12 @@
 
 .rc-hero .rc-hero-pretitle {
   max-width: 430px;
-  font-size: clamp(36px, 3.2vw, 48px);
+  font-size: clamp(42px, 3.8vw, 54px);
 }
 
 .rc-hero .rc-hero-primary {
   margin-top: 10px;
-  font-size: clamp(64px, 5.3vw, 82px);
+  font-size: clamp(76px, 6vw, 94px);
   line-height: .8;
 }
 
@@ -47,6 +47,16 @@
 
 .rc-hero .rc-proof {
   margin-top: 10px;
+}
+
+.rc-hero .rc-actions {
+  gap: 14px;
+}
+
+.rc-hero .rc-button {
+  min-height: 54px;
+  padding: 0 28px;
+  font-size: 15px;
 }
 
 .rc-hero-content > * {
@@ -143,6 +153,7 @@
 
   /* La landing conserva márgenes y una escala legible en pantallas pequeñas. */
   .rc-landing .rc-hero {
+    height: auto;
     min-height: 0;
   }
 
@@ -170,7 +181,15 @@
   }
 
   .rc-landing .rc-actions {
+    display: grid;
     max-width: none;
+    gap: 10px;
+  }
+
+  .rc-landing .rc-button {
+    width: 100%;
+    min-height: 52px;
+    font-size: 15px;
   }
 
   .rc-landing .rc-hero-image,
