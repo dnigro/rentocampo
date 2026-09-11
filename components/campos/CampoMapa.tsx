@@ -1,10 +1,8 @@
 "use client";
 
-import { useRef, useEffect, useState } from "react";
-import mapboxgl from "mapbox-gl";
+import { useEffect, useMemo, useRef, useState } from "react";
+import type { Map as LeafletMap } from "leaflet";
 import Link from "next/link";
-import { MAPBOX_TOKEN, MAP_DEFAULTS } from "@/lib/mapbox";
-import "mapbox-gl/dist/mapbox-gl.css";
 
 interface CampoPin {
   id: string;
@@ -25,138 +23,73 @@ interface Props {
 
 export default function CampoMapa({ campos }: Props) {
   const mapContainer = useRef<HTMLDivElement>(null);
-  const map = useRef<mapboxgl.Map | null>(null);
+  const map = useRef<LeafletMap | null>(null);
   const [selectedCampo, setSelectedCampo] = useState<CampoPin | null>(null);
-  const [mapError, setMapError] = useState(!MAPBOX_TOKEN);
+  const [mapError, setMapError] = useState(false);
+
+  const camposConCoordenadas = useMemo(
+    () =>
+      campos.filter(
+        (campo) =>
+          Number.isFinite(campo.latitud) &&
+          Number.isFinite(campo.longitud) &&
+          campo.latitud >= -90 &&
+          campo.latitud <= 90 &&
+          campo.longitud >= -180 &&
+          campo.longitud <= 180,
+      ),
+    [campos],
+  );
 
   useEffect(() => {
-    if (map.current || !mapContainer.current || !MAPBOX_TOKEN) return;
+    let cancelled = false;
 
-    try {
-      mapboxgl.accessToken = MAPBOX_TOKEN;
+    void import("leaflet")
+      .then((L) => {
+        if (cancelled || map.current || !mapContainer.current) return;
 
-      map.current = new mapboxgl.Map({
-        container: mapContainer.current,
-        style: MAP_DEFAULTS.style,
-        center: MAP_DEFAULTS.center,
-        zoom: MAP_DEFAULTS.zoom,
-      });
-    } catch {
-      queueMicrotask(() => setMapError(true));
-      return;
-    }
+        const leafletMap = L.map(mapContainer.current).setView([-34, -63.5], 4.5);
+        map.current = leafletMap;
 
-    map.current.on("error", () => setMapError(true));
+        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+          maxZoom: 19,
+          attribution:
+            '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        }).addTo(leafletMap);
+        L.control.zoom({ position: "topright" }).addTo(leafletMap);
 
-    map.current.addControl(new mapboxgl.NavigationControl(), "top-right");
-
-    map.current.on("load", () => {
-      if (!map.current) return;
-
-      map.current?.resize();
-
-      // Agregar fuente de datos
-      map.current.addSource("campos", {
-        type: "geojson",
-        data: {
-          type: "FeatureCollection",
-          features: campos.map((c) => ({
-            type: "Feature",
-            geometry: { type: "Point", coordinates: [c.longitud, c.latitud] },
-            properties: { ...c },
-          })),
-        },
-        cluster: true,
-        clusterMaxZoom: 10,
-        clusterRadius: 50,
-      });
-
-      // Clusters
-      map.current.addLayer({
-        id: "clusters",
-        type: "circle",
-        source: "campos",
-        filter: ["has", "point_count"],
-        paint: {
-          "circle-color": "#2d6a2d",
-          "circle-radius": ["step", ["get", "point_count"], 20, 5, 28, 20, 36],
-          "circle-opacity": 0.9,
-        },
-      });
-
-      map.current.addLayer({
-        id: "cluster-count",
-        type: "symbol",
-        source: "campos",
-        filter: ["has", "point_count"],
-        layout: {
-          "text-field": "{point_count_abbreviated}",
-          "text-size": 13,
-          "text-font": ["DIN Offc Pro Medium", "Arial Unicode MS Bold"],
-        },
-        paint: { "text-color": "#fff" },
-      });
-
-      // Pins individuales
-      map.current.addLayer({
-        id: "campos-pins",
-        type: "circle",
-        source: "campos",
-        filter: ["!", ["has", "point_count"]],
-        paint: {
-          "circle-color": "#2d6a2d",
-          "circle-radius": 10,
-          "circle-stroke-width": 2,
-          "circle-stroke-color": "#fff",
-        },
-      });
-
-      // Click en cluster → zoom
-      map.current.on("click", "clusters", (e) => {
-        const features = map.current!.queryRenderedFeatures(e.point, {
-          layers: ["clusters"],
+        const coordinates: [number, number][] = [];
+        camposConCoordenadas.forEach((campo) => {
+          const position: [number, number] = [campo.latitud, campo.longitud];
+          coordinates.push(position);
+          L.circleMarker(position, {
+            radius: 9,
+            color: "#ffffff",
+            weight: 2,
+            fillColor: "#2d6a2d",
+            fillOpacity: 1,
+          })
+            .addTo(leafletMap)
+            .on("click", () => setSelectedCampo(campo));
         });
-        const clusterId = features[0].properties?.cluster_id;
-        const source = map.current!.getSource(
-          "campos",
-        ) as mapboxgl.GeoJSONSource;
-        const geometry = features[0]?.geometry;
-        if (!geometry || geometry.type !== "Point") return;
-        source.getClusterExpansionZoom(clusterId, (err, zoom) => {
-          if (err || !map.current) return;
-          map.current.easeTo({
-            center: geometry.coordinates as [number, number],
-            zoom: zoom ?? 8,
+
+        if (coordinates.length > 0) {
+          leafletMap.fitBounds(L.latLngBounds(coordinates), {
+            padding: [48, 48],
+            maxZoom: 12,
           });
-        });
+        }
+      })
+      .catch(() => {
+        if (!cancelled) setMapError(true);
       });
-
-      // Click en pin individual → mostrar panel
-      map.current.on("click", "campos-pins", (e) => {
-        const props = e.features?.[0]?.properties;
-        if (props) setSelectedCampo(props as CampoPin);
-      });
-
-      // Cursores
-      map.current.on("mouseenter", "clusters", () => {
-        map.current!.getCanvas().style.cursor = "pointer";
-      });
-      map.current.on("mouseleave", "clusters", () => {
-        map.current!.getCanvas().style.cursor = "";
-      });
-      map.current.on("mouseenter", "campos-pins", () => {
-        map.current!.getCanvas().style.cursor = "pointer";
-      });
-      map.current.on("mouseleave", "campos-pins", () => {
-        map.current!.getCanvas().style.cursor = "";
-      });
-    });
 
     return () => {
+      cancelled = true;
       map.current?.remove();
       map.current = null;
     };
-  }, [campos]);
+  }, [camposConCoordenadas]);
 
   const APTITUD_LABEL: Record<string, string> = {
     agricola: "Agrícola",
@@ -180,8 +113,8 @@ export default function CampoMapa({ campos }: Props) {
           />
           <div className="mapa-fallback-aviso">
             <strong>Mapa de campos publicados</strong>
-            <span>Abrilo para explorar ubicaciones y detalles.</span>
-            <Link href="/campos/mapa">Abrir mapa interactivo →</Link>
+            <span>No se pudo cargar el mapa interactivo.</span>
+            <Link href="/campos">Ver campos disponibles →</Link>
           </div>
         </div>
       )}
@@ -191,15 +124,15 @@ export default function CampoMapa({ campos }: Props) {
           <button
             className="mapa-panel-close"
             onClick={() => setSelectedCampo(null)}
+            aria-label="Cerrar detalle del campo"
           >
             ×
           </button>
           <p className="mapa-panel-aptitud">
-            {APTITUD_LABEL[selectedCampo.aptitud]}
+            {APTITUD_LABEL[selectedCampo.aptitud] ?? selectedCampo.aptitud}
           </p>
           <h3 className="mapa-panel-titulo">{selectedCampo.titulo}</h3>
           <p className="mapa-panel-ubicacion">
-            📍{" "}
             {[selectedCampo.localidad, selectedCampo.provincia]
               .filter(Boolean)
               .join(", ")}
@@ -220,7 +153,7 @@ export default function CampoMapa({ campos }: Props) {
       )}
 
       <div className="mapa-contador">
-        {campos.length} campo{campos.length !== 1 ? "s" : ""} en el mapa
+        {camposConCoordenadas.length} campo{camposConCoordenadas.length !== 1 ? "s" : ""} en el mapa
       </div>
     </div>
   );
