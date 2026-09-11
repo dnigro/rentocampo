@@ -1,6 +1,7 @@
 /* Hero panorámico: imagen a todo el ancho con una altura de escritorio contenida. */
 .rc-hero {
-  min-height: 430px;
+  height: 440px;
+  min-height: 0;
   background: #073f30;
 }
 
@@ -21,7 +22,31 @@
 }
 
 .rc-hero-content {
-  padding: 34px 0;
+  padding: 24px 0;
+}
+
+.rc-hero .rc-kicker {
+  margin-bottom: 8px;
+}
+
+.rc-hero .rc-hero-pretitle {
+  max-width: 430px;
+  font-size: clamp(36px, 3.2vw, 48px);
+}
+
+.rc-hero .rc-hero-primary {
+  margin-top: 10px;
+  font-size: clamp(64px, 5.3vw, 82px);
+  line-height: .8;
+}
+
+.rc-hero .rc-hero-copy {
+  margin: 12px 0;
+  line-height: 1.35;
+}
+
+.rc-hero .rc-proof {
+  margin-top: 10px;
 }
 
 .rc-hero-content > * {
