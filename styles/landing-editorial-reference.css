@@ -2,13 +2,13 @@
 .rc-landing{--rc-yellow:#f5c400;--rc-ink:#063b2a;--rc-bone:#fff;background:#fff;color:#293c34;overflow:hidden}
 .rc-shell{width:min(1180px,calc(100% - 56px));margin:0 auto}
 .rc-kicker{margin:0 0 12px;color:#9a4c2b;font-size:11px;font-weight:900;letter-spacing:.22em;text-transform:uppercase}
-.rc-hero{position:relative;display:flex;align-items:center;min-height:530px;overflow:hidden;background:#fff;border-bottom:1px solid #dce4df}
-.rc-hero-image{position:absolute!important;inset:0 0 0 auto!important;width:55%!important;height:100%!important;object-fit:cover;object-position:center;clip-path:polygon(16% 0,100% 0,100% 100%,0 100%);filter:saturate(.92) contrast(1.04)}
-.rc-hero-shade{position:absolute;inset:0 0 0 auto;width:55%;height:100%;clip-path:polygon(16% 0,100% 0,100% 100%,0 100%);background:linear-gradient(90deg,rgba(6,59,42,.04),rgba(6,59,42,.16))}
-.rc-hero-content{position:relative;z-index:1;padding:58px 0;pointer-events:auto}
-.rc-hero h1{max-width:510px;margin:0;color:var(--rc-ink);font-size:clamp(58px,6.1vw,92px);line-height:.88}
+.rc-hero{position:relative;display:flex;align-items:center;min-height:500px;overflow:hidden;background:#fff;border-bottom:1px solid #dce4df}
+.rc-hero-image{position:absolute!important;inset:0 0 0 auto!important;width:46%!important;height:100%!important;object-fit:cover;object-position:60% center;clip-path:polygon(20% 0,100% 0,100% 100%,0 100%);filter:saturate(.92) contrast(1.04)}
+.rc-hero-shade{position:absolute;inset:0 0 0 auto;width:46%;height:100%;clip-path:polygon(20% 0,100% 0,100% 100%,0 100%);background:linear-gradient(90deg,rgba(6,59,42,.04),rgba(6,59,42,.16))}
+.rc-hero-content{position:relative;z-index:1;padding:52px 0;pointer-events:auto}
+.rc-hero h1{max-width:470px;margin:0;color:var(--rc-ink);font-size:clamp(52px,5.4vw,78px);line-height:.9;letter-spacing:-.035em}
 .rc-hero h1 em{color:var(--rc-yellow)}
-.rc-hero-copy{max-width:430px;margin:18px 0;color:#3c4c46;font-size:18px;line-height:1.4}
+.rc-hero-copy{max-width:390px;margin:16px 0;color:#3c4c46;font-size:17px;line-height:1.45}
 .rc-hero .buscador-hero{display:none}
 .rc-actions{display:flex;flex-wrap:wrap;gap:12px}
 .rc-button{gap:14px;min-height:46px;padding:0 23px;border:1px solid var(--rc-ink);border-radius:11px;font-size:13px;font-weight:900;letter-spacing:0;text-transform:none;transition:transform .15s ease,box-shadow .15s ease}
