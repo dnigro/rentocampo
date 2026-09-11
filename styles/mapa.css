@@ -12,6 +12,13 @@
   overflow: hidden;
 }
 
+/* Leaflet crea controles y paneles con z-index superiores al contenido de la página. */
+.mapa-wrapper .leaflet-pane,
+.mapa-wrapper .leaflet-top,
+.mapa-wrapper .leaflet-bottom {
+  z-index: 1;
+}
+
 .mapa-canvas {
   width: 100% !important;
   height: 100% !important;
