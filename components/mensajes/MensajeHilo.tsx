@@ -111,11 +111,6 @@ export default function MensajeHilo({
 
       const mensaje: Mensaje = { ...result.mensaje, remitente: null };
       setMensajes((prev) => prev.some((item) => item.id === mensaje.id) ? prev : [...prev, mensaje]);
-      fetch("/api/notificar-mensaje", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ mensajeId: mensaje.id }),
-      }).catch(console.error);
     } catch (cause) {
       console.error("Error enviando mensaje:", cause);
       setTexto(contenido);

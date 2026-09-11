@@ -48,17 +48,21 @@ export default function ConsultaButton({
       return;
     }
 
-    // Crear primer mensaje
-    const { error } = await supabase.from("mensajes").insert({
-      campo_id: campoId,
-      remitente_id: userId,
-      destinatario_id: propietarioId,
-      contenido: "Hola, me interesa este campo. ¿Podemos hablar?",
+    // Crear el primer mensaje mediante la API para disparar la notificación por email.
+    const response = await fetch("/api/mensajes", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        campoId,
+        destinatarioId: propietarioId,
+        contenido: "Hola, me interesa este campo. ¿Podemos hablar?",
+      }),
     });
+    const result = await response.json();
 
-    if (error) {
-      console.error("Error creando consulta:", error);
-      setError("No pudimos enviar la consulta. Intentá nuevamente.");
+    if (!response.ok || !result.mensaje) {
+      console.error("Error creando consulta:", result.error);
+      setError(result.error ?? "No pudimos enviar la consulta. Intentá nuevamente.");
       setLoading(false);
       return;
     }
