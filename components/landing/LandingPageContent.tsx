@@ -1,5 +1,4 @@
 import LandingHero from "@/components/landing/LandingHero";
-import LandingActividad from "@/components/landing/LandingActividad";
 import LandingComo from "@/components/landing/LandingComo";
 import LandingMapa from "@/components/landing/LandingMapa";
 import LandingFAQ from "@/components/landing/LandingFAQ";
@@ -9,7 +8,6 @@ export default function LandingPageContent() {
   return (
     <main className="rc-landing">
       <LandingHero />
-      <LandingActividad />
       <LandingComo />
       <LandingMapa />
       <LandingFAQ />
