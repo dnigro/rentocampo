@@ -18,7 +18,7 @@
   width: 100%;
   height: 100%;
   clip-path: none;
-  background: linear-gradient(90deg, rgba(255, 255, 255, .96) 0%, rgba(255, 255, 255, .86) 36%, rgba(255, 255, 255, .18) 65%, rgba(6, 59, 42, .12) 100%);
+  background: linear-gradient(90deg, rgba(6, 59, 42, .78) 0%, rgba(6, 59, 42, .54) 38%, rgba(6, 59, 42, .16) 64%, rgba(6, 59, 42, .08) 100%);
 }
 
 .rc-hero-content {
@@ -57,7 +57,25 @@
 .rc-hero h1 {
   max-width: 545px;
   margin: 0;
+  color: #fff;
+}
+
+.rc-hero .rc-kicker,
+.rc-hero .rc-hero-copy,
+.rc-hero .rc-proof {
+  color: rgba(255, 255, 255, .9);
+}
+
+.rc-hero .rc-button-yellow {
+  background: #f5bd00;
+  border-color: #f5bd00;
   color: #073f30;
+}
+
+.rc-hero .rc-button-light {
+  border-color: rgba(255, 255, 255, .7);
+  background: rgba(255, 255, 255, .12);
+  color: #fff;
 }
 
 .rc-hero-pretitle,
