@@ -87,6 +87,6 @@ body:has(.rc-landing) .navbar .btn-primary { background: transparent !important;
   .rc-hero-media { height: clamp(300px, 68vw, 360px); }
   .rc-hero-image { object-position: 65% center; }
   .rc-hero-index, .rc-hero-territory { display: none; }
-  body:has(.rc-landing) .navbar { height: 60px !important; }
+  body:has(.rc-landing) .navbar { height: 60px !important; z-index: 1000; }
   body:has(.rc-landing) .navbar-inner { padding: 0 20px; }
 }
