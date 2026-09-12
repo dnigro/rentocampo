@@ -116,3 +116,54 @@
   .rc-actions { display: grid; max-width: 340px; gap: 9px; }
   .rc-hero .rc-button { width: 100%; min-height: 50px; }
 }
+
+/* Header superpuesto para la landing: navegación mínima sobre la fotografía. */
+body:has(.rc-landing) .navbar {
+  position: absolute;
+  z-index: 10;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 82px !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+body:has(.rc-landing) .navbar-inner {
+  max-width: none !important;
+  padding: 0 50px;
+}
+
+body:has(.rc-landing) .brand-wordmark-rento,
+body:has(.rc-landing) .brand-wordmark-campo,
+body:has(.rc-landing) .brand-wordmark-text,
+body:has(.rc-landing) .nav-link,
+body:has(.rc-landing) .btn-ghost,
+body:has(.rc-landing) .navbar-mensajes,
+body:has(.rc-landing) .hamburguesa {
+  color: #fff !important;
+}
+
+body:has(.rc-landing) .nav-link:hover,
+body:has(.rc-landing) .btn-ghost:hover,
+body:has(.rc-landing) .navbar-mensajes:hover {
+  background: rgba(255, 255, 255, .12) !important;
+  color: #fff !important;
+}
+
+body:has(.rc-landing) .navbar .btn-primary {
+  background: #fff !important;
+  color: #080808 !important;
+  border-radius: 0 !important;
+}
+
+body:has(.rc-landing) .rc-hero-content {
+  padding-top: 126px;
+}
+
+@media (max-width: 760px) {
+  body:has(.rc-landing) .navbar { height: 68px !important; }
+  body:has(.rc-landing) .navbar-inner { padding: 0 16px; }
+  body:has(.rc-landing) .rc-hero-content { padding-top: 106px; }
+}
