@@ -1,0 +1,243 @@
+.editorialHero {
+  --hero-green: #003f2e;
+  display: grid;
+  grid-template-columns: minmax(0, 52fr) minmax(0, 48fr);
+  height: clamp(520px, 68vh, 680px);
+  min-height: 0;
+  overflow: hidden;
+  background: #fff;
+  border-bottom: 1px solid #e7e7e2;
+}
+
+.editorialHero__content {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  padding: clamp(32px, 4vw, 60px) clamp(28px, 4.2vw, 72px) clamp(28px, 3vw, 46px);
+}
+
+.editorialHero__eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  color: #101313;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+.editorialHero__eyebrow strong {
+  font-size: 20px;
+  letter-spacing: 0;
+}
+
+.editorialHero__message {
+  margin: auto 0;
+  max-width: 780px;
+}
+
+.editorialHero h1 {
+  display: flex;
+  margin: 0;
+  flex-direction: column;
+  color: var(--hero-green);
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(58px, 5.2vw, 92px);
+  font-weight: 400;
+  line-height: .92;
+  letter-spacing: -.025em;
+  text-transform: uppercase;
+}
+
+.editorialHero h1 span {
+  display: block;
+  white-space: nowrap;
+}
+
+.editorialHero__message > p {
+  max-width: 620px;
+  margin: clamp(22px, 2.5vh, 32px) 0 0;
+  color: #212827;
+  font-size: clamp(18px, 1.45vw, 24px);
+  line-height: 1.45;
+}
+
+.editorialHero__actions {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  margin-top: clamp(22px, 3vh, 34px);
+}
+
+.editorialHero__primary,
+.editorialHero__secondary {
+  display: inline-flex;
+  min-height: 56px;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  padding: 0 28px;
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: transform .2s ease, background-color .2s ease, color .2s ease;
+}
+
+.editorialHero__primary {
+  color: #fff;
+  background: var(--hero-green);
+}
+
+.editorialHero__secondary {
+  min-height: auto;
+  padding: 10px 0 7px;
+  color: var(--hero-green);
+  border-bottom: 1px solid currentColor;
+}
+
+.editorialHero__primary:hover,
+.editorialHero__secondary:hover {
+  transform: translateY(-2px);
+}
+
+.editorialHero__proof {
+  margin: 0;
+  color: #42514e;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+.editorialHero__visual {
+  position: relative;
+  min-width: 0;
+  overflow: hidden;
+  background: #252725;
+}
+
+.editorialHero__image {
+  object-fit: cover;
+  object-position: 66% center;
+  filter: grayscale(1) contrast(1.08);
+}
+
+.editorialHero__territory,
+.editorialHero__signature {
+  position: absolute;
+  z-index: 1;
+  margin: 0;
+  color: #111;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+}
+
+.editorialHero__territory {
+  top: 34px;
+  right: 34px;
+  max-width: 220px;
+  text-align: right;
+}
+
+.editorialHero__signature {
+  right: 34px;
+  bottom: 30px;
+  color: #fff;
+}
+
+@media (max-width: 1100px) {
+  .editorialHero {
+    grid-template-columns: 56fr 44fr;
+  }
+
+  .editorialHero h1 {
+    font-size: clamp(52px, 5.8vw, 72px);
+  }
+}
+
+@media (max-width: 900px) {
+  .editorialHero {
+    display: flex;
+    height: auto;
+    flex-direction: column;
+  }
+
+  .editorialHero__content {
+    min-height: auto;
+    padding: 28px 22px 30px;
+  }
+
+  .editorialHero__eyebrow {
+    margin-bottom: 42px;
+  }
+
+  .editorialHero h1 {
+    font-size: clamp(48px, 13vw, 72px);
+  }
+
+  .editorialHero h1 span {
+    white-space: normal;
+  }
+
+  .editorialHero h1 span:last-child {
+    white-space: nowrap;
+  }
+
+  .editorialHero__message > p {
+    font-size: 18px;
+  }
+
+  .editorialHero__proof {
+    margin-top: 32px;
+    line-height: 1.5;
+  }
+
+  .editorialHero__visual {
+    height: clamp(300px, 52vw, 380px);
+  }
+
+  .editorialHero__image {
+    object-position: 68% center;
+  }
+}
+
+@media (max-width: 560px) {
+  .editorialHero__eyebrow span,
+  .editorialHero__territory {
+    display: none;
+  }
+
+  .editorialHero__eyebrow {
+    margin-bottom: 28px;
+  }
+
+  .editorialHero h1 {
+    font-size: clamp(45px, 14vw, 64px);
+    line-height: .94;
+  }
+
+  .editorialHero__actions {
+    display: grid;
+    gap: 14px;
+  }
+
+  .editorialHero__primary,
+  .editorialHero__secondary {
+    width: 100%;
+  }
+
+  .editorialHero__secondary {
+    min-height: 50px;
+    padding: 0 16px;
+    border: 1px solid var(--hero-green);
+  }
+
+  .editorialHero__signature {
+    right: 20px;
+    bottom: 18px;
+  }
+}
