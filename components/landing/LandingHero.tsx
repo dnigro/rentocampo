@@ -5,41 +5,43 @@ import heroCampo from "@/public/rentocampo-hero-campo-bn-1920x1080.webp";
 export default function LandingHero() {
   return (
     <section className="rc-hero" id="hero">
-      <Image
-        src={heroCampo}
-        alt="Campo argentino con molino"
-        fill
-        priority
-        placeholder="blur"
-        sizes="100vw"
-        className="rc-hero-image"
-      />
-      <div className="rc-hero-shade" />
-      <div className="rc-hero-index" aria-hidden="true">
-        <strong>01</strong>
-        <span>MÁS CAMPO<br />PARA UN<br />GRAN PAÍS</span>
-      </div>
-      <div className="rc-hero-territory" aria-hidden="true">
-        ARGENTINA<br />TIERRA DE<br />OPORTUNIDADES
-      </div>
-      <div className="rc-shell rc-hero-content">
-        <div className="rc-hero-main">
-          <h1>Tu campo tiene<br />potencial. Hacelo visible.</h1>
+      <div className="rc-hero-copy-column">
+        <div className="rc-hero-index" aria-hidden="true">
+          <strong>01</strong>
+          <span>MÁS CAMPO<br />PARA UN<br />GRAN PAÍS</span>
+        </div>
+        <div className="rc-hero-content">
+          <h1>
+            TU CAMPO TIENE<br />
+            POTENCIAL.<br />
+            <span>HACELO VISIBLE.</span>
+          </h1>
           <p className="rc-hero-copy">
-            Conectamos propietarios con productores<br className="rc-desktop-break" /> que buscan la tierra indicada para crecer.
+            Conectamos propietarios con productores que buscan la tierra indicada para crecer.
           </p>
           <div className="rc-actions">
-            <Link href="/register?tipo=propietario" className="rc-button rc-button-yellow">
-              Publicá tu campo <span aria-hidden="true">→</span>
+            <Link href="/register?tipo=propietario" className="rc-button rc-button-primary">
+              PUBLICÁ TU CAMPO
             </Link>
-            <Link href="/campos" className="rc-button rc-button-light">
-              Explorar campos
+            <Link href="/campos" className="rc-button rc-button-secondary">
+              EXPLORAR CAMPOS <span aria-hidden="true">→</span>
             </Link>
           </div>
-        </div>
-        <div className="rc-hero-bottom">
           <p className="rc-proof">Publicar es gratis · Contacto directo · Alcance nacional</p>
-          <p className="rc-hero-sign">EL CAMPO<br />NOS UNE</p>
+        </div>
+      </div>
+      <div className="rc-hero-media">
+        <Image
+          src={heroCampo}
+          alt="Campo argentino con ganado, molino y bebedero"
+          fill
+          priority
+          placeholder="blur"
+          sizes="(max-width: 760px) 100vw, 48vw"
+          className="rc-hero-image"
+        />
+        <div className="rc-hero-territory" aria-hidden="true">
+          ARGENTINA<br />TIERRA DE<br />OPORTUNIDADES
         </div>
       </div>
     </section>
