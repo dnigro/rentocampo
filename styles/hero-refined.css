@@ -1,6 +1,6 @@
-/* Hero panorámico: imagen a todo el ancho con una altura de escritorio contenida. */
+/* Hero panorámico: el titular toma el protagonismo del espacio disponible. */
 .rc-hero {
-  height: 480px;
+  height: 620px;
   min-height: 0;
   background: #073f30;
 }
@@ -30,14 +30,14 @@
 }
 
 .rc-hero .rc-hero-pretitle {
-  max-width: 430px;
-  font-size: clamp(42px, 3.8vw, 54px);
+  max-width: 610px;
+  font-size: clamp(52px, 5vw, 76px);
 }
 
 .rc-hero .rc-hero-primary {
-  margin-top: 10px;
-  font-size: clamp(76px, 6vw, 94px);
-  line-height: .8;
+  margin-top: 14px;
+  font-size: clamp(100px, 9vw, 142px);
+  line-height: .76;
 }
 
 .rc-hero .rc-hero-copy {
@@ -65,7 +65,7 @@
 }
 
 .rc-hero h1 {
-  max-width: 545px;
+  max-width: 660px;
   margin: 0;
   color: #073f30;
 }
