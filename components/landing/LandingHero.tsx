@@ -1,13 +1,9 @@
 import Link from "next/link";
-import Image from "next/image";
-import heroCampo from "@/public/hero-campo.jpeg";
 import BuscadorHero from "@/components/BuscadorHero";
 
 export default function LandingHero() {
   return (
     <section className="rc-hero" id="hero">
-      <Image src={heroCampo} alt="Campo argentino productivo" fill priority placeholder="blur" sizes="100vw" className="rc-hero-image" />
-      <div className="rc-hero-shade" />
       <div className="rc-shell rc-hero-content">
         <p className="rc-kicker">Tierras que producen futuro</p>
         <h1>
