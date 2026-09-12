@@ -1,7 +1,6 @@
 import { Bebas_Neue, DM_Sans } from "next/font/google";
 import "./globals.css";
 import "@/styles/site-theme.css";
-import "@/styles/hero-refined.css";
 
 const dmSans = DM_Sans({
   subsets: ["latin"],
@@ -9,7 +8,11 @@ const dmSans = DM_Sans({
   variable: "--font-dm-sans",
 });
 
-const bebasNeue = Bebas_Neue({ subsets: ["latin"], weight: "400", variable: "--font-display" });
+const bebasNeue = Bebas_Neue({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-display",
+});
 
 export default function RootLayout({
   children,
