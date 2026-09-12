@@ -125,28 +125,24 @@ export default function Navbar() {
 
           {/* Links desktop */}
           <nav className="navbar-links">
-            {pathname === "/" && (
-              <Link href="/#como-funciona" className="nav-link">
-                Cómo funciona
-              </Link>
-            )}
-            <Link href="/campos/mapa" className="nav-link">
-              Mapa
-            </Link>
-            {pathname === "/" && (
+            {pathname === "/" ? (
               <>
-                <Link href="/#visibilidad" className="nav-link">
-                  Nosotros
+                <Link href="/campos" className="nav-link">
+                  Campos
                 </Link>
-                <Link href="/#preguntas" className="nav-link">
-                  Preguntas frecuentes
+                <Link href="/#como-funciona" className="nav-link">
+                  Cómo funciona
                 </Link>
               </>
-            )}
-            {pathname !== "/" && (
-              <Link href="/campos" className="nav-link">
-                Buscar campos
-              </Link>
+            ) : (
+              <>
+                <Link href="/campos/mapa" className="nav-link">
+                  Mapa
+                </Link>
+                <Link href="/campos" className="nav-link">
+                  Buscar campos
+                </Link>
+              </>
             )}
           </nav>
 
