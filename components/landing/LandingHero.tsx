@@ -17,20 +17,20 @@ export default function LandingHero() {
       <div className="rc-hero-shade" />
       <div className="rc-hero-index" aria-hidden="true">
         <strong>01</strong>
-        <span>MÁS CAMPO PARA UN GRAN PAÍS</span>
+        <span>MÁS CAMPO<br />PARA UN<br />GRAN PAÍS</span>
       </div>
       <div className="rc-hero-territory" aria-hidden="true">
-        ARGENTINA / TIERRA DE OPORTUNIDADES
+        ARGENTINA<br />TIERRA DE<br />OPORTUNIDADES
       </div>
       <div className="rc-shell rc-hero-content">
         <div className="rc-hero-main">
-          <h1>Tu campo tiene potencial. Hacelo visible.</h1>
+          <h1>Tu campo tiene<br />potencial. Hacelo visible.</h1>
           <p className="rc-hero-copy">
-            Conectamos propietarios con productores que buscan la tierra indicada para crecer.
+            Conectamos propietarios con productores<br className="rc-desktop-break" /> que buscan la tierra indicada para crecer.
           </p>
           <div className="rc-actions">
             <Link href="/register?tipo=propietario" className="rc-button rc-button-yellow">
-              Publicá tu campo
+              Publicá tu campo <span aria-hidden="true">→</span>
             </Link>
             <Link href="/campos" className="rc-button rc-button-light">
               Explorar campos
@@ -39,7 +39,7 @@ export default function LandingHero() {
         </div>
         <div className="rc-hero-bottom">
           <p className="rc-proof">Publicar es gratis · Contacto directo · Alcance nacional</p>
-          <p className="rc-hero-sign">EL CAMPO NOS UNE</p>
+          <p className="rc-hero-sign">EL CAMPO<br />NOS UNE</p>
         </div>
       </div>
     </section>
