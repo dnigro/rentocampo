@@ -4,13 +4,13 @@
   isolation: isolate;
   min-height: 720px;
   overflow: hidden;
-  background: #07120e;
+  background: #080808;
 }
 
 .rc-hero-image {
   object-fit: cover;
   object-position: center;
-  filter: grayscale(1) contrast(1.18) brightness(.72);
+  filter: grayscale(1) contrast(1.32) brightness(.64);
   transform: scale(1.015);
 }
 
@@ -18,7 +18,7 @@
   position: absolute;
   z-index: 0;
   inset: 0;
-  background: linear-gradient(90deg, rgba(5, 18, 13, .94) 0%, rgba(5, 18, 13, .79) 41%, rgba(5, 18, 13, .24) 72%, rgba(5, 18, 13, .36) 100%);
+  background: linear-gradient(90deg, rgba(0, 0, 0, .92) 0%, rgba(0, 0, 0, .73) 41%, rgba(0, 0, 0, .18) 72%, rgba(0, 0, 0, .32) 100%);
 }
 
 .rc-hero-content {
@@ -37,7 +37,7 @@
 
 .rc-hero .rc-kicker {
   margin: 0 0 22px;
-  color: #f5c400;
+  color: #fff;
   font-size: 12px;
   font-weight: 900;
   letter-spacing: .24em;
@@ -66,7 +66,7 @@
 }
 
 .rc-hero-primary em {
-  color: #f5c400;
+  color: #fff;
   font-style: normal;
 }
 
@@ -92,7 +92,7 @@
   font-weight: 900;
 }
 
-.rc-hero .rc-button-yellow { background: #f5c400; border-color: #f5c400; color: #07120e; }
+.rc-hero .rc-button-yellow { background: #fff; border-color: #fff; color: #080808; }
 .rc-hero .rc-button-light { background: transparent; color: #fff; }
 .rc-hero .rc-button:hover { transform: translateY(-3px); box-shadow: 0 10px 22px rgba(0, 0, 0, .28); }
 
@@ -107,7 +107,7 @@
 @media (max-width: 760px) {
   .rc-hero { min-height: 760px; }
   .rc-hero-image { object-position: 59% center; }
-  .rc-hero-shade { background: linear-gradient(180deg, rgba(5, 18, 13, .88) 0%, rgba(5, 18, 13, .68) 57%, rgba(5, 18, 13, .38) 100%); }
+  .rc-hero-shade { background: linear-gradient(180deg, rgba(0, 0, 0, .88) 0%, rgba(0, 0, 0, .68) 57%, rgba(0, 0, 0, .38) 100%); }
   .rc-hero-content { min-height: 760px; padding: 36px 0 30px; }
   .rc-hero .rc-kicker { margin-bottom: 16px; font-size: 10px; }
   .rc-hero-pretitle { max-width: 330px; font-size: clamp(43px, 12vw, 58px); }

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import heroCampo from "@/public/landing-campo-rentocampo.jpg";
+import heroCampo from "@/public/hero-campo.jpeg";
 import BuscadorHero from "@/components/BuscadorHero";
 
 export default function LandingHero() {
