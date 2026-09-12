@@ -4,6 +4,7 @@
 .rc-hero-shade { position:absolute; z-index:0; inset:0; background:linear-gradient(180deg,rgba(255,255,255,.72) 0 25%,rgba(0,0,0,.08) 34%,rgba(0,0,0,.52) 100%); }
 .rc-hero-content { position:relative; z-index:1; box-sizing:border-box; min-height:880px; padding:318px 0 48px; display:flex; flex-direction:column; justify-content:space-between; color:#fff; }
 .rc-hero h1 { margin:0; max-width:1160px; color:#fff; font-family:var(--font-display),sans-serif; font-size:clamp(70px,7.4vw,122px); font-weight:800; line-height:.87; letter-spacing:-.055em; text-transform:none; }
+.rc-hero h1 span { color:#f5bd00; font-size:1.08em; white-space:nowrap; }
 .rc-hero-footer { max-width:690px; }
 .rc-hero-copy { max-width:650px; margin:0 0 22px; color:#fff; font-size:clamp(20px,1.8vw,29px); line-height:1.2; }
 .rc-hero .buscador-hero { display:none; }

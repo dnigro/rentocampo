@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import heroCampo from "@/public/hero-campo.jpeg";
+import heroCampo from "@/public/rentocampo-hero-campo-bn-1920x1080.webp";
 import BuscadorHero from "@/components/BuscadorHero";
 
 export default function LandingHero() {
@@ -12,7 +12,7 @@ export default function LandingHero() {
       <div className="rc-hero-territory" aria-hidden="true">Argentina<br />tierra de<br />oportunidades</div>
       <div className="rc-shell rc-hero-content">
         <div className="rc-hero-heading">
-          <h1>Tu campo tiene<br />potencial. Hacelo visible.</h1>
+          <h1>Tu campo tiene<br />potencial. <span>Hacelo visible.</span></h1>
         </div>
         <div className="rc-hero-footer">
           <p className="rc-hero-copy">Conectamos propietarios con productores que buscan la tierra indicada para crecer.</p>
