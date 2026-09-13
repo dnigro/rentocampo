@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { redirect } from "next/navigation";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import LandingPageContent from "@/components/landing/LandingPageContent";
@@ -24,7 +25,22 @@ export const metadata: Metadata = {
   },
 };
 
-export default function LandingPage() {
+export default async function LandingPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ code?: string }>;
+}) {
+  const { code } = await searchParams;
+
+  // Supabase may fall back to its configured Site URL when the requested
+  // redirect URL is not allow-listed. Preserve the recovery code and continue
+  // through the callback so the user can still set a new password.
+  if (code) {
+    redirect(
+      `/auth/callback?code=${encodeURIComponent(code)}&next=${encodeURIComponent("/auth/reset-password")}`,
+    );
+  }
+
   return (
     <>
       <Navbar />
