@@ -19,7 +19,7 @@ export default function RecuperarPage() {
 
     const origin = window.location.origin;
     const recoveryPath = "/auth/reset-password";
-    const redirectTo = `${origin}/auth/callback?next=${encodeURIComponent(recoveryPath)}`;
+    const redirectTo = `${origin}/auth/confirm?next=${encodeURIComponent(recoveryPath)}`;
     const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), {
       redirectTo,
     });
