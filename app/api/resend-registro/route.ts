@@ -1,9 +1,8 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
-const RECIPIENT = "aarielmmartinez188@gmail.com";
+const PRODUCTION_RECIPIENT = "aarielmmartinez188@gmail.com";
+const TEST_RECIPIENT = "dantenigro@gmail.com";
 
 export async function POST(request: Request) {
   const authorization = request.headers.get("authorization");
@@ -13,14 +12,27 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "No autorizado" }, { status: 401 });
   }
 
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) {
+    return NextResponse.json(
+      { error: "Falta configurar RESEND_API_KEY" },
+      { status: 503 },
+    );
+  }
+
+  const resend = new Resend(apiKey);
+  const { searchParams } = new URL(request.url);
+  const isTest = searchParams.get("mode") === "test";
+  const recipient = isTest ? TEST_RECIPIENT : PRODUCTION_RECIPIENT;
+  const recipientName = isTest ? "Dan" : "Ariel";
   const from =
     process.env.RESEND_FROM_EMAIL ?? "RentoCampo <no-reply@rentocampo.com>";
 
   const { data, error } = await resend.emails.send(
     {
       from,
-      to: [RECIPIENT],
-      subject: "Te invitamos a volver a RentoCampo",
+      to: [recipient],
+      subject: `${isTest ? "[PRUEBA] " : ""}Te invitamos a volver a RentoCampo`,
       html: `
         <!doctype html>
         <html lang="es">
@@ -32,7 +44,7 @@ export async function POST(request: Request) {
                   Queremos volver a tenerte en RentoCampo
                 </h1>
                 <p style="font-size:16px;line-height:1.6">
-                  Hola Ariel:
+                  Hola ${recipientName}:
                 </p>
                 <p style="font-size:16px;line-height:1.6">
                   Actualizamos nuestra plataforma y, durante la migración, tu perfil y la publicación de tu campo anterior no pudieron conservarse.
@@ -60,7 +72,7 @@ export async function POST(request: Request) {
       `,
     },
     {
-      idempotencyKey: "registration-migration/aarielmmartinez188/v1",
+      idempotencyKey: `registration-migration/${isTest ? "dantenigro-test" : "aarielmmartinez188"}/v1`,
     },
   );
 
@@ -71,5 +83,5 @@ export async function POST(request: Request) {
     );
   }
 
-  return NextResponse.json({ sent: true, id: data?.id });
+  return NextResponse.json({ sent: true, id: data?.id, recipient, test: isTest });
 }
