@@ -63,9 +63,9 @@
 .editorialHero h1 .editorialHero__highlight {
   margin-top: .06em;
   color: var(--hero-yellow);
-  font-size: 1.14em;
+  font-size: 1.2em;
   line-height: .92;
-  text-shadow: 2px 2px 0 var(--hero-black);
+  text-shadow: none;
 }
 
 .editorialHero__message > p {
