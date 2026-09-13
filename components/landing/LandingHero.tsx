@@ -6,11 +6,6 @@ export default function LandingHero() {
   return (
     <section className="editorialHero" id="hero">
       <div className="editorialHero__content">
-        <div className="editorialHero__eyebrow" aria-hidden="true">
-          <strong>01</strong>
-          <span>Más campo para un gran país</span>
-        </div>
-
         <div className="editorialHero__message">
           <h1>
             <span>Tu campo tiene</span>
@@ -28,12 +23,12 @@ export default function LandingHero() {
               href="/register?tipo=propietario"
               className="editorialHero__primary"
             >
-              Publicá tu campo
-              <span aria-hidden="true">→</span>
+              <span>Publicá tu campo</span>
+              <span className="editorialHero__arrow" aria-hidden="true">→</span>
             </Link>
             <Link href="/campos" className="editorialHero__secondary">
-              Explorar campos
-              <span aria-hidden="true">→</span>
+              <span>Explorar campos</span>
+              <span className="editorialHero__arrow" aria-hidden="true">→</span>
             </Link>
           </div>
         </div>
