@@ -11,6 +11,9 @@ export default function LandingHero() {
             <span>Tu campo tiene</span>
             <span>potencial.</span>
             <span className="editorialHero__highlight">Hacelo visible.</span>
+            <span className="editorialHero__free">
+              Publicalo <strong>gratis.</strong>
+            </span>
           </h1>
 
           <p>
@@ -23,7 +26,7 @@ export default function LandingHero() {
               href="/register?tipo=propietario"
               className="editorialHero__primary"
             >
-              <span>Publicá tu campo</span>
+              <span>Publicá tu campo gratis</span>
               <span className="editorialHero__arrow" aria-hidden="true">→</span>
             </Link>
             <Link href="/campos" className="editorialHero__secondary">

@@ -68,6 +68,21 @@
   text-shadow: none;
 }
 
+.editorialHero h1 .editorialHero__free {
+  margin-top: .14em;
+  color: var(--hero-black);
+  font-size: .66em;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -.01em;
+}
+
+.editorialHero h1 .editorialHero__free strong {
+  color: var(--hero-yellow);
+  font-size: 1.12em;
+  font-weight: 900;
+}
+
 .editorialHero__message > p {
   max-width: 620px;
   margin: clamp(20px, 2.4vh, 30px) 0 0;
@@ -253,6 +268,11 @@
 
   .editorialHero h1 .editorialHero__highlight {
     font-size: 1.02em;
+  }
+
+  .editorialHero h1 .editorialHero__free {
+    font-size: .63em;
+    white-space: nowrap;
   }
 
   .editorialHero__actions {
