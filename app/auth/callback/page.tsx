@@ -9,9 +9,14 @@ export default async function AuthCallbackPage({
     code?: string;
     error?: string;
     error_description?: string;
+    next?: string;
   }>;
 }) {
   const params = await searchParams;
+  const next =
+    params.next?.startsWith("/") && !params.next.startsWith("//")
+      ? params.next
+      : "/dashboard";
 
   if (params.error) {
     redirect(
@@ -23,7 +28,7 @@ export default async function AuthCallbackPage({
     const supabase = await createClient();
     const { error } = await supabase.auth.exchangeCodeForSession(params.code);
     if (!error) {
-      redirect("/dashboard");
+      redirect(next);
     }
   }
 
