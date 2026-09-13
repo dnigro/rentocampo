@@ -16,17 +16,22 @@ function RegisterForm() {
     tipo: tipoInicial as "propietario" | "productor",
   });
   const [error, setError] = useState("");
+  const [accountExists, setAccountExists] = useState(false);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const supabase = createClient();
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+    if (e.target.name === "email") {
+      setAccountExists(false);
+    }
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError("");
+    setAccountExists(false);
     setLoading(true);
 
     if (form.password.length < 6) {
@@ -39,7 +44,7 @@ function RegisterForm() {
     const origin = window.location.origin;
     const emailRedirectTo = `${origin}/auth/callback`;
 
-    const { error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
       email: form.email,
       password: form.password,
       options: {
@@ -59,13 +64,28 @@ function RegisterForm() {
         normalizedError.includes("already been registered") ||
         error.code === "user_already_exists";
 
-      setError(
-        isDuplicateAccount
-          ? "Ya existe una cuenta con ese email. Ingresá o usá otro email."
-          : normalizedError.includes("password")
+      if (isDuplicateAccount) {
+        setAccountExists(true);
+      } else {
+        setError(
+          normalizedError.includes("password")
             ? "La contraseña no cumple los requisitos mínimos."
             : `No pudimos crear la cuenta: ${error.message}`,
-      );
+        );
+      }
+      setLoading(false);
+      return;
+    }
+
+    // Con confirmación de email activa, Supabase puede devolver un usuario
+    // ofuscado sin identidades cuando el correo ya está registrado.
+    const isObfuscatedExistingAccount =
+      data.user !== null &&
+      Array.isArray(data.user.identities) &&
+      data.user.identities.length === 0;
+
+    if (isObfuscatedExistingAccount) {
+      setAccountExists(true);
       setLoading(false);
       return;
     }
@@ -83,7 +103,18 @@ function RegisterForm() {
         </div>
 
         <form className="auth-form" onSubmit={handleSubmit}>
-          {error && <div className="auth-error">{error}</div>}
+          {accountExists && (
+            <div className="auth-error" role="alert">
+              <strong>La cuenta ya está registrada.</strong>{" "}
+              <Link href="/login">Ingresá con tu contraseña</Link> o{" "}
+              <Link href="/recuperar-contrasena">recuperala acá</Link>.
+            </div>
+          )}
+          {error && (
+            <div className="auth-error" role="alert">
+              {error}
+            </div>
+          )}
 
           <div className="form-field">
             <label className="form-label">Soy...</label>
