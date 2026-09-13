@@ -48,9 +48,30 @@ export default function ResetPasswordPage() {
     const { error } = await supabase.auth.updateUser({ password });
 
     if (error) {
-      setError(
-        "No pudimos actualizar la contraseña. El link puede haber expirado.",
-      );
+      const message = error.message.toLowerCase();
+
+      if (message.includes("same password")) {
+        setError("La nueva contraseña debe ser diferente de la anterior.");
+      } else if (
+        error.code === "weak_password" ||
+        message.includes("password should") ||
+        message.includes("weak")
+      ) {
+        setError(
+          "La contraseña no cumple los requisitos de seguridad. Usá al menos 8 caracteres, con mayúscula, minúscula, número y símbolo.",
+        );
+      } else if (
+        message.includes("session") ||
+        message.includes("jwt") ||
+        message.includes("expired")
+      ) {
+        setError(
+          "La sesión de recuperación venció. Solicitá un nuevo link y volvé a intentarlo.",
+        );
+      } else {
+        setError(`No pudimos actualizar la contraseña: ${error.message}`);
+      }
+
       setLoading(false);
       return;
     }
