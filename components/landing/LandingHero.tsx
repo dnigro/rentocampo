@@ -15,7 +15,7 @@ export default function LandingHero() {
           <h1>
             <span>Tu campo tiene</span>
             <span>potencial.</span>
-            <span>Hacelo visible.</span>
+            <span className="editorialHero__highlight">Hacelo visible.</span>
           </h1>
 
           <p>
@@ -50,7 +50,7 @@ export default function LandingHero() {
           fill
           priority
           placeholder="blur"
-          sizes="(max-width: 900px) 100vw, 48vw"
+          sizes="(max-width: 900px) 100vw, 50vw"
           className="editorialHero__image"
         />
         <p className="editorialHero__territory" aria-hidden="true">
