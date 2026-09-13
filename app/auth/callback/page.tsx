@@ -1,36 +1,77 @@
-import { createClient } from "@/lib/supabase/server";
-import { redirect } from "next/navigation";
-import type { NextRequest } from "next/server";
+"use client";
 
-export default async function AuthCallbackPage({
-  searchParams,
-}: {
-  searchParams: Promise<{
-    code?: string;
-    error?: string;
-    error_description?: string;
-    next?: string;
-  }>;
-}) {
-  const params = await searchParams;
-  const next =
-    params.next?.startsWith("/") && !params.next.startsWith("//")
-      ? params.next
-      : "/dashboard";
+import { useEffect, useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
+import { createClient } from "@/lib/supabase/client";
+import "@/styles/public.css";
 
-  if (params.error) {
-    redirect(
-      `/login?error=${encodeURIComponent(params.error_description ?? params.error)}`,
-    );
-  }
+export default function AuthCallbackPage() {
+  const router = useRouter();
+  const supabase = useMemo(() => createClient(), []);
+  const [error, setError] = useState("");
 
-  if (params.code) {
-    const supabase = await createClient();
-    const { error } = await supabase.auth.exchangeCodeForSession(params.code);
-    if (!error) {
-      redirect(next);
+  useEffect(() => {
+    async function completeAuthentication() {
+      const params = new URLSearchParams(window.location.search);
+      const code = params.get("code");
+      const requestedNext = params.get("next");
+      const next =
+        requestedNext?.startsWith("/") && !requestedNext.startsWith("//")
+          ? requestedNext
+          : "/dashboard";
+
+      const authError = params.get("error");
+      if (authError) {
+        const description = params.get("error_description") ?? authError;
+        router.replace(`/login?error=${encodeURIComponent(description)}`);
+        return;
+      }
+
+      if (!code) {
+        router.replace("/login");
+        return;
+      }
+
+      const { error: exchangeError } =
+        await supabase.auth.exchangeCodeForSession(code);
+
+      if (exchangeError) {
+        setError("El link de recuperación expiró o ya fue usado.");
+        return;
+      }
+
+      router.replace(next);
     }
-  }
 
-  redirect("/login");
+    completeAuthentication();
+  }, [router, supabase]);
+
+  return (
+    <div className="auth-page">
+      <div className="auth-card">
+        <div className="auth-header">
+          {error ? (
+            <>
+              <div className="confirm-icon">⚠️</div>
+              <h1 className="auth-title">No pudimos validar el link</h1>
+              <p className="auth-subtitle">{error}</p>
+              <button
+                type="button"
+                className="btn-submit"
+                onClick={() => router.replace("/recuperar-contrasena")}
+              >
+                Solicitar un nuevo link
+              </button>
+            </>
+          ) : (
+            <>
+              <div className="confirm-icon">🔐</div>
+              <h1 className="auth-title">Validando tu acceso</h1>
+              <p className="auth-subtitle">Un momento, por favor...</p>
+            </>
+          )}
+        </div>
+      </div>
+    </div>
+  );
 }
