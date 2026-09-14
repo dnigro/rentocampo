@@ -637,3 +637,14 @@ body:has(.rc-landing) .navbar .btn-primary {
     border-left: 0;
   }
 }
+
+
+/* CTA plano, sin efecto tridimensional */
+.rc-landing .rc-process .rc-process-cta {
+  box-shadow: none;
+}
+
+.rc-landing .rc-process .rc-process-cta:hover {
+  transform: none;
+  background: #ffdc2e;
+}
