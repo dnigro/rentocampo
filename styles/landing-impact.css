@@ -410,3 +410,188 @@ body:has(.rc-landing) .navbar .btn-primary {
     font-size: clamp(64px, 19vw, 92px);
   }
 }
+
+
+/* Proceso de tres pasos: una sola jerarquía, sin íconos ni números duplicados */
+.rc-landing .rc-process {
+  padding: clamp(64px, 8vw, 104px) 0;
+  color: #fff;
+  background: #0b0b0b;
+}
+
+.rc-landing .rc-process-head {
+  display: grid;
+  grid-template-columns: 190px minmax(0, 1fr);
+  gap: 8px 46px;
+  align-items: end;
+  margin-bottom: 54px;
+}
+
+.rc-landing .rc-process-head .rc-kicker {
+  grid-row: 1 / span 2;
+  align-self: start;
+  margin: 8px 0 0;
+  color: var(--impact-yellow);
+}
+
+.rc-landing .rc-process-head h2 {
+  margin: 0;
+  max-width: 840px;
+  color: #fff;
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(56px, 6.5vw, 96px);
+  font-weight: 400;
+  line-height: 0.88;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+.rc-landing .rc-process-head > p:last-child {
+  margin: 10px 0 0;
+  color: #bfc2c0;
+  font-size: 17px;
+}
+
+.rc-landing .rc-process-track {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-top: 1px solid #464646;
+  border-bottom: 1px solid #464646;
+}
+
+.rc-landing .rc-process-track::before {
+  content: "";
+  position: absolute;
+  top: 68px;
+  left: 16.66%;
+  right: 16.66%;
+  height: 2px;
+  background: #464646;
+}
+
+.rc-landing .rc-process-step {
+  position: relative;
+  min-height: 285px;
+  padding: 30px 34px 34px;
+  border-right: 1px solid #464646;
+}
+
+.rc-landing .rc-process-step:last-child {
+  border-right: 0;
+}
+
+.rc-landing .rc-process-top {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.rc-landing .rc-process-num {
+  color: var(--impact-yellow);
+  font-family: var(--font-display), sans-serif;
+  font-size: 76px;
+  line-height: 0.8;
+}
+
+.rc-landing .rc-process-icon {
+  display: grid;
+  width: 54px;
+  height: 54px;
+  place-items: center;
+  border: 2px solid var(--impact-yellow);
+  border-radius: 50%;
+  background: #0b0b0b;
+  color: var(--impact-yellow);
+}
+
+.rc-landing .rc-process-icon svg {
+  width: 28px;
+  height: 28px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.rc-landing .rc-process-step h3 {
+  margin: 44px 0 10px;
+  color: #fff;
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(30px, 2.6vw, 42px);
+  font-weight: 400;
+  line-height: 0.95;
+  text-transform: uppercase;
+}
+
+.rc-landing .rc-process-step > p {
+  max-width: 290px;
+  margin: 0;
+  color: #c8c8c8;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.rc-landing .rc-process .rc-process-cta {
+  display: inline-flex;
+  margin-top: 36px;
+  color: #0b0b0b;
+  background: var(--impact-yellow);
+  border-color: var(--impact-yellow);
+  border-radius: 0;
+  box-shadow: 5px 5px 0 #fff;
+}
+
+@media (max-width: 760px) {
+  .rc-landing .rc-process {
+    padding: 52px 0;
+  }
+
+  .rc-landing .rc-process-head {
+    grid-template-columns: 1fr;
+    margin-bottom: 36px;
+  }
+
+  .rc-landing .rc-process-head .rc-kicker {
+    grid-row: auto;
+    margin: 0 0 8px;
+  }
+
+  .rc-landing .rc-process-head h2 {
+    font-size: clamp(50px, 14vw, 68px);
+  }
+
+  .rc-landing .rc-process-track {
+    grid-template-columns: 1fr;
+  }
+
+  .rc-landing .rc-process-track::before {
+    display: none;
+  }
+
+  .rc-landing .rc-process-step {
+    min-height: 0;
+    padding: 26px 0 28px;
+    border-right: 0;
+    border-bottom: 1px solid #464646;
+  }
+
+  .rc-landing .rc-process-step:last-child {
+    border-bottom: 0;
+  }
+
+  .rc-landing .rc-process-num {
+    font-size: 62px;
+  }
+
+  .rc-landing .rc-process-step h3 {
+    margin-top: 24px;
+  }
+
+  .rc-landing .rc-process .rc-process-cta {
+    width: 100%;
+  }
+}
