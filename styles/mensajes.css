@@ -385,3 +385,92 @@
 .mensajes-empty-state h2{margin:0 0 8px;color:#1a3a1a;font-size:21px;letter-spacing:-.02em}
 .mensajes-empty-state p{margin:0;max-width:340px;color:#788078;font-size:14px;line-height:1.55}
 @media(max-width:640px){.mensajes-page-vacia{min-height:calc(100vh - 190px)}.mensajes-empty-state{min-height:300px;padding:36px 20px}.mensajes-page-vacia .page-title{font-size:28px}}
+
+
+/* La conversación se identifica primero por el campo consultado. */
+.hilo-media {
+  position: relative;
+  width: 104px;
+  height: 76px;
+  flex: 0 0 104px;
+  overflow: visible;
+  border-radius: 12px;
+  background: #eef2ef;
+}
+
+.hilo-campo-foto,
+.hilo-avatar-directo {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  border-radius: inherit;
+}
+
+.hilo-campo-placeholder,
+.hilo-media-inicial {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  border-radius: inherit;
+  color: #2d6a2d;
+  font-size: 24px;
+  font-weight: 800;
+}
+
+.hilo-avatar-mini {
+  position: absolute;
+  right: -7px;
+  bottom: -7px;
+  display: grid;
+  width: 30px;
+  height: 30px;
+  place-items: center;
+  overflow: hidden;
+  border: 3px solid #fff;
+  border-radius: 50%;
+  background: #e5eee8;
+  color: #1a3a1a;
+  font-size: 11px;
+  font-weight: 800;
+  box-shadow: 0 3px 10px rgba(6, 30, 22, 0.16);
+}
+
+.hilo-avatar-mini img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hilo-media-directo {
+  width: 54px;
+  height: 54px;
+  flex-basis: 54px;
+  border-radius: 50%;
+}
+
+@media (max-width: 640px) {
+  .hilo-item {
+    align-items: flex-start;
+    gap: 12px;
+    padding: 13px;
+  }
+
+  .hilo-media {
+    width: 82px;
+    height: 68px;
+    flex-basis: 82px;
+  }
+
+  .hilo-media-directo {
+    width: 48px;
+    height: 48px;
+    flex-basis: 48px;
+  }
+
+  .hilo-avatar-mini {
+    width: 27px;
+    height: 27px;
+  }
+}
