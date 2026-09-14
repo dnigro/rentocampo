@@ -648,3 +648,50 @@ body:has(.rc-landing) .navbar .btn-primary {
   transform: none;
   background: #ffdc2e;
 }
+
+
+/* CTA final compacto: conserva impacto sin ocupar una pantalla completa */
+.rc-landing .rc-final {
+  min-height: 0;
+  padding: 42px 0;
+}
+
+.rc-landing .rc-final > .rc-shell {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  min-height: 0;
+  gap: 52px;
+  align-items: center;
+}
+
+.rc-landing .rc-final h2 {
+  margin: 0;
+  font-size: clamp(52px, 6.2vw, 88px);
+  line-height: 0.86;
+}
+
+.rc-landing .rc-final .rc-button {
+  min-width: 300px;
+  margin: 0;
+}
+
+@media (max-width: 760px) {
+  .rc-landing .rc-final {
+    padding: 34px 0;
+  }
+
+  .rc-landing .rc-final > .rc-shell {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .rc-landing .rc-final h2 {
+    font-size: clamp(46px, 14vw, 62px);
+  }
+
+  .rc-landing .rc-final .rc-button {
+    min-width: 0;
+    width: 100%;
+    margin: 0;
+  }
+}
