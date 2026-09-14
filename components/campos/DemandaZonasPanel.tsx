@@ -28,47 +28,41 @@ export default function DemandaZonasPanel({ provincia }: Props) {
 
   return (
     <aside className="demanda-zonas" aria-labelledby="demanda-zonas-titulo">
-      <div className="demanda-zonas-header">
-        <div>
-          <p className="demanda-zonas-kicker">Oportunidades</p>
-          <h2 id="demanda-zonas-titulo">Demanda por zona</h2>
-        </div>
-        <span className="demanda-zonas-total">{DEMANDA_ZONAS.length}</span>
-      </div>
-
+      <p className="demanda-zonas-kicker">Demanda activa · Argentina</p>
+      <h2 id="demanda-zonas-titulo">Hay productores buscando tierra.</h2>
       <p className="demanda-zonas-intro">
-        Productores interesados en encontrar campos en distintas regiones.
+        Conocé qué buscan y en qué zonas.
       </p>
 
       <div className="demanda-zonas-lista">
         {zonas.map((demanda) => (
           <article className="demanda-zona-card" key={demanda.id}>
-            <div className="demanda-zona-ubicacion">
-              <span className="demanda-zona-punto" aria-hidden="true" />
-              {demanda.provincia}
+            <span className="demanda-zona-punto" aria-hidden="true" />
+            <div>
+              <h3>{demanda.zona}</h3>
+              <p>{demanda.provincia}</p>
             </div>
-            <h3>Buscan campos en {demanda.zona}</h3>
-            <p>{demanda.descripcion}</p>
             <Link
               href={
                 "/register?tipo=propietario&zona=" +
                 encodeURIComponent(demanda.zona)
               }
               className="demanda-zona-cta"
+              aria-label={"Tengo un campo en " + demanda.zona}
             >
-              Tengo un campo acá →
+              →
             </Link>
           </article>
         ))}
       </div>
 
-      <p className="demanda-zonas-aclaracion">
-        Información institucional. No representa campos publicados.
-      </p>
-
       <Link href="/campos/mapa" className="demanda-zonas-mapa">
-        Ver las {DEMANDA_ZONAS.length} zonas en el mapa
+        Ver demanda por zona <span aria-hidden="true">→</span>
       </Link>
+
+      <p className="demanda-zonas-aclaracion">
+        Señales orientativas de búsqueda. No representan campos publicados.
+      </p>
     </aside>
   );
 }
