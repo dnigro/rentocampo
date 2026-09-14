@@ -3,8 +3,8 @@ import Link from "next/link";
 const steps = [
   {
     num: "01",
-    title: "Publicá tu campo",
-    description: "Sumá ubicación, hectáreas y fotos.",
+    title: "Registrate como usuario",
+    description: "Creá tu perfil gratis y elegí cómo querés participar.",
     icon: (
       <svg viewBox="0 0 48 48" aria-hidden="true">
         <path d="M8 37V18l16-9 16 9v19M17 37V25h14v12M5 37h38" />
@@ -14,8 +14,8 @@ const steps = [
   },
   {
     num: "02",
-    title: "Recibí interés",
-    description: "Productores te contactan directamente.",
+    title: "Publicá y chateá online",
+    description: "Mostrá tu campo y conversá directamente desde la plataforma.",
     icon: (
       <svg viewBox="0 0 48 48" aria-hidden="true">
         <path d="M8 10h32v23H22l-9 7v-7H8z" />
@@ -25,8 +25,8 @@ const steps = [
   },
   {
     num: "03",
-    title: "Elegí cómo avanzar",
-    description: "Conversá y decidí sin intermediarios obligatorios.",
+    title: "Cerrá un acuerdo",
+    description: "Avanzá con el productor o contratista de servicios interesado.",
     icon: (
       <svg viewBox="0 0 48 48" aria-hidden="true">
         <path d="M8 24l10 10L40 12" />
@@ -41,9 +41,11 @@ export default function LandingComo() {
     <section className="rc-how rc-process" id="como-funciona">
       <div className="rc-shell">
         <header className="rc-process-head">
-          <p className="rc-kicker">Cómo funciona</p>
-          <h2>De publicar a conectar.</h2>
-          <p>Un recorrido simple, directo y gratuito.</p>
+          <span className="rc-process-total" aria-hidden="true">03</span>
+          <div>
+            <p className="rc-kicker">Cómo funciona</p>
+            <h2>En tres simples pasos.</h2>
+          </div>
         </header>
 
         <div className="rc-process-track">
