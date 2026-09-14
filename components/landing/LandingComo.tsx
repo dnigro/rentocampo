@@ -1,16 +1,71 @@
 import Link from "next/link";
 
 const steps = [
-  { num: "01", icon: "▤", title: "Publicá", description: "Completá la información de tu campo en pocos minutos." },
-  { num: "02", icon: "◎", title: "Conectá", description: "Recibí el interés de productores verificados." },
-  { num: "03", icon: "⌁", title: "Hacé crecer tu tierra", description: "Alquilá con confianza y formá parte de una red que impulsa la producción." },
+  {
+    num: "01",
+    title: "Publicá tu campo",
+    description: "Sumá ubicación, hectáreas y fotos.",
+    icon: (
+      <svg viewBox="0 0 48 48" aria-hidden="true">
+        <path d="M8 37V18l16-9 16 9v19M17 37V25h14v12M5 37h38" />
+        <path d="M35 12v-4M31 8h8" />
+      </svg>
+    ),
+  },
+  {
+    num: "02",
+    title: "Recibí interés",
+    description: "Productores te contactan directamente.",
+    icon: (
+      <svg viewBox="0 0 48 48" aria-hidden="true">
+        <path d="M8 10h32v23H22l-9 7v-7H8z" />
+        <path d="M15 18h18M15 25h12" />
+      </svg>
+    ),
+  },
+  {
+    num: "03",
+    title: "Elegí cómo avanzar",
+    description: "Conversá y decidí sin intermediarios obligatorios.",
+    icon: (
+      <svg viewBox="0 0 48 48" aria-hidden="true">
+        <path d="M8 24l10 10L40 12" />
+        <circle cx="24" cy="24" r="20" />
+      </svg>
+    ),
+  },
 ];
+
 export default function LandingComo() {
   return (
-    <section className="rc-how" id="como-funciona"><div className="rc-shell">
-      <div className="rc-section-head"><p className="rc-kicker">Así de simple</p><h2>03 pasos<br />para alquilar tu campo</h2></div>
-      <div className="rc-steps">{steps.map((step) => <article className="rc-step" key={step.num}><span className="rc-step-icon" aria-hidden="true">{step.icon}</span><div className="rc-step-num">{step.num}</div><h3>{step.title}</h3><p>{step.description}</p></article>)}</div>
-      <Link href="/register?tipo=propietario" className="rc-button rc-button-dark">Empezar ahora →</Link>
-    </div></section>
+    <section className="rc-how rc-process" id="como-funciona">
+      <div className="rc-shell">
+        <header className="rc-process-head">
+          <p className="rc-kicker">Cómo funciona</p>
+          <h2>De publicar a conectar.</h2>
+          <p>Un recorrido simple, directo y gratuito.</p>
+        </header>
+
+        <div className="rc-process-track">
+          {steps.map((step) => (
+            <article className="rc-process-step" key={step.num}>
+              <div className="rc-process-top">
+                <span className="rc-process-num">{step.num}</span>
+                <span className="rc-process-icon">{step.icon}</span>
+              </div>
+              <h3>{step.title}</h3>
+              <p>{step.description}</p>
+            </article>
+          ))}
+        </div>
+
+        <Link
+          href="/register?tipo=propietario"
+          className="rc-button rc-button-dark rc-process-cta"
+        >
+          Publicar mi campo gratis →
+        </Link>
+      </div>
+    </section>
   );
 }
