@@ -158,3 +158,8 @@ body{background:#fff;color:#263a32}
  .navbar{height:62px!important}
  .auth-page{padding:34px 16px!important}
 }
+
+/* Registro propietario: acerca el indicador de pasos al formulario */
+.auth-page-register::after {
+  top: calc(50% - 70px) !important;
+}

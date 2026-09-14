@@ -95,7 +95,7 @@ function RegisterForm() {
   }
 
   return (
-    <div className="auth-page">
+    <div className="auth-page auth-page-register">
       <div className="auth-card">
         <div className="auth-header">
           <h1 className="auth-title">Crear cuenta</h1>
@@ -222,7 +222,7 @@ function RegisterForm() {
 
 function RegisterFallback() {
   return (
-    <div className="auth-page">
+    <div className="auth-page auth-page-register">
       <div className="auth-card" aria-busy="true">
         <div className="auth-header">
           <h1 className="auth-title">Crear cuenta</h1>
