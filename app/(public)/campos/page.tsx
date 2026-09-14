@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import CampoCard from "@/components/campos/CampoCard";
 import CampoFiltros from "@/components/campos/CampoFiltros";
+import DemandaZonasPanel from "@/components/campos/DemandaZonasPanel";
 import Link from "next/link";
 import "@/styles/campos.css";
 import "@/styles/explorador.css";
@@ -71,6 +72,8 @@ export default async function CamposPage({
       </aside>
 
       <main className="explorador-main">
+        <div className="explorador-contenido">
+          <section className="explorador-resultados">
         <div className="explorador-header">
           <div>
             <h1 className="explorador-title">
@@ -130,6 +133,27 @@ export default async function CamposPage({
             </Link>
           </div>
         )}
+          </section>
+
+          <DemandaZonasPanel provincia={params.provincia} />
+        </div>
+
+        <section className="demanda-cta">
+          <div>
+            <p className="demanda-cta-kicker">Publicar es gratis</p>
+            <h2>¿Tenés un campo en alguna de estas zonas?</h2>
+            <p>
+              Hay productores interesados. Hacelo visible y empezá a recibir
+              consultas directas.
+            </p>
+          </div>
+          <Link
+            href="/register?tipo=propietario"
+            className="demanda-cta-boton"
+          >
+            Publicar mi campo gratis →
+          </Link>
+        </section>
       </main>
     </div>
   );
