@@ -21,7 +21,7 @@ export default async function MensajesPage() {
       leido,
       remitente_id,
       destinatario_id,
-      campo:campos(id, titulo, provincia),
+      campo:campos(id, titulo, provincia, fotos:campos_fotos(url, orden)),
       remitente:profiles!mensajes_remitente_id_fkey(id, nombre, avatar_url),
       destinatario:profiles!mensajes_destinatario_id_fkey(id, nombre, avatar_url)
     `,
@@ -78,6 +78,10 @@ export default async function MensajesPage() {
             const esRemitente = hilo.remitente_id === user.id;
             const otroUsuario = esRemitente ? destinatario : remitente;
             const noLeido = !hilo.leido && hilo.destinatario_id === user.id;
+            const fotosCampo = Array.isArray(campo?.fotos) ? campo.fotos : [];
+            const fotoCampo = [...fotosCampo].sort(
+              (a: any, b: any) => (a.orden ?? 0) - (b.orden ?? 0),
+            )[0]?.url;
 
             return (
               <Link
@@ -85,14 +89,37 @@ export default async function MensajesPage() {
                 href={esDirecto ? `/mensajes/direct/${otroUsuario?.id}` : `/mensajes/${campo.id}`}
                 className={`hilo-item ${noLeido ? "hilo-no-leido" : ""}`}
               >
-                <div className="hilo-avatar">
-                  {otroUsuario?.avatar_url ? (
+                <div className={`hilo-media ${esDirecto ? "hilo-media-directo" : ""}`}>
+                  {fotoCampo ? (
                     <img
-                      src={otroUsuario.avatar_url}
-                      alt={otroUsuario.nombre}
+                      className="hilo-campo-foto"
+                      src={fotoCampo}
+                      alt={`Campo ${campo.titulo}`}
                     />
+                  ) : esDirecto ? (
+                    otroUsuario?.avatar_url ? (
+                      <img
+                        className="hilo-avatar-directo"
+                        src={otroUsuario.avatar_url}
+                        alt={otroUsuario.nombre}
+                      />
+                    ) : (
+                      <span className="hilo-media-inicial">
+                        {otroUsuario?.nombre?.[0]?.toUpperCase()}
+                      </span>
+                    )
                   ) : (
-                    <span>{otroUsuario?.nombre?.[0]?.toUpperCase()}</span>
+                    <span className="hilo-campo-placeholder" aria-hidden="true">🌿</span>
+                  )}
+
+                  {!esDirecto && (
+                    <span className="hilo-avatar-mini">
+                      {otroUsuario?.avatar_url ? (
+                        <img src={otroUsuario.avatar_url} alt="" />
+                      ) : (
+                        otroUsuario?.nombre?.[0]?.toUpperCase()
+                      )}
+                    </span>
                   )}
                 </div>
                 <div className="hilo-body">
