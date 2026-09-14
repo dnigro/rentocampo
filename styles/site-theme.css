@@ -158,3 +158,136 @@ body{background:#fff;color:#263a32}
  .navbar{height:62px!important}
  .auth-page{padding:34px 16px!important}
 }
+
+
+/* Registro propietario — composición editorial alineada con la landing */
+.auth-page-register {
+  align-items: flex-start !important;
+  min-height: calc(100vh - 68px);
+  padding-top: 30px !important;
+  padding-bottom: 64px !important;
+}
+
+.auth-page-register::before {
+  display: block !important;
+  inset: 0 auto 0 0 !important;
+  width: max(34%, calc(50% - 220px));
+  background: var(--brand-yellow) !important;
+  clip-path: polygon(0 0, 100% 0, 88% 100%, 0 100%);
+}
+
+.auth-page-register::after {
+  left: max(46px, calc(50% - 545px)) !important;
+  top: 72px !important;
+  transform: none !important;
+  max-width: 430px;
+  border-left: 0 !important;
+  padding: 18px 0 18px 26px !important;
+  font-size: clamp(54px, 5.2vw, 82px) !important;
+  font-weight: 900;
+  line-height: 1.02 !important;
+  color: var(--brand-ink) !important;
+  background: linear-gradient(90deg, #fff 0 5px, transparent 5px);
+}
+
+.auth-page-register .auth-card {
+  margin-top: 0 !important;
+  padding: 38px 44px 42px !important;
+  border-radius: 0 !important;
+  border-top: 7px solid var(--brand-yellow) !important;
+  box-shadow: 14px 18px 0 rgba(7, 63, 48, 0.08) !important;
+}
+
+.auth-page-register .auth-header {
+  margin-bottom: 24px;
+}
+
+.auth-page-register .auth-title {
+  font-size: clamp(44px, 4vw, 58px) !important;
+}
+
+.auth-page-register .auth-subtitle strong {
+  color: var(--brand-ink);
+}
+
+.auth-page-register .tipo-label {
+  border-radius: 0 !important;
+}
+
+.auth-page-register .tipo-option input:checked + .tipo-label {
+  background: var(--brand-yellow) !important;
+  color: var(--brand-ink) !important;
+  border-color: var(--brand-ink) !important;
+  box-shadow: 5px 5px 0 var(--brand-ink) !important;
+}
+
+.auth-page-register .tipo-option input:checked + .tipo-label .tipo-desc {
+  color: rgba(7, 63, 48, 0.75);
+}
+
+.auth-page-register .form-input {
+  border-radius: 0 !important;
+  border-width: 0 0 2px !important;
+  padding-left: 4px;
+}
+
+.auth-page-register .btn-submit {
+  border-radius: 0 !important;
+  min-height: 54px;
+  text-transform: uppercase !important;
+  letter-spacing: 0.04em;
+}
+
+@media (max-width: 900px) {
+  .auth-page-register::before {
+    display: none !important;
+  }
+
+  .auth-page-register::after {
+    content: "01 CUENTA   ·   02 PERFIL   ·   03 CAMPO";
+    display: block !important;
+    left: 16px !important;
+    right: 16px;
+    top: 18px !important;
+    max-width: none;
+    padding: 14px 12px !important;
+    background: var(--brand-yellow) !important;
+    font-family: var(--font-display), sans-serif;
+    font-size: clamp(23px, 6vw, 34px) !important;
+    line-height: 1 !important;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  .auth-page-register {
+    padding-top: 90px !important;
+  }
+
+  .auth-page-register .auth-card {
+    margin: 0 !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .auth-page-register {
+    padding: 82px 14px 42px !important;
+  }
+
+  .auth-page-register::after {
+    left: 14px !important;
+    right: 14px;
+    font-size: 20px !important;
+  }
+
+  .auth-page-register .auth-card {
+    padding: 30px 20px 34px !important;
+  }
+
+  .auth-page-register .auth-title {
+    font-size: 40px !important;
+  }
+
+  .auth-page-register .tipo-selector {
+    grid-template-columns: 1fr;
+  }
+}
