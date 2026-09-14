@@ -595,3 +595,45 @@ body:has(.rc-landing) .navbar .btn-primary {
     width: 100%;
   }
 }
+
+
+/* Encabezado aprobado: 03 protagonista + mensaje breve */
+.rc-landing .rc-process-head {
+  grid-template-columns: 210px minmax(0, 1fr);
+  align-items: center;
+  gap: 34px;
+}
+
+.rc-landing .rc-process-total {
+  display: block;
+  color: var(--impact-yellow);
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(150px, 15vw, 220px);
+  line-height: 0.7;
+}
+
+.rc-landing .rc-process-head > div {
+  padding-left: 34px;
+  border-left: 1px solid #464646;
+}
+
+.rc-landing .rc-process-head .rc-kicker {
+  margin: 0 0 12px;
+}
+
+@media (max-width: 760px) {
+  .rc-landing .rc-process-head {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+
+  .rc-landing .rc-process-total {
+    font-size: 118px;
+  }
+
+  .rc-landing .rc-process-head > div {
+    padding: 22px 0 0;
+    border-top: 1px solid #464646;
+    border-left: 0;
+  }
+}
