@@ -695,3 +695,14 @@ body:has(.rc-landing) .navbar .btn-primary {
     margin: 0;
   }
 }
+
+
+/* CTA final plano, sin sombra ni desplazamiento 3D */
+.rc-landing .rc-final .rc-button-yellow {
+  box-shadow: none;
+}
+
+.rc-landing .rc-final .rc-button-yellow:hover {
+  transform: none;
+  background: #181818;
+}
