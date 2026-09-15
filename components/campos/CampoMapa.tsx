@@ -23,6 +23,7 @@ interface CampoPin {
 interface Props {
   campos: CampoPin[];
   prestadores: ServicioPin[];
+  currentUserId?: string;
 }
 
 interface ServicioPin {
@@ -36,7 +37,7 @@ interface ServicioPin {
   localidad_servicio?: string;
 }
 
-export default function CampoMapa({ campos, prestadores }: Props) {
+export default function CampoMapa({ campos, prestadores, currentUserId }: Props) {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<LeafletMap | null>(null);
   const camposLayer = useRef<LayerGroup | null>(null);
@@ -371,7 +372,15 @@ export default function CampoMapa({ campos, prestadores }: Props) {
           </div>
           {selectedServicio.zona_servicio && <p className="mapa-panel-descripcion"><strong>Zona de cobertura:</strong> {selectedServicio.zona_servicio}</p>}
           {selectedServicio.bio && <p className="mapa-panel-descripcion">{selectedServicio.bio}</p>}
-          <Link href={`/mensajes/direct/${selectedServicio.id}`} className="mapa-panel-btn">Chatear online →</Link>
+          {selectedServicio.id === currentUserId ? (
+            <div className="mapa-panel-btn mapa-panel-btn-propio" aria-disabled="true">
+              Este es tu perfil
+            </div>
+          ) : (
+            <Link href={`/mensajes/direct/${selectedServicio.id}`} className="mapa-panel-btn">
+              Chatear online →
+            </Link>
+          )}
         </div>
       )}
 
