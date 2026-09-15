@@ -1,5 +1,18 @@
 /* styles/mensajes.css */
 
+.mensajes-container {
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 44px 24px 80px;
+  box-sizing: border-box;
+}
+
+.mensajes-page {
+  width: 100%;
+  margin: 0 auto;
+}
+
 /* ── Badge no leído en título ── */
 .badge-noLeido {
   display: inline-flex;
@@ -115,11 +128,37 @@
   text-overflow: ellipsis;
 }
 
-.hilo-dot {
-  width: 8px;
-  height: 8px;
-  background: #2d6a2d;
-  border-radius: 50%;
+.hilo-nuevo {
+  flex-shrink: 0;
+  padding: 5px 9px;
+  border-radius: 999px;
+  background: #ffd400;
+  color: #061e16;
+  font-size: 10px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+
+.mensaje-nuevo-aviso {
+  position: fixed;
+  top: 88px;
+  right: 24px;
+  z-index: 1200;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 18px;
+  border-radius: 12px;
+  background: #061e16;
+  color: #fff;
+  box-shadow: 0 14px 34px rgba(6, 30, 22, .2);
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.mensaje-nuevo-aviso span {
+  color: #ffd400;
   flex-shrink: 0;
 }
 
@@ -451,6 +490,17 @@
 }
 
 @media (max-width: 640px) {
+  .mensajes-container {
+    padding: 28px 16px 56px;
+  }
+
+  .mensaje-nuevo-aviso {
+    top: 78px;
+    right: 12px;
+    left: 12px;
+    justify-content: center;
+  }
+
   .hilo-item {
     align-items: flex-start;
     gap: 12px;

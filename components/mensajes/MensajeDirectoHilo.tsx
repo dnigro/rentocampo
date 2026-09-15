@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 
 interface Mensaje {
@@ -21,7 +21,45 @@ export default function MensajeDirectoHilo({ userId, destinatarioId, mensajesIni
   const [texto, setTexto] = useState("");
   const [enviando, setEnviando] = useState(false);
   const [error, setError] = useState("");
-  const supabase = createClient();
+  const [supabase] = useState(createClient);
+  const bottomRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [mensajes]);
+
+  useEffect(() => {
+    const channel = supabase
+      .channel(`mensaje-directo-${userId}-${destinatarioId}`)
+      .on(
+        "postgres_changes",
+        {
+          event: "INSERT",
+          schema: "public",
+          table: "mensajes_directos",
+          filter: `destinatario_id=eq.${userId}`,
+        },
+        async (payload) => {
+          if (payload.new.remitente_id !== destinatarioId) return;
+
+          const nuevo = payload.new as Mensaje;
+          setMensajes((actuales) =>
+            actuales.some((mensaje) => mensaje.id === nuevo.id)
+              ? actuales
+              : [...actuales, nuevo],
+          );
+          await supabase
+            .from("mensajes_directos")
+            .update({ leido: true })
+            .eq("id", nuevo.id);
+        },
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [destinatarioId, supabase, userId]);
 
   async function enviar(event: React.FormEvent) {
     event.preventDefault();
@@ -53,6 +91,7 @@ export default function MensajeDirectoHilo({ userId, destinatarioId, mensajesIni
       {mensajes.map((mensaje) => <div className={`mensaje-row ${mensaje.remitente_id === userId ? "mensaje-mio" : "mensaje-otro"}`} key={mensaje.id}>
         <div className={`mensaje-burbuja ${mensaje.remitente_id === userId ? "burbuja-mia" : "burbuja-otra"}`}>{mensaje.contenido}</div>
       </div>)}
+      <div ref={bottomRef} />
     </div>
     {error && <p role="alert" className="mensaje-error">{error}</p>}
     <form className="mensaje-form" onSubmit={enviar}>
