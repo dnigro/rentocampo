@@ -9,17 +9,20 @@ export default function LandingHero() {
         <div className="editorialHero__message">
           <p className="editorialHero__eyebrow">Una red federal que produce</p>
           <h1>
-            <span>Tierra productiva.</span>
-            <span>Productores.</span>
-            <span className="editorialHero__highlight">Servicios rurales.</span>
+            <span><b className="editorialHero__plus">+</b>Tierra productiva.</span>
+            <span><b className="editorialHero__plus">+</b>Productores.</span>
+            <span className="editorialHero__highlight">
+              <b className="editorialHero__plus">+</b>Servicios rurales.
+            </span>
             <span className="editorialHero__free">
               Todo en un solo lugar.
             </span>
           </h1>
 
-          <p>
-            Encontrá oportunidades en el mapa, conectá por chat y avanzá de
-            forma directa. Registrarte, publicar y contactar es <strong>gratis.</strong>
+          <p className="editorialHero__intro">
+            Encontrá oportunidades con <strong>mapa</strong>, conectá por{" "}
+            <strong>chat online</strong> y avanzá de forma directa. Registrarte,
+            publicar y contactar es <strong>gratis.</strong>
           </p>
 
           <div className="editorialHero__actions">
