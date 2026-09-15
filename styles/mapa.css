@@ -164,6 +164,14 @@
   background: #235223;
 }
 
+.mapa-panel-btn-propio {
+  cursor: default;
+  background: #e9eeeb !important;
+  border-color: #d8dfda !important;
+  box-shadow: none !important;
+  color: #315347 !important;
+}
+
 .mapa-panel-close {
   position: absolute;
   top: 12px;
