@@ -12,8 +12,8 @@ export default function Footer() {
             <BrandWordmark className="brand-wordmark-footer" />
           </Link>
           <p className="footer-desc">
-            El marketplace que conecta propietarios de tierras con productores
-            en toda Argentina.
+            Tierra productiva, productores y servicios rurales conectados en
+            toda la Argentina.
           </p>
         </div>
 
@@ -49,10 +49,13 @@ export default function Footer() {
           </nav>
         </div>
 
-        {/* Contacto */}
+        {/* Servicios y contacto */}
         <div className="footer-col">
-          <h4 className="footer-col-title">Contacto</h4>
+          <h4 className="footer-col-title">Servicios rurales</h4>
           <nav className="footer-nav">
+            <Link href="/register?tipo=prestador" className="footer-link">
+              Ofrecer mis servicios
+            </Link>
             <a href="mailto:hola@rentocampo.com" className="footer-link">
               hola@rentocampo.com
             </a>

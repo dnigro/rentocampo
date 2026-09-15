@@ -2,7 +2,26 @@
 
 import { useState, useRef } from "react";
 import { createClient } from "@/lib/supabase/client";
-import type { Profile } from "@/types";
+import type { Profile, RolPerfil, ServicioRural } from "@/types";
+
+const SERVICIOS_RURALES: Array<{ value: ServicioRural; label: string }> = [
+  { value: "cosecha", label: "Cosecha" },
+  { value: "siembra", label: "Siembra" },
+  { value: "pulverizacion", label: "Pulverización" },
+  { value: "fertilizacion", label: "Fertilización" },
+  { value: "maquinaria", label: "Maquinaria y labores" },
+  { value: "transporte", label: "Transporte y logística" },
+  { value: "hoteleria_vacuna", label: "Hotelería vacuna" },
+  { value: "granja", label: "Granjas y producción animal" },
+  { value: "silos_almacenamiento", label: "Silos y almacenamiento" },
+  { value: "acondicionamiento_granos", label: "Acondicionamiento de granos" },
+  { value: "riego", label: "Riego y agua" },
+  { value: "alambrados", label: "Alambrados e infraestructura" },
+  { value: "veterinaria", label: "Veterinaria y sanidad" },
+  { value: "agronomia", label: "Agronomía y asesoramiento" },
+  { value: "seguros_financiacion", label: "Seguros y financiación" },
+  { value: "otro", label: "Otro servicio rural" },
+];
 
 interface Props {
   profile: Partial<Profile> | null;
@@ -21,6 +40,8 @@ export default function PerfilForm({ profile, userId, email }: Props) {
     roles: profile?.roles?.length
       ? profile.roles
       : ["productor" as const],
+    servicios_rurales: profile?.servicios_rurales ?? [],
+    zona_servicio: profile?.zona_servicio ?? "",
   });
 
   const [avatarUrl, setAvatarUrl] = useState(profile?.avatar_url ?? "");
@@ -57,7 +78,7 @@ export default function PerfilForm({ profile, userId, email }: Props) {
     setAvatarPreview(URL.createObjectURL(file));
   }
 
-  function toggleRole(role: "productor" | "propietario") {
+  function toggleRole(role: RolPerfil) {
     setForm((prev) => {
       const activo = prev.roles.includes(role);
       if (activo && prev.roles.length === 1) return prev;
@@ -68,6 +89,15 @@ export default function PerfilForm({ profile, userId, email }: Props) {
           : [...prev.roles, role],
       };
     });
+  }
+
+  function toggleServicio(servicio: ServicioRural) {
+    setForm((prev) => ({
+      ...prev,
+      servicios_rurales: prev.servicios_rurales.includes(servicio)
+        ? prev.servicios_rurales.filter((item) => item !== servicio)
+        : [...prev.servicios_rurales, servicio],
+    }));
   }
 
   async function handleSavePerfil(e: React.FormEvent) {
@@ -95,6 +125,12 @@ export default function PerfilForm({ profile, userId, email }: Props) {
           nombre: form.nombre,
           telefono: form.telefono,
           bio: form.bio,
+          servicios_rurales: form.roles.includes("prestador")
+            ? form.servicios_rurales
+            : [],
+          zona_servicio: form.roles.includes("prestador")
+            ? form.zona_servicio
+            : null,
         })
         .eq("id", userId);
 
@@ -282,9 +318,55 @@ export default function PerfilForm({ profile, userId, email }: Props) {
                 <small>Publicar y administrar campos.</small>
               </span>
             </label>
+            <label className="perfil-role-option">
+              <input
+                type="checkbox"
+                checked={form.roles.includes("prestador")}
+                onChange={() => toggleRole("prestador")}
+              />
+              <span>
+                <strong>⚙️ Servicios rurales</strong>
+                <small>Ofrecer trabajos, instalaciones y soluciones para el campo.</small>
+              </span>
+            </label>
           </div>
-          <span className="form-hint">Podés elegir las dos opciones.</span>
+          <span className="form-hint">Podés elegir uno o varios perfiles.</span>
         </div>
+
+        {form.roles.includes("prestador") && (
+          <div className="servicios-profile-box">
+            <div>
+              <h3>¿Qué servicios ofrecés?</h3>
+              <p>Elegí todos los que correspondan para que puedan encontrarte.</p>
+            </div>
+            <div className="servicios-options">
+              {SERVICIOS_RURALES.map((servicio) => (
+                <label className="servicio-option" key={servicio.value}>
+                  <input
+                    type="checkbox"
+                    checked={form.servicios_rurales.includes(servicio.value)}
+                    onChange={() => toggleServicio(servicio.value)}
+                  />
+                  <span>{servicio.label}</span>
+                </label>
+              ))}
+            </div>
+            <div className="form-field">
+              <label className="form-label" htmlFor="zona_servicio">
+                Zona donde trabajás
+              </label>
+              <input
+                id="zona_servicio"
+                name="zona_servicio"
+                type="text"
+                className="form-input"
+                placeholder="Ej: sur de Córdoba y norte de La Pampa"
+                value={form.zona_servicio}
+                onChange={handleChange}
+              />
+            </div>
+          </div>
+        )}
 
         <div className="form-row">
           <div className="form-field">
@@ -313,7 +395,9 @@ export default function PerfilForm({ profile, userId, email }: Props) {
 
         <div className="form-field">
           <label className="form-label">
-            {form.roles.includes("propietario")
+            {form.roles.includes("prestador")
+              ? "Sobre vos / tus servicios"
+              : form.roles.includes("propietario")
               ? "Sobre vos / tu empresa"
               : "Sobre vos / tu actividad"}
           </label>

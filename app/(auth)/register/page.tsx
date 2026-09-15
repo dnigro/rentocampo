@@ -7,13 +7,15 @@ import { createClient } from "@/lib/supabase/client";
 
 function RegisterForm() {
   const searchParams = useSearchParams();
-  const tipoInicial =
-    searchParams.get("tipo") === "propietario" ? "propietario" : "productor";
+  const tipoParam = searchParams.get("tipo");
+  const tipoInicial = ["propietario", "productor", "prestador"].includes(tipoParam ?? "")
+    ? tipoParam
+    : "productor";
   const [form, setForm] = useState({
     nombre: "",
     email: "",
     password: "",
-    tipo: tipoInicial as "propietario" | "productor",
+    tipo: tipoInicial as "propietario" | "productor" | "prestador",
   });
   const [error, setError] = useState("");
   const [accountExists, setAccountExists] = useState(false);
@@ -149,6 +151,23 @@ function RegisterForm() {
                   <span className="tipo-emoji">🌱</span>
                   <span className="tipo-nombre">Productor</span>
                   <span className="tipo-desc">Busco tierra para producir</span>
+                </label>
+              </div>
+              <div className="tipo-option">
+                <input
+                  type="radio"
+                  id="tipo-prestador"
+                  name="tipo"
+                  value="prestador"
+                  checked={form.tipo === "prestador"}
+                  onChange={handleChange}
+                />
+                <label htmlFor="tipo-prestador" className="tipo-label">
+                  <span className="tipo-emoji">⚙️</span>
+                  <span className="tipo-nombre">Servicios rurales</span>
+                  <span className="tipo-desc">
+                    Ofrezco servicios para el campo
+                  </span>
                 </label>
               </div>
             </div>

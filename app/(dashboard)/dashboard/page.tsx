@@ -20,12 +20,12 @@ export default async function DashboardPage() {
   const roles = profile?.roles ?? [];
   const esPropietario = roles.includes("propietario");
   const esProductor = roles.includes("productor");
-  const etiquetaPerfil =
-    esPropietario && esProductor
-      ? "🌱🏡 Productor y propietario"
-      : esPropietario
-        ? "🏡 Propietario"
-        : "🌱 Productor";
+  const esPrestador = roles.includes("prestador");
+  const etiquetaPerfil = [
+    esProductor ? "🌱 Productor" : null,
+    esPropietario ? "🏡 Propietario" : null,
+    esPrestador ? "⚙️ Servicios rurales" : null,
+  ].filter(Boolean).join(" · ");
 
   return (
     <div className="dashboard-page">
@@ -35,12 +35,14 @@ export default async function DashboardPage() {
             Hola, {profile?.nombre?.split(" ")[0] ?? "bienvenido"} 👋
           </h1>
           <p className="dashboard-subtitle">
-            {esPropietario
+            {esPrestador && !esPropietario && !esProductor
+              ? "Mostrá tus servicios y conectá con la actividad rural"
+              : esPropietario
               ? "Buscá oportunidades y administrá tus campos"
               : "Explorá campos disponibles y contactá propietarios"}
           </p>
         </div>
-        <span className={`badge-tipo ${esPropietario ? "propietario" : "productor"}`}>
+        <span className={`badge-tipo ${esPropietario ? "propietario" : esPrestador ? "prestador" : "productor"}`}>
           {etiquetaPerfil}
         </span>
       </div>
@@ -67,6 +69,19 @@ export default async function DashboardPage() {
               <span className="dash-card-icon">👤</span>
               <span className="dash-card-label">Mi perfil</span>
               <span className="dash-card-desc">Datos y configuración</span>
+            </Link>
+          </>
+        ) : esPrestador && !esProductor ? (
+          <>
+            <Link href="/mensajes" className="dash-card">
+              <span className="dash-card-icon">💬</span>
+              <span className="dash-card-label">Mensajes</span>
+              <span className="dash-card-desc">Consultas recibidas</span>
+            </Link>
+            <Link href="/perfil" className="dash-card">
+              <span className="dash-card-icon">⚙️</span>
+              <span className="dash-card-label">Mis servicios</span>
+              <span className="dash-card-desc">Especialidades y zona</span>
             </Link>
           </>
         ) : (

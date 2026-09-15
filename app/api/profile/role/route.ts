@@ -17,7 +17,10 @@ export async function POST(request: Request) {
   if (
     !Array.isArray(roles) ||
     roles.length === 0 ||
-    roles.some((role) => role !== "propietario" && role !== "productor")
+    roles.some(
+      (role) =>
+        role !== "propietario" && role !== "productor" && role !== "prestador",
+    )
   ) {
     return NextResponse.json({ error: "Roles de perfil inválidos" }, { status: 400 });
   }
