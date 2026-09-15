@@ -192,13 +192,24 @@ body:has(.mapa-page) {
   top: 16px;
   left: 16px;
   z-index: 10;
-  width: 220px;
+  width: 290px;
   padding: 12px;
   border: 1px solid rgba(26, 58, 26, 0.12);
   border-radius: 12px;
   background: rgba(255, 255, 255, 0.96);
   box-shadow: 0 4px 18px rgba(26, 58, 26, 0.12);
 }
+
+.mapa-modos { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; margin-bottom: 10px; padding: 4px; border-radius: 9px; background: #edf1ee; }
+.mapa-modos button { min-height: 38px; padding: 6px 8px; border: 0; border-radius: 7px; background: transparent; color: #53645b; font: inherit; font-size: 11px; font-weight: 800; cursor: pointer; }
+.mapa-modos button.activo { background: #073f30; color: #fff; }
+.mapa-servicio-filtro { display: grid; gap: 6px; }
+.mapa-servicio-filtro label { color: #1a3a1a; font-size: 11px; font-weight: 800; text-transform: uppercase; }
+.mapa-servicio-filtro select { width: 100%; min-height: 38px; padding: 0 9px; border: 1px solid #d8e1dc; border-radius: 8px; background: #fff; color: #173b2e; font: inherit; font-size: 12px; }
+.mapa-panel-servicio { width: 330px; border-top: 5px solid #f6c500; }
+.mapa-panel-aptitud-servicio { color: #1b1b1b; background: #fff2b5; }
+.mapa-servicio-tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 12px; }
+.mapa-servicio-tags span { padding: 5px 8px; border-radius: 999px; background: #f1f4f2; color: #28463b; font-size: 10px; font-weight: 800; }
 
 .mapa-filtros-titulo {
   margin: 0 0 8px;
@@ -293,7 +304,7 @@ body:has(.mapa-page) {
   .mapa-filtros {
     top: 10px;
     left: 10px;
-    width: min(230px, calc(100% - 76px));
+    width: min(310px, calc(100% - 76px));
     padding: 8px;
   }
 
@@ -315,7 +326,8 @@ body:has(.mapa-page) {
   }
 
   .mapa-panel,
-  .mapa-panel-demanda {
+  .mapa-panel-demanda,
+  .mapa-panel-servicio {
     right: 10px;
     bottom: 12px;
     left: 10px;
