@@ -4,6 +4,9 @@ import "@/styles/mapa.css";
 
 export default async function MapaPage() {
   const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   const { data: campos } = await supabase
     .from("campos")
@@ -22,7 +25,11 @@ export default async function MapaPage() {
 
   return (
     <div className="mapa-page">
-      <CampoMapa campos={campos ?? []} prestadores={prestadores ?? []} />
+      <CampoMapa
+        campos={campos ?? []}
+        prestadores={prestadores ?? []}
+        currentUserId={user?.id}
+      />
     </div>
   );
 }
