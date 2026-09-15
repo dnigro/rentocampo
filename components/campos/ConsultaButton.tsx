@@ -73,7 +73,7 @@ export default function ConsultaButton({
   }
 
   if (esPropietario) {
-    return <div className="consulta-propio">Este es tu campo</div>;
+    return <div className="consulta-propio">Esta es tu publicación</div>;
   }
 
   if (enviado) {
