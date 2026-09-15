@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import Link from "next/link";
+import MensajesRealtime from "@/components/mensajes/MensajesRealtime";
 import "@/styles/mensajes.css";
 
 export default async function MensajesPage() {
@@ -45,7 +46,8 @@ export default async function MensajesPage() {
   ).length;
 
   return (
-    <div className="page-container">
+    <div className="page-container mensajes-container">
+      <MensajesRealtime userId={user.id} />
       <div className={`mensajes-page ${hilos.length === 0 ? "mensajes-page-vacia" : ""}`}>
       <div className="page-header">
         <div>
@@ -138,7 +140,7 @@ export default async function MensajesPage() {
                     {hilo.contenido}
                   </p>
                 </div>
-                {noLeido && <span className="hilo-dot" />}
+                {noLeido && <span className="hilo-nuevo">Nuevo</span>}
               </Link>
             );
           })}
