@@ -11,15 +11,15 @@ import "@/styles/hero-editorial-stable.css";
 import "@/styles/landing-impact.css";
 
 export const metadata: Metadata = {
-  title: "RentoCampo | Publicá tu campo gratis",
+  title: "RentoCampo | Tierra, productores y servicios rurales",
   description:
-    "RentoCampo conecta propietarios rurales con productores que buscan alquilar campos en Argentina. Publicá gratis, recibí consultas y hablá directo.",
+    "Tierra productiva, productores y servicios rurales en una red federal. Explorá el mapa, publicá y conectá por chat gratis.",
   keywords:
     "arrendamiento campos argentina, alquiler campos agrícolas, renta campo, campos en arriendo, tierra para producir",
   openGraph: {
-    title: "RentoCampo | Publicá tu campo gratis",
+    title: "RentoCampo | La red federal del campo argentino",
     description:
-      "Hacé visible tu campo. Conectá directo con productores. Costo $0 y sin intermediarios obligatorios.",
+      "Tierra productiva, productores y servicios rurales en un solo lugar. Mapa, publicaciones y chat online gratis.",
     type: "website",
     locale: "es_AR",
   },

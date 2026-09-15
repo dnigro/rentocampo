@@ -7,44 +7,48 @@ export default function LandingHero() {
     <section className="editorialHero" id="hero">
       <div className="editorialHero__content">
         <div className="editorialHero__message">
+          <p className="editorialHero__eyebrow">Una red federal que produce</p>
           <h1>
-            <span>Tu campo tiene</span>
-            <span>potencial.</span>
-            <span className="editorialHero__highlight">Hacelo visible.</span>
+            <span><b className="editorialHero__plus">+</b>Tierra productiva.</span>
+            <span><b className="editorialHero__plus">+</b>Productores.</span>
+            <span className="editorialHero__highlight">
+              <b className="editorialHero__plus">+</b>Servicios rurales.
+            </span>
             <span className="editorialHero__free">
-              Publicalo <strong>gratis.</strong>
+              Todo en un solo lugar.
             </span>
           </h1>
 
-          <p>
-            Conectamos propietarios con productores que buscan la tierra indicada
-            para crecer.
+          <p className="editorialHero__intro">
+            Encontrá oportunidades con <strong>mapa</strong>, conectá por{" "}
+            <strong>chat online</strong> y avanzá de forma directa. Registrarte,
+            publicar y contactar es <strong>gratis.</strong>
           </p>
 
           <div className="editorialHero__actions">
             <Link
-              href="/register?tipo=propietario"
+              href="/register"
               className="editorialHero__primary"
             >
-              <span>Publicá tu campo gratis</span>
+              <span>Sumarme gratis</span>
               <span className="editorialHero__arrow" aria-hidden="true">→</span>
             </Link>
-            <Link href="/campos" className="editorialHero__secondary">
-              <span>Explorar campos</span>
+            <Link href="/campos/mapa" className="editorialHero__secondary">
+              <span>Explorar el mapa</span>
               <span className="editorialHero__arrow" aria-hidden="true">→</span>
             </Link>
           </div>
         </div>
 
         <p className="editorialHero__proof">
-          Publicar es gratis · Contacto directo · Alcance nacional
+          De cada región productiva de la Argentina, para todo el país
         </p>
       </div>
 
       <div className="editorialHero__visual">
         <Image
           src={heroCampo}
-          alt="Campo argentino con ganado y molino"
+          alt="Tierra productiva argentina vista desde el campo"
           fill
           priority
           placeholder="blur"
@@ -52,10 +56,10 @@ export default function LandingHero() {
           className="editorialHero__image"
         />
         <p className="editorialHero__territory" aria-hidden="true">
-          Argentina / Tierra de oportunidades
+          Argentina / Una red federal
         </p>
         <p className="editorialHero__signature" aria-hidden="true">
-          El campo nos une
+          La producción nos conecta
         </p>
       </div>
     </section>

@@ -86,7 +86,7 @@ body { background: var(--brand-paper); color: var(--brand-ink); }
 .dash-card:hover, .campo-card-pub:hover { transform: translateY(-3px) !important; box-shadow: 0 16px 34px rgba(6,30,22,.11) !important; border-color: rgba(6,30,22,.18) !important; }
 .dash-card-label, .campo-card-titulo, .campo-card-pub-titulo { color: var(--brand-ink) !important; }
 .badge-tipo, .estado-badge, .disp-badge, .aptitud-tag, .mejoras-tag, .filtro-chip { border-radius: 999px !important; }
-.badge-tipo.propietario, .badge-tipo.productor { background: #fff4b3 !important; color: #283a2f !important; border-color: #ead36c !important; }
+.badge-tipo.propietario, .badge-tipo.productor, .badge-tipo.prestador { background: #fff4b3 !important; color: #283a2f !important; border-color: #ead36c !important; }
 
 /* Numeración editorial: grande, pero integrada a contenidos suaves. */
 .dashboard-cards { counter-reset: dashboardCard; }
@@ -162,4 +162,18 @@ body{background:#fff;color:#263a32}
 /* Registro propietario: acerca el indicador de pasos al formulario */
 .auth-page-register::after {
   top: calc(50% - 70px) !important;
+}
+
+.auth-page-register .auth-card {
+  max-width: 660px;
+}
+
+@media (max-width: 760px) {
+  .auth-page-register .tipo-selector {
+    grid-template-columns: 1fr;
+  }
+
+  .auth-page-register .tipo-label {
+    min-height: auto;
+  }
 }

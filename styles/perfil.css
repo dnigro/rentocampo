@@ -11,7 +11,7 @@
 
 .perfil-role-options {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 12px;
 }
 
@@ -35,6 +35,33 @@
 .perfil-role-option span { display: grid; gap: 4px; }
 .perfil-role-option strong { color: #1a3a1a; }
 .perfil-role-option small { color: #667066; line-height: 1.4; }
+
+.servicios-profile-box {
+  display: grid;
+  gap: 18px;
+  padding: 20px;
+  border: 1px solid #d8e1dc;
+  border-left: 4px solid #f5bd00;
+  border-radius: 12px;
+  background: #f8faf8;
+}
+
+.servicios-profile-box h3 { margin: 0 0 5px; color: #073f30; font-size: 18px; }
+.servicios-profile-box p { margin: 0; color: #667066; font-size: 13px; }
+.servicios-options { display: flex; flex-wrap: wrap; gap: 8px; }
+.servicio-option { position: relative; cursor: pointer; }
+.servicio-option input { position: absolute; opacity: 0; pointer-events: none; }
+.servicio-option span {
+  display: block;
+  padding: 8px 11px;
+  border: 1px solid #ccd7d0;
+  border-radius: 999px;
+  background: #fff;
+  color: #28463b;
+  font-size: 12px;
+  font-weight: 700;
+}
+.servicio-option input:checked + span { border-color: #073f30; background: #073f30; color: #fff; }
 
 .perfil-danger-zone { border-color: #fecaca; background: #fffafa; }
 .perfil-danger-zone .perfil-section-title { color: #991b1b; }

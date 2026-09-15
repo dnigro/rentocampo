@@ -3,8 +3,26 @@
 // ============================================================
 // ENUMS
 // ============================================================
-export type TipoPerfil = "propietario" | "productor";
+export type TipoPerfil = "propietario" | "productor" | "prestador";
 export type RolPerfil = TipoPerfil;
+
+export type ServicioRural =
+  | "cosecha"
+  | "siembra"
+  | "pulverizacion"
+  | "fertilizacion"
+  | "maquinaria"
+  | "transporte"
+  | "hoteleria_vacuna"
+  | "granja"
+  | "silos_almacenamiento"
+  | "acondicionamiento_granos"
+  | "riego"
+  | "alambrados"
+  | "veterinaria"
+  | "agronomia"
+  | "seguros_financiacion"
+  | "otro";
 
 export type AptitudCampo =
   | "agricola"
@@ -33,6 +51,8 @@ export interface Profile {
   telefono?: string;
   bio?: string;
   avatar_url?: string;
+  servicios_rurales?: ServicioRural[];
+  zona_servicio?: string;
   activo: boolean;
   created_at: string;
   updated_at: string;

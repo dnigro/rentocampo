@@ -30,6 +30,14 @@
   text-transform: uppercase;
 }
 
+.editorialHero__message > .editorialHero__eyebrow {
+  margin: 0 0 18px;
+  color: var(--hero-black);
+  font-size: 12px;
+  font-weight: 900;
+  line-height: 1.2;
+}
+
 .editorialHero__eyebrow strong {
   color: var(--hero-yellow);
   font-size: 23px;
@@ -48,7 +56,7 @@
   flex-direction: column;
   color: var(--hero-black);
   font-family: var(--font-display), sans-serif;
-  font-size: clamp(58px, 5.15vw, 94px);
+  font-size: clamp(50px, 4.45vw, 82px);
   font-weight: 400;
   line-height: .88;
   letter-spacing: -.025em;
@@ -60,10 +68,17 @@
   white-space: nowrap;
 }
 
+.editorialHero__plus {
+  display: inline-block;
+  width: .62em;
+  color: var(--hero-yellow);
+  font-weight: 900;
+}
+
 .editorialHero h1 .editorialHero__highlight {
   margin-top: .06em;
   color: var(--hero-yellow);
-  font-size: 1.2em;
+  font-size: 1.02em;
   line-height: .92;
   text-shadow: none;
 }
@@ -71,7 +86,7 @@
 .editorialHero h1 .editorialHero__free {
   margin-top: .14em;
   color: var(--hero-black);
-  font-size: .66em;
+  font-size: .58em;
   font-weight: 700;
   line-height: 1;
   letter-spacing: -.01em;
@@ -89,6 +104,14 @@
   color: #242424;
   font-size: clamp(18px, 1.35vw, 23px);
   line-height: 1.45;
+}
+
+.editorialHero__message > .editorialHero__intro strong {
+  color: var(--hero-yellow);
+  font-size: 1.16em;
+  font-weight: 900;
+  letter-spacing: .01em;
+  text-transform: uppercase;
 }
 
 .editorialHero__actions {
@@ -200,7 +223,7 @@
   }
 
   .editorialHero h1 {
-    font-size: clamp(52px, 5.6vw, 72px);
+    font-size: clamp(46px, 5vw, 66px);
   }
 }
 
@@ -220,15 +243,11 @@
   }
 
   .editorialHero h1 {
-    font-size: clamp(48px, 13vw, 72px);
+    font-size: clamp(43px, 11vw, 64px);
   }
 
   .editorialHero h1 span {
     white-space: normal;
-  }
-
-  .editorialHero h1 .editorialHero__highlight {
-    white-space: nowrap;
   }
 
   .editorialHero__message > p {
@@ -262,8 +281,17 @@
   }
 
   .editorialHero h1 {
-    font-size: clamp(43px, 13.8vw, 62px);
+    max-width: 100%;
+    font-size: clamp(38px, 11.4vw, 54px);
     line-height: .92;
+  }
+
+  .editorialHero h1 span,
+  .editorialHero h1 .editorialHero__highlight,
+  .editorialHero h1 .editorialHero__free {
+    max-width: 100%;
+    white-space: normal;
+    overflow-wrap: anywhere;
   }
 
   .editorialHero h1 .editorialHero__highlight {
@@ -271,8 +299,14 @@
   }
 
   .editorialHero h1 .editorialHero__free {
-    font-size: .63em;
-    white-space: nowrap;
+    font-size: .6em;
+    line-height: 1.08;
+  }
+
+  .editorialHero__plus { width: .55em; }
+
+  .editorialHero__message > .editorialHero__intro strong {
+    font-size: 1.12em;
   }
 
   .editorialHero__actions {
