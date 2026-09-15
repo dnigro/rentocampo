@@ -53,6 +53,8 @@ export interface Profile {
   avatar_url?: string;
   servicios_rurales?: ServicioRural[];
   zona_servicio?: string;
+  provincia_servicio?: string;
+  localidad_servicio?: string;
   activo: boolean;
   created_at: string;
   updated_at: string;

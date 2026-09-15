@@ -14,9 +14,15 @@ export default async function MapaPage() {
     .not("latitud", "is", null)
     .not("longitud", "is", null);
 
+  const { data: prestadores } = await supabase
+    .from("profiles")
+    .select("id, nombre, bio, avatar_url, servicios_rurales, zona_servicio, provincia_servicio, localidad_servicio")
+    .contains("roles", ["prestador"])
+    .not("provincia_servicio", "is", null);
+
   return (
     <div className="mapa-page">
-      <CampoMapa campos={campos ?? []} />
+      <CampoMapa campos={campos ?? []} prestadores={prestadores ?? []} />
     </div>
   );
 }

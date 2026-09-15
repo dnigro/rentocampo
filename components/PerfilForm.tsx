@@ -2,26 +2,8 @@
 
 import { useState, useRef } from "react";
 import { createClient } from "@/lib/supabase/client";
-import type { Profile, RolPerfil, ServicioRural } from "@/types";
-
-const SERVICIOS_RURALES: Array<{ value: ServicioRural; label: string }> = [
-  { value: "cosecha", label: "Cosecha" },
-  { value: "siembra", label: "Siembra" },
-  { value: "pulverizacion", label: "Pulverización" },
-  { value: "fertilizacion", label: "Fertilización" },
-  { value: "maquinaria", label: "Maquinaria y labores" },
-  { value: "transporte", label: "Transporte y logística" },
-  { value: "hoteleria_vacuna", label: "Hotelería vacuna" },
-  { value: "granja", label: "Granjas y producción animal" },
-  { value: "silos_almacenamiento", label: "Silos y almacenamiento" },
-  { value: "acondicionamiento_granos", label: "Acondicionamiento de granos" },
-  { value: "riego", label: "Riego y agua" },
-  { value: "alambrados", label: "Alambrados e infraestructura" },
-  { value: "veterinaria", label: "Veterinaria y sanidad" },
-  { value: "agronomia", label: "Agronomía y asesoramiento" },
-  { value: "seguros_financiacion", label: "Seguros y financiación" },
-  { value: "otro", label: "Otro servicio rural" },
-];
+import { PROVINCIAS_ARG, type Profile, type RolPerfil, type ServicioRural } from "@/types";
+import { SERVICIOS_RURALES } from "@/data/servicios-rurales";
 
 interface Props {
   profile: Partial<Profile> | null;
@@ -42,6 +24,8 @@ export default function PerfilForm({ profile, userId, email }: Props) {
       : ["productor" as const],
     servicios_rurales: profile?.servicios_rurales ?? [],
     zona_servicio: profile?.zona_servicio ?? "",
+    provincia_servicio: profile?.provincia_servicio ?? "",
+    localidad_servicio: profile?.localidad_servicio ?? "",
   });
 
   const [avatarUrl, setAvatarUrl] = useState(profile?.avatar_url ?? "");
@@ -130,6 +114,12 @@ export default function PerfilForm({ profile, userId, email }: Props) {
             : [],
           zona_servicio: form.roles.includes("prestador")
             ? form.zona_servicio
+            : null,
+          provincia_servicio: form.roles.includes("prestador")
+            ? form.provincia_servicio
+            : null,
+          localidad_servicio: form.roles.includes("prestador")
+            ? form.localidad_servicio
             : null,
         })
         .eq("id", userId);
@@ -364,6 +354,19 @@ export default function PerfilForm({ profile, userId, email }: Props) {
                 value={form.zona_servicio}
                 onChange={handleChange}
               />
+            </div>
+            <div className="form-row">
+              <div className="form-field">
+                <label className="form-label" htmlFor="provincia_servicio">Provincia principal</label>
+                <select id="provincia_servicio" name="provincia_servicio" className="form-input" value={form.provincia_servicio} onChange={handleChange}>
+                  <option value="">Elegí una provincia</option>
+                  {PROVINCIAS_ARG.map((provincia) => <option key={provincia} value={provincia}>{provincia}</option>)}
+                </select>
+              </div>
+              <div className="form-field">
+                <label className="form-label" htmlFor="localidad_servicio">Localidad de referencia</label>
+                <input id="localidad_servicio" name="localidad_servicio" className="form-input" placeholder="Ej: Pergamino" value={form.localidad_servicio} onChange={handleChange} />
+              </div>
             </div>
           </div>
         )}
