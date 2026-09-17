@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import Image from "next/image";
 
 interface Foto {
   url: string;
@@ -64,7 +65,7 @@ export default function GaleriaCarrusel({ fotos, titulo }: Props) {
       {/* Galería estática */}
       <div className="ficha-galeria">
         <div className="galeria-principal" onClick={() => setIndiceModal(0)}>
-          <img src={fotos[0].url} alt={titulo} />
+          <Image src={fotos[0].url} alt={titulo} fill sizes="(max-width: 768px) 100vw, 70vw" priority />
           <div className="galeria-overlay">
             <span className="galeria-ver-todas">🔍 Ver fotos</span>
           </div>
@@ -77,7 +78,7 @@ export default function GaleriaCarrusel({ fotos, titulo }: Props) {
                 className="galeria-thumb"
                 onClick={() => setIndiceModal(i + 1)}
               >
-                <img src={f.url} alt={"Foto " + (i + 2)} />
+                <Image src={f.url} alt={`${titulo}, foto ${i + 2}`} fill sizes="30vw" />
                 {i === 1 && fotos.length > 3 && (
                   <div
                     className="galeria-mas"
@@ -123,10 +124,12 @@ export default function GaleriaCarrusel({ fotos, titulo }: Props) {
                 </button>
               )}
               <div className="carrusel-imagen">
-                <img
+                <Image
                   key={indiceModal!}
                   src={fotos[indiceModal!].url}
                   alt={titulo}
+                  fill
+                  sizes="100vw"
                 />
               </div>
               {fotos.length > 1 && (
@@ -148,7 +151,7 @@ export default function GaleriaCarrusel({ fotos, titulo }: Props) {
                     className={`carrusel-thumb ${i === indiceModal ? "activo" : ""}`}
                     onClick={() => setIndiceModal(i)}
                   >
-                    <img src={f.url} alt={"Foto " + (i + 1)} />
+                    <Image src={f.url} alt={`${titulo}, foto ${i + 1}`} fill sizes="96px" />
                   </button>
                 ))}
               </div>

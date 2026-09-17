@@ -16,6 +16,7 @@ export const metadata: Metadata = {
     "Tierra productiva, productores y servicios rurales en una red federal. Explorá el mapa, publicá y conectá por chat gratis.",
   keywords:
     "arrendamiento campos argentina, alquiler campos agrícolas, renta campo, campos en arriendo, tierra para producir",
+  alternates: { canonical: "https://rentocampo.com" },
   openGraph: {
     title: "RentoCampo | La red federal del campo argentino",
     description:
