@@ -1,5 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
+import type { Metadata } from "next";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import ConsultaButton from "@/components/campos/ConsultaButton";
 import GaleriaCarrusel from "@/components/campos/GaleriaCarrusel";
@@ -10,12 +12,39 @@ import "@/styles/favoritos.css";
 import VolverButton from "@/components/campos/VolverButton";
 import "@/styles/favoritos.css";
 import FavoritoBtn from "@/components/campos/FavoritoBtn";
+import { campoDescription, SITE_URL } from "@/lib/seo/campos";
 
-export default async function CampoFichaPage({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
+type PageProps = { params: Promise<{ id: string }> };
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { id } = await params;
+  const admin = createAdminClient();
+  const { data: campo } = await admin
+    .from("campos")
+    .select("titulo, hectareas, aptitud, localidad, provincia, status")
+    .eq("id", id)
+    .eq("status", "activo")
+    .maybeSingle();
+
+  if (!campo) return { title: "Campo no disponible | RentoCampo", robots: { index: false } };
+  const description = campoDescription(campo);
+  const title = `${campo.titulo} | RentoCampo`;
+
+  return {
+    title,
+    description,
+    alternates: { canonical: `${SITE_URL}/campos/${id}` },
+    openGraph: {
+      title,
+      description,
+      url: `${SITE_URL}/campos/${id}`,
+      type: "website",
+      locale: "es_AR",
+    },
+  };
+}
+
+export default async function CampoFichaPage({ params }: PageProps) {
   const { id } = await params;
   const supabase = await createClient();
   const admin = createAdminClient();
@@ -67,8 +96,38 @@ export default async function CampoFichaPage({
       : "Campaña próxima"
     : "A convenir";
 
+  const placeJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Place",
+    name: campoConPropietario.titulo,
+    description: campoDescription(campoConPropietario),
+    url: `${SITE_URL}/campos/${id}`,
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: campoConPropietario.localidad || undefined,
+      addressRegion: campoConPropietario.provincia || undefined,
+      addressCountry: "AR",
+    },
+    additionalProperty: [
+      {
+        "@type": "PropertyValue",
+        name: "Superficie",
+        value: `${campoConPropietario.hectareas} hectáreas`,
+      },
+      {
+        "@type": "PropertyValue",
+        name: "Aptitud",
+        value: APTITUD_LABEL[campoConPropietario.aptitud] ?? campoConPropietario.aptitud,
+      },
+    ],
+  };
+
   return (
     <div className="ficha-container">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(placeJsonLd).replace(/</g, "\\u003c") }}
+      />
       <VolverButton />
       {/* Galería de fotos */}
       <GaleriaCarrusel fotos={fotosOrdenadas} titulo={campoConPropietario.titulo} />
@@ -172,9 +231,11 @@ export default async function CampoFichaPage({
             <div className="ficha-propietario">
               <div className="propietario-avatar">
                 {campoConPropietario.propietario.avatar_url ? (
-                  <img
+                  <Image
                     src={campoConPropietario.propietario.avatar_url}
                     alt={campoConPropietario.propietario.nombre}
+                    fill
+                    sizes="56px"
                   />
                 ) : (
                   <span>{campoConPropietario.propietario.nombre?.[0]?.toUpperCase()}</span>

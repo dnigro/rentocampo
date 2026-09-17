@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import type { Campo } from "@/types";
 import FavoritoBtn from "@/components/campos/FavoritoBtn";
 
@@ -31,7 +32,12 @@ export default function CampoCard({ campo, userId }: Props) {
       <Link href={`/campos/${campo.id}`} className="campo-card-pub-img-link">
         <div className="campo-card-pub-img">
           {foto ? (
-            <img src={foto.url} alt={campo.titulo} />
+            <Image
+              src={foto.url}
+              alt={`${campo.titulo} en ${campo.localidad || campo.provincia}`}
+              fill
+              sizes="(max-width: 720px) 100vw, (max-width: 1100px) 50vw, 33vw"
+            />
           ) : (
             <div className="campo-card-pub-placeholder">🌿</div>
           )}
