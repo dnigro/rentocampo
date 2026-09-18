@@ -7,7 +7,6 @@ interface Mensaje {
   contenido: string;
   created_at: string;
   remitente_id: string;
-  leido?: boolean;
 }
 
 interface Props {
@@ -50,8 +49,7 @@ export default function MensajeDirectoHilo({ userId, destinatarioId, mensajesIni
               actuales.length === nuevos.length &&
               actuales.every(
                 (mensaje, index) =>
-                  mensaje.id === nuevos[index]?.id &&
-                  mensaje.leido === nuevos[index]?.leido,
+                  mensaje.id === nuevos[index]?.id,
               );
             return sinCambios ? actuales : nuevos;
           });
