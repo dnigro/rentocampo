@@ -4,7 +4,13 @@ export default function robots(): MetadataRoute.Robots {
   return {
     rules: {
       userAgent: "*",
-      allow: ["/", "/campos", "/campos/", "/alquiler-de-campos/"],
+      allow: [
+        "/",
+        "/campos",
+        "/campos/",
+        "/alquiler-de-campos/",
+        "/servicios-rurales",
+      ],
       disallow: [
         "/api/",
         "/dashboard",

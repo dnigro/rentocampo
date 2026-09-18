@@ -12,11 +12,13 @@ import "@/styles/favoritos.css";
 import VolverButton from "@/components/campos/VolverButton";
 import "@/styles/favoritos.css";
 import FavoritoBtn from "@/components/campos/FavoritoBtn";
-import { campoDescription, SITE_URL } from "@/lib/seo/campos";
+import { campoDescription, campoSeoTitle, SITE_URL } from "@/lib/seo/campos";
 
 type PageProps = { params: Promise<{ id: string }> };
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
   const { id } = await params;
   const admin = createAdminClient();
   const { data: campo } = await admin
@@ -26,9 +28,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     .eq("status", "activo")
     .maybeSingle();
 
-  if (!campo) return { title: "Campo no disponible | RentoCampo", robots: { index: false } };
+  if (!campo)
+    return {
+      title: "Campo no disponible | RentoCampo",
+      robots: { index: false },
+    };
   const description = campoDescription(campo);
-  const title = `${campo.titulo} | RentoCampo`;
+  const title = campoSeoTitle(campo);
 
   return {
     title,
@@ -117,7 +123,9 @@ export default async function CampoFichaPage({ params }: PageProps) {
       {
         "@type": "PropertyValue",
         name: "Aptitud",
-        value: APTITUD_LABEL[campoConPropietario.aptitud] ?? campoConPropietario.aptitud,
+        value:
+          APTITUD_LABEL[campoConPropietario.aptitud] ??
+          campoConPropietario.aptitud,
       },
     ],
   };
@@ -126,20 +134,28 @@ export default async function CampoFichaPage({ params }: PageProps) {
     <div className="ficha-container">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(placeJsonLd).replace(/</g, "\\u003c") }}
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(placeJsonLd).replace(/</g, "\\u003c"),
+        }}
       />
       <VolverButton />
       {/* Galería de fotos */}
-      <GaleriaCarrusel fotos={fotosOrdenadas} titulo={campoConPropietario.titulo} />
+      <GaleriaCarrusel
+        fotos={fotosOrdenadas}
+        titulo={campoConPropietario.titulo}
+      />
 
       <div className="ficha-body">
         {/* Columna principal */}
         <div className="ficha-main">
           <div className="ficha-tags">
             <span className="aptitud-tag">
-              {APTITUD_LABEL[campoConPropietario.aptitud] ?? campoConPropietario.aptitud}
+              {APTITUD_LABEL[campoConPropietario.aptitud] ??
+                campoConPropietario.aptitud}
             </span>
-            {campoConPropietario.mejoras === "Sí" && <span className="mejoras-tag">Con mejoras</span>}
+            {campoConPropietario.mejoras === "Sí" && (
+              <span className="mejoras-tag">Con mejoras</span>
+            )}
             <span className="disp-badge disp-a-convenir">{disponibilidad}</span>
           </div>
 
@@ -147,7 +163,11 @@ export default async function CampoFichaPage({ params }: PageProps) {
 
           <p className="ficha-ubicacion">
             📍{" "}
-            {[campoConPropietario.localidad, campoConPropietario.departamento, campoConPropietario.provincia]
+            {[
+              campoConPropietario.localidad,
+              campoConPropietario.departamento,
+              campoConPropietario.provincia,
+            ]
               .filter(Boolean)
               .join(", ")}
           </p>
@@ -162,7 +182,9 @@ export default async function CampoFichaPage({ params }: PageProps) {
             </div>
             <div className="dato-sep" />
             <div className="dato-item">
-              <span className="dato-valor">{APTITUD_LABEL[campoConPropietario.aptitud]}</span>
+              <span className="dato-valor">
+                {APTITUD_LABEL[campoConPropietario.aptitud]}
+              </span>
               <span className="dato-label">Aptitud</span>
             </div>
             {campoConPropietario.rendimiento_estimado && (
@@ -178,7 +200,9 @@ export default async function CampoFichaPage({ params }: PageProps) {
             )}
             <div className="dato-sep" />
             <div className="dato-item">
-              <span className="dato-valor">{campoConPropietario.mejoras === "Sí" ? "Sí" : "No"}</span>
+              <span className="dato-valor">
+                {campoConPropietario.mejoras === "Sí" ? "Sí" : "No"}
+              </span>
               <span className="dato-label">Mejoras</span>
             </div>
           </div>
@@ -187,7 +211,9 @@ export default async function CampoFichaPage({ params }: PageProps) {
           {campoConPropietario.descripcion && (
             <div className="ficha-seccion">
               <h2 className="ficha-seccion-titulo">Descripción</h2>
-              <p className="ficha-descripcion">{campoConPropietario.descripcion}</p>
+              <p className="ficha-descripcion">
+                {campoConPropietario.descripcion}
+              </p>
             </div>
           )}
 
@@ -195,7 +221,9 @@ export default async function CampoFichaPage({ params }: PageProps) {
           {campoConPropietario.ambiente && (
             <div className="ficha-seccion">
               <h2 className="ficha-seccion-titulo">Ambiente y suelo</h2>
-              <p className="ficha-descripcion">{campoConPropietario.ambiente}</p>
+              <p className="ficha-descripcion">
+                {campoConPropietario.ambiente}
+              </p>
             </div>
           )}
         </div>
@@ -206,7 +234,8 @@ export default async function CampoFichaPage({ params }: PageProps) {
             {campoConPropietario.precio ? (
               <div className="ficha-precio">
                 <span className="precio-valor">
-                  {campoConPropietario.moneda} {Number(campoConPropietario.precio).toLocaleString("es-AR")}
+                  {campoConPropietario.moneda}{" "}
+                  {Number(campoConPropietario.precio).toLocaleString("es-AR")}
                 </span>
                 <span className="precio-unit">total estimado</span>
                 <span className="precio-total">
@@ -238,7 +267,9 @@ export default async function CampoFichaPage({ params }: PageProps) {
                     sizes="56px"
                   />
                 ) : (
-                  <span>{campoConPropietario.propietario.nombre?.[0]?.toUpperCase()}</span>
+                  <span>
+                    {campoConPropietario.propietario.nombre?.[0]?.toUpperCase()}
+                  </span>
                 )}
               </div>
               <div className="propietario-info">
@@ -246,7 +277,8 @@ export default async function CampoFichaPage({ params }: PageProps) {
                   {campoConPropietario.propietario.nombre}
                 </span>
                 <span className="propietario-provincia">
-                  {campoConPropietario.propietario.apellido ?? "Propietario RentoCampo"}
+                  {campoConPropietario.propietario.apellido ??
+                    "Propietario RentoCampo"}
                 </span>
               </div>
             </div>
