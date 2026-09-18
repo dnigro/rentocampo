@@ -6,6 +6,7 @@ import Link from "next/link";
 import { DEMANDA_ZONAS, type DemandaZona } from "@/data/demanda-zonas";
 import { CENTROS_PROVINCIA, SERVICIO_LABEL, SERVICIOS_RURALES } from "@/data/servicios-rurales";
 import type { ServicioRural } from "@/types";
+import { createClient } from "@/lib/supabase/client";
 
 interface CampoPin {
   id: string;
@@ -24,6 +25,7 @@ interface Props {
   campos: CampoPin[];
   prestadores: ServicioPin[];
   currentUserId?: string;
+  initialVista?: "tierra" | "servicios";
 }
 
 interface ServicioPin {
@@ -37,7 +39,12 @@ interface ServicioPin {
   localidad_servicio?: string;
 }
 
-export default function CampoMapa({ campos, prestadores, currentUserId }: Props) {
+export default function CampoMapa({
+  campos,
+  prestadores,
+  currentUserId,
+  initialVista = "tierra",
+}: Props) {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<LeafletMap | null>(null);
   const camposLayer = useRef<LayerGroup | null>(null);
@@ -46,11 +53,31 @@ export default function CampoMapa({ campos, prestadores, currentUserId }: Props)
   const [selectedCampo, setSelectedCampo] = useState<CampoPin | null>(null);
   const [selectedDemanda, setSelectedDemanda] = useState<DemandaZona | null>(null);
   const [selectedServicio, setSelectedServicio] = useState<ServicioPin | null>(null);
-  const [vista, setVista] = useState<"tierra" | "servicios">("tierra");
+  const [vista, setVista] = useState<"tierra" | "servicios">(initialVista);
   const [categoriaServicio, setCategoriaServicio] = useState<ServicioRural | "todas">("todas");
   const [mostrarCampos, setMostrarCampos] = useState(true);
   const [mostrarDemanda, setMostrarDemanda] = useState(true);
   const [mapError, setMapError] = useState(false);
+  const [supabase] = useState(createClient);
+  const [resolvedUserId, setResolvedUserId] = useState<string | null | undefined>(
+    currentUserId,
+  );
+
+  useEffect(() => {
+    if (currentUserId) {
+      setResolvedUserId(currentUserId);
+      return;
+    }
+
+    let cancelled = false;
+    void supabase.auth.getUser().then(({ data }) => {
+      if (!cancelled) setResolvedUserId(data.user?.id ?? null);
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [currentUserId, supabase]);
 
   function cambiarVista(nuevaVista: "tierra" | "servicios") {
     setVista(nuevaVista);
@@ -372,9 +399,13 @@ export default function CampoMapa({ campos, prestadores, currentUserId }: Props)
           </div>
           {selectedServicio.zona_servicio && <p className="mapa-panel-descripcion"><strong>Zona de cobertura:</strong> {selectedServicio.zona_servicio}</p>}
           {selectedServicio.bio && <p className="mapa-panel-descripcion">{selectedServicio.bio}</p>}
-          {selectedServicio.id === currentUserId ? (
+          {resolvedUserId === undefined ? (
             <div className="mapa-panel-btn mapa-panel-btn-propio" aria-disabled="true">
-              Este es tu perfil
+              Verificando sesión…
+            </div>
+          ) : selectedServicio.id === resolvedUserId ? (
+            <div className="mapa-panel-btn mapa-panel-btn-propio" aria-disabled="true">
+              Este es tu servicio
             </div>
           ) : (
             <Link href={`/mensajes/direct/${selectedServicio.id}`} className="mapa-panel-btn">
