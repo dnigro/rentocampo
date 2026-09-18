@@ -3,6 +3,7 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
 import MensajeDirectoHilo from "@/components/mensajes/MensajeDirectoHilo";
+import { isMissingMensajesDirectosLeido } from "@/lib/supabase/mensajes-directos";
 import "@/styles/mensajes.css";
 
 export default async function MensajeDirectoPage({ params }: { params: Promise<{ usuarioId: string }> }) {
@@ -21,16 +22,20 @@ export default async function MensajeDirectoPage({ params }: { params: Promise<{
   if (!contacto) notFound();
 
   const { data: mensajes } = await supabase.from("mensajes_directos")
-    .select("id, contenido, created_at, remitente_id, leido")
+    .select("id, contenido, created_at, remitente_id")
     .or(`and(remitente_id.eq.${user.id},destinatario_id.eq.${usuarioId}),and(remitente_id.eq.${usuarioId},destinatario_id.eq.${user.id})`)
     .order("created_at", { ascending: true });
 
-  await supabase
+  const { error: readError } = await supabase
     .from("mensajes_directos")
     .update({ leido: true })
     .eq("destinatario_id", user.id)
     .eq("remitente_id", usuarioId)
     .eq("leido", false);
+
+  if (readError && !isMissingMensajesDirectosLeido(readError)) {
+    console.error("Error marcando mensajes directos como leídos:", readError);
+  }
 
   const mensajesIniciales = mensajes ?? [];
 
