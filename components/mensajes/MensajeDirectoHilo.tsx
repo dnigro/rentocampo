@@ -1,13 +1,13 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { createClient } from "@/lib/supabase/client";
 
 interface Mensaje {
   id: string;
   contenido: string;
   created_at: string;
   remitente_id: string;
+  leido?: boolean;
 }
 
 interface Props {
@@ -21,7 +21,6 @@ export default function MensajeDirectoHilo({ userId, destinatarioId, mensajesIni
   const [texto, setTexto] = useState("");
   const [enviando, setEnviando] = useState(false);
   const [error, setError] = useState("");
-  const [supabase] = useState(createClient);
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -29,37 +28,49 @@ export default function MensajeDirectoHilo({ userId, destinatarioId, mensajesIni
   }, [mensajes]);
 
   useEffect(() => {
-    const channel = supabase
-      .channel(`mensaje-directo-${userId}-${destinatarioId}`)
-      .on(
-        "postgres_changes",
-        {
-          event: "INSERT",
-          schema: "public",
-          table: "mensajes_directos",
-          filter: `destinatario_id=eq.${userId}`,
-        },
-        async (payload) => {
-          if (payload.new.remitente_id !== destinatarioId) return;
+    let activo = true;
+    let actualizando = false;
 
-          const nuevo = payload.new as Mensaje;
-          setMensajes((actuales) =>
-            actuales.some((mensaje) => mensaje.id === nuevo.id)
-              ? actuales
-              : [...actuales, nuevo],
-          );
-          await supabase
-            .from("mensajes_directos")
-            .update({ leido: true })
-            .eq("id", nuevo.id);
-        },
-      )
-      .subscribe();
+    async function actualizarMensajes() {
+      if (actualizando) return;
+      actualizando = true;
+
+      try {
+        const response = await fetch(
+          `/api/mensajes/directos?interlocutorId=${encodeURIComponent(destinatarioId)}`,
+          { cache: "no-store" },
+        );
+        if (!response.ok) return;
+
+        const result = await response.json();
+        if (activo && Array.isArray(result.mensajes)) {
+          const nuevos = result.mensajes as Mensaje[];
+          setMensajes((actuales) => {
+            const sinCambios =
+              actuales.length === nuevos.length &&
+              actuales.every(
+                (mensaje, index) =>
+                  mensaje.id === nuevos[index]?.id &&
+                  mensaje.leido === nuevos[index]?.leido,
+              );
+            return sinCambios ? actuales : nuevos;
+          });
+        }
+      } catch (cause) {
+        console.error("Error actualizando mensajes directos:", cause);
+      } finally {
+        actualizando = false;
+      }
+    }
+
+    actualizarMensajes();
+    const polling = window.setInterval(actualizarMensajes, 4000);
 
     return () => {
-      supabase.removeChannel(channel);
+      activo = false;
+      window.clearInterval(polling);
     };
-  }, [destinatarioId, supabase, userId]);
+  }, [destinatarioId]);
 
   async function enviar(event: React.FormEvent) {
     event.preventDefault();
@@ -68,21 +79,32 @@ export default function MensajeDirectoHilo({ userId, destinatarioId, mensajesIni
 
     setEnviando(true);
     setError("");
-    const { data, error } = await supabase.from("mensajes_directos")
-      .insert({ remitente_id: userId, destinatario_id: destinatarioId, contenido })
-      .select("id, contenido, created_at, remitente_id")
-      .single();
+    try {
+      const response = await fetch("/api/mensajes/directos", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ destinatarioId, contenido }),
+      });
+      const result = await response.json();
 
-    if (error) {
-      console.error("Error enviando mensaje directo:", error);
-      setError("No pudimos enviar el mensaje. Ejecutá la migración 20260909_create_mensajes_directos.sql en Supabase.");
+      if (!response.ok || !result.mensaje) {
+        console.error("Error enviando mensaje directo:", result.error);
+        setError(result.error ?? "No pudimos enviar el mensaje. Intentá nuevamente.");
+        return;
+      }
+
+      setMensajes((actuales) =>
+        actuales.some((mensaje) => mensaje.id === result.mensaje.id)
+          ? actuales
+          : [...actuales, result.mensaje],
+      );
+      setTexto("");
+    } catch (cause) {
+      console.error("Error enviando mensaje directo:", cause);
+      setError("No pudimos conectar para enviar el mensaje. Intentá nuevamente.");
+    } finally {
       setEnviando(false);
-      return;
     }
-
-    if (data) setMensajes((actuales) => [...actuales, data]);
-    setTexto("");
-    setEnviando(false);
   }
 
   return <div className="hilo-container">
