@@ -3,6 +3,8 @@ import Link from "next/link";
 import { SERVICIOS_RURALES } from "@/data/servicios-rurales";
 import "@/styles/servicios-rurales.css";
 
+// Fuerza un nuevo Preview de Vercel; no modifica producción.
+
 const SITE_URL = "https://rentocampo.com";
 
 export const metadata: Metadata = {
