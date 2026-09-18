@@ -28,6 +28,7 @@ interface Hilo {
   campo: CampoHilo | null;
   remitente: PerfilHilo | null;
   destinatario: PerfilHilo | null;
+  noLeidos: number;
 }
 
 function relationValue<T>(value: T | T[] | null): T | null {
@@ -116,6 +117,7 @@ export default async function MensajesPage() {
         campo,
         remitente,
         destinatario,
+        noLeidos: 0,
       });
     }
   }
@@ -129,19 +131,46 @@ export default async function MensajesPage() {
       campo: null,
       remitente: perfilesPorId.get(m.remitente_id) ?? null,
       destinatario: perfilesPorId.get(m.destinatario_id) ?? null,
+      noLeidos: 0,
     });
   }
-  const hilos = Array.from(hilosMap.values()).sort(
+
+  const noLeidosPorHilo = new Map<string, number>();
+  for (const mensaje of mensajes ?? []) {
+    if (mensaje.leido || mensaje.destinatario_id !== user.id) continue;
+    const campo = relationValue(
+      mensaje.campo as unknown as CampoHilo | CampoHilo[] | null,
+    );
+    const otroId =
+      mensaje.remitente_id === user.id
+        ? mensaje.destinatario_id
+        : mensaje.remitente_id;
+    const clave = campo?.id ? `campo:${campo.id}` : `directo:${otroId}`;
+    noLeidosPorHilo.set(clave, (noLeidosPorHilo.get(clave) ?? 0) + 1);
+  }
+  for (const mensaje of mensajesDirectos ?? []) {
+    if (mensaje.leido || mensaje.destinatario_id !== user.id) continue;
+    const otroId =
+      mensaje.remitente_id === user.id
+        ? mensaje.destinatario_id
+        : mensaje.remitente_id;
+    const clave = `directo:${otroId}`;
+    noLeidosPorHilo.set(clave, (noLeidosPorHilo.get(clave) ?? 0) + 1);
+  }
+
+  const hilos = Array.from(hilosMap.values()).map((hilo) => {
+    const otroId =
+      hilo.remitente_id === user.id
+        ? hilo.destinatario_id
+        : hilo.remitente_id;
+    const clave = hilo.campo?.id
+      ? `campo:${hilo.campo.id}`
+      : `directo:${otroId}`;
+    return { ...hilo, noLeidos: noLeidosPorHilo.get(clave) ?? 0 };
+  }).sort(
     (a, b) =>
       new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
   );
-
-  // Contar no leídos
-  const noLeidos = (mensajes ?? []).filter(
-    (m) => !m.leido && m.destinatario_id === user.id,
-  ).length + (mensajesDirectos ?? []).filter(
-    (m) => !m.leido && m.destinatario_id === user.id,
-  ).length;
 
   return (
     <div className="page-container mensajes-container">
@@ -149,17 +178,13 @@ export default async function MensajesPage() {
       <div className={`mensajes-page ${hilos.length === 0 ? "mensajes-page-vacia" : ""}`}>
       <div className="page-header">
         <div>
-          <h1 className="page-title">
-            Mensajes{" "}
-            {noLeidos > 0 && <span className="badge-noLeido">{noLeidos}</span>}
-          </h1>
+          <h1 className="page-title">Mensajes</h1>
           <p className="page-subtitle">
             {hilos.length > 0
               ? `${hilos.length} conversación${hilos.length !== 1 ? "es" : ""}`
               : "No tenés conversaciones todavía"}
           </p>
         </div>
-        {hilos.length > 0 && <Link href="/mensajes/nuevo" className="btn-primary-lg">Nuevo mensaje</Link>}
       </div>
 
       {hilos.length === 0 ? (
@@ -177,7 +202,7 @@ export default async function MensajesPage() {
             const destinatario = hilo.destinatario;
             const esRemitente = hilo.remitente_id === user.id;
             const otroUsuario = esRemitente ? destinatario : remitente;
-            const noLeido = !hilo.leido && hilo.destinatario_id === user.id;
+            const noLeido = hilo.noLeidos > 0;
             const fotosCampo = Array.isArray(campo?.fotos) ? campo.fotos : [];
             const fotoCampo = [...fotosCampo].sort(
               (a, b) => (a.orden ?? 0) - (b.orden ?? 0),
@@ -240,7 +265,11 @@ export default async function MensajesPage() {
                     {hilo.contenido}
                   </p>
                 </div>
-                {noLeido && <span className="hilo-nuevo">Nuevo</span>}
+                {noLeido && (
+                  <span className="hilo-nuevo">
+                    {hilo.noLeidos} mensaje{hilo.noLeidos === 1 ? "" : "s"} sin leer
+                  </span>
+                )}
               </Link>
             );
           })}
