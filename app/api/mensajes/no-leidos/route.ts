@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { isMissingMensajesDirectosLeido } from "@/lib/supabase/mensajes-directos";
 
 export async function GET() {
   const supabase = await createClient();
@@ -26,7 +27,7 @@ export async function GET() {
       .eq("leido", false),
   ]);
 
-  if (mensajesResult.error || directosResult.error) {
+  if (mensajesResult.error) {
     console.error("Error contando mensajes no leídos:", {
       mensajes: mensajesResult.error,
       directos: directosResult.error,
@@ -37,8 +38,24 @@ export async function GET() {
     );
   }
 
+  const directosPendientesDeMigracion = isMissingMensajesDirectosLeido(
+    directosResult.error,
+  );
+  if (directosResult.error && !directosPendientesDeMigracion) {
+    console.error("Error contando mensajes directos no leídos:", directosResult.error);
+    return NextResponse.json(
+      { error: "No se pudieron contar los mensajes" },
+      { status: 500 },
+    );
+  }
+
   return NextResponse.json(
-    { total: (mensajesResult.count ?? 0) + (directosResult.count ?? 0) },
+    {
+      total:
+        (mensajesResult.count ?? 0) +
+        (directosPendientesDeMigracion ? 0 : (directosResult.count ?? 0)),
+      directosPendientesDeMigracion,
+    },
     { headers: { "Cache-Control": "no-store" } },
   );
 }
