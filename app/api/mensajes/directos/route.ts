@@ -2,6 +2,7 @@ import { after, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { sendDirectMessageNotification } from "@/lib/send-message-notification";
+import { isMissingMensajesDirectosLeido } from "@/lib/supabase/mensajes-directos";
 
 const UUID_PATTERN =
   /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
@@ -33,7 +34,7 @@ export async function GET(request: Request) {
   const admin = createAdminClient();
   const { data: mensajes, error } = await admin
     .from("mensajes_directos")
-    .select("id, contenido, created_at, remitente_id, leido")
+    .select("id, contenido, created_at, remitente_id")
     .or(
       `and(remitente_id.eq.${user.id},destinatario_id.eq.${interlocutorId}),and(remitente_id.eq.${interlocutorId},destinatario_id.eq.${user.id})`,
     )
@@ -54,7 +55,7 @@ export async function GET(request: Request) {
     .eq("remitente_id", interlocutorId)
     .eq("leido", false);
 
-  if (readError) {
+  if (readError && !isMissingMensajesDirectosLeido(readError)) {
     console.error("Error marcando mensajes directos como leídos:", readError);
   }
 
@@ -108,7 +109,7 @@ export async function POST(request: Request) {
       destinatario_id: destinatarioId,
       contenido,
     })
-    .select("id, contenido, created_at, remitente_id, leido")
+    .select("id, contenido, created_at, remitente_id")
     .single();
 
   if (error || !mensaje) {
@@ -130,5 +131,5 @@ export async function POST(request: Request) {
     }
   });
 
-  return NextResponse.json({ mensaje });
+  return NextResponse.json({ mensaje: { ...mensaje, leido: false } });
 }
