@@ -2,6 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { redirect } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import MensajesRealtime from "@/components/mensajes/MensajesRealtime";
 import { isMissingMensajesDirectosLeido } from "@/lib/supabase/mensajes-directos";
 import "@/styles/mensajes.css";
@@ -233,17 +234,21 @@ export default async function MensajesPage() {
               >
                 <div className={`hilo-media ${esDirecto ? "hilo-media-directo" : ""}`}>
                   {fotoCampo ? (
-                    <img
+                    <Image
                       className="hilo-campo-foto"
                       src={fotoCampo}
                       alt={`Campo ${campo?.titulo ?? ""}`}
+                      width={104}
+                      height={76}
                     />
                   ) : esDirecto ? (
                     otroUsuario?.avatar_url ? (
-                      <img
+                      <Image
                         className="hilo-avatar-directo"
                         src={otroUsuario.avatar_url}
                         alt={otroUsuario.nombre}
+                        width={54}
+                        height={54}
                       />
                     ) : (
                       <span className="hilo-media-inicial">
@@ -257,7 +262,12 @@ export default async function MensajesPage() {
                   {!esDirecto && (
                     <span className="hilo-avatar-mini">
                       {otroUsuario?.avatar_url ? (
-                        <img src={otroUsuario.avatar_url} alt="" />
+                        <Image
+                          src={otroUsuario.avatar_url}
+                          alt=""
+                          width={30}
+                          height={30}
+                        />
                       ) : (
                         otroUsuario?.nombre?.[0]?.toUpperCase()
                       )}

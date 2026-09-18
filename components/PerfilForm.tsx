@@ -1,5 +1,8 @@
 "use client";
 
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+
 import { useState, useRef } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { PROVINCIAS_ARG, type Profile, type RolPerfil, type ServicioRural } from "@/types";
@@ -12,7 +15,8 @@ interface Props {
 }
 
 export default function PerfilForm({ profile, userId, email }: Props) {
-  const supabase = createClient();
+  const router = useRouter();
+  const [supabase] = useState(createClient);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [form, setForm] = useState({
@@ -28,7 +32,6 @@ export default function PerfilForm({ profile, userId, email }: Props) {
     localidad_servicio: profile?.localidad_servicio ?? "",
   });
 
-  const [avatarUrl, setAvatarUrl] = useState(profile?.avatar_url ?? "");
   const [avatarPreview, setAvatarPreview] = useState(profile?.avatar_url ?? "");
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
 
@@ -100,7 +103,7 @@ export default function PerfilForm({ profile, userId, email }: Props) {
         if (!response.ok || !result.url) {
           throw new Error(result.error ?? "No se pudo subir la foto de perfil");
         }
-        setAvatarUrl(result.url);
+        setAvatarPreview(result.url);
       }
 
       const { error } = await supabase
@@ -201,7 +204,8 @@ export default function PerfilForm({ profile, userId, email }: Props) {
     }
 
     await supabase.auth.signOut();
-    window.location.assign("/");
+    router.replace("/");
+    router.refresh();
   }
 
   const iniciales = form.nombre
@@ -224,7 +228,13 @@ export default function PerfilForm({ profile, userId, email }: Props) {
             onClick={() => fileInputRef.current?.click()}
           >
             {avatarPreview ? (
-              <img src={avatarPreview} alt="Avatar" />
+              <Image
+                src={avatarPreview}
+                alt="Avatar"
+                width={80}
+                height={80}
+                unoptimized={avatarPreview.startsWith("blob:")}
+              />
             ) : (
               <span className="avatar-initials">{iniciales}</span>
             )}
@@ -248,7 +258,6 @@ export default function PerfilForm({ profile, userId, email }: Props) {
                 onClick={() => {
                   setAvatarPreview("");
                   setAvatarFile(null);
-                  setAvatarUrl("");
                 }}
               >
                 Eliminar foto

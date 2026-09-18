@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 
@@ -30,7 +31,7 @@ export default function MensajeHilo({
   const [enviando, setEnviando] = useState(false);
   const [error, setError] = useState("");
   const bottomRef = useRef<HTMLDivElement>(null);
-  const supabase = createClient();
+  const [supabase] = useState(createClient);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -83,7 +84,7 @@ export default function MensajeHilo({
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [campoId, userId]);
+  }, [campoId, supabase, userId]);
 
   async function handleEnviar(e: React.FormEvent) {
     e.preventDefault();
@@ -150,7 +151,12 @@ export default function MensajeHilo({
     });
   }
 
-  let ultimaFecha = "";
+  const mensajesConGrupo = mensajes.map((mensaje, index) => {
+    const grupo = fechaGrupo(mensaje.created_at);
+    const grupoAnterior =
+      index > 0 ? fechaGrupo(mensajes[index - 1].created_at) : null;
+    return { mensaje, grupo, mostrarGrupo: grupo !== grupoAnterior };
+  });
 
   return (
     <div className="hilo-container">
@@ -161,12 +167,9 @@ export default function MensajeHilo({
           </div>
         )}
 
-        {mensajes.map((m) => {
+        {mensajesConGrupo.map(({ mensaje: m, grupo, mostrarGrupo }) => {
           const esMio = m.remitente_id === userId;
-          const remitente = m.remitente as any;
-          const grupo = fechaGrupo(m.created_at);
-          const mostrarGrupo = grupo !== ultimaFecha;
-          ultimaFecha = grupo;
+          const remitente = m.remitente;
 
           return (
             <div key={m.id}>
@@ -181,7 +184,12 @@ export default function MensajeHilo({
                 {!esMio && (
                   <div className="mensaje-avatar">
                     {remitente?.avatar_url ? (
-                      <img src={remitente.avatar_url} alt={remitente.nombre} />
+                      <Image
+                        src={remitente.avatar_url}
+                        alt={remitente.nombre}
+                        width={40}
+                        height={40}
+                      />
                     ) : (
                       <span>{remitente?.nombre?.[0]?.toUpperCase()}</span>
                     )}

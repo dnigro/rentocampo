@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect, notFound } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import MensajeHilo from "@/components/mensajes/MensajeHilo";
 import "@/styles/mensajes.css";
 
@@ -78,7 +79,12 @@ export default async function HiloCampoPage({
         <div className="hilo-header-info">
           <div className="hilo-header-avatar">
             {otroUsuario?.avatar_url ? (
-              <img src={otroUsuario.avatar_url} alt={otroUsuario.nombre} />
+              <Image
+                src={otroUsuario.avatar_url}
+                alt={otroUsuario.nombre}
+                width={40}
+                height={40}
+              />
             ) : (
               <span>{otroUsuario?.nombre?.[0]?.toUpperCase()}</span>
             )}
