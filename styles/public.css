@@ -431,6 +431,8 @@
   transition:
     background 0.15s,
     color 0.15s;
+  overflow: visible;
+  flex-shrink: 0;
 }
 
 .navbar-mensajes:hover,
@@ -441,21 +443,23 @@
 
 .navbar-badge {
   position: absolute;
-  top: 2px;
-  right: 2px;
-  min-width: 16px;
-  height: 16px;
-  background: #e53e3e;
-  color: #fff;
-  font-size: 10px;
-  font-weight: 700;
-  border-radius: 8px;
+  top: -6px;
+  right: -7px;
+  z-index: 2;
+  min-width: 19px;
+  height: 19px;
+  background: #ffd400;
+  color: #061e16;
+  font-size: 11px;
+  font-weight: 900;
+  border-radius: 10px;
   padding: 0 4px;
   display: flex;
   align-items: center;
   justify-content: center;
   line-height: 1;
-  border: 1.5px solid #fff;
+  border: 2px solid #fff;
+  box-shadow: 0 2px 7px rgba(6, 30, 22, 0.24);
 }
 
 @media (max-width: 640px) {
