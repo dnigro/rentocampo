@@ -201,14 +201,7 @@ export default async function MensajesPage() {
       <MensajesRealtime userId={user.id} />
       <div className={`mensajes-page ${hilos.length === 0 ? "mensajes-page-vacia" : ""}`}>
       <div className="page-header">
-        <div>
-          <h1 className="page-title">Mensajes</h1>
-          <p className="page-subtitle">
-            {hilos.length > 0
-              ? `${hilos.length} conversación${hilos.length !== 1 ? "es" : ""}`
-              : "No tenés conversaciones todavía"}
-          </p>
-        </div>
+        <h1 className="page-title">Mensajes</h1>
       </div>
 
       {hilos.length === 0 ? (
