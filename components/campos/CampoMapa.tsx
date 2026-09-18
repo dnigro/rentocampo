@@ -25,6 +25,7 @@ interface Props {
   campos: CampoPin[];
   prestadores: ServicioPin[];
   currentUserId?: string;
+  initialVista?: "tierra" | "servicios";
 }
 
 interface ServicioPin {
@@ -38,7 +39,12 @@ interface ServicioPin {
   localidad_servicio?: string;
 }
 
-export default function CampoMapa({ campos, prestadores, currentUserId }: Props) {
+export default function CampoMapa({
+  campos,
+  prestadores,
+  currentUserId,
+  initialVista = "tierra",
+}: Props) {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<LeafletMap | null>(null);
   const camposLayer = useRef<LayerGroup | null>(null);
@@ -47,7 +53,7 @@ export default function CampoMapa({ campos, prestadores, currentUserId }: Props)
   const [selectedCampo, setSelectedCampo] = useState<CampoPin | null>(null);
   const [selectedDemanda, setSelectedDemanda] = useState<DemandaZona | null>(null);
   const [selectedServicio, setSelectedServicio] = useState<ServicioPin | null>(null);
-  const [vista, setVista] = useState<"tierra" | "servicios">("tierra");
+  const [vista, setVista] = useState<"tierra" | "servicios">(initialVista);
   const [categoriaServicio, setCategoriaServicio] = useState<ServicioRural | "todas">("todas");
   const [mostrarCampos, setMostrarCampos] = useState(true);
   const [mostrarDemanda, setMostrarDemanda] = useState(true);
