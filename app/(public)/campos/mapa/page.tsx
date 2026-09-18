@@ -1,13 +1,29 @@
 import { createClient } from "@/lib/supabase/server";
 import CampoMapa from "@/components/campos/CampoMapa";
+import { SERVICIOS_RURALES } from "@/data/servicios-rurales";
+import type { ServicioRural } from "@/types";
+import type { Metadata } from "next";
 import "@/styles/mapa.css";
+
+export const metadata: Metadata = {
+  title: "Mapa de campos y servicios rurales | RentoCampo",
+  description:
+    "Explorá campos disponibles, zonas con demanda y prestadores de servicios rurales en el mapa de RentoCampo.",
+  alternates: { canonical: "https://rentocampo.com/campos/mapa" },
+  robots: { index: true, follow: true },
+};
 
 export default async function MapaPage({
   searchParams,
 }: {
-  searchParams: Promise<{ vista?: string }>;
+  searchParams: Promise<{ vista?: string; servicio?: string }>;
 }) {
-  const { vista } = await searchParams;
+  const { vista, servicio } = await searchParams;
+  const servicioInicial = SERVICIOS_RURALES.some(
+    (item) => item.value === servicio,
+  )
+    ? (servicio as ServicioRural)
+    : undefined;
   const supabase = await createClient();
   const {
     data: { user },
@@ -24,7 +40,9 @@ export default async function MapaPage({
 
   const { data: prestadores } = await supabase
     .from("profiles")
-    .select("id, nombre, bio, avatar_url, servicios_rurales, zona_servicio, provincia_servicio, localidad_servicio")
+    .select(
+      "id, nombre, bio, avatar_url, servicios_rurales, zona_servicio, provincia_servicio, localidad_servicio",
+    )
     .contains("roles", ["prestador"])
     .not("provincia_servicio", "is", null);
 
@@ -35,6 +53,7 @@ export default async function MapaPage({
         prestadores={prestadores ?? []}
         currentUserId={user?.id}
         initialVista={vista === "servicios" ? "servicios" : "tierra"}
+        initialServicio={servicioInicial}
       />
     </div>
   );

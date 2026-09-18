@@ -134,10 +134,7 @@ export default function Navbar() {
             <Link href="/#como-funciona" className="nav-link">
               Cómo funciona
             </Link>
-            <Link
-              href="/campos/mapa?vista=servicios"
-              className="nav-link"
-            >
+            <Link href="/servicios-rurales" className="nav-link">
               Servicios rurales
             </Link>
           </nav>
@@ -149,8 +146,12 @@ export default function Navbar() {
                 <Link
                   href="/mensajes"
                   className={`navbar-mensajes ${enMensajes ? "active" : ""}`}
-                  title={noLeidos > 0 ? `${noLeidos} mensajes sin leer` : "Mensajes"}
-                  aria-label={noLeidos > 0 ? `Mensajes, ${noLeidos} sin leer` : "Mensajes"}
+                  title={
+                    noLeidos > 0 ? `${noLeidos} mensajes sin leer` : "Mensajes"
+                  }
+                  aria-label={
+                    noLeidos > 0 ? `Mensajes, ${noLeidos} sin leer` : "Mensajes"
+                  }
                 >
                   <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
                     <path
@@ -192,8 +193,12 @@ export default function Navbar() {
               <Link
                 href="/mensajes"
                 className={`navbar-mensajes ${enMensajes ? "active" : ""}`}
-                title={noLeidos > 0 ? `${noLeidos} mensajes sin leer` : "Mensajes"}
-                aria-label={noLeidos > 0 ? `Mensajes, ${noLeidos} sin leer` : "Mensajes"}
+                title={
+                  noLeidos > 0 ? `${noLeidos} mensajes sin leer` : "Mensajes"
+                }
+                aria-label={
+                  noLeidos > 0 ? `Mensajes, ${noLeidos} sin leer` : "Mensajes"
+                }
               >
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
                   <path
@@ -239,10 +244,7 @@ export default function Navbar() {
               <Link href="/#como-funciona" className="mobile-menu-link">
                 ℹ️ Cómo funciona
               </Link>
-              <Link
-                href="/campos/mapa?vista=servicios"
-                className="mobile-menu-link"
-              >
+              <Link href="/servicios-rurales" className="mobile-menu-link">
                 🚜 Servicios rurales
               </Link>
 
