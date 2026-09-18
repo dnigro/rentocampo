@@ -46,7 +46,9 @@ export default function Navbar() {
     }
 
     contarNoLeidos();
-    const polling = window.setInterval(contarNoLeidos, 15000);
+    const polling = window.setInterval(contarNoLeidos, 5000);
+    const actualizarAlVolver = () => void contarNoLeidos();
+    window.addEventListener("focus", actualizarAlVolver);
 
     const channel = supabase
       .channel("navbar-mensajes")
@@ -94,6 +96,7 @@ export default function Navbar() {
 
     return () => {
       window.clearInterval(polling);
+      window.removeEventListener("focus", actualizarAlVolver);
       supabase.removeChannel(channel);
     };
   }, [supabase, user]);
@@ -146,7 +149,8 @@ export default function Navbar() {
                 <Link
                   href="/mensajes"
                   className={`navbar-mensajes ${enMensajes ? "active" : ""}`}
-                  title="Mensajes"
+                  title={noLeidos > 0 ? `${noLeidos} mensajes sin leer` : "Mensajes"}
+                  aria-label={noLeidos > 0 ? `Mensajes, ${noLeidos} sin leer` : "Mensajes"}
                 >
                   <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
                     <path
@@ -188,7 +192,8 @@ export default function Navbar() {
               <Link
                 href="/mensajes"
                 className={`navbar-mensajes ${enMensajes ? "active" : ""}`}
-                title="Mensajes"
+                title={noLeidos > 0 ? `${noLeidos} mensajes sin leer` : "Mensajes"}
+                aria-label={noLeidos > 0 ? `Mensajes, ${noLeidos} sin leer` : "Mensajes"}
               >
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
                   <path
