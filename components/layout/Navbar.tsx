@@ -123,27 +123,20 @@ export default function Navbar() {
             <BrandWordmark className="brand-wordmark-nav" />
           </Link>
 
-          {/* Links desktop */}
-          <nav className="navbar-links">
-            {pathname === "/" ? (
-              <>
-                <Link href="/campos" className="nav-link">
-                  Campos
-                </Link>
-                <Link href="/#como-funciona" className="nav-link">
-                  Cómo funciona
-                </Link>
-              </>
-            ) : (
-              <>
-                <Link href="/campos/mapa" className="nav-link">
-                  Mapa
-                </Link>
-                <Link href="/campos" className="nav-link">
-                  Buscar campos
-                </Link>
-              </>
-            )}
+          {/* Navegación principal compartida en todo el sitio */}
+          <nav className="navbar-links" aria-label="Navegación principal">
+            <Link href="/campos" className="nav-link">
+              Campos
+            </Link>
+            <Link href="/#como-funciona" className="nav-link">
+              Cómo funciona
+            </Link>
+            <Link
+              href="/campos/mapa?vista=servicios"
+              className="nav-link"
+            >
+              Servicios rurales
+            </Link>
           </nav>
 
           {/* Acciones desktop */}
@@ -236,10 +229,16 @@ export default function Navbar() {
               onClick={() => setMenuAbierto(false)}
             >
               <Link href="/campos" className="mobile-menu-link">
-                🔍 Buscar campos
+                🌾 Campos
               </Link>
-              <Link href="/campos/mapa" className="mobile-menu-link">
-                🗺️ Mapa
+              <Link href="/#como-funciona" className="mobile-menu-link">
+                ℹ️ Cómo funciona
+              </Link>
+              <Link
+                href="/campos/mapa?vista=servicios"
+                className="mobile-menu-link"
+              >
+                🚜 Servicios rurales
               </Link>
 
               <div className="mobile-menu-sep" />
