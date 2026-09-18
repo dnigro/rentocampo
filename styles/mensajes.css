@@ -57,9 +57,10 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
-.hilo-no-leido {
-  background: #fafff8;
-  border-color: #c3dfc3;
+.hilo-item.hilo-no-leido {
+  background: #fffbea !important;
+  border-color: #e6c84f !important;
+  box-shadow: inset 5px 0 0 #ffd400, 0 10px 28px rgba(6, 30, 22, 0.08) !important;
 }
 
 .hilo-avatar {
@@ -130,36 +131,14 @@
 
 .hilo-nuevo {
   flex-shrink: 0;
-  padding: 5px 9px;
+  padding: 7px 11px;
   border-radius: 999px;
   background: #ffd400;
   color: #061e16;
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 900;
   text-transform: uppercase;
   letter-spacing: .06em;
-}
-
-.mensaje-nuevo-aviso {
-  position: fixed;
-  top: 88px;
-  right: 24px;
-  z-index: 1200;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 13px 18px;
-  border-radius: 12px;
-  background: #061e16;
-  color: #fff;
-  box-shadow: 0 14px 34px rgba(6, 30, 22, .2);
-  font-size: 14px;
-  font-weight: 800;
-}
-
-.mensaje-nuevo-aviso span {
-  color: #ffd400;
-  flex-shrink: 0;
 }
 
 /* ── Header del hilo ── */
@@ -494,13 +473,6 @@
     padding: 28px 16px 56px;
   }
 
-  .mensaje-nuevo-aviso {
-    top: 78px;
-    right: 12px;
-    left: 12px;
-    justify-content: center;
-  }
-
   .hilo-item {
     align-items: flex-start;
     gap: 12px;
@@ -522,5 +494,12 @@
   .hilo-avatar-mini {
     width: 27px;
     height: 27px;
+  }
+
+  .hilo-nuevo {
+    align-self: center;
+    max-width: 86px;
+    text-align: center;
+    line-height: 1.15;
   }
 }
