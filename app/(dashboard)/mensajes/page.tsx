@@ -1,8 +1,38 @@
 import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import MensajesRealtime from "@/components/mensajes/MensajesRealtime";
 import "@/styles/mensajes.css";
+
+interface PerfilHilo {
+  id: string;
+  nombre: string;
+  avatar_url: string | null;
+}
+
+interface CampoHilo {
+  id: string;
+  titulo: string;
+  provincia: string;
+  fotos: { url: string; orden: number | null }[];
+}
+
+interface Hilo {
+  id: string;
+  contenido: string;
+  created_at: string;
+  leido: boolean;
+  remitente_id: string;
+  destinatario_id: string;
+  campo: CampoHilo | null;
+  remitente: PerfilHilo | null;
+  destinatario: PerfilHilo | null;
+}
+
+function relationValue<T>(value: T | T[] | null): T | null {
+  return Array.isArray(value) ? (value[0] ?? null) : value;
+}
 
 export default async function MensajesPage() {
   const supabase = await createClient();
@@ -12,10 +42,11 @@ export default async function MensajesPage() {
   if (!user) redirect("/login");
 
   // Traer último mensaje de cada campo donde participó el usuario
-  const { data: mensajes } = await supabase
-    .from("mensajes")
-    .select(
-      `
+  const [mensajesResult, mensajesDirectosResult] = await Promise.all([
+    supabase
+      .from("mensajes")
+      .select(
+        `
       id,
       contenido,
       created_at,
@@ -26,22 +57,89 @@ export default async function MensajesPage() {
       remitente:profiles!mensajes_remitente_id_fkey(id, nombre, avatar_url),
       destinatario:profiles!mensajes_destinatario_id_fkey(id, nombre, avatar_url)
     `,
-    )
-    .or(`remitente_id.eq.${user.id},destinatario_id.eq.${user.id}`)
-    .order("created_at", { ascending: false });
+      )
+      .or(`remitente_id.eq.${user.id},destinatario_id.eq.${user.id}`)
+      .order("created_at", { ascending: false }),
+    supabase
+      .from("mensajes_directos")
+      .select("id, contenido, created_at, leido, remitente_id, destinatario_id")
+      .or(`remitente_id.eq.${user.id},destinatario_id.eq.${user.id}`)
+      .order("created_at", { ascending: false }),
+  ]);
+  const { data: mensajes } = mensajesResult;
+  const {
+    data: mensajesDirectos,
+    error: mensajesDirectosError,
+  } = mensajesDirectosResult;
 
-  // Agrupar por campo o por interlocutor en las conversaciones directas.
-  const hilosMap = new Map<string, NonNullable<typeof mensajes>[number]>();
+  if (mensajesDirectosError) {
+    console.error("Error cargando mensajes directos:", mensajesDirectosError);
+  }
+
+  const idsPerfilesDirectos = Array.from(
+    new Set(
+      (mensajesDirectos ?? []).flatMap((mensaje) => [
+        mensaje.remitente_id,
+        mensaje.destinatario_id,
+      ]),
+    ),
+  );
+  const admin = createAdminClient();
+  const { data: perfilesDirectos } = idsPerfilesDirectos.length
+    ? await admin
+        .from("profiles")
+        .select("id, nombre, avatar_url")
+        .in("id", idsPerfilesDirectos)
+    : { data: [] };
+  const perfilesPorId = new Map(
+    (perfilesDirectos ?? []).map((perfil) => [perfil.id, perfil]),
+  );
+
+  // Agrupar por campo y sumar las conversaciones directas de servicios rurales.
+  const hilosMap = new Map<string, Hilo>();
   for (const m of mensajes ?? []) {
-    const campoId = (m.campo as any)?.id;
+    const campo = relationValue(
+      m.campo as unknown as CampoHilo | CampoHilo[] | null,
+    );
+    const remitente = relationValue(
+      m.remitente as unknown as PerfilHilo | PerfilHilo[] | null,
+    );
+    const destinatario = relationValue(
+      m.destinatario as unknown as PerfilHilo | PerfilHilo[] | null,
+    );
+    const campoId = campo?.id;
     const otroId = m.remitente_id === user.id ? m.destinatario_id : m.remitente_id;
     const clave = campoId ? `campo:${campoId}` : `directo:${otroId}`;
-    if (!hilosMap.has(clave)) hilosMap.set(clave, m);
+    if (!hilosMap.has(clave)) {
+      hilosMap.set(clave, {
+        ...m,
+        campo,
+        remitente,
+        destinatario,
+      });
+    }
   }
-  const hilos = Array.from(hilosMap.values());
+  for (const m of mensajesDirectos ?? []) {
+    const otroId = m.remitente_id === user.id ? m.destinatario_id : m.remitente_id;
+    const clave = `directo:${otroId}`;
+    if (hilosMap.has(clave)) continue;
+
+    hilosMap.set(clave, {
+      ...m,
+      campo: null,
+      remitente: perfilesPorId.get(m.remitente_id) ?? null,
+      destinatario: perfilesPorId.get(m.destinatario_id) ?? null,
+    });
+  }
+  const hilos = Array.from(hilosMap.values()).sort(
+    (a, b) =>
+      new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
+  );
 
   // Contar no leídos
   const noLeidos = (mensajes ?? []).filter(
+    (m) => !m.leido && m.destinatario_id === user.id,
+  ).length + (mensajesDirectos ?? []).filter(
     (m) => !m.leido && m.destinatario_id === user.id,
   ).length;
 
@@ -73,22 +171,22 @@ export default async function MensajesPage() {
       ) : (
         <div className="hilos-lista">
           {hilos.map((hilo) => {
-            const campo = hilo.campo as any;
-            const esDirecto = !campo?.id;
-            const remitente = hilo.remitente as any;
-            const destinatario = hilo.destinatario as any;
+            const campo = hilo.campo;
+            const esDirecto = campo === null;
+            const remitente = hilo.remitente;
+            const destinatario = hilo.destinatario;
             const esRemitente = hilo.remitente_id === user.id;
             const otroUsuario = esRemitente ? destinatario : remitente;
             const noLeido = !hilo.leido && hilo.destinatario_id === user.id;
             const fotosCampo = Array.isArray(campo?.fotos) ? campo.fotos : [];
             const fotoCampo = [...fotosCampo].sort(
-              (a: any, b: any) => (a.orden ?? 0) - (b.orden ?? 0),
+              (a, b) => (a.orden ?? 0) - (b.orden ?? 0),
             )[0]?.url;
 
             return (
               <Link
                 key={hilo.id}
-                href={esDirecto ? `/mensajes/direct/${otroUsuario?.id}` : `/mensajes/${campo.id}`}
+                href={campo ? `/mensajes/${campo.id}` : `/mensajes/direct/${otroUsuario?.id}`}
                 className={`hilo-item ${noLeido ? "hilo-no-leido" : ""}`}
               >
                 <div className={`hilo-media ${esDirecto ? "hilo-media-directo" : ""}`}>
@@ -96,7 +194,7 @@ export default async function MensajesPage() {
                     <img
                       className="hilo-campo-foto"
                       src={fotoCampo}
-                      alt={`Campo ${campo.titulo}`}
+                      alt={`Campo ${campo?.titulo ?? ""}`}
                     />
                   ) : esDirecto ? (
                     otroUsuario?.avatar_url ? (
@@ -134,7 +232,9 @@ export default async function MensajesPage() {
                       })}
                     </span>
                   </div>
-                  <span className="hilo-campo">{esDirecto ? "Conversación directa" : campo.titulo}</span>
+                  <span className="hilo-campo">
+                    {campo?.titulo ?? "Conversación directa"}
+                  </span>
                   <p className="hilo-preview">
                     {esRemitente ? "Vos: " : ""}
                     {hilo.contenido}
