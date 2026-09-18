@@ -3,6 +3,7 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import MensajesRealtime from "@/components/mensajes/MensajesRealtime";
+import { isMissingMensajesDirectosLeido } from "@/lib/supabase/mensajes-directos";
 import "@/styles/mensajes.css";
 
 interface PerfilHilo {
@@ -29,6 +30,15 @@ interface Hilo {
   remitente: PerfilHilo | null;
   destinatario: PerfilHilo | null;
   noLeidos: number;
+}
+
+interface MensajeDirectoResumen {
+  id: string;
+  contenido: string;
+  created_at: string;
+  leido: boolean;
+  remitente_id: string;
+  destinatario_id: string;
 }
 
 function relationValue<T>(value: T | T[] | null): T | null {
@@ -68,10 +78,24 @@ export default async function MensajesPage() {
       .order("created_at", { ascending: false }),
   ]);
   const { data: mensajes } = mensajesResult;
-  const {
-    data: mensajesDirectos,
-    error: mensajesDirectosError,
-  } = mensajesDirectosResult;
+  let mensajesDirectos = mensajesDirectosResult.data as
+    | MensajeDirectoResumen[]
+    | null;
+  let mensajesDirectosError = mensajesDirectosResult.error;
+
+  if (isMissingMensajesDirectosLeido(mensajesDirectosError)) {
+    const fallback = await supabase
+      .from("mensajes_directos")
+      .select("id, contenido, created_at, remitente_id, destinatario_id")
+      .or(`remitente_id.eq.${user.id},destinatario_id.eq.${user.id}`)
+      .order("created_at", { ascending: false });
+
+    mensajesDirectos = (fallback.data ?? []).map((mensaje) => ({
+      ...mensaje,
+      leido: true,
+    }));
+    mensajesDirectosError = fallback.error;
+  }
 
   if (mensajesDirectosError) {
     console.error("Error cargando mensajes directos:", mensajesDirectosError);
