@@ -10,7 +10,7 @@ export default async function MensajeDirectoPage({ params }: { params: Promise<{
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/login");
-  if (user.id === usuarioId) notFound();
+  if (user.id === usuarioId) redirect("/campos/mapa");
 
   const admin = createAdminClient();
   const { data: contacto } = await admin
