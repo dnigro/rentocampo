@@ -2,7 +2,12 @@ import { createClient } from "@/lib/supabase/server";
 import CampoMapa from "@/components/campos/CampoMapa";
 import "@/styles/mapa.css";
 
-export default async function MapaPage() {
+export default async function MapaPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ vista?: string }>;
+}) {
+  const { vista } = await searchParams;
   const supabase = await createClient();
   const {
     data: { user },
@@ -29,6 +34,7 @@ export default async function MapaPage() {
         campos={campos ?? []}
         prestadores={prestadores ?? []}
         currentUserId={user?.id}
+        initialVista={vista === "servicios" ? "servicios" : "tierra"}
       />
     </div>
   );
