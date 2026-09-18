@@ -32,22 +32,21 @@ export default function Navbar() {
     const userId = user.id;
 
     async function contarNoLeidos() {
-      const [{ count: mensajesCount }, { count: directosCount }] = await Promise.all([
-        supabase
-          .from("mensajes")
-          .select("id", { count: "exact", head: true })
-          .eq("destinatario_id", userId)
-          .eq("leido", false),
-        supabase
-          .from("mensajes_directos")
-          .select("id", { count: "exact", head: true })
-          .eq("destinatario_id", userId)
-          .eq("leido", false),
-      ]);
-      setNoLeidos((mensajesCount ?? 0) + (directosCount ?? 0));
+      try {
+        const response = await fetch("/api/mensajes/no-leidos", {
+          cache: "no-store",
+        });
+        if (!response.ok) return;
+
+        const result = await response.json();
+        setNoLeidos(typeof result.total === "number" ? result.total : 0);
+      } catch (error) {
+        console.error("Error actualizando mensajes no leídos:", error);
+      }
     }
 
     contarNoLeidos();
+    const polling = window.setInterval(contarNoLeidos, 15000);
 
     const channel = supabase
       .channel("navbar-mensajes")
@@ -94,6 +93,7 @@ export default function Navbar() {
       .subscribe();
 
     return () => {
+      window.clearInterval(polling);
       supabase.removeChannel(channel);
     };
   }, [supabase, user]);
