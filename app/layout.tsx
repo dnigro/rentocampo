@@ -3,13 +3,31 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import "@/styles/site-theme.css";
 
+const SITE_URL = "https://rentocampo.com";
+const SITE_TITLE = "RentoCampo | Tierra, productores y servicios rurales";
+const SITE_DESCRIPTION =
+  "Tierra productiva, productores y servicios rurales en una red federal. Mapa, publicaciones y chat online gratis.";
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://rentocampo.com"),
-  title: "RentoCampo | Tierra, productores y servicios rurales",
-  description:
-    "Tierra productiva, productores y servicios rurales en una red federal. Mapa, publicaciones y chat online gratis.",
+  metadataBase: new URL(SITE_URL),
+  title: SITE_TITLE,
+  description: SITE_DESCRIPTION,
   applicationName: "RentoCampo",
+  alternates: { canonical: "/" },
   robots: { index: true, follow: true },
+  openGraph: {
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+    url: SITE_URL,
+    siteName: "RentoCampo",
+    type: "website",
+    locale: "es_AR",
+  },
+  twitter: {
+    card: "summary",
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+  },
 };
 
 export const viewport: Viewport = {
@@ -45,8 +63,8 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "Organization",
               name: "RentoCampo",
-              url: "https://rentocampo.com",
-              logo: "https://rentocampo.com/icon.png",
+              url: SITE_URL,
+              logo: `${SITE_URL}/icon.png`,
               description:
                 "Plataforma argentina que conecta tierra productiva, productores y servicios rurales.",
               sameAs: [
