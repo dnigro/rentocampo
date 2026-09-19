@@ -326,7 +326,7 @@ body:has(.mapa-page) {
   }
 
   .mapa-contador {
-    top: 93px;
+    top: 156px;
     left: 10px;
     max-width: calc(100% - 20px);
     padding: 6px 10px;

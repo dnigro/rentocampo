@@ -122,7 +122,8 @@
 }
 
 .editorialHero__primary,
-.editorialHero__secondary {
+.editorialHero__secondary,
+.editorialHero__service {
   display: inline-flex;
   min-width: 210px;
   min-height: 52px;
@@ -150,6 +151,12 @@
   background: #fff;
 }
 
+.editorialHero__service {
+  color: var(--hero-black);
+  background: var(--hero-yellow);
+  border-color: var(--hero-yellow);
+}
+
 .editorialHero__arrow {
   font-size: 19px;
   font-weight: 400;
@@ -165,6 +172,12 @@
 .editorialHero__secondary:hover {
   color: #fff;
   background: var(--hero-black);
+}
+
+.editorialHero__service:hover {
+  color: var(--hero-yellow);
+  background: var(--hero-black);
+  border-color: var(--hero-black);
 }
 
 .editorialHero__proof {
@@ -315,7 +328,8 @@
   }
 
   .editorialHero__primary,
-  .editorialHero__secondary {
+  .editorialHero__secondary,
+  .editorialHero__service {
     width: 100%;
   }
 

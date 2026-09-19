@@ -37,6 +37,10 @@ export default function LandingHero() {
               <span>Alquiler de campos</span>
               <span className="editorialHero__arrow" aria-hidden="true">→</span>
             </Link>
+            <Link href="/register?tipo=prestador" className="editorialHero__service">
+              <span>Ofrecer servicios rurales</span>
+              <span className="editorialHero__arrow" aria-hidden="true">→</span>
+            </Link>
           </div>
         </div>
 
