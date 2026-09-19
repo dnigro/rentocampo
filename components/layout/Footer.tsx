@@ -6,7 +6,6 @@ export default function Footer() {
   return (
     <footer className="footer">
       <div className="footer-inner">
-        {/* Logo y descripción */}
         <div className="footer-brand">
           <Link href="/" className="footer-logo">
             <BrandWordmark className="brand-wordmark-footer" />
@@ -17,12 +16,11 @@ export default function Footer() {
           </p>
         </div>
 
-        {/* Productores */}
         <div className="footer-col">
           <h4 className="footer-col-title">Productores</h4>
           <nav className="footer-nav">
-            <Link href="/campos" className="footer-link">
-              Explorar campos
+            <Link href="/alquiler-de-campos" className="footer-link">
+              Alquiler de campos
             </Link>
             <Link href="/campos/mapa" className="footer-link">
               Ver mapa
@@ -33,7 +31,6 @@ export default function Footer() {
           </nav>
         </div>
 
-        {/* Propietarios */}
         <div className="footer-col">
           <h4 className="footer-col-title">Propietarios</h4>
           <nav className="footer-nav">
@@ -49,7 +46,6 @@ export default function Footer() {
           </nav>
         </div>
 
-        {/* Servicios y contacto */}
         <div className="footer-col">
           <h4 className="footer-col-title">Servicios rurales</h4>
           <nav className="footer-nav">
