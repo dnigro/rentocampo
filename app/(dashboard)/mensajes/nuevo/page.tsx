@@ -2,6 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { redirect } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import "@/styles/mensajes.css";
 
 export default async function NuevoMensajePage() {
@@ -32,7 +33,7 @@ export default async function NuevoMensajePage() {
         {contactos.map((contacto) => (
           <Link key={contacto.id} href={`/mensajes/direct/${contacto.id}`} className="hilo-item">
             <div className="hilo-avatar">
-              {contacto.avatar_url ? <img src={contacto.avatar_url} alt={contacto.nombre} /> : <span>{contacto.nombre?.[0]?.toUpperCase()}</span>}
+              {contacto.avatar_url ? <Image src={contacto.avatar_url} alt={contacto.nombre} width={46} height={46} /> : <span>{contacto.nombre?.[0]?.toUpperCase()}</span>}
             </div>
             <div className="hilo-body">
               <span className="hilo-nombre">{[contacto.nombre, contacto.apellido].filter(Boolean).join(" ")}</span>

@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+
 import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
@@ -460,7 +462,13 @@ export default function CampoForm({
         <div className="fotos-grid">
           {fotos.map((foto, i) => (
             <div key={i} className="foto-thumb">
-              <img src={foto.url} alt={"Foto " + (i + 1)} />
+              <Image
+                src={foto.url}
+                alt={"Foto " + (i + 1)}
+                width={320}
+                height={240}
+                unoptimized={foto.url.startsWith("blob:")}
+              />
               <button
                 type="button"
                 className="foto-remove"

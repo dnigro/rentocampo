@@ -2,6 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import CampoCard from "@/components/campos/CampoCard";
+import type { Campo } from "@/types";
 import "@/styles/campos.css";
 import "@/styles/explorador.css";
 import "@/styles/favoritos.css";
@@ -27,11 +28,17 @@ export default async function FavoritosPage() {
     .eq("usuario_id", user.id)
     .order("created_at", { ascending: false });
 
-  const campos =
-    favoritos
-      ?.map((f) => f.campo)
-      .filter(Boolean)
-      .filter((c: any) => c.status === "activo") ?? [];
+  type CampoFavorito = Campo & { fotos: { url: string; orden: number }[] };
+  const campos: CampoFavorito[] = (favoritos ?? [])
+    .map((favorito) =>
+      (Array.isArray(favorito.campo)
+        ? favorito.campo[0]
+        : favorito.campo) as unknown as CampoFavorito | null,
+    )
+    .filter(
+      (campo): campo is CampoFavorito =>
+        campo !== null && campo.status === "activo",
+    );
 
   return (
     <div className="page-container">
@@ -65,7 +72,7 @@ export default async function FavoritosPage() {
         </div>
       ) : (
         <div className="campos-explorador-grid">
-          {campos.map((campo: any) => (
+          {campos.map((campo) => (
             <div key={campo.id} className="favorito-item">
               <CampoCard campo={campo} userId={user.id} />
             </div>

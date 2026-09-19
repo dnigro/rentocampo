@@ -25,7 +25,9 @@ export default function ConfirmarEmailPage() {
           </div>
           <div className="confirm-paso">
             <span className="paso-num">3</span>
-            <span className="paso-texto">Hacé click en "Confirmar email"</span>
+            <span className="paso-texto">
+              Hacé click en &quot;Confirmar email&quot;
+            </span>
           </div>
         </div>
 

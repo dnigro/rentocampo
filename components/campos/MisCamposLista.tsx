@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import type { Campo } from "@/types";
@@ -46,14 +47,21 @@ export default function MisCamposLista({ campos }: Props) {
   return (
     <div className="campos-grid">
       {lista.map((campo) => {
-        const foto = campo.fotos?.sort((a, b) => a.orden - b.orden)[0];
+        const foto = campo.fotos
+          ? [...campo.fotos].sort((a, b) => a.orden - b.orden)[0]
+          : undefined;
         const estado = ESTADO_LABEL[campo.status] ?? ESTADO_LABEL.borrador;
 
         return (
           <div key={campo.id} className="campo-card-admin">
             <div className="campo-card-img">
               {foto ? (
-                <img src={foto.url} alt={campo.titulo} />
+                <Image
+                  src={foto.url}
+                  alt={campo.titulo}
+                  fill
+                  sizes="(max-width: 720px) 100vw, 33vw"
+                />
               ) : (
                 <div className="campo-card-img-placeholder">🌿</div>
               )}

@@ -2,6 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import MensajeDirectoHilo from "@/components/mensajes/MensajeDirectoHilo";
 import { isMissingMensajesDirectosLeido } from "@/lib/supabase/mensajes-directos";
 import "@/styles/mensajes.css";
@@ -41,7 +42,7 @@ export default async function MensajeDirectoPage({ params }: { params: Promise<{
 
   return <div className="page-container">
     <div className="hilo-header"><Link href="/mensajes" className="hilo-back">← Mensajes</Link>
-      <div className="hilo-header-info"><div className="hilo-header-avatar">{contacto.avatar_url ? <img src={contacto.avatar_url} alt={contacto.nombre} /> : <span>{contacto.nombre?.[0]?.toUpperCase()}</span>}</div><p className="hilo-header-nombre">{contacto.nombre}</p></div>
+      <div className="hilo-header-info"><div className="hilo-header-avatar">{contacto.avatar_url ? <Image src={contacto.avatar_url} alt={contacto.nombre} width={40} height={40} /> : <span>{contacto.nombre?.[0]?.toUpperCase()}</span>}</div><p className="hilo-header-nombre">{contacto.nombre}</p></div>
     </div>
     <MensajeDirectoHilo userId={user.id} destinatarioId={usuarioId} mensajesIniciales={mensajesIniciales} />
   </div>;

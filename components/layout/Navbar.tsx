@@ -46,7 +46,9 @@ export default function Navbar() {
     }
 
     contarNoLeidos();
-    const polling = window.setInterval(contarNoLeidos, 5000);
+    // Realtime cubre las novedades; este respaldo evita consultas constantes
+    // y recupera el estado si la suscripción se interrumpe.
+    const polling = window.setInterval(contarNoLeidos, 60000);
     const actualizarAlVolver = () => void contarNoLeidos();
     window.addEventListener("focus", actualizarAlVolver);
 
