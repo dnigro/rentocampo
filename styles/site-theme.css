@@ -831,3 +831,252 @@ body {
     padding-top: 68px !important;
   }
 }
+
+
+/* Ajuste visual final: aplicación plana, coherente y sin efectos 3D */
+.app-shell .dashboard-header::before,
+.app-shell .page-header::before,
+.app-shell .explorador-header::before {
+  display: none !important;
+  content: none !important;
+}
+
+.app-shell .auth-card,
+.app-shell .auth-page-register .auth-card,
+.app-shell .tipo-label,
+.app-shell .confirm-pasos,
+.app-shell .tipo-option input:checked + .tipo-label,
+.app-shell .dash-card,
+.app-shell .campo-card,
+.app-shell .campo-card-pub,
+.app-shell .filtros-panel,
+.app-shell .ficha-precio-card,
+.app-shell .ficha-propietario,
+.app-shell .perfil-section,
+.app-shell .perfil-danger-zone,
+.app-shell .hilo-item,
+.app-shell .empty-state,
+.app-shell .campo-form,
+.app-shell .mapa-panel,
+.app-shell .mapa-contador,
+.app-shell .perfil-role-option,
+.app-shell .servicios-profile-box,
+.app-shell .servicio-card,
+.app-shell .servicios-cta {
+  box-shadow: none !important;
+}
+
+.app-shell .dash-card:hover,
+.app-shell .campo-card-pub:hover,
+.app-shell .servicio-card:hover,
+.app-shell .servicios-btn:hover {
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* Footer interno: blanco para mantener máxima legibilidad */
+.app-shell .footer {
+  color: var(--app-black) !important;
+  background: var(--app-white) !important;
+  border-top: 2px solid var(--app-black) !important;
+}
+
+.app-shell .footer-desc,
+.app-shell .footer-link,
+.app-shell .footer-col-title,
+.app-shell .footer-social-link,
+.app-shell .footer-bottom,
+.app-shell .footer-bottom-link {
+  color: var(--app-black) !important;
+}
+
+.app-shell .footer-social-link {
+  background: var(--app-white) !important;
+  border: 1px solid var(--app-black) !important;
+}
+
+.app-shell .footer-social-link:hover {
+  color: var(--app-black) !important;
+  background: #fff4bf !important;
+}
+
+.app-shell .footer-bottom {
+  border-top-color: #cfcfc8 !important;
+}
+
+/* Servicios rurales: mismo lenguaje amarillo + negro del resto de la aplicación */
+.app-shell .servicios-seo-page {
+  --sr-green: var(--app-black);
+  --sr-yellow: var(--app-yellow);
+  --sr-line: var(--app-line);
+  color: var(--app-black) !important;
+}
+
+.app-shell .servicios-hero {
+  border-bottom: 2px solid var(--app-black) !important;
+}
+
+.app-shell .servicios-kicker,
+.app-shell .servicios-heading > span,
+.app-shell .servicios-cta > div > span {
+  color: var(--app-black) !important;
+}
+
+.app-shell .servicios-kicker::before,
+.app-shell .servicios-heading > span::before {
+  content: "+";
+  margin-right: 7px;
+  color: var(--app-yellow);
+  font-size: 1.25em;
+}
+
+.app-shell .servicios-hero h1,
+.app-shell .servicios-heading h2,
+.app-shell .servicios-cta h2 {
+  color: var(--app-black) !important;
+}
+
+.app-shell .servicios-hero > p,
+.app-shell .servicios-heading p,
+.app-shell .servicios-pasos p,
+.app-shell .servicios-faq-list p {
+  color: var(--app-muted) !important;
+}
+
+.app-shell .servicios-btn {
+  border: 1px solid var(--app-black) !important;
+  border-radius: 3px !important;
+  box-shadow: none !important;
+  text-transform: uppercase;
+  letter-spacing: .02em;
+}
+
+.app-shell .servicios-btn-primary,
+.app-shell .servicios-btn-yellow {
+  color: var(--app-black) !important;
+  background: var(--app-yellow) !important;
+  border-color: var(--app-black) !important;
+}
+
+.app-shell .servicios-btn-secondary {
+  color: var(--app-black) !important;
+  background: var(--app-white) !important;
+}
+
+.app-shell .servicios-btn:hover {
+  color: var(--app-yellow) !important;
+  background: var(--app-black) !important;
+  border-color: var(--app-black) !important;
+}
+
+.app-shell .servicio-card {
+  color: var(--app-black) !important;
+  border: 1px solid var(--app-black) !important;
+  border-radius: 4px !important;
+  background: var(--app-white) !important;
+}
+
+.app-shell .servicio-card:hover {
+  background: #fff8d6 !important;
+}
+
+.app-shell .servicio-card span:first-child,
+.app-shell .servicios-pasos article > span {
+  color: var(--app-yellow) !important;
+  font-family: var(--font-display), sans-serif;
+  font-size: 24px !important;
+}
+
+.app-shell .servicios-pasos article {
+  border-top: 5px solid var(--app-yellow) !important;
+}
+
+.app-shell .servicios-bordered {
+  border-top: 1px solid var(--app-black) !important;
+}
+
+.app-shell .servicios-faq-list,
+.app-shell .servicios-faq-list details {
+  border-color: var(--app-black) !important;
+}
+
+.app-shell .servicios-cta {
+  color: var(--app-black) !important;
+  background: #fff4bf !important;
+  border: 1px solid var(--app-black) !important;
+  border-radius: 4px !important;
+}
+
+/* Perfil: elimina restos verdes y usa el mismo criterio plano */
+.app-shell .perfil-role-option {
+  border: 1px solid #cfcfc8 !important;
+  border-radius: 4px !important;
+  background: var(--app-white) !important;
+}
+
+.app-shell .perfil-role-option:has(input:checked) {
+  border-color: var(--app-black) !important;
+  background: #fff4bf !important;
+}
+
+.app-shell .perfil-role-option input {
+  accent-color: var(--app-black) !important;
+}
+
+.app-shell .perfil-role-option strong,
+.app-shell .servicios-profile-box h3 {
+  color: var(--app-black) !important;
+}
+
+.app-shell .perfil-role-option small,
+.app-shell .servicios-profile-box p {
+  color: var(--app-muted) !important;
+}
+
+.app-shell .servicios-profile-box {
+  border: 1px solid var(--app-black) !important;
+  border-left: 5px solid var(--app-yellow) !important;
+  border-radius: 4px !important;
+  background: var(--app-white) !important;
+}
+
+.app-shell .servicio-option span {
+  color: var(--app-black) !important;
+  border-color: #cfcfc8 !important;
+  background: var(--app-white) !important;
+}
+
+.app-shell .servicio-option input:checked + span {
+  color: var(--app-black) !important;
+  border-color: var(--app-black) !important;
+  background: #fff4bf !important;
+}
+
+.app-shell .perfil-section {
+  border-radius: 4px !important;
+  box-shadow: none !important;
+}
+
+.app-shell .perfil-section .btn-primary-lg {
+  color: var(--app-black) !important;
+  background: var(--app-yellow) !important;
+  border: 1px solid var(--app-black) !important;
+  border-radius: 3px !important;
+}
+
+.app-shell .perfil-section .btn-secondary-lg {
+  color: var(--app-black) !important;
+  background: var(--app-white) !important;
+  border: 1px solid var(--app-black) !important;
+  border-radius: 3px !important;
+}
+
+/* Inputs: foco plano, sin glow tridimensional */
+.app-shell .form-input:focus,
+.app-shell .form-select:focus,
+.app-shell .form-textarea:focus,
+.app-shell .filtro-input:focus,
+.app-shell .mensaje-input:focus {
+  border-color: var(--app-black) !important;
+  box-shadow: 0 0 0 2px var(--app-yellow) !important;
+}
