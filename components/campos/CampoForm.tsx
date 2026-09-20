@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
+import { FileText, Images, MapPinned, Sprout, WalletCards } from "lucide-react";
 import { PROVINCIAS_ARG } from "@/types";
 import type { CampoFormData } from "@/types";
 import GeocoderInput, {
@@ -213,7 +214,11 @@ export default function CampoForm({
 
       {/* Información básica */}
       <div className="form-section">
-        <h2 className="form-section-title">Información básica</h2>
+        <h2 className="form-section-title form-section-title-editorial">
+          <span className="form-section-number">01</span>
+          <span className="form-section-icon" aria-hidden="true"><FileText size={24} strokeWidth={1.8} /></span>
+          <span className="form-section-copy"><span>Información</span> <em>básica</em></span>
+        </h2>
 
         <div className="form-field">
           <label className="form-label">
@@ -245,7 +250,11 @@ export default function CampoForm({
 
       {/* Ubicación */}
       <div className="form-section">
-        <h2 className="form-section-title">Ubicación</h2>
+        <h2 className="form-section-title form-section-title-editorial">
+          <span className="form-section-number">02</span>
+          <span className="form-section-icon" aria-hidden="true"><MapPinned size={24} strokeWidth={1.8} /></span>
+          <span className="form-section-copy"><span>Ubicación</span> <em>del campo</em></span>
+        </h2>
 
         <div className="form-field">
           <label className="form-label">Buscar ubicación en el mapa</label>
@@ -328,7 +337,11 @@ export default function CampoForm({
 
       {/* Características */}
       <div className="form-section">
-        <h2 className="form-section-title">Características</h2>
+        <h2 className="form-section-title form-section-title-editorial">
+          <span className="form-section-number">03</span>
+          <span className="form-section-icon" aria-hidden="true"><Sprout size={24} strokeWidth={1.8} /></span>
+          <span className="form-section-copy"><span>Características</span> <em>productivas</em></span>
+        </h2>
 
         <div className="form-row">
           <div className="form-field">
@@ -409,7 +422,11 @@ export default function CampoForm({
 
       {/* Precio y disponibilidad */}
       <div className="form-section">
-        <h2 className="form-section-title">Precio y disponibilidad</h2>
+        <h2 className="form-section-title form-section-title-editorial">
+          <span className="form-section-number">04</span>
+          <span className="form-section-icon" aria-hidden="true"><WalletCards size={24} strokeWidth={1.8} /></span>
+          <span className="form-section-copy"><span>Precio</span> <em>y disponibilidad</em></span>
+        </h2>
 
         <div className="form-row">
           <div className="form-field form-field-price">
@@ -455,8 +472,11 @@ export default function CampoForm({
 
       {/* Fotos */}
       <div className="form-section">
-        <h2 className="form-section-title">
-          Fotos <span className="form-section-hint">(máx. 8)</span>
+        <h2 className="form-section-title form-section-title-editorial">
+          <span className="form-section-number">05</span>
+          <span className="form-section-icon" aria-hidden="true"><Images size={24} strokeWidth={1.8} /></span>
+          <span className="form-section-copy"><span>Fotos</span> <em>del campo</em></span>
+          <span className="form-section-hint">(máx. 8)</span>
         </h2>
 
         <div className="fotos-grid">

@@ -803,3 +803,69 @@
     grid-template-columns: 1fr;
   }
 }
+
+
+/* Jerarquía tipográfica de filtros: más legible y con títulos fuertes */
+.app-shell .filtros-title {
+  color: #0b0b0b !important;
+  font-size: 18px !important;
+  font-weight: 850 !important;
+  letter-spacing: -0.01em;
+}
+
+.app-shell .filtro-label {
+  margin-bottom: 10px !important;
+  color: #2f2f2b !important;
+  font-size: 14px !important;
+  font-weight: 800 !important;
+  letter-spacing: .035em !important;
+}
+
+.app-shell .filtro-input {
+  min-height: 56px;
+  font-size: 15px !important;
+  font-weight: 550;
+}
+
+.app-shell .filtro-chip {
+  padding: 8px 13px !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+}
+
+.app-shell .btn-aplicar {
+  min-height: 58px;
+  font-size: 15px !important;
+  font-weight: 900 !important;
+  letter-spacing: .015em;
+}
+
+@media (max-width: 768px) {
+  .app-shell .filtros-title {
+    font-size: 20px !important;
+  }
+
+  .app-shell .filtro-label {
+    font-size: 15px !important;
+  }
+
+  .app-shell .filtro-input {
+    font-size: 16px !important;
+  }
+
+  .app-shell .filtro-chip {
+    font-size: 14px !important;
+  }
+}
+
+
+/* CTA demanda: fondo amarillo limpio, sin tramas */
+.app-shell .demanda-cta::before,
+.app-shell .demanda-cta::after {
+  display: none !important;
+  content: none !important;
+}
+
+.app-shell .demanda-cta {
+  background: #f6c500 !important;
+}

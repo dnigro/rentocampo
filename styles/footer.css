@@ -143,3 +143,49 @@
 .footer-bottom-link:hover {
   color: #555;
 }
+
+
+/* Footer mobile: mayor legibilidad */
+@media (max-width: 500px) {
+  .footer {
+    padding: 44px 24px 0;
+  }
+
+  .footer-logo-text {
+    font-size: 24px;
+    font-weight: 900;
+  }
+
+  .footer-desc {
+    max-width: none;
+    font-size: 16px;
+    line-height: 1.65;
+  }
+
+  .footer-col-title {
+    margin-bottom: 14px;
+    font-size: 17px;
+    font-weight: 850;
+  }
+
+  .footer-nav {
+    gap: 14px;
+  }
+
+  .footer-link {
+    font-size: 16px;
+    line-height: 1.45;
+  }
+
+  .footer-social-link {
+    min-width: 50px;
+    min-height: 50px;
+    font-size: 15px;
+  }
+
+  .footer-bottom,
+  .footer-bottom-link {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+}

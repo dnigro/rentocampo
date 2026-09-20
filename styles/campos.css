@@ -605,3 +605,224 @@
   color: #333;
   line-height: 1.4;
 }
+
+
+/* ── Publicar / editar campo: lenguaje editorial RentoCampo ── */
+.app-shell .campo-form {
+  gap: 0 !important;
+  counter-reset: none !important;
+}
+
+.app-shell .campo-form .form-section {
+  position: relative;
+  margin: 0 !important;
+  padding: clamp(38px, 6vw, 66px) 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.app-shell .campo-form .form-section + .form-section {
+  border-top: 1px solid #bdbdb7 !important;
+}
+
+.app-shell .campo-form .form-section-title,
+.app-shell .campo-form .form-section-title::before {
+  content: none !important;
+}
+
+.app-shell .campo-form .form-section-title-editorial {
+  display: grid !important;
+  grid-template-columns: auto auto 1fr auto;
+  align-items: center;
+  gap: 12px 16px;
+  margin: 0 0 34px !important;
+  padding: 0 0 18px !important;
+  border: 0 !important;
+  border-bottom: 2px solid #0b0b0b !important;
+  color: #0b0b0b !important;
+}
+
+.app-shell .campo-form .form-section-number {
+  min-width: 82px;
+  color: #f6c500;
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(72px, 9vw, 112px);
+  font-style: normal;
+  font-weight: 400;
+  line-height: .72;
+  letter-spacing: -.02em;
+}
+
+.app-shell .campo-form .form-section:nth-of-type(even) .form-section-number {
+  color: #0b0b0b;
+}
+
+.app-shell .campo-form .form-section:nth-of-type(even) .form-section-copy em,
+.app-shell .campo-form .form-section:nth-of-type(even) .form-section-icon {
+  color: #f6c500;
+}
+
+.app-shell .campo-form .form-section-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  color: #0b0b0b;
+}
+
+.app-shell .campo-form .form-section-copy {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 .18em;
+  min-width: 0;
+  color: #0b0b0b;
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(34px, 4.6vw, 58px);
+  font-weight: 400;
+  line-height: .9;
+  text-transform: uppercase;
+}
+
+.app-shell .campo-form .form-section-copy span,
+.app-shell .campo-form .form-section-copy em {
+  font: inherit;
+}
+
+.app-shell .campo-form .form-section-copy em {
+  color: #f6c500;
+  font-style: normal;
+}
+
+.app-shell .campo-form .form-section-hint {
+  align-self: end;
+  padding-bottom: 5px;
+  color: #6d6d68 !important;
+  font-family: var(--font-dm-sans), sans-serif;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  text-transform: none;
+}
+
+.app-shell .campo-form .form-field {
+  margin-bottom: 22px;
+}
+
+.app-shell .campo-form .form-label {
+  color: #0b0b0b !important;
+  font-size: 13px;
+  font-weight: 750;
+}
+
+.app-shell .campo-form .form-input,
+.app-shell .campo-form .form-select,
+.app-shell .campo-form .geocoder-input-row,
+.app-shell .campo-form .input-prefix {
+  border-color: #bdbdb7 !important;
+  border-radius: 3px !important;
+  box-shadow: none !important;
+}
+
+.app-shell .campo-form .input-prefix {
+  border-right: 0 !important;
+  background: #f4f4f1 !important;
+}
+
+.app-shell .campo-form .input-after-prefix {
+  border-radius: 0 3px 3px 0 !important;
+}
+
+.app-shell .campo-form .form-check {
+  margin-top: 8px;
+  padding: 16px 0;
+  border-top: 1px solid #deded8;
+}
+
+.app-shell .campo-form .form-check input[type="checkbox"] {
+  accent-color: #f6c500 !important;
+}
+
+.app-shell .campo-form .fotos-grid {
+  gap: 14px;
+}
+
+.app-shell .campo-form .foto-thumb,
+.app-shell .campo-form .foto-add {
+  border-radius: 3px !important;
+}
+
+.app-shell .campo-form .foto-add {
+  border: 1px dashed #0b0b0b !important;
+  background: #fff !important;
+}
+
+.app-shell .campo-form .foto-add:hover {
+  background: #fff8d6 !important;
+  border-color: #0b0b0b !important;
+}
+
+.app-shell .campo-form .foto-add-icon {
+  color: #f6c500 !important;
+  font-family: var(--font-display), sans-serif;
+  font-size: 36px;
+}
+
+.app-shell .campo-form .foto-add-label {
+  color: #0b0b0b !important;
+}
+
+.app-shell .campo-form .foto-principal {
+  color: #0b0b0b !important;
+  background: #f6c500 !important;
+  border-radius: 2px !important;
+}
+
+.app-shell .campo-form .form-actions {
+  margin-top: 12px;
+  padding-top: 32px;
+  border-top: 2px solid #0b0b0b;
+}
+
+@media (max-width: 700px) {
+  .app-shell .campo-form .form-section {
+    padding: 40px 0 !important;
+  }
+
+  .app-shell .campo-form .form-section-title-editorial {
+    grid-template-columns: auto 1fr;
+    gap: 10px 12px;
+    margin-bottom: 28px !important;
+  }
+
+  .app-shell .campo-form .form-section-number {
+    grid-row: 1 / span 2;
+    min-width: 66px;
+    font-size: clamp(62px, 18vw, 86px);
+  }
+
+  .app-shell .campo-form .form-section-icon {
+    display: none;
+  }
+
+  .app-shell .campo-form .form-section-copy {
+    font-size: clamp(30px, 9vw, 44px);
+  }
+
+  .app-shell .campo-form .form-section-hint {
+    grid-column: 2;
+    padding-bottom: 0;
+  }
+
+  .app-shell .campo-form .form-actions {
+    flex-direction: column-reverse;
+  }
+
+  .app-shell .campo-form .form-actions .btn-primary-lg,
+  .app-shell .campo-form .form-actions .btn-secondary-lg {
+    width: 100%;
+    text-align: center;
+  }
+}
