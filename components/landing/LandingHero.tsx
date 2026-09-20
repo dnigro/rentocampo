@@ -33,7 +33,7 @@ export default function LandingHero() {
               <span>Sumarme gratis</span>
               <span className="editorialHero__arrow" aria-hidden="true">→</span>
             </Link>
-            <Link href="/alquiler-de-campos" className="editorialHero__secondary">
+            <Link href="/campos/mapa" className="editorialHero__secondary">
               <span>Alquiler de campos</span>
               <span className="editorialHero__arrow" aria-hidden="true">→</span>
             </Link>
