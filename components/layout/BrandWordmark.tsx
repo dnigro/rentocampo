@@ -17,7 +17,7 @@ export default function BrandWordmark({ className = "" }: BrandWordmarkProps) {
         aria-hidden="true"
       />
       <span className="brand-wordmark-copy">
-        <span className="brand-wordmark-text">RentoCampo</span>
+        <span className="brand-wordmark-text"><span className="brand-wordmark-initial">R</span><span className="brand-wordmark-rest">ento</span><span className="brand-wordmark-initial">C</span><span className="brand-wordmark-rest">ampo</span></span>
         <span className="brand-wordmark-tagline">Tierras que producen futuro</span>
       </span>
     </span>
