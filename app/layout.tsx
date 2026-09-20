@@ -1,5 +1,6 @@
 import { Bebas_Neue, DM_Sans } from "next/font/google";
 import type { Metadata, Viewport } from "next";
+import GoogleAnalytics from "@/components/analytics/GoogleAnalytics";
 import "./globals.css";
 import "@/styles/site-theme.css";
 
@@ -76,6 +77,7 @@ export default function RootLayout({
         />
       </head>
       <body style={{ fontFamily: "var(--font-dm-sans), sans-serif" }}>
+        <GoogleAnalytics />
         {children}
       </body>
     </html>
