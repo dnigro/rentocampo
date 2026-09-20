@@ -1575,3 +1575,61 @@ body {
     min-height: 220px;
   }
 }
+
+
+/* FORCE FINAL — CTA amarillo liso + footer mobile legible */
+.demanda-cta {
+  background: #f6c500 !important;
+  background-image: none !important;
+}
+
+.demanda-cta::before,
+.demanda-cta::after {
+  display: none !important;
+  content: none !important;
+  background: none !important;
+  background-image: none !important;
+  opacity: 0 !important;
+}
+
+@media (max-width: 600px) {
+  .app-shell .footer {
+    padding: 48px 24px 0 !important;
+  }
+
+  .app-shell .footer-desc {
+    max-width: none !important;
+    font-size: 18px !important;
+    line-height: 1.6 !important;
+    font-weight: 500 !important;
+  }
+
+  .app-shell .footer-col-title {
+    margin-bottom: 14px !important;
+    font-size: 20px !important;
+    line-height: 1.25 !important;
+    font-weight: 900 !important;
+  }
+
+  .app-shell .footer-nav {
+    gap: 16px !important;
+  }
+
+  .app-shell .footer-link {
+    font-size: 18px !important;
+    line-height: 1.45 !important;
+    font-weight: 550 !important;
+  }
+
+  .app-shell .footer-social-link {
+    min-width: 54px !important;
+    min-height: 54px !important;
+  }
+
+  .app-shell .footer-bottom,
+  .app-shell .footer-bottom-link {
+    font-size: 16px !important;
+    line-height: 1.5 !important;
+    font-weight: 500 !important;
+  }
+}
