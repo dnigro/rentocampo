@@ -857,3 +857,15 @@
     font-size: 14px !important;
   }
 }
+
+
+/* CTA demanda: fondo amarillo limpio, sin tramas */
+.app-shell .demanda-cta::before,
+.app-shell .demanda-cta::after {
+  display: none !important;
+  content: none !important;
+}
+
+.app-shell .demanda-cta {
+  background: #f6c500 !important;
+}
