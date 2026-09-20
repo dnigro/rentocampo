@@ -1,6 +1,7 @@
 "use client";
 
 import { Suspense, useState } from "react";
+import { LandPlot, Sprout, Wrench } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
@@ -131,7 +132,7 @@ function RegisterForm() {
                   onChange={handleChange}
                 />
                 <label htmlFor="tipo-propietario" className="tipo-label">
-                  <span className="tipo-emoji">🏡</span>
+                  <span className="tipo-emoji" aria-hidden="true"><LandPlot size={30} strokeWidth={1.8} /></span>
                   <span className="tipo-nombre">Propietario</span>
                   <span className="tipo-desc">
                     Tengo campo y quiero arrendar
@@ -148,7 +149,7 @@ function RegisterForm() {
                   onChange={handleChange}
                 />
                 <label htmlFor="tipo-productor" className="tipo-label">
-                  <span className="tipo-emoji">🌱</span>
+                  <span className="tipo-emoji" aria-hidden="true"><Sprout size={30} strokeWidth={1.8} /></span>
                   <span className="tipo-nombre">Productor</span>
                   <span className="tipo-desc">Busco tierra para producir</span>
                 </label>
@@ -163,7 +164,7 @@ function RegisterForm() {
                   onChange={handleChange}
                 />
                 <label htmlFor="tipo-prestador" className="tipo-label">
-                  <span className="tipo-emoji">⚙️</span>
+                  <span className="tipo-emoji" aria-hidden="true"><Wrench size={30} strokeWidth={1.8} /></span>
                   <span className="tipo-nombre">Servicios rurales</span>
                   <span className="tipo-desc">
                     Ofrezco servicios para el campo
