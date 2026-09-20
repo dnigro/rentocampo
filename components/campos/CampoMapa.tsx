@@ -42,6 +42,9 @@ interface ServicioPin {
   zona_servicio?: string;
   provincia_servicio: string;
   localidad_servicio?: string;
+  latitud?: number;
+  longitud?: number;
+  is_demo?: boolean;
 }
 
 export default function CampoMapa({
@@ -151,6 +154,7 @@ export default function CampoMapa({
 
         camposConCoordenadas.forEach((campo) => {
           const position: [number, number] = [campo.latitud, campo.longitud];
+          const esDemo = campo.id.startsWith("20000000-");
           coordinates.push(position);
           L.circleMarker(position, {
             radius: 9,
@@ -160,7 +164,7 @@ export default function CampoMapa({
             fillOpacity: 1,
           })
             .addTo(camposGroup)
-            .bindTooltip("Campo disponible")
+            .bindTooltip(esDemo ? "Campo de demostración" : "Campo disponible")
             .on("click", () => {
               setSelectedDemanda(null);
               setSelectedCampo(campo);
@@ -190,13 +194,14 @@ export default function CampoMapa({
         });
 
         prestadoresFiltrados.forEach((prestador, index) => {
+          const tieneCoordenadas =
+            Number.isFinite(prestador.latitud) && Number.isFinite(prestador.longitud);
           const centro = CENTROS_PROVINCIA[prestador.provincia_servicio];
-          if (!centro) return;
+          if (!tieneCoordenadas && !centro) return;
           const offset = ((index % 5) - 2) * 0.16;
-          const position: [number, number] = [
-            centro[0] + offset,
-            centro[1] - offset,
-          ];
+          const position: [number, number] = tieneCoordenadas
+            ? [prestador.latitud as number, prestador.longitud as number]
+            : [centro![0] + offset, centro![1] - offset];
           if (vista === "servicios") coordinates.push(position);
           L.circleMarker(position, {
             radius: 10,
@@ -206,7 +211,9 @@ export default function CampoMapa({
             fillOpacity: 1,
           })
             .addTo(serviciosGroup)
-            .bindTooltip(`${prestador.nombre} · Servicios rurales`)
+            .bindTooltip(
+              `${prestador.nombre} · Servicios rurales${prestador.is_demo ? " · DEMO" : ""}`,
+            )
             .on("click", () => {
               setSelectedCampo(null);
               setSelectedDemanda(null);
@@ -395,6 +402,7 @@ export default function CampoMapa({
             ×
           </button>
           <p className="mapa-panel-aptitud">
+            {selectedCampo.id.startsWith("20000000-") ? "PUBLICACIÓN DEMO · " : ""}
             {APTITUD_LABEL[selectedCampo.aptitud] ?? selectedCampo.aptitud}
           </p>
           <h3 className="mapa-panel-titulo">{selectedCampo.titulo}</h3>
@@ -460,7 +468,7 @@ export default function CampoMapa({
             ×
           </button>
           <p className="mapa-panel-aptitud mapa-panel-aptitud-servicio">
-            Servicios rurales
+            {selectedServicio.is_demo ? "SERVICIO DEMO" : "Servicios rurales"}
           </p>
           <h3 className="mapa-panel-titulo">{selectedServicio.nombre}</h3>
           <p className="mapa-panel-ubicacion">
@@ -485,7 +493,14 @@ export default function CampoMapa({
           {selectedServicio.bio && (
             <p className="mapa-panel-descripcion">{selectedServicio.bio}</p>
           )}
-          {resolvedUserId === undefined ? (
+          {selectedServicio.is_demo ? (
+            <div
+              className="mapa-panel-btn mapa-panel-btn-propio"
+              aria-disabled="true"
+            >
+              Publicación de demostración
+            </div>
+          ) : resolvedUserId === undefined ? (
             <div
               className="mapa-panel-btn mapa-panel-btn-propio"
               aria-disabled="true"
@@ -513,13 +528,12 @@ export default function CampoMapa({
       <div className="mapa-contador">
         {vista === "tierra" ? (
           <>
-            <strong>{camposConCoordenadas.length}</strong> campos reales ·{" "}
+            <strong>{camposConCoordenadas.length}</strong> campos en mapa ·{" "}
             <strong>{DEMANDA_ZONAS.length}</strong> zonas con demanda
           </>
         ) : (
           <>
-            <strong>{prestadoresFiltrados.length}</strong> prestadores de
-            servicios
+            <strong>{prestadoresFiltrados.length}</strong> servicios en mapa
           </>
         )}
       </div>
