@@ -1277,3 +1277,185 @@ body {
     max-width: none;
   }
 }
+
+
+/* Refinamiento visual: superficies suaves, menos límites y más aire */
+.app-shell .dashboard-header,
+.app-shell .page-header,
+.app-shell .explorador-header {
+  border-bottom: 0 !important;
+}
+
+.app-shell .auth-card,
+.app-shell .perfil-section,
+.app-shell .perfil-danger-zone,
+.app-shell .dash-card,
+.app-shell .campo-card,
+.app-shell .campo-card-pub,
+.app-shell .filtros-panel,
+.app-shell .ficha-precio-card,
+.app-shell .ficha-propietario,
+.app-shell .hilo-item,
+.app-shell .empty-state,
+.app-shell .mapa-panel,
+.app-shell .mapa-contador,
+.app-shell .servicios-profile-box,
+.app-shell .servicio-card,
+.app-shell .servicios-cta {
+  border: 1px solid #ece9df !important;
+  border-radius: 18px !important;
+  box-shadow: none !important;
+}
+
+.app-shell .auth-card {
+  background: #fff !important;
+}
+
+.app-shell .auth-header,
+.app-shell .auth-footer,
+.app-shell .perfil-section-title,
+.app-shell .servicios-heading,
+.app-shell .servicios-bordered,
+.app-shell .form-divider {
+  border: 0 !important;
+}
+
+.app-shell .perfil-layout {
+  gap: 20px !important;
+}
+
+.app-shell .perfil-section {
+  padding: clamp(22px, 4vw, 30px) !important;
+}
+
+.app-shell .perfil-section-title {
+  margin-bottom: 22px !important;
+  padding-bottom: 0 !important;
+}
+
+.app-shell .perfil-role-options {
+  gap: 10px !important;
+}
+
+.app-shell .perfil-role-option {
+  border: 1px solid #ebe7dc !important;
+  border-radius: 16px !important;
+  background: #fbfaf7 !important;
+}
+
+.app-shell .perfil-role-option:has(input:checked) {
+  border-color: transparent !important;
+  background: #fff3b0 !important;
+}
+
+.app-shell .servicios-profile-box {
+  border-left: 0 !important;
+  background: #fbfaf7 !important;
+}
+
+.app-shell .servicio-option span {
+  border: 0 !important;
+  border-radius: 999px !important;
+  background: #f1efe8 !important;
+}
+
+.app-shell .servicio-option input:checked + span {
+  border: 0 !important;
+  background: #f6c500 !important;
+}
+
+/* Login: mantiene identidad, sin caja dura */
+.app-shell .auth-page:not(.auth-page-register) .auth-card {
+  border: 1px solid #ece9df !important;
+  border-radius: 22px !important;
+}
+
+.app-shell .auth-page:not(.auth-page-register) .auth-header {
+  border-bottom: 0 !important;
+}
+
+/* Registro: sacar líneas divisorias y suavizar elecciones */
+.app-shell .auth-page-register .auth-header {
+  border-bottom: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.app-shell .auth-page-register .tipo-selector {
+  gap: 10px !important;
+  border: 0 !important;
+}
+
+.app-shell .auth-page-register .tipo-option + .tipo-option {
+  border: 0 !important;
+}
+
+.app-shell .auth-page-register .tipo-label {
+  border: 1px solid #ece9df !important;
+  border-radius: 16px !important;
+  background: #fbfaf7 !important;
+}
+
+.app-shell .auth-page-register .tipo-label:hover {
+  background: #fff8dc !important;
+}
+
+.app-shell .auth-page-register .tipo-option input:checked + .tipo-label {
+  border-color: transparent !important;
+  border-radius: 16px !important;
+  background: #f6c500 !important;
+}
+
+/* Formularios internos: menos contorno visual */
+.app-shell .form-input,
+.app-shell .form-select,
+.app-shell .form-textarea,
+.app-shell .filtro-input,
+.app-shell .filtro-input-sm,
+.app-shell .mensaje-input,
+.app-shell .mapa-servicio-filtro select {
+  border-color: #ddd9cf !important;
+  border-radius: 12px !important;
+}
+
+.app-shell .form-input:focus,
+.app-shell .form-select:focus,
+.app-shell .form-textarea:focus,
+.app-shell .filtro-input:focus,
+.app-shell .mensaje-input:focus {
+  border-color: #cdb441 !important;
+  box-shadow: 0 0 0 2px rgba(246, 197, 0, .16) !important;
+}
+
+/* Publicar campo: mantener flujo editorial y quitar divisores duros */
+.app-shell .campo-form .form-section + .form-section {
+  border-top: 0 !important;
+}
+
+.app-shell .campo-form .form-section-title-editorial {
+  border-bottom: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.app-shell .campo-form .form-check,
+.app-shell .campo-form .form-actions {
+  border-top: 0 !important;
+}
+
+/* Footer interno también más liviano */
+.app-shell .footer {
+  border-top: 1px solid #ece9df !important;
+}
+
+@media (max-width: 700px) {
+  .app-shell .auth-page-register .tipo-selector {
+    gap: 10px !important;
+  }
+
+  .app-shell .auth-page-register .tipo-option + .tipo-option {
+    border-top: 0 !important;
+  }
+
+  .app-shell .perfil-section {
+    border-radius: 16px !important;
+  }
+}
