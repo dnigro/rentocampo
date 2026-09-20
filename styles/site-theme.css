@@ -459,3 +459,375 @@ body {
     font-size: clamp(36px, 11vw, 52px) !important;
   }
 }
+
+
+/* Marca global: Home incluida. Solo cambia el wordmark superior. */
+.brand-wordmark-text {
+  display: inline-flex;
+  align-items: baseline;
+  color: #0b0b0b !important;
+}
+
+.brand-wordmark-initial {
+  color: #f6c500 !important;
+  font-weight: 900;
+}
+
+.brand-wordmark-rest {
+  color: #0b0b0b !important;
+  font-weight: 900;
+}
+
+/* Identidad visual de la aplicación. La Home queda fuera de .app-shell. */
+.app-shell {
+  --app-yellow: #f6c500;
+  --app-black: #0b0b0b;
+  --app-white: #ffffff;
+  --app-soft: #f4f4f1;
+  --app-line: #d7d7d2;
+  --app-muted: #6d6d68;
+  color: var(--app-black);
+  background: var(--app-white);
+}
+
+.app-shell .navbar {
+  background: var(--app-white) !important;
+  border-bottom: 1px solid var(--app-black) !important;
+  box-shadow: none !important;
+}
+
+.app-shell .nav-link,
+.app-shell .btn-ghost,
+.app-shell .navbar-mensajes,
+.app-shell .hamburguesa,
+.app-shell .mobile-menu-link {
+  color: var(--app-black) !important;
+}
+
+.app-shell .nav-link:hover,
+.app-shell .btn-ghost:hover,
+.app-shell .navbar-mensajes:hover {
+  color: var(--app-black) !important;
+  background: #fff4bf !important;
+}
+
+.app-shell .navbar .btn-primary,
+.app-shell .mobile-menu-btn {
+  color: var(--app-black) !important;
+  background: var(--app-yellow) !important;
+  border-color: var(--app-yellow) !important;
+}
+
+.app-shell .main-content,
+.app-shell .auth-main {
+  background: var(--app-white) !important;
+  color: var(--app-black) !important;
+}
+
+/* Escala tipográfica inspirada en la Home */
+.app-shell .page-title,
+.app-shell .dashboard-title,
+.app-shell .explorador-title,
+.app-shell .ficha-titulo,
+.app-shell .auth-title,
+.app-shell .form-section-title,
+.app-shell .perfil-section-title {
+  color: var(--app-black) !important;
+  font-family: var(--font-display), sans-serif !important;
+  text-transform: uppercase !important;
+  letter-spacing: .005em !important;
+}
+
+.app-shell .page-title,
+.app-shell .dashboard-title,
+.app-shell .explorador-title,
+.app-shell .ficha-titulo {
+  font-size: clamp(48px, 6.2vw, 82px) !important;
+  line-height: .88 !important;
+}
+
+.app-shell .auth-title {
+  font-size: clamp(46px, 5.4vw, 72px) !important;
+  line-height: .9 !important;
+}
+
+.app-shell .form-section-title,
+.app-shell .perfil-section-title {
+  font-size: clamp(28px, 3vw, 42px) !important;
+  line-height: .95 !important;
+}
+
+.app-shell .dashboard-header,
+.app-shell .page-header,
+.app-shell .explorador-header {
+  border-bottom: 2px solid var(--app-black) !important;
+}
+
+.app-shell .dashboard-header::before,
+.app-shell .page-header::before,
+.app-shell .explorador-header::before {
+  content: "";
+  display: block;
+  width: 74px;
+  height: 8px;
+  margin-bottom: 16px;
+  background: var(--app-yellow);
+}
+
+/* Formularios y autenticación */
+.app-shell .auth-page,
+.app-shell .auth-page-register {
+  background: var(--app-soft) !important;
+}
+
+.app-shell .auth-card,
+.app-shell .auth-page-register .auth-card {
+  position: relative;
+  border: 1px solid var(--app-black) !important;
+  border-radius: 4px !important;
+  box-shadow: 10px 10px 0 var(--app-yellow) !important;
+}
+
+.app-shell .auth-card::before {
+  content: "01";
+  position: absolute;
+  top: 18px;
+  right: 22px;
+  color: var(--app-yellow);
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(54px, 7vw, 92px);
+  line-height: .8;
+  pointer-events: none;
+}
+
+.app-shell .auth-header {
+  padding-right: clamp(62px, 10vw, 112px);
+}
+
+.app-shell .auth-subtitle,
+.app-shell .form-label,
+.app-shell .tipo-desc,
+.app-shell .auth-footer {
+  color: var(--app-muted) !important;
+}
+
+.app-shell .auth-footer a,
+.app-shell .form-label-link {
+  color: var(--app-black) !important;
+  text-decoration-color: var(--app-yellow);
+  text-decoration-thickness: 3px;
+  text-underline-offset: 3px;
+}
+
+.app-shell .form-input,
+.app-shell .form-select,
+.app-shell .form-textarea,
+.app-shell .filtro-input,
+.app-shell .filtro-input-sm,
+.app-shell .mensaje-input,
+.app-shell .mapa-servicio-filtro select {
+  color: var(--app-black) !important;
+  border: 1px solid #bdbdb7 !important;
+  border-radius: 4px !important;
+  background: var(--app-white) !important;
+}
+
+.app-shell .form-input:focus,
+.app-shell .form-select:focus,
+.app-shell .form-textarea:focus,
+.app-shell .filtro-input:focus,
+.app-shell .mensaje-input:focus {
+  border-color: var(--app-black) !important;
+  box-shadow: 0 0 0 3px rgba(246, 197, 0, .28) !important;
+}
+
+.app-shell .tipo-label,
+.app-shell .confirm-pasos {
+  border-radius: 4px !important;
+  border-color: #cfcfca !important;
+}
+
+.app-shell .tipo-option input:checked + .tipo-label {
+  color: var(--app-black) !important;
+  border-color: var(--app-black) !important;
+  background: #fff3ad !important;
+  box-shadow: 5px 5px 0 var(--app-yellow) !important;
+}
+
+/* Botones */
+.app-shell .btn-submit,
+.app-shell .btn-primary-lg,
+.app-shell .btn-aplicar,
+.app-shell .btn-consultar,
+.app-shell .mapa-panel-btn,
+.app-shell .mensaje-send,
+.app-shell .fav-accion-ver {
+  color: var(--app-black) !important;
+  background: var(--app-yellow) !important;
+  border: 1px solid var(--app-black) !important;
+  border-radius: 3px !important;
+  box-shadow: none !important;
+  text-transform: uppercase !important;
+  letter-spacing: .03em;
+}
+
+.app-shell .btn-submit:hover,
+.app-shell .btn-primary-lg:hover,
+.app-shell .btn-aplicar:hover,
+.app-shell .btn-consultar:hover,
+.app-shell .mapa-panel-btn:hover,
+.app-shell .mensaje-send:hover,
+.app-shell .fav-accion-ver:hover {
+  color: var(--app-yellow) !important;
+  background: var(--app-black) !important;
+  border-color: var(--app-black) !important;
+}
+
+/* Tarjetas y secciones */
+.app-shell .dash-card,
+.app-shell .campo-card,
+.app-shell .campo-card-pub,
+.app-shell .filtros-panel,
+.app-shell .ficha-precio-card,
+.app-shell .ficha-propietario,
+.app-shell .perfil-section,
+.app-shell .perfil-danger-zone,
+.app-shell .hilo-item,
+.app-shell .empty-state,
+.app-shell .campo-form,
+.app-shell .mapa-panel,
+.app-shell .mapa-contador {
+  border: 1px solid var(--app-black) !important;
+  border-radius: 4px !important;
+  background: var(--app-white) !important;
+  box-shadow: none !important;
+}
+
+.app-shell .dash-card:hover,
+.app-shell .campo-card-pub:hover {
+  transform: translateY(-3px) !important;
+  box-shadow: 7px 7px 0 var(--app-yellow) !important;
+  border-color: var(--app-black) !important;
+}
+
+.app-shell .dash-card-label,
+.app-shell .campo-card-titulo,
+.app-shell .campo-card-pub-titulo {
+  color: var(--app-black) !important;
+}
+
+/* Números editoriales integrados, en distintas escalas */
+.app-shell .dashboard-cards {
+  counter-reset: appDashboardCard;
+}
+
+.app-shell .dash-card {
+  position: relative;
+  counter-increment: appDashboardCard;
+  padding-top: 78px !important;
+  overflow: hidden;
+}
+
+.app-shell .dash-card::before {
+  display: block !important;
+  content: "0" counter(appDashboardCard) !important;
+  position: absolute;
+  top: 14px;
+  right: 18px;
+  color: var(--app-yellow) !important;
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(58px, 6vw, 88px);
+  line-height: .8;
+  opacity: 1;
+}
+
+.app-shell .campo-form {
+  counter-reset: appFormSection;
+}
+
+.app-shell .form-section {
+  counter-increment: appFormSection;
+}
+
+.app-shell .form-section-title::before {
+  display: inline-block !important;
+  content: "0" counter(appFormSection) " " !important;
+  margin-right: .15em;
+  color: var(--app-yellow) !important;
+  font-size: 1.45em;
+  line-height: .7;
+  vertical-align: -.06em;
+}
+
+.app-shell .badge-tipo,
+.app-shell .estado-badge,
+.app-shell .disp-badge,
+.app-shell .aptitud-tag,
+.app-shell .mejoras-tag,
+.app-shell .filtro-chip {
+  border-radius: 999px !important;
+}
+
+.app-shell .badge-tipo.propietario,
+.app-shell .badge-tipo.productor,
+.app-shell .badge-tipo.prestador {
+  color: var(--app-black) !important;
+  background: #fff0a0 !important;
+  border-color: var(--app-black) !important;
+}
+
+/* Footer interno: misma identidad; la Home conserva el suyo actual */
+.app-shell .footer {
+  color: var(--app-black) !important;
+  background: var(--app-yellow) !important;
+  border-top: 1px solid var(--app-black) !important;
+}
+
+.app-shell .footer-desc,
+.app-shell .footer-link,
+.app-shell .footer-col-title,
+.app-shell .footer-social-link,
+.app-shell .footer-bottom {
+  color: var(--app-black) !important;
+}
+
+.app-shell .footer-social-link {
+  background: transparent !important;
+  border-color: var(--app-black) !important;
+}
+
+.app-shell .footer-social-link:hover {
+  color: var(--app-yellow) !important;
+  background: var(--app-black) !important;
+}
+
+.app-shell .footer-bottom {
+  border-top-color: rgba(11, 11, 11, .35) !important;
+}
+
+@media (max-width: 760px) {
+  .app-shell .page-title,
+  .app-shell .dashboard-title,
+  .app-shell .explorador-title,
+  .app-shell .ficha-titulo {
+    font-size: clamp(42px, 13vw, 62px) !important;
+  }
+
+  .app-shell .auth-title {
+    font-size: clamp(40px, 12vw, 58px) !important;
+  }
+
+  .app-shell .auth-card::before {
+    top: 16px;
+    right: 16px;
+    font-size: 56px;
+  }
+
+  .app-shell .auth-header {
+    padding-right: 52px;
+  }
+
+  .app-shell .dash-card {
+    padding-top: 68px !important;
+  }
+}

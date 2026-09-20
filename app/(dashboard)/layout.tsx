@@ -18,10 +18,10 @@ export default async function DashboardLayout({
   if (!user) redirect("/login");
 
   return (
-    <>
+    <div className="app-shell">
       <Navbar />
       <main className="main-content">{children}</main>
       <Footer />
-    </>
+    </div>
   );
 }
