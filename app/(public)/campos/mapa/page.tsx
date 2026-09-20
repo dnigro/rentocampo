@@ -46,11 +46,30 @@ export default async function MapaPage({
     .contains("roles", ["prestador"])
     .not("provincia_servicio", "is", null);
 
+  const { data: serviciosDemo } = await supabase
+    .from("demo_servicios_rurales")
+    .select(
+      "id, nombre, bio, servicios_rurales, zona_servicio, provincia_servicio, localidad_servicio, latitud, longitud",
+    )
+    .eq("activo", true);
+
+  const prestadoresMapa = [
+    ...(prestadores ?? []).map((prestador) => ({
+      ...prestador,
+      is_demo: false,
+    })),
+    ...(serviciosDemo ?? []).map((prestador) => ({
+      ...prestador,
+      avatar_url: undefined,
+      is_demo: true,
+    })),
+  ];
+
   return (
     <div className="mapa-page">
       <CampoMapa
         campos={campos ?? []}
-        prestadores={prestadores ?? []}
+        prestadores={prestadoresMapa}
         currentUserId={user?.id}
         initialVista={vista === "servicios" ? "servicios" : "tierra"}
         initialServicio={servicioInicial}
