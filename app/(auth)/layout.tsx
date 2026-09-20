@@ -8,10 +8,10 @@ export default function AuthLayout({
   children: React.ReactNode;
 }) {
   return (
-    <>
+    <div className="app-shell">
       <Navbar />
       <main className="auth-main">{children}</main>
       <Footer />
-    </>
+    </div>
   );
 }
