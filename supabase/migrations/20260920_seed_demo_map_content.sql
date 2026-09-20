@@ -57,7 +57,24 @@ with propietario as (
 )
 insert into public.campos
   (id, propietario_id, titulo, descripcion, ubicacion, provincia, departamento, localidad, latitud, longitud, hectareas, aptitud, moneda, disponibilidad, mejoras, status)
-select * from (
+select
+  id,
+  propietario_id,
+  titulo,
+  descripcion,
+  ubicacion,
+  provincia,
+  departamento,
+  localidad,
+  latitud,
+  longitud,
+  hectareas,
+  aptitud,
+  moneda,
+  disponibilidad,
+  mejoras,
+  status::public.campo_status
+from (
   select '20000000-0000-4000-8000-000000000001'::uuid, propietario.id, 'Campo agrícola demo en Pergamino', 'PUBLICACIÓN DEMO · Campo de ejemplo utilizado para mostrar el funcionamiento de RentoCampo. No representa una oferta comercial activa. Campo agrícola de 320 ha en zona núcleo, con buen acceso rural y ambiente productivo típico de la región.', 'Pergamino, Buenos Aires', 'Buenos Aires', 'Pergamino', 'Pergamino', -33.8895, -60.5736, 320, 'agricola', 'USD', 'a_convenir', 'Sí', 'activo'::public.campo_status from propietario
   union all
   select '20000000-0000-4000-8000-000000000002'::uuid, propietario.id, 'Campo agrícola demo en Rojas', 'PUBLICACIÓN DEMO · Campo de ejemplo utilizado para mostrar el funcionamiento de RentoCampo. No representa una oferta comercial activa. Lote agrícola de alta aptitud en una zona consolidada de producción.', 'Rojas, Buenos Aires', 'Buenos Aires', 'Rojas', 'Rojas', -34.1953, -60.7337, 245, 'agricola', 'USD', 'campaña_próxima', 'No', 'activo'::public.campo_status from propietario
