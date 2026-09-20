@@ -8,10 +8,10 @@ export default function PublicLayout({
   children: React.ReactNode;
 }) {
   return (
-    <>
+    <div className="app-shell">
       <Navbar />
       <main className="main-content">{children}</main>
       <Footer />
-    </>
+    </div>
   );
 }
