@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter, usePathname } from "next/navigation";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { useEffect, useState } from "react";
 import type { User } from "@supabase/supabase-js";
@@ -13,6 +13,9 @@ export default function Navbar() {
   const [menuAbierto, setMenuAbierto] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const activeCountry =
+    searchParams.get("pais")?.toUpperCase() === "UY" ? "UY" : "AR";
   const [supabase] = useState(createClient);
 
   useEffect(() => {
@@ -143,6 +146,22 @@ export default function Navbar() {
 
           {/* Acciones desktop */}
           <div className="navbar-actions navbar-desktop">
+            <div className="navbar-country-switch" aria-label="Seleccionar país">
+              <Link
+                href="/campos/mapa?pais=AR"
+                className={activeCountry === "AR" ? "active" : ""}
+                title="Ver Argentina"
+              >
+                🇦🇷 <span>AR</span>
+              </Link>
+              <Link
+                href="/campos/mapa?pais=UY"
+                className={activeCountry === "UY" ? "active" : ""}
+                title="Ver Uruguay"
+              >
+                🇺🇾 <span>UY</span>
+              </Link>
+            </div>
             {user ? (
               <>
                 <Link
@@ -191,6 +210,22 @@ export default function Navbar() {
 
           {/* Hamburguesa mobile */}
           <div className="navbar-mobile-right">
+            <div className="navbar-country-switch navbar-country-switch-mobile" aria-label="Seleccionar país">
+              <Link
+                href="/campos/mapa?pais=AR"
+                className={activeCountry === "AR" ? "active" : ""}
+                title="Ver Argentina"
+              >
+                🇦🇷 <span>AR</span>
+              </Link>
+              <Link
+                href="/campos/mapa?pais=UY"
+                className={activeCountry === "UY" ? "active" : ""}
+                title="Ver Uruguay"
+              >
+                🇺🇾 <span>UY</span>
+              </Link>
+            </div>
             {user && (
               <Link
                 href="/mensajes"
