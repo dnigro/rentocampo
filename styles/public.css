@@ -723,3 +723,53 @@
 /* Marca rural circular de la referencia definitiva. */
 .brand-symbol-image{display:block;border-radius:50%}
 .brand-wordmark-copy{min-width:0}
+
+
+/* Selector de mercado visible en navegación superior */
+.navbar-country-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 3px;
+  border: 1px solid #dedbd2;
+  border-radius: 999px;
+  background: #f8f7f3;
+}
+
+.navbar-country-switch a {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 30px;
+  padding: 0 8px;
+  border-radius: 999px;
+  color: #5c5a54;
+  font-size: 11px;
+  font-weight: 900;
+  text-decoration: none;
+  line-height: 1;
+}
+
+.navbar-country-switch a.active {
+  background: #f6c500;
+  color: #0b0b0b;
+}
+
+.navbar-country-switch-mobile {
+  display: none;
+}
+
+@media (max-width: 760px) {
+  .navbar-country-switch-mobile {
+    display: inline-flex;
+  }
+
+  .navbar-country-switch-mobile a {
+    min-height: 28px;
+    padding: 0 6px;
+  }
+
+  .navbar-country-switch-mobile a span {
+    display: none;
+  }
+}

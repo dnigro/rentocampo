@@ -13,7 +13,13 @@ export default function Navbar() {
   const [menuAbierto, setMenuAbierto] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
+  const [activeCountry, setActiveCountry] = useState<"AR" | "UY">("AR");
   const [supabase] = useState(createClient);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    setActiveCountry(params.get("pais")?.toUpperCase() === "UY" ? "UY" : "AR");
+  }, [pathname]);
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => setUser(data.user));
@@ -143,6 +149,22 @@ export default function Navbar() {
 
           {/* Acciones desktop */}
           <div className="navbar-actions navbar-desktop">
+            <div className="navbar-country-switch" aria-label="Seleccionar país">
+              <Link
+                href="/campos/mapa?pais=AR"
+                className={activeCountry === "AR" ? "active" : ""}
+                title="Ver Argentina"
+              >
+                🇦🇷 <span>AR</span>
+              </Link>
+              <Link
+                href="/campos/mapa?pais=UY"
+                className={activeCountry === "UY" ? "active" : ""}
+                title="Ver Uruguay"
+              >
+                🇺🇾 <span>UY</span>
+              </Link>
+            </div>
             {user ? (
               <>
                 <Link
@@ -191,6 +213,22 @@ export default function Navbar() {
 
           {/* Hamburguesa mobile */}
           <div className="navbar-mobile-right">
+            <div className="navbar-country-switch navbar-country-switch-mobile" aria-label="Seleccionar país">
+              <Link
+                href="/campos/mapa?pais=AR"
+                className={activeCountry === "AR" ? "active" : ""}
+                title="Ver Argentina"
+              >
+                🇦🇷 <span>AR</span>
+              </Link>
+              <Link
+                href="/campos/mapa?pais=UY"
+                className={activeCountry === "UY" ? "active" : ""}
+                title="Ver Uruguay"
+              >
+                🇺🇾 <span>UY</span>
+              </Link>
+            </div>
             {user && (
               <Link
                 href="/mensajes"
