@@ -16,7 +16,7 @@ create table if not exists public.land_plan_purchases (
   country_code text not null default 'AR',
   payment_provider text not null default 'mercadopago',
   external_reference text unique,
-  provider_preference_id text,
+  provider_order_id text,
   provider_payment_id text,
   provider_status text,
   paid_at timestamptz,
