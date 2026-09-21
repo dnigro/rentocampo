@@ -21,9 +21,9 @@ export function getPaidLandPlan(planId: PaidLandPlanId) {
 }
 
 export function buildLandPlanExternalReference(
-  userId: string,
+  _userId: string,
   planId: PlanTierraId,
   purchaseId: string,
 ) {
-  return `rentocampo:${userId}:${planId}:${purchaseId}`;
+  return `rc:${planId}:${purchaseId}`;
 }
