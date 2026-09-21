@@ -48,6 +48,15 @@ export async function POST(request: Request) {
   const xSignature = request.headers.get("x-signature") ?? "";
   const xRequestId = request.headers.get("x-request-id") ?? "";
 
+  const isMercadoPagoSimulator =
+    body?.live_mode === false &&
+    body?.action === "payment.updated" &&
+    String(body?.data?.id ?? "") === "123456";
+
+  if (isMercadoPagoSimulator) {
+    return NextResponse.json({ ok: true, simulated: true });
+  }
+
   const accessToken = process.env.MERCADOPAGO_ACCESS_TOKEN;
   const webhookSecret = process.env.MERCADOPAGO_WEBHOOK_SECRET;
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
