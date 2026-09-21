@@ -266,3 +266,94 @@ body:has(.rc-landing) .footer::before{
   .rc-faq{padding:38px 0}.rc-faq-grid{gap:18px}.rc-faq h2{font-size:44px}.rc-question button{padding:15px 0;font-size:14px}
   .rc-final{padding:36px 0}.rc-final h2{font-size:46px}.rc-final .rc-button{margin-top:22px}
 }
+
+
+/* FAQ comercial: compacta espacios y presenta los 3 planes pagos sin recargar la Home */
+.rc-faq {
+  padding: 34px 0 !important;
+}
+
+.rc-faq-grid {
+  gap: 34px !important;
+  align-items: start;
+}
+
+.rc-faq-content {
+  min-width: 0;
+}
+
+.rc-question button {
+  padding: 13px 0 !important;
+}
+
+.rc-question-answer > p {
+  margin: 0;
+  padding: 0 28px 14px 0;
+  line-height: 1.5;
+}
+
+.rc-faq-plans {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  padding: 4px 0 16px;
+}
+
+.rc-faq-plan {
+  display: grid;
+  gap: 5px;
+  min-height: 112px;
+  padding: 14px;
+  border: 1px solid #d9d6cc;
+  border-radius: 14px;
+  background: #f7f5ef;
+}
+
+.rc-faq-plan:nth-child(2) {
+  background: #fbf3c9;
+  border-color: #dfcf7f;
+}
+
+.rc-faq-plan:nth-child(3) {
+  background: #f3dd72;
+  border-color: #d7bd45;
+}
+
+.rc-faq-plan strong {
+  color: #050505;
+  font-size: 15px;
+  font-weight: 900;
+  line-height: 1.05;
+}
+
+.rc-faq-plan span {
+  color: #45413a;
+  font-size: 12px;
+  font-weight: 750;
+  line-height: 1.35;
+}
+
+.rc-faq-plan b {
+  margin-top: auto;
+  color: #b48f00;
+  font-size: 14px;
+  font-weight: 900;
+}
+
+@media(max-width:760px) {
+  .rc-faq {
+    padding: 28px 0 !important;
+  }
+
+  .rc-faq-grid {
+    gap: 18px !important;
+  }
+
+  .rc-faq-plans {
+    grid-template-columns: 1fr;
+  }
+
+  .rc-faq-plan {
+    min-height: 0;
+  }
+}
