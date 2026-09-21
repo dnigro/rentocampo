@@ -8,12 +8,7 @@ import {
 } from "@/lib/billing/land-plans";
 import { getLandQuotaStatus } from "@/lib/billing/land-quota";
 import { planTierraRank } from "@/data/planes-tierra";
-
-const ARS_ENV_BY_PLAN = {
-  productiva: "MERCADOPAGO_PRODUCTIVA_ARS",
-  administrador: "MERCADOPAGO_ADMINISTRADOR_ARS",
-  portfolio: "MERCADOPAGO_PORTFOLIO_ARS",
-} as const;
+import { getBnaUsdSellerRate, usdToArs } from "@/lib/billing/bna-rate";
 
 export async function POST(request: Request) {
   const supabase = await createClient();
@@ -35,14 +30,11 @@ export async function POST(request: Request) {
   const accessToken = process.env.MERCADOPAGO_ACCESS_TOKEN;
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const serviceRole = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  const amountEnv = process.env[ARS_ENV_BY_PLAN[planId]];
-  const amount = Number(amountEnv);
-
-  if (!accessToken || !supabaseUrl || !serviceRole || !Number.isFinite(amount) || amount <= 0) {
+  if (!accessToken || !supabaseUrl || !serviceRole) {
     return NextResponse.json(
       {
         error:
-          "Mercado Pago todavía no está configurado para pruebas. Falta credencial o precio local ARS.",
+          "Mercado Pago todavía no está configurado correctamente.",
         code: "billing_not_configured",
       },
       { status: 503 },
@@ -50,6 +42,22 @@ export async function POST(request: Request) {
   }
 
   const plan = getPaidLandPlan(planId);
+
+  let bnaRate;
+  try {
+    bnaRate = await getBnaUsdSellerRate();
+  } catch {
+    return NextResponse.json(
+      {
+        error:
+          "No pudimos obtener la cotización oficial del Banco Nación. Intentá nuevamente en unos minutos.",
+        code: "bna_rate_unavailable",
+      },
+      { status: 503 },
+    );
+  }
+
+  const amount = usdToArs(plan.precioUsdAnual, bnaRate.seller);
   const currentQuota = await getLandQuotaStatus(user.id);
 
   if (planTierraRank(planId) <= planTierraRank(currentQuota.planId)) {
@@ -90,6 +98,9 @@ export async function POST(request: Request) {
     external_reference: externalReference,
     metadata: {
       reference_price_usd: plan.precioUsdAnual,
+      bna_usd_seller_ars: bnaRate.seller,
+      bna_rate_fetched_at: bnaRate.fetchedAt,
+      conversion_source: bnaRate.source,
       source: "rentocampo_web",
     },
   });
@@ -140,6 +151,9 @@ export async function POST(request: Request) {
         provider_status: "create_preference_failed",
         metadata: {
           reference_price_usd: plan.precioUsdAnual,
+          bna_usd_seller_ars: bnaRate.seller,
+          bna_rate_fetched_at: bnaRate.fetchedAt,
+          conversion_source: bnaRate.source,
           source: "rentocampo_web",
           mercado_pago_error: mpData,
         },
