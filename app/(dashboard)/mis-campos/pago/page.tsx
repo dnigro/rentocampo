@@ -32,7 +32,7 @@ export default async function PagoPlanPage({
     resultado === "success" || resultado === "pending" || resultado === "failure"
       ? resultado
       : "pending";
-  let copy = COPY[state];
+  let copy: { title: string; text: string } = COPY[state];
 
   if (state === "success") {
     const paymentId = payment_id ?? collection_id;
