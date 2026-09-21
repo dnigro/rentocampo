@@ -10,11 +10,13 @@ import {
   SERVICIOS_RURALES,
 } from "@/data/servicios-rurales";
 import type { ServicioRural } from "@/types";
+import { COUNTRIES, type CountryCode } from "@/data/countries";
 import { createClient } from "@/lib/supabase/client";
 
 interface CampoPin {
   id: string;
   titulo: string;
+  country_code?: CountryCode;
   provincia: string;
   localidad?: string;
   latitud: number;
@@ -31,11 +33,13 @@ interface Props {
   currentUserId?: string;
   initialVista?: "tierra" | "servicios";
   initialServicio?: ServicioRural;
+  initialCountry?: CountryCode;
 }
 
 interface ServicioPin {
   id: string;
   nombre: string;
+  country_code?: CountryCode;
   bio?: string;
   avatar_url?: string;
   servicios_rurales: ServicioRural[];
@@ -53,6 +57,7 @@ export default function CampoMapa({
   currentUserId,
   initialVista = "tierra",
   initialServicio,
+  initialCountry = "AR",
 }: Props) {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<LeafletMap | null>(null);
@@ -67,6 +72,7 @@ export default function CampoMapa({
     null,
   );
   const [vista, setVista] = useState<"tierra" | "servicios">(initialVista);
+  const [countryCode, setCountryCode] = useState<CountryCode>(initialCountry);
   const [categoriaServicio, setCategoriaServicio] = useState<
     ServicioRural | "todas"
   >(initialServicio ?? "todas");
@@ -103,16 +109,18 @@ export default function CampoMapa({
     () =>
       prestadores.filter(
         (prestador) =>
-          categoriaServicio === "todas" ||
-          prestador.servicios_rurales?.includes(categoriaServicio),
+          (prestador.country_code ?? "AR") === countryCode &&
+          (categoriaServicio === "todas" ||
+            prestador.servicios_rurales?.includes(categoriaServicio)),
       ),
-    [categoriaServicio, prestadores],
+    [categoriaServicio, countryCode, prestadores],
   );
 
   const camposConCoordenadas = useMemo(
     () =>
       campos.filter(
         (campo) =>
+          (campo.country_code ?? "AR") === countryCode &&
           Number.isFinite(campo.latitud) &&
           Number.isFinite(campo.longitud) &&
           campo.latitud >= -90 &&
@@ -120,7 +128,7 @@ export default function CampoMapa({
           campo.longitud >= -180 &&
           campo.longitud <= 180,
       ),
-    [campos],
+    [campos, countryCode],
   );
 
   useEffect(() => {
@@ -130,9 +138,10 @@ export default function CampoMapa({
       .then((L) => {
         if (cancelled || map.current || !mapContainer.current) return;
 
+        const country = COUNTRIES[countryCode];
         const leafletMap = L.map(mapContainer.current).setView(
-          [-34, -63.5],
-          4.5,
+          country.mapCenter,
+          country.mapZoom,
         );
         map.current = leafletMap;
 
@@ -171,7 +180,7 @@ export default function CampoMapa({
             });
         });
 
-        DEMANDA_ZONAS.forEach((demanda) => {
+        if (countryCode === "AR") DEMANDA_ZONAS.forEach((demanda) => {
           const position: [number, number] = [
             demanda.latitud,
             demanda.longitud,
@@ -246,7 +255,7 @@ export default function CampoMapa({
       demandaLayer.current = null;
       serviciosLayer.current = null;
     };
-  }, [camposConCoordenadas, prestadoresFiltrados, vista]);
+  }, [camposConCoordenadas, countryCode, prestadoresFiltrados, vista]);
 
   useEffect(() => {
     const leafletMap = map.current;
@@ -306,8 +315,12 @@ export default function CampoMapa({
         <div className="mapa-fallback">
           <iframe
             className="mapa-fallback-frame"
-            title="Mapa cartográfico de Argentina"
-            src="https://www.openstreetmap.org/export/embed.html?bbox=-73.8%2C-55.3%2C-53.4%2C-21.4&layer=mapnik"
+            title={`Mapa cartográfico de ${COUNTRIES[countryCode].name}`}
+            src={
+              countryCode === "UY"
+                ? "https://www.openstreetmap.org/export/embed.html?bbox=-58.7%2C-35.2%2C-53.0%2C-30.0&layer=mapnik"
+                : "https://www.openstreetmap.org/export/embed.html?bbox=-73.8%2C-55.3%2C-53.4%2C-21.4&layer=mapnik"
+            }
             loading="lazy"
           />
           <div className="mapa-fallback-aviso">
@@ -320,6 +333,33 @@ export default function CampoMapa({
 
       {!mapError && (
         <div className="mapa-filtros" aria-label="Capas visibles del mapa">
+          <div className="mapa-paises" role="group" aria-label="País del mapa">
+            <button
+              type="button"
+              className={countryCode === "AR" ? "activo" : ""}
+              onClick={() => {
+                setCountryCode("AR");
+                setSelectedCampo(null);
+                setSelectedDemanda(null);
+                setSelectedServicio(null);
+              }}
+            >
+              🇦🇷 Argentina
+            </button>
+            <button
+              type="button"
+              className={countryCode === "UY" ? "activo" : ""}
+              onClick={() => {
+                setCountryCode("UY");
+                setSelectedCampo(null);
+                setSelectedDemanda(null);
+                setSelectedServicio(null);
+              }}
+            >
+              🇺🇾 Uruguay
+            </button>
+          </div>
+
           <div
             className="mapa-modos"
             role="group"
@@ -355,18 +395,20 @@ export default function CampoMapa({
                 <span className="mapa-filtro-punto mapa-filtro-punto-campo" />
                 Campos disponibles
               </button>
-              <button
-                type="button"
-                className={`mapa-filtro ${mostrarDemanda ? "activo" : ""}`}
-                aria-pressed={mostrarDemanda}
-                onClick={() => {
-                  setMostrarDemanda((actual) => !actual);
-                  setSelectedDemanda(null);
-                }}
-              >
-                <span className="mapa-filtro-punto mapa-filtro-punto-demanda" />
-                Demanda por zona
-              </button>
+              {countryCode === "AR" && (
+                <button
+                  type="button"
+                  className={`mapa-filtro ${mostrarDemanda ? "activo" : ""}`}
+                  aria-pressed={mostrarDemanda}
+                  onClick={() => {
+                    setMostrarDemanda((actual) => !actual);
+                    setSelectedDemanda(null);
+                  }}
+                >
+                  <span className="mapa-filtro-punto mapa-filtro-punto-demanda" />
+                  Demanda por zona
+                </button>
+              )}
             </>
           ) : (
             <div className="mapa-servicio-filtro">
@@ -393,8 +435,10 @@ export default function CampoMapa({
           <div className="mapa-contador">
             {vista === "tierra" ? (
               <>
-                <strong>{camposConCoordenadas.length}</strong> campos en mapa ·{" "}
-                <strong>{DEMANDA_ZONAS.length}</strong> zonas con demanda
+                <strong>{camposConCoordenadas.length}</strong> campos en {COUNTRIES[countryCode].name}
+                {countryCode === "AR" && (
+                  <> · <strong>{DEMANDA_ZONAS.length}</strong> zonas con demanda</>
+                )}
               </>
             ) : (
               <>
@@ -425,11 +469,11 @@ export default function CampoMapa({
               .join(", ")}
           </p>
           <div className="mapa-panel-datos">
-            <span>{selectedCampo.hectareas.toLocaleString("es-AR")} ha</span>
+            <span>{selectedCampo.hectareas.toLocaleString(COUNTRIES[selectedCampo.country_code ?? "AR"].locale)} ha</span>
             {selectedCampo.precio && (
               <span>
                 {selectedCampo.moneda}{" "}
-                {selectedCampo.precio.toLocaleString("es-AR")} total
+                {selectedCampo.precio.toLocaleString(COUNTRIES[selectedCampo.country_code ?? "AR"].locale)} total
               </span>
             )}
           </div>

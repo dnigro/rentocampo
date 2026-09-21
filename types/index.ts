@@ -38,7 +38,8 @@ export type DisponibilidadCampo =
   | "campaña_próxima"
   | "a_convenir";
 
-export type MonedaCampo = "USD" | "ARS";
+export type MonedaCampo = "USD" | "ARS" | "UYU";
+export type CountryCode = "AR" | "UY";
 
 // ============================================================
 // MODELOS
@@ -55,6 +56,7 @@ export interface Profile {
   zona_servicio?: string;
   provincia_servicio?: string;
   localidad_servicio?: string;
+  country_code?: CountryCode;
   activo: boolean;
   created_at: string;
   updated_at: string;
@@ -65,6 +67,7 @@ export interface Campo {
   propietario_id: string;
   titulo: string;
   descripcion?: string;
+  country_code: CountryCode;
   ubicacion: string;
   provincia: string;
   departamento?: string;
@@ -136,6 +139,7 @@ export interface CampoFiltros {
 // FORMULARIOS
 // ============================================================
 export interface CampoFormData {
+  country_code: CountryCode;
   titulo: string;
   descripcion?: string;
   ubicacion: string;

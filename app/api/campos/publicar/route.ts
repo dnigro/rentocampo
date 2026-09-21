@@ -7,6 +7,7 @@ import {
 } from "@/lib/billing/land-quota";
 
 const ALLOWED_FIELDS = [
+  "country_code",
   "titulo",
   "descripcion",
   "ubicacion",

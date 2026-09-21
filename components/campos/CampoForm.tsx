@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { FileText, Images, MapPinned, Sprout, WalletCards } from "lucide-react";
 import { PROVINCIAS_ARG } from "@/types";
+import { COUNTRIES, DEPARTAMENTOS_UY, type CountryCode } from "@/data/countries";
 import type { CampoFormData } from "@/types";
 import GeocoderInput, {
   type LugarSeleccionado,
@@ -52,6 +53,7 @@ export default function CampoForm({
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [form, setForm] = useState<CampoFormData>({
+    country_code: "AR",
     titulo: "",
     descripcion: "",
     ubicacion: "",
@@ -72,6 +74,10 @@ export default function CampoForm({
   const [lugarGeocodificado, setLugarGeocodificado] = useState(
     initialData?.localidad ?? "",
   );
+  const countryCode: CountryCode = form.country_code ?? "AR";
+  const country = COUNTRIES[countryCode];
+  const subdivisiones =
+    countryCode === "UY" ? DEPARTAMENTOS_UY : PROVINCIAS_ARG;
 
   const [fotos, setFotos] = useState<
     { id?: string; url: string; file?: File; orden: number }[]
@@ -157,7 +163,7 @@ export default function CampoForm({
 
     if (!form.titulo || !form.ubicacion || !form.provincia || !form.hectareas || !form.aptitud) {
       setError(
-        "Completá los campos obligatorios: título, ubicación, provincia, hectáreas y aptitud.",
+        `Completá los campos obligatorios: título, ubicación, ${country.subdivisionLabel.toLowerCase()}, hectáreas y aptitud.`,
       );
       setSaving(false);
       return;
@@ -302,8 +308,39 @@ export default function CampoForm({
         </h2>
 
         <div className="form-field">
+          <label className="form-label">
+            País <span className="required">*</span>
+          </label>
+          <select
+            name="country_code"
+            className="form-input form-select"
+            value={countryCode}
+            onChange={(event) => {
+              const nextCountry = event.target.value as CountryCode;
+              setForm((prev) => ({
+                ...prev,
+                country_code: nextCountry,
+                provincia: "",
+                departamento: "",
+                localidad: "",
+                ubicacion: "",
+                latitud: undefined,
+                longitud: undefined,
+                moneda: nextCountry === "UY" ? "USD" : prev.moneda === "UYU" ? "USD" : prev.moneda,
+              }));
+              setLugarGeocodificado("");
+            }}
+            required
+          >
+            <option value="AR">🇦🇷 Argentina</option>
+            <option value="UY">🇺🇾 Uruguay</option>
+          </select>
+        </div>
+
+        <div className="form-field">
           <label className="form-label">Buscar ubicación en el mapa</label>
           <GeocoderInput
+            countryCode={countryCode}
             valorInicial={lugarGeocodificado}
             onChange={(ubicacion) =>
               setForm((prev) => ({ ...prev, ubicacion }))
@@ -337,7 +374,7 @@ export default function CampoForm({
         <div className="form-row">
           <div className="form-field">
             <label className="form-label">
-              Provincia <span className="required">*</span>
+              {country.subdivisionLabel} <span className="required">*</span>
             </label>
             <select
               name="provincia"
@@ -347,7 +384,7 @@ export default function CampoForm({
               required
             >
               <option value="">Seleccioná...</option>
-              {PROVINCIAS_ARG.map((p) => (
+              {subdivisiones.map((p) => (
                 <option key={p} value={p}>
                   {p}
                 </option>
@@ -355,7 +392,9 @@ export default function CampoForm({
             </select>
           </div>
           <div className="form-field">
-            <label className="form-label">Departamento / Partido</label>
+            <label className="form-label">
+              {countryCode === "UY" ? "Zona / Sección" : "Departamento / Partido"}
+            </label>
             <input
               name="departamento"
               type="text"
@@ -485,6 +524,7 @@ export default function CampoForm({
               >
                 <option value="USD">USD</option>
                 <option value="ARS">ARS</option>
+                {countryCode === "UY" && <option value="UYU">UYU</option>}
               </select>
               <input
                 name="precio"

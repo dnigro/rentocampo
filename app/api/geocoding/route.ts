@@ -5,6 +5,8 @@ export async function GET(request: Request) {
   const query = requestUrl.searchParams.get("q")?.trim();
   const lat = requestUrl.searchParams.get("lat");
   const lon = requestUrl.searchParams.get("lon");
+  const country =
+    requestUrl.searchParams.get("country")?.toUpperCase() === "UY" ? "UY" : "AR";
 
   if (!query && (!lat || !lon)) {
     return NextResponse.json({ results: [] });
@@ -20,7 +22,7 @@ export async function GET(request: Request) {
   if (query) {
     if (query.length < 2) return NextResponse.json({ results: [] });
     url.searchParams.set("q", query);
-    url.searchParams.set("countrycodes", "ar");
+    url.searchParams.set("countrycodes", country.toLowerCase());
     url.searchParams.set("limit", "10");
   } else {
     url.searchParams.set("lat", lat!);
