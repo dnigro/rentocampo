@@ -51,6 +51,7 @@ export default function PlanesTierra({ publicacionesUsadas }: Props) {
                   </span>
                 )}
                 <h3>{plan.nombre}</h3>
+                <p className="plan-tierra-profile">{plan.perfilIdeal}</p>
                 <p>{plan.bajada}</p>
               </div>
 
