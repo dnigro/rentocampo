@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { createClient } from "@/lib/supabase/server";
+import { reconcileMercadoPagoPayment } from "@/lib/billing/mercadopago";
 import "@/styles/pago-plan.css";
 
 const COPY = {
@@ -19,14 +21,47 @@ const COPY = {
 export default async function PagoPlanPage({
   searchParams,
 }: {
-  searchParams: Promise<{ resultado?: string }>;
+  searchParams: Promise<{
+    resultado?: string;
+    payment_id?: string;
+    collection_id?: string;
+  }>;
 }) {
-  const { resultado } = await searchParams;
+  const { resultado, payment_id, collection_id } = await searchParams;
   const state =
     resultado === "success" || resultado === "pending" || resultado === "failure"
       ? resultado
       : "pending";
-  const copy = COPY[state];
+  let copy = COPY[state];
+
+  if (state === "success") {
+    const paymentId = payment_id ?? collection_id;
+
+    if (paymentId) {
+      const supabase = await createClient();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      if (user) {
+        const reconciliation = await reconcileMercadoPagoPayment(
+          paymentId,
+          user.id,
+        );
+
+        if (
+          reconciliation.ok &&
+          reconciliation.found &&
+          reconciliation.status === "active"
+        ) {
+          copy = {
+            title: "Plan activado",
+            text: "El pago fue aprobado y tu plan ya quedó activo en RentoCampo.",
+          };
+        }
+      }
+    }
+  }
 
   return (
     <div className="page-container pago-plan-page">
