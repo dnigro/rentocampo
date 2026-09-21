@@ -29,6 +29,27 @@ export default function MisCamposLista({ campos }: Props) {
     );
   }
 
+  async function eliminarCampo(id: string, titulo: string) {
+    const confirmar = window.confirm(
+      `¿Eliminar “${titulo}”? Esta acción no se puede deshacer y no recupera el cupo de publicación utilizado.`,
+    );
+
+    if (!confirmar) return;
+
+    const response = await fetch(`/api/campos/${id}`, {
+      method: "DELETE",
+    });
+
+    const result = await response.json().catch(() => null);
+
+    if (!response.ok) {
+      window.alert(result?.error ?? "No se pudo eliminar el campo.");
+      return;
+    }
+
+    setLista((prev) => prev.filter((campo) => campo.id !== id));
+  }
+
   if (!lista.length) {
     return (
       <div className="empty-state">
@@ -115,6 +136,13 @@ export default function MisCamposLista({ campos }: Props) {
                   Ver
                 </Link>
               )}
+              <button
+                type="button"
+                onClick={() => eliminarCampo(campo.id, campo.titulo)}
+                className="btn-action btn-action-danger"
+              >
+                Eliminar
+              </button>
             </div>
           </div>
         );
