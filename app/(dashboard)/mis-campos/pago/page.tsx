@@ -1,4 +1,5 @@
 import Link from "next/link";
+import "@/styles/pago-plan.css";
 
 const COPY = {
   success: {
@@ -28,17 +29,16 @@ export default async function PagoPlanPage({
   const copy = COPY[state];
 
   return (
-    <div className="page-container">
-      <div className="page-header">
-        <div>
-          <h1 className="page-title">{copy.title}</h1>
-          <p className="page-subtitle">{copy.text}</p>
-        </div>
-      </div>
+    <div className="page-container pago-plan-page">
+      <section className={`pago-plan-card pago-plan-card-${state}`}>
+        <div className="pago-plan-kicker">Mercado Pago</div>
+        <h1 className="pago-plan-title">{copy.title}</h1>
+        <p className="pago-plan-text">{copy.text}</p>
 
-      <Link href="/mis-campos" className="btn-primary-lg">
-        Volver a Mis campos
-      </Link>
+        <Link href="/mis-campos" className="pago-plan-action">
+          Volver a Mis campos
+        </Link>
+      </section>
     </div>
   );
 }
