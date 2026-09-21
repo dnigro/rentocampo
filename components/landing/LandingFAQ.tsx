@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 
 const faqs = [
@@ -73,11 +74,16 @@ export default function LandingFAQ() {
                   {i === 0 && (
                     <div className="rc-faq-plans" aria-label="Planes para publicar tierras">
                       {planes.map((plan) => (
-                        <article className="rc-faq-plan" key={plan.nombre}>
+                        <Link
+                          className="rc-faq-plan"
+                          key={plan.nombre}
+                          href="/register?tipo=propietario"
+                        >
                           <strong>{plan.nombre}</strong>
                           <span>{plan.publicaciones}</span>
                           <b>{plan.precio}</b>
-                        </article>
+                          <em>Crear cuenta →</em>
+                        </Link>
                       ))}
                     </div>
                   )}

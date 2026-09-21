@@ -344,3 +344,23 @@
     bottom: 18px;
   }
 }
+
+
+/* Ajuste final Home: despegar CTAs del bloque negro inferior */
+.editorialHero__message {
+  transform: translateY(-18px);
+}
+
+.editorialHero__actions {
+  margin-bottom: 14px;
+}
+
+@media (max-width: 900px) {
+  .editorialHero__message {
+    transform: none;
+  }
+
+  .editorialHero__actions {
+    margin-bottom: 0;
+  }
+}

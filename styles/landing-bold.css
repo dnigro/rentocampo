@@ -357,3 +357,25 @@ body:has(.rc-landing) .footer::before{
     min-height: 0;
   }
 }
+
+
+.rc-faq-plan {
+  color: inherit;
+  text-decoration: none;
+  transition: transform .15s ease, border-color .15s ease;
+}
+
+.rc-faq-plan:hover {
+  transform: translateY(-2px);
+  border-color: #bca21f;
+}
+
+.rc-faq-plan em {
+  margin-top: 3px;
+  color: #050505;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 900;
+  letter-spacing: .03em;
+  text-transform: uppercase;
+}
