@@ -1003,3 +1003,16 @@
     margin-bottom: 16px !important;
   }
 }
+
+
+.btn-action-danger {
+  border-color: #ead9d3 !important;
+  color: #9f3d2f !important;
+  background: #fff !important;
+}
+
+.btn-action-danger:hover {
+  border-color: #c76a5a !important;
+  background: #fff5f2 !important;
+  color: #7e2f24 !important;
+}
