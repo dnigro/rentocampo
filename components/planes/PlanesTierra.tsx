@@ -4,10 +4,22 @@ import { useState } from "react";
 import { PLANES_TIERRA, publicacionesLabel } from "@/data/planes-tierra";
 
 interface Props {
+  planActualId: string;
+  planActualNombre: string;
   publicacionesUsadas: number;
+  publicacionesReales: number;
+  publicacionesLimite: number | null;
+  publicacionesRestantes: number | null;
 }
 
-export default function PlanesTierra({ publicacionesUsadas }: Props) {
+export default function PlanesTierra({
+  planActualId,
+  planActualNombre,
+  publicacionesUsadas,
+  publicacionesReales,
+  publicacionesLimite,
+  publicacionesRestantes,
+}: Props) {
   const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
   const [checkoutError, setCheckoutError] = useState("");
 
@@ -50,9 +62,11 @@ export default function PlanesTierra({ publicacionesUsadas }: Props) {
         </div>
         <div className="planes-tierra-estado">
           <span>Tu plan actual</span>
-          <strong>Tierra Inicial</strong>
+          <strong>{planActualNombre}</strong>
           <small>
-            {publicacionesUsadas} publicación{publicacionesUsadas === 1 ? "" : "es"} real{publicacionesUsadas === 1 ? "" : "es"} registrada{publicacionesUsadas === 1 ? "" : "s"}
+            {publicacionesLimite === null
+              ? `${publicacionesUsadas} utilizadas · ilimitadas disponibles`
+              : `${publicacionesUsadas} utilizadas · ${publicacionesRestantes} disponibles`}
           </small>
         </div>
       </div>
@@ -63,7 +77,7 @@ export default function PlanesTierra({ publicacionesUsadas }: Props) {
 
       <div className="planes-tierra-grid">
         {PLANES_TIERRA.map((plan) => {
-          const esActual = plan.id === "inicial";
+          const esActual = plan.id === planActualId;
           return (
             <article
               key={plan.id}
@@ -133,8 +147,8 @@ export default function PlanesTierra({ publicacionesUsadas }: Props) {
       </div>
 
       <div className="planes-tierra-note">
-        <strong>Etapa de validación comercial.</strong> Todavía no hay cobros ni
-        límites activos. Los campos de demostración no consumen publicaciones.
+        <strong>Modelo comercial activo.</strong> Los campos de demostración no
+        consumen publicaciones. Tenés {publicacionesReales} campo{publicacionesReales === 1 ? "" : "s"} real{publicacionesReales === 1 ? "" : "es"} registrado{publicacionesReales === 1 ? "" : "s"}.
       </div>
     </section>
   );
