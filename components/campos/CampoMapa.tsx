@@ -389,6 +389,19 @@ export default function CampoMapa({
               </select>
             </div>
           )}
+
+          <div className="mapa-contador">
+            {vista === "tierra" ? (
+              <>
+                <strong>{camposConCoordenadas.length}</strong> campos en mapa ·{" "}
+                <strong>{DEMANDA_ZONAS.length}</strong> zonas con demanda
+              </>
+            ) : (
+              <>
+                <strong>{prestadoresFiltrados.length}</strong> servicios en mapa
+              </>
+            )}
+          </div>
         </div>
       )}
 
@@ -525,18 +538,6 @@ export default function CampoMapa({
         </div>
       )}
 
-      <div className="mapa-contador">
-        {vista === "tierra" ? (
-          <>
-            <strong>{camposConCoordenadas.length}</strong> campos en mapa ·{" "}
-            <strong>{DEMANDA_ZONAS.length}</strong> zonas con demanda
-          </>
-        ) : (
-          <>
-            <strong>{prestadoresFiltrados.length}</strong> servicios en mapa
-          </>
-        )}
-      </div>
     </div>
   );
 }
