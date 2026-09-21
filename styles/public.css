@@ -736,7 +736,8 @@
   background: #f8f7f3;
 }
 
-.navbar-country-switch a {
+.navbar-country-switch a,
+.navbar-country-switch button {
   display: inline-flex;
   align-items: center;
   gap: 4px;
@@ -748,9 +749,13 @@
   font-weight: 900;
   text-decoration: none;
   line-height: 1;
+  border: 0;
+  cursor: pointer;
+  font-family: inherit;
 }
 
-.navbar-country-switch a.active {
+.navbar-country-switch a.active,
+.navbar-country-switch button.active {
   background: #f6c500;
   color: #0b0b0b;
 }
@@ -764,12 +769,14 @@
     display: inline-flex;
   }
 
-  .navbar-country-switch-mobile a {
+  .navbar-country-switch-mobile a,
+  .navbar-country-switch-mobile button {
     min-height: 28px;
     padding: 0 6px;
   }
 
-  .navbar-country-switch-mobile a span {
+  .navbar-country-switch-mobile a span,
+  .navbar-country-switch-mobile button span {
     display: none;
   }
 }
