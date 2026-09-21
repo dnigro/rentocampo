@@ -39,8 +39,12 @@ function isValidSignature(
 export async function POST(request: Request) {
   const body = await request.json().catch(() => null);
   const url = new URL(request.url);
-  const dataId = url.searchParams.get("data.id") ?? "";
-  const type = url.searchParams.get("type") ?? "";
+  const dataId =
+    url.searchParams.get("data.id") ??
+    (body?.data?.id ? String(body.data.id) : "");
+  const type =
+    url.searchParams.get("type") ??
+    (typeof body?.type === "string" ? body.type : "");
   const xSignature = request.headers.get("x-signature") ?? "";
   const xRequestId = request.headers.get("x-request-id") ?? "";
 
