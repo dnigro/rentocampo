@@ -930,3 +930,33 @@
     margin-top: 0 !important;
   }
 }
+
+
+/* Ajuste final Publicar campo: superficie abierta y sin marco exterior */
+.app-shell .campo-form {
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  overflow: visible !important;
+}
+
+.app-shell .campo-form > .campo-plan-status {
+  border-color: #e6e1d7 !important;
+  background: #fbfaf6 !important;
+  box-shadow: none !important;
+}
+
+.app-shell .campo-form .form-section + .form-section {
+  border-top: 1px solid #efede7 !important;
+}
+
+.app-shell .campo-form .form-input,
+.app-shell .campo-form .form-select,
+.app-shell .campo-form .geocoder-input-row {
+  border-color: #d9d5cc !important;
+}
+
+.app-shell .campo-form .form-actions {
+  border-top-color: #efede7 !important;
+}
