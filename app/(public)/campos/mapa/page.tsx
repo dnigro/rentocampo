@@ -16,9 +16,9 @@ export const metadata: Metadata = {
 export default async function MapaPage({
   searchParams,
 }: {
-  searchParams: Promise<{ vista?: string; servicio?: string }>;
+  searchParams: Promise<{ vista?: string; servicio?: string; pais?: string }>;
 }) {
-  const { vista, servicio } = await searchParams;
+  const { vista, servicio, pais } = await searchParams;
   const servicioInicial = SERVICIOS_RURALES.some(
     (item) => item.value === servicio,
   )
@@ -32,7 +32,7 @@ export default async function MapaPage({
   const { data: campos } = await supabase
     .from("campos")
     .select(
-      "id, titulo, provincia, localidad, latitud, longitud, hectareas, aptitud, precio, moneda",
+      "id, titulo, country_code, provincia, localidad, latitud, longitud, hectareas, aptitud, precio, moneda",
     )
     .eq("status", "activo")
     .not("latitud", "is", null)
@@ -41,7 +41,7 @@ export default async function MapaPage({
   const { data: prestadores } = await supabase
     .from("profiles")
     .select(
-      "id, nombre, bio, avatar_url, servicios_rurales, zona_servicio, provincia_servicio, localidad_servicio",
+      "id, nombre, country_code, bio, avatar_url, servicios_rurales, zona_servicio, provincia_servicio, localidad_servicio",
     )
     .contains("roles", ["prestador"])
     .not("provincia_servicio", "is", null);
@@ -49,7 +49,7 @@ export default async function MapaPage({
   const { data: serviciosDemo } = await supabase
     .from("demo_servicios_rurales")
     .select(
-      "id, nombre, bio, servicios_rurales, zona_servicio, provincia_servicio, localidad_servicio, latitud, longitud",
+      "id, nombre, country_code, bio, servicios_rurales, zona_servicio, provincia_servicio, localidad_servicio, latitud, longitud",
     )
     .eq("activo", true);
 
@@ -73,6 +73,7 @@ export default async function MapaPage({
         currentUserId={user?.id}
         initialVista={vista === "servicios" ? "servicios" : "tierra"}
         initialServicio={servicioInicial}
+        initialCountry={pais?.toUpperCase() === "UY" ? "UY" : "AR"}
       />
     </div>
   );
