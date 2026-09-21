@@ -85,51 +85,42 @@ export async function POST(request: Request) {
   }
 
   const origin = new URL(request.url).origin;
-  const idempotencyKey = crypto.randomUUID();
-  const total = amount.toFixed(2);
-
-  const mpResponse = await fetch("https://api.mercadopago.com/v1/orders", {
+  const mpResponse = await fetch("https://api.mercadopago.com/checkout/preferences", {
     method: "POST",
     headers: {
       Authorization: `Bearer ${accessToken}`,
       "Content-Type": "application/json",
-      "X-Idempotency-Key": idempotencyKey,
     },
     body: JSON.stringify({
-      type: "online",
-      processing_mode: "manual",
-      capture_mode: "automatic_async",
-      total_amount: total,
       external_reference: externalReference,
-      description: `RentoCampo · ${plan.nombre}`,
       payer: user.email ? { email: user.email } : undefined,
       items: [
         {
+          id: planId,
           title: `RentoCampo · ${plan.nombre}`,
-          unit_price: total,
           quantity: 1,
-          unit_measure: "unit",
-          total_amount: total,
+          currency_id: "ARS",
+          unit_price: amount,
         },
       ],
-      config: {
-        online: {
-          success_url: `${origin}/mis-campos/pago?resultado=success`,
-          failure_url: `${origin}/mis-campos/pago?resultado=failure`,
-          pending_url: `${origin}/mis-campos/pago?resultado=pending`,
-          auto_return: "all",
-        },
+      back_urls: {
+        success: `${origin}/mis-campos/pago?resultado=success`,
+        failure: `${origin}/mis-campos/pago?resultado=failure`,
+        pending: `${origin}/mis-campos/pago?resultado=pending`,
       },
+      auto_return: "approved",
+      notification_url: `${origin}/api/billing/mercadopago/webhook`,
+      statement_descriptor: "RENTOCAMPO",
     }),
   });
 
   const mpData = await mpResponse.json().catch(() => null);
 
-  if (!mpResponse.ok || !mpData?.id || !mpData?.checkout_url) {
+  if (!mpResponse.ok || !mpData?.id || (!mpData?.init_point && !mpData?.sandbox_init_point)) {
     await admin
       .from("land_plan_purchases")
       .update({
-        provider_status: "create_order_failed",
+        provider_status: "create_preference_failed",
         metadata: {
           reference_price_usd: plan.precioUsdAnual,
           source: "rentocampo_web",
@@ -139,7 +130,7 @@ export async function POST(request: Request) {
       .eq("id", purchaseId);
 
     return NextResponse.json(
-      { error: "Mercado Pago no pudo crear la orden de pago." },
+      { error: "Mercado Pago no pudo crear la preferencia de pago." },
       { status: 502 },
     );
   }
@@ -148,12 +139,12 @@ export async function POST(request: Request) {
     .from("land_plan_purchases")
     .update({
       provider_order_id: mpData.id,
-      provider_status: mpData.status ?? "created",
+      provider_status: "preference_created",
     })
     .eq("id", purchaseId);
 
   return NextResponse.json({
-    checkoutUrl: mpData.checkout_url,
-    orderId: mpData.id,
+    checkoutUrl: mpData.sandbox_init_point ?? mpData.init_point,
+    preferenceId: mpData.id,
   });
 }
