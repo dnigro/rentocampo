@@ -359,18 +359,19 @@
   display: flex;
   min-height: 320px;
   flex-direction: column;
-  padding: 22px 0;
+  padding: 22px;
   border: 0;
-  border-radius: 0;
-  background: transparent;
+  border-radius: 22px;
+  background: #f2f1ec;
 }
 
 .plan-tierra-card-recomendado {
   border: 0;
+  background: #f7f0c7;
 }
 
 .plan-tierra-card-actual {
-  background: transparent;
+  background: #f3dd72;
 }
 
 .plan-tierra-card-top {
@@ -394,26 +395,27 @@
 }
 
 .plan-tierra-card h3 {
-  margin: 0 0 6px;
+  margin: 0 0 8px;
   color: #0b0b0b;
-  font-size: 26px;
+  font-size: 28px;
   font-weight: 900;
   line-height: 1.02;
 }
 
 .plan-tierra-card-top p {
   margin: 0;
-  color: #666;
-  font-size: 13px;
-  line-height: 1.45;
+  color: #4f4d48;
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1.35;
 }
 
 .plan-tierra-card-top .plan-tierra-profile {
   margin: 0 0 8px;
-  color: #f6c500;
-  font-size: 13px;
-  font-weight: 800;
-  line-height: 1.35;
+  color: #0b0b0b;
+  font-size: 15px;
+  font-weight: 900;
+  line-height: 1.3;
 }
 
 .plan-tierra-price {
@@ -424,7 +426,7 @@
 }
 
 .plan-tierra-price strong {
-  color: #f6c500;
+  color: #c99f00;
   font-family: var(--font-display), sans-serif;
   font-size: 38px;
   font-weight: 400;
@@ -444,7 +446,7 @@
   padding: 0;
   list-style: none;
   color: #222;
-  font-size: 12px;
+  font-size: 13px;
 }
 
 .plan-tierra-card li::before {
@@ -456,8 +458,8 @@
 
 .plan-tierra-audience {
   margin: auto 0 10px;
-  color: #777;
-  font-size: 11px;
+  color: #5f5d58;
+  font-size: 12px;
   line-height: 1.4;
 }
 
@@ -545,11 +547,7 @@
   }
 
   .plan-tierra-card {
-    padding: 24px 0 28px;
-    border-top: 1px solid #ece9df;
-  }
-
-  .plan-tierra-card:first-child {
+    padding: 22px;
     border-top: 0;
   }
 }
