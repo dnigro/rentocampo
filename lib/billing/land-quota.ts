@@ -1,5 +1,5 @@
 import { createClient as createAdminClient } from "@supabase/supabase-js";
-import { PLANES_TIERRA, type PlanTierraId } from "@/data/planes-tierra";
+import { PLANES_TIERRA, planTierraRank, type PlanTierraId } from "@/data/planes-tierra";
 
 export interface LandQuotaStatus {
   planId: PlanTierraId;
@@ -32,7 +32,7 @@ export async function getLandQuotaStatus(
   const admin = getAdminClient();
   const now = new Date().toISOString();
 
-  const { data: activePurchase } = await admin
+  const { data: activePurchases } = await admin
     .from("land_plan_purchases")
     .select(
       "id, plan_id, publication_limit, publications_used, expires_at, paid_at, created_at",
@@ -41,17 +41,34 @@ export async function getLandQuotaStatus(
     .eq("status", "active")
     .or(`expires_at.is.null,expires_at.gte.${now}`)
     .order("paid_at", { ascending: false, nullsFirst: false })
-    .order("created_at", { ascending: false })
-    .limit(1)
-    .maybeSingle();
+    .order("created_at", { ascending: false });
+
+  const activePurchase = (activePurchases ?? [])
+    .sort((a, b) => planTierraRank(b.plan_id) - planTierraRank(a.plan_id))[0];
 
   if (activePurchase) {
     const plan =
       PLANES_TIERRA.find((item) => item.id === activePurchase.plan_id) ??
       PLANES_TIERRA[0];
     const limit = activePurchase.publication_limit ?? plan.publicaciones;
-    const used = activePurchase.publications_used ?? 0;
+
+    const { count: eventCount } = await admin
+      .from("land_publication_events")
+      .select("id", { count: "exact", head: true })
+      .eq("plan_purchase_id", activePurchase.id);
+
+    const used = Math.max(
+      activePurchase.publications_used ?? 0,
+      eventCount ?? 0,
+    );
     const unlimited = limit === null;
+
+    if (!unlimited && used !== (activePurchase.publications_used ?? 0)) {
+      await admin
+        .from("land_plan_purchases")
+        .update({ publications_used: used })
+        .eq("id", activePurchase.id);
+    }
 
     return {
       planId: plan.id,
