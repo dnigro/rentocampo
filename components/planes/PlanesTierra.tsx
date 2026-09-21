@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { PLANES_TIERRA, publicacionesLabel } from "@/data/planes-tierra";
+import { PLANES_TIERRA, planTierraRank, publicacionesLabel } from "@/data/planes-tierra";
 
 interface Props {
   planActualId: string;
@@ -63,11 +63,11 @@ export default function PlanesTierra({
         <div className="planes-tierra-estado">
           <span>Tu plan actual</span>
           <strong>{planActualNombre}</strong>
-          <small>
-            {publicacionesLimite === null
-              ? `${publicacionesUsadas} utilizadas · ilimitadas disponibles`
-              : `${publicacionesUsadas} utilizadas · ${publicacionesRestantes} disponibles`}
-          </small>
+          {publicacionesLimite !== null && (
+            <small>
+              {publicacionesRestantes} disponible{publicacionesRestantes === 1 ? "" : "s"} de {publicacionesLimite}
+            </small>
+          )}
         </div>
       </div>
 
@@ -78,6 +78,8 @@ export default function PlanesTierra({
       <div className="planes-tierra-grid">
         {PLANES_TIERRA.map((plan) => {
           const esActual = plan.id === planActualId;
+          const esInferior = planTierraRank(plan.id) < planTierraRank(planActualId);
+          const bloqueadoPorPlan = esActual || esInferior;
           return (
             <article
               key={plan.id}
@@ -129,17 +131,19 @@ export default function PlanesTierra({
               <button
                 type="button"
                 className="plan-tierra-button"
-                disabled={esActual || loadingPlan !== null}
-                aria-disabled={esActual || loadingPlan !== null}
+                disabled={bloqueadoPorPlan || loadingPlan !== null}
+                aria-disabled={bloqueadoPorPlan || loadingPlan !== null}
                 onClick={() => {
-                  if (!esActual) void iniciarCheckout(plan.id);
+                  if (!bloqueadoPorPlan) void iniciarCheckout(plan.id);
                 }}
               >
                 {esActual
                   ? "Plan actual"
-                  : loadingPlan === plan.id
-                    ? "Abriendo Mercado Pago..."
-                    : "Elegir plan"}
+                  : esInferior
+                    ? "Incluido en tu plan"
+                    : loadingPlan === plan.id
+                      ? "Abriendo Mercado Pago..."
+                      : "Elegir plan"}
               </button>
             </article>
           );
