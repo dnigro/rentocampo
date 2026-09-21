@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { PLANES_TIERRA, publicacionesLabel } from "@/data/planes-tierra";
 
 interface Props {
@@ -7,6 +8,39 @@ interface Props {
 }
 
 export default function PlanesTierra({ publicacionesUsadas }: Props) {
+  const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
+  const [checkoutError, setCheckoutError] = useState("");
+
+  async function iniciarCheckout(planId: string) {
+    setCheckoutError("");
+    setLoadingPlan(planId);
+
+    try {
+      const response = await fetch("/api/billing/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ planId }),
+      });
+      const result = await response.json();
+
+      if (!response.ok || !result.checkoutUrl) {
+        throw new Error(
+          result.error ?? "No se pudo iniciar el pago con Mercado Pago.",
+        );
+      }
+
+      window.location.assign(result.checkoutUrl);
+    } catch (error) {
+      setCheckoutError(
+        error instanceof Error
+          ? error.message
+          : "No se pudo iniciar el pago con Mercado Pago.",
+      );
+    } finally {
+      setLoadingPlan(null);
+    }
+  }
+
   return (
     <section className="perfil-section planes-tierra-section">
       <div className="planes-tierra-heading">
@@ -22,6 +56,10 @@ export default function PlanesTierra({ publicacionesUsadas }: Props) {
           </small>
         </div>
       </div>
+
+      {checkoutError && (
+        <div className="planes-tierra-checkout-error">{checkoutError}</div>
+      )}
 
       <div className="planes-tierra-grid">
         {PLANES_TIERRA.map((plan) => {
@@ -77,10 +115,17 @@ export default function PlanesTierra({ publicacionesUsadas }: Props) {
               <button
                 type="button"
                 className="plan-tierra-button"
-                disabled
-                aria-disabled="true"
+                disabled={esActual || loadingPlan !== null}
+                aria-disabled={esActual || loadingPlan !== null}
+                onClick={() => {
+                  if (!esActual) void iniciarCheckout(plan.id);
+                }}
               >
-                {esActual ? "Plan actual" : "Próximamente"}
+                {esActual
+                  ? "Plan actual"
+                  : loadingPlan === plan.id
+                    ? "Abriendo Mercado Pago..."
+                    : "Elegir plan"}
               </button>
             </article>
           );
