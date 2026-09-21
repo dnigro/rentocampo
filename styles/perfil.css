@@ -569,3 +569,37 @@
   font-weight: 700;
   line-height: 1.4;
 }
+
+
+/* Mayor jerarquía en beneficios y perfil objetivo de cada plan */
+.plan-tierra-card ul {
+  gap: 9px;
+  font-size: 15px;
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+.plan-tierra-card li {
+  color: #1b1a18;
+}
+
+.plan-tierra-card li::before {
+  font-size: 15px;
+}
+
+.plan-tierra-audience {
+  color: #3f3c36;
+  font-size: 14px;
+  font-weight: 750;
+  line-height: 1.4;
+}
+
+@media (max-width: 640px) {
+  .plan-tierra-card ul {
+    font-size: 16px;
+  }
+
+  .plan-tierra-audience {
+    font-size: 15px;
+  }
+}
