@@ -276,3 +276,228 @@
     font-size: 20px;
   }
 }
+
+
+/* Planes comerciales para propietarios */
+.planes-tierra-section {
+  max-width: 1180px;
+  margin: 0 auto 28px;
+  border: 0;
+  border-radius: 28px;
+  background: #0b0b0b;
+  color: #fff;
+  box-shadow: none;
+}
+
+.planes-tierra-heading {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(220px, .5fr);
+  gap: 30px;
+  align-items: end;
+  margin-bottom: 28px;
+}
+
+.planes-tierra-kicker {
+  margin: 0 0 8px;
+  color: #f6c500;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.planes-tierra-title {
+  margin: 0;
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(42px, 6vw, 78px);
+  font-weight: 400;
+  line-height: .9;
+  text-transform: uppercase;
+}
+
+.planes-tierra-intro {
+  max-width: 720px;
+  margin: 16px 0 0;
+  color: #c7c7c7;
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+.planes-tierra-estado {
+  display: grid;
+  gap: 3px;
+  padding: 18px;
+  border-radius: 18px;
+  background: #f6c500;
+  color: #0b0b0b;
+}
+
+.planes-tierra-estado span,
+.planes-tierra-estado small {
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.planes-tierra-estado span {
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+
+.planes-tierra-estado strong {
+  font-size: 21px;
+}
+
+.planes-tierra-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.plan-tierra-card {
+  display: flex;
+  min-height: 390px;
+  flex-direction: column;
+  padding: 20px;
+  border: 1px solid #303030;
+  border-radius: 20px;
+  background: #171717;
+}
+
+.plan-tierra-card-recomendado {
+  border-color: #f6c500;
+}
+
+.plan-tierra-card-actual {
+  background: #222;
+}
+
+.plan-tierra-card-top {
+  min-height: 138px;
+}
+
+.plan-tierra-badge {
+  display: inline-flex;
+  margin-bottom: 12px;
+  padding: 5px 8px;
+  border-radius: 999px;
+  background: #f6c500;
+  color: #0b0b0b;
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: .05em;
+}
+
+.plan-tierra-badge-actual {
+  background: #fff;
+}
+
+.plan-tierra-card h3 {
+  margin: 0 0 8px;
+  color: #fff;
+  font-size: 21px;
+  line-height: 1.08;
+}
+
+.plan-tierra-card-top p {
+  margin: 0;
+  color: #aaa;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.plan-tierra-price {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin: 20px 0;
+}
+
+.plan-tierra-price strong {
+  color: #f6c500;
+  font-family: var(--font-display), sans-serif;
+  font-size: 38px;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.plan-tierra-price span {
+  color: #999;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.plan-tierra-card ul {
+  display: grid;
+  gap: 9px;
+  margin: 0 0 18px;
+  padding: 0;
+  list-style: none;
+  color: #e6e6e6;
+  font-size: 12px;
+}
+
+.plan-tierra-card li::before {
+  content: "+";
+  margin-right: 7px;
+  color: #f6c500;
+  font-weight: 900;
+}
+
+.plan-tierra-audience {
+  margin: auto 0 16px;
+  color: #8d8d8d;
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+.plan-tierra-button {
+  width: 100%;
+  min-height: 42px;
+  border: 0;
+  border-radius: 999px;
+  background: #f6c500;
+  color: #0b0b0b;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.plan-tierra-button:disabled {
+  cursor: default;
+  opacity: .72;
+}
+
+.planes-tierra-note {
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid #303030;
+  color: #999;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.planes-tierra-note strong {
+  color: #fff;
+}
+
+@media (max-width: 980px) {
+  .planes-tierra-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .planes-tierra-section {
+    padding: 22px 16px;
+    border-radius: 20px;
+  }
+
+  .planes-tierra-heading,
+  .planes-tierra-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .plan-tierra-card {
+    min-height: 0;
+  }
+}
