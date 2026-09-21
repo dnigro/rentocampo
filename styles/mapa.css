@@ -341,3 +341,38 @@ body:has(.mapa-page) {
     padding: 17px;
   }
 }
+
+
+/* Selector multipaís AR / UY */
+.mapa-paises {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px;
+  margin-bottom: 8px;
+}
+
+.mapa-paises button {
+  min-height: 34px;
+  padding: 5px 8px;
+  border: 1px solid #d8e1dc;
+  border-radius: 7px;
+  background: #fff;
+  color: #53645b;
+  font: inherit;
+  font-size: 11px;
+  font-weight: 850;
+  cursor: pointer;
+}
+
+.mapa-paises button.activo {
+  border-color: #f6c500;
+  background: #f6c500;
+  color: #0b0b0b;
+}
+
+@media (max-width: 640px) {
+  .mapa-paises button {
+    min-height: 32px;
+    font-size: 10px;
+  }
+}
