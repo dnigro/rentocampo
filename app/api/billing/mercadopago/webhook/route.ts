@@ -41,6 +41,7 @@ export async function POST(request: Request) {
   const url = new URL(request.url);
   const dataId =
     url.searchParams.get("data.id") ??
+    url.searchParams.get("data_id") ??
     (body?.data?.id ? String(body.data.id) : "");
   const type =
     url.searchParams.get("type") ??
@@ -68,7 +69,7 @@ export async function POST(request: Request) {
 
   if (
     type !== "payment" ||
-    !isValidSignature(xSignature, xRequestId, dataId, webhookSecret)
+    !isValidSignature(xSignature, xRequestId, dataId, webhookSecret.trim())
   ) {
     return NextResponse.json({ error: "Firma inválida" }, { status: 401 });
   }
