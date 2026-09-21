@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { useEffect, useState } from "react";
 import type { User } from "@supabase/supabase-js";
@@ -13,10 +13,13 @@ export default function Navbar() {
   const [menuAbierto, setMenuAbierto] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const activeCountry =
-    searchParams.get("pais")?.toUpperCase() === "UY" ? "UY" : "AR";
+  const [activeCountry, setActiveCountry] = useState<"AR" | "UY">("AR");
   const [supabase] = useState(createClient);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    setActiveCountry(params.get("pais")?.toUpperCase() === "UY" ? "UY" : "AR");
+  }, [pathname]);
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => setUser(data.user));
