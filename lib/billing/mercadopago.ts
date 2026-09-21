@@ -86,6 +86,16 @@ export async function reconcileMercadoPagoPayment(
   if (payment.status === "approved") {
     status = "active";
 
+    await admin
+      .from("land_plan_purchases")
+      .update({
+        status: "cancelled",
+        provider_status: `superseded_by:${purchase.id}`,
+      })
+      .eq("user_id", purchase.user_id)
+      .eq("status", "active")
+      .neq("id", purchase.id);
+
     if (purchase.status !== "active" || !purchase.starts_at || !purchase.expires_at) {
       const startsAt = payment.date_approved
         ? new Date(payment.date_approved)
