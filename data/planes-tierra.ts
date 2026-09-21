@@ -18,8 +18,8 @@ export interface PlanTierra {
 export const PLANES_TIERRA: PlanTierra[] = [
   {
     id: "inicial",
-    nombre: "Tierra Inicial",
-    bajada: "Para probar RentoCampo y publicar tu primera oportunidad.",
+    nombre: "Gratis",
+    bajada: "Publicá tu primera oportunidad sin costo.",
     perfilIdeal: "Ideal para propietarios que publican su primera tierra.",
     publicaciones: 1,
     precioUsdAnual: 0,
