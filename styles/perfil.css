@@ -556,3 +556,16 @@
 .plan-tierra-card {
   box-shadow: 0 1px 0 rgba(0, 0, 0, .025);
 }
+
+
+.planes-tierra-checkout-error {
+  margin: 0 0 16px;
+  padding: 12px 14px;
+  border: 1px solid #e2b9a9;
+  border-radius: 12px;
+  background: #fff7f2;
+  color: #7a3420;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.4;
+}
