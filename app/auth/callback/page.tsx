@@ -11,39 +11,63 @@ export default function AuthCallbackPage() {
   const [error, setError] = useState("");
 
   useEffect(() => {
+    let cancelled = false;
+
     async function completeAuthentication() {
-      const params = new URLSearchParams(window.location.search);
-      const code = params.get("code");
-      const requestedNext = params.get("next");
+      const url = new URL(window.location.href);
+      const code = url.searchParams.get("code");
+      const requestedNext = url.searchParams.get("next");
       const next =
         requestedNext?.startsWith("/") && !requestedNext.startsWith("//")
           ? requestedNext
           : "/dashboard";
 
-      const authError = params.get("error");
+      const authError = url.searchParams.get("error");
       if (authError) {
-        const description = params.get("error_description") ?? authError;
-        router.replace(`/login?error=${encodeURIComponent(description)}`);
+        const description =
+          url.searchParams.get("error_description") ?? authError;
+        if (!cancelled) setError(description);
         return;
       }
 
-      if (!code) {
-        router.replace("/login");
+      // PKCE: Supabase returns a one-time authorization code.
+      // Exchange it once in this callback, then continue with the new session.
+      if (code) {
+        const { error: exchangeError } =
+          await supabase.auth.exchangeCodeForSession(code);
+
+        if (exchangeError) {
+          if (!cancelled) {
+            setError(
+              "No pudimos confirmar el acceso. El enlace puede haber vencido o ya haber sido utilizado.",
+            );
+          }
+          return;
+        }
+
+        if (!cancelled) router.replace(next);
         return;
       }
 
-      const { error: exchangeError } =
-        await supabase.auth.exchangeCodeForSession(code);
-
-      if (exchangeError) {
-        setError("El link de recuperación expiró o ya fue usado.");
+      // Compatibility with implicit/magic-link redirects where the SDK may
+      // already have restored a session from the URL.
+      const { data, error: sessionError } = await supabase.auth.getSession();
+      if (!sessionError && data.session) {
+        if (!cancelled) router.replace(next);
         return;
       }
 
-      router.replace(next);
+      if (!cancelled) {
+        setError(
+          "El enlace no contiene una confirmación válida. Solicitá uno nuevo e intentá nuevamente.",
+        );
+      }
     }
 
-    completeAuthentication();
+    void completeAuthentication();
+    return () => {
+      cancelled = true;
+    };
   }, [router, supabase]);
 
   return (
