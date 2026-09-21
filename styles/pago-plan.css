@@ -1,0 +1,100 @@
+.pago-plan-page {
+  display: flex;
+  justify-content: center;
+  padding-top: 64px;
+  padding-bottom: 90px;
+}
+
+.pago-plan-card {
+  width: min(100%, 760px);
+  padding: clamp(28px, 4vw, 42px);
+  border: 1px solid #ddd9cf;
+  border-radius: 24px;
+  background: #fbfaf7;
+}
+
+.pago-plan-card-success {
+  border-top: 8px solid #f6c500;
+}
+
+.pago-plan-card-pending {
+  border-top: 8px solid #d6bd4c;
+}
+
+.pago-plan-card-failure {
+  border-top: 8px solid #b85f43;
+}
+
+.pago-plan-kicker {
+  margin-bottom: 10px;
+  color: #6f6b64;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.pago-plan-title {
+  margin: 0;
+  color: #0b0b0b;
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(44px, 5vw, 64px);
+  font-weight: 400;
+  line-height: .92;
+  letter-spacing: -.015em;
+  text-transform: uppercase;
+}
+
+.pago-plan-text {
+  max-width: 620px;
+  margin: 18px 0 28px;
+  color: #6f6b64;
+  font-size: clamp(17px, 1.8vw, 21px);
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.pago-plan-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  padding: 0 22px;
+  border: 0;
+  border-radius: 999px;
+  background: #f6c500;
+  color: #0b0b0b;
+  font-size: 14px;
+  font-weight: 900;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: .02em;
+}
+
+.pago-plan-action:hover {
+  background: #e7b900;
+}
+
+@media (max-width: 640px) {
+  .pago-plan-page {
+    padding: 28px 16px 56px;
+  }
+
+  .pago-plan-card {
+    padding: 24px 20px;
+    border-radius: 20px;
+  }
+
+  .pago-plan-title {
+    font-size: clamp(40px, 13vw, 54px);
+  }
+
+  .pago-plan-text {
+    margin: 14px 0 24px;
+    font-size: 17px;
+  }
+
+  .pago-plan-action {
+    width: 100%;
+  }
+}
