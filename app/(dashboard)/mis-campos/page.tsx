@@ -2,6 +2,8 @@ import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import MisCamposLista from "@/components/campos/MisCamposLista";
+import PlanesTierra from "@/components/planes/PlanesTierra";
+import "@/styles/perfil.css";
 import "@/styles/campos.css";
 
 export default async function MisCamposPage() {
@@ -26,6 +28,10 @@ export default async function MisCamposPage() {
     .eq("propietario_id", user.id)
     .order("created_at", { ascending: false });
 
+  const publicacionesUsadas = (campos ?? []).filter(
+    (campo) => !campo.id.startsWith("20000000-"),
+  ).length;
+
   return (
     <div className="page-container">
       <div className="page-header">
@@ -42,6 +48,7 @@ export default async function MisCamposPage() {
         </Link>
       </div>
 
+      <PlanesTierra publicacionesUsadas={publicacionesUsadas} />
       <MisCamposLista campos={campos ?? []} />
     </div>
   );
