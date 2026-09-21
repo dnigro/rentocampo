@@ -60,3 +60,16 @@ export function publicacionesLabel(plan: PlanTierra) {
     ? "Publicaciones ilimitadas"
     : `Hasta ${plan.publicaciones} publicación${plan.publicaciones === 1 ? "" : "es"}`;
 }
+
+
+export const PLAN_TIERRA_ORDER: PlanTierraId[] = [
+  "inicial",
+  "productiva",
+  "administrador",
+  "portfolio",
+];
+
+export function planTierraRank(planId: string) {
+  const rank = PLAN_TIERRA_ORDER.indexOf(planId as PlanTierraId);
+  return rank === -1 ? -1 : rank;
+}
