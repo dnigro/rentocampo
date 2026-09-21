@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { PROVINCIAS_ARG } from "@/types";
+import { COUNTRIES, DEPARTAMENTOS_UY, type CountryCode } from "@/data/countries";
 
 export interface LugarSeleccionado {
   lat: number;
@@ -16,6 +17,7 @@ interface Props {
   onSelect: (lugar: LugarSeleccionado) => void;
   onChange?: (texto: string) => void;
   valorInicial?: string;
+  countryCode?: CountryCode;
 }
 
 interface ResultadoOsm {
@@ -46,7 +48,12 @@ function seleccionarResultado(resultado: ResultadoOsm): LugarSeleccionado {
   };
 }
 
-export default function GeocoderInput({ onSelect, onChange, valorInicial }: Props) {
+export default function GeocoderInput({
+  onSelect,
+  onChange,
+  valorInicial,
+  countryCode = "AR",
+}: Props) {
   const [query, setQuery] = useState(valorInicial ?? "");
   const [resultados, setResultados] = useState<ResultadoOsm[]>([]);
   const [abierto, setAbierto] = useState(false);
@@ -65,8 +72,11 @@ export default function GeocoderInput({ onSelect, onChange, valorInicial }: Prop
     return () => document.removeEventListener("mousedown", handleClick);
   }, []);
 
-  const provinciasVisibles = PROVINCIAS_ARG.filter((provincia) =>
-    provincia.toLocaleLowerCase("es-AR").includes(query.toLocaleLowerCase("es-AR")),
+  const subdivisiones =
+    countryCode === "UY" ? DEPARTAMENTOS_UY : PROVINCIAS_ARG;
+  const locale = COUNTRIES[countryCode].locale;
+  const provinciasVisibles = subdivisiones.filter((provincia) =>
+    provincia.toLocaleLowerCase(locale).includes(query.toLocaleLowerCase(locale)),
   );
 
   async function buscar(texto: string) {
@@ -77,7 +87,9 @@ export default function GeocoderInput({ onSelect, onChange, valorInicial }: Prop
 
     setCargando(true);
     try {
-      const response = await fetch(`/api/geocoding?q=${encodeURIComponent(texto)}`);
+      const response = await fetch(
+        `/api/geocoding?q=${encodeURIComponent(texto)}&country=${countryCode}`,
+      );
       const data = await response.json();
       setResultados(response.ok ? data.results ?? [] : []);
       setAbierto(true);
@@ -125,7 +137,7 @@ export default function GeocoderInput({ onSelect, onChange, valorInicial }: Prop
       async ({ coords }) => {
         try {
           const response = await fetch(
-            `/api/geocoding?lat=${coords.latitude}&lon=${coords.longitude}`,
+            `/api/geocoding?lat=${coords.latitude}&lon=${coords.longitude}&country=${countryCode}`,
           );
           const data = await response.json();
           const resultado = data.results?.[0] as ResultadoOsm | undefined;
@@ -178,7 +190,11 @@ export default function GeocoderInput({ onSelect, onChange, valorInicial }: Prop
         <input
           type="text"
           className="geocoder-input"
-          placeholder="Buscá provincia, localidad, partido o dirección..."
+          placeholder={
+            countryCode === "UY"
+              ? "Buscá departamento, localidad o dirección..."
+              : "Buscá provincia, localidad, partido o dirección..."
+          }
           value={query}
           onChange={handleInput}
           onFocus={() => setAbierto(true)}
@@ -203,7 +219,9 @@ export default function GeocoderInput({ onSelect, onChange, valorInicial }: Prop
           {!resultados.length && provinciasVisibles.map((provincia) => (
             <li key={provincia} className="geocoder-option" onMouseDown={() => handleSeleccionarProvincia(provincia)}>
               <span className="geocoder-option-icon" aria-hidden="true">⌖</span>
-              <span className="geocoder-option-text">{provincia}, Argentina</span>
+              <span className="geocoder-option-text">
+                {provincia}, {COUNTRIES[countryCode].name}
+              </span>
             </li>
           ))}
         </ul>
