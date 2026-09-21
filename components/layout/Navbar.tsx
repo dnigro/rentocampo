@@ -18,8 +18,18 @@ export default function Navbar() {
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    setActiveCountry(params.get("pais")?.toUpperCase() === "UY" ? "UY" : "AR");
+    const fromQuery = params.get("pais")?.toUpperCase();
+    const fromStorage = window.localStorage.getItem("rentocampo_country")?.toUpperCase();
+    const resolved = fromQuery === "UY" || (!fromQuery && fromStorage === "UY") ? "UY" : "AR";
+    setActiveCountry(resolved);
+    window.localStorage.setItem("rentocampo_country", resolved);
   }, [pathname]);
+
+  function cambiarPais(country: "AR" | "UY") {
+    setActiveCountry(country);
+    window.localStorage.setItem("rentocampo_country", country);
+    router.push(`/campos/mapa?pais=${country}`);
+  }
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => setUser(data.user));
@@ -150,20 +160,22 @@ export default function Navbar() {
           {/* Acciones desktop */}
           <div className="navbar-actions navbar-desktop">
             <div className="navbar-country-switch" aria-label="Seleccionar país">
-              <Link
-                href="/campos/mapa?pais=AR"
+              <button
+                type="button"
                 className={activeCountry === "AR" ? "active" : ""}
                 title="Ver Argentina"
+                onClick={() => cambiarPais("AR")}
               >
                 🇦🇷 <span>AR</span>
-              </Link>
-              <Link
-                href="/campos/mapa?pais=UY"
+              </button>
+              <button
+                type="button"
                 className={activeCountry === "UY" ? "active" : ""}
                 title="Ver Uruguay"
+                onClick={() => cambiarPais("UY")}
               >
                 🇺🇾 <span>UY</span>
-              </Link>
+              </button>
             </div>
             {user ? (
               <>
@@ -204,7 +216,7 @@ export default function Navbar() {
                 <Link href="/login" className="btn-ghost">
                   Ingresar
                 </Link>
-                <Link href="/register" className="btn-primary">
+                <Link href={`/register?pais=${activeCountry}`} className="btn-primary">
                   Publicar campo
                 </Link>
               </>
@@ -214,20 +226,22 @@ export default function Navbar() {
           {/* Hamburguesa mobile */}
           <div className="navbar-mobile-right">
             <div className="navbar-country-switch navbar-country-switch-mobile" aria-label="Seleccionar país">
-              <Link
-                href="/campos/mapa?pais=AR"
+              <button
+                type="button"
                 className={activeCountry === "AR" ? "active" : ""}
                 title="Ver Argentina"
+                onClick={() => cambiarPais("AR")}
               >
                 🇦🇷 <span>AR</span>
-              </Link>
-              <Link
-                href="/campos/mapa?pais=UY"
+              </button>
+              <button
+                type="button"
                 className={activeCountry === "UY" ? "active" : ""}
                 title="Ver Uruguay"
+                onClick={() => cambiarPais("UY")}
               >
                 🇺🇾 <span>UY</span>
-              </Link>
+              </button>
             </div>
             {user && (
               <Link
@@ -322,7 +336,7 @@ export default function Navbar() {
                   <Link href="/login" className="mobile-menu-link">
                     Ingresar
                   </Link>
-                  <Link href="/register" className="mobile-menu-btn">
+                  <Link href={`/register?pais=${activeCountry}`} className="mobile-menu-btn">
                     Publicar campo gratis
                   </Link>
                 </>

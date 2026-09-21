@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useState, useRef } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { PROVINCIAS_ARG, type Profile, type RolPerfil, type ServicioRural } from "@/types";
+import { COUNTRIES, DEPARTAMENTOS_UY, type CountryCode } from "@/data/countries";
 import { SERVICIOS_RURALES } from "@/data/servicios-rurales";
 
 interface Props {
@@ -21,6 +22,7 @@ export default function PerfilForm({ profile, userId, email }: Props) {
 
   const [form, setForm] = useState({
     nombre: profile?.nombre ?? "",
+    country_code: (profile?.country_code ?? "AR") as CountryCode,
     telefono: profile?.telefono ?? "",
     bio: profile?.bio ?? "",
     roles: profile?.roles?.length
@@ -110,6 +112,7 @@ export default function PerfilForm({ profile, userId, email }: Props) {
         .from("profiles")
         .update({
           nombre: form.nombre,
+          country_code: form.country_code,
           telefono: form.telefono,
           bio: form.bio,
           servicios_rurales: form.roles.includes("prestador")
@@ -293,6 +296,29 @@ export default function PerfilForm({ profile, userId, email }: Props) {
         </div>
 
         <div className="form-field">
+          <label className="form-label">País</label>
+          <select
+            name="country_code"
+            className="form-input"
+            value={form.country_code}
+            onChange={(e) =>
+              setForm((prev) => ({
+                ...prev,
+                country_code: e.target.value as CountryCode,
+                provincia_servicio: "",
+                localidad_servicio: "",
+              }))
+            }
+          >
+            <option value="AR">{COUNTRIES.AR.flag} Argentina</option>
+            <option value="UY">{COUNTRIES.UY.flag} Uruguay</option>
+          </select>
+          <span className="form-hint">
+            Define tu mercado principal y adapta campos, servicios y ubicaciones.
+          </span>
+        </div>
+
+        <div className="form-field">
           <label className="form-label">Cómo querés usar RentoCampo</label>
           <div className="perfil-role-options">
             <label className="perfil-role-option">
@@ -366,10 +392,14 @@ export default function PerfilForm({ profile, userId, email }: Props) {
             </div>
             <div className="form-row">
               <div className="form-field">
-                <label className="form-label" htmlFor="provincia_servicio">Provincia principal</label>
+                <label className="form-label" htmlFor="provincia_servicio">
+                  {form.country_code === "UY" ? "Departamento principal" : "Provincia principal"}
+                </label>
                 <select id="provincia_servicio" name="provincia_servicio" className="form-input" value={form.provincia_servicio} onChange={handleChange}>
-                  <option value="">Elegí una provincia</option>
-                  {PROVINCIAS_ARG.map((provincia) => <option key={provincia} value={provincia}>{provincia}</option>)}
+                  <option value="">
+                    {form.country_code === "UY" ? "Elegí un departamento" : "Elegí una provincia"}
+                  </option>
+                  {(form.country_code === "UY" ? DEPARTAMENTOS_UY : PROVINCIAS_ARG).map((provincia) => <option key={provincia} value={provincia}>{provincia}</option>)}
                 </select>
               </div>
               <div className="form-field">

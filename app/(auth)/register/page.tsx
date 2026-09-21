@@ -5,10 +5,13 @@ import { LandPlot, Sprout, Wrench } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
+import { COUNTRIES, type CountryCode } from "@/data/countries";
 
 function RegisterForm() {
   const searchParams = useSearchParams();
   const tipoParam = searchParams.get("tipo");
+  const paisParam = searchParams.get("pais")?.toUpperCase();
+  const paisInicial: CountryCode = paisParam === "UY" ? "UY" : "AR";
   const tipoInicial = ["propietario", "productor", "prestador"].includes(tipoParam ?? "")
     ? tipoParam
     : "productor";
@@ -17,6 +20,7 @@ function RegisterForm() {
     email: "",
     password: "",
     tipo: tipoInicial as "propietario" | "productor" | "prestador",
+    country_code: paisInicial,
   });
   const [error, setError] = useState("");
   const [accountExists, setAccountExists] = useState(false);
@@ -24,7 +28,9 @@ function RegisterForm() {
   const router = useRouter();
   const supabase = createClient();
 
-  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+  function handleChange(
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) {
     if (e.target.name === "email") {
       setAccountExists(false);
     }
@@ -55,6 +61,7 @@ function RegisterForm() {
         data: {
           nombre: form.nombre,
           tipo: form.tipo,
+          country_code: form.country_code,
         },
       },
     });
@@ -175,6 +182,26 @@ function RegisterForm() {
           </div>
 
           <div className="form-divider" />
+
+          <div className="form-field">
+            <label className="form-label" htmlFor="country_code">
+              País
+            </label>
+            <select
+              id="country_code"
+              name="country_code"
+              className="form-input"
+              value={form.country_code}
+              onChange={handleChange}
+              required
+            >
+              <option value="AR">{COUNTRIES.AR.flag} Argentina</option>
+              <option value="UY">{COUNTRIES.UY.flag} Uruguay</option>
+            </select>
+            <span className="form-hint">
+              Usamos este dato para mostrarte campos, servicios y opciones de tu mercado.
+            </span>
+          </div>
 
           <div className="form-field">
             <label className="form-label" htmlFor="nombre">

@@ -22,6 +22,7 @@ interface Props {
   publicacionesLimite?: number | null;
   publicacionesRestantes?: number | null;
   puedePublicar?: boolean;
+  initialCountry?: CountryCode;
 }
 
 const APTITUDES = [
@@ -47,13 +48,14 @@ export default function CampoForm({
   publicacionesLimite = 1,
   publicacionesRestantes = 1,
   puedePublicar = true,
+  initialCountry = "AR",
 }: Props) {
   const router = useRouter();
   const supabase = createClient();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [form, setForm] = useState<CampoFormData>({
-    country_code: "AR",
+    country_code: initialCountry,
     titulo: "",
     descripcion: "",
     ubicacion: "",
