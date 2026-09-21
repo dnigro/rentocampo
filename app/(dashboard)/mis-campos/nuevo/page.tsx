@@ -13,6 +13,12 @@ export default async function NuevoCampoPage() {
   if (!user) redirect("/login");
 
   const quota = await getLandQuotaStatus(user.id);
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("country_code")
+    .eq("id", user.id)
+    .single();
+  const initialCountry = profile?.country_code === "UY" ? "UY" : "AR";
 
   return (
     <div className="page-container">
@@ -31,6 +37,7 @@ export default async function NuevoCampoPage() {
         publicacionesLimite={quota.limit}
         publicacionesRestantes={quota.remaining}
         puedePublicar={quota.canPublish}
+        initialCountry={initialCountry}
       />
     </div>
   );
