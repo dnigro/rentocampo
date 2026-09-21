@@ -236,13 +236,15 @@ export default function CampoForm({
           {publicacionesLimite === null ? (
             <span>Publicaciones ilimitadas</span>
           ) : (
-            <span>
-              {publicacionesRestantes} de {publicacionesLimite} publicación
-              {publicacionesLimite === 1 ? "" : "es"} disponible
-              {publicacionesRestantes === 1 ? "" : "s"}
-            </span>
+            <>
+              <span>
+                {publicacionesRestantes} de {publicacionesLimite} publicación
+                {publicacionesLimite === 1 ? "" : "es"} disponible
+                {publicacionesRestantes === 1 ? "" : "s"}
+              </span>
+              <small>{publicacionesUsadas} utilizadas</small>
+            </>
           )}
-          <small>{publicacionesUsadas} utilizadas</small>
         </div>
       </div>
 
