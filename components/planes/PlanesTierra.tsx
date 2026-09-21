@@ -13,10 +13,6 @@ export default function PlanesTierra({ publicacionesUsadas }: Props) {
         <div>
           <p className="planes-tierra-kicker">Modelo comercial · Propietarios</p>
           <h2 className="planes-tierra-title">Planes para publicar tierras</h2>
-          <p className="planes-tierra-intro">
-            Buscar tierra, producir y ofrecer servicios sigue siendo gratis.
-            Los planes aplican únicamente a quienes publican oportunidades de tierra.
-          </p>
         </div>
         <div className="planes-tierra-estado">
           <span>Tu plan actual</span>
