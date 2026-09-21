@@ -292,13 +292,13 @@
 .planes-tierra-heading {
   display: grid;
   grid-template-columns: minmax(0, 1.5fr) minmax(220px, .5fr);
-  gap: 30px;
+  gap: 24px;
   align-items: end;
-  margin-bottom: 28px;
+  margin-bottom: 18px;
 }
 
 .planes-tierra-kicker {
-  margin: 0 0 8px;
+  margin: 0 0 5px;
   color: #f6c500;
   font-size: 12px;
   font-weight: 900;
@@ -355,9 +355,9 @@
 
 .plan-tierra-card {
   display: flex;
-  min-height: 390px;
+  min-height: 340px;
   flex-direction: column;
-  padding: 20px;
+  padding: 18px;
   border: 1px solid #303030;
   border-radius: 20px;
   background: #171717;
@@ -372,12 +372,12 @@
 }
 
 .plan-tierra-card-top {
-  min-height: 138px;
+  min-height: 112px;
 }
 
 .plan-tierra-badge {
   display: inline-flex;
-  margin-bottom: 12px;
+  margin-bottom: 8px;
   padding: 5px 8px;
   border-radius: 999px;
   background: #f6c500;
@@ -392,7 +392,7 @@
 }
 
 .plan-tierra-card h3 {
-  margin: 0 0 10px;
+  margin: 0 0 6px;
   color: #fff;
   font-size: 26px;
   font-weight: 900;
@@ -418,7 +418,7 @@
   display: flex;
   align-items: baseline;
   gap: 6px;
-  margin: 20px 0;
+  margin: 14px 0;
 }
 
 .plan-tierra-price strong {
@@ -437,8 +437,8 @@
 
 .plan-tierra-card ul {
   display: grid;
-  gap: 9px;
-  margin: 0 0 18px;
+  gap: 7px;
+  margin: 0 0 12px;
   padding: 0;
   list-style: none;
   color: #e6e6e6;
@@ -453,7 +453,7 @@
 }
 
 .plan-tierra-audience {
-  margin: auto 0 16px;
+  margin: auto 0 10px;
   color: #8d8d8d;
   font-size: 11px;
   line-height: 1.4;
@@ -508,5 +508,19 @@
 
   .plan-tierra-card {
     min-height: 0;
+  }
+}
+
+
+/* Ajuste mobile de encabezados internos */
+@media (max-width: 640px) {
+  .page-container > .page-header {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .page-container > .page-header .page-title {
+    margin-left: 0 !important;
+    transform: none !important;
   }
 }
