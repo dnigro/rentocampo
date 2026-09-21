@@ -16,6 +16,11 @@ interface Props {
   campoId?: string;
   initialData?: Partial<CampoFormData>;
   fotosIniciales?: { id: string; url: string; orden: number }[];
+  planNombre?: string;
+  publicacionesUsadas?: number;
+  publicacionesLimite?: number | null;
+  publicacionesRestantes?: number | null;
+  puedePublicar?: boolean;
 }
 
 const APTITUDES = [
@@ -36,6 +41,11 @@ export default function CampoForm({
   campoId,
   initialData,
   fotosIniciales = [],
+  planNombre = "Gratis",
+  publicacionesUsadas = 0,
+  publicacionesLimite = 1,
+  publicacionesRestantes = 1,
+  puedePublicar = true,
 }: Props) {
   const router = useRouter();
   const supabase = createClient();
@@ -173,21 +183,28 @@ export default function CampoForm({
         );
       }
 
-      if (campoId) {
-        const { error } = await supabase
-          .from("campos")
-          .update({ ...form, status: estado })
-          .eq("id", campoId);
-        if (error) throw error;
-      } else {
-        const { data, error } = await supabase
-          .from("campos")
-          .insert({ ...form, propietario_id: user.id, status: estado })
-          .select("id")
-          .single();
-        if (error) throw error;
-        id = data.id;
+      const response = await fetch("/api/campos/publicar", {
+        method: campoId ? "PATCH" : "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          campoId,
+          form,
+          estado,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        if (result.code === "quota_exhausted") {
+          throw new Error(
+            "Ya utilizaste todas las publicaciones de tu plan. Volvé a Mis campos y elegí un plan superior para seguir publicando.",
+          );
+        }
+        throw new Error(result.error ?? "No se pudo guardar el campo.");
       }
+
+      id = result.id;
 
       if (id) {
         await uploadFotos(id);
@@ -210,6 +227,34 @@ export default function CampoForm({
 
   return (
     <form className="campo-form" onSubmit={(e) => e.preventDefault()}>
+      <div className="campo-plan-status">
+        <div>
+          <span className="campo-plan-kicker">Tu plan</span>
+          <strong>{planNombre}</strong>
+        </div>
+        <div className="campo-plan-usage">
+          {publicacionesLimite === null ? (
+            <span>Publicaciones ilimitadas</span>
+          ) : (
+            <>
+              <span>
+                {publicacionesRestantes} de {publicacionesLimite} publicación
+                {publicacionesLimite === 1 ? "" : "es"} disponible
+                {publicacionesRestantes === 1 ? "" : "s"}
+              </span>
+              <small>{publicacionesUsadas} utilizadas</small>
+            </>
+          )}
+        </div>
+      </div>
+
+      {!puedePublicar && !campoId && (
+        <div className="campo-plan-alert">
+          Alcanzaste el límite de tu plan. Podés guardar un borrador, pero para
+          publicar una nueva tierra necesitás ampliar tu plan desde Mis campos.
+        </div>
+      )}
+
       {error && <div className="form-error">{error}</div>}
 
       {/* Información básica */}
@@ -539,9 +584,13 @@ export default function CampoForm({
           type="button"
           className="btn-primary-lg"
           onClick={(e) => handleSubmit(e, "activo")}
-          disabled={saving}
+          disabled={saving || (!puedePublicar && !campoId)}
         >
-          {saving ? "Publicando..." : "Publicar campo"}
+          {saving
+            ? "Publicando..."
+            : !puedePublicar && !campoId
+              ? "Sin cupo disponible"
+              : "Publicar campo"}
         </button>
       </div>
     </form>

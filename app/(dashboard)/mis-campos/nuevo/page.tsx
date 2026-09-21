@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import CampoForm from "@/components/campos/CampoForm";
+import { getLandQuotaStatus } from "@/lib/billing/land-quota";
 import "@/styles/campos.css";
 import "@/styles/campo-location-improvements.css";
 
@@ -10,6 +11,8 @@ export default async function NuevoCampoPage() {
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) redirect("/login");
+
+  const quota = await getLandQuotaStatus(user.id);
 
   return (
     <div className="page-container">
@@ -22,7 +25,13 @@ export default async function NuevoCampoPage() {
           </p>
         </div>
       </div>
-      <CampoForm />
+      <CampoForm
+        planNombre={quota.planName}
+        publicacionesUsadas={quota.used}
+        publicacionesLimite={quota.limit}
+        publicacionesRestantes={quota.remaining}
+        puedePublicar={quota.canPublish}
+      />
     </div>
   );
 }

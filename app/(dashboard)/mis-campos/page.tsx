@@ -2,6 +2,9 @@ import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import MisCamposLista from "@/components/campos/MisCamposLista";
+import PlanesTierra from "@/components/planes/PlanesTierra";
+import { getLandQuotaStatus } from "@/lib/billing/land-quota";
+import "@/styles/perfil.css";
 import "@/styles/campos.css";
 
 export default async function MisCamposPage() {
@@ -26,6 +29,11 @@ export default async function MisCamposPage() {
     .eq("propietario_id", user.id)
     .order("created_at", { ascending: false });
 
+  const publicacionesReales = (campos ?? []).filter(
+    (campo) => !campo.id.startsWith("20000000-"),
+  ).length;
+  const quota = await getLandQuotaStatus(user.id);
+
   return (
     <div className="page-container">
       <div className="page-header">
@@ -42,6 +50,14 @@ export default async function MisCamposPage() {
         </Link>
       </div>
 
+      <PlanesTierra
+        planActualId={quota.planId}
+        planActualNombre={quota.planName}
+        publicacionesUsadas={quota.used}
+        publicacionesReales={publicacionesReales}
+        publicacionesLimite={quota.limit}
+        publicacionesRestantes={quota.remaining}
+      />
       <MisCamposLista campos={campos ?? []} />
     </div>
   );
