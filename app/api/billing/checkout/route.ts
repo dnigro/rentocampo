@@ -6,6 +6,8 @@ import {
   getPaidLandPlan,
   isPaidLandPlanId,
 } from "@/lib/billing/land-plans";
+import { getLandQuotaStatus } from "@/lib/billing/land-quota";
+import { planTierraRank } from "@/data/planes-tierra";
 
 const ARS_ENV_BY_PLAN = {
   productiva: "MERCADOPAGO_PRODUCTIVA_ARS",
@@ -48,6 +50,21 @@ export async function POST(request: Request) {
   }
 
   const plan = getPaidLandPlan(planId);
+  const currentQuota = await getLandQuotaStatus(user.id);
+
+  if (planTierraRank(planId) <= planTierraRank(currentQuota.planId)) {
+    return NextResponse.json(
+      {
+        error:
+          planId === currentQuota.planId
+            ? "Ese ya es tu plan actual."
+            : "Ese plan ya está incluido dentro de tu plan actual.",
+        code: "plan_not_upgrade",
+      },
+      { status: 409 },
+    );
+  }
+
   const admin = createAdminClient(supabaseUrl, serviceRole, {
     auth: { autoRefreshToken: false, persistSession: false },
   });
