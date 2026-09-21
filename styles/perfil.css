@@ -406,6 +406,14 @@
   line-height: 1.45;
 }
 
+.plan-tierra-card-top .plan-tierra-profile {
+  margin: 0 0 8px;
+  color: #f6c500;
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1.35;
+}
+
 .plan-tierra-price {
   display: flex;
   align-items: baseline;
