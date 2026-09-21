@@ -30,12 +30,25 @@ export async function POST(request: Request) {
   const accessToken = process.env.MERCADOPAGO_ACCESS_TOKEN;
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const serviceRole = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const isProduction = process.env.VERCEL_ENV === "production";
+
   if (!accessToken || !supabaseUrl || !serviceRole) {
     return NextResponse.json(
       {
         error:
           "Mercado Pago todavía no está configurado correctamente.",
         code: "billing_not_configured",
+      },
+      { status: 503 },
+    );
+  }
+
+  if (isProduction && accessToken.startsWith("TEST-")) {
+    return NextResponse.json(
+      {
+        error:
+          "Mercado Pago Production todavía está usando credenciales de prueba. Cargá el Access Token productivo antes de cobrar.",
+        code: "mercadopago_test_credentials_in_production",
       },
       { status: 503 },
     );
@@ -174,8 +187,19 @@ export async function POST(request: Request) {
     })
     .eq("id", purchaseId);
 
+  const checkoutUrl = isProduction
+    ? mpData.init_point
+    : mpData.sandbox_init_point ?? mpData.init_point;
+
+  if (!checkoutUrl) {
+    return NextResponse.json(
+      { error: "Mercado Pago no devolvió una URL de checkout válida." },
+      { status: 502 },
+    );
+  }
+
   return NextResponse.json({
-    checkoutUrl: mpData.sandbox_init_point ?? mpData.init_point,
+    checkoutUrl,
     preferenceId: mpData.id,
   });
 }
