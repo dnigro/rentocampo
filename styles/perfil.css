@@ -360,17 +360,18 @@
   min-height: 320px;
   flex-direction: column;
   padding: 22px;
-  border: 0;
+  border: 1px solid #d9d6cc;
   border-radius: 22px;
   background: #f2f1ec;
 }
 
 .plan-tierra-card-recomendado {
-  border: 0;
+  border: 1px solid #dccb78;
   background: #f7f0c7;
 }
 
 .plan-tierra-card-actual {
+  border-color: #d7bd45;
   background: #f3dd72;
 }
 
@@ -550,4 +551,8 @@
     padding: 22px;
     border-top: 0;
   }
+}
+
+.plan-tierra-card {
+  box-shadow: 0 1px 0 rgba(0, 0, 0, .025);
 }
