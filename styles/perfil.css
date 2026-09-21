@@ -603,3 +603,18 @@
     font-size: 15px;
   }
 }
+
+
+/* Precio de planes: hace visible el período anual, especialmente en mobile */
+.plan-tierra-price span {
+  color: #5f5d58;
+  font-size: 18px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+@media (min-width: 641px) {
+  .plan-tierra-price span {
+    font-size: 20px;
+  }
+}
