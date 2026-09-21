@@ -53,14 +53,14 @@ export async function POST(request: Request) {
   }
 
   if (
-    type !== "order" ||
+    type !== "payment" ||
     !isValidSignature(xSignature, xRequestId, dataId, webhookSecret)
   ) {
     return NextResponse.json({ error: "Firma inválida" }, { status: 401 });
   }
 
-  const orderResponse = await fetch(
-    `https://api.mercadopago.com/v1/orders/${encodeURIComponent(dataId)}`,
+  const paymentResponse = await fetch(
+    `https://api.mercadopago.com/v1/payments/${encodeURIComponent(dataId)}`,
     {
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -70,22 +70,24 @@ export async function POST(request: Request) {
     },
   );
 
-  if (!orderResponse.ok) {
+  if (!paymentResponse.ok) {
     return NextResponse.json(
-      { error: "No se pudo consultar la order" },
+      { error: "No se pudo consultar el pago" },
       { status: 502 },
     );
   }
 
-  const order = await orderResponse.json();
+  const payment = await paymentResponse.json();
   const admin = createClient(supabaseUrl, serviceRole, {
     auth: { autoRefreshToken: false, persistSession: false },
   });
 
+  const externalReference = payment.external_reference ?? "";
+
   const { data: purchase } = await admin
     .from("land_plan_purchases")
     .select("id, status")
-    .eq("provider_order_id", order.id)
+    .eq("external_reference", externalReference)
     .maybeSingle();
 
   if (!purchase) {
@@ -94,10 +96,10 @@ export async function POST(request: Request) {
 
   let status = purchase.status;
   const update: Record<string, unknown> = {
-    provider_status: `${order.status ?? ""}:${order.status_detail ?? ""}`,
+    provider_status: `${payment.status ?? ""}:${payment.status_detail ?? ""}`,
   };
 
-  if (order.status === "processed" && order.status_detail === "accredited") {
+  if (payment.status === "approved") {
     status = "active";
     const startsAt = new Date();
     const expiresAt = new Date(startsAt);
@@ -106,16 +108,13 @@ export async function POST(request: Request) {
     update.starts_at = startsAt.toISOString();
     update.expires_at = expiresAt.toISOString();
     update.paid_at = startsAt.toISOString();
-    const paymentId = order?.transactions?.payments?.[0]?.id;
-    if (paymentId) update.provider_payment_id = String(paymentId);
-  } else if (
-    order.status === "refunded" ||
-    order.status_detail === "refunded"
-  ) {
+    update.provider_payment_id = String(payment.id);
+  } else if (payment.status === "refunded") {
     status = "refunded";
-  } else if (order.status === "canceled") {
-    status = "cancelled";
-  } else if (order.status === "failed") {
+  } else if (
+    payment.status === "cancelled" ||
+    payment.status === "rejected"
+  ) {
     status = "cancelled";
   }
 
