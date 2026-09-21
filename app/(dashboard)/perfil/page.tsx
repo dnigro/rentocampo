@@ -4,7 +4,12 @@ import PerfilForm from "@/components/PerfilForm";
 import PlanesTierra from "@/components/planes/PlanesTierra";
 import "@/styles/perfil.css";
 
-export default async function PerfilPage() {
+export default async function PerfilPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ previewPlanes?: string }>;
+}) {
+  const { previewPlanes } = await searchParams;
   const supabase = await createClient();
   const {
     data: { user },
@@ -39,7 +44,7 @@ export default async function PerfilPage() {
           <p className="page-subtitle">Editá tus datos personales</p>
         </div>
       </div>
-      {esPropietario && (
+      {(esPropietario || previewPlanes === "1") && (
         <PlanesTierra publicacionesUsadas={publicacionesUsadas} />
       )}
       <PerfilForm profile={profile} userId={user.id} email={user.email ?? ""} />
