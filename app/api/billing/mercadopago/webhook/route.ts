@@ -37,6 +37,7 @@ function isValidSignature(
 }
 
 export async function POST(request: Request) {
+  const body = await request.json().catch(() => null);
   const url = new URL(request.url);
   const dataId = url.searchParams.get("data.id") ?? "";
   const type = url.searchParams.get("type") ?? "";
@@ -71,6 +72,10 @@ export async function POST(request: Request) {
   );
 
   if (!paymentResponse.ok) {
+    if (body?.live_mode === false) {
+      return NextResponse.json({ ok: true, simulated: true });
+    }
+
     return NextResponse.json(
       { error: "No se pudo consultar el pago" },
       { status: 502 },
