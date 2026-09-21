@@ -960,3 +960,46 @@
 .app-shell .campo-form .form-actions {
   border-top-color: #efede7 !important;
 }
+
+
+/* Compactación final del flujo Publicar campo */
+.app-shell .campo-form .form-section {
+  padding: clamp(22px, 3vw, 34px) 0 !important;
+}
+
+.app-shell .campo-form .form-section + .form-section {
+  margin-top: 0 !important;
+}
+
+.app-shell .campo-form .form-section-title-editorial {
+  margin-bottom: 18px !important;
+}
+
+.app-shell .campo-form .form-field {
+  margin-bottom: 14px !important;
+}
+
+.app-shell .campo-form .form-check {
+  margin-top: 4px !important;
+  padding: 10px 0 !important;
+}
+
+.app-shell .campo-form .form-actions {
+  margin-top: 10px !important;
+  padding-top: 18px !important;
+}
+
+.campo-plan-status {
+  margin-bottom: 14px !important;
+  padding: 14px 18px !important;
+}
+
+@media (max-width: 700px) {
+  .app-shell .campo-form .form-section {
+    padding: 20px 0 !important;
+  }
+
+  .app-shell .campo-form .form-section-title-editorial {
+    margin-bottom: 16px !important;
+  }
+}
