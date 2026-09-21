@@ -282,11 +282,12 @@
 .planes-tierra-section {
   max-width: 1180px;
   margin: 0 auto 28px;
-  border: 0;
-  border-radius: 28px;
-  background: #0b0b0b;
-  color: #fff;
-  box-shadow: none;
+  padding: 0;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  color: #0b0b0b;
+  box-shadow: none !important;
 }
 
 .planes-tierra-heading {
@@ -326,9 +327,10 @@
 .planes-tierra-estado {
   display: grid;
   gap: 3px;
-  padding: 18px;
-  border-radius: 18px;
-  background: #f6c500;
+  padding: 18px 0;
+  border-radius: 0;
+  border-top: 5px solid #f6c500;
+  background: transparent;
   color: #0b0b0b;
 }
 
@@ -350,25 +352,25 @@
 .planes-tierra-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 12px;
+  gap: 18px;
 }
 
 .plan-tierra-card {
   display: flex;
-  min-height: 340px;
+  min-height: 320px;
   flex-direction: column;
-  padding: 18px;
-  border: 1px solid #303030;
-  border-radius: 20px;
-  background: #171717;
+  padding: 22px 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
 }
 
 .plan-tierra-card-recomendado {
-  border-color: #f6c500;
+  border: 0;
 }
 
 .plan-tierra-card-actual {
-  background: #222;
+  background: transparent;
 }
 
 .plan-tierra-card-top {
@@ -393,7 +395,7 @@
 
 .plan-tierra-card h3 {
   margin: 0 0 6px;
-  color: #fff;
+  color: #0b0b0b;
   font-size: 26px;
   font-weight: 900;
   line-height: 1.02;
@@ -401,7 +403,7 @@
 
 .plan-tierra-card-top p {
   margin: 0;
-  color: #aaa;
+  color: #666;
   font-size: 13px;
   line-height: 1.45;
 }
@@ -441,7 +443,7 @@
   margin: 0 0 12px;
   padding: 0;
   list-style: none;
-  color: #e6e6e6;
+  color: #222;
   font-size: 12px;
 }
 
@@ -454,7 +456,7 @@
 
 .plan-tierra-audience {
   margin: auto 0 10px;
-  color: #8d8d8d;
+  color: #777;
   font-size: 11px;
   line-height: 1.4;
 }
@@ -477,16 +479,16 @@
 }
 
 .planes-tierra-note {
-  margin-top: 18px;
-  padding-top: 16px;
-  border-top: 1px solid #303030;
-  color: #999;
+  margin-top: 20px;
+  padding-top: 0;
+  border-top: 0;
+  color: #777;
   font-size: 12px;
   line-height: 1.5;
 }
 
 .planes-tierra-note strong {
-  color: #fff;
+  color: #0b0b0b;
 }
 
 @media (max-width: 980px) {
@@ -522,5 +524,32 @@
   .page-container > .page-header .page-title {
     margin-left: 0 !important;
     transform: none !important;
+  }
+}
+
+
+/* Mis campos: botón principal sin marco negro y planes más aireados */
+.app-shell .page-header .btn-primary-lg {
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+.app-shell .planes-tierra-section {
+  border: 0 !important;
+  background: transparent !important;
+}
+
+@media (max-width: 640px) {
+  .planes-tierra-grid {
+    gap: 6px;
+  }
+
+  .plan-tierra-card {
+    padding: 24px 0 28px;
+    border-top: 1px solid #ece9df;
+  }
+
+  .plan-tierra-card:first-child {
+    border-top: 0;
   }
 }
