@@ -10,7 +10,6 @@ import { PROVINCIAS_ARG } from "@/types";
 import { COUNTRIES, DEPARTAMENTOS_UY, type CountryCode } from "@/data/countries";
 import type { CampoFormData } from "@/types";
 import { trackEvent } from "@/lib/analytics";
-import { trackEvent } from "@/lib/analytics";
 import GeocoderInput, {
   type LugarSeleccionado,
 } from "@/components/campos/GeocoderInput";
