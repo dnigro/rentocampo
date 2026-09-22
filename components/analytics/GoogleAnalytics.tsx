@@ -2,7 +2,7 @@
 
 import Script from "next/script";
 import { usePathname } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 declare global {
   interface Window {
@@ -11,17 +11,29 @@ declare global {
   }
 }
 
-const GA_ID = "G-PFGVKEFPCJ";
+const GA_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID ?? "G-PFGVKEFPCJ";
 
 export default function GoogleAnalytics() {
   const pathname = usePathname();
+  const lastTrackedPath = useRef<string | null>(null);
+
+  function trackPageView() {
+    if (!GA_ID || typeof window === "undefined" || !window.gtag) return;
+
+    const pagePath = `${window.location.pathname}${window.location.search}`;
+    if (lastTrackedPath.current === pagePath) return;
+
+    window.gtag("event", "page_view", {
+      page_path: pagePath,
+      page_location: window.location.href,
+      page_title: document.title,
+    });
+
+    lastTrackedPath.current = pagePath;
+  }
 
   useEffect(() => {
-    if (!GA_ID || !window.gtag) return;
-
-    window.gtag("config", GA_ID, {
-      page_path: pathname,
-    });
+    trackPageView();
   }, [pathname]);
 
   if (!GA_ID) return null;
@@ -31,6 +43,7 @@ export default function GoogleAnalytics() {
       <Script
         src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
         strategy="afterInteractive"
+        onReady={trackPageView}
       />
       <Script id="ga4-init" strategy="afterInteractive">
         {`
@@ -39,7 +52,7 @@ export default function GoogleAnalytics() {
           window.gtag = gtag;
           gtag('js', new Date());
           gtag('config', '${GA_ID}', {
-            send_page_view: true
+            send_page_view: false
           });
         `}
       </Script>
