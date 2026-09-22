@@ -6,6 +6,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 import { COUNTRIES, type CountryCode } from "@/data/countries";
+import { trackEvent } from "@/lib/analytics";
 
 function RegisterForm() {
   const searchParams = useSearchParams();
@@ -99,6 +100,11 @@ function RegisterForm() {
       setLoading(false);
       return;
     }
+
+    trackEvent("registrarse", {
+      rol: form.tipo,
+      pais: form.country_code,
+    });
 
     // Redirigir a página de confirmación
     router.push("/confirmar-email");
