@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { trackEvent } from "@/lib/analytics";
 
 interface Mensaje {
   id: string;
@@ -97,6 +98,7 @@ export default function MensajeDirectoHilo({ userId, destinatarioId, mensajesIni
           : [...actuales, result.mensaje],
       );
       setTexto("");
+      trackEvent("enviar_mensaje", { tipo: "directo" });
     } catch (cause) {
       console.error("Error enviando mensaje directo:", cause);
       setError("No pudimos conectar para enviar el mensaje. Intentá nuevamente.");
