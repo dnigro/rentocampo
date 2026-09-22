@@ -21,7 +21,31 @@ export default async function MisCamposPage() {
     .single();
 
   const esPropietario = profile?.roles?.includes("propietario");
-  if (!esPropietario) redirect("/perfil?activar=propietario");
+
+  if (!esPropietario) {
+    return (
+      <div className="page-container">
+        <div className="page-header">
+          <div>
+            <h1 className="page-title">Mis campos</h1>
+            <p className="page-subtitle">Publicá y administrá tus campos desde acá.</p>
+          </div>
+        </div>
+
+        <div className="role-gate-card">
+          <div className="role-gate-icon">🌾</div>
+          <h2>Para publicar campos tenés que cambiar tu rol a Propietario</h2>
+          <p>
+            Podés hacerlo desde Mi perfil. Activá el rol Propietario y después
+            volvé a Mis campos para comenzar a publicar.
+          </p>
+          <Link href="/perfil?activar=propietario" className="btn-primary-lg">
+            Cambiar mi rol en el perfil
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   const { data: campos } = await supabase
     .from("campos")
