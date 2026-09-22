@@ -9,6 +9,7 @@ import { FileText, Images, MapPinned, Sprout, WalletCards } from "lucide-react";
 import { PROVINCIAS_ARG } from "@/types";
 import { COUNTRIES, DEPARTAMENTOS_UY, type CountryCode } from "@/data/countries";
 import type { CampoFormData } from "@/types";
+import { trackEvent } from "@/lib/analytics";
 import GeocoderInput, {
   type LugarSeleccionado,
 } from "@/components/campos/GeocoderInput";
@@ -216,6 +217,14 @@ export default function CampoForm({
 
       if (id) {
         await uploadFotos(id);
+      }
+
+      if (!campoId && estado === "activo") {
+        trackEvent("publicar_campo", {
+          pais: countryCode,
+          aptitud: form.aptitud,
+          hectareas: form.hectareas ?? 0,
+        });
       }
 
       router.push("/mis-campos");
