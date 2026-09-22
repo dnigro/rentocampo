@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
+import { trackEvent } from "@/lib/analytics";
 
 interface Mensaje {
   id: string;
@@ -112,6 +113,7 @@ export default function MensajeHilo({
 
       const mensaje: Mensaje = { ...result.mensaje, remitente: null };
       setMensajes((prev) => prev.some((item) => item.id === mensaje.id) ? prev : [...prev, mensaje]);
+      trackEvent("enviar_mensaje", { tipo: campoId ? "campo" : "general" });
     } catch (cause) {
       console.error("Error enviando mensaje:", cause);
       setTexto(contenido);
