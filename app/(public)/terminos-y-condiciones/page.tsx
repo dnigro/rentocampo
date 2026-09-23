@@ -19,6 +19,10 @@ export default function TerminosYCondicionesPage() {
           en contacto a propietarios, productores y prestadores. Leé estas
           condiciones antes de publicar, contactar o contratar con otra persona.
         </p>
+        <p className="terms-operator">
+          Operador de la plataforma: <strong>RentoCampo S.A.S.</strong> · Contacto:{" "}
+          <a href="mailto:hola@rentocampo.com">hola@rentocampo.com</a>
+        </p>
         <p className="terms-date">Versión del 23 de septiembre de 2026</p>
       </header>
 
