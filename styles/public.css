@@ -208,6 +208,31 @@
   gap: 16px;
 }
 
+.register-terms {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  color: #263a32;
+  font-size: 14px;
+  line-height: 1.5;
+  cursor: pointer;
+}
+
+.register-terms input {
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+  margin: 2px 0 0;
+  accent-color: #073f30;
+}
+
+.register-terms a {
+  color: #073f30;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
 .form-field {
   display: flex;
   flex-direction: column;

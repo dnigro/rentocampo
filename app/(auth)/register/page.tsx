@@ -26,6 +26,7 @@ function RegisterForm() {
   const [error, setError] = useState("");
   const [accountExists, setAccountExists] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
   const router = useRouter();
   const supabase = createClient();
 
@@ -50,6 +51,12 @@ function RegisterForm() {
       return;
     }
 
+    if (!acceptedTerms) {
+      setError("Para crear tu cuenta, aceptá los términos y condiciones.");
+      setLoading(false);
+      return;
+    }
+
     // Construir la URL de callback dinámicamente según el entorno
     const origin = window.location.origin;
     const emailRedirectTo = `${origin}/auth/callback`;
@@ -63,6 +70,8 @@ function RegisterForm() {
           nombre: form.nombre,
           tipo: form.tipo,
           country_code: form.country_code,
+          terms_accepted_at: new Date().toISOString(),
+          terms_version: "2026-09-23",
         },
       },
     });
@@ -259,6 +268,22 @@ function RegisterForm() {
               autoComplete="new-password"
             />
           </div>
+
+          <label className="register-terms">
+            <input
+              type="checkbox"
+              checked={acceptedTerms}
+              onChange={(event) => setAcceptedTerms(event.target.checked)}
+              required
+            />
+            <span>
+              Leí y acepto los{" "}
+              <Link href="/terminos-y-condiciones" target="_blank" rel="noopener noreferrer">
+                términos y condiciones
+              </Link>{" "}
+              de RentoCampo.
+            </span>
+          </label>
 
           <button type="submit" className="btn-submit" disabled={loading}>
             {loading ? "Creando cuenta..." : "Crear cuenta"}

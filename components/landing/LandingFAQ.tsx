@@ -6,7 +6,7 @@ import { useState } from "react";
 const faqs = [
   [
     "¿Publicar tiene costo?",
-    "La primera publicación es gratis. Si necesitás publicar más campos, podés elegir un plan según la cantidad de tierras que quieras gestionar.",
+    "Si necesitás publicar más campos, podés elegir un plan según la cantidad de tierras que quieras gestionar.",
   ],
   [
     "¿Quién puede registrarse?",
@@ -69,7 +69,14 @@ export default function LandingFAQ() {
 
               {open === i && (
                 <div className="rc-question-answer">
-                  <p>{a}</p>
+                  <p>
+                    {i === 0 && (
+                      <>
+                        <strong className="rc-faq-free">La primera publicación es gratis.</strong>{" "}
+                      </>
+                    )}
+                    {a}
+                  </p>
 
                   {i === 0 && (
                     <div className="rc-faq-plans" aria-label="Planes para publicar tierras">

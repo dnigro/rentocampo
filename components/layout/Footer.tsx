@@ -117,6 +117,11 @@ export default function Footer() {
           © {new Date().getFullYear()} RentoCampo. Todos los derechos
           reservados.
         </span>
+        <nav className="footer-bottom-links" aria-label="Información legal">
+          <Link href="/terminos-y-condiciones" className="footer-bottom-link">
+            Términos y condiciones
+          </Link>
+        </nav>
       </div>
     </footer>
   );
