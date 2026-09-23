@@ -31,7 +31,7 @@ export default async function PerfilPage() {
   }
 
   return (
-    <div className="page-container">
+    <div className="page-container perfil-page">
       <div className="page-header">
         <div>
           <h1 className="page-title">Mi perfil</h1>
