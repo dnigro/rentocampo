@@ -1,5 +1,14 @@
 /* styles/perfil.css */
 
+.app-shell .perfil-page > .page-header {
+  justify-content: center;
+  text-align: center;
+}
+
+.app-shell .perfil-page > .page-header > div {
+  width: 100%;
+}
+
 .perfil-layout {
   max-width: 720px;
   width: 100%;

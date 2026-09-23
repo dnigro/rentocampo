@@ -1578,6 +1578,12 @@ body {
 
 
 /* FORCE FINAL — CTA amarillo liso + footer mobile legible */
+.app-shell .auth-page .btn-submit {
+  border: 0 !important;
+  border-radius: 14px !important;
+  box-shadow: none !important;
+}
+
 .demanda-cta {
   background: #f6c500 !important;
   background-image: none !important;
