@@ -292,6 +292,15 @@ body:has(.rc-landing) .footer::before{
   line-height: 1.5;
 }
 
+.rc-faq-free {
+  color: #050505;
+  background: var(--rc-yellow);
+  font-weight: 900;
+  padding: 2px 4px;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
 .rc-faq-plans {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
