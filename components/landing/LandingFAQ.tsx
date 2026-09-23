@@ -6,7 +6,7 @@ import { useState } from "react";
 const faqs = [
   [
     "¿Publicar tiene costo?",
-    "Si necesitás publicar más campos, podés elegir un plan según la cantidad de tierras que quieras gestionar.",
+    "Para publicar más campos, elegí un paquete especial según la cantidad de publicaciones que necesitás.",
   ],
   [
     "¿Quién puede registrarse?",
@@ -46,13 +46,17 @@ export default function LandingFAQ() {
   return (
     <section className="rc-faq" id="preguntas">
       <div className="rc-shell rc-faq-grid">
-        <div>
+        <div className="rc-faq-promise">
           <p className="rc-kicker">Preguntas frecuentes</p>
           <h2>
-            Todo claro.
-            <br />
-            Desde el inicio.
+            <span>Productores y</span>
+            <span>servicios rurales</span>
+            <strong>100% gratis.</strong>
           </h2>
+          <p className="rc-faq-summary">
+            <strong>Primer campo publicado: gratis.</strong>
+            <span>Para publicar más campos, elegí un paquete especial.</span>
+          </p>
         </div>
 
         <div className="rc-faq-content">
@@ -79,7 +83,7 @@ export default function LandingFAQ() {
                   </p>
 
                   {i === 0 && (
-                    <div className="rc-faq-plans" aria-label="Planes para publicar tierras">
+                    <div className="rc-faq-plans" aria-label="Paquetes para publicar más campos">
                       {planes.map((plan) => (
                         <Link
                           className="rc-faq-plan"
