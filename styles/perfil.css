@@ -587,6 +587,17 @@
   line-height: 1.4;
 }
 
+.planes-tierra-expiry-alert {
+  margin: 0 0 18px;
+  padding: 14px 16px;
+  border: 1px solid #e2c23a;
+  border-radius: 12px;
+  background: #fff6c7;
+  color: #0b0b0b;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
 
 /* Mayor jerarquía en beneficios y perfil objetivo de cada plan */
 .plan-tierra-card ul {

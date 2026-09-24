@@ -10,6 +10,8 @@ interface Props {
   publicacionesReales: number;
   publicacionesLimite: number | null;
   publicacionesRestantes: number | null;
+  expiryLabel: string | null;
+  expiryDays: number | null;
 }
 
 export default function PlanesTierra({
@@ -18,6 +20,8 @@ export default function PlanesTierra({
   publicacionesReales,
   publicacionesLimite,
   publicacionesRestantes,
+  expiryLabel,
+  expiryDays,
 }: Props) {
   const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
   const [checkoutError, setCheckoutError] = useState("");
@@ -67,8 +71,24 @@ export default function PlanesTierra({
               {publicacionesRestantes} disponible{publicacionesRestantes === 1 ? "" : "s"} de {publicacionesLimite}
             </small>
           )}
+          {expiryLabel && (
+            <small>
+              Vigente hasta el {expiryLabel}
+            </small>
+          )}
         </div>
       </div>
+
+      {expiryDays !== null && expiryDays <= 30 && (
+        <div className="planes-tierra-expiry-alert">
+          <strong>
+            {expiryDays === 0
+              ? "Tu plan vence hoy."
+              : `Tu plan vence en ${expiryDays} día${expiryDays === 1 ? "" : "s"}.`}
+          </strong>{" "}
+          Renová el plan para mantener disponible tu cupo de publicaciones.
+        </div>
+      )}
 
       {checkoutError && (
         <div className="planes-tierra-checkout-error">{checkoutError}</div>
