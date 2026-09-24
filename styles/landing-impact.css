@@ -706,3 +706,54 @@ body:has(.rc-landing) .navbar .btn-primary {
   transform: none;
   background: #181818;
 }
+
+/* FAQ comercial: una sola explicación, con jerarquía clara. */
+.rc-landing .rc-faq-promise h2 strong {
+  font-size: .92em;
+  font-weight: 700;
+}
+
+/* Mantiene el mensaje gratuito dentro de su columna en resoluciones intermedias. */
+.rc-landing .rc-faq .rc-faq-promise h2 {
+  font-size: clamp(38px, 4vw, 60px);
+  line-height: .98;
+}
+
+.rc-landing .rc-faq .rc-faq-promise h2 strong {
+  font-size: clamp(48px, 5vw, 72px);
+  line-height: .96;
+}
+
+.rc-landing .rc-question .rc-faq-cost-copy {
+  margin: 0;
+  padding: 0 48px 20px 0;
+}
+
+.rc-landing .rc-question .rc-faq-free {
+  display: block;
+  padding: 0;
+  background: transparent;
+  color: var(--impact-yellow);
+  font-size: clamp(23px, 2vw, 31px);
+  font-weight: 900;
+  line-height: 1.2;
+}
+
+.rc-landing .rc-question .rc-faq-detail {
+  display: block;
+  margin-top: 7px;
+  color: var(--impact-black);
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+@media (max-width: 560px) {
+  .rc-landing .rc-question .rc-faq-cost-copy {
+    padding-right: 0;
+  }
+
+  .rc-landing .rc-question .rc-faq-free {
+    font-size: 23px;
+  }
+}

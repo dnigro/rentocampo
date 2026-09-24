@@ -15,7 +15,6 @@ interface Props {
 export default function PlanesTierra({
   planActualId,
   planActualNombre,
-  publicacionesUsadas,
   publicacionesReales,
   publicacionesLimite,
   publicacionesRestantes,

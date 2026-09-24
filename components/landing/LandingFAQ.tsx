@@ -53,10 +53,6 @@ export default function LandingFAQ() {
             <span>servicios rurales</span>
             <strong>100% gratis.</strong>
           </h2>
-          <p className="rc-faq-summary">
-            <strong>Primer campo publicado: gratis.</strong>
-            <span>Para publicar más campos, elegí un paquete especial.</span>
-          </p>
         </div>
 
         <div className="rc-faq-content">
@@ -73,14 +69,16 @@ export default function LandingFAQ() {
 
               {open === i && (
                 <div className="rc-question-answer">
-                  <p>
-                    {i === 0 && (
-                      <>
-                        <strong className="rc-faq-free">La primera publicación es gratis.</strong>{" "}
-                      </>
-                    )}
-                    {a}
-                  </p>
+                  {i === 0 ? (
+                    <p className="rc-faq-cost-copy">
+                      <strong className="rc-faq-free">
+                        La primer publicación para Propietarios de Tierras es GRATIS
+                      </strong>
+                      <span className="rc-faq-detail">{a}</span>
+                    </p>
+                  ) : (
+                    <p>{a}</p>
+                  )}
 
                   {i === 0 && (
                     <div className="rc-faq-plans" aria-label="Paquetes para publicar más campos">

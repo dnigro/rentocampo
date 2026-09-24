@@ -21,8 +21,9 @@ export default function Navbar() {
     const fromQuery = params.get("pais")?.toUpperCase();
     const fromStorage = window.localStorage.getItem("rentocampo_country")?.toUpperCase();
     const resolved = fromQuery === "UY" || (!fromQuery && fromStorage === "UY") ? "UY" : "AR";
-    setActiveCountry(resolved);
     window.localStorage.setItem("rentocampo_country", resolved);
+    const syncCountry = window.setTimeout(() => setActiveCountry(resolved), 0);
+    return () => window.clearTimeout(syncCountry);
   }, [pathname]);
 
   function cambiarPais(country: "AR" | "UY") {
@@ -66,7 +67,12 @@ export default function Navbar() {
     // y recupera el estado si la suscripción se interrumpe.
     const polling = window.setInterval(contarNoLeidos, 60000);
     const actualizarAlVolver = () => void contarNoLeidos();
+    const actualizarAlMostrar = () => {
+      if (document.visibilityState === "visible") void contarNoLeidos();
+    };
     window.addEventListener("focus", actualizarAlVolver);
+    window.addEventListener("mensajes:actualizar", actualizarAlVolver);
+    document.addEventListener("visibilitychange", actualizarAlMostrar);
 
     const channel = supabase
       .channel("navbar-mensajes")
@@ -115,9 +121,11 @@ export default function Navbar() {
     return () => {
       window.clearInterval(polling);
       window.removeEventListener("focus", actualizarAlVolver);
+      window.removeEventListener("mensajes:actualizar", actualizarAlVolver);
+      document.removeEventListener("visibilitychange", actualizarAlMostrar);
       supabase.removeChannel(channel);
     };
-  }, [supabase, user]);
+  }, [pathname, supabase, user]);
 
   // Bloquear scroll cuando menú abierto
   useEffect(() => {
