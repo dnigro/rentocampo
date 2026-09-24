@@ -1,4 +1,4 @@
-import { after, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { sendMessageNotification } from "@/lib/send-message-notification";
@@ -35,13 +35,13 @@ export async function POST(request: Request) {
   }).select("id, contenido, created_at, leido, remitente_id").single();
   if (error || !data) return NextResponse.json({ error: error?.message ?? "No se pudo guardar el mensaje" }, { status: 500 });
 
-  after(async () => {
-    try {
-      await sendMessageNotification(data.id);
-    } catch (notificationError) {
-      console.error("Error enviando notificación de mensaje:", notificationError);
-    }
-  });
+  let notificationSent = true;
+  try {
+    await sendMessageNotification(data.id);
+  } catch (notificationError) {
+    notificationSent = false;
+    console.error("Error enviando notificación de mensaje:", notificationError);
+  }
 
-  return NextResponse.json({ mensaje: data });
+  return NextResponse.json({ mensaje: data, notificationSent });
 }

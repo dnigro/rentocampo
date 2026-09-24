@@ -1,4 +1,4 @@
-import { after, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { sendDirectMessageNotification } from "@/lib/send-message-notification";
@@ -120,16 +120,19 @@ export async function POST(request: Request) {
     );
   }
 
-  after(async () => {
-    try {
-      await sendDirectMessageNotification(mensaje.id);
-    } catch (notificationError) {
-      console.error(
-        "Error enviando notificación de mensaje directo:",
-        notificationError,
-      );
-    }
-  });
+  let notificationSent = true;
+  try {
+    await sendDirectMessageNotification(mensaje.id);
+  } catch (notificationError) {
+    notificationSent = false;
+    console.error(
+      "Error enviando notificación de mensaje directo:",
+      notificationError,
+    );
+  }
 
-  return NextResponse.json({ mensaje: { ...mensaje, leido: false } });
+  return NextResponse.json({
+    mensaje: { ...mensaje, leido: false },
+    notificationSent,
+  });
 }
