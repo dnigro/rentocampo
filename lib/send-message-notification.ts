@@ -11,6 +11,20 @@ function escapeHtml(value: string | null | undefined) {
   })[character] ?? character);
 }
 
+async function getRecipient(
+  admin: ReturnType<typeof createAdminClient>,
+  userId: string,
+  profile?: { nombre?: string | null; email?: string | null } | null,
+) {
+  if (profile?.email) return profile;
+
+  const { data } = await admin.auth.admin.getUserById(userId);
+  return {
+    nombre: profile?.nombre ?? (data.user?.user_metadata?.nombre as string | undefined),
+    email: data.user?.email,
+  };
+}
+
 export async function sendMessageNotification(mensajeId: string) {
   const resendApiKey = process.env.RESEND_API_KEY;
   if (!resendApiKey) {
@@ -21,7 +35,7 @@ export async function sendMessageNotification(mensajeId: string) {
   const { data: mensaje, error } = await admin
     .from("mensajes")
     .select(`
-      contenido,
+      contenido, destinatario_id,
       campo:campos(id, titulo),
       remitente:profiles!mensajes_remitente_id_fkey(nombre),
       destinatario:profiles!mensajes_destinatario_id_fkey(nombre, email)
@@ -35,9 +49,14 @@ export async function sendMessageNotification(mensajeId: string) {
 
   const campo = Array.isArray(mensaje.campo) ? mensaje.campo[0] : mensaje.campo;
   const remitente = Array.isArray(mensaje.remitente) ? mensaje.remitente[0] : mensaje.remitente;
-  const destinatario = Array.isArray(mensaje.destinatario)
+  const destinatarioProfile = Array.isArray(mensaje.destinatario)
     ? mensaje.destinatario[0]
     : mensaje.destinatario;
+  const destinatario = await getRecipient(
+    admin,
+    mensaje.destinatario_id,
+    destinatarioProfile,
+  );
 
   if (!destinatario?.email) {
     throw new Error("El destinatario no tiene email");
@@ -55,7 +74,7 @@ export async function sendMessageNotification(mensajeId: string) {
 
   const resend = new Resend(resendApiKey);
   const { error: resendError } = await resend.emails.send({
-    from: "RentoCampo <noreply@rentocampo.com>",
+    from: process.env.RESEND_FROM_EMAIL ?? "RentoCampo <no-reply@rentocampo.com>",
     to: destinatario.email,
     subject: `Nuevo mensaje de ${remitente?.nombre || "un interesado"} — ${campo?.titulo || "tu campo"}`,
     html: `
@@ -95,9 +114,10 @@ export async function sendDirectMessageNotification(mensajeId: string) {
   if (perfilesError) throw new Error(perfilesError.message);
 
   const remitente = perfiles?.find((perfil) => perfil.id === mensaje.remitente_id);
-  const destinatario = perfiles?.find(
+  const destinatarioProfile = perfiles?.find(
     (perfil) => perfil.id === mensaje.destinatario_id,
   );
+  const destinatario = await getRecipient(admin, mensaje.destinatario_id, destinatarioProfile);
 
   if (!destinatario?.email) {
     throw new Error("El destinatario no tiene email");
@@ -114,7 +134,7 @@ export async function sendDirectMessageNotification(mensajeId: string) {
 
   const resend = new Resend(resendApiKey);
   const { error: resendError } = await resend.emails.send({
-    from: "RentoCampo <noreply@rentocampo.com>",
+    from: process.env.RESEND_FROM_EMAIL ?? "RentoCampo <no-reply@rentocampo.com>",
     to: destinatario.email,
     subject: `Nuevo mensaje de ${remitente?.nombre || "un usuario"} — RentoCampo`,
     html: `
