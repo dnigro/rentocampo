@@ -14,11 +14,10 @@ function escapeHtml(value: string | null | undefined) {
 async function getRecipient(
   admin: ReturnType<typeof createAdminClient>,
   userId: string,
-  profile?: { nombre?: string | null; email?: string | null } | null,
+  profile?: { nombre?: string | null } | null,
 ) {
-  if (profile?.email) return profile;
-
-  const { data } = await admin.auth.admin.getUserById(userId);
+  const { data, error } = await admin.auth.admin.getUserById(userId);
+  if (error) throw new Error(`No se pudo consultar el email del destinatario: ${error.message}`);
   return {
     nombre: profile?.nombre ?? (data.user?.user_metadata?.nombre as string | undefined),
     email: data.user?.email,
@@ -38,7 +37,7 @@ export async function sendMessageNotification(mensajeId: string) {
       contenido, destinatario_id,
       campo:campos(id, titulo),
       remitente:profiles!mensajes_remitente_id_fkey(nombre),
-      destinatario:profiles!mensajes_destinatario_id_fkey(nombre, email)
+      destinatario:profiles!mensajes_destinatario_id_fkey(nombre)
     `)
     .eq("id", mensajeId)
     .single();
@@ -73,7 +72,7 @@ export async function sendMessageNotification(mensajeId: string) {
   const urlMensaje = `${origin.replace(/\/$/, "")}/mensajes/${campo?.id}`;
 
   const resend = new Resend(resendApiKey);
-  const { error: resendError } = await resend.emails.send({
+  const { data: resendData, error: resendError } = await resend.emails.send({
     from: process.env.RESEND_FROM_EMAIL ?? "RentoCampo <no-reply@rentocampo.com>",
     to: destinatario.email,
     subject: `Nuevo mensaje de ${remitente?.nombre || "un interesado"} — ${campo?.titulo || "tu campo"}`,
@@ -87,6 +86,13 @@ export async function sendMessageNotification(mensajeId: string) {
   });
 
   if (resendError) throw new Error(resendError.message);
+  console.log(JSON.stringify({
+    level: "info",
+    message: "Notificación de mensaje enviada",
+    messageType: "campo",
+    mensajeId,
+    emailId: resendData?.id,
+  }));
 }
 
 export async function sendDirectMessageNotification(mensajeId: string) {
@@ -108,7 +114,7 @@ export async function sendDirectMessageNotification(mensajeId: string) {
 
   const { data: perfiles, error: perfilesError } = await admin
     .from("profiles")
-    .select("id, nombre, email")
+    .select("id, nombre")
     .in("id", [mensaje.remitente_id, mensaje.destinatario_id]);
 
   if (perfilesError) throw new Error(perfilesError.message);
@@ -133,7 +139,7 @@ export async function sendDirectMessageNotification(mensajeId: string) {
   const urlMensaje = `${origin.replace(/\/$/, "")}/mensajes/direct/${mensaje.remitente_id}`;
 
   const resend = new Resend(resendApiKey);
-  const { error: resendError } = await resend.emails.send({
+  const { data: resendData, error: resendError } = await resend.emails.send({
     from: process.env.RESEND_FROM_EMAIL ?? "RentoCampo <no-reply@rentocampo.com>",
     to: destinatario.email,
     subject: `Nuevo mensaje de ${remitente?.nombre || "un usuario"} — RentoCampo`,
@@ -147,4 +153,11 @@ export async function sendDirectMessageNotification(mensajeId: string) {
   });
 
   if (resendError) throw new Error(resendError.message);
+  console.log(JSON.stringify({
+    level: "info",
+    message: "Notificación de mensaje enviada",
+    messageType: "directo",
+    mensajeId,
+    emailId: resendData?.id,
+  }));
 }
