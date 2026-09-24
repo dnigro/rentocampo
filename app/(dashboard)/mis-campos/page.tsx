@@ -4,6 +4,7 @@ import Link from "next/link";
 import MisCamposLista from "@/components/campos/MisCamposLista";
 import PlanesTierra from "@/components/planes/PlanesTierra";
 import { getLandQuotaStatus } from "@/lib/billing/land-quota";
+import { getPlanExpiryDays } from "@/lib/billing/plan-expiry";
 import "@/styles/perfil.css";
 import "@/styles/campos.css";
 
@@ -57,6 +58,18 @@ export default async function MisCamposPage() {
     (campo) => !campo.id.startsWith("20000000-"),
   ).length;
   const quota = await getLandQuotaStatus(user.id);
+  const expiryDate = quota.expiresAt ? new Date(quota.expiresAt) : null;
+  const expiryDays = quota.expiresAt
+    ? getPlanExpiryDays(quota.expiresAt)
+    : null;
+  const expiryLabel = expiryDate
+    ? new Intl.DateTimeFormat("es-AR", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+        timeZone: "America/Argentina/Buenos_Aires",
+      }).format(expiryDate)
+    : null;
 
   return (
     <div className="page-container">
@@ -81,6 +94,8 @@ export default async function MisCamposPage() {
         publicacionesReales={publicacionesReales}
         publicacionesLimite={quota.limit}
         publicacionesRestantes={quota.remaining}
+        expiryLabel={expiryLabel}
+        expiryDays={expiryDays}
       />
       <MisCamposLista campos={campos ?? []} />
     </div>
