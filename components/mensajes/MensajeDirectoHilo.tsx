@@ -18,6 +18,7 @@ interface Props {
 
 export default function MensajeDirectoHilo({ userId, destinatarioId, mensajesIniciales }: Props) {
   const [mensajes, setMensajes] = useState(mensajesIniciales);
+  const mensajesRef = useRef(mensajesIniciales);
   const [texto, setTexto] = useState("");
   const [enviando, setEnviando] = useState(false);
   const [error, setError] = useState("");
@@ -45,15 +46,18 @@ export default function MensajeDirectoHilo({ userId, destinatarioId, mensajesIni
         const result = await response.json();
         if (activo && Array.isArray(result.mensajes)) {
           const nuevos = result.mensajes as Mensaje[];
-          setMensajes((actuales) => {
-            const sinCambios =
-              actuales.length === nuevos.length &&
-              actuales.every(
-                (mensaje, index) =>
-                  mensaje.id === nuevos[index]?.id,
-              );
-            return sinCambios ? actuales : nuevos;
-          });
+          const actuales = mensajesRef.current;
+          const sinCambios =
+            actuales.length === nuevos.length &&
+            actuales.every(
+              (mensaje, index) => mensaje.id === nuevos[index]?.id,
+            );
+
+          if (!sinCambios) {
+            mensajesRef.current = nuevos;
+            setMensajes(nuevos);
+            window.dispatchEvent(new Event("mensajes:actualizar"));
+          }
         }
       } catch (cause) {
         console.error("Error actualizando mensajes directos:", cause);
@@ -92,11 +96,13 @@ export default function MensajeDirectoHilo({ userId, destinatarioId, mensajesIni
         return;
       }
 
-      setMensajes((actuales) =>
-        actuales.some((mensaje) => mensaje.id === result.mensaje.id)
+      setMensajes((actuales) => {
+        const siguientes = actuales.some((mensaje) => mensaje.id === result.mensaje.id)
           ? actuales
-          : [...actuales, result.mensaje],
-      );
+          : [...actuales, result.mensaje];
+        mensajesRef.current = siguientes;
+        return siguientes;
+      });
       setTexto("");
       trackEvent("enviar_mensaje", { tipo: "directo" });
     } catch (cause) {

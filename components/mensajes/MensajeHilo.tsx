@@ -76,6 +76,7 @@ export default function MensajeHilo({
                 .from("mensajes")
                 .update({ leido: true })
                 .eq("id", payload.new.id);
+              window.dispatchEvent(new Event("mensajes:actualizar"));
             }
           }
         },

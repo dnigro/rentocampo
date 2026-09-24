@@ -1,5 +1,12 @@
 /* styles/perfil.css */
 
+.app-shell .perfil-page {
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 36px 24px 80px;
+}
+
 .app-shell .perfil-page > .page-header {
   justify-content: center;
   text-align: center;
@@ -89,6 +96,7 @@
 .btn-danger-lg:disabled { opacity: .45; cursor: not-allowed; }
 
 @media (max-width: 640px) {
+  .app-shell .perfil-page { padding: 28px 16px 64px; }
   .perfil-role-options { grid-template-columns: 1fr; }
 }
 

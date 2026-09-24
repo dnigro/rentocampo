@@ -1,5 +1,32 @@
 /* styles/dashboard.css */
 
+.dashboard-return {
+  width: min(1120px, calc(100% - 48px));
+  margin: 0 auto;
+  padding-top: 24px;
+}
+
+.dashboard-return a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 38px;
+  color: #0b0b0b;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.dashboard-return a:hover {
+  color: #8f7000;
+}
+
+@media (max-width: 640px) {
+  .dashboard-return {
+    width: calc(100% - 32px);
+    padding-top: 16px;
+  }
+}
+
 .dashboard-page {
   max-width: 1040px;
   margin: 0 auto;
