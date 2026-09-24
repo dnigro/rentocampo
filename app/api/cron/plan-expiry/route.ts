@@ -34,7 +34,7 @@ export async function GET(request: Request) {
 
   const userIds = [...new Set((purchases ?? []).map((purchase) => purchase.user_id))];
   const { data: profiles } = userIds.length
-    ? await admin.from("profiles").select("id, nombre, email").in("id", userIds)
+    ? await admin.from("profiles").select("id, nombre").in("id", userIds)
     : { data: [] };
   const profileById = new Map((profiles ?? []).map((profile) => [profile.id, profile]));
 
@@ -49,17 +49,15 @@ export async function GET(request: Request) {
     const metadata = (purchase.metadata ?? {}) as NotificationMetadata;
     const sentStages = metadata.expiry_notifications ?? {};
     const profile = profileById.get(purchase.user_id);
-    let email = profile?.email as string | undefined;
     let name = profile?.nombre as string | undefined;
-
-    if (!email) {
-      const { data: authUser } = await admin.auth.admin.getUserById(purchase.user_id);
-      email = authUser.user?.email;
-      name = name ?? (authUser.user?.user_metadata?.nombre as string | undefined);
-    }
+    const { data: authUser, error: authUserError } =
+      await admin.auth.admin.getUserById(purchase.user_id);
+    const email = authUser.user?.email;
+    name = name ?? (authUser.user?.user_metadata?.nombre as string | undefined);
 
     try {
       if (!sentStages[stage]) {
+        if (authUserError) throw authUserError;
         if (!email) throw new Error("El usuario no tiene email");
         const plan = PLANES_TIERRA.find((item) => item.id === purchase.plan_id);
         await sendPlanExpiryNotification({
