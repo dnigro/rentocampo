@@ -15,6 +15,7 @@ const GA_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID ?? "G-PFGVKEFPCJ";
 
 export default function GoogleAnalytics() {
   const pathname = usePathname();
+  const isInitialRender = useRef(true);
   const lastTrackedPath = useRef<string | null>(null);
 
   function trackPageView() {
@@ -33,6 +34,11 @@ export default function GoogleAnalytics() {
   }
 
   useEffect(() => {
+    if (isInitialRender.current) {
+      isInitialRender.current = false;
+      return;
+    }
+
     trackPageView();
   }, [pathname]);
 
@@ -43,7 +49,6 @@ export default function GoogleAnalytics() {
       <Script
         src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
         strategy="afterInteractive"
-        onReady={trackPageView}
       />
       <Script id="ga4-init" strategy="afterInteractive">
         {`
@@ -53,6 +58,11 @@ export default function GoogleAnalytics() {
           gtag('js', new Date());
           gtag('config', '${GA_ID}', {
             send_page_view: false
+          });
+          gtag('event', 'page_view', {
+            page_path: window.location.pathname + window.location.search,
+            page_location: window.location.href,
+            page_title: document.title
           });
         `}
       </Script>
