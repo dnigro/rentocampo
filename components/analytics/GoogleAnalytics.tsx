@@ -11,7 +11,9 @@ declare global {
   }
 }
 
-const GA_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID ?? "G-PFGVKEFPCJ";
+// RentoCampo production GA4 stream. Keep this explicit so a missing or stale
+// Vercel environment variable cannot silently disable analytics.
+const GA_ID = "G-PFGVKEFPCJ";
 
 export default function GoogleAnalytics() {
   const pathname = usePathname();
@@ -19,7 +21,7 @@ export default function GoogleAnalytics() {
   const lastTrackedPath = useRef<string | null>(null);
 
   function trackPageView() {
-    if (!GA_ID || typeof window === "undefined" || !window.gtag) return;
+    if (typeof window === "undefined" || !window.gtag) return;
 
     const pagePath = `${window.location.pathname}${window.location.search}`;
     if (lastTrackedPath.current === pagePath) return;
@@ -34,15 +36,16 @@ export default function GoogleAnalytics() {
   }
 
   useEffect(() => {
+    // The initial page view is sent by gtag('config'). Only send explicit
+    // page_view events for client-side route changes.
     if (isInitialRender.current) {
       isInitialRender.current = false;
+      lastTrackedPath.current = `${window.location.pathname}${window.location.search}`;
       return;
     }
 
     trackPageView();
   }, [pathname]);
-
-  if (!GA_ID) return null;
 
   return (
     <>
@@ -57,12 +60,7 @@ export default function GoogleAnalytics() {
           window.gtag = gtag;
           gtag('js', new Date());
           gtag('config', '${GA_ID}', {
-            send_page_view: false
-          });
-          gtag('event', 'page_view', {
-            page_path: window.location.pathname + window.location.search,
-            page_location: window.location.href,
-            page_title: document.title
+            send_page_view: true
           });
         `}
       </Script>
