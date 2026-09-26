@@ -435,9 +435,13 @@ export default function CampoMapa({
           <div className="mapa-contador">
             {vista === "tierra" ? (
               <>
-                <strong>{camposConCoordenadas.length}</strong> campos en {COUNTRIES[countryCode].name}
+                <strong>{camposConCoordenadas.length}</strong> campos en{" "}
+                {COUNTRIES[countryCode].name}
                 {countryCode === "AR" && (
-                  <> · <strong>{DEMANDA_ZONAS.length}</strong> zonas con demanda</>
+                  <>
+                    {" "}
+                    · <strong>{DEMANDA_ZONAS.length}</strong> zonas con demanda
+                  </>
                 )}
               </>
             ) : (
@@ -445,6 +449,28 @@ export default function CampoMapa({
                 <strong>{prestadoresFiltrados.length}</strong> servicios en mapa
               </>
             )}
+          </div>
+
+          <div
+            className="mapa-publicar-acciones"
+            aria-label="Publicar en RentoCampo"
+          >
+            <Link
+              href="/register?tipo=propietario"
+              className={`mapa-publicar-btn ${
+                vista === "tierra" ? "mapa-publicar-btn-principal" : ""
+              }`}
+            >
+              Publicar campo
+            </Link>
+            <Link
+              href="/register?tipo=prestador"
+              className={`mapa-publicar-btn ${
+                vista === "servicios" ? "mapa-publicar-btn-principal" : ""
+              }`}
+            >
+              Ofrecer servicio
+            </Link>
           </div>
         </div>
       )}
