@@ -137,9 +137,14 @@
 
 .rc-landing .rc-map-copy h2 {
   margin: 14px 0 24px;
+  max-width: 100%;
   color: var(--impact-black);
-  font-size: clamp(56px, 5.7vw, 96px);
-  line-height: .88;
+  font-size: clamp(56px, 5.4vw, 92px);
+  line-height: .9;
+  hyphens: none;
+  overflow-wrap: normal;
+  text-wrap: balance;
+  word-break: normal;
 }
 
 .rc-landing .rc-map-copy > p:not(.rc-kicker) {
@@ -400,10 +405,14 @@ body:has(.rc-landing) .navbar .btn-primary {
   }
 
   .rc-landing .rc-how h2,
-  .rc-landing .rc-map-copy h2,
   .rc-landing .rc-manifesto h2,
   .rc-landing .rc-faq h2 {
     font-size: clamp(48px, 15vw, 68px);
+  }
+
+  .rc-landing .rc-map-copy h2 {
+    font-size: clamp(42px, 12vw, 58px);
+    line-height: .94;
   }
 
   .rc-landing .rc-final h2 {
