@@ -7,7 +7,7 @@ export default function LandingHero() {
     <section className="editorialHero" id="hero">
       <div className="editorialHero__content">
         <div className="editorialHero__message">
-          <p className="editorialHero__eyebrow">Una red federal que produce</p>
+          <p className="editorialHero__eyebrow">Primer Red Federal que produce</p>
           <h1>
             <span><b className="editorialHero__plus">+</b>Tierra productiva.</span>
             <span><b className="editorialHero__plus">+</b>Productores.</span>
