@@ -214,6 +214,11 @@ body:has(.mapa-page) {
 .mapa-servicio-filtro { display: grid; gap: 6px; }
 .mapa-servicio-filtro label { color: #1a3a1a; font-size: 11px; font-weight: 800; text-transform: uppercase; }
 .mapa-servicio-filtro select { width: 100%; min-height: 38px; padding: 0 9px; border: 1px solid #d8e1dc; border-radius: 8px; background: #fff; color: #173b2e; font: inherit; font-size: 12px; }
+.mapa-publicar-acciones { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; margin-top: 10px; }
+.mapa-publicar-btn { display: flex; min-height: 39px; align-items: center; justify-content: center; padding: 7px 9px; border: 1px solid #d8dfda; border-radius: 8px; background: #fff; color: #173b2e; font-size: 11px; font-weight: 850; line-height: 1.15; text-align: center; text-decoration: none; }
+.mapa-publicar-btn:hover { border-color: #f6c500; background: #fff8d7; }
+.mapa-publicar-btn-principal { border-color: #f6c500; background: #f6c500; color: #111; }
+.mapa-publicar-btn-principal:hover { background: #e9bb00; }
 .mapa-panel-servicio { width: 330px; border-top: 5px solid #f6c500; }
 .mapa-panel-aptitud-servicio { color: #1b1b1b; background: #fff2b5; }
 .mapa-servicio-tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 12px; }
@@ -312,8 +317,14 @@ body:has(.mapa-page) {
   .mapa-filtros {
     top: 10px;
     left: 10px;
-    width: min(310px, calc(100% - 76px));
-    padding: 8px;
+    width: min(350px, calc(100% - 66px));
+    padding: 11px;
+    border-radius: 14px;
+  }
+
+  .mapa-modos button {
+    min-height: 42px;
+    font-size: 12px;
   }
 
   .mapa-filtros-titulo {
@@ -321,13 +332,19 @@ body:has(.mapa-page) {
   }
 
   .mapa-filtro {
-    padding: 6px;
-    font-size: 12px;
+    min-height: 39px;
+    padding: 7px 8px;
+    font-size: 13px;
   }
 
   .mapa-contador {
-    margin-top: 8px;
-    padding: 7px 6px 0;
+    margin-top: 9px;
+    padding: 9px 4px 0;
+    font-size: 12px;
+  }
+
+  .mapa-publicar-btn {
+    min-height: 42px;
     font-size: 11px;
   }
 
@@ -372,7 +389,7 @@ body:has(.mapa-page) {
 
 @media (max-width: 640px) {
   .mapa-paises button {
-    min-height: 32px;
-    font-size: 10px;
+    min-height: 38px;
+    font-size: 11px;
   }
 }
