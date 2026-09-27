@@ -350,9 +350,22 @@ body:has(.mapa-page) {
     font-weight: 900;
   }
 
+  .mapa-publicar-acciones {
+    grid-template-columns: 1fr;
+    gap: 9px;
+    margin-top: 12px;
+  }
+
   .mapa-publicar-btn {
-    min-height: 42px;
-    font-size: 11px;
+    min-height: 52px;
+    padding: 12px 14px;
+    border-radius: 10px;
+    font-size: 14px;
+  }
+
+  .mapa-publicar-btn-principal {
+    order: -1;
+    font-size: 15px;
   }
 
   .mapa-panel,
