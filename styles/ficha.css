@@ -428,20 +428,6 @@
   background: #235223;
 }
 
-.mapa-contador {
-  position: absolute;
-  top: 16px;
-  left: 16px;
-  background: #fff;
-  border-radius: 8px;
-  padding: 6px 14px;
-  font-size: 13px;
-  font-weight: 500;
-  color: #444;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  z-index: 10;
-}
-
 @media (max-width: 768px) {
   .ficha-galeria {
     grid-template-columns: 1fr;

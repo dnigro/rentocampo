@@ -14,9 +14,19 @@ interface Props {
 }
 
 export default function GaleriaCarrusel({ fotos, titulo }: Props) {
+  const [indicePrincipal, setIndicePrincipal] = useState(0);
   const [indiceModal, setIndiceModal] = useState<number | null>(null);
+  const [touchInicioX, setTouchInicioX] = useState<number | null>(null);
 
   const abierto = indiceModal !== null;
+
+  const anteriorPrincipal = useCallback(() => {
+    setIndicePrincipal((i) => (i === 0 ? fotos.length - 1 : i - 1));
+  }, [fotos.length]);
+
+  const siguientePrincipal = useCallback(() => {
+    setIndicePrincipal((i) => (i === fotos.length - 1 ? 0 : i + 1));
+  }, [fotos.length]);
 
   const anterior = useCallback(() => {
     setIndiceModal((i) =>
@@ -64,8 +74,58 @@ export default function GaleriaCarrusel({ fotos, titulo }: Props) {
     <>
       {/* Galería estática */}
       <div className="ficha-galeria">
-        <div className="galeria-principal" onClick={() => setIndiceModal(0)}>
-          <Image src={fotos[0].url} alt={titulo} fill sizes="(max-width: 768px) 100vw, 70vw" priority />
+        <div
+          className="galeria-principal"
+          onClick={() => setIndiceModal(indicePrincipal)}
+          onTouchStart={(e) => setTouchInicioX(e.touches[0]?.clientX ?? null)}
+          onTouchEnd={(e) => {
+            if (touchInicioX === null || fotos.length < 2) return;
+            const finX = e.changedTouches[0]?.clientX ?? touchInicioX;
+            const delta = finX - touchInicioX;
+            if (Math.abs(delta) > 40) {
+              if (delta < 0) siguientePrincipal();
+              else anteriorPrincipal();
+            }
+            setTouchInicioX(null);
+          }}
+        >
+          <Image
+            key={fotos[indicePrincipal].url}
+            src={fotos[indicePrincipal].url}
+            alt={`${titulo}, foto ${indicePrincipal + 1}`}
+            fill
+            sizes="(max-width: 768px) 100vw, 70vw"
+            priority={indicePrincipal === 0}
+          />
+          {fotos.length > 1 && (
+            <>
+              <button
+                type="button"
+                className="galeria-nav galeria-nav-prev"
+                aria-label="Foto anterior"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  anteriorPrincipal();
+                }}
+              >
+                ‹
+              </button>
+              <button
+                type="button"
+                className="galeria-nav galeria-nav-next"
+                aria-label="Foto siguiente"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  siguientePrincipal();
+                }}
+              >
+                ›
+              </button>
+              <span className="galeria-contador">
+                {indicePrincipal + 1} / {fotos.length}
+              </span>
+            </>
+          )}
           <div className="galeria-overlay">
             <span className="galeria-ver-todas">🔍 Ver fotos</span>
           </div>
