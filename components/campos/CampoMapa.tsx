@@ -206,9 +206,9 @@ export default function CampoMapa({
           if (vista === "servicios") coordinates.push(position);
           L.circleMarker(position, {
             radius: 10,
-            color: "#5b123d",
+            color: "#7a3158",
             weight: 2,
-            fillColor: "#d51b8c",
+            fillColor: "#e58ac0",
             fillOpacity: 1,
           })
             .addTo(serviciosGroup)
@@ -379,15 +379,6 @@ export default function CampoMapa({
                 <span className="mapa-filtro-punto mapa-filtro-punto-campo" />
                 Campos disponibles
               </button>
-              {countryCode === "AR" && (
-                <div
-                  className="mapa-filtro mapa-filtro-fijo activo"
-                  aria-label="Demanda por zona siempre visible"
-                >
-                  <span className="mapa-filtro-punto mapa-filtro-punto-demanda" />
-                  Demanda por zona
-                </div>
-              )}
             </>
           ) : (
             <div
@@ -422,24 +413,21 @@ export default function CampoMapa({
             className="mapa-publicar-acciones"
             aria-label="Publicar en RentoCampo"
           >
-            <Link
-              href="/register?tipo=propietario"
-              className={`mapa-publicar-btn ${
-                vista === "tierra" ? "mapa-publicar-btn-principal" : ""
-              }`}
-            >
-              Publicar un campo →
-            </Link>
-            <Link
-              href="/register?tipo=prestador"
-              className={`mapa-publicar-btn ${
-                vista === "servicios"
-                  ? "mapa-publicar-btn-principal mapa-publicar-btn-principal-servicio"
-                  : ""
-              }`}
-            >
-              Publicar mis servicios →
-            </Link>
+            {vista === "tierra" ? (
+              <Link
+                href="/register?tipo=propietario"
+                className="mapa-publicar-btn mapa-publicar-btn-principal"
+              >
+                Publicar un campo →
+              </Link>
+            ) : (
+              <Link
+                href="/register?tipo=prestador"
+                className="mapa-publicar-btn mapa-publicar-btn-principal mapa-publicar-btn-principal-servicio"
+              >
+                Publicar mis servicios →
+              </Link>
+            )}
           </div>
         </div>
       )}
