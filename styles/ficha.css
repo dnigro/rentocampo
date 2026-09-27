@@ -479,6 +479,26 @@
 
   .ficha-main {
     order: 0;
+    min-width: 0;
+  }
+
+  .ficha-seccion {
+    width: 100%;
+    margin-bottom: 32px;
+  }
+
+  .ficha-seccion-titulo {
+    margin-bottom: 12px;
+    font-size: clamp(20px, 5.8vw, 24px);
+    line-height: 1.2;
+  }
+
+  .ficha-descripcion {
+    max-width: 100%;
+    font-size: clamp(18px, 5.2vw, 21px);
+    line-height: 1.58;
+    overflow-wrap: anywhere;
+    word-break: normal;
   }
 
   .ficha-precio-card,
