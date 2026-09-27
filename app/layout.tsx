@@ -1,5 +1,6 @@
 import { Bebas_Neue, DM_Sans } from "next/font/google";
 import type { Metadata, Viewport } from "next";
+import { Suspense } from "react";
 import GoogleAnalytics from "@/components/analytics/GoogleAnalytics";
 import "./globals.css";
 import "@/styles/site-theme.css";
@@ -77,7 +78,9 @@ export default function RootLayout({
         />
       </head>
       <body style={{ fontFamily: "var(--font-dm-sans), sans-serif" }}>
-        <GoogleAnalytics />
+        <Suspense fallback={null}>
+          <GoogleAnalytics />
+        </Suspense>
         {children}
       </body>
     </html>
