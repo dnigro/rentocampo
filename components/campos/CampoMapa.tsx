@@ -7,7 +7,6 @@ import { DEMANDA_ZONAS, type DemandaZona } from "@/data/demanda-zonas";
 import {
   CENTROS_PROVINCIA,
   SERVICIO_LABEL,
-  SERVICIOS_RURALES,
 } from "@/data/servicios-rurales";
 import type { ServicioRural } from "@/types";
 import { COUNTRIES, type CountryCode } from "@/data/countries";
@@ -56,7 +55,6 @@ export default function CampoMapa({
   prestadores,
   currentUserId,
   initialVista = "tierra",
-  initialServicio,
   initialCountry = "AR",
 }: Props) {
   const mapContainer = useRef<HTMLDivElement>(null);
@@ -73,11 +71,7 @@ export default function CampoMapa({
   );
   const [vista, setVista] = useState<"tierra" | "servicios">(initialVista);
   const [countryCode, setCountryCode] = useState<CountryCode>(initialCountry);
-  const [categoriaServicio, setCategoriaServicio] = useState<
-    ServicioRural | "todas"
-  >(initialServicio ?? "todas");
   const [mostrarCampos, setMostrarCampos] = useState(true);
-  const [mostrarDemanda, setMostrarDemanda] = useState(true);
   const [mapError, setMapError] = useState(false);
   const [supabase] = useState(createClient);
   const [fetchedUserId, setFetchedUserId] = useState<
@@ -109,11 +103,9 @@ export default function CampoMapa({
     () =>
       prestadores.filter(
         (prestador) =>
-          (prestador.country_code ?? "AR") === countryCode &&
-          (categoriaServicio === "todas" ||
-            prestador.servicios_rurales?.includes(categoriaServicio)),
+          (prestador.country_code ?? "AR") === countryCode,
       ),
-    [categoriaServicio, countryCode, prestadores],
+    [countryCode, prestadores],
   );
 
   const camposConCoordenadas = useMemo(
@@ -214,9 +206,9 @@ export default function CampoMapa({
           if (vista === "servicios") coordinates.push(position);
           L.circleMarker(position, {
             radius: 10,
-            color: "#0b0b0b",
+            color: "#5b123d",
             weight: 2,
-            fillColor: "#f6c500",
+            fillColor: "#d51b8c",
             fillOpacity: 1,
           })
             .addTo(serviciosGroup)
@@ -285,16 +277,6 @@ export default function CampoMapa({
     if (!mostrarCampos && leafletMap.hasLayer(layer))
       leafletMap.removeLayer(layer);
   }, [mostrarCampos]);
-
-  useEffect(() => {
-    const leafletMap = map.current;
-    const layer = demandaLayer.current;
-    if (!leafletMap || !layer) return;
-
-    if (mostrarDemanda && !leafletMap.hasLayer(layer)) layer.addTo(leafletMap);
-    if (!mostrarDemanda && leafletMap.hasLayer(layer))
-      leafletMap.removeLayer(layer);
-  }, [mostrarDemanda]);
 
   const APTITUD_LABEL: Record<string, string> = {
     agricola: "Agrícola",
@@ -374,7 +356,9 @@ export default function CampoMapa({
             </button>
             <button
               type="button"
-              className={vista === "servicios" ? "activo" : ""}
+              className={
+                vista === "servicios" ? "activo activo-servicios" : ""
+              }
               onClick={() => cambiarVista("servicios")}
             >
               Servicios rurales
@@ -396,39 +380,22 @@ export default function CampoMapa({
                 Campos disponibles
               </button>
               {countryCode === "AR" && (
-                <button
-                  type="button"
-                  className={`mapa-filtro ${mostrarDemanda ? "activo" : ""}`}
-                  aria-pressed={mostrarDemanda}
-                  onClick={() => {
-                    setMostrarDemanda((actual) => !actual);
-                    setSelectedDemanda(null);
-                  }}
+                <div
+                  className="mapa-filtro mapa-filtro-fijo activo"
+                  aria-label="Demanda por zona siempre visible"
                 >
                   <span className="mapa-filtro-punto mapa-filtro-punto-demanda" />
                   Demanda por zona
-                </button>
+                </div>
               )}
             </>
           ) : (
-            <div className="mapa-servicio-filtro">
-              <label htmlFor="categoria-servicio">Tipo de servicio</label>
-              <select
-                id="categoria-servicio"
-                value={categoriaServicio}
-                onChange={(event) =>
-                  setCategoriaServicio(
-                    event.target.value as ServicioRural | "todas",
-                  )
-                }
-              >
-                <option value="todas">Todos los servicios</option>
-                {SERVICIOS_RURALES.map((servicio) => (
-                  <option key={servicio.value} value={servicio.value}>
-                    {servicio.label}
-                  </option>
-                ))}
-              </select>
+            <div
+              className="mapa-filtro mapa-filtro-fijo mapa-filtro-servicios"
+              aria-label="Servicios ofrecidos siempre visibles"
+            >
+              <span className="mapa-filtro-punto mapa-filtro-punto-servicio" />
+              Servicios ofrecidos
             </div>
           )}
 
@@ -466,7 +433,9 @@ export default function CampoMapa({
             <Link
               href="/register?tipo=prestador"
               className={`mapa-publicar-btn ${
-                vista === "servicios" ? "mapa-publicar-btn-principal" : ""
+                vista === "servicios"
+                  ? "mapa-publicar-btn-principal mapa-publicar-btn-principal-servicio"
+                  : ""
               }`}
             >
               Publicar mis servicios →
@@ -577,12 +546,12 @@ export default function CampoMapa({
             <p className="mapa-panel-descripcion">{selectedServicio.bio}</p>
           )}
           {selectedServicio.is_demo ? (
-            <div
-              className="mapa-panel-btn mapa-panel-btn-propio"
-              aria-disabled="true"
+            <Link
+              href="/register?tipo=prestador"
+              className="mapa-panel-btn mapa-panel-btn-servicio"
             >
-              Publicación de demostración
-            </div>
+              Crear mi servicio →
+            </Link>
           ) : resolvedUserId === undefined ? (
             <div
               className="mapa-panel-btn mapa-panel-btn-propio"
