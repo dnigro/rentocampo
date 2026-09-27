@@ -336,14 +336,14 @@ body:has(.mapa-page) {
 }
 
 .mapa-panel-servicio .mapa-panel-btn.mapa-panel-btn-servicio {
-  background: #d51b8c;
-  border-color: #d51b8c;
-  color: #fff;
+  background: #d51b8c !important;
+  border-color: #d51b8c !important;
+  color: #fff !important;
 }
 
 .mapa-panel-servicio .mapa-panel-btn.mapa-panel-btn-servicio:hover {
-  background: #b61476;
-  border-color: #b61476;
+  background: #b61476 !important;
+  border-color: #b61476 !important;
 }
 
 @media (max-width: 640px) {
