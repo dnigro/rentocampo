@@ -461,7 +461,7 @@ export default function CampoMapa({
                 vista === "tierra" ? "mapa-publicar-btn-principal" : ""
               }`}
             >
-              Publicar campo
+              Publicar un campo →
             </Link>
             <Link
               href="/register?tipo=prestador"
@@ -469,7 +469,7 @@ export default function CampoMapa({
                 vista === "servicios" ? "mapa-publicar-btn-principal" : ""
               }`}
             >
-              Ofrecer servicio
+              Publicar mis servicios →
             </Link>
           </div>
         </div>
