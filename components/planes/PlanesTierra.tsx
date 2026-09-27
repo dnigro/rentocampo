@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { PLANES_TIERRA, planTierraRank, publicacionesLabel } from "@/data/planes-tierra";
+import { trackEvent } from "@/lib/analytics";
 
 interface Props {
   planActualId: string;
@@ -28,6 +29,16 @@ export default function PlanesTierra({
 
   async function iniciarCheckout(planId: string) {
     setCheckoutError("");
+
+    const plan = PLANES_TIERRA.find((item) => item.id === planId);
+    trackEvent("iniciar_pago", {
+      plan_id: planId,
+      plan_nombre: plan?.nombre ?? planId,
+      valor_usd: plan?.precioUsdAnual ?? 0,
+      moneda_referencia: "USD",
+      pagina_origen: window.location.pathname,
+      proveedor_pago: "mercadopago",
+    });
     setLoadingPlan(planId);
 
     try {
@@ -43,6 +54,15 @@ export default function PlanesTierra({
           result.error ?? "No se pudo iniciar el pago con Mercado Pago.",
         );
       }
+
+      trackEvent("checkout_mercadopago_abierto", {
+        plan_id: planId,
+        plan_nombre: plan?.nombre ?? planId,
+        valor_usd: plan?.precioUsdAnual ?? 0,
+        moneda_referencia: "USD",
+        pagina_origen: window.location.pathname,
+        proveedor_pago: "mercadopago",
+      });
 
       window.location.assign(result.checkoutUrl);
     } catch (error) {

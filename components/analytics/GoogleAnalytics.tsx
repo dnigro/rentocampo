@@ -1,7 +1,7 @@
 "use client";
 
 import Script from "next/script";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect, useRef } from "react";
 
 declare global {
@@ -11,17 +11,30 @@ declare global {
   }
 }
 
-// RentoCampo production GA4 stream. Keep this explicit so a missing or stale
-// Vercel environment variable cannot silently disable analytics.
 const GA_ID = "G-PFGVKEFPCJ";
+const PROD_HOSTS = new Set(["rentocampo.com", "www.rentocampo.com"]);
+
+function getPageGroup(pathname: string) {
+  if (pathname.startsWith("/alquiler-de-campos/buenos-aires")) return "alquiler_buenos_aires";
+  if (pathname.startsWith("/alquiler-de-campos/cordoba")) return "alquiler_cordoba";
+  if (pathname.startsWith("/alquiler-de-campos/santa-fe")) return "alquiler_santa_fe";
+  if (pathname.startsWith("/alquiler-de-campos")) return "alquiler_campos";
+  if (pathname.startsWith("/servicios")) return "servicios_rurales";
+  if (pathname.startsWith("/campos")) return "campos";
+  if (pathname === "/") return "home";
+  return "otras";
+}
 
 export default function GoogleAnalytics() {
   const pathname = usePathname();
-  const isInitialRender = useRef(true);
+  const searchParams = useSearchParams();
   const lastTrackedPath = useRef<string | null>(null);
 
+  const isProductionHost = () =>
+    typeof window !== "undefined" && PROD_HOSTS.has(window.location.hostname);
+
   function trackPageView() {
-    if (typeof window === "undefined" || !window.gtag) return;
+    if (!isProductionHost() || !window.gtag) return;
 
     const pagePath = `${window.location.pathname}${window.location.search}`;
     if (lastTrackedPath.current === pagePath) return;
@@ -30,38 +43,36 @@ export default function GoogleAnalytics() {
       page_path: pagePath,
       page_location: window.location.href,
       page_title: document.title,
+      page_group: getPageGroup(window.location.pathname),
+      site_environment: "production",
     });
 
     lastTrackedPath.current = pagePath;
   }
 
   useEffect(() => {
-    // The initial page view is sent by gtag('config'). Only send explicit
-    // page_view events for client-side route changes.
-    if (isInitialRender.current) {
-      isInitialRender.current = false;
-      lastTrackedPath.current = `${window.location.pathname}${window.location.search}`;
-      return;
-    }
-
     trackPageView();
-  }, [pathname]);
+  }, [pathname, searchParams]);
 
   return (
     <>
       <Script
         src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
         strategy="afterInteractive"
+        onLoad={trackPageView}
       />
       <Script id="ga4-init" strategy="afterInteractive">
         {`
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          window.gtag = gtag;
-          gtag('js', new Date());
-          gtag('config', '${GA_ID}', {
-            send_page_view: true
-          });
+          if (["rentocampo.com", "www.rentocampo.com"].includes(window.location.hostname)) {
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            window.gtag = gtag;
+            gtag('js', new Date());
+            gtag('config', '${GA_ID}', {
+              send_page_view: false,
+              cookie_flags: 'SameSite=None;Secure'
+            });
+          }
         `}
       </Script>
     </>
