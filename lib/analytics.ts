@@ -4,7 +4,9 @@ export type AnalyticsEventName =
   | "ofrecer_servicio"
   | "buscar_servicio"
   | "registrarse"
-  | "enviar_mensaje";
+  | "enviar_mensaje"
+  | "iniciar_pago"
+  | "checkout_mercadopago_abierto";
 
 export function trackEvent(
   eventName: AnalyticsEventName,
