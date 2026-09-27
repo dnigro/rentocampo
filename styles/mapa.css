@@ -211,16 +211,16 @@ body:has(.mapa-page) {
 .mapa-modos { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; margin-bottom: 10px; padding: 4px; border-radius: 9px; background: #edf1ee; }
 .mapa-modos button { min-height: 38px; padding: 6px 8px; border: 0; border-radius: 7px; background: transparent; color: #53645b; font: inherit; font-size: 11px; font-weight: 800; cursor: pointer; }
 .mapa-modos button.activo { background: #073f30; color: #fff; }
-.mapa-servicio-filtro { display: grid; gap: 6px; }
-.mapa-servicio-filtro label { color: #1a3a1a; font-size: 11px; font-weight: 800; text-transform: uppercase; }
-.mapa-servicio-filtro select { width: 100%; min-height: 38px; padding: 0 9px; border: 1px solid #d8e1dc; border-radius: 8px; background: #fff; color: #173b2e; font: inherit; font-size: 12px; }
+.mapa-modos button.activo-servicios { background: #d51b8c; color: #fff; }
 .mapa-publicar-acciones { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; margin-top: 10px; }
 .mapa-publicar-btn { display: flex; min-height: 39px; align-items: center; justify-content: center; padding: 7px 9px; border: 1px solid #d8dfda; border-radius: 8px; background: #fff; color: #173b2e; font-size: 11px; font-weight: 850; line-height: 1.15; text-align: center; text-decoration: none; }
 .mapa-publicar-btn:hover { border-color: #f6c500; background: #fff8d7; }
 .mapa-publicar-btn-principal { border-color: #f6c500; background: #f6c500; color: #111; }
 .mapa-publicar-btn-principal:hover { background: #e9bb00; }
-.mapa-panel-servicio { width: 330px; border-top: 5px solid #f6c500; }
-.mapa-panel-aptitud-servicio { color: #1b1b1b; background: #fff2b5; }
+.mapa-publicar-btn-principal-servicio { border-color: #d51b8c; background: #d51b8c; color: #fff; }
+.mapa-publicar-btn-principal-servicio:hover { border-color: #b61476; background: #b61476; }
+.mapa-panel-servicio { width: 330px; border-top: 5px solid #d51b8c; }
+.mapa-panel-aptitud-servicio { color: #74104d; background: #fde4f3; }
 .mapa-servicio-tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 12px; }
 .mapa-servicio-tags span { padding: 5px 8px; border-radius: 999px; background: #f1f4f2; color: #28463b; font-size: 10px; font-weight: 800; }
 
@@ -260,6 +260,22 @@ body:has(.mapa-page) {
   font-weight: 600;
 }
 
+.mapa-filtro-fijo {
+  cursor: default;
+}
+
+.mapa-filtro-fijo:hover {
+  background: #f4f7f1;
+}
+
+.mapa-filtro-servicios,
+.mapa-filtro-servicios:hover {
+  border-color: #d51b8c;
+  background: #d51b8c;
+  color: #fff;
+  font-weight: 800;
+}
+
 .mapa-filtro-punto {
   width: 13px;
   height: 13px;
@@ -276,6 +292,12 @@ body:has(.mapa-page) {
 .mapa-filtro-punto-demanda {
   border: 2px dashed #1a3a1a;
   background: rgba(244, 197, 66, 0.82);
+}
+
+.mapa-filtro-punto-servicio {
+  border: 2px solid #fff;
+  background: #d51b8c;
+  box-shadow: 0 0 0 1px #7a104f;
 }
 
 .mapa-panel-demanda {
@@ -311,6 +333,15 @@ body:has(.mapa-page) {
 
 .mapa-panel-btn-demanda:hover {
   background: #e4b52c;
+}
+
+.mapa-panel-btn-servicio {
+  background: #d51b8c;
+  color: #fff;
+}
+
+.mapa-panel-btn-servicio:hover {
+  background: #b61476;
 }
 
 @media (max-width: 640px) {
