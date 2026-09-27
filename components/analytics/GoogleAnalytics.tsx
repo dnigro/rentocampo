@@ -2,7 +2,7 @@
 
 import Script from "next/script";
 import { usePathname, useSearchParams } from "next/navigation";
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 
 declare global {
   interface Window {
@@ -13,6 +13,8 @@ declare global {
 
 const GA_ID = "G-PFGVKEFPCJ";
 const PROD_HOSTS = new Set(["rentocampo.com", "www.rentocampo.com"]);
+const isProductionHost = () =>
+  typeof window !== "undefined" && PROD_HOSTS.has(window.location.hostname);
 
 function getPageGroup(pathname: string) {
   if (pathname.startsWith("/alquiler-de-campos/buenos-aires")) return "alquiler_buenos_aires";
@@ -30,10 +32,7 @@ export default function GoogleAnalytics() {
   const searchParams = useSearchParams();
   const lastTrackedPath = useRef<string | null>(null);
 
-  const isProductionHost = () =>
-    typeof window !== "undefined" && PROD_HOSTS.has(window.location.hostname);
-
-  function trackPageView() {
+  const trackPageView = useCallback(() => {
     if (!isProductionHost() || !window.gtag) return;
 
     const pagePath = `${window.location.pathname}${window.location.search}`;
@@ -48,11 +47,11 @@ export default function GoogleAnalytics() {
     });
 
     lastTrackedPath.current = pagePath;
-  }
+  }, []);
 
   useEffect(() => {
     trackPageView();
-  }, [pathname, searchParams]);
+  }, [pathname, searchParams, trackPageView]);
 
   return (
     <>
