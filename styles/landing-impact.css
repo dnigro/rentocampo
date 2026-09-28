@@ -846,3 +846,7 @@ body:has(.rc-landing) .navbar .btn-primary {
   background:url("/mercado-pago-horizontal.svg") center / contain no-repeat;
 }
 .rc-landing .rc-mp-brand > * { display:none; }
+
+.rc-landing .rc-mp-brand { display:flex; align-items:center; justify-content:center; }
+.rc-landing .rc-mp-brand img { display:block; width:100%; max-width:190px; height:auto; object-fit:contain; }
+@media (max-width:560px) { .rc-landing .rc-mp-brand { justify-content:flex-start; } .rc-landing .rc-mp-brand img { max-width:175px; } }
