@@ -1,11 +1,45 @@
 import Image from "next/image";
 import Link from "next/link";
-import heroCampo from "@/public/rentocampo-hero-campo-bn-1920x1080.webp";
+import heroCampoMobile from "@/public/rentocampo-hero-campo-bn-1920x1080.webp";
+import heroCampoWeb from "@/public/hero-campo.jpeg";
 
 export default function LandingHero() {
   return (
     <section className="editorialHero" id="hero">
       <div className="editorialHero__content">
+        <div className="editorialHero__desktopImpact">
+          <p className="editorialHero__desktopTag">La producción nos conecta</p>
+          <h1 className="editorialHero__desktopTitle">
+            <span>Primera</span>
+            <span>Red Federal</span>
+            <span className="editorialHero__desktopYellow">Que produce.</span>
+          </h1>
+
+          <div className="editorialHero__desktopPillars" aria-label="Propuesta de valor">
+            <span><b>+</b> Tierra productiva.</span>
+            <span><b>+</b> Productores.</span>
+            <span className="is-yellow"><b>+</b> Servicios rurales.</span>
+          </div>
+
+          <p className="editorialHero__desktopOnePlace">Todo en un solo lugar.</p>
+          <p className="editorialHero__desktopIntro">
+            Encontrá oportunidades con <strong>mapa</strong>, conectá por{" "}
+            <strong>chat online</strong> y avanzá de forma directa. Registrarte,
+            publicar y contactar es <strong>gratis.</strong>
+          </p>
+
+          <div className="editorialHero__desktopActions">
+            <Link href="/register" className="editorialHero__desktopPrimary">
+              <span>Sumarme gratis</span>
+              <span aria-hidden="true">→</span>
+            </Link>
+            <Link href="/campos/mapa" className="editorialHero__desktopSecondary">
+              <span>Alquiler de campos</span>
+              <span aria-hidden="true">→</span>
+            </Link>
+          </div>
+        </div>
+
         <div className="editorialHero__message">
           <p className="editorialHero__eyebrow">Primer Red Federal que produce</p>
           <h1>
@@ -51,13 +85,22 @@ export default function LandingHero() {
 
       <div className="editorialHero__visual">
         <Image
-          src={heroCampo}
+          src={heroCampoWeb}
+          alt="Vacas y tambo en un entorno productivo rural"
+          fill
+          priority
+          placeholder="blur"
+          sizes="(min-width: 901px) 54vw, 1px"
+          className="editorialHero__image editorialHero__image--desktop"
+        />
+        <Image
+          src={heroCampoMobile}
           alt="Tierra productiva argentina vista desde el campo"
           fill
           priority
           placeholder="blur"
-          sizes="(max-width: 900px) 100vw, 50vw"
-          className="editorialHero__image"
+          sizes="(max-width: 900px) 100vw, 1px"
+          className="editorialHero__image editorialHero__image--mobile"
         />
         <p className="editorialHero__territory" aria-hidden="true">
           Argentina / Una red federal

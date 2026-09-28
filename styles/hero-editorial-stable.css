@@ -378,3 +378,234 @@
     margin-bottom: 0;
   }
 }
+
+
+/* Hero web 2026-09: concepto madre "Primera Red Federal que produce".
+   Solo desktop: la versión mobile aprobada se conserva sin cambios. */
+.editorialHero__desktopImpact {
+  display: none;
+}
+
+.editorialHero__image--mobile {
+  display: none;
+}
+
+@media (min-width: 901px) {
+  .editorialHero {
+    position: relative;
+    display: block;
+    height: clamp(620px, 78vh, 820px);
+    min-height: 620px;
+    color: #fff;
+    background: #0b0b0b;
+    border-bottom: 0;
+  }
+
+  .editorialHero__content {
+    position: relative;
+    z-index: 3;
+    width: min(1320px, calc(100% - 80px));
+    height: 100%;
+    margin: 0 auto;
+    padding: clamp(44px, 5vw, 74px) 0;
+    justify-content: center;
+  }
+
+  .editorialHero__message,
+  .editorialHero__proof {
+    display: none;
+  }
+
+  .editorialHero__desktopImpact {
+    display: flex;
+    width: min(690px, 58vw);
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .editorialHero__desktopTag {
+    width: fit-content;
+    margin: 0 0 24px;
+    padding-left: 22px;
+    border-left: 5px solid var(--hero-yellow);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 800;
+    line-height: 1.25;
+    letter-spacing: .28em;
+    text-transform: uppercase;
+  }
+
+  .editorialHero__desktopTitle {
+    display: flex;
+    margin: 0;
+    flex-direction: column;
+    color: #fff;
+    font-family: var(--font-display), sans-serif;
+    font-size: clamp(78px, 7.2vw, 126px);
+    font-weight: 400;
+    line-height: .79;
+    letter-spacing: -.025em;
+    text-transform: uppercase;
+  }
+
+  .editorialHero__desktopTitle span {
+    display: block;
+    white-space: nowrap;
+  }
+
+  .editorialHero__desktopTitle .editorialHero__desktopYellow {
+    color: var(--hero-yellow);
+  }
+
+  .editorialHero__desktopPillars {
+    display: flex;
+    margin-top: 28px;
+    flex-direction: column;
+    gap: 2px;
+    color: #fff;
+    font-family: var(--font-display), sans-serif;
+    font-size: clamp(31px, 2.6vw, 48px);
+    line-height: .98;
+    text-transform: uppercase;
+  }
+
+  .editorialHero__desktopPillars span {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+  }
+
+  .editorialHero__desktopPillars b {
+    width: .55em;
+    color: var(--hero-yellow);
+    font-family: var(--font-dm-sans), sans-serif;
+    font-size: .92em;
+    font-weight: 900;
+  }
+
+  .editorialHero__desktopPillars .is-yellow {
+    color: var(--hero-yellow);
+  }
+
+  .editorialHero__desktopOnePlace {
+    width: fit-content;
+    margin: 24px 0 0;
+    padding-top: 18px;
+    border-top: 4px solid var(--hero-yellow);
+    color: #fff;
+    font-size: 16px;
+    font-weight: 900;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+  }
+
+  .editorialHero__desktopIntro {
+    max-width: 610px;
+    margin: 18px 0 0;
+    color: rgba(255, 255, 255, .88);
+    font-size: clamp(17px, 1.25vw, 21px);
+    line-height: 1.48;
+  }
+
+  .editorialHero__desktopIntro strong {
+    color: var(--hero-yellow);
+    font-weight: 900;
+    text-transform: uppercase;
+  }
+
+  .editorialHero__desktopActions {
+    display: flex;
+    gap: 12px;
+    margin-top: 28px;
+  }
+
+  .editorialHero__desktopPrimary,
+  .editorialHero__desktopSecondary {
+    display: inline-flex;
+    min-height: 54px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 30px;
+    padding: 0 24px;
+    border: 1px solid #fff;
+    border-radius: 2px;
+    font-size: 14px;
+    font-weight: 900;
+    letter-spacing: .035em;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+
+  .editorialHero__desktopPrimary {
+    min-width: 250px;
+    color: #0b0b0b;
+    background: var(--hero-yellow);
+    border-color: var(--hero-yellow);
+  }
+
+  .editorialHero__desktopSecondary {
+    min-width: 250px;
+    color: #fff;
+    background: rgba(11, 11, 11, .38);
+  }
+
+  .editorialHero__visual {
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+    clip-path: none;
+    background: #0b0b0b;
+  }
+
+  .editorialHero__visual::after {
+    content: "";
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+    background:
+      linear-gradient(90deg, rgba(6, 6, 6, .95) 0%, rgba(6, 6, 6, .82) 38%, rgba(6, 6, 6, .42) 64%, rgba(6, 6, 6, .18) 100%),
+      linear-gradient(0deg, rgba(0, 0, 0, .35), rgba(0, 0, 0, .08));
+    pointer-events: none;
+  }
+
+  .editorialHero__image--desktop {
+    display: block;
+    object-fit: cover;
+    object-position: 58% center;
+    filter: grayscale(1) contrast(1.18) brightness(.78);
+  }
+
+  .editorialHero__image--mobile {
+    display: none;
+  }
+
+  .editorialHero__territory {
+    top: 34px;
+    right: 40px;
+    z-index: 2;
+    color: #fff;
+    text-shadow: 0 1px 6px rgba(0,0,0,.35);
+  }
+
+  .editorialHero__signature {
+    right: 40px;
+    bottom: 30px;
+    z-index: 2;
+  }
+}
+
+@media (max-width: 900px) {
+  .editorialHero__desktopImpact,
+  .editorialHero__image--desktop {
+    display: none;
+  }
+
+  .editorialHero__image--mobile {
+    display: block;
+  }
+}
