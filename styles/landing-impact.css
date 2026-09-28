@@ -753,8 +753,34 @@ body:has(.rc-landing) .navbar .btn-primary {
   margin-top: 7px;
   color: var(--impact-black);
   font-size: 17px;
-  font-weight: 400;
+  font-weight: 800;
   line-height: 1.5;
+}
+
+.rc-landing .rc-question-answer > p > strong {
+  font-weight: 800;
+}
+
+.rc-landing .rc-faq-payment {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: 14px;
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.rc-landing .rc-mp-mark {
+  display: inline-grid;
+  place-items: center;
+  width: 38px;
+  height: 26px;
+  border-radius: 8px;
+  background: #009ee3;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: -.4px;
 }
 
 @media (max-width: 560px) {
