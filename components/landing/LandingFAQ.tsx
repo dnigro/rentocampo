@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState } from "react";
 
 const faqs = [
@@ -76,7 +77,13 @@ export default function LandingFAQ() {
                       </strong>
                       <span className="rc-faq-detail">{a}</span>
                       <span className="rc-faq-payment" aria-label="Pago disponible con Mercado Pago">
-                        <img src="https://http2.mlstatic.com/frontend-assets/mp-web-navigation/ui-navigation/6.6.92/mercadopago/logo__large.png" alt="Mercado Pago" />
+                        <Image
+                          src="https://http2.mlstatic.com/frontend-assets/mp-web-navigation/ui-navigation/6.6.92/mercadopago/logo__large.png"
+                          alt="Mercado Pago"
+                          width={180}
+                          height={36}
+                          unoptimized
+                        />
                       </span>
                     </p>
                   ) : (
