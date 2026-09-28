@@ -1,7 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import heroCampoMobile from "@/public/rentocampo-hero-campo-bn-1920x1080.webp";
-import heroCampoWeb from "@/public/hero-campo.jpeg";
 
 export default function LandingHero() {
   return (
@@ -85,7 +84,7 @@ export default function LandingHero() {
 
       <div className="editorialHero__visual">
         <Image
-          src={heroCampoWeb}
+          src={heroCampoMobile}
           alt="Vacas y tambo en un entorno productivo rural"
           fill
           priority
