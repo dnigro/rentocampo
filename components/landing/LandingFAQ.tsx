@@ -48,7 +48,7 @@ export default function LandingFAQ() {
                         <p>Para publicar más campos, elegí un paquete anual según la cantidad de publicaciones que necesitás. El pago se realiza de forma segura con Mercado Pago.</p>
                       </div>
                       <div className="rc-mp-brand" aria-label="Mercado Pago">
-                        <Image src="/mercado-pago-horizontal.jpg" alt="Mercado Pago" width={360} height={91} />
+                        <Image src="/mercado-pago-horizontal.png" alt="Mercado Pago" width={190} height={48} />
                       </div>
                     </div>
                     <div className="rc-faq-plans" aria-label="Paquetes para publicar más campos">
