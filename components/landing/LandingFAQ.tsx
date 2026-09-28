@@ -6,19 +6,19 @@ import { useState } from "react";
 const faqs = [
   [
     "¿Publicar tiene costo?",
-    "Para publicar más campos, elegí un paquete especial según la cantidad de publicaciones que necesitás. El pago se realiza de forma segura con Mercado Pago.",
+    "Si sos Propietario de Tierras, tu primera publicación es gratis. Si después querés publicar más campos, podés elegir un paquete anual según la cantidad de publicaciones que necesites. El pago se realiza de forma segura con Mercado Pago.",
   ],
   [
     "¿Quién puede registrarse?",
-    "RentoCampo conecta a los tres actores de la red rural: Propietarios de Tierras que publican campos, Productores que buscan oportunidades y Proveedores de Servicios Rurales que ofrecen su trabajo. Un mismo usuario puede participar con más de un perfil. Para Productores y Proveedores de Servicios, registrarse, buscar, contactar y publicar servicios es 100% GRATIS, de por vida.",
+    "Podés registrarte como Propietario de Tierras, Productor o Proveedor de Servicios Rurales. Los Propietarios publican sus campos; los Productores buscan tierras y oportunidades; y los Proveedores ofrecen servicios como siembra, cosecha, fletes, alambrados y otros trabajos rurales. Para Productores y Proveedores de Servicios, usar RentoCampo es 100% gratis de por vida.",
   ],
   [
     "¿RentoCampo interviene en el acuerdo?",
-    "RentoCampo facilita el encuentro y el contacto directo entre Propietarios, Productores y Proveedores de Servicios Rurales. Las condiciones comerciales, técnicas y contractuales se acuerdan directamente entre las partes; RentoCampo no interviene en la negociación ni cobra comisión por esos acuerdos.",
+    "No. RentoCampo es el punto de encuentro entre Propietarios, Productores y Proveedores de Servicios Rurales. Te ayudamos a encontrar oportunidades y a iniciar el contacto, pero el precio, las condiciones de alquiler o del servicio y cualquier acuerdo se definen directamente entre los usuarios. RentoCampo no interviene en la negociación.",
   ],
   [
     "¿Cómo me contactan?",
-    "Propietarios, Productores y Proveedores de Servicios Rurales pueden contactarse directamente desde cada publicación mediante el sistema de mensajes de RentoCampo. Así, una consulta por un campo o por un servicio llega al usuario que publicó, sin intermediarios.",
+    "Cuando alguien se interesa por un campo o por un servicio, puede enviar una consulta directamente desde la publicación. El mensaje llega a la sección Mensajes de RentoCampo para que puedan conversar de forma directa y continuar el contacto sin intermediarios.",
   ],
 ];
 
@@ -74,14 +74,13 @@ export default function LandingFAQ() {
                       <strong className="rc-faq-free">
                         La primer publicación para Propietarios de Tierras es GRATIS
                       </strong>
-                      <strong className="rc-faq-detail">{a}</strong>
+                      <span className="rc-faq-detail">{a}</span>
                       <span className="rc-faq-payment" aria-label="Pago disponible con Mercado Pago">
-                        <span className="rc-mp-mark" aria-hidden="true">MP</span>
-                        <strong>Pagá con Mercado Pago</strong>
+                        <img src="https://http2.mlstatic.com/frontend-assets/mp-web-navigation/ui-navigation/6.6.92/mercadopago/logo__large.png" alt="Mercado Pago" />
                       </span>
                     </p>
                   ) : (
-                    <p><strong>{a}</strong></p>
+                    <p>{a}</p>
                   )}
 
                   {i === 0 && (
