@@ -420,7 +420,7 @@
     display: flex;
     width: min(690px, 58vw);
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
   }
 
   .editorialHero__desktopTag {
@@ -604,7 +604,7 @@
   .editorialHero {
     position: relative;
     display: block;
-    min-height: 760px;
+    min-height: 0;
     height: auto;
     color: #fff;
     background: #0b0b0b;
@@ -615,10 +615,9 @@
     position: relative;
     z-index: 3;
     width: 100%;
-    min-height: 760px;
     margin: 0;
     padding: 34px 22px 42px;
-    justify-content: center;
+    justify-content: flex-start;
   }
 
   .editorialHero__message,
@@ -717,7 +716,7 @@
   .editorialHero__desktopIntro {
     max-width: 520px;
     margin: 18px 0 0;
-    color: rgba(255, 255, 255, .9);
+    color: rgba(255, 255, 255, .94);
     font-size: 17px;
     line-height: 1.45;
   }
@@ -761,7 +760,7 @@
 
   .editorialHero__desktopSecondary {
     color: #fff;
-    background: rgba(11, 11, 11, .42);
+    background: rgba(11, 11, 11, .30);
   }
 
   .editorialHero__visual {
@@ -782,16 +781,16 @@
     z-index: 1;
     inset: 0;
     background:
-      linear-gradient(180deg, rgba(6, 6, 6, .76) 0%, rgba(6, 6, 6, .6) 34%, rgba(6, 6, 6, .82) 100%),
-      linear-gradient(90deg, rgba(6, 6, 6, .62), rgba(6, 6, 6, .26));
+      linear-gradient(180deg, rgba(6, 6, 6, .58) 0%, rgba(6, 6, 6, .42) 34%, rgba(6, 6, 6, .70) 100%),
+      linear-gradient(90deg, rgba(6, 6, 6, .46), rgba(6, 6, 6, .16));
     pointer-events: none;
   }
 
   .editorialHero__image--desktop {
     display: block;
     object-fit: cover;
-    object-position: 58% center;
-    filter: grayscale(1) contrast(1.18) brightness(.72);
+    object-position: center center;
+    filter: grayscale(1) contrast(1.12) brightness(.84);
   }
 
   .editorialHero__image--mobile {
@@ -812,11 +811,6 @@
 }
 
 @media (max-width: 420px) {
-  .editorialHero,
-  .editorialHero__content {
-    min-height: 720px;
-  }
-
   .editorialHero__content {
     padding: 30px 18px 38px;
   }
