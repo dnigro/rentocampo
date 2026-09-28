@@ -781,3 +781,26 @@ body:has(.rc-landing) .navbar .btn-primary {
     font-size: 23px;
   }
 }
+
+/* FAQ infographic */
+.rc-landing .rc-question-answer { padding-bottom: 28px; }
+.rc-landing .rc-question-answer h3 { margin:0; font-size:21px; line-height:1.25; }
+.rc-landing .rc-faq-cost-head { display:grid; grid-template-columns:minmax(0,1fr) 190px; gap:28px; align-items:center; padding:8px 0 22px; }
+.rc-landing .rc-faq-cost-head h3 { color:var(--impact-yellow); font-size:clamp(28px,3vw,42px); font-weight:700; }
+.rc-landing .rc-faq-cost-head p { padding:12px 0 0; margin:0; font-weight:400; }
+.rc-landing .rc-mp-brand { display:flex; align-items:center; gap:10px; color:#27358b; font-size:28px; font-weight:800; line-height:.85; }
+.rc-landing .rc-mp-handshake { display:grid; place-items:center; width:72px; height:54px; border-radius:50%; background:#10b9e9; font-size:34px; }
+.rc-landing .rc-faq-intro { padding:4px 0 18px; margin:0; font-size:19px; font-weight:600; }
+.rc-landing .rc-faq-users { display:grid; gap:22px; padding:4px 0 10px; }
+.rc-landing .rc-faq-user,.rc-landing .rc-faq-info-row { display:grid; grid-template-columns:82px minmax(0,1fr); gap:22px; align-items:start; }
+.rc-landing .rc-faq-user p,.rc-landing .rc-faq-info-row p { padding:3px 0; margin:0; font-weight:400; }
+.rc-landing .rc-faq-icon { display:grid; place-items:center; width:72px; height:72px; border-radius:50%; background:#fff4c7; font-size:34px; }
+.rc-landing .rc-free-tag,.rc-landing .rc-owner-tag { display:inline-block; margin-top:7px; padding:5px 11px; border-radius:8px; color:#234b2c; background:#dff1dd; font-size:15px; font-weight:500; }
+.rc-landing .rc-owner-tag { color:#6f5500; background:#fff0ad; }
+.rc-landing .rc-faq-info-row { padding:8px 0 4px; }
+@media (max-width:560px) {
+ .rc-landing .rc-faq-cost-head { grid-template-columns:1fr; gap:18px; }
+ .rc-landing .rc-faq-user,.rc-landing .rc-faq-info-row { grid-template-columns:58px minmax(0,1fr); gap:14px; }
+ .rc-landing .rc-faq-icon { width:54px; height:54px; font-size:26px; }
+ .rc-landing .rc-mp-brand { font-size:24px; }
+}
