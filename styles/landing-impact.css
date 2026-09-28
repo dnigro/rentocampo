@@ -804,3 +804,36 @@ body:has(.rc-landing) .navbar .btn-primary {
  .rc-landing .rc-faq-icon { width:54px; height:54px; font-size:26px; }
  .rc-landing .rc-mp-brand { font-size:24px; }
 }
+
+
+/* FAQ: alineación y lectura consistente en los cuatro ítems */
+.rc-landing .rc-faq-content { width:100%; }
+.rc-landing .rc-question-answer { padding:14px 0 30px; }
+.rc-landing .rc-faq-users,
+.rc-landing .rc-faq-info-row { max-width:900px; }
+.rc-landing .rc-faq-users { gap:24px; }
+.rc-landing .rc-faq-intro { padding:0 0 8px; margin:0; font-size:18px; font-weight:400; line-height:1.55; }
+.rc-landing .rc-faq-user,
+.rc-landing .rc-faq-info-row { grid-template-columns:76px minmax(0,1fr); gap:20px; align-items:start; }
+.rc-landing .rc-faq-user > div,
+.rc-landing .rc-faq-info-row > div { min-width:0; padding-top:3px; }
+.rc-landing .rc-faq-user h3 { margin:0 0 3px; font-size:20px; font-weight:600; line-height:1.25; }
+.rc-landing .rc-faq-user p,
+.rc-landing .rc-faq-info-row p { margin:0; padding:0; font-size:17px; font-weight:400; line-height:1.55; }
+.rc-landing .rc-faq-info-row p + p { margin-top:9px; }
+.rc-landing .rc-faq-info-row strong { font-weight:600; }
+.rc-landing .rc-faq-icon { width:64px; height:64px; font-size:29px; }
+.rc-landing .rc-free-tag,
+.rc-landing .rc-owner-tag { margin-top:9px; padding:5px 10px; font-size:15px; font-weight:500; line-height:1.3; }
+@media (max-width:560px) {
+  .rc-landing .rc-question-answer { padding:10px 0 24px; }
+  .rc-landing .rc-faq-users { gap:20px; }
+  .rc-landing .rc-faq-user,
+  .rc-landing .rc-faq-info-row { grid-template-columns:52px minmax(0,1fr); gap:12px; }
+  .rc-landing .rc-faq-icon { width:46px; height:46px; font-size:22px; }
+  .rc-landing .rc-faq-user h3 { font-size:18px; }
+  .rc-landing .rc-faq-user p,
+  .rc-landing .rc-faq-info-row p { font-size:16px; line-height:1.5; }
+  .rc-landing .rc-free-tag,
+  .rc-landing .rc-owner-tag { font-size:14px; }
+}
