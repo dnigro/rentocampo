@@ -567,12 +567,15 @@
   .editorialHero__visual {
     position: absolute;
     z-index: 1;
-    inset: 0;
-    width: 100%;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: auto;
+    width: min(58vw, 980px);
     height: 100%;
     margin: 0;
     overflow: hidden;
-    clip-path: none;
+    clip-path: polygon(14% 0, 100% 0, 100% 100%, 0 100%);
     background: #0b0b0b;
   }
 
@@ -582,16 +585,16 @@
     z-index: 1;
     inset: 0;
     background:
-      linear-gradient(90deg, rgba(6, 6, 6, .95) 0%, rgba(6, 6, 6, .82) 38%, rgba(6, 6, 6, .42) 64%, rgba(6, 6, 6, .18) 100%),
-      linear-gradient(0deg, rgba(0, 0, 0, .35), rgba(0, 0, 0, .08));
+      linear-gradient(90deg, rgba(6, 6, 6, .18) 0%, rgba(6, 6, 6, .10) 22%, rgba(6, 6, 6, .22) 52%, rgba(6, 6, 6, .46) 100%),
+      linear-gradient(0deg, rgba(0, 0, 0, .20), rgba(0, 0, 0, .06));
     pointer-events: none;
   }
 
   .editorialHero__image--desktop {
     display: block;
     object-fit: cover;
-    object-position: 58% center;
-    filter: grayscale(1) contrast(1.18) brightness(.78);
+    object-position: 64% center;
+    filter: grayscale(1) contrast(1.08) brightness(.92);
   }
 
   .editorialHero__image--mobile {
@@ -785,7 +788,7 @@
     height: 100%;
     margin: 0;
     overflow: hidden;
-    clip-path: none;
+    clip-path: polygon(0 8%, 100% 0, 100% 100%, 0 100%);
     background: #0b0b0b;
   }
 
@@ -795,16 +798,16 @@
     z-index: 1;
     inset: 0;
     background:
-      linear-gradient(180deg, rgba(6, 6, 6, .58) 0%, rgba(6, 6, 6, .42) 34%, rgba(6, 6, 6, .70) 100%),
-      linear-gradient(90deg, rgba(6, 6, 6, .46), rgba(6, 6, 6, .16));
+      linear-gradient(180deg, rgba(6, 6, 6, .48) 0%, rgba(6, 6, 6, .30) 34%, rgba(6, 6, 6, .58) 100%),
+      linear-gradient(90deg, rgba(6, 6, 6, .28), rgba(6, 6, 6, .08));
     pointer-events: none;
   }
 
   .editorialHero__image--desktop {
     display: block;
     object-fit: cover;
-    object-position: center center;
-    filter: grayscale(1) contrast(1.12) brightness(.84);
+    object-position: 60% center;
+    filter: grayscale(1) contrast(1.08) brightness(.92);
   }
 
   .editorialHero__image--mobile {
