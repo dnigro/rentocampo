@@ -386,6 +386,13 @@
   display: none;
 }
 
+
+/* El hero nuevo usa un h1 y la regla legacy ".editorialHero h1" tenía
+   mayor especificidad, dejando PRIMERA / RED FEDERAL en negro. */
+.editorialHero h1.editorialHero__desktopTitle {
+  color: #fff;
+}
+
 .editorialHero__image--mobile {
   display: none;
 }
