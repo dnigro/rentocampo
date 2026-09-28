@@ -6,19 +6,19 @@ import { useState } from "react";
 const faqs = [
   [
     "¿Publicar tiene costo?",
-    "Para publicar más campos, elegí un paquete especial según la cantidad de publicaciones que necesitás.",
+    "Para publicar más campos, elegí un paquete especial según la cantidad de publicaciones que necesitás. El pago se realiza de forma segura con Mercado Pago.",
   ],
   [
     "¿Quién puede registrarse?",
-    "Propietarios que publican campos y productores que buscan oportunidades. Un usuario puede tener ambos perfiles.",
+    "RentoCampo conecta a los tres actores de la red rural: Propietarios de Tierras que publican campos, Productores que buscan oportunidades y Proveedores de Servicios Rurales que ofrecen su trabajo. Un mismo usuario puede participar con más de un perfil. Para Productores y Proveedores de Servicios, registrarse, buscar, contactar y publicar servicios es 100% GRATIS, de por vida.",
   ],
   [
     "¿RentoCampo interviene en el acuerdo?",
-    "Facilitamos el contacto directo; las condiciones las definen las partes.",
+    "RentoCampo facilita el encuentro y el contacto directo entre Propietarios, Productores y Proveedores de Servicios Rurales. Las condiciones comerciales, técnicas y contractuales se acuerdan directamente entre las partes; RentoCampo no interviene en la negociación ni cobra comisión por esos acuerdos.",
   ],
   [
     "¿Cómo me contactan?",
-    "Los productores interesados pueden enviarte una consulta directa desde la publicación.",
+    "Propietarios, Productores y Proveedores de Servicios Rurales pueden contactarse directamente desde cada publicación mediante el sistema de mensajes de RentoCampo. Así, una consulta por un campo o por un servicio llega al usuario que publicó, sin intermediarios.",
   ],
 ];
 
@@ -74,10 +74,14 @@ export default function LandingFAQ() {
                       <strong className="rc-faq-free">
                         La primer publicación para Propietarios de Tierras es GRATIS
                       </strong>
-                      <span className="rc-faq-detail">{a}</span>
+                      <strong className="rc-faq-detail">{a}</strong>
+                      <span className="rc-faq-payment" aria-label="Pago disponible con Mercado Pago">
+                        <span className="rc-mp-mark" aria-hidden="true">MP</span>
+                        <strong>Pagá con Mercado Pago</strong>
+                      </span>
                     </p>
                   ) : (
-                    <p>{a}</p>
+                    <p><strong>{a}</strong></p>
                   )}
 
                   {i === 0 && (
