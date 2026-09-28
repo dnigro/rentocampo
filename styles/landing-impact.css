@@ -837,3 +837,12 @@ body:has(.rc-landing) .navbar .btn-primary {
   .rc-landing .rc-free-tag,
   .rc-landing .rc-owner-tag { font-size:14px; }
 }
+
+
+/* Mercado Pago: reemplaza visual provisorio por marca oficial local */
+.rc-landing .rc-mp-brand {
+  width:180px;
+  height:46px;
+  background:url("/mercado-pago-horizontal.svg") center / contain no-repeat;
+}
+.rc-landing .rc-mp-brand > * { display:none; }
