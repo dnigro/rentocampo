@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState } from "react";
 
 const faqs = [
@@ -47,8 +48,7 @@ export default function LandingFAQ() {
                         <p>Para publicar más campos, elegí un paquete anual según la cantidad de publicaciones que necesitás. El pago se realiza de forma segura con Mercado Pago.</p>
                       </div>
                       <div className="rc-mp-brand" aria-label="Mercado Pago">
-                        <span className="rc-mp-handshake">🤝</span>
-                        <span>mercado<br/>pago</span>
+                        <Image src="/mercado-pago-horizontal.jpg" alt="Mercado Pago" width={360} height={91} />
                       </div>
                     </div>
                     <div className="rc-faq-plans" aria-label="Paquetes para publicar más campos">
