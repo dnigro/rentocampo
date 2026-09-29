@@ -73,12 +73,17 @@ export async function POST(request: Request) {
   const amount = usdToArs(plan.precioUsdAnual, bnaRate.seller);
   const currentQuota = await getLandQuotaStatus(user.id);
 
-  if (planTierraRank(planId) <= planTierraRank(currentQuota.planId)) {
+  const requestedRank = planTierraRank(planId);
+  const currentRank = planTierraRank(currentQuota.planId);
+  const samePlanStillUsable =
+    planId === currentQuota.planId && currentQuota.canPublish;
+
+  if (requestedRank < currentRank || samePlanStillUsable) {
     return NextResponse.json(
       {
         error:
           planId === currentQuota.planId
-            ? "Ese ya es tu plan actual."
+            ? "Ese ya es tu plan actual y todavía tiene publicaciones disponibles."
             : "Ese plan ya está incluido dentro de tu plan actual.",
         code: "plan_not_upgrade",
       },
