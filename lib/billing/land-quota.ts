@@ -1,5 +1,6 @@
 import { createClient as createAdminClient } from "@supabase/supabase-js";
 import { PLANES_TIERRA, planTierraRank, type PlanTierraId } from "@/data/planes-tierra";
+import { notifyPlanQuotaExhausted } from "@/lib/billing/plan-notification-service";
 
 export interface LandQuotaStatus {
   planId: PlanTierraId;
@@ -11,6 +12,7 @@ export interface LandQuotaStatus {
   unlimited: boolean;
   canPublish: boolean;
   expiresAt: string | null;
+  purchaseStatus: "active" | "exhausted" | null;
 }
 
 function getAdminClient() {
@@ -35,10 +37,10 @@ export async function getLandQuotaStatus(
   const { data: activePurchases } = await admin
     .from("land_plan_purchases")
     .select(
-      "id, plan_id, publication_limit, publications_used, expires_at, paid_at, created_at",
+      "id, plan_id, status, publication_limit, publications_used, expires_at, paid_at, created_at",
     )
     .eq("user_id", userId)
-    .eq("status", "active")
+    .in("status", ["active", "exhausted"])
     .or(`expires_at.is.null,expires_at.gte.${now}`)
     .order("paid_at", { ascending: false, nullsFirst: false })
     .order("created_at", { ascending: false });
@@ -62,11 +64,18 @@ export async function getLandQuotaStatus(
       eventCount ?? 0,
     );
     const unlimited = limit === null;
+    const exhausted = !unlimited && used >= limit;
 
-    if (!unlimited && used !== (activePurchase.publications_used ?? 0)) {
+    if (
+      used !== (activePurchase.publications_used ?? 0) ||
+      (exhausted && activePurchase.status !== "exhausted")
+    ) {
       await admin
         .from("land_plan_purchases")
-        .update({ publications_used: used })
+        .update({
+          publications_used: used,
+          status: exhausted ? "exhausted" : activePurchase.status,
+        })
         .eq("id", activePurchase.id);
     }
 
@@ -78,8 +87,9 @@ export async function getLandQuotaStatus(
       used,
       remaining: unlimited ? null : Math.max(0, limit - used),
       unlimited,
-      canPublish: unlimited || used < limit,
+      canPublish: activePurchase.status === "active" && (unlimited || used < limit),
       expiresAt: activePurchase.expires_at,
+      purchaseStatus: exhausted ? "exhausted" : "active",
     };
   }
 
@@ -104,6 +114,7 @@ export async function getLandQuotaStatus(
     unlimited: false,
     canPublish: used < limit,
     expiresAt: null,
+    purchaseStatus: null,
   };
 }
 
@@ -149,9 +160,15 @@ export async function consumeLandPublicationQuota(args: {
   }
 
   if (quota.purchaseId && !quota.unlimited) {
+    const nextUsed = quota.used + 1;
+    const exhausted = quota.limit !== null && nextUsed >= quota.limit;
+
     const { error: usageError } = await admin
       .from("land_plan_purchases")
-      .update({ publications_used: quota.used + 1 })
+      .update({
+        publications_used: nextUsed,
+        status: exhausted ? "exhausted" : "active",
+      })
       .eq("id", quota.purchaseId)
       .eq("publications_used", quota.used);
 
@@ -166,6 +183,17 @@ export async function consumeLandPublicationQuota(args: {
         code: "quota_increment_failed" as const,
         quota,
       };
+    }
+
+    if (exhausted) {
+      try {
+        await notifyPlanQuotaExhausted(quota.purchaseId);
+      } catch (cause) {
+        console.error("No se pudo enviar el aviso de cupo agotado:", {
+          purchaseId: quota.purchaseId,
+          error: cause instanceof Error ? cause.message : String(cause),
+        });
+      }
     }
   }
 

@@ -18,9 +18,10 @@ const COPY: Record<PlanExpiryStage, { subject: string; heading: string; detail: 
     detail: "Renovalo hoy para conservar tu cupo de publicaciones.",
   },
   expired: {
-    subject: "Tu plan de RentoCampo venció",
-    heading: "Tu plan venció",
-    detail: "Podés renovarlo desde Mis campos para volver a publicar nuevas oportunidades.",
+    subject: "Tu plan de RentoCampo finalizó",
+    heading: "Tu plan finalizó",
+    detail:
+      "La vigencia de tu plan terminó. Podés contratar un nuevo paquete o elegir uno con mayor capacidad desde Mis campos.",
   },
 };
 
