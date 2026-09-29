@@ -850,3 +850,11 @@ body:has(.rc-landing) .navbar .btn-primary {
 .rc-landing .rc-mp-brand { display:flex; align-items:center; justify-content:center; }
 .rc-landing .rc-mp-brand img { display:block; width:100%; max-width:190px; height:auto; object-fit:contain; }
 @media (max-width:560px) { .rc-landing .rc-mp-brand { justify-content:flex-start; } .rc-landing .rc-mp-brand img { max-width:175px; } }
+
+/* Mercado Pago: tamaño y encuadre mobile */
+.rc-landing .rc-mp-brand { overflow:hidden; }
+.rc-landing .rc-mp-brand img { display:block; width:auto; height:auto; max-width:160px; max-height:130px; object-fit:contain; }
+@media (max-width:560px) {
+  .rc-landing .rc-mp-brand { width:132px; height:auto; justify-content:flex-start; overflow:hidden; }
+  .rc-landing .rc-mp-brand img { width:132px; height:auto; max-width:132px; max-height:none; object-fit:contain; }
+}
