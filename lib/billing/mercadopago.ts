@@ -1,4 +1,5 @@
 import { createClient as createAdminClient } from "@supabase/supabase-js";
+import { notifyPlanPurchaseActivated } from "@/lib/billing/plan-notification-service";
 
 type ReconcileResult =
   | { ok: true; found: false; paymentStatus?: string }
@@ -93,7 +94,7 @@ export async function reconcileMercadoPagoPayment(
         provider_status: `superseded_by:${purchase.id}`,
       })
       .eq("user_id", purchase.user_id)
-      .eq("status", "active")
+      .in("status", ["active", "exhausted"])
       .neq("id", purchase.id);
 
     if (purchase.status !== "active" || !purchase.starts_at || !purchase.expires_at) {
@@ -125,6 +126,17 @@ export async function reconcileMercadoPagoPayment(
 
   if (updateError) {
     return { ok: false, error: "No se pudo actualizar la compra" };
+  }
+
+  if (payment.status === "approved") {
+    try {
+      await notifyPlanPurchaseActivated(purchase.id);
+    } catch (cause) {
+      console.error("No se pudo enviar la confirmación de compra:", {
+        purchaseId: purchase.id,
+        error: cause instanceof Error ? cause.message : String(cause),
+      });
+    }
   }
 
   return {
