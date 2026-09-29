@@ -1,6 +1,7 @@
 import { createHmac, timingSafeEqual } from "crypto";
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
+import { notifyPlanPurchaseActivated } from "@/lib/billing/plan-notification-service";
 
 function parseSignature(value: string) {
   const parts = value.split(",");
@@ -105,7 +106,7 @@ export async function POST(request: Request) {
 
   const { data: purchase } = await admin
     .from("land_plan_purchases")
-    .select("id, status")
+    .select("id, user_id, status")
     .eq("external_reference", externalReference)
     .maybeSingle();
 
@@ -139,10 +140,38 @@ export async function POST(request: Request) {
 
   update.status = status;
 
-  await admin
+  const { error: updateError } = await admin
     .from("land_plan_purchases")
     .update(update)
     .eq("id", purchase.id);
+
+  if (updateError) {
+    return NextResponse.json(
+      { error: "No se pudo actualizar la compra" },
+      { status: 500 },
+    );
+  }
+
+  if (payment.status === "approved") {
+    await admin
+      .from("land_plan_purchases")
+      .update({
+        status: "cancelled",
+        provider_status: `superseded_by:${purchase.id}`,
+      })
+      .eq("user_id", purchase.user_id)
+      .in("status", ["active", "exhausted"])
+      .neq("id", purchase.id);
+
+    try {
+      await notifyPlanPurchaseActivated(purchase.id);
+    } catch (cause) {
+      console.error("No se pudo enviar la confirmación de compra:", {
+        purchaseId: purchase.id,
+        error: cause instanceof Error ? cause.message : String(cause),
+      });
+    }
+  }
 
   return NextResponse.json({ ok: true });
 }
