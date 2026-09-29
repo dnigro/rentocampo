@@ -45,7 +45,7 @@ export default function LandingFAQ() {
                     <div className="rc-faq-cost-head">
                       <div>
                         <h3>La primera publicación para Propietarios de Tierras es GRATIS</h3>
-                        <p>Para publicar más campos, elegí un paquete anual según la cantidad de publicaciones que necesitás. El pago se realiza de forma segura con Mercado Pago.</p>
+                        <p><strong>Para publicar más campos, elegí un paquete anual según la cantidad de publicaciones que necesitás.</strong><br /><strong>El pago se realiza de forma segura con Mercado Pago.</strong></p>
                       </div>
                       <div className="rc-mp-brand" aria-label="Mercado Pago">
                         <Image src="/mercado-pago-clean.png" alt="Mercado Pago" width={160} height={130} />
