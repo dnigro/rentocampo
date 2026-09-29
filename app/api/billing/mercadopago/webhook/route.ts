@@ -106,7 +106,7 @@ export async function POST(request: Request) {
 
   const { data: purchase } = await admin
     .from("land_plan_purchases")
-    .select("id, user_id, status")
+    .select("id, user_id, status, starts_at, expires_at")
     .eq("external_reference", externalReference)
     .maybeSingle();
 
@@ -121,13 +121,19 @@ export async function POST(request: Request) {
 
   if (payment.status === "approved") {
     status = "active";
-    const startsAt = new Date();
-    const expiresAt = new Date(startsAt);
-    expiresAt.setFullYear(expiresAt.getFullYear() + 1);
 
-    update.starts_at = startsAt.toISOString();
-    update.expires_at = expiresAt.toISOString();
-    update.paid_at = startsAt.toISOString();
+    if (purchase.status !== "active" || !purchase.starts_at || !purchase.expires_at) {
+      const startsAt = payment.date_approved
+        ? new Date(payment.date_approved)
+        : new Date();
+      const expiresAt = new Date(startsAt);
+      expiresAt.setFullYear(expiresAt.getFullYear() + 1);
+
+      update.starts_at = startsAt.toISOString();
+      update.expires_at = expiresAt.toISOString();
+      update.paid_at = startsAt.toISOString();
+    }
+
     update.provider_payment_id = String(payment.id);
   } else if (payment.status === "refunded") {
     status = "refunded";
