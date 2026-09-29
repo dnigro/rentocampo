@@ -858,3 +858,39 @@ body:has(.rc-landing) .navbar .btn-primary {
   .rc-landing .rc-mp-brand { width:132px; height:auto; justify-content:flex-start; overflow:hidden; }
   .rc-landing .rc-mp-brand img { width:132px; height:auto; max-width:132px; max-height:none; object-fit:contain; }
 }
+
+
+/* Mercado Pago: fix definitivo de render web/mobile.
+   El logo vive como <Image>; anulamos el background SVG viejo y evitamos recortes. */
+.rc-landing .rc-mp-brand {
+  width: 190px;
+  height: auto;
+  min-height: 0;
+  overflow: visible;
+  background: none;
+}
+.rc-landing .rc-mp-brand > * {
+  display: block;
+}
+.rc-landing .rc-mp-brand img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 190px;
+  max-height: none;
+  object-fit: contain;
+}
+@media (max-width: 560px) {
+  .rc-landing .rc-mp-brand {
+    width: 150px;
+    height: auto;
+    overflow: visible;
+  }
+  .rc-landing .rc-mp-brand img {
+    width: 100%;
+    max-width: 150px;
+    height: auto;
+    max-height: none;
+    object-fit: contain;
+  }
+}
