@@ -136,7 +136,7 @@ export default async function AlquilerDeCamposPage({ params, searchParams }: Pro
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionJsonLd).replace(/</g, "\\u003c") }}
       />
-      <CamposListing params={filtros} titulo={categoria.titulo} descripcion={categoria.descripcion} />
+      <CamposListing params={filtros} titulo={categoria.titulo} />
 
       {esLandingPrincipal && (
         <section className="alquiler-seo" aria-labelledby="alquiler-seo-title">
