@@ -4,12 +4,12 @@ const isDevelopment = process.env.NODE_ENV === "development";
 
 const contentSecurityPolicy = [
   "default-src 'self'",
-  `script-src 'self' 'unsafe-inline' https://vercel.live${isDevelopment ? " 'unsafe-eval'" : ""}`,
+  `script-src 'self' 'unsafe-inline' https://vercel.live https://www.googletagmanager.com${isDevelopment ? " 'unsafe-eval'" : ""}`,
   "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' data: blob: https://*.supabase.co https://*.tile.openstreetmap.org",
+  "img-src 'self' data: blob: https://*.supabase.co https://*.tile.openstreetmap.org https://www.google-analytics.com https://region1.google-analytics.com https://www.googletagmanager.com",
   "media-src 'self' blob:",
   "font-src 'self' data:",
-  "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://vercel.live https://*.vercel.live wss://*.pusher.com",
+  "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://vercel.live https://*.vercel.live wss://*.pusher.com https://www.google-analytics.com https://region1.google-analytics.com https://www.googletagmanager.com",
   "frame-src https://vercel.live",
   "frame-ancestors 'none'",
   "base-uri 'self'",
