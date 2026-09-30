@@ -35,7 +35,7 @@ function ensureGoogleAnalytics() {
   window.dataLayer = window.dataLayer || [];
 
   if (!window.gtag) {
-    window.gtag = function (..._args: unknown[]) {
+    window.gtag = function () {
       // gtag.js expects an Arguments object, as in Google's official snippet.
       // A plain array is not a gtag command and can be ignored by the library.
       // eslint-disable-next-line prefer-rest-params
