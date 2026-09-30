@@ -35,6 +35,18 @@ function escapeHtml(value: string) {
   })[character] ?? character);
 }
 
+const EMAIL_SHELL_STYLE =
+  "font-family:Arial,sans-serif;max-width:560px;margin:0 auto;padding:24px 20px;background:#fff;border:1px solid #e8e6e0;border-radius:16px;color:#111;box-sizing:border-box;overflow-wrap:break-word;word-break:normal";
+
+const EMAIL_HEADING_STYLE =
+  "font-size:22px;line-height:1.15;margin:14px 0 18px;color:#111;font-weight:700;letter-spacing:-0.2px;overflow-wrap:normal;word-break:normal";
+
+const EMAIL_PARAGRAPH_STYLE =
+  "font-size:16px;line-height:1.5;margin:0 0 16px;color:#111;overflow-wrap:break-word;word-break:normal";
+
+const EMAIL_BUTTON_STYLE =
+  "display:inline-block;margin-top:10px;background:#f6c500;color:#111;padding:12px 18px;border-radius:8px;text-decoration:none;font-weight:bold;font-size:15px;line-height:1.2";
+
 export async function sendPlanExpiryNotification(args: {
   email: string;
   name?: string | null;
@@ -61,13 +73,13 @@ export async function sendPlanExpiryNotification(args: {
     to: args.email,
     subject: copy.subject,
     html: `
-      <div style="font-family:Arial,sans-serif;max-width:560px;margin:auto;padding:32px;background:#fff;border:1px solid #e8e6e0;border-radius:16px;color:#111">
-        <p>${greeting}</p>
-        <h1 style="font-size:26px;margin:14px 0;color:#111">${copy.heading}</h1>
-        <p>Tu plan <strong>${escapeHtml(args.planName)}</strong> tiene fecha de vencimiento el <strong>${expiryLabel}</strong>.</p>
-        <p>${copy.detail}</p>
-        <a href="${appUrl}/mis-campos" style="display:inline-block;margin-top:14px;background:#f6c500;color:#111;padding:13px 20px;border-radius:8px;text-decoration:none;font-weight:bold">Ver y renovar mi plan</a>
-        <p style="margin-top:28px;color:#666;font-size:13px">RentoCampo · Tierra productiva, productores y servicios rurales.</p>
+      <div style="${EMAIL_SHELL_STYLE}">
+        <p style="${EMAIL_PARAGRAPH_STYLE}">${greeting}</p>
+        <h1 style="${EMAIL_HEADING_STYLE}">${copy.heading}</h1>
+        <p style="${EMAIL_PARAGRAPH_STYLE}">Tu plan <strong>${escapeHtml(args.planName)}</strong> tiene fecha de vencimiento el <strong>${expiryLabel}</strong>.</p>
+        <p style="${EMAIL_PARAGRAPH_STYLE}">${copy.detail}</p>
+        <a href="${appUrl}/mis-campos" style="${EMAIL_BUTTON_STYLE}">Ver y renovar mi plan</a>
+        <p style="margin-top:26px;color:#666;font-size:13px;line-height:1.4">RentoCampo · Tierra productiva, productores y servicios rurales.</p>
       </div>`,
   });
 
