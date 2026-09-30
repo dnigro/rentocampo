@@ -8,11 +8,13 @@ declare global {
   interface Window {
     dataLayer: unknown[];
     gtag?: (...args: unknown[]) => void;
+    __rentoGaInitialized?: boolean;
   }
 }
 
 const GA_ID = "G-PFGVKEFPCJ";
 const PROD_HOSTS = new Set(["rentocampo.com", "www.rentocampo.com"]);
+
 const isProductionHost = () =>
   typeof window !== "undefined" && PROD_HOSTS.has(window.location.hostname);
 
@@ -27,13 +29,36 @@ function getPageGroup(pathname: string) {
   return "otras";
 }
 
+function ensureGoogleAnalytics() {
+  if (!isProductionHost()) return false;
+
+  window.dataLayer = window.dataLayer || [];
+
+  if (!window.gtag) {
+    window.gtag = (...args: unknown[]) => {
+      window.dataLayer.push(args);
+    };
+  }
+
+  if (!window.__rentoGaInitialized) {
+    window.gtag("js", new Date());
+    window.gtag("config", GA_ID, {
+      send_page_view: false,
+      cookie_flags: "SameSite=None;Secure",
+    });
+    window.__rentoGaInitialized = true;
+  }
+
+  return true;
+}
+
 export default function GoogleAnalytics() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const lastTrackedPath = useRef<string | null>(null);
 
   const trackPageView = useCallback(() => {
-    if (!isProductionHost() || !window.gtag) return;
+    if (!ensureGoogleAnalytics() || !window.gtag) return;
 
     const pagePath = `${window.location.pathname}${window.location.search}`;
     if (lastTrackedPath.current === pagePath) return;
@@ -54,26 +79,11 @@ export default function GoogleAnalytics() {
   }, [pathname, searchParams, trackPageView]);
 
   return (
-    <>
-      <Script
-        src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
-        strategy="afterInteractive"
-        onLoad={trackPageView}
-      />
-      <Script id="ga4-init" strategy="afterInteractive">
-        {`
-          if (["rentocampo.com", "www.rentocampo.com"].includes(window.location.hostname)) {
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            window.gtag = gtag;
-            gtag('js', new Date());
-            gtag('config', '${GA_ID}', {
-              send_page_view: false,
-              cookie_flags: 'SameSite=None;Secure'
-            });
-          }
-        `}
-      </Script>
-    </>
+    <Script
+      id="ga4-library"
+      src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
+      strategy="afterInteractive"
+      onReady={trackPageView}
+    />
   );
 }
