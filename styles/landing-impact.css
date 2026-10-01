@@ -894,3 +894,57 @@ body:has(.rc-landing) .navbar .btn-primary {
     object-fit: contain;
   }
 }
+
+
+/* Home compacta: video federal y proceso con alturas equivalentes en desktop. */
+@media (min-width: 901px) {
+  .rc-landing .rc-map-section > .rc-shell,
+  .rc-landing .rc-map,
+  .rc-landing .rc-aerial-video {
+    min-height: 500px;
+  }
+  .rc-landing .rc-process {
+    padding: 48px 0 52px;
+  }
+  .rc-landing .rc-process-head {
+    margin-bottom: 34px;
+  }
+  .rc-landing .rc-process-step {
+    min-height: 220px;
+    padding-top: 24px;
+    padding-bottom: 24px;
+  }
+  .rc-landing .rc-process-step h3 {
+    margin-top: 28px;
+  }
+  .rc-landing .rc-process .rc-process-cta {
+    margin-top: 26px;
+  }
+}
+
+/* Evita artefactos de composición/decodificación visibles al reiniciar el MP4. */
+.rc-landing .rc-aerial-video {
+  background: #0b0b0b;
+  isolation: isolate;
+}
+.rc-landing .rc-aerial-video video {
+  display: block;
+  position: absolute;
+  inset: -2px;
+  width: calc(100% + 4px);
+  height: calc(100% + 4px);
+  object-fit: cover;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+
+/* FAQ: respuestas con mayor peso visual. */
+.rc-landing .rc-question-answer p,
+.rc-landing .rc-question-answer h3,
+.rc-landing .rc-faq-user p,
+.rc-landing .rc-faq-info-row p,
+.rc-landing .rc-faq-intro,
+.rc-landing .rc-faq-detail {
+  font-weight: 700;
+}
