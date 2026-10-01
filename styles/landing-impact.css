@@ -2,7 +2,9 @@
   --impact-yellow: #f6c500;
   --impact-black: #0b0b0b;
   --impact-white: #fff;
-  background: var(--impact-white);
+  --impact-warm: #f7f7f5;
+  --impact-gray: #eceae6;
+  background: var(--impact-warm);
   color: var(--impact-black);
 }
 
@@ -111,7 +113,9 @@
 
 .rc-landing .rc-map-section {
   padding: 0;
-  background: var(--impact-white);
+  background: var(--impact-gray);
+  border-top: 1px solid #d8d6d1;
+  border-bottom: 1px solid #d8d6d1;
 }
 
 .rc-landing .rc-map-section > .rc-shell {
@@ -128,11 +132,14 @@
   justify-content: center;
   padding: clamp(50px, 6vw, 100px);
   color: var(--impact-black);
-  background: var(--impact-yellow);
+  background: var(--impact-gray);
 }
 
 .rc-landing .rc-map-copy .rc-kicker {
+  width: fit-content;
+  padding-left: 14px;
   color: var(--impact-black);
+  border-left: 4px solid var(--impact-yellow);
 }
 
 .rc-landing .rc-map-copy h2 {
@@ -228,7 +235,7 @@
 .rc-landing .rc-faq {
   padding: clamp(76px, 9vw, 130px) 0;
   color: var(--impact-black);
-  background: #fff;
+  background: var(--impact-warm);
 }
 
 .rc-landing .rc-faq-grid {
@@ -998,4 +1005,36 @@ body:has(.rc-landing) .navbar .btn-primary {
   font-size: 1.3em;
   line-height: 1.15;
   font-weight: 900;
+}
+
+
+/* V2 Home 2026-10-01: ritmo cromático institucional
+   1 hero blanco cálido / 2 gris suave / 3 negro / 4 blanco cálido / 5 amarillo */
+.rc-landing .rc-map-copy .rc-button-yellow {
+  color: #fff;
+  background: var(--impact-black);
+  border-color: var(--impact-black);
+}
+
+.rc-landing .rc-map-copy .rc-button-yellow:hover {
+  color: var(--impact-black);
+  background: var(--impact-yellow);
+  border-color: var(--impact-black);
+  transform: none;
+}
+
+.rc-landing .rc-faq-promise .rc-kicker {
+  color: var(--impact-black);
+}
+
+.rc-landing .rc-faq-promise h2 strong {
+  color: var(--impact-black);
+  background: var(--impact-yellow);
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  padding: 0 .08em;
+}
+
+.rc-landing .rc-final {
+  border-top: 1px solid #d5ad00;
 }
