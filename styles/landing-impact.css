@@ -948,3 +948,13 @@ body:has(.rc-landing) .navbar .btn-primary {
 .rc-landing .rc-faq-detail {
   font-weight: 700;
 }
+
+
+/* FAQ: destaca la gratuidad permanente para productores y servicios rurales. */
+.rc-landing .rc-faq-lifetime {
+  display: block;
+  margin-top: 6px;
+  font-size: 1.28em;
+  line-height: 1.05;
+  font-weight: 900;
+}
