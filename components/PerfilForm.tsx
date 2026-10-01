@@ -311,7 +311,6 @@ export default function PerfilForm({ profile, userId, email }: Props) {
             }
           >
             <option value="AR">{COUNTRIES.AR.flag} Argentina</option>
-            <option value="UY">{COUNTRIES.UY.flag} Uruguay</option>
           </select>
           <span className="form-hint">
             Define tu mercado principal y adapta campos, servicios y ubicaciones.
