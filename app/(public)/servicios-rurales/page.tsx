@@ -128,6 +128,10 @@ export default function ServiciosRuralesPage() {
             y el asesoramiento técnico.
           </p>
         </div>
+        <div className="servicios-search-intro">
+          <strong>Elegí el servicio que necesitás</strong>
+          <span>Al seleccionarlo, abrimos el mapa filtrado con los prestadores de esa especialidad.</span>
+        </div>
         <div className="servicios-grid">
           {SERVICIOS_RURALES.filter(
             (servicio) => servicio.value !== "otro",
@@ -139,7 +143,7 @@ export default function ServiciosRuralesPage() {
             >
               <span>{String(index + 1).padStart(2, "0")}</span>
               <strong>{servicio.label}</strong>
-              <span aria-hidden="true">→</span>
+              <span className="servicio-card-action">Ver en mapa →</span>
             </Link>
           ))}
         </div>
