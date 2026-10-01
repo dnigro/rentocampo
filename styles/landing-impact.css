@@ -1038,3 +1038,55 @@ body:has(.rc-landing) .navbar .btn-primary {
 .rc-landing .rc-final {
   border-top: 1px solid #d5ad00;
 }
+
+
+/* V2 2026-10-01: más jerarquía para "La Primera Red Federal que produce". */
+@media (min-width: 901px) {
+  .rc-landing .rc-map-section > .rc-shell {
+    grid-template-columns: 44% 56%;
+  }
+
+  .rc-landing .rc-map-copy {
+    padding: clamp(64px, 6.8vw, 118px);
+  }
+
+  .rc-landing .rc-map-copy .rc-kicker {
+    margin-bottom: 18px;
+    font-size: 13px;
+    letter-spacing: .22em;
+  }
+
+  .rc-landing .rc-map-copy h2 {
+    position: relative;
+    max-width: 760px;
+    margin: 0 0 30px;
+    padding-bottom: 24px;
+    font-size: clamp(68px, 6.6vw, 112px);
+    line-height: .84;
+    letter-spacing: -.025em;
+  }
+
+  .rc-landing .rc-map-copy h2::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: min(190px, 42%);
+    height: 5px;
+    background: var(--impact-yellow);
+  }
+
+  .rc-landing .rc-map-copy > p:not(.rc-kicker) {
+    max-width: 620px;
+    margin: 0;
+    font-size: 20px;
+    line-height: 1.55;
+  }
+
+  .rc-landing .rc-map-copy .rc-button-yellow {
+    min-width: 250px;
+    min-height: 58px;
+    margin-top: 30px;
+    font-size: 14px;
+  }
+}
