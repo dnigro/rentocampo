@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 const faqs = [
   { q: "¿Publicar tiene costo?", type: "cost" },
@@ -23,6 +23,13 @@ function FaqIcon({ children }: { children: string }) {
 
 export default function LandingFAQ() {
   const [open, setOpen] = useState(0);
+  const faqRef = useRef<HTMLDivElement>(null);
+
+  const toggleFaq = (index: number) => {
+    const scrollY = window.scrollY;
+    setOpen(open === index ? -1 : index);
+    requestAnimationFrame(() => window.scrollTo({ top: scrollY, behavior: "instant" }));
+  };
 
   return (
     <section className="rc-faq" id="preguntas">
@@ -32,10 +39,10 @@ export default function LandingFAQ() {
           <h2><span>Productores y</span><span>servicios rurales</span><strong>100% gratis.</strong></h2>
         </div>
 
-        <div className="rc-faq-content">
+        <div className="rc-faq-content" ref={faqRef}>
           {faqs.map((faq, i) => (
             <div className="rc-question" key={faq.q}>
-              <button type="button" aria-expanded={open === i} onClick={() => setOpen(open === i ? -1 : i)}>
+              <button type="button" aria-expanded={open === i} onClick={() => toggleFaq(i)}>
                 <span>{faq.q}</span><span>{open === i ? "−" : "+"}</span>
               </button>
 
