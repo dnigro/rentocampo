@@ -20,7 +20,7 @@ export default function Navbar() {
     const params = new URLSearchParams(window.location.search);
     const fromQuery = params.get("pais")?.toUpperCase();
     const fromStorage = window.localStorage.getItem("rentocampo_country")?.toUpperCase();
-    const resolved = fromQuery === "UY" || (!fromQuery && fromStorage === "UY") ? "UY" : "AR";
+    const resolved: "AR" = "AR";
     window.localStorage.setItem("rentocampo_country", resolved);
     const syncCountry = window.setTimeout(() => setActiveCountry(resolved), 0);
     return () => window.clearTimeout(syncCountry);
@@ -176,14 +176,6 @@ export default function Navbar() {
               >
                 🇦🇷 <span>AR</span>
               </button>
-              <button
-                type="button"
-                className={activeCountry === "UY" ? "active" : ""}
-                title="Ver Uruguay"
-                onClick={() => cambiarPais("UY")}
-              >
-                🇺🇾 <span>UY</span>
-              </button>
             </div>
             {user ? (
               <>
@@ -241,14 +233,6 @@ export default function Navbar() {
                 onClick={() => cambiarPais("AR")}
               >
                 🇦🇷 <span>AR</span>
-              </button>
-              <button
-                type="button"
-                className={activeCountry === "UY" ? "active" : ""}
-                title="Ver Uruguay"
-                onClick={() => cambiarPais("UY")}
-              >
-                🇺🇾 <span>UY</span>
               </button>
             </div>
             {user && (
