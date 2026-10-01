@@ -154,3 +154,11 @@ body {
   overflow-x: hidden;
   max-width: 100%;
 }
+
+
+/* Desktop density preview: render the site at 90% while preserving the viewport width. */
+@media (min-width: 1024px) {
+  html {
+    zoom: 0.9;
+  }
+}
