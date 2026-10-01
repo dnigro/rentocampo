@@ -2,8 +2,11 @@ import { Bebas_Neue, DM_Sans } from "next/font/google";
 import type { Metadata, Viewport } from "next";
 import { Suspense } from "react";
 import GoogleAnalytics from "@/components/analytics/GoogleAnalytics";
+import MobileAppNav from "@/components/layout/MobileAppNav";
+import PwaRegistration from "@/components/pwa/PwaRegistration";
 import "./globals.css";
 import "@/styles/site-theme.css";
+import "@/styles/mobile-app.css";
 
 const SITE_URL = "https://rentocampo.com";
 const SITE_TITLE = "RentoCampo | Tierra, productores y servicios rurales";
@@ -15,6 +18,13 @@ export const metadata: Metadata = {
   title: SITE_TITLE,
   description: SITE_DESCRIPTION,
   applicationName: "RentoCampo",
+  manifest: "/manifest.webmanifest",
+  appleWebApp: {
+    capable: true,
+    title: "RentoCampo",
+    statusBarStyle: "default",
+  },
+  formatDetection: { telephone: false },
   alternates: { canonical: "/" },
   robots: { index: true, follow: true },
   openGraph: {
@@ -36,6 +46,8 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
+  viewportFit: "cover",
+  themeColor: "#f6c500",
 };
 
 const dmSans = DM_Sans({
@@ -81,7 +93,9 @@ export default function RootLayout({
         <Suspense fallback={null}>
           <GoogleAnalytics />
         </Suspense>
+        <PwaRegistration />
         {children}
+        <MobileAppNav />
       </body>
     </html>
   );
