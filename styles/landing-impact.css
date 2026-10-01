@@ -990,3 +990,12 @@ body:has(.rc-landing) .navbar .btn-primary {
   line-height: 1.25;
   font-weight: 900;
 }
+
+/* FAQ: jerarquiza el mensaje comercial para propietarios. */
+.rc-landing .rc-faq-plan-message {
+  display: block;
+  color: var(--impact-yellow);
+  font-size: 1.3em;
+  line-height: 1.15;
+  font-weight: 900;
+}

@@ -156,9 +156,9 @@ body {
 }
 
 
-/* Desktop density preview: render the site at 90% while preserving the viewport width. */
+/* Desktop density preview: render the site at 80% while preserving the viewport width. */
 @media (min-width: 1024px) {
   html {
-    zoom: 0.9;
+    zoom: 0.8;
   }
 }
