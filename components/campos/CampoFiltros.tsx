@@ -31,10 +31,6 @@ export default function CampoFiltros({ filtrosActivos }: Props) {
   const [filtros, setFiltros] = useState({
     provincia: filtrosActivos.provincia ?? "",
     aptitud: filtrosActivos.aptitud ?? "",
-    hectareas_min: filtrosActivos.hectareas_min ?? "",
-    hectareas_max: filtrosActivos.hectareas_max ?? "",
-    precio_min: filtrosActivos.precio_min ?? "",
-    precio_max: filtrosActivos.precio_max ?? "",
     disponibilidad: filtrosActivos.disponibilidad ?? "",
   });
 
@@ -50,10 +46,6 @@ export default function CampoFiltros({ filtrosActivos }: Props) {
     setFiltros({
       provincia: "",
       aptitud: "",
-      hectareas_min: "",
-      hectareas_max: "",
-      precio_min: "",
-      precio_max: "",
       disponibilidad: "",
     });
     router.push(pathname);
@@ -102,60 +94,6 @@ export default function CampoFiltros({ filtrosActivos }: Props) {
               {a.label}
             </button>
           ))}
-        </div>
-      </div>
-
-      <div className="filtro-grupo">
-        <label className="filtro-label">Hectáreas</label>
-        <div className="filtro-rango">
-          <input
-            type="number"
-            className="filtro-input filtro-input-sm"
-            placeholder="Mín"
-            value={filtros.hectareas_min}
-            onChange={(e) =>
-              setFiltros((p) => ({ ...p, hectareas_min: e.target.value }))
-            }
-            min={0}
-          />
-          <span className="rango-sep">—</span>
-          <input
-            type="number"
-            className="filtro-input filtro-input-sm"
-            placeholder="Máx"
-            value={filtros.hectareas_max}
-            onChange={(e) =>
-              setFiltros((p) => ({ ...p, hectareas_max: e.target.value }))
-            }
-            min={0}
-          />
-        </div>
-      </div>
-
-      <div className="filtro-grupo">
-        <label className="filtro-label">Precio/ha (USD)</label>
-        <div className="filtro-rango">
-          <input
-            type="number"
-            className="filtro-input filtro-input-sm"
-            placeholder="Mín"
-            value={filtros.precio_min}
-            onChange={(e) =>
-              setFiltros((p) => ({ ...p, precio_min: e.target.value }))
-            }
-            min={0}
-          />
-          <span className="rango-sep">—</span>
-          <input
-            type="number"
-            className="filtro-input filtro-input-sm"
-            placeholder="Máx"
-            value={filtros.precio_max}
-            onChange={(e) =>
-              setFiltros((p) => ({ ...p, precio_max: e.target.value }))
-            }
-            min={0}
-          />
         </div>
       </div>
 

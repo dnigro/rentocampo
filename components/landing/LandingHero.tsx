@@ -31,7 +31,7 @@ export default function LandingHero() {
               <span>Sumarme gratis</span>
               <span aria-hidden="true">→</span>
             </Link>
-            <Link href="/campos/mapa" className="editorialHero__desktopSecondary">
+            <Link href="/alquiler-de-campos" className="editorialHero__desktopSecondary">
               <span>Alquiler de campos</span>
               <span aria-hidden="true">→</span>
             </Link>
@@ -65,7 +65,7 @@ export default function LandingHero() {
               <span>Sumarme gratis</span>
               <span className="editorialHero__arrow" aria-hidden="true">→</span>
             </Link>
-            <Link href="/campos/mapa" className="editorialHero__secondary">
+            <Link href="/alquiler-de-campos" className="editorialHero__secondary">
               <span>Alquiler de campos</span>
               <span className="editorialHero__arrow" aria-hidden="true">→</span>
             </Link>
