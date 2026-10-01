@@ -8,7 +8,7 @@ import "@/styles/mapa.css";
 export const metadata: Metadata = {
   title: "Mapa de campos y servicios rurales | RentoCampo",
   description:
-    "Explorá campos disponibles, zonas con demanda y prestadores de servicios rurales en el mapa de RentoCampo.",
+    "Explorá campos disponibles y prestadores de servicios rurales en el mapa de RentoCampo.",
   alternates: { canonical: "https://rentocampo.com/campos/mapa" },
   robots: { index: true, follow: true },
 };
@@ -73,7 +73,7 @@ export default async function MapaPage({
         currentUserId={user?.id}
         initialVista={vista === "servicios" ? "servicios" : "tierra"}
         initialServicio={servicioInicial}
-        initialCountry={pais?.toUpperCase() === "UY" ? "UY" : "AR"}
+        initialCountry="AR"
       />
     </div>
   );
