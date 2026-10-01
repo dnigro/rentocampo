@@ -1,9 +1,9 @@
 .rc-landing {
-  --impact-yellow: #f6c500;
-  --impact-black: #0b0b0b;
+  --impact-yellow: #E6D87A;
+  --impact-black: #141414;
   --impact-white: #fff;
-  --impact-warm: #f7f7f5;
-  --impact-gray: #eceae6;
+  --impact-warm: #F7F6F2;
+  --impact-gray: #ECE9E1;
   background: var(--impact-warm);
   color: var(--impact-black);
 }
@@ -432,7 +432,7 @@ body:has(.rc-landing) .navbar .btn-primary {
 .rc-landing .rc-process {
   padding: clamp(64px, 8vw, 104px) 0;
   color: #fff;
-  background: #0b0b0b;
+  background: #141414;
 }
 
 .rc-landing .rc-process-head {
@@ -519,7 +519,7 @@ body:has(.rc-landing) .navbar .btn-primary {
   place-items: center;
   border: 2px solid var(--impact-yellow);
   border-radius: 50%;
-  background: #0b0b0b;
+  background: #141414;
   color: var(--impact-yellow);
 }
 
@@ -554,7 +554,7 @@ body:has(.rc-landing) .navbar .btn-primary {
 .rc-landing .rc-process .rc-process-cta {
   display: inline-flex;
   margin-top: 36px;
-  color: #0b0b0b;
+  color: #141414;
   background: var(--impact-yellow);
   border-color: var(--impact-yellow);
   border-radius: 0;
@@ -931,7 +931,7 @@ body:has(.rc-landing) .navbar .btn-primary {
 
 /* Evita artefactos de composición/decodificación visibles al reiniciar el MP4. */
 .rc-landing .rc-aerial-video {
-  background: #0b0b0b;
+  background: #141414;
   isolation: isolate;
 }
 .rc-landing .rc-aerial-video video {
