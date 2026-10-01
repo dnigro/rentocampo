@@ -70,7 +70,7 @@ export default function LandingFAQ() {
                   </div>}
 
                   {faq.type === "contact" && <div className="rc-faq-info-row">
-                    <FaqIcon>💬</FaqIcon><div><p>Si alguien está interesado en un campo o en un servicio, puede enviarte una consulta directamente desde la publicación.</p><p>Los mensajes quedan disponibles en la sección <strong>Mensajes</strong> de RentoCampo para que puedas responder y continuar la conversación.</p><p>El contacto es directo entre usuarios, sin intermediarios.</p></div>
+                    <FaqIcon>💬</FaqIcon><div><p>Si alguien está interesado en un campo o en un servicio, puede enviarte una consulta directamente desde la publicación.</p><p>Los mensajes quedan disponibles en la sección <strong>Mensajes</strong> de RentoCampo para que puedas responder y continuar la conversación.</p><p>EL CONTACTO ES DIRECTO ENTRE USUARIOS, SIN INTERMEDIARIOS.</p></div>
                   </div>}
                 </div>
               )}
