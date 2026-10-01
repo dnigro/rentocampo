@@ -284,3 +284,40 @@
     font-size: 10px;
   }
 }
+
+/* Compactación final desktop: elimina el aire vertical excesivo entre bloques. */
+@media (min-width: 901px) {
+  .servicios-seo-page .servicios-hero {
+    padding-top: 34px;
+    padding-bottom: 34px;
+  }
+  .servicios-seo-page .servicios-hero > p {
+    margin-top: 18px;
+  }
+  .servicios-seo-page .servicios-actions {
+    margin-top: 20px;
+  }
+  .servicios-seo-page .servicios-section {
+    padding-top: 32px;
+    padding-bottom: 32px;
+  }
+  .servicios-seo-page .servicios-heading > span {
+    margin-bottom: 10px;
+  }
+  .servicios-seo-page .servicios-heading p {
+    margin-top: 12px;
+  }
+  .servicios-seo-page .servicios-search-intro {
+    margin-top: 14px;
+    padding: 10px 0;
+  }
+  .servicios-seo-page .servicios-grid {
+    margin-top: 16px;
+  }
+  .servicios-seo-page .servicios-pasos {
+    margin-top: 28px;
+  }
+  .servicios-seo-page .servicios-faq-list {
+    margin-top: 24px;
+  }
+}
