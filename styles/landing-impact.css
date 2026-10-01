@@ -1090,3 +1090,56 @@ body:has(.rc-landing) .navbar .btn-primary {
     font-size: 14px;
   }
 }
+
+
+/* V3 2026-10-01: segundo bloque con más impacto sin competir con el hero. */
+@media (min-width: 901px) {
+  .rc-landing .rc-map-section > .rc-shell {
+    grid-template-columns: 47% 53%;
+    min-height: 550px;
+  }
+
+  .rc-landing .rc-map,
+  .rc-landing .rc-aerial-video {
+    min-height: 550px;
+  }
+
+  .rc-landing .rc-map-copy {
+    padding: clamp(72px, 7.4vw, 132px);
+  }
+
+  .rc-landing .rc-map-copy .rc-kicker {
+    margin-bottom: 22px;
+    padding-left: 16px;
+    border-left-width: 5px;
+    font-size: 14px;
+  }
+
+  .rc-landing .rc-map-copy h2 {
+    max-width: 820px;
+    margin-bottom: 34px;
+    padding-bottom: 28px;
+    font-size: clamp(76px, 7.35vw, 124px);
+    line-height: .82;
+    letter-spacing: -.03em;
+  }
+
+  .rc-landing .rc-map-copy h2::after {
+    width: min(230px, 46%);
+    height: 6px;
+  }
+
+  .rc-landing .rc-map-copy > p:not(.rc-kicker) {
+    max-width: 650px;
+    font-size: 21px;
+    line-height: 1.5;
+  }
+
+  .rc-landing .rc-map-copy .rc-button-yellow {
+    min-width: 270px;
+    min-height: 60px;
+    margin-top: 34px;
+    padding-inline: 30px;
+    font-size: 15px;
+  }
+}
