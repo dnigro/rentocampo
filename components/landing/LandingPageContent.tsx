@@ -8,8 +8,8 @@ export default function LandingPageContent() {
   return (
     <main className="rc-landing">
       <LandingHero />
-      <LandingComo />
       <LandingMapa />
+      <LandingComo />
       <LandingFAQ />
       <LandingCTA />
     </main>

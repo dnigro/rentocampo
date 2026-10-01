@@ -6,7 +6,7 @@ export default function LandingMapa() {
       <div className="rc-shell">
         <div className="rc-map-copy">
           <p className="rc-kicker">Campos en todo el país</p>
-          <h2 className="rc-map-title">Primer Red Federal que produce</h2>
+          <h2 className="rc-map-title">La Primera Red Federal que produce</h2>
           <p>Explorá campos disponibles en todo el país. Conectamos oportunidades en cada región productiva.</p>
           <Link href="/campos/mapa" className="rc-button rc-button-yellow">Ver mapa de campos →</Link>
         </div>
@@ -22,15 +22,6 @@ export default function LandingMapa() {
             <source src="/RentoCampo_video_real_dron_tractor_silos_mar_16x9.mp4.mp4#t=2" type="video/mp4" />
           </video>
         </div>
-      </div>
-      <div className="rc-manifesto">
-        <div className="rc-manifesto-copy">
-          <p className="rc-kicker">Nuestra esencia</p>
-          <h2>Crecemos en el campo.<br />Crecemos en su gente.</h2>
-          <p>Potenciamos el valor de la tierra conectando historias, oportunidades y futuro.</p>
-          <span className="rc-manifesto-sign">Tierra · Personas · Futuro</span>
-        </div>
-        <div className="rc-manifesto-image" aria-hidden="true" />
       </div>
     </section>
   );
