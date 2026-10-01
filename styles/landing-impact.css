@@ -958,3 +958,35 @@ body:has(.rc-landing) .navbar .btn-primary {
   line-height: 1.05;
   font-weight: 900;
 }
+
+
+/* FAQ compacto: elimina aire innecesario entre pregunta, respuesta y bloques internos. */
+.rc-landing .rc-question button {
+  min-height: 62px;
+}
+.rc-landing .rc-question-answer {
+  padding-top: 4px;
+  padding-bottom: 16px;
+}
+.rc-landing .rc-faq-cost-head {
+  padding-top: 0;
+  padding-bottom: 12px;
+}
+.rc-landing .rc-faq-cost-head h3,
+.rc-landing .rc-faq-cost-head p,
+.rc-landing .rc-faq-intro,
+.rc-landing .rc-faq-user p,
+.rc-landing .rc-faq-info-row p {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.rc-landing .rc-faq-more-fields {
+  margin-top: 12px !important;
+}
+.rc-landing .rc-faq-secure-payment {
+  display: block;
+  margin-top: 8px;
+  font-size: 1.18em;
+  line-height: 1.25;
+  font-weight: 900;
+}
