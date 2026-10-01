@@ -1143,3 +1143,53 @@ body:has(.rc-landing) .navbar .btn-primary {
     font-size: 15px;
   }
 }
+
+
+/* V4 2026-10-01: logo Mercado Pago contenido + respiración del bloque de video. */
+.rc-landing .rc-mp-brand {
+  box-sizing: border-box;
+  width: 220px;
+  padding: 12px 16px;
+  background: #fff;
+  border: 1px solid #dfe4e2;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(20, 20, 20, .06);
+}
+
+.rc-landing .rc-mp-brand img {
+  width: 100%;
+  max-width: 188px;
+  margin: 0 auto;
+}
+
+@media (min-width: 901px) {
+  .rc-landing .rc-map-section {
+    padding-top: 28px;
+    padding-bottom: 0;
+  }
+
+  .rc-landing .rc-map-section > .rc-shell {
+    align-items: stretch;
+  }
+
+  .rc-landing .rc-map,
+  .rc-landing .rc-aerial-video {
+    align-self: stretch;
+    height: auto !important;
+    min-height: 0;
+  }
+}
+
+@media (max-width: 560px) {
+  .rc-landing .rc-mp-brand {
+    width: 170px;
+    padding: 10px 12px;
+    border-radius: 14px;
+  }
+
+  .rc-landing .rc-mp-brand img {
+    width: 100%;
+    max-width: 146px;
+    margin: 0 auto;
+  }
+}
