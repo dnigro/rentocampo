@@ -172,7 +172,7 @@ export default function CampoMapa({
             });
         });
 
-        if (countryCode === "AR") DEMANDA_ZONAS.forEach((demanda) => {
+        if (false) DEMANDA_ZONAS.forEach((demanda) => {
           const position: [number, number] = [
             demanda.latitud,
             demanda.longitud,
@@ -328,18 +328,6 @@ export default function CampoMapa({
             >
               🇦🇷 Argentina
             </button>
-            <button
-              type="button"
-              className={countryCode === "UY" ? "activo" : ""}
-              onClick={() => {
-                setCountryCode("UY");
-                setSelectedCampo(null);
-                setSelectedDemanda(null);
-                setSelectedServicio(null);
-              }}
-            >
-              🇺🇾 Uruguay
-            </button>
           </div>
 
           <div
@@ -395,12 +383,6 @@ export default function CampoMapa({
               <>
                 <strong>{camposConCoordenadas.length}</strong> campos en{" "}
                 {COUNTRIES[countryCode].name}
-                {countryCode === "AR" && (
-                  <>
-                    {" "}
-                    · <strong>{DEMANDA_ZONAS.length}</strong> zonas con demanda
-                  </>
-                )}
               </>
             ) : (
               <>
