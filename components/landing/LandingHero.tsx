@@ -9,9 +9,8 @@ export default function LandingHero() {
         <div className="editorialHero__desktopImpact">
           <p className="editorialHero__desktopTag">La producción nos conecta</p>
           <h1 className="editorialHero__desktopTitle">
-            <span>Primera</span>
-            <span>Red Federal</span>
-            <span className="editorialHero__desktopYellow">Que produce.</span>
+            <span className="editorialHero__desktopYellow">#1 Red Federal</span>
+            <span>Gratis para el campo.</span>
           </h1>
 
           <div className="editorialHero__desktopPillars" aria-label="Propuesta de valor">
@@ -40,7 +39,7 @@ export default function LandingHero() {
         </div>
 
         <div className="editorialHero__message">
-          <p className="editorialHero__eyebrow">Primer Red Federal que produce</p>
+          <p className="editorialHero__eyebrow">#1 Red Federal · Gratis para el campo</p>
           <h1>
             <span><b className="editorialHero__plus">+</b>Tierra productiva.</span>
             <span><b className="editorialHero__plus">+</b>Productores.</span>
