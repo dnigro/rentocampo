@@ -410,8 +410,8 @@
     display: block;
     height: clamp(620px, 78vh, 820px);
     min-height: 620px;
-    color: #fff;
-    background: #0b0b0b;
+    color: var(--hero-black);
+    background: #f7f7f5;
     border-bottom: 0;
   }
 
@@ -442,7 +442,7 @@
     margin: 0 0 24px;
     padding-left: 22px;
     border-left: 5px solid var(--hero-yellow);
-    color: #fff;
+    color: var(--hero-black);
     font-size: 13px;
     font-weight: 800;
     line-height: 1.25;
@@ -454,7 +454,7 @@
     display: flex;
     margin: 0;
     flex-direction: column;
-    color: #fff;
+    color: var(--hero-yellow);
     font-family: var(--font-display), sans-serif;
     font-size: clamp(78px, 7.2vw, 126px);
     font-weight: 400;
@@ -469,7 +469,7 @@
   }
 
   .editorialHero__desktopTitle .editorialHero__desktopYellow {
-    color: var(--hero-yellow);
+    color: var(--hero-black);
   }
 
   .editorialHero__desktopPillars {
@@ -477,7 +477,7 @@
     margin-top: 28px;
     flex-direction: column;
     gap: 2px;
-    color: #fff;
+    color: var(--hero-black);
     font-family: var(--font-display), sans-serif;
     font-size: clamp(31px, 2.6vw, 48px);
     line-height: .98;
@@ -499,15 +499,15 @@
   }
 
   .editorialHero__desktopPillars .is-yellow {
-    color: var(--hero-yellow);
+    color: var(--hero-black);
   }
 
   .editorialHero__desktopOnePlace {
     width: fit-content;
     margin: 24px 0 0;
     padding-top: 18px;
-    border-top: 4px solid var(--hero-yellow);
-    color: #fff;
+    border-top: 4px solid var(--hero-black);
+    color: var(--hero-black);
     font-size: 16px;
     font-weight: 900;
     letter-spacing: .2em;
@@ -517,13 +517,13 @@
   .editorialHero__desktopIntro {
     max-width: 610px;
     margin: 18px 0 0;
-    color: rgba(255, 255, 255, .88);
+    color: #242424;
     font-size: clamp(17px, 1.25vw, 21px);
     line-height: 1.48;
   }
 
   .editorialHero__desktopIntro strong {
-    color: var(--hero-yellow);
+    color: var(--hero-black);
     font-weight: 900;
     text-transform: uppercase;
   }
@@ -542,7 +542,7 @@
     justify-content: space-between;
     gap: 30px;
     padding: 0 24px;
-    border: 1px solid #fff;
+    border: 1px solid var(--hero-black);
     border-radius: 2px;
     font-size: 14px;
     font-weight: 900;
@@ -553,15 +553,15 @@
 
   .editorialHero__desktopPrimary {
     min-width: 250px;
-    color: #0b0b0b;
-    background: var(--hero-yellow);
-    border-color: var(--hero-yellow);
+    color: #fff;
+    background: var(--hero-black);
+    border-color: var(--hero-black);
   }
 
   .editorialHero__desktopSecondary {
     min-width: 250px;
-    color: #fff;
-    background: rgba(11, 11, 11, .38);
+    color: var(--hero-black);
+    background: #fff;
   }
 
   .editorialHero__visual {
@@ -842,5 +842,18 @@
 
   .editorialHero__desktopIntro {
     font-size: 16px;
+  }
+}
+
+
+/* Preview 2026-10-01: hero desktop claro / institucional */
+@media (min-width: 901px) {
+  .editorialHero h1.editorialHero__desktopTitle {
+    color: var(--hero-yellow);
+    text-shadow: none;
+  }
+
+  .editorialHero h1.editorialHero__desktopTitle .editorialHero__desktopYellow {
+    color: var(--hero-black);
   }
 }
