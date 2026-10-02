@@ -343,3 +343,38 @@
     line-height: 1.4 !important;
   }
 }
+
+
+/* Filtros de servicios — misma lógica visual que Buscar Campos */
+.servicios-filtros-section {
+  padding-top: 34px !important;
+  padding-bottom: 34px !important;
+}
+.servicios-filtros-wrap {
+  margin-top: 24px;
+}
+.servicios-filtros-panel {
+  max-width: none;
+  padding: 28px !important;
+}
+.servicios-filtros-grid {
+  display: grid;
+  grid-template-columns: minmax(220px, 1fr) minmax(260px, 1.2fr) 220px;
+  gap: 18px;
+  align-items: end;
+}
+.servicios-filtros-grid .filtro-grupo {
+  margin-bottom: 0;
+}
+.servicios-filtros-aplicar {
+  min-height: 60px !important;
+  margin-top: 0 !important;
+}
+@media (max-width: 820px) {
+  .servicios-filtros-grid {
+    grid-template-columns: 1fr;
+  }
+  .servicios-filtros-panel {
+    padding: 22px !important;
+  }
+}
