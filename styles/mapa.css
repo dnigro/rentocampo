@@ -446,3 +446,77 @@ body:has(.mapa-page) {
     font-size: 11px;
   }
 }
+
+
+/* WEB 2026-10-02 — menú del mapa con mayor presencia */
+@media (min-width: 641px) {
+  .mapa-filtros {
+    width: 360px;
+    padding: 18px;
+    border-radius: 16px;
+    box-shadow: 0 8px 28px rgba(26, 58, 26, 0.15);
+  }
+
+  .mapa-paises {
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  .mapa-paises button {
+    min-height: 44px;
+    padding: 8px 12px;
+    border-radius: 10px;
+    font-size: 14px;
+  }
+
+  .mapa-modos {
+    gap: 8px;
+    margin-bottom: 14px;
+    padding: 6px;
+    border-radius: 12px;
+  }
+
+  .mapa-modos button {
+    min-height: 48px;
+    padding: 10px 12px;
+    border-radius: 9px;
+    font-size: 14px;
+  }
+
+  .mapa-filtro {
+    min-height: 46px;
+    gap: 11px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    font-size: 15px;
+  }
+
+  .mapa-filtro-punto {
+    width: 16px;
+    height: 16px;
+    flex-basis: 16px;
+  }
+
+  .mapa-contador {
+    margin-top: 12px;
+    padding: 12px 10px 2px;
+    font-size: 15px;
+    font-weight: 650;
+  }
+
+  .mapa-contador strong {
+    font-size: 17px;
+    font-weight: 900;
+  }
+
+  .mapa-publicar-acciones {
+    margin-top: 14px;
+  }
+
+  .mapa-publicar-btn {
+    min-height: 52px;
+    padding: 12px 14px;
+    border-radius: 10px;
+    font-size: 14px;
+  }
+}
