@@ -166,10 +166,6 @@ export default async function AlquilerDeCamposPage({ params, searchParams }: Pro
               </div>
             </div>
 
-            <p className="alquiler-seo__closing">
-              Si sos propietario, también podés publicar tu campo gratis para hacerlo visible
-              frente a productores que buscan tierra en alquiler.
-            </p>
           </div>
         </section>
       )}
