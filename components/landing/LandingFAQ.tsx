@@ -51,8 +51,8 @@ export default function LandingFAQ() {
                   {faq.type === "cost" && <>
                     <div className="rc-faq-cost-head">
                       <div>
-                        <h3>NO, SERVICIOS RURALES Y PRODUCTORES <strong className="rc-faq-lifetime">GRATIS DE POR VIDA.</strong></h3>
-                        <p>PARA PROPIETARIOS DE TIERRAS es GRATIS la 1er PUBLICACION</p>
+                        <h3>NO, PARA SERVICIOS RURALES Y PRODUCTORES <strong className="rc-faq-lifetime">GRATIS DE POR VIDA.</strong></h3>
+                        <p className="rc-faq-owner-free"><strong>PARA PROPIETARIOS DE TIERRAS es GRATIS la 1er PUBLICACION</strong></p>
                         <p className="rc-faq-more-fields"><strong className="rc-faq-plan-message">Para publicar más campos, elegí un paquete anual.</strong><strong className="rc-faq-secure-payment">El pago se realiza de forma segura con Mercado Pago.</strong></p>
                       </div>
                       <div className="rc-mp-brand" aria-label="Mercado Pago">
