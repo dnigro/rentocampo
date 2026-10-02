@@ -1739,3 +1739,64 @@ body {
     font-size: 17px !important;
   }
 }
+
+
+/* Corrección 2026-10-02: header desktop realmente más grande */
+@media (min-width: 901px) {
+  .navbar {
+    height: 82px !important;
+  }
+
+  .navbar-inner {
+    max-width: 1320px !important;
+    gap: 36px !important;
+  }
+
+  .brand-wordmark-nav {
+    font-size: 44px !important;
+  }
+
+  .brand-symbol-image {
+    width: 52px !important;
+    height: 52px !important;
+  }
+
+  .brand-wordmark-tagline {
+    font-size: 8px !important;
+  }
+
+  .nav-link {
+    font-size: 16px !important;
+    font-weight: 850 !important;
+    padding: 9px 14px !important;
+  }
+
+  .btn-ghost {
+    font-size: 16px !important;
+    font-weight: 850 !important;
+    padding: 10px 15px !important;
+  }
+
+  .navbar .btn-primary {
+    font-size: 16px !important;
+    font-weight: 850 !important;
+    padding: 11px 18px !important;
+  }
+
+  .navbar-country-switch a,
+  .navbar-country-switch button {
+    min-height: 36px !important;
+    padding: 0 11px !important;
+    font-size: 13px !important;
+  }
+
+  .navbar-mensajes {
+    width: 42px !important;
+    height: 42px !important;
+  }
+
+  .navbar-mensajes svg {
+    width: 24px !important;
+    height: 24px !important;
+  }
+}
