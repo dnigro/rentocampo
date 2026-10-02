@@ -805,3 +805,66 @@
     display: none;
   }
 }
+
+
+/* Ajuste 2026-10-02: navegación desktop con marca y controles de mayor presencia */
+@media (min-width: 901px) {
+  .navbar {
+    height: 82px;
+  }
+
+  .navbar-inner {
+    max-width: 1320px;
+    gap: 34px;
+  }
+
+  .brand-wordmark-nav {
+    font-size: clamp(40px, 3.35vw, 48px);
+    letter-spacing: -2.2px;
+  }
+
+  .navbar-links {
+    gap: 8px;
+  }
+
+  .nav-link {
+    font-size: 16px;
+    font-weight: 800;
+    padding: 8px 14px;
+  }
+
+  .navbar-actions {
+    gap: 10px;
+  }
+
+  .btn-ghost,
+  .btn-primary {
+    font-size: 16px;
+    font-weight: 800;
+  }
+
+  .btn-ghost {
+    padding: 9px 14px;
+  }
+
+  .btn-primary {
+    padding: 9px 18px;
+  }
+
+  .navbar-country-switch a,
+  .navbar-country-switch button {
+    min-height: 34px;
+    padding: 0 10px;
+    font-size: 13px;
+  }
+
+  .navbar-mensajes {
+    width: 40px;
+    height: 40px;
+  }
+
+  .navbar-mensajes svg {
+    width: 23px;
+    height: 23px;
+  }
+}
