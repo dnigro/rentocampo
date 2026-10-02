@@ -12,10 +12,10 @@ export default function BrandWordmark({ className = "" }: BrandWordmarkProps) {
     >
       <span className="brand-overlap-logo">
         <Image
-          src="/logo-rentocampo-rc.svg"
+          src="/icon.svg"
           alt=""
-          width={128}
-          height={128}
+          width={116}
+          height={116}
           priority
           className="brand-full-logo"
           aria-hidden="true"
@@ -24,8 +24,7 @@ export default function BrandWordmark({ className = "" }: BrandWordmarkProps) {
 
       <span className="brand-overlap-copy">
         <span className="brand-overlap-name">
-          <strong>Rento</strong>
-          <strong>Campo</strong>
+          <strong>RentoCampo</strong>
         </span>
         <span className="brand-overlap-tagline">Tierras que producen futuro</span>
       </span>
