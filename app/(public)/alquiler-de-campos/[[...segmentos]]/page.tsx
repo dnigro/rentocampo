@@ -143,12 +143,6 @@ export default async function AlquilerDeCamposPage({ params, searchParams }: Pro
           <div className="alquiler-seo__inner">
             <p className="alquiler-seo__kicker">Alquiler de campos · Argentina</p>
             <h2 id="alquiler-seo-title">Encontrá el campo que necesitás para producir</h2>
-            <p className="alquiler-seo__intro">
-              RentoCampo reúne campos en alquiler y conecta de forma directa a productores
-              con propietarios. Podés explorar oportunidades por ubicación y tipo de
-              producción, revisar cada publicación y contactar sin intermediarios.
-            </p>
-
             <div className="alquiler-seo__grid">
               <div>
                 <h3>Alquiler de campos por provincia</h3>
