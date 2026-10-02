@@ -190,3 +190,109 @@
     line-height: 1.5;
   }
 }
+
+
+/* Footer global: mayor tamaño y legibilidad en todas las páginas */
+.footer {
+  padding-top: 64px;
+}
+
+.footer-inner {
+  max-width: 1180px;
+  gap: 56px;
+  padding-bottom: 56px;
+}
+
+.footer-logo-text {
+  font-size: 20px;
+  font-weight: 850;
+}
+
+.footer-desc {
+  max-width: 360px;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.footer-col-title {
+  font-size: 17px;
+  font-weight: 850;
+  margin-bottom: 18px;
+}
+
+.footer-nav {
+  gap: 14px;
+}
+
+.footer-link {
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+.footer-socials {
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.footer-social-link {
+  min-width: 54px;
+  min-height: 54px;
+  padding: 10px 14px;
+  font-size: 16px;
+}
+
+.footer-bottom {
+  max-width: 1180px;
+  padding: 24px 0;
+  font-size: 14px;
+}
+
+.footer-bottom-link {
+  font-size: 15px;
+}
+
+@media (max-width: 500px) {
+  .footer {
+    padding: 52px 28px 0;
+  }
+
+  .footer-inner {
+    gap: 38px;
+    padding-bottom: 52px;
+  }
+
+  .footer-logo-text {
+    font-size: 28px;
+  }
+
+  .footer-desc {
+    font-size: 20px;
+    line-height: 1.55;
+  }
+
+  .footer-col-title {
+    font-size: 22px;
+    margin-bottom: 16px;
+  }
+
+  .footer-nav {
+    gap: 16px;
+  }
+
+  .footer-link {
+    font-size: 20px;
+    line-height: 1.45;
+  }
+
+  .footer-social-link {
+    min-width: 58px;
+    min-height: 58px;
+    font-size: 18px;
+  }
+
+  .footer-bottom,
+  .footer-bottom-link {
+    font-size: 16px;
+    line-height: 1.5;
+  }
+}
