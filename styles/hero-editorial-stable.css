@@ -916,3 +916,30 @@
     font-weight: 950;
   }
 }
+
+
+/* Corrección 2026-10-02: mantener el título dentro del bloque blanco */
+@media (min-width: 901px) {
+  .editorialHero__desktopImpact {
+    width: min(640px, 54vw);
+    max-width: 640px;
+  }
+
+  .editorialHero h1.editorialHero__desktopTitle {
+    max-width: 640px;
+    font-size: clamp(66px, 5vw, 86px);
+    font-weight: 950;
+    line-height: .80;
+    letter-spacing: -.03em;
+  }
+
+  .editorialHero__desktopTitle span {
+    white-space: nowrap;
+  }
+
+  .editorialHero__desktopPillars {
+    max-width: 620px;
+    font-size: clamp(32px, 2.45vw, 44px);
+    font-weight: 900;
+  }
+}
