@@ -5,21 +5,31 @@ import { useState } from "react";
 import { PROVINCIAS_ARG } from "@/types";
 import { SERVICIOS_RURALES } from "@/data/servicios-rurales";
 
-export default function ServiciosFiltros() {
+interface Props {
+  provinciaInicial?: string;
+  servicioInicial?: string;
+}
+
+export default function ServiciosFiltros({
+  provinciaInicial = "",
+  servicioInicial = "",
+}: Props) {
   const router = useRouter();
-  const [provincia, setProvincia] = useState("");
-  const [servicio, setServicio] = useState("");
+  const [provincia, setProvincia] = useState(provinciaInicial);
+  const [servicio, setServicio] = useState(servicioInicial);
 
   function aplicar() {
-    const params = new URLSearchParams({ vista: "servicios" });
+    const params = new URLSearchParams();
     if (provincia) params.set("provincia", provincia);
     if (servicio) params.set("servicio", servicio);
-    router.push(`/campos/mapa?${params.toString()}`);
+    const query = params.toString();
+    router.push(query ? `/servicios-rurales?${query}` : "/servicios-rurales");
   }
 
   function limpiar() {
     setProvincia("");
     setServicio("");
+    router.push("/servicios-rurales");
   }
 
   const hayFiltros = Boolean(provincia || servicio);
@@ -28,7 +38,7 @@ export default function ServiciosFiltros() {
     <div className="servicios-filtros-wrap">
       <div className="filtros-panel servicios-filtros-panel">
         <div className="filtros-header">
-          <span className="filtros-title">Filtrá servicios</span>
+          <span className="filtros-title">Filtros</span>
           {hayFiltros && (
             <button type="button" className="filtros-limpiar" onClick={limpiar}>
               Limpiar
@@ -39,7 +49,7 @@ export default function ServiciosFiltros() {
         <div className="servicios-filtros-grid">
           <div className="filtro-grupo">
             <label className="filtro-label" htmlFor="servicios-provincia">
-              Zona / Provincia
+              Provincia
             </label>
             <select
               id="servicios-provincia"
@@ -71,8 +81,12 @@ export default function ServiciosFiltros() {
             </select>
           </div>
 
-          <button type="button" className="btn-aplicar servicios-filtros-aplicar" onClick={aplicar}>
-            Buscar servicios
+          <button
+            type="button"
+            className="btn-aplicar servicios-filtros-aplicar"
+            onClick={aplicar}
+          >
+            Aplicar filtros
           </button>
         </div>
       </div>
