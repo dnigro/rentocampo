@@ -28,11 +28,15 @@ export default function LandingHero() {
 
           <div className="editorialHero__desktopActions">
             <Link href="/register" className="editorialHero__desktopPrimary">
-              <span>Sumarme gratis</span>
+              <span>Publicá tu campo</span>
               <span aria-hidden="true">→</span>
             </Link>
-            <Link href="/alquiler-de-campos" className="editorialHero__desktopSecondary">
-              <span>Alquiler de campos</span>
+            <Link href="/servicios-rurales" className="editorialHero__desktopService">
+              <span>Ofrecé servicios rurales</span>
+              <span aria-hidden="true">→</span>
+            </Link>
+            <Link href="/campos" className="editorialHero__desktopSecondary">
+              <span>Buscá campos</span>
               <span aria-hidden="true">→</span>
             </Link>
           </div>
@@ -46,9 +50,7 @@ export default function LandingHero() {
             <span className="editorialHero__highlight">
               <b className="editorialHero__plus">+</b>Servicios rurales.
             </span>
-            <span className="editorialHero__free">
-              Todo en un solo lugar.
-            </span>
+            <span className="editorialHero__free">Todo en un solo lugar.</span>
           </h1>
 
           <p className="editorialHero__intro">
@@ -58,19 +60,16 @@ export default function LandingHero() {
           </p>
 
           <div className="editorialHero__actions">
-            <Link
-              href="/register"
-              className="editorialHero__primary"
-            >
-              <span>Sumarme gratis</span>
+            <Link href="/register" className="editorialHero__primary">
+              <span>Publicá tu campo</span>
               <span className="editorialHero__arrow" aria-hidden="true">→</span>
             </Link>
-            <Link href="/alquiler-de-campos" className="editorialHero__secondary">
-              <span>Alquiler de campos</span>
+            <Link href="/servicios-rurales" className="editorialHero__service">
+              <span>Ofrecé servicios rurales</span>
               <span className="editorialHero__arrow" aria-hidden="true">→</span>
             </Link>
-            <Link href="/register?tipo=prestador" className="editorialHero__service">
-              <span>Ofrecer servicios rurales</span>
+            <Link href="/campos" className="editorialHero__secondary">
+              <span>Buscá campos</span>
               <span className="editorialHero__arrow" aria-hidden="true">→</span>
             </Link>
           </div>
