@@ -1212,3 +1212,60 @@ body:has(.rc-landing) .navbar .btn-primary {
     font-size: 22px !important;
   }
 }
+
+
+/* FAQ 2026-10-02: escala tipográfica alineada con el resto de la Home */
+.rc-landing .rc-question button {
+  min-height: 76px;
+  padding: 20px 0;
+  font-size: clamp(22px, 1.9vw, 30px);
+  font-weight: 900;
+  line-height: 1.12;
+  letter-spacing: -.012em;
+}
+
+.rc-landing .rc-question button span:first-child {
+  max-width: calc(100% - 52px);
+}
+
+.rc-landing .rc-question button span:last-child {
+  flex: 0 0 auto;
+  margin-left: 20px;
+  font-size: 34px;
+  line-height: 1;
+}
+
+@media (max-width: 900px) {
+  .rc-landing .rc-faq {
+    padding: 64px 0;
+  }
+
+  .rc-landing .rc-faq-grid {
+    gap: 34px;
+  }
+
+  .rc-landing .rc-question button {
+    min-height: 72px;
+    padding: 18px 0;
+    font-size: clamp(21px, 4.8vw, 26px);
+    line-height: 1.16;
+  }
+}
+
+@media (max-width: 560px) {
+  .rc-landing .rc-question button {
+    min-height: 68px;
+    padding: 16px 0;
+    font-size: clamp(20px, 6vw, 24px);
+    line-height: 1.16;
+  }
+
+  .rc-landing .rc-question button span:first-child {
+    max-width: calc(100% - 44px);
+  }
+
+  .rc-landing .rc-question button span:last-child {
+    margin-left: 14px;
+    font-size: 30px;
+  }
+}
