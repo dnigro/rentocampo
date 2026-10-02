@@ -539,3 +539,22 @@ body:has(.rc-landing) .footer::before{
     letter-spacing: .04em;
   }
 }
+
+
+/* Reforzar mensaje de contratación de paquetes */
+.rc-faq-plan-message {
+  display: block;
+  font-size: clamp(24px, 2.6vw, 34px);
+  line-height: 1.08;
+  font-weight: 950;
+  color: #050505;
+  margin-bottom: 12px;
+}
+
+@media (max-width: 760px) {
+  .rc-faq-plan-message {
+    font-size: 27px;
+    line-height: 1.1;
+    margin-bottom: 14px;
+  }
+}
