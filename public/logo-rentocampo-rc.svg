@@ -7,7 +7,7 @@
   <g aria-hidden="true">
     <path d="M142 118h112c69 0 108 31 108 89 0 39-18 67-52 82l-32-33c20-8 30-22 30-43 0-28-20-42-59-42h-49v122h-58z" fill="#050505"/>
     <path d="M303 166c23-21 52-33 86-33 24 0 45 5 64 16l-24 44c-12-6-25-9-40-9-45 0-78 33-78 78s33 78 78 78c15 0 28-3 40-9l24 44c-19 11-40 16-64 16-77 0-135-55-135-129 0-38 14-71 39-96z" fill="#050505"/>
-    <path d="M194 238h54l86 102h-56z" fill="#f6c500"/>
+    <path d="M207 245h45l74 88h-46z" fill="#f6c500"/>
   </g>
   <text x="256" y="377" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="68" font-weight="300" fill="#050505">Rento</text>
   <text x="256" y="445" text-anchor="middle" font-family="Arial Black, Arial, Helvetica, sans-serif" font-size="76" font-weight="900" fill="#050505">Campo</text>
