@@ -137,38 +137,6 @@ export default async function AlquilerDeCamposPage({ params, searchParams }: Pro
         dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionJsonLd).replace(/</g, "\\u003c") }}
       />
       <CamposListing params={filtros} titulo={categoria.titulo} />
-
-      {esLandingPrincipal && (
-        <section className="alquiler-seo" aria-labelledby="alquiler-seo-title">
-          <div className="alquiler-seo__inner">
-            <p className="alquiler-seo__kicker">Alquiler de campos · Argentina</p>
-            <h2 id="alquiler-seo-title">Encontrá el campo que necesitás para producir</h2>
-            <div className="alquiler-seo__grid">
-              <div>
-                <h3>Alquiler de campos por provincia</h3>
-                <div className="alquiler-seo__links">
-                  {PROVINCIAS_DESTACADAS.map(([slug, nombre]) => (
-                    <Link key={slug} href={`/alquiler-de-campos/${slug}`}>
-                      Alquiler de campos en {nombre}
-                    </Link>
-                  ))}
-                </div>
-              </div>
-
-              <div>
-                <h3>Campos por tipo de producción</h3>
-                <div className="alquiler-seo__links">
-                  <Link href="/alquiler-de-campos/agricolas">Campos agrícolas en alquiler</Link>
-                  <Link href="/alquiler-de-campos/ganaderos">Campos ganaderos en alquiler</Link>
-                  <Link href="/alquiler-de-campos/mixtos">Campos mixtos en alquiler</Link>
-                  <Link href="/alquiler-de-campos/forestales">Campos forestales en alquiler</Link>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </section>
-      )}
     </>
   );
 }
