@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { SERVICIOS_RURALES } from "@/data/servicios-rurales";
+import { createClient } from "@/lib/supabase/server";
+import { SERVICIOS_RURALES, SERVICIO_LABEL } from "@/data/servicios-rurales";
+import type { ServicioRural } from "@/types";
 import ServiciosFiltros from "@/components/servicios/ServiciosFiltros";
 import "@/styles/explorador.css";
 import "@/styles/servicios-rurales.css";
@@ -23,29 +25,34 @@ export const metadata: Metadata = {
   },
 };
 
+type SearchParams = {
+  provincia?: string;
+  servicio?: string;
+};
+
+type Prestador = {
+  id: string;
+  nombre: string;
+  bio?: string | null;
+  avatar_url?: string | null;
+  servicios_rurales: ServicioRural[];
+  zona_servicio?: string | null;
+  provincia_servicio: string;
+  localidad_servicio?: string | null;
+  is_demo: boolean;
+};
+
 const pasos = [
-  [
-    "01",
-    "Buscá por servicio",
-    "Elegí la labor o especialidad que necesitás para tu campo.",
-  ],
-  [
-    "02",
-    "Ubicá prestadores",
-    "Explorá el mapa y encontrá opciones que trabajen en tu zona.",
-  ],
-  [
-    "03",
-    "Contactá directamente",
-    "Conversá por el chat de RentoCampo sin intermediarios.",
-  ],
+  ["01", "Buscá por servicio", "Elegí la labor o especialidad que necesitás para tu campo."],
+  ["02", "Encontrá prestadores", "Filtrá por provincia y revisá quién trabaja en tu zona."],
+  ["03", "Contactá directamente", "Conversá por el chat de RentoCampo sin intermediarios."],
 ];
 
 const preguntas = [
   {
     pregunta: "¿Buscar servicios rurales tiene costo?",
     respuesta:
-      "No. Registrarte, explorar el mapa y contactar prestadores es gratis en esta etapa de RentoCampo.",
+      "No. Registrarte, buscar y contactar prestadores es gratis en esta etapa de RentoCampo.",
   },
   {
     pregunta: "¿Qué tipos de servicios puedo encontrar?",
@@ -55,11 +62,62 @@ const preguntas = [
   {
     pregunta: "¿Cómo publico los servicios que ofrezco?",
     respuesta:
-      "Creá una cuenta como prestador, elegí tus servicios y definí la zona donde trabajás para aparecer en el mapa.",
+      "Creá una cuenta como prestador, elegí tus servicios y definí la zona donde trabajás para aparecer en RentoCampo.",
   },
 ];
 
-export default function ServiciosRuralesPage() {
+export default async function ServiciosRuralesPage({
+  searchParams,
+}: {
+  searchParams: Promise<SearchParams>;
+}) {
+  const params = await searchParams;
+  const provincia = params.provincia ?? "";
+  const servicioValido = SERVICIOS_RURALES.some((item) => item.value === params.servicio)
+    ? (params.servicio as ServicioRural)
+    : "";
+
+  const supabase = await createClient();
+
+  let perfilesQuery = supabase
+    .from("profiles")
+    .select(
+      "id, nombre, bio, avatar_url, servicios_rurales, zona_servicio, provincia_servicio, localidad_servicio",
+    )
+    .contains("roles", ["prestador"])
+    .not("provincia_servicio", "is", null);
+
+  let demosQuery = supabase
+    .from("demo_servicios_rurales")
+    .select(
+      "id, nombre, bio, servicios_rurales, zona_servicio, provincia_servicio, localidad_servicio",
+    )
+    .eq("activo", true);
+
+  if (provincia) {
+    perfilesQuery = perfilesQuery.eq("provincia_servicio", provincia);
+    demosQuery = demosQuery.eq("provincia_servicio", provincia);
+  }
+
+  if (servicioValido) {
+    perfilesQuery = perfilesQuery.contains("servicios_rurales", [servicioValido]);
+    demosQuery = demosQuery.contains("servicios_rurales", [servicioValido]);
+  }
+
+  const [{ data: perfiles }, { data: demos }] = await Promise.all([
+    perfilesQuery.order("nombre", { ascending: true }),
+    demosQuery.order("nombre", { ascending: true }),
+  ]);
+
+  const prestadores: Prestador[] = [
+    ...(perfiles ?? []).map((item) => ({ ...item, is_demo: false })),
+    ...(demos ?? []).map((item) => ({
+      ...item,
+      avatar_url: null,
+      is_demo: true,
+    })),
+  ];
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
@@ -69,14 +127,6 @@ export default function ServiciosRuralesPage() {
         description:
           "Contratistas y prestadores de servicios rurales por especialidad y zona.",
         url: `${SITE_URL}/servicios-rurales`,
-        mainEntity: {
-          "@type": "ItemList",
-          itemListElement: SERVICIOS_RURALES.map((servicio, index) => ({
-            "@type": "ListItem",
-            position: index + 1,
-            name: servicio.label,
-          })),
-        },
       },
       {
         "@type": "FAQPage",
@@ -88,6 +138,10 @@ export default function ServiciosRuralesPage() {
       },
     ],
   };
+
+  const mapParams = new URLSearchParams({ vista: "servicios" });
+  if (provincia) mapParams.set("provincia", provincia);
+  if (servicioValido) mapParams.set("servicio", servicioValido);
 
   return (
     <div className="servicios-seo-page">
@@ -107,10 +161,10 @@ export default function ServiciosRuralesPage() {
         </p>
         <div className="servicios-actions">
           <Link
-            href="/campos/mapa?vista=servicios"
+            href={`/campos/mapa?${mapParams.toString()}`}
             className="servicios-btn servicios-btn-primary"
           >
-            Buscar por zona y rubro →
+            Ver servicios en mapa →
           </Link>
           <Link
             href="/register?tipo=prestador"
@@ -121,48 +175,93 @@ export default function ServiciosRuralesPage() {
         </div>
       </section>
 
-      <section className="servicios-explorador" aria-labelledby="catalogo-titulo">
+      <section className="servicios-explorador" aria-labelledby="servicios-disponibles-titulo">
         <aside className="servicios-explorador__sidebar">
-          <ServiciosFiltros />
+          <ServiciosFiltros
+            provinciaInicial={provincia}
+            servicioInicial={servicioValido}
+          />
         </aside>
 
         <div className="servicios-explorador__main">
-          <div className="servicios-heading servicios-explorador__heading">
-            <span>Todo el ecosistema rural</span>
-            <h2 id="catalogo-titulo">Servicios rurales disponibles</h2>
-            <p>
-              Filtrá por provincia y rubro para encontrar prestadores que trabajen
-              en tu zona. También podés abrir directamente una especialidad en el mapa.
-            </p>
+          <div className="servicios-resultados-header">
+            <div>
+              <h2 id="servicios-disponibles-titulo">Servicios disponibles</h2>
+              <p>{prestadores.length} prestadores encontrados</p>
+            </div>
+            <Link
+              href={`/campos/mapa?${mapParams.toString()}`}
+              className="btn-mapa"
+            >
+              🗺️ Ver en mapa
+            </Link>
           </div>
 
-          <div className="servicios-search-intro">
-            <strong>Elegí el servicio que necesitás</strong>
-            <span>La búsqueda abre el mapa con los prestadores filtrados.</span>
-          </div>
+          {prestadores.length > 0 ? (
+            <div className="servicios-prestadores-grid">
+              {prestadores.map((prestador) => {
+                const servicios = prestador.servicios_rurales ?? [];
+                return (
+                  <article className="prestador-card" key={`${prestador.is_demo ? "demo" : "real"}-${prestador.id}`}>
+                    <div className="prestador-card__top">
+                      <span className="prestador-card__badge">
+                        {prestador.is_demo ? "DEMO" : "SERVICIO RURAL"}
+                      </span>
+                      <span className="prestador-card__provincia">
+                        {prestador.provincia_servicio}
+                      </span>
+                    </div>
 
-          <div className="servicios-grid">
-            {SERVICIOS_RURALES.filter(
-              (servicio) => servicio.value !== "otro",
-            ).map((servicio, index) => (
-              <Link
-                key={servicio.value}
-                href={`/campos/mapa?vista=servicios&servicio=${servicio.value}`}
-                className="servicio-card"
-              >
-                <span>{String(index + 1).padStart(2, "0")}</span>
-                <strong>{servicio.label}</strong>
-                <span className="servicio-card-action">Ver en mapa →</span>
-              </Link>
-            ))}
-          </div>
+                    <h3>{prestador.nombre}</h3>
+                    <p className="prestador-card__ubicacion">
+                      📍 {[prestador.localidad_servicio, prestador.provincia_servicio]
+                        .filter(Boolean)
+                        .join(", ")}
+                    </p>
+
+                    <div className="prestador-card__tags">
+                      {servicios.slice(0, 4).map((item) => (
+                        <span key={item}>{SERVICIO_LABEL[item] ?? item}</span>
+                      ))}
+                      {servicios.length > 4 && <span>+{servicios.length - 4}</span>}
+                    </div>
+
+                    {prestador.zona_servicio && (
+                      <p className="prestador-card__zona">
+                        <strong>Zona:</strong> {prestador.zona_servicio}
+                      </p>
+                    )}
+
+                    {prestador.bio && (
+                      <p className="prestador-card__bio">{prestador.bio}</p>
+                    )}
+
+                    <div className="prestador-card__actions">
+                      {prestador.is_demo ? (
+                        <Link href="/register?tipo=prestador">
+                          Crear mi servicio →
+                        </Link>
+                      ) : (
+                        <Link href={`/mensajes/direct/${prestador.id}`}>
+                          Contactar →
+                        </Link>
+                      )}
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="servicios-empty">
+              <strong>No encontramos prestadores con estos filtros.</strong>
+              <p>Probá otra provincia o rubro, o limpiá los filtros.</p>
+              <Link href="/servicios-rurales">Ver todos los servicios →</Link>
+            </div>
+          )}
         </div>
       </section>
 
-      <section
-        className="servicios-section servicios-bordered"
-        aria-labelledby="como-titulo"
-      >
+      <section className="servicios-section servicios-bordered" aria-labelledby="como-titulo">
         <div className="servicios-heading">
           <span>Simple y directo</span>
           <h2 id="como-titulo">Conectate en tres pasos.</h2>
@@ -178,10 +277,7 @@ export default function ServiciosRuralesPage() {
         </div>
       </section>
 
-      <section
-        className="servicios-section servicios-bordered"
-        aria-labelledby="faq-titulo"
-      >
+      <section className="servicios-section servicios-bordered" aria-labelledby="faq-titulo">
         <div className="servicios-heading">
           <span>Preguntas frecuentes</span>
           <h2 id="faq-titulo">Todo claro desde el inicio.</h2>
