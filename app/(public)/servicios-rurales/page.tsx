@@ -121,45 +121,41 @@ export default function ServiciosRuralesPage() {
         </div>
       </section>
 
-      <section className="servicios-section servicios-filtros-section" aria-labelledby="filtros-servicios-titulo">
-        <div className="servicios-heading">
-          <span>Encontrá lo que necesitás</span>
-          <h2 id="filtros-servicios-titulo">Buscá por zona y rubro.</h2>
-          <p>
-            Usá los mismos criterios simples de búsqueda de campos para encontrar
-            prestadores que trabajen en tu zona y especialidad.
-          </p>
-        </div>
-        <ServiciosFiltros />
-      </section>
+      <section className="servicios-explorador" aria-labelledby="catalogo-titulo">
+        <aside className="servicios-explorador__sidebar">
+          <ServiciosFiltros />
+        </aside>
 
-      <section className="servicios-section" aria-labelledby="catalogo-titulo">
-        <div className="servicios-heading">
-          <span>Todo el ecosistema rural</span>
-          <h2 id="catalogo-titulo">¿Qué servicio estás buscando?</h2>
-          <p>
-            Desde las labores de campaña hasta la logística, la infraestructura
-            y el asesoramiento técnico.
-          </p>
-        </div>
-        <div className="servicios-search-intro">
-          <strong>Elegí el servicio que necesitás</strong>
-          <span>Al seleccionarlo, abrimos el mapa filtrado con los prestadores de esa especialidad.</span>
-        </div>
-        <div className="servicios-grid">
-          {SERVICIOS_RURALES.filter(
-            (servicio) => servicio.value !== "otro",
-          ).map((servicio, index) => (
-            <Link
-              key={servicio.value}
-              href={`/campos/mapa?vista=servicios&servicio=${servicio.value}`}
-              className="servicio-card"
-            >
-              <span>{String(index + 1).padStart(2, "0")}</span>
-              <strong>{servicio.label}</strong>
-              <span className="servicio-card-action">Ver en mapa →</span>
-            </Link>
-          ))}
+        <div className="servicios-explorador__main">
+          <div className="servicios-heading servicios-explorador__heading">
+            <span>Todo el ecosistema rural</span>
+            <h2 id="catalogo-titulo">Servicios rurales disponibles</h2>
+            <p>
+              Filtrá por provincia y rubro para encontrar prestadores que trabajen
+              en tu zona. También podés abrir directamente una especialidad en el mapa.
+            </p>
+          </div>
+
+          <div className="servicios-search-intro">
+            <strong>Elegí el servicio que necesitás</strong>
+            <span>La búsqueda abre el mapa con los prestadores filtrados.</span>
+          </div>
+
+          <div className="servicios-grid">
+            {SERVICIOS_RURALES.filter(
+              (servicio) => servicio.value !== "otro",
+            ).map((servicio, index) => (
+              <Link
+                key={servicio.value}
+                href={`/campos/mapa?vista=servicios&servicio=${servicio.value}`}
+                className="servicio-card"
+              >
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <strong>{servicio.label}</strong>
+                <span className="servicio-card-action">Ver en mapa →</span>
+              </Link>
+            ))}
+          </div>
         </div>
       </section>
 
