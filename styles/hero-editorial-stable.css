@@ -983,3 +983,61 @@
     font-size: 15px !important;
   }
 }
+
+
+/* FIX 2026-10-02 — CTA central visible y consistente */
+.editorialHero__desktopService,
+.editorialHero__desktopService:link,
+.editorialHero__desktopService:visited {
+  position: relative !important;
+  z-index: 5 !important;
+  display: inline-flex !important;
+  min-width: 0 !important;
+  min-height: 58px !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 18px !important;
+  padding: 0 22px !important;
+  border: 1px solid #141414 !important;
+  border-radius: 2px !important;
+  background: #f6c500 !important;
+  background-image: none !important;
+  color: #141414 !important;
+  clip-path: none !important;
+  overflow: hidden !important;
+  box-shadow: none !important;
+  font-size: 15px !important;
+  font-weight: 900 !important;
+  line-height: 1.15 !important;
+  text-decoration: none !important;
+  text-transform: uppercase !important;
+}
+.editorialHero__desktopService::before,
+.editorialHero__desktopService::after {
+  display: none !important;
+  content: none !important;
+  background: none !important;
+}
+.editorialHero__desktopService span {
+  position: relative !important;
+  z-index: 2 !important;
+  color: #141414 !important;
+}
+.editorialHero__desktopService:hover {
+  background: #141414 !important;
+  color: #f6c500 !important;
+}
+.editorialHero__desktopService:hover span {
+  color: #f6c500 !important;
+}
+@media (min-width: 901px) {
+  .editorialHero__desktopActions {
+    grid-template-columns: repeat(3, minmax(220px, 1fr)) !important;
+    width: min(820px, 66vw) !important;
+  }
+  .editorialHero__desktopPrimary,
+  .editorialHero__desktopSecondary,
+  .editorialHero__desktopService {
+    min-height: 58px !important;
+  }
+}
