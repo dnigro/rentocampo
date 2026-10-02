@@ -1920,3 +1920,21 @@ body {
     padding: 15px 23px !important;
   }
 }
+
+
+/* FIX 2026-10-02 — RC más grande en desktop */
+@media (min-width: 901px) {
+  .navbar {
+    height: 118px !important;
+  }
+  .brand-symbol-image {
+    width: 104px !important;
+    height: 104px !important;
+  }
+  .brand-wordmark {
+    gap: 18px !important;
+  }
+  .brand-wordmark-text {
+    font-size: 47px !important;
+  }
+}
