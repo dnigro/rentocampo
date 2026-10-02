@@ -877,3 +877,42 @@
     font-size: 18px !important;
   }
 }
+
+
+/* Ajuste 2026-10-02: mayor impacto tipográfico del hero aprobado en preview */
+@media (min-width: 901px) {
+  .editorialHero h1.editorialHero__desktopTitle {
+    font-size: clamp(84px, 7.6vw, 136px);
+    font-weight: 950;
+    line-height: .77;
+    letter-spacing: -.035em;
+  }
+
+  .editorialHero h1.editorialHero__desktopTitle .editorialHero__desktopYellow {
+    font-weight: 950;
+  }
+
+  .editorialHero__desktopPillars {
+    font-size: clamp(34px, 2.9vw, 52px);
+    font-weight: 900;
+    line-height: .96;
+    letter-spacing: -.015em;
+  }
+
+  .editorialHero__desktopPillars span {
+    font-weight: 900;
+  }
+
+  .editorialHero__desktopOnePlace {
+    font-size: 18px;
+    font-weight: 950;
+  }
+
+  .editorialHero__desktopIntro {
+    font-size: clamp(18px, 1.35vw, 22px);
+  }
+
+  .editorialHero__desktopIntro strong {
+    font-weight: 950;
+  }
+}
