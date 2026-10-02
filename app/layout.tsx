@@ -17,6 +17,10 @@ export const metadata: Metadata = {
   applicationName: "RentoCampo",
   alternates: { canonical: "/" },
   robots: { index: true, follow: true },
+  icons: {
+    icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
+    shortcut: "/icon.svg",
+  },
   openGraph: {
     title: SITE_TITLE,
     description: SITE_DESCRIPTION,
@@ -66,7 +70,7 @@ export default function RootLayout({
               "@type": "Organization",
               name: "RentoCampo",
               url: SITE_URL,
-              logo: `${SITE_URL}/icon.png`,
+              logo: `${SITE_URL}/logo-rentocampo-rc.svg`,
               description:
                 "Plataforma argentina que conecta tierra productiva, productores y servicios rurales.",
               sameAs: [
