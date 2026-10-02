@@ -18,8 +18,11 @@ export const metadata: Metadata = {
   alternates: { canonical: "/" },
   robots: { index: true, follow: true },
   icons: {
-    icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
+    icon: [
+      { url: "/icon.svg", type: "image/svg+xml", sizes: "any" },
+    ],
     shortcut: "/icon.svg",
+    apple: "/icon.svg",
   },
   openGraph: {
     title: SITE_TITLE,
