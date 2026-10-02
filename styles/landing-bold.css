@@ -558,3 +558,45 @@ body:has(.rc-landing) .footer::before{
     margin-bottom: 14px;
   }
 }
+
+
+/* FAQ: unificar jerarquía visual de los tres mensajes comerciales */
+.rc-faq-owner-free,
+.rc-faq-plan-message,
+.rc-faq-secure-payment {
+  display: block;
+  font-size: clamp(27px, 3vw, 38px) !important;
+  line-height: 1.08 !important;
+  font-weight: 950 !important;
+  color: #050505 !important;
+  padding-right: 0 !important;
+}
+
+.rc-faq-owner-free {
+  margin-bottom: 18px !important;
+}
+
+.rc-faq-plan-message {
+  margin-bottom: 10px !important;
+}
+
+.rc-faq-secure-payment {
+  margin-bottom: 0 !important;
+}
+
+@media (max-width: 760px) {
+  .rc-faq-owner-free,
+  .rc-faq-plan-message,
+  .rc-faq-secure-payment {
+    font-size: 29px !important;
+    line-height: 1.1 !important;
+  }
+
+  .rc-faq-owner-free {
+    margin-bottom: 18px !important;
+  }
+
+  .rc-faq-plan-message {
+    margin-bottom: 12px !important;
+  }
+}
