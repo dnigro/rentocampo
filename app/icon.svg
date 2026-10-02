@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="RentoCampo">
-  <rect width="128" height="128" rx="18" fill="#ffffff"/>
+  <rect width="128" height="128" fill="#ffffff"/>
   <circle cx="64" cy="64" r="55" fill="#ffffff" stroke="#050505" stroke-width="6"/>
-  <text x="28" y="86" font-family="Arial Black, Arial, sans-serif" font-size="72" font-weight="900" fill="#050505">R</text>
-  <text x="58" y="91" font-family="Arial Black, Arial, sans-serif" font-size="66" font-weight="900" fill="#050505">C</text>
-  <path d="M51 49 L62 49 L87 78 L76 78 Z" fill="#f6c500"/>
+  <path d="M30 29h31c20 0 31 9 31 25 0 11-5 19-15 23l-9-9c6-2 9-6 9-12 0-8-6-12-17-12H46v35H30z" fill="#050505"/>
+  <path d="M76 42c7-6 15-9 25-9 7 0 13 1 19 4l-7 13c-4-2-8-3-12-3-13 0-23 10-23 23s10 23 23 23c4 0 8-1 12-3l7 13c-6 3-12 4-19 4-22 0-39-16-39-37 0-11 4-20 11-28z" fill="#050505"/>
+  <path d="M47 62h16l26 31H72z" fill="#f6c500"/>
 </svg>
