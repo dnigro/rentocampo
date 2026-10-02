@@ -1800,3 +1800,32 @@ body {
     height: 24px !important;
   }
 }
+
+
+/* Header 2026-10-02: logo RentoCampo con mayor presencia */
+@media (min-width: 901px) {
+  .brand-wordmark-nav {
+    font-size: 50px !important;
+    letter-spacing: -2.4px !important;
+  }
+
+  .brand-symbol-image {
+    width: 58px !important;
+    height: 58px !important;
+  }
+
+  .brand-wordmark-tagline {
+    font-size: 8.5px !important;
+  }
+}
+
+@media (max-width: 900px) {
+  .brand-wordmark-nav {
+    font-size: 34px !important;
+  }
+
+  .brand-symbol-image {
+    width: 42px !important;
+    height: 42px !important;
+  }
+}
