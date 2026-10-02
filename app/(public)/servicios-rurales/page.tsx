@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { SERVICIOS_RURALES } from "@/data/servicios-rurales";
+import ServiciosFiltros from "@/components/servicios/ServiciosFiltros";
+import "@/styles/explorador.css";
 import "@/styles/servicios-rurales.css";
 
 const SITE_URL = "https://rentocampo.com";
@@ -117,6 +119,18 @@ export default function ServiciosRuralesPage() {
             Ofrecer mis servicios
           </Link>
         </div>
+      </section>
+
+      <section className="servicios-section servicios-filtros-section" aria-labelledby="filtros-servicios-titulo">
+        <div className="servicios-heading">
+          <span>Encontrá lo que necesitás</span>
+          <h2 id="filtros-servicios-titulo">Buscá por zona y rubro.</h2>
+          <p>
+            Usá los mismos criterios simples de búsqueda de campos para encontrar
+            prestadores que trabajen en tu zona y especialidad.
+          </p>
+        </div>
+        <ServiciosFiltros />
       </section>
 
       <section className="servicios-section" aria-labelledby="catalogo-titulo">
