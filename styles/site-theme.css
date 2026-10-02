@@ -1872,3 +1872,51 @@ body {
   .brand-wordmark-text { font-size: 28px !important; }
   .brand-wordmark-tagline { display: none !important; }
 }
+
+
+/* FIX 2026-10-02 — marca del header con mayor presencia */
+@media (min-width: 901px) {
+  .navbar {
+    height: 108px !important;
+  }
+  .navbar-inner {
+    max-width: 1440px !important;
+    padding: 0 30px !important;
+    gap: 46px !important;
+  }
+  .brand-wordmark {
+    gap: 16px !important;
+  }
+  .brand-symbol-image {
+    width: 88px !important;
+    height: 88px !important;
+  }
+  .brand-wordmark-text {
+    font-size: 46px !important;
+    font-weight: 950 !important;
+    letter-spacing: -2px !important;
+  }
+  .brand-wordmark-rento,
+  .brand-wordmark-campo {
+    font-weight: 950 !important;
+  }
+  .brand-wordmark-tagline {
+    margin-top: 7px !important;
+    font-size: 9.5px !important;
+    font-weight: 850 !important;
+  }
+  .nav-link {
+    font-size: 19px !important;
+    font-weight: 900 !important;
+    padding: 13px 16px !important;
+  }
+  .btn-ghost {
+    font-size: 18px !important;
+    font-weight: 900 !important;
+  }
+  .navbar .btn-primary {
+    font-size: 19px !important;
+    font-weight: 900 !important;
+    padding: 15px 23px !important;
+  }
+}
