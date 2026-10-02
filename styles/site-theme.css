@@ -2233,3 +2233,101 @@ body {
     display: none !important;
   }
 }
+
+
+/* HEADER CLEAN FINAL 2026-10-02 — sin recortes ni solapado */
+.navbar {
+  position: relative !important;
+  z-index: 100 !important;
+  height: 112px !important;
+  overflow: visible !important;
+  background: #fff !important;
+}
+
+.navbar-inner {
+  min-height: 112px !important;
+  max-width: 1460px !important;
+  padding: 0 30px !important;
+  overflow: visible !important;
+}
+
+.navbar-logo {
+  overflow: visible !important;
+}
+
+.brand-wordmark--clean {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 18px !important;
+  transform: none !important;
+  overflow: visible !important;
+}
+
+.brand-clean-logo {
+  display: block !important;
+  width: 96px !important;
+  height: 96px !important;
+  max-width: none !important;
+  object-fit: contain !important;
+  aspect-ratio: 1 / 1 !important;
+  transform: none !important;
+}
+
+.brand-clean-copy {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+}
+
+.brand-clean-name {
+  color: #0b0b0b !important;
+  font-size: 43px !important;
+  line-height: .95 !important;
+  font-weight: 950 !important;
+  letter-spacing: -1.8px !important;
+  white-space: nowrap !important;
+}
+
+.brand-clean-tagline {
+  margin-top: 8px !important;
+  color: #5d5a54 !important;
+  font-size: 9px !important;
+  font-weight: 800 !important;
+  letter-spacing: .23em !important;
+  text-transform: uppercase !important;
+  white-space: nowrap !important;
+}
+
+/* neutraliza reglas anteriores de overlap */
+.brand-wordmark--overlap,
+.brand-overlap-logo,
+.brand-full-logo,
+.brand-overlap-copy,
+.brand-overlap-name,
+.brand-overlap-tagline {
+  transform: none !important;
+}
+
+@media (max-width: 900px) {
+  .navbar {
+    height: 82px !important;
+  }
+  .navbar-inner {
+    min-height: 82px !important;
+    padding: 0 16px !important;
+  }
+  .brand-wordmark--clean {
+    gap: 10px !important;
+  }
+  .brand-clean-logo {
+    width: 68px !important;
+    height: 68px !important;
+  }
+  .brand-clean-name {
+    font-size: 28px !important;
+    letter-spacing: -1px !important;
+  }
+  .brand-clean-tagline {
+    display: none !important;
+  }
+}
