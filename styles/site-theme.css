@@ -2102,3 +2102,134 @@ body {
     height: 72px !important;
   }
 }
+
+
+/* HEADER FINAL RC-ONLY — solapado real, sin corte sobre el fondo inferior */
+.navbar,
+.navbar-inner,
+.navbar-logo,
+.brand-wordmark--overlap,
+.brand-overlap-logo {
+  overflow: visible !important;
+}
+
+.navbar {
+  position: relative !important;
+  z-index: 100 !important;
+  background: #fff !important;
+}
+
+.brand-wordmark--overlap {
+  position: relative !important;
+  z-index: 120 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 18px !important;
+}
+
+.brand-overlap-logo {
+  position: relative !important;
+  z-index: 130 !important;
+  display: block !important;
+  flex: 0 0 auto !important;
+}
+
+.brand-full-logo {
+  display: block !important;
+  width: 116px !important;
+  height: 116px !important;
+  max-width: none !important;
+  object-fit: contain !important;
+  aspect-ratio: 1 / 1 !important;
+}
+
+.brand-overlap-copy {
+  position: relative !important;
+  z-index: 125 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+}
+
+.brand-overlap-name {
+  display: inline-flex !important;
+  align-items: baseline !important;
+  color: #0b0b0b !important;
+  font-size: 42px !important;
+  line-height: .95 !important;
+  letter-spacing: -1.8px !important;
+  white-space: nowrap !important;
+}
+
+.brand-overlap-name strong {
+  font-weight: 950 !important;
+}
+
+.brand-overlap-tagline {
+  margin-top: 7px !important;
+  color: #5d5a54 !important;
+  font-size: 9px !important;
+  font-weight: 800 !important;
+  letter-spacing: .23em !important;
+  text-transform: uppercase !important;
+  white-space: nowrap !important;
+}
+
+@media (min-width: 901px) {
+  .navbar {
+    height: 102px !important;
+  }
+  .navbar-inner {
+    min-height: 102px !important;
+    max-width: 1460px !important;
+    padding: 0 30px !important;
+    gap: 38px !important;
+  }
+
+  .brand-wordmark--overlap {
+    transform: translateY(20px) !important;
+  }
+
+  .brand-full-logo {
+    width: 122px !important;
+    height: 122px !important;
+  }
+
+  .brand-overlap-name {
+    font-size: 44px !important;
+  }
+
+  .app-shell > main,
+  .app-shell main,
+  .editorialHero,
+  .servicios-seo-page,
+  .explorador-layout {
+    position: relative !important;
+    z-index: 1 !important;
+  }
+}
+
+@media (max-width: 900px) {
+  .navbar {
+    height: 80px !important;
+  }
+
+  .brand-wordmark--overlap {
+    gap: 9px !important;
+    transform: translateY(10px) !important;
+  }
+
+  .brand-full-logo {
+    width: 78px !important;
+    height: 78px !important;
+  }
+
+  .brand-overlap-name {
+    font-size: 27px !important;
+    letter-spacing: -1px !important;
+  }
+
+  .brand-overlap-tagline {
+    display: none !important;
+  }
+}
