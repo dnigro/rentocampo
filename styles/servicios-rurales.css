@@ -321,3 +321,25 @@
     margin-top: 24px;
   }
 }
+
+
+/* Tres pasos: igualar el peso visual del texto con la numeración */
+.app-shell .servicios-pasos h3 {
+  font-size: clamp(24px, 2.6vw, 32px) !important;
+  line-height: 1.08 !important;
+}
+.app-shell .servicios-pasos p {
+  font-size: 24px !important;
+  line-height: 1.42 !important;
+  font-weight: 500 !important;
+}
+@media (max-width: 640px) {
+  .app-shell .servicios-pasos h3 {
+    font-size: 27px !important;
+    margin-top: 22px;
+  }
+  .app-shell .servicios-pasos p {
+    font-size: 24px !important;
+    line-height: 1.4 !important;
+  }
+}

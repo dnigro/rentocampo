@@ -857,3 +857,23 @@
     color: var(--hero-black);
   }
 }
+
+
+/* CTA hero: texto más grande en ambos botones */
+.editorialHero__desktopPrimary,
+.editorialHero__desktopSecondary,
+.editorialHero__primary,
+.editorialHero__secondary {
+  font-size: 16px !important;
+  line-height: 1.2 !important;
+  font-weight: 900 !important;
+}
+
+@media (max-width: 900px) {
+  .editorialHero__desktopPrimary,
+  .editorialHero__desktopSecondary,
+  .editorialHero__primary,
+  .editorialHero__secondary {
+    font-size: 18px !important;
+  }
+}

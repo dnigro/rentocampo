@@ -431,3 +431,172 @@ body:has(.rc-landing) .footer::before{
   .rc-faq-promise h2 strong { font-size: clamp(48px, 13vw, 64px); }
   .rc-faq .rc-faq-summary { margin-top: 18px; font-size: 16px; }
 }
+
+
+/* Ajuste de legibilidad FAQ — mobile y desktop */
+.rc-question button {
+  font-size: 19px !important;
+  line-height: 1.25;
+}
+.rc-faq-cost-head h3 {
+  font-size: clamp(27px, 3vw, 38px);
+  line-height: 1.08;
+  margin: 0 0 22px;
+}
+.rc-faq-cost-head .rc-faq-lifetime {
+  display: inline;
+  font-weight: 950;
+}
+.rc-faq-owner-free {
+  font-size: clamp(21px, 2.2vw, 29px);
+  line-height: 1.22 !important;
+  padding-right: 0 !important;
+  margin-bottom: 24px !important;
+}
+.rc-faq-owner-free strong {
+  font-weight: 950;
+}
+@media (max-width: 760px) {
+  .rc-question button {
+    font-size: 19px !important;
+    padding: 17px 0 !important;
+  }
+  .rc-faq-cost-head h3 {
+    font-size: 29px;
+    line-height: 1.1;
+  }
+  .rc-faq-owner-free {
+    font-size: 23px;
+    line-height: 1.22 !important;
+  }
+}
+
+
+/* FAQ comercial mobile: logo centrado y planes con mayor presencia */
+.rc-faq-plan:nth-child(1) {
+  background: #fff9df;
+  border-color: #e3cf7b;
+}
+.rc-faq-plan:nth-child(2) {
+  background: #ffefaa;
+  border-color: #d9b943;
+}
+.rc-faq-plan:nth-child(3) {
+  background: #f5d75a;
+  border-color: #caa61a;
+}
+
+@media (max-width: 760px) {
+  .rc-faq-cost-head {
+    display: grid;
+    gap: 18px;
+  }
+
+  .rc-mp-brand {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin: 4px auto 10px;
+  }
+
+  .rc-mp-brand img {
+    display: block;
+    margin: 0 auto;
+  }
+
+  .rc-faq-plans {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 12px 0 20px;
+  }
+
+  .rc-faq-plan {
+    min-height: 158px;
+    padding: 22px 22px 20px;
+    border-width: 1.5px;
+    border-radius: 18px;
+    gap: 8px;
+  }
+
+  .rc-faq-plan strong {
+    font-size: 20px;
+    line-height: 1.08;
+  }
+
+  .rc-faq-plan span {
+    font-size: 16px;
+    line-height: 1.3;
+  }
+
+  .rc-faq-plan b {
+    font-size: 19px;
+  }
+
+  .rc-faq-plan em {
+    margin-top: 6px;
+    font-size: 13px;
+    letter-spacing: .04em;
+  }
+}
+
+
+/* Reforzar mensaje de contratación de paquetes */
+.rc-faq-plan-message {
+  display: block;
+  font-size: clamp(24px, 2.6vw, 34px);
+  line-height: 1.08;
+  font-weight: 950;
+  color: #050505;
+  margin-bottom: 12px;
+}
+
+@media (max-width: 760px) {
+  .rc-faq-plan-message {
+    font-size: 27px;
+    line-height: 1.1;
+    margin-bottom: 14px;
+  }
+}
+
+
+/* FAQ: unificar jerarquía visual de los tres mensajes comerciales */
+.rc-faq-owner-free,
+.rc-faq-plan-message,
+.rc-faq-secure-payment {
+  display: block;
+  font-size: clamp(27px, 3vw, 38px) !important;
+  line-height: 1.08 !important;
+  font-weight: 950 !important;
+  color: #050505 !important;
+  padding-right: 0 !important;
+}
+
+.rc-faq-owner-free {
+  margin-bottom: 18px !important;
+}
+
+.rc-faq-plan-message {
+  margin-bottom: 10px !important;
+}
+
+.rc-faq-secure-payment {
+  margin-bottom: 0 !important;
+}
+
+@media (max-width: 760px) {
+  .rc-faq-owner-free,
+  .rc-faq-plan-message,
+  .rc-faq-secure-payment {
+    font-size: 29px !important;
+    line-height: 1.1 !important;
+  }
+
+  .rc-faq-owner-free {
+    margin-bottom: 18px !important;
+  }
+
+  .rc-faq-plan-message {
+    margin-bottom: 12px !important;
+  }
+}

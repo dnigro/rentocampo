@@ -869,3 +869,49 @@
 .app-shell .demanda-cta {
   background: #f6c500 !important;
 }
+
+
+/* Filtros mobile: mayor jerarquía y legibilidad */
+.app-shell .filtros-title {
+  font-size: clamp(30px, 4vw, 38px) !important;
+  line-height: 1.05 !important;
+  font-weight: 900 !important;
+}
+
+.app-shell .filtro-label {
+  font-size: 19px !important;
+  line-height: 1.2 !important;
+  font-weight: 850 !important;
+}
+
+.app-shell .filtro-input {
+  font-size: 18px !important;
+  min-height: 58px;
+}
+
+.app-shell .filtro-chip {
+  font-size: 17px !important;
+  min-height: 50px;
+  padding-left: 18px;
+  padding-right: 18px;
+}
+
+@media (max-width: 640px) {
+  .app-shell .filtros-title {
+    font-size: 34px !important;
+  }
+
+  .app-shell .filtro-label {
+    font-size: 21px !important;
+  }
+
+  .app-shell .filtro-input {
+    font-size: 20px !important;
+    min-height: 62px;
+  }
+
+  .app-shell .filtro-chip {
+    font-size: 19px !important;
+    min-height: 54px;
+  }
+}
