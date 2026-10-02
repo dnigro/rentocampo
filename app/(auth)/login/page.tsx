@@ -17,27 +17,16 @@ export default function LoginPage() {
     setError("");
     setLoading(true);
 
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
+    const { error } = await supabase.auth.signInWithPassword({ email, password });
 
     if (error) {
-      setError(
-        error.message === "Invalid login credentials"
-          ? "Email o contraseña incorrectos."
-          : error.message,
-      );
+      setError(error.message === "Invalid login credentials" ? "Email o contraseña incorrectos." : error.message);
       setLoading(false);
       return;
     }
 
-    // Una navegación completa garantiza que la cookie de Supabase ya esté
-    // disponible para Proxy y los Server Components protegidos.
     const next = new URLSearchParams(window.location.search).get("next");
-    const destino = next?.startsWith("/") && !next.startsWith("//")
-      ? next
-      : "/dashboard";
+    const destino = next?.startsWith("/") && !next.startsWith("//") ? next : "/dashboard";
     window.location.assign(destino);
   }
 
@@ -45,56 +34,33 @@ export default function LoginPage() {
     <div className="auth-page">
       <div className="auth-card">
         <div className="auth-header">
-          <h1 className="auth-title">Bienvenido de vuelta</h1>
-          <p className="auth-subtitle">Ingresá a tu cuenta de RentoCampo</p>
+          <h1 className="auth-title">Bienvenido a RentoCampo</h1>
+          <p className="auth-subtitle">
+            Ingresá para publicar, buscar campos y conectar oportunidades en la red federal.
+          </p>
         </div>
 
         <form className="auth-form" onSubmit={handleSubmit}>
           {error && <div className="auth-error">{error}</div>}
-
           <div className="form-field">
-            <label className="form-label" htmlFor="email">
-              Email
-            </label>
-            <input
-              id="email"
-              type="email"
-              className="form-input"
-              placeholder="tu@email.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              autoComplete="email"
-            />
+            <label className="form-label" htmlFor="email">Email</label>
+            <input id="email" type="email" className="form-input" placeholder="tu@email.com"
+              value={email} onChange={(e) => setEmail(e.target.value)} required autoComplete="email" />
           </div>
 
           <div className="form-field">
             <div className="form-label-row">
-              <label className="form-label" htmlFor="password">
-                Contraseña
-              </label>
-              <Link href="/recuperar-contrasena" className="form-label-link">
-                ¿Olvidaste tu contraseña?
-              </Link>
+              <label className="form-label" htmlFor="password">Contraseña</label>
+              <Link href="/recuperar-contrasena" className="form-label-link">¿Olvidaste tu contraseña?</Link>
             </div>
             <div className="password-input-wrapper">
-              <input
-                id="password"
-                type={showPassword ? "text" : "password"}
-                className="form-input"
-                placeholder="••••••••"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                autoComplete="current-password"
-              />
-              <button
-                type="button"
-                className="password-toggle"
+              <input id="password" type={showPassword ? "text" : "password"} className="form-input"
+                placeholder="••••••••" value={password} onChange={(e) => setPassword(e.target.value)}
+                required autoComplete="current-password" />
+              <button type="button" className="password-toggle"
                 onClick={() => setShowPassword((visible) => !visible)}
                 aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
-                aria-pressed={showPassword}
-              >
+                aria-pressed={showPassword}>
                 {showPassword ? (
                   <svg viewBox="0 0 24 24" aria-hidden="true">
                     <path d="m3 3 18 18M10.6 10.6a2 2 0 0 0 2.8 2.8M9.9 4.2A10.8 10.8 0 0 1 12 4c5.2 0 9.4 4.2 10 8-0.3 1.8-1.5 3.7-3.2 5.1M6.6 6.6C4.6 8 3.2 10.1 2 12c0.8 3.8 5 8 10 8 1.4 0 2.8-0.3 4-0.8" />
