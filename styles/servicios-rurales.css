@@ -378,3 +378,95 @@
     padding: 22px !important;
   }
 }
+
+
+/* FIX 2026-10-02 — Servicios con layout tipo Buscar Campos */
+.servicios-explorador {
+  display: grid;
+  grid-template-columns: 296px minmax(0, 1fr);
+  gap: 36px;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 46px 24px 58px;
+  align-items: start;
+}
+.servicios-explorador__sidebar {
+  position: sticky;
+  top: 126px;
+}
+.servicios-explorador__sidebar .servicios-filtros-wrap {
+  margin-top: 0;
+}
+.servicios-explorador__sidebar .servicios-filtros-panel {
+  padding: 28px !important;
+  border: 1px solid #e8e6e0 !important;
+  border-radius: 20px !important;
+  background: #fff !important;
+  box-shadow: 0 14px 40px rgba(26, 58, 26, .07) !important;
+}
+.servicios-explorador__sidebar .servicios-filtros-grid {
+  display: block !important;
+}
+.servicios-explorador__sidebar .filtro-grupo {
+  margin-bottom: 22px !important;
+}
+.servicios-explorador__sidebar .filtros-title {
+  font-size: 38px !important;
+  font-weight: 900 !important;
+  color: #0b0b0b !important;
+}
+.servicios-explorador__sidebar .filtro-label {
+  margin-bottom: 10px !important;
+  font-size: 19px !important;
+  font-weight: 850 !important;
+  color: #2f2f2b !important;
+}
+.servicios-explorador__sidebar .filtro-input {
+  width: 100% !important;
+  min-height: 68px !important;
+  padding: 0 18px !important;
+  border: 1px solid #ddd9cf !important;
+  border-radius: 14px !important;
+  background: #fff !important;
+  color: #111 !important;
+  font-size: 18px !important;
+  font-weight: 700 !important;
+}
+.servicios-explorador__sidebar .servicios-filtros-aplicar {
+  width: 100% !important;
+  min-height: 64px !important;
+  margin-top: 4px !important;
+  border: 1px solid #111 !important;
+  border-radius: 3px !important;
+  background: #f6c500 !important;
+  color: #111 !important;
+  font-size: 16px !important;
+  font-weight: 900 !important;
+  text-transform: uppercase;
+}
+.servicios-explorador__main {
+  min-width: 0;
+}
+.servicios-explorador__heading h2 {
+  max-width: 900px;
+  font-size: clamp(58px, 6vw, 90px) !important;
+}
+.servicios-explorador__heading p {
+  max-width: 760px;
+}
+.servicios-explorador .servicios-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+@media (max-width: 900px) {
+  .servicios-explorador {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    padding: 28px 18px 46px;
+  }
+  .servicios-explorador__sidebar {
+    position: static;
+  }
+  .servicios-explorador .servicios-grid {
+    grid-template-columns: 1fr;
+  }
+}
