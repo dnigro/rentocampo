@@ -2331,3 +2331,38 @@ body {
     display: none !important;
   }
 }
+
+
+/* HEADER WORDMARK ONLY — sin isotipo */
+.brand-wordmark--text-only {
+  display: inline-flex !important;
+  align-items: center !important;
+  transform: none !important;
+}
+.brand-wordmark--text-only .brand-clean-copy {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+}
+@media (min-width: 901px) {
+  .navbar {
+    height: 96px !important;
+  }
+  .navbar-inner {
+    min-height: 96px !important;
+  }
+  .brand-wordmark--text-only .brand-clean-name {
+    font-size: 46px !important;
+  }
+}
+@media (max-width: 900px) {
+  .navbar {
+    height: 76px !important;
+  }
+  .navbar-inner {
+    min-height: 76px !important;
+  }
+  .brand-wordmark--text-only .brand-clean-name {
+    font-size: 30px !important;
+  }
+}
