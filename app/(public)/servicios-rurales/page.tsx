@@ -108,7 +108,7 @@ export default function ServiciosRuralesPage() {
             href="/campos/mapa?vista=servicios"
             className="servicios-btn servicios-btn-primary"
           >
-            Ver mapa de servicios →
+            Buscar por zona y rubro →
           </Link>
           <Link
             href="/register?tipo=prestador"
