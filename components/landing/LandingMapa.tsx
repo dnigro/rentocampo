@@ -9,7 +9,7 @@ export default function LandingMapa() {
         <div className="rc-map-copy">
           <p className="rc-kicker">Campos en todo el país</p>
           <h2 className="rc-map-title">La Primera Red Federal</h2>
-          <p>Explorá campos disponibles en todo el país. Conectamos oportunidades en cada región productiva.</p>
+          <p>Explorá campos disponibles en todo el país.</p>\n          <p className="rc-map-emphasis">Conectamos oportunidades en cada región productiva.</p>
           <Link href="/campos/mapa" className="rc-button rc-button-yellow">Ver mapa de campos →</Link>
         </div>
         <div className="rc-map rc-aerial-video">
