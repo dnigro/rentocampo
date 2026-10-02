@@ -943,3 +943,43 @@
     font-weight: 900;
   }
 }
+
+
+/* Home CTAs 2026-10-02: tres acciones principales */
+.editorialHero__desktopService {
+  display: inline-flex;
+  min-width: 250px;
+  min-height: 54px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+  padding: 0 24px;
+  border: 1px solid var(--hero-yellow);
+  border-radius: 2px;
+  color: var(--hero-black);
+  background: var(--hero-yellow);
+  font-size: 16px;
+  font-weight: 900;
+  letter-spacing: .035em;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+.editorialHero__desktopService:hover {
+  color: var(--hero-yellow);
+  background: var(--hero-black);
+  border-color: var(--hero-black);
+}
+@media (min-width: 901px) {
+  .editorialHero__desktopActions {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    width: min(780px, 62vw);
+    gap: 12px;
+  }
+  .editorialHero__desktopPrimary,
+  .editorialHero__desktopSecondary,
+  .editorialHero__desktopService {
+    min-width: 0;
+    font-size: 15px !important;
+  }
+}
