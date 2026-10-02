@@ -1164,7 +1164,7 @@ body:has(.rc-landing) .navbar .btn-primary {
 
 @media (min-width: 901px) {
   .rc-landing .rc-map-section {
-    padding-top: 28px;
+    padding-top: 0;
     padding-bottom: 0;
   }
 
@@ -1191,5 +1191,24 @@ body:has(.rc-landing) .navbar .btn-primary {
     width: 100%;
     max-width: 146px;
     margin: 0 auto;
+  }
+}
+
+
+/* V5 2026-10-01: bloque Red Federal sin aire superior + claim reforzado. */
+.rc-landing .rc-map-copy .rc-map-emphasis {
+  margin-top: 8px !important;
+  max-width: 650px;
+  color: var(--impact-black);
+  font-size: clamp(24px, 1.8vw, 30px) !important;
+  font-weight: 900;
+  line-height: 1.18 !important;
+  letter-spacing: -.01em;
+}
+
+@media (max-width: 900px) {
+  .rc-landing .rc-map-copy .rc-map-emphasis {
+    margin-top: 8px !important;
+    font-size: 22px !important;
   }
 }
