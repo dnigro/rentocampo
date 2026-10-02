@@ -1829,3 +1829,46 @@ body {
     height: 42px !important;
   }
 }
+
+
+/* Header marca 2026-10-02: logo + nombre con mayor presencia */
+.brand-wordmark {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 14px !important;
+}
+.brand-symbol-image {
+  flex: 0 0 auto;
+  object-fit: contain;
+}
+.brand-wordmark-text {
+  display: inline-flex !important;
+  align-items: baseline !important;
+  font-size: 34px !important;
+  line-height: 1 !important;
+  letter-spacing: -1.5px !important;
+}
+.brand-wordmark-rento,
+.brand-wordmark-campo {
+  color: #0b0b0b !important;
+  font-weight: 900 !important;
+}
+.brand-wordmark-campo {
+  margin-left: 1px;
+}
+@media (min-width: 901px) {
+  .navbar { height: 96px !important; }
+  .navbar-inner { max-width: 1380px !important; gap: 42px !important; padding: 0 28px !important; }
+  .brand-symbol-image { width: 72px !important; height: 72px !important; }
+  .brand-wordmark-text { font-size: 40px !important; }
+  .brand-wordmark-tagline { font-size: 9px !important; letter-spacing: .20em !important; }
+  .nav-link { font-size: 18px !important; padding: 12px 15px !important; }
+  .btn-ghost { font-size: 17px !important; padding: 12px 16px !important; }
+  .navbar .btn-primary { font-size: 18px !important; padding: 14px 22px !important; }
+}
+@media (max-width: 900px) {
+  .navbar { height: 76px !important; }
+  .brand-symbol-image { width: 52px !important; height: 52px !important; }
+  .brand-wordmark-text { font-size: 28px !important; }
+  .brand-wordmark-tagline { display: none !important; }
+}
