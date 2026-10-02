@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">RentoCampo</title>
+  <desc id="desc">Logo circular RentoCampo con monograma RC, acento amarillo y paisaje rural.</desc>
+  <rect width="512" height="512" fill="#ffffff"/>
+  <defs>
+    <clipPath id="badge"><circle cx="256" cy="256" r="218"/></clipPath>
+  </defs>
+  <g clip-path="url(#badge)" fill="#d9d9d9" opacity=".68">
+    <path d="M36 305c54-40 116-55 184-41 45 9 80 25 117 35 47 13 90 12 139-1v28H36z"/>
+    <path d="M28 353c90-44 182-53 273-28 55 15 111 18 181 2v20c-83 12-148 8-209-9-80-22-161-13-245 30z" opacity=".7"/>
+    <path d="M31 390c116-57 228-58 340-18 34 12 69 15 111 10v18c-46 6-86 2-126-11-104-35-210-32-325 18z" opacity=".55"/>
+    <path d="M65 276c20-22 45-32 76-30 10-13 24-22 42-27 10 4 18 12 25 23 12 10 18 23 18 40-3 18-12 31-27 40-20 10-42 13-65 8-28-6-52-24-69-54z" opacity=".82"/>
+    <path d="M105 240l-17-19 28 6 17-20 4 27zM160 230l18-18-4 29z" opacity=".82"/>
+    <path d="M392 201c23 0 41 18 41 41 0 31-41 76-41 76s-41-45-41-76c0-23 18-41 41-41zm0 22a19 19 0 1 0 0 38 19 19 0 0 0 0-38z" opacity=".9"/>
+    <path d="M384 327c0-31 17-48 44-55-1 27-17 45-44 55zm0 0c0-28-15-45-40-52 1 25 15 42 40 52z" opacity=".82"/>
+    <path d="M384 327v35h6v-35z" opacity=".82"/>
+    <path d="M94 171a190 190 0 0 1 324 0" fill="none" stroke="#d9d9d9" stroke-width="10" stroke-linecap="round" opacity=".72"/>
+  </g>
+  <g aria-hidden="true">
+    <text x="137" y="278" font-family="Arial Black, Arial, sans-serif" font-size="205" font-weight="900" fill="#050505">R</text>
+    <text x="239" y="297" font-family="Arial Black, Arial, sans-serif" font-size="190" font-weight="900" fill="#050505">C</text>
+    <path d="M205 205 L247 205 L319 286 L276 286 Z" fill="#f6c500"/>
+  </g>
+  <text x="256" y="370" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="72" font-weight="300" fill="#050505">Rento</text>
+  <text x="256" y="438" text-anchor="middle" font-family="Arial Black, Arial, sans-serif" font-size="78" font-weight="900" fill="#050505">Campo</text>
+  <circle cx="256" cy="256" r="218" fill="none" stroke="#050505" stroke-width="14"/>
+</svg>
