@@ -600,3 +600,28 @@ body:has(.rc-landing) .footer::before{
     margin-bottom: 12px !important;
   }
 }
+
+
+/* FAQ 2026-10-02 — override final para evitar que reglas legacy limiten el tamaño */
+.rc-landing .rc-question button {
+  font-size: clamp(22px, 1.9vw, 30px) !important;
+  line-height: 1.12 !important;
+  font-weight: 900 !important;
+  padding: 20px 0 !important;
+}
+
+@media (max-width: 900px) {
+  .rc-landing .rc-question button {
+    font-size: clamp(21px, 4.8vw, 26px) !important;
+    line-height: 1.16 !important;
+    padding: 18px 0 !important;
+  }
+}
+
+@media (max-width: 560px) {
+  .rc-landing .rc-question button {
+    font-size: clamp(20px, 6vw, 24px) !important;
+    line-height: 1.16 !important;
+    padding: 16px 0 !important;
+  }
+}
