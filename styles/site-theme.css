@@ -1938,3 +1938,40 @@ body {
     font-size: 47px !important;
   }
 }
+
+
+/* FINAL BRAND 2026-10-02 — logo circular completo en header */
+.brand-wordmark--full-logo {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0 !important;
+}
+.brand-full-logo {
+  display: block !important;
+  width: 118px !important;
+  height: 118px !important;
+  object-fit: contain !important;
+}
+@media (min-width: 901px) {
+  .navbar {
+    height: 128px !important;
+  }
+  .navbar-inner {
+    max-width: 1440px !important;
+    padding: 0 30px !important;
+    gap: 42px !important;
+  }
+  .brand-full-logo {
+    width: 118px !important;
+    height: 118px !important;
+  }
+}
+@media (max-width: 900px) {
+  .navbar {
+    height: 88px !important;
+  }
+  .brand-full-logo {
+    width: 76px !important;
+    height: 76px !important;
+  }
+}
