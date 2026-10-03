@@ -38,6 +38,7 @@ export type DisponibilidadCampo =
   | "campaña_próxima"
   | "a_convenir";
 
+export type OperacionCampo = "alquiler" | "venta" | "ambas";
 export type MonedaCampo = "USD" | "ARS" | "UYU";
 export type CountryCode = "AR" | "UY";
 
@@ -77,6 +78,7 @@ export interface Campo {
   hectareas: number;
   aptitud: AptitudCampo;
   ambiente?: string;
+  operacion: OperacionCampo;
   precio?: number;
   moneda: MonedaCampo;
   disponibilidad: DisponibilidadCampo;
@@ -151,6 +153,7 @@ export interface CampoFormData {
   hectareas: number;
   aptitud: AptitudCampo;
   ambiente?: string;
+  operacion: OperacionCampo;
   precio?: number;
   moneda: MonedaCampo;
   disponibilidad: DisponibilidadCampo;

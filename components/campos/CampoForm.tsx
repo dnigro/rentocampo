@@ -66,6 +66,7 @@ export default function CampoForm({
     hectareas: 0,
     aptitud: "agricola",
     ambiente: "",
+    operacion: "alquiler",
     precio: undefined,
     moneda: "USD",
     disponibilidad: "a_convenir",
@@ -223,6 +224,7 @@ export default function CampoForm({
         trackEvent("publicar_campo", {
           pais: countryCode,
           aptitud: form.aptitud,
+          operacion: form.operacion,
           hectareas: form.hectareas ?? 0,
         });
       }
@@ -521,6 +523,26 @@ export default function CampoForm({
           <span className="form-section-icon" aria-hidden="true"><WalletCards size={24} strokeWidth={1.8} /></span>
           <span className="form-section-copy"><span>Precio</span> <em>y disponibilidad</em></span>
         </h2>
+
+        <div className="form-field">
+          <label className="form-label">
+            Tipo de operación <span className="required">*</span>
+          </label>
+          <select
+            name="operacion"
+            className="form-input form-select"
+            value={form.operacion}
+            onChange={handleChange}
+            required
+          >
+            <option value="alquiler">Alquiler</option>
+            <option value="venta">Venta</option>
+            <option value="ambas">Alquiler y venta</option>
+          </select>
+          <span className="geocoder-hint">
+            RentoCampo está orientado principalmente al alquiler rural. Si también evaluás vender, podés indicarlo acá.
+          </span>
+        </div>
 
         <div className="form-row">
           <div className="form-field form-field-price">

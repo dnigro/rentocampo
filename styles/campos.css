@@ -1016,3 +1016,17 @@
   background: #fff5f2 !important;
   color: #7e2f24 !important;
 }
+
+
+/* Tipo de operación */
+.operacion-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 9px;
+  border-radius: 20px;
+  background: #fff3b0;
+  color: #5b4700;
+  border: 1px solid #efd46a;
+  font-size: 11px;
+  font-weight: 800;
+}

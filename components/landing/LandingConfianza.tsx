@@ -16,7 +16,7 @@ export default function LandingConfianza() {
       icon: "✅",
       title: "Sin compromiso",
       description:
-        "Publicar no significa cerrar un alquiler. Primero recibís consultas y después decidís si avanzar.",
+        "Publicar no significa cerrar un alquiler ni una venta. Primero recibís consultas y después decidís si avanzar.",
     },
   ];
 
@@ -32,7 +32,7 @@ export default function LandingConfianza() {
             Mostrá tu campo de forma simple y clara.
           </h2>
           <p className="text-gray-600 text-lg leading-relaxed">
-            RentoCampo no reemplaza tu decisión. Te ayuda a ordenar el primer contacto entre quien tiene tierra disponible y quien busca producir.
+            RentoCampo mantiene el alquiler rural como eje y facilita el primer contacto entre quien tiene tierra disponible y quien busca producir. Si una publicación también contempla venta, el contacto sigue siendo directo entre usuarios.
           </p>
         </div>
 
