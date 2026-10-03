@@ -118,3 +118,26 @@
   font-size: 13px;
   color: #999;
 }
+
+
+/* Dashboard mobile: saludo más compacto */
+@media (max-width: 760px) {
+  .app-shell .dashboard-page {
+    padding-top: 24px !important;
+  }
+
+  .app-shell .dashboard-header {
+    margin-bottom: 24px !important;
+    gap: 10px !important;
+  }
+
+  .app-shell .dashboard-title {
+    font-size: clamp(38px, 11vw, 50px) !important;
+    line-height: .9 !important;
+  }
+
+  .app-shell .dashboard-subtitle {
+    font-size: 16px !important;
+    line-height: 1.35 !important;
+  }
+}
