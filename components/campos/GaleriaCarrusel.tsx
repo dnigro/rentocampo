@@ -17,6 +17,11 @@ export default function GaleriaCarrusel({ fotos, titulo }: Props) {
   const [indicePrincipal, setIndicePrincipal] = useState(0);
   const [indiceModal, setIndiceModal] = useState<number | null>(null);
   const [touchInicioX, setTouchInicioX] = useState<number | null>(null);
+  const [zoom, setZoom] = useState(1);
+  const [pinchInicio, setPinchInicio] = useState<number | null>(null);
+  const [zoomInicio, setZoomInicio] = useState(1);
+  const [offset, setOffset] = useState({ x: 0, y: 0 });
+  const [panInicio, setPanInicio] = useState<{ x: number; y: number; offsetX: number; offsetY: number } | null>(null);
 
   const abierto = indiceModal !== null;
 
@@ -40,7 +45,37 @@ export default function GaleriaCarrusel({ fotos, titulo }: Props) {
     );
   }, [fotos.length]);
 
-  const cerrar = useCallback(() => setIndiceModal(null), []);
+  const resetZoom = useCallback(() => {
+    setZoom(1);
+    setPinchInicio(null);
+    setZoomInicio(1);
+    setOffset({ x: 0, y: 0 });
+    setPanInicio(null);
+  }, []);
+
+  const cerrar = useCallback(() => {
+    setIndiceModal(null);
+    resetZoom();
+  }, [resetZoom]);
+
+  const distanciaTouches = (touches: { length: number; [index: number]: { clientX: number; clientY: number } }) => {
+    if (touches.length < 2) return 0;
+    const a = touches[0];
+    const b = touches[1];
+    return Math.hypot(b.clientX - a.clientX, b.clientY - a.clientY);
+  };
+
+  const abrirFoto = (indice: number) => {
+    resetZoom();
+    setIndiceModal(indice);
+  };
+
+  useEffect(() => {
+    if (zoom <= 1) {
+      setOffset({ x: 0, y: 0 });
+      setPanInicio(null);
+    }
+  }, [zoom]);
 
   // Teclado
   useEffect(() => {
@@ -76,7 +111,7 @@ export default function GaleriaCarrusel({ fotos, titulo }: Props) {
       <div className="ficha-galeria">
         <div
           className="galeria-principal"
-          onClick={() => setIndiceModal(indicePrincipal)}
+          onClick={() => abrirFoto(indicePrincipal)}
           onTouchStart={(e) => setTouchInicioX(e.touches[0]?.clientX ?? null)}
           onTouchEnd={(e) => {
             if (touchInicioX === null || fotos.length < 2) return;
@@ -136,7 +171,7 @@ export default function GaleriaCarrusel({ fotos, titulo }: Props) {
               <div
                 key={i}
                 className="galeria-thumb"
-                onClick={() => setIndiceModal(i + 1)}
+                onClick={() => abrirFoto(i + 1)}
               >
                 <Image src={f.url} alt={`${titulo}, foto ${i + 2}`} fill sizes="30vw" />
                 {i === 1 && fotos.length > 3 && (
@@ -144,7 +179,7 @@ export default function GaleriaCarrusel({ fotos, titulo }: Props) {
                     className="galeria-mas"
                     onClick={(e) => {
                       e.stopPropagation();
-                      setIndiceModal(3);
+                      abrirFoto(3);
                     }}
                   >
                     +{fotos.length - 3}
@@ -178,24 +213,85 @@ export default function GaleriaCarrusel({ fotos, titulo }: Props) {
               {fotos.length > 1 && (
                 <button
                   className="carrusel-nav carrusel-prev"
-                  onClick={anterior}
+                  onClick={() => { resetZoom(); anterior(); }}
                 >
                   ‹
                 </button>
               )}
-              <div className="carrusel-imagen">
-                <Image
-                  key={indiceModal!}
-                  src={fotos[indiceModal!].url}
-                  alt={titulo}
-                  fill
-                  sizes="100vw"
-                />
+              <div
+                className={`carrusel-imagen ${zoom > 1 ? "zoom-activo" : ""}`}
+                onDoubleClick={() => setZoom((z) => (z > 1 ? 1 : 2))}
+                onTouchStart={(e) => {
+                  if (e.touches.length === 2) {
+                    const distancia = distanciaTouches(e.touches);
+                    setPinchInicio(distancia);
+                    setZoomInicio(zoom);
+                    setPanInicio(null);
+                  } else if (e.touches.length === 1 && zoom > 1) {
+                    const t = e.touches[0];
+                    setPanInicio({
+                      x: t.clientX,
+                      y: t.clientY,
+                      offsetX: offset.x,
+                      offsetY: offset.y,
+                    });
+                  }
+                }}
+                onTouchMove={(e) => {
+                  if (e.touches.length === 2 && pinchInicio) {
+                    e.preventDefault();
+                    const distancia = distanciaTouches(e.touches);
+                    const nuevoZoom = Math.min(4, Math.max(1, zoomInicio * (distancia / pinchInicio)));
+                    setZoom(nuevoZoom);
+                  } else if (e.touches.length === 1 && zoom > 1 && panInicio) {
+                    e.preventDefault();
+                    const t = e.touches[0];
+                    setOffset({
+                      x: panInicio.offsetX + (t.clientX - panInicio.x),
+                      y: panInicio.offsetY + (t.clientY - panInicio.y),
+                    });
+                  }
+                }}
+                onTouchEnd={(e) => {
+                  if (e.touches.length < 2) setPinchInicio(null);
+                  if (e.touches.length === 0) setPanInicio(null);
+                }}
+              >
+                <div className="carrusel-imagen-zoom" style={{ transform: `translate(${offset.x}px, ${offset.y}px) scale(${zoom})` }}>
+                  <Image
+                    key={indiceModal!}
+                    src={fotos[indiceModal!].url}
+                    alt={titulo}
+                    fill
+                    sizes="100vw"
+                    priority
+                    draggable={false}
+                  />
+                </div>
+                <div className="carrusel-zoom-controles" aria-label="Controles de zoom">
+                  <button
+                    type="button"
+                    aria-label="Alejar"
+                    onClick={() => setZoom((z) => Math.max(1, +(z - 0.5).toFixed(1)))}
+                    disabled={zoom <= 1}
+                  >
+                    −
+                  </button>
+                  <span>{Math.round(zoom * 100)}%</span>
+                  <button
+                    type="button"
+                    aria-label="Acercar"
+                    onClick={() => setZoom((z) => Math.min(4, +(z + 0.5).toFixed(1)))}
+                    disabled={zoom >= 4}
+                  >
+                    +
+                  </button>
+                </div>
               </div>
               {fotos.length > 1 && (
                 <button
                   className="carrusel-nav carrusel-next"
-                  onClick={siguiente}
+                  onClick={() => { resetZoom(); siguiente(); }}
                 >
                   ›
                 </button>
@@ -209,7 +305,7 @@ export default function GaleriaCarrusel({ fotos, titulo }: Props) {
                   <button
                     key={i}
                     className={`carrusel-thumb ${i === indiceModal ? "activo" : ""}`}
-                    onClick={() => setIndiceModal(i)}
+                    onClick={() => { resetZoom(); setIndiceModal(i); }}
                   >
                     <Image src={f.url} alt={`${titulo}, foto ${i + 1}`} fill sizes="96px" />
                   </button>
