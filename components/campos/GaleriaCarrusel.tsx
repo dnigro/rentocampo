@@ -20,6 +20,8 @@ export default function GaleriaCarrusel({ fotos, titulo }: Props) {
   const [zoom, setZoom] = useState(1);
   const [pinchInicio, setPinchInicio] = useState<number | null>(null);
   const [zoomInicio, setZoomInicio] = useState(1);
+  const [offset, setOffset] = useState({ x: 0, y: 0 });
+  const [panInicio, setPanInicio] = useState<{ x: number; y: number; offsetX: number; offsetY: number } | null>(null);
 
   const abierto = indiceModal !== null;
 
@@ -47,6 +49,8 @@ export default function GaleriaCarrusel({ fotos, titulo }: Props) {
     setZoom(1);
     setPinchInicio(null);
     setZoomInicio(1);
+    setOffset({ x: 0, y: 0 });
+    setPanInicio(null);
   }, []);
 
   const cerrar = useCallback(() => {
@@ -54,7 +58,7 @@ export default function GaleriaCarrusel({ fotos, titulo }: Props) {
     resetZoom();
   }, [resetZoom]);
 
-  const distanciaTouches = (touches: React.TouchList) => {
+  const distanciaTouches = (touches: TouchList) => {
     if (touches.length < 2) return 0;
     const a = touches[0];
     const b = touches[1];
@@ -65,6 +69,13 @@ export default function GaleriaCarrusel({ fotos, titulo }: Props) {
     resetZoom();
     setIndiceModal(indice);
   };
+
+  useEffect(() => {
+    if (zoom <= 1) {
+      setOffset({ x: 0, y: 0 });
+      setPanInicio(null);
+    }
+  }, [zoom]);
 
   // Teclado
   useEffect(() => {
@@ -202,7 +213,7 @@ export default function GaleriaCarrusel({ fotos, titulo }: Props) {
               {fotos.length > 1 && (
                 <button
                   className="carrusel-nav carrusel-prev"
-                  onClick={anterior}
+                  onClick={() => { resetZoom(); anterior(); }}
                 >
                   ‹
                 </button>
@@ -215,6 +226,15 @@ export default function GaleriaCarrusel({ fotos, titulo }: Props) {
                     const distancia = distanciaTouches(e.touches);
                     setPinchInicio(distancia);
                     setZoomInicio(zoom);
+                    setPanInicio(null);
+                  } else if (e.touches.length === 1 && zoom > 1) {
+                    const t = e.touches[0];
+                    setPanInicio({
+                      x: t.clientX,
+                      y: t.clientY,
+                      offsetX: offset.x,
+                      offsetY: offset.y,
+                    });
                   }
                 }}
                 onTouchMove={(e) => {
@@ -223,13 +243,21 @@ export default function GaleriaCarrusel({ fotos, titulo }: Props) {
                     const distancia = distanciaTouches(e.touches);
                     const nuevoZoom = Math.min(4, Math.max(1, zoomInicio * (distancia / pinchInicio)));
                     setZoom(nuevoZoom);
+                  } else if (e.touches.length === 1 && zoom > 1 && panInicio) {
+                    e.preventDefault();
+                    const t = e.touches[0];
+                    setOffset({
+                      x: panInicio.offsetX + (t.clientX - panInicio.x),
+                      y: panInicio.offsetY + (t.clientY - panInicio.y),
+                    });
                   }
                 }}
                 onTouchEnd={(e) => {
                   if (e.touches.length < 2) setPinchInicio(null);
+                  if (e.touches.length === 0) setPanInicio(null);
                 }}
               >
-                <div className="carrusel-imagen-zoom" style={{ transform: `scale(${zoom})` }}>
+                <div className="carrusel-imagen-zoom" style={{ transform: `translate(${offset.x}px, ${offset.y}px) scale(${zoom})` }}>
                   <Image
                     key={indiceModal!}
                     src={fotos[indiceModal!].url}
@@ -263,7 +291,7 @@ export default function GaleriaCarrusel({ fotos, titulo }: Props) {
               {fotos.length > 1 && (
                 <button
                   className="carrusel-nav carrusel-next"
-                  onClick={siguiente}
+                  onClick={() => { resetZoom(); siguiente(); }}
                 >
                   ›
                 </button>
