@@ -51,6 +51,13 @@ export default function CampoCard({ campo, userId }: Props) {
           <span className="aptitud-tag">
             {APTITUD_LABEL[campo.aptitud] ?? campo.aptitud}
           </span>
+          <span className="operacion-tag">
+            {campo.operacion === "venta"
+              ? "Venta"
+              : campo.operacion === "ambas"
+                ? "Alquiler + Venta"
+                : "Alquiler"}
+          </span>
           {campo.mejoras === "Sí" && <span className="mejoras-tag">Con mejoras</span>}
         </div>
 
