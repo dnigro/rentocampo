@@ -58,7 +58,7 @@ export default function GaleriaCarrusel({ fotos, titulo }: Props) {
     resetZoom();
   }, [resetZoom]);
 
-  const distanciaTouches = (touches: TouchList) => {
+  const distanciaTouches = (touches: { length: number; [index: number]: { clientX: number; clientY: number } }) => {
     if (touches.length < 2) return 0;
     const a = touches[0];
     const b = touches[1];
