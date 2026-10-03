@@ -69,12 +69,12 @@ export default function LandingFAQ() {
                   {faq.type === "users" && <div className="rc-faq-users">
                     <p className="rc-faq-intro">Pueden registrarse tres tipos de usuarios:</p>
                     <div className="rc-faq-user"><FaqIcon>🚜</FaqIcon><div><h3>Productores</h3><p>Buscan campos para alquilar o producir.</p><mark className="rc-free-tag">100% gratis de por vida</mark></div></div>
-                    <div className="rc-faq-user"><FaqIcon>🌱</FaqIcon><div><h3>Propietarios de Tierras</h3><p>Publican sus campos para que productores los contacten.</p><mark className="rc-owner-tag">Primera publicación gratis, luego paquetes según tus necesidades.</mark></div></div>
+                    <div className="rc-faq-user"><FaqIcon>🌱</FaqIcon><div><h3>Propietarios de Tierras</h3><p>Publican sus campos principalmente para alquiler y, si lo necesitan, también para venta.</p><mark className="rc-owner-tag">Primera publicación gratis, luego paquetes según tus necesidades.</mark></div></div>
                     <div className="rc-faq-user"><FaqIcon>🔧</FaqIcon><div><h3>Proveedores de Servicios Rurales</h3><p>Publican sus servicios: siembra, cosecha, fletes, alambrados y otros trabajos rurales.</p><mark className="rc-free-tag">100% gratis de por vida</mark></div></div>
                   </div>}
 
                   {faq.type === "agreement" && <div className="rc-faq-info-row">
-                    <FaqIcon>🤝</FaqIcon><div><p><strong>No.</strong> RentoCampo solo facilita el contacto directo entre Propietarios, Productores y Proveedores de Servicios Rurales.</p><p>Las condiciones de alquiler, contratación de servicios y cualquier acuerdo comercial las definen directamente los usuarios.</p><p>RentoCampo brinda un espacio simple para encontrarse y conectarse.</p></div>
+                    <FaqIcon>🤝</FaqIcon><div><p><strong>No.</strong> RentoCampo solo facilita el contacto directo entre Propietarios, Productores y Proveedores de Servicios Rurales.</p><p>Las condiciones de alquiler, compraventa, contratación de servicios y cualquier acuerdo comercial las definen directamente los usuarios.</p><p>RentoCampo brinda un espacio simple para encontrarse y conectarse.</p></div>
                   </div>}
 
                   {faq.type === "contact" && <div className="rc-faq-info-row">
