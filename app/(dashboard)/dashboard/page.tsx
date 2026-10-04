@@ -54,7 +54,7 @@ export default async function DashboardPage() {
               <span className="dash-card-desc">Publicar y gestionar</span>
             </Link>
             {esPrestador && (
-              <Link href="/perfil#mis-servicios-rurales" className="dash-card">
+              <Link href="/mis-servicios-rurales" className="dash-card">
                 <span className="dash-card-icon">⚙️</span>
                 <span className="dash-card-label">Mis servicios rurales</span>
                 <span className="dash-card-desc">Publicar y gestionar</span>
@@ -78,7 +78,7 @@ export default async function DashboardPage() {
               <span className="dash-card-label">Mensajes</span>
               <span className="dash-card-desc">Consultas recibidas</span>
             </Link>
-            <Link href="/perfil#mis-servicios-rurales" className="dash-card">
+            <Link href="/mis-servicios-rurales" className="dash-card">
               <span className="dash-card-icon">⚙️</span>
               <span className="dash-card-label">Mis servicios rurales</span>
               <span className="dash-card-desc">Publicar y gestionar</span>
