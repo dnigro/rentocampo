@@ -38,7 +38,7 @@ export default async function MapaPage({
   const { data: campos } = await supabase
     .from("campos")
     .select(
-      "id, titulo, country_code, provincia, localidad, latitud, longitud, hectareas, aptitud, precio, moneda, created_at",
+      "id, titulo, country_code, provincia, localidad, latitud, longitud, hectareas, aptitud, operacion, precio, moneda, created_at, fotos:campos_fotos(id, url, orden, storage_path)",
     )
     .eq("status", "activo")
     .or("country_code.eq.AR,country_code.is.null")
