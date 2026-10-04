@@ -358,7 +358,7 @@ export default function PerfilForm({ profile, userId, email }: Props) {
         </div>
 
         {form.roles.includes("prestador") && (
-          <div className="servicios-profile-box">
+          <div className="servicios-profile-box" id="mis-servicios-rurales">
             <div>
               <h3>¿Qué servicios ofrecés?</h3>
               <p>Elegí todos los que correspondan para que puedan encontrarte.</p>
