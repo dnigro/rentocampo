@@ -19,8 +19,8 @@ interface CampoPin {
   country_code?: CountryCode;
   provincia: string;
   localidad?: string;
-  latitud: number;
-  longitud: number;
+  latitud: number | string;
+  longitud: number | string;
   hectareas: number;
   aptitud: string;
   operacion?: "alquiler" | "venta" | "ambas";
@@ -117,12 +117,12 @@ export default function CampoMapa({
       campos.filter(
         (campo) =>
           (campo.country_code ?? "AR") === countryCode &&
-          Number.isFinite(campo.latitud) &&
-          Number.isFinite(campo.longitud) &&
-          campo.latitud >= -90 &&
-          campo.latitud <= 90 &&
-          campo.longitud >= -180 &&
-          campo.longitud <= 180,
+          Number.isFinite(Number(campo.latitud)) &&
+          Number.isFinite(Number(campo.longitud)) &&
+          Number(campo.latitud) >= -90 &&
+          Number(campo.latitud) <= 90 &&
+          Number(campo.longitud) >= -180 &&
+          Number(campo.longitud) <= 180,
       ),
     [campos, countryCode],
   );
@@ -158,7 +158,10 @@ export default function CampoMapa({
         const coordinates: [number, number][] = [];
 
         camposConCoordenadas.forEach((campo) => {
-          const position: [number, number] = [campo.latitud, campo.longitud];
+          const position: [number, number] = [
+            Number(campo.latitud),
+            Number(campo.longitud),
+          ];
           const esDemo = campo.id.startsWith("20000000-");
           coordinates.push(position);
           L.circleMarker(position, {
