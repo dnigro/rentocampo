@@ -78,6 +78,12 @@ export default async function ServiciosRuralesPage({
     : "";
 
   const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  const ofrecerServiciosHref = user
+    ? "/mis-servicios-rurales"
+    : "/register?tipo=prestador";
 
   let perfilesQuery = supabase
     .from("profiles")
@@ -167,7 +173,7 @@ export default async function ServiciosRuralesPage({
             Ver servicios en mapa →
           </Link>
           <Link
-            href="/register?tipo=prestador"
+            href={ofrecerServiciosHref}
             className="servicios-btn servicios-btn-secondary"
           >
             Ofrecer mis servicios
@@ -238,7 +244,7 @@ export default async function ServiciosRuralesPage({
 
                     <div className="prestador-card__actions">
                       {prestador.is_demo ? (
-                        <Link href="/register?tipo=prestador">
+                        <Link href={ofrecerServiciosHref}>
                           Crear mi servicio →
                         </Link>
                       ) : (
@@ -298,7 +304,7 @@ export default async function ServiciosRuralesPage({
           <h2>Mostrá tus servicios en todo el país.</h2>
         </div>
         <Link
-          href="/register?tipo=prestador"
+          href={ofrecerServiciosHref}
           className="servicios-btn servicios-btn-yellow"
         >
           Crear perfil gratis →
