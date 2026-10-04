@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { LayerGroup, Map as LeafletMap } from "leaflet";
 import Link from "next/link";
+import Image from "next/image";
 import { DEMANDA_ZONAS, type DemandaZona } from "@/data/demanda-zonas";
 import {
   CENTROS_PROVINCIA,
@@ -41,6 +42,7 @@ interface ServicioPin {
   country_code?: CountryCode;
   bio?: string;
   avatar_url?: string;
+  service_photo_url?: string;
   servicios_rurales: ServicioRural[];
   zona_servicio?: string;
   provincia_servicio: string;
@@ -489,6 +491,16 @@ export default function CampoMapa({
           >
             ×
           </button>
+          {selectedServicio.service_photo_url && (
+            <div className="mapa-servicio-foto">
+              <Image
+                src={selectedServicio.service_photo_url}
+                alt={`${selectedServicio.nombre} · servicio rural`}
+                width={640}
+                height={360}
+              />
+            </div>
+          )}
           <p className="mapa-panel-aptitud mapa-panel-aptitud-servicio">
             {selectedServicio.is_demo ? "SERVICIO DEMO" : "Servicios rurales"}
           </p>
