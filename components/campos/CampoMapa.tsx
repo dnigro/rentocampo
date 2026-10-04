@@ -406,7 +406,7 @@ export default function CampoMapa({
               </Link>
             ) : (
               <Link
-                href="/register?tipo=prestador"
+                href={resolvedUserId ? "/mis-servicios-rurales/nuevo" : "/register?tipo=prestador"}
                 className="mapa-publicar-btn mapa-publicar-btn-principal mapa-publicar-btn-principal-servicio"
               >
                 Publicar mis servicios →
@@ -529,7 +529,7 @@ export default function CampoMapa({
           )}
           {selectedServicio.is_demo ? (
             <Link
-              href="/register?tipo=prestador"
+              href={resolvedUserId ? "/mis-servicios-rurales/nuevo" : "/register?tipo=prestador"}
               className="mapa-panel-btn mapa-panel-btn-servicio"
             >
               Crear mi servicio →
