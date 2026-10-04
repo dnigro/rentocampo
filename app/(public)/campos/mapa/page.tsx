@@ -58,7 +58,7 @@ export default async function MapaPage({
   const { data: prestadores } = await supabase
     .from("profiles")
     .select(
-      "id, nombre, country_code, bio, avatar_url, servicios_rurales, zona_servicio, provincia_servicio, localidad_servicio",
+      "id, nombre, country_code, bio, avatar_url, service_photo_url, servicios_rurales, zona_servicio, provincia_servicio, localidad_servicio",
     )
     .contains("roles", ["prestador"])
     .not("provincia_servicio", "is", null);
@@ -80,6 +80,7 @@ export default async function MapaPage({
       .map((prestador) => ({
         ...prestador,
         avatar_url: undefined,
+        service_photo_url: "/demo-servicio-veterinaria.jpg",
         is_demo: true,
       })),
   ];
