@@ -84,7 +84,7 @@ export default async function ServiciosRuralesPage({
     data: { user },
   } = await supabase.auth.getUser();
   const ofrecerServiciosHref = user
-    ? "/mis-servicios-rurales"
+    ? "/mis-servicios-rurales/nuevo"
     : "/register?tipo=prestador";
 
   let perfilesQuery = supabase
