@@ -61,7 +61,7 @@ export default async function MapaPage({
       is_demo: false,
     })),
     ...(serviciosDemo ?? [])
-      .filter((prestador) => DEMO_SERVICIO_VISIBLE_IDS.has(prestador.id))
+      .filter((prestador) => DEMO_SERVICIO_VISIBLE_IDS.has(String(prestador.id)))
       .map((prestador) => ({
         ...prestador,
         avatar_url: undefined,
