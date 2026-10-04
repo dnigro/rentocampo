@@ -153,6 +153,13 @@ export default async function CampoFichaPage({ params }: PageProps) {
               {APTITUD_LABEL[campoConPropietario.aptitud] ??
                 campoConPropietario.aptitud}
             </span>
+            <span className="operacion-tag">
+              {campoConPropietario.operacion === "venta"
+                ? "Venta"
+                : campoConPropietario.operacion === "ambas"
+                  ? "Alquiler + Venta"
+                  : "Alquiler"}
+            </span>
             {campoConPropietario.mejoras === "Sí" && (
               <span className="mejoras-tag">Con mejoras</span>
             )}

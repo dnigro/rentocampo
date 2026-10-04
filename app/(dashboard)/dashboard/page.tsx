@@ -34,13 +34,6 @@ export default async function DashboardPage() {
           <h1 className="dashboard-title">
             Hola, {profile?.nombre?.split(" ")[0] ?? "bienvenido"} 👋
           </h1>
-          <p className="dashboard-subtitle">
-            {esPrestador && !esPropietario && !esProductor
-              ? "Mostrá tus servicios y conectá con la actividad rural"
-              : esPropietario
-              ? "Buscá oportunidades y administrá tus campos"
-              : "Explorá campos disponibles y contactá propietarios"}
-          </p>
         </div>
         <span className={`badge-tipo ${esPropietario ? "propietario" : esPrestador ? "prestador" : "productor"}`}>
           {etiquetaPerfil}
@@ -50,11 +43,23 @@ export default async function DashboardPage() {
       <div className="dashboard-cards">
         {esPropietario ? (
           <>
+            <Link href="/perfil" className="dash-card">
+              <span className="dash-card-icon">👤</span>
+              <span className="dash-card-label">Mi perfil</span>
+              <span className="dash-card-desc">Datos y configuración</span>
+            </Link>
             <Link href="/mis-campos" className="dash-card">
               <span className="dash-card-icon">🗺️</span>
               <span className="dash-card-label">Mis campos</span>
               <span className="dash-card-desc">Publicar y gestionar</span>
             </Link>
+            {esPrestador && (
+              <Link href="/mis-servicios-rurales" className="dash-card">
+                <span className="dash-card-icon">⚙️</span>
+                <span className="dash-card-label">Mis servicios rurales</span>
+                <span className="dash-card-desc">Publicar y gestionar</span>
+              </Link>
+            )}
             <Link href="/favoritos" className="dash-card">
               <span className="dash-card-icon">❤️</span>
               <span className="dash-card-label">Favoritos</span>
@@ -65,11 +70,6 @@ export default async function DashboardPage() {
               <span className="dash-card-label">Consultas</span>
               <span className="dash-card-desc">Mensajes de productores</span>
             </Link>
-            <Link href="/perfil" className="dash-card">
-              <span className="dash-card-icon">👤</span>
-              <span className="dash-card-label">Mi perfil</span>
-              <span className="dash-card-desc">Datos y configuración</span>
-            </Link>
           </>
         ) : esPrestador && !esProductor ? (
           <>
@@ -78,10 +78,10 @@ export default async function DashboardPage() {
               <span className="dash-card-label">Mensajes</span>
               <span className="dash-card-desc">Consultas recibidas</span>
             </Link>
-            <Link href="/perfil" className="dash-card">
+            <Link href="/mis-servicios-rurales" className="dash-card">
               <span className="dash-card-icon">⚙️</span>
-              <span className="dash-card-label">Mis servicios</span>
-              <span className="dash-card-desc">Especialidades y zona</span>
+              <span className="dash-card-label">Mis servicios rurales</span>
+              <span className="dash-card-desc">Publicar y gestionar</span>
             </Link>
           </>
         ) : (

@@ -118,3 +118,77 @@
   font-size: 13px;
   color: #999;
 }
+
+
+/* Dashboard mobile: saludo más compacto */
+@media (max-width: 760px) {
+  .app-shell .dashboard-page {
+    padding-top: 24px !important;
+  }
+
+  .app-shell .dashboard-header {
+    margin-bottom: 24px !important;
+    gap: 10px !important;
+  }
+
+  .app-shell .dashboard-title {
+    font-size: clamp(38px, 11vw, 50px) !important;
+    line-height: .9 !important;
+  }
+
+  .app-shell .dashboard-subtitle {
+    font-size: 16px !important;
+    line-height: 1.35 !important;
+  }
+}
+
+
+/* Mobile dashboard: leave role badge first, then greeting below */
+@media (max-width: 760px) {
+  .app-shell .dashboard-header {
+    position: relative;
+    display: block !important;
+    padding-top: 44px !important;
+  }
+
+  .app-shell .dashboard-header > div {
+    width: 100%;
+  }
+
+  .app-shell .dashboard-header .badge-tipo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    max-width: calc(100vw - 48px);
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .app-shell .dashboard-title {
+    margin-top: 10px !important;
+    margin-bottom: 0 !important;
+  }
+}
+
+
+/* Dashboard cards: improve text readability */
+.app-shell .dash-card-label {
+  font-size: 20px !important;
+  line-height: 1.15 !important;
+  font-weight: 800 !important;
+}
+
+.app-shell .dash-card-desc {
+  font-size: 15px !important;
+  line-height: 1.35 !important;
+}
+
+@media (max-width: 760px) {
+  .app-shell .dash-card-label {
+    font-size: 22px !important;
+  }
+
+  .app-shell .dash-card-desc {
+    font-size: 16px !important;
+  }
+}

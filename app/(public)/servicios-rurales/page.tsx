@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { createClient } from "@/lib/supabase/server";
 import { SERVICIOS_RURALES, SERVICIO_LABEL } from "@/data/servicios-rurales";
 import type { ServicioRural } from "@/types";
@@ -35,6 +36,7 @@ type Prestador = {
   nombre: string;
   bio?: string | null;
   avatar_url?: string | null;
+  service_photo_url?: string | null;
   servicios_rurales: ServicioRural[];
   zona_servicio?: string | null;
   provincia_servicio: string;
@@ -78,11 +80,17 @@ export default async function ServiciosRuralesPage({
     : "";
 
   const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  const ofrecerServiciosHref = user
+    ? "/mis-servicios-rurales"
+    : "/register?tipo=prestador";
 
   let perfilesQuery = supabase
     .from("profiles")
     .select(
-      "id, nombre, bio, avatar_url, servicios_rurales, zona_servicio, provincia_servicio, localidad_servicio",
+      "id, nombre, bio, avatar_url, service_photo_url, servicios_rurales, zona_servicio, provincia_servicio, localidad_servicio",
     )
     .contains("roles", ["prestador"])
     .not("provincia_servicio", "is", null);
@@ -111,11 +119,19 @@ export default async function ServiciosRuralesPage({
 
   const prestadores: Prestador[] = [
     ...(perfiles ?? []).map((item) => ({ ...item, is_demo: false })),
-    ...(demos ?? []).map((item) => ({
-      ...item,
-      avatar_url: null,
-      is_demo: true,
-    })),
+    ...(demos ?? [])
+      .filter((item) =>
+        [
+          "10000000-0000-4000-8000-000000000005",
+          "10000000-0000-4000-8000-000000000010",
+        ].includes(item.id),
+      )
+      .map((item) => ({
+        ...item,
+        avatar_url: null,
+        service_photo_url: "/demo-servicio-veterinaria.jpg",
+        is_demo: true,
+      })),
   ];
 
   const jsonLd = {
@@ -167,7 +183,7 @@ export default async function ServiciosRuralesPage({
             Ver servicios en mapa →
           </Link>
           <Link
-            href="/register?tipo=prestador"
+            href={ofrecerServiciosHref}
             className="servicios-btn servicios-btn-secondary"
           >
             Ofrecer mis servicios
@@ -203,6 +219,17 @@ export default async function ServiciosRuralesPage({
                 const servicios = prestador.servicios_rurales ?? [];
                 return (
                   <article className="prestador-card" key={`${prestador.is_demo ? "demo" : "real"}-${prestador.id}`}>
+                    {prestador.service_photo_url && (
+                      <div className="prestador-card__image">
+                        <Image
+                          src={prestador.service_photo_url}
+                          alt={`${prestador.nombre} · servicios rurales`}
+                          width={900}
+                          height={580}
+                        />
+                      </div>
+                    )}
+
                     <div className="prestador-card__top">
                       <span className="prestador-card__badge">
                         {prestador.is_demo ? "DEMO" : "SERVICIO RURAL"}
@@ -238,7 +265,7 @@ export default async function ServiciosRuralesPage({
 
                     <div className="prestador-card__actions">
                       {prestador.is_demo ? (
-                        <Link href="/register?tipo=prestador">
+                        <Link href={ofrecerServiciosHref}>
                           Crear mi servicio →
                         </Link>
                       ) : (
@@ -298,7 +325,7 @@ export default async function ServiciosRuralesPage({
           <h2>Mostrá tus servicios en todo el país.</h2>
         </div>
         <Link
-          href="/register?tipo=prestador"
+          href={ofrecerServiciosHref}
           className="servicios-btn servicios-btn-yellow"
         >
           Crear perfil gratis →

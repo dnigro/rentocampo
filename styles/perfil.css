@@ -646,3 +646,30 @@
     font-size: 20px;
   }
 }
+
+
+/* Foto representativa para servicios rurales */
+.servicio-foto-editor {
+  display: grid;
+  gap: 12px;
+  align-items: start;
+}
+
+.servicio-foto-preview,
+.servicio-foto-placeholder {
+  width: min(100%, 720px);
+  aspect-ratio: 16 / 9;
+  border-radius: 16px;
+  border: 1px solid #e0ddd5;
+  object-fit: cover;
+  background: #f7f5ef;
+}
+
+.servicio-foto-placeholder {
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  color: #77736b;
+  font-size: 14px;
+  text-align: center;
+}

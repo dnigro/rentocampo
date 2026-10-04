@@ -19,6 +19,7 @@ export default function PerfilForm({ profile, userId, email }: Props) {
   const router = useRouter();
   const [supabase] = useState(createClient);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const servicePhotoInputRef = useRef<HTMLInputElement>(null);
 
   const [form, setForm] = useState({
     nombre: profile?.nombre ?? "",
@@ -36,6 +37,8 @@ export default function PerfilForm({ profile, userId, email }: Props) {
 
   const [avatarPreview, setAvatarPreview] = useState(profile?.avatar_url ?? "");
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
+  const [servicePhotoPreview, setServicePhotoPreview] = useState(profile?.service_photo_url ?? "");
+  const [servicePhotoFile, setServicePhotoFile] = useState<File | null>(null);
 
   const [passwords, setPasswords] = useState({
     nueva: "",
@@ -65,6 +68,13 @@ export default function PerfilForm({ profile, userId, email }: Props) {
     if (!file) return;
     setAvatarFile(file);
     setAvatarPreview(URL.createObjectURL(file));
+  }
+
+  function handleServicePhotoChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setServicePhotoFile(file);
+    setServicePhotoPreview(URL.createObjectURL(file));
   }
 
   function toggleRole(role: RolPerfil) {
@@ -106,6 +116,20 @@ export default function PerfilForm({ profile, userId, email }: Props) {
           throw new Error(result.error ?? "No se pudo subir la foto de perfil");
         }
         setAvatarPreview(result.url);
+      }
+
+      if (servicePhotoFile && form.roles.includes("prestador")) {
+        const body = new FormData();
+        body.set("file", servicePhotoFile);
+        const response = await fetch("/api/profile/service-photo", {
+          method: "POST",
+          body,
+        });
+        const result = await response.json();
+        if (!response.ok || !result.url) {
+          throw new Error(result.error ?? "No se pudo subir la foto del servicio");
+        }
+        setServicePhotoPreview(result.url);
       }
 
       const { error } = await supabase
@@ -358,7 +382,7 @@ export default function PerfilForm({ profile, userId, email }: Props) {
         </div>
 
         {form.roles.includes("prestador") && (
-          <div className="servicios-profile-box">
+          <div className="servicios-profile-box" id="mis-servicios-rurales">
             <div>
               <h3>¿Qué servicios ofrecés?</h3>
               <p>Elegí todos los que correspondan para que puedan encontrarte.</p>
@@ -375,6 +399,42 @@ export default function PerfilForm({ profile, userId, email }: Props) {
                 </label>
               ))}
             </div>
+            <div className="form-field">
+              <label className="form-label">Foto de tus servicios</label>
+              <div className="servicio-foto-editor">
+                {servicePhotoPreview ? (
+                  <Image
+                    src={servicePhotoPreview}
+                    alt="Foto representativa de tus servicios rurales"
+                    width={720}
+                    height={420}
+                    className="servicio-foto-preview"
+                  />
+                ) : (
+                  <div className="servicio-foto-placeholder">
+                    📷 Subí una foto que represente tu trabajo
+                  </div>
+                )}
+                <button
+                  type="button"
+                  className="btn-secondary-lg"
+                  onClick={() => servicePhotoInputRef.current?.click()}
+                >
+                  {servicePhotoPreview ? "Cambiar foto" : "Subir foto"}
+                </button>
+                <input
+                  ref={servicePhotoInputRef}
+                  type="file"
+                  accept="image/*"
+                  style={{ display: "none" }}
+                  onChange={handleServicePhotoChange}
+                />
+              </div>
+              <span className="form-hint">
+                Usá una imagen real y acorde al servicio que ofrecés.
+              </span>
+            </div>
+
             <div className="form-field">
               <label className="form-label" htmlFor="zona_servicio">
                 Zona donde trabajás

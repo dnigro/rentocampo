@@ -17,6 +17,7 @@ const ALLOWED_FIELDS = [
   "hectareas",
   "aptitud",
   "ambiente",
+  "operacion",
   "precio",
   "moneda",
   "disponibilidad",
