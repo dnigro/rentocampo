@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { createClient } from "@/lib/supabase/server";
 import { SERVICIOS_RURALES, SERVICIO_LABEL } from "@/data/servicios-rurales";
 import type { ServicioRural } from "@/types";
@@ -35,6 +36,7 @@ type Prestador = {
   nombre: string;
   bio?: string | null;
   avatar_url?: string | null;
+  service_photo_url?: string | null;
   servicios_rurales: ServicioRural[];
   zona_servicio?: string | null;
   provincia_servicio: string;
@@ -88,7 +90,7 @@ export default async function ServiciosRuralesPage({
   let perfilesQuery = supabase
     .from("profiles")
     .select(
-      "id, nombre, bio, avatar_url, servicios_rurales, zona_servicio, provincia_servicio, localidad_servicio",
+      "id, nombre, bio, avatar_url, service_photo_url, servicios_rurales, zona_servicio, provincia_servicio, localidad_servicio",
     )
     .contains("roles", ["prestador"])
     .not("provincia_servicio", "is", null);
@@ -96,7 +98,7 @@ export default async function ServiciosRuralesPage({
   let demosQuery = supabase
     .from("demo_servicios_rurales")
     .select(
-      "id, nombre, bio, servicios_rurales, zona_servicio, provincia_servicio, localidad_servicio",
+      "id, nombre, bio, imagen_url, servicios_rurales, zona_servicio, provincia_servicio, localidad_servicio",
     )
     .eq("activo", true);
 
@@ -120,6 +122,7 @@ export default async function ServiciosRuralesPage({
     ...(demos ?? []).map((item) => ({
       ...item,
       avatar_url: null,
+      service_photo_url: item.imagen_url ?? null,
       is_demo: true,
     })),
   ];
@@ -209,6 +212,17 @@ export default async function ServiciosRuralesPage({
                 const servicios = prestador.servicios_rurales ?? [];
                 return (
                   <article className="prestador-card" key={`${prestador.is_demo ? "demo" : "real"}-${prestador.id}`}>
+                    {prestador.service_photo_url && (
+                      <div className="prestador-card__image">
+                        <Image
+                          src={prestador.service_photo_url}
+                          alt={`${prestador.nombre} · servicios rurales`}
+                          width={900}
+                          height={580}
+                        />
+                      </div>
+                    )}
+
                     <div className="prestador-card__top">
                       <span className="prestador-card__badge">
                         {prestador.is_demo ? "DEMO" : "SERVICIO RURAL"}
