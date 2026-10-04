@@ -665,6 +665,6 @@ body:has(.mapa-page) {
 
 
 /* Servicios DEMO: foto en blanco y negro */
-.mapa-panel-servicio .mapa-servicio-foto img {
+.mapa-panel-servicio[data-demo="true"] .mapa-servicio-foto img {
   filter: grayscale(1) contrast(1.05);
 }
