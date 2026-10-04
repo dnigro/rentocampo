@@ -944,3 +944,46 @@
     font-size: 17px !important;
   }
 }
+
+
+/* PR164 mobile: título de campos primero, filtros debajo */
+.explorador-mobile-header {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .explorador-layout {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  .explorador-mobile-header {
+    display: block;
+    order: 1;
+    padding: 0 24px 18px;
+  }
+
+  .explorador-mobile-header .explorador-title {
+    margin: 0;
+  }
+
+  .explorador-mobile-header .explorador-count {
+    margin: 10px 0 16px;
+  }
+
+  .explorador-mobile-header .btn-mapa {
+    margin-top: 0;
+  }
+
+  .explorador-sidebar {
+    order: 2;
+  }
+
+  .explorador-main {
+    order: 3;
+  }
+
+  .explorador-header-desktop {
+    display: none !important;
+  }
+}
