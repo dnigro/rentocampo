@@ -637,3 +637,17 @@
   height: 100%;
   object-fit: cover;
 }
+
+
+.prestador-card__own {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 10px 16px;
+  border-radius: 8px;
+  background: #f3f1eb;
+  color: #5b5b55;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .02em;
+}
