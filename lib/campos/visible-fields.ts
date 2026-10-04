@@ -17,15 +17,15 @@ type CampoVisible = {
 };
 
 function tieneCoordenadasValidas(campo: CampoVisible) {
+  const lat = Number(campo.latitud);
+  const lng = Number(campo.longitud);
   return (
-    typeof campo.latitud === "number" &&
-    typeof campo.longitud === "number" &&
-    Number.isFinite(campo.latitud) &&
-    Number.isFinite(campo.longitud) &&
-    campo.latitud >= -90 &&
-    campo.latitud <= 90 &&
-    campo.longitud >= -180 &&
-    campo.longitud <= 180
+    Number.isFinite(lat) &&
+    Number.isFinite(lng) &&
+    lat >= -90 &&
+    lat <= 90 &&
+    lng >= -180 &&
+    lng <= 180
   );
 }
 
