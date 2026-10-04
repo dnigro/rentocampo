@@ -527,33 +527,40 @@ export default function CampoMapa({
           {selectedServicio.bio && (
             <p className="mapa-panel-descripcion">{selectedServicio.bio}</p>
           )}
-          {selectedServicio.is_demo ? (
-            <Link
-              href={resolvedUserId ? "/mis-servicios-rurales/nuevo" : "/register?tipo=prestador"}
-              className="mapa-panel-btn mapa-panel-btn-servicio"
-            >
-              Crear mi servicio →
-            </Link>
-          ) : resolvedUserId === undefined ? (
+          {resolvedUserId === undefined ? (
             <div
               className="mapa-panel-btn mapa-panel-btn-propio"
               aria-disabled="true"
             >
               Verificando sesión…
             </div>
-          ) : selectedServicio.id === resolvedUserId ? (
+          ) : !resolvedUserId ? (
+            <Link
+              href="/login?next=/campos/mapa?vista=servicios"
+              className="mapa-panel-btn mapa-panel-btn-servicio"
+            >
+              Ingresá para consultar →
+            </Link>
+          ) : !selectedServicio.is_demo && selectedServicio.id === resolvedUserId ? (
             <div
               className="mapa-panel-btn mapa-panel-btn-propio"
               aria-disabled="true"
             >
-              Este es tu servicio
+              Este servicio es tuyo
+            </div>
+          ) : selectedServicio.is_demo ? (
+            <div
+              className="mapa-panel-btn mapa-panel-btn-propio"
+              aria-disabled="true"
+            >
+              Servicio demo
             </div>
           ) : (
             <Link
               href={`/mensajes/direct/${selectedServicio.id}`}
               className="mapa-panel-btn"
             >
-              Chatear online →
+              Consultar servicio →
             </Link>
           )}
         </div>
