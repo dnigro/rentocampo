@@ -13,9 +13,40 @@ export default function LandingHero() {
               <span className="editorialHero__desktopAccentLine">
                 <span>Gratis para el campo.</span>
                 <span className="editorialHero__seal" aria-label="Sello RentoCampo">
-                  <span className="editorialHero__sealWord">RENTOCAMPO</span>
-                  <strong>RC</strong>
-                  <span className="editorialHero__sealMotto">LA PRODUCCIÓN NOS CONECTA</span>
+                  <svg
+                    className="editorialHero__sealSvg"
+                    viewBox="0 0 140 140"
+                    role="img"
+                    aria-hidden="true"
+                  >
+                    <defs>
+                      <path
+                        id="rcSealTopArc"
+                        d="M 26 70 A 44 44 0 0 1 114 70"
+                      />
+                      <path
+                        id="rcSealBottomArc"
+                        d="M 114 70 A 44 44 0 0 1 26 70"
+                      />
+                    </defs>
+                    <circle cx="70" cy="70" r="61" className="rc-seal-ring rc-seal-ring--outer" />
+                    <circle cx="70" cy="70" r="52" className="rc-seal-ring rc-seal-ring--inner" />
+                    <text className="rc-seal-arc rc-seal-arc--top">
+                      <textPath href="#rcSealTopArc" startOffset="50%" textAnchor="middle">
+                        RENTOCAMPO
+                      </textPath>
+                    </text>
+                    <text className="rc-seal-arc rc-seal-arc--bottom">
+                      <textPath href="#rcSealBottomArc" startOffset="50%" textAnchor="middle">
+                        LA PRODUCCIÓN NOS CONECTA
+                      </textPath>
+                    </text>
+                    <circle cx="20" cy="70" r="2.8" className="rc-seal-dot" />
+                    <circle cx="120" cy="70" r="2.8" className="rc-seal-dot" />
+                    <text x="70" y="84" textAnchor="middle" className="rc-seal-center">
+                      RC
+                    </text>
+                  </svg>
                 </span>
               </span>
             </h1>
