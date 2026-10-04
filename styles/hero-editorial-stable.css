@@ -1309,3 +1309,74 @@
     font-size: 25px !important;
   }
 }
+
+
+/* PR164: sello a continuación de "Gratis para el campo" y con mayor presencia */
+.editorialHero__desktopAccentLine {
+  display: flex !important;
+  align-items: center;
+  gap: 12px;
+  white-space: normal !important;
+}
+
+.editorialHero__desktopAccentLine > span:first-child {
+  display: inline !important;
+}
+
+.editorialHero__desktopAccentLine .editorialHero__seal {
+  position: relative !important;
+  top: auto !important;
+  right: auto !important;
+  flex: 0 0 auto;
+  width: 72px !important;
+  height: 72px !important;
+  margin: 0 0 0 4px !important;
+  opacity: .52 !important;
+  transform: rotate(7deg);
+  border-color: rgba(246,197,0,.72) !important;
+  background: rgba(20,20,20,.16) !important;
+  color: #f6c500 !important;
+  box-shadow:
+    inset 0 0 0 4px rgba(246,197,0,.12),
+    0 0 0 1px rgba(255,255,255,.06);
+}
+
+.editorialHero__desktopAccentLine .editorialHero__seal::after {
+  border-color: rgba(246,197,0,.68) !important;
+}
+
+.editorialHero__desktopAccentLine .editorialHero__sealWord {
+  color: #f6c500 !important;
+  font-size: 7px !important;
+}
+
+.editorialHero__desktopAccentLine .editorialHero__seal strong {
+  font-size: 29px !important;
+}
+
+@media (max-width: 900px) {
+  .editorialHero__desktopTitleRow {
+    padding-right: 0 !important;
+  }
+
+  .editorialHero__desktopAccentLine {
+    align-items: center;
+    gap: 8px;
+  }
+
+  .editorialHero__desktopAccentLine .editorialHero__seal {
+    width: 58px !important;
+    height: 58px !important;
+    margin-left: 2px !important;
+    opacity: .56 !important;
+  }
+
+  .editorialHero__desktopAccentLine .editorialHero__seal strong {
+    font-size: 23px !important;
+  }
+
+  .editorialHero__desktopAccentLine .editorialHero__sealWord {
+    top: 6px;
+    font-size: 6px !important;
+  }
+}
