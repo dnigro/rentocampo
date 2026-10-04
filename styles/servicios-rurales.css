@@ -651,3 +651,9 @@
   text-transform: uppercase;
   letter-spacing: .02em;
 }
+
+
+/* DEMO: imagen institucional en blanco y negro */
+.prestador-card[data-demo="true"] .prestador-card__image img {
+  filter: grayscale(1) contrast(1.05);
+}
