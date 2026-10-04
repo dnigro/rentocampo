@@ -4,23 +4,7 @@ import { SERVICIOS_RURALES } from "@/data/servicios-rurales";
 import type { ServicioRural } from "@/types";
 import type { Metadata } from "next";
 import "@/styles/mapa.css";
-
-const DEMO_CAMPO_VISIBLE_IDS = new Set([
-  "20000000-0000-4000-8000-000000000001",
-  "20000000-0000-4000-8000-000000000002",
-  "20000000-0000-4000-8000-000000000003",
-  "20000000-0000-4000-8000-000000000004",
-  "20000000-0000-4000-8000-000000000006",
-]);
-
-const DEMO_SERVICIO_VISIBLE_IDS = new Set([
-  "10000000-0000-4000-8000-000000000005",
-  "10000000-0000-4000-8000-000000000010",
-]);
-
-function campoVisibleEnMapa(id: string) {
-  return !id.startsWith("20000000-") || DEMO_CAMPO_VISIBLE_IDS.has(id);
-}
+import { seleccionarCamposPublicos } from "@/lib/campos/visible-fields";
 
 export const metadata: Metadata = {
   title: "Mapa de campos y servicios rurales | RentoCampo",
@@ -49,7 +33,7 @@ export default async function MapaPage({
   const { data: campos } = await supabase
     .from("campos")
     .select(
-      "id, titulo, country_code, provincia, localidad, latitud, longitud, hectareas, aptitud, precio, moneda",
+      "id, titulo, country_code, provincia, localidad, latitud, longitud, hectareas, aptitud, precio, moneda, created_at",
     )
     .eq("status", "activo")
     .or("country_code.eq.AR,country_code.is.null")
@@ -86,9 +70,7 @@ export default async function MapaPage({
       })),
   ];
 
-  const camposMapa = (campos ?? []).filter((campo) =>
-    campoVisibleEnMapa(campo.id),
-  );
+  const camposMapa = seleccionarCamposPublicos(campos ?? []);
 
   return (
     <div className="mapa-page">
