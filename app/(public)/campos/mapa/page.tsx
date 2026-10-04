@@ -6,6 +6,11 @@ import type { Metadata } from "next";
 import "@/styles/mapa.css";
 import { seleccionarCamposPublicos } from "@/lib/campos/visible-fields";
 
+const DEMO_SERVICIO_VISIBLE_IDS = new Set<string>([
+  "10000000-0000-4000-8000-000000000005",
+  "10000000-0000-4000-8000-000000000010",
+]);
+
 export const metadata: Metadata = {
   title: "Mapa de campos y servicios rurales | RentoCampo",
   description:
