@@ -2366,3 +2366,10 @@ body {
     font-size: 30px !important;
   }
 }
+
+
+/* Marca: iniciales R y C con acento amarillo */
+.brand-clean-name .brand-initial {
+  color: var(--brand-yellow) !important;
+  font-weight: 950;
+}

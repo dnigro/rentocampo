@@ -84,7 +84,7 @@ export default async function ServiciosRuralesPage({
     data: { user },
   } = await supabase.auth.getUser();
   const ofrecerServiciosHref = user
-    ? "/mis-servicios-rurales"
+    ? "/mis-servicios-rurales/nuevo"
     : "/register?tipo=prestador";
 
   let perfilesQuery = supabase
@@ -218,7 +218,7 @@ export default async function ServiciosRuralesPage({
               {prestadores.map((prestador) => {
                 const servicios = prestador.servicios_rurales ?? [];
                 return (
-                  <article className="prestador-card" key={`${prestador.is_demo ? "demo" : "real"}-${prestador.id}`}>
+                  <article className="prestador-card" data-demo={prestador.is_demo ? "true" : "false"} key={`${prestador.is_demo ? "demo" : "real"}-${prestador.id}`}>
                     {prestador.service_photo_url && (
                       <div className="prestador-card__image">
                         <Image
@@ -264,13 +264,21 @@ export default async function ServiciosRuralesPage({
                     )}
 
                     <div className="prestador-card__actions">
-                      {prestador.is_demo ? (
-                        <Link href={ofrecerServiciosHref}>
-                          Crear mi servicio →
+                      {!prestador.is_demo && user?.id === prestador.id ? (
+                        <span className="prestador-card__own">
+                          Este servicio es tuyo
+                        </span>
+                      ) : !user ? (
+                        <Link href="/login?next=/servicios-rurales">
+                          Ingresá para consultar →
                         </Link>
+                      ) : prestador.is_demo ? (
+                        <span className="prestador-card__own">
+                          Servicio demo
+                        </span>
                       ) : (
                         <Link href={`/mensajes/direct/${prestador.id}`}>
-                          Contactar →
+                          Consultar servicio →
                         </Link>
                       )}
                     </div>

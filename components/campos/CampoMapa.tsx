@@ -23,8 +23,10 @@ interface CampoPin {
   longitud: number;
   hectareas: number;
   aptitud: string;
+  operacion?: "alquiler" | "venta" | "ambas";
   precio?: number;
   moneda?: string;
+  fotos?: Array<{ id?: string; url: string; orden?: number | null; storage_path?: string | null }>;
 }
 
 interface Props {
@@ -406,7 +408,7 @@ export default function CampoMapa({
               </Link>
             ) : (
               <Link
-                href="/register?tipo=prestador"
+                href={resolvedUserId ? "/mis-servicios-rurales/nuevo" : "/register?tipo=prestador"}
                 className="mapa-publicar-btn mapa-publicar-btn-principal mapa-publicar-btn-principal-servicio"
               >
                 Publicar mis servicios →
@@ -417,7 +419,7 @@ export default function CampoMapa({
       )}
 
       {selectedCampo && (
-        <div className="mapa-panel">
+        <div className="mapa-panel mapa-panel-campo">
           <button
             className="mapa-panel-close"
             onClick={() => setSelectedCampo(null)}
@@ -425,10 +427,32 @@ export default function CampoMapa({
           >
             ×
           </button>
-          <p className="mapa-panel-aptitud">
-            {selectedCampo.id.startsWith("20000000-") ? "PUBLICACIÓN DEMO · " : ""}
-            {APTITUD_LABEL[selectedCampo.aptitud] ?? selectedCampo.aptitud}
-          </p>
+          {selectedCampo.fotos?.[0]?.url && (
+            <div className="mapa-campo-foto">
+              <Image
+                src={[...selectedCampo.fotos]
+                  .sort((a, b) => (a.orden ?? 0) - (b.orden ?? 0))[0].url}
+                alt={selectedCampo.titulo}
+                width={640}
+                height={360}
+              />
+            </div>
+          )}
+          <div className="mapa-campo-tags">
+            <span className="mapa-panel-aptitud">
+              {selectedCampo.id.startsWith("20000000-") ? "PUBLICACIÓN DEMO · " : ""}
+              {APTITUD_LABEL[selectedCampo.aptitud] ?? selectedCampo.aptitud}
+            </span>
+            {selectedCampo.operacion && (
+              <span className="operacion-tag">
+                {selectedCampo.operacion === "venta"
+                  ? "Venta"
+                  : selectedCampo.operacion === "ambas"
+                    ? "Alquiler + Venta"
+                    : "Alquiler"}
+              </span>
+            )}
+          </div>
           <h3 className="mapa-panel-titulo">{selectedCampo.titulo}</h3>
           <p className="mapa-panel-ubicacion">
             {[selectedCampo.localidad, selectedCampo.provincia]
@@ -483,7 +507,7 @@ export default function CampoMapa({
       )}
 
       {selectedServicio && (
-        <div className="mapa-panel mapa-panel-servicio">
+        <div className="mapa-panel mapa-panel-servicio" data-demo={selectedServicio.is_demo ? "true" : "false"}>
           <button
             className="mapa-panel-close"
             onClick={() => setSelectedServicio(null)}
@@ -527,33 +551,40 @@ export default function CampoMapa({
           {selectedServicio.bio && (
             <p className="mapa-panel-descripcion">{selectedServicio.bio}</p>
           )}
-          {selectedServicio.is_demo ? (
-            <Link
-              href="/register?tipo=prestador"
-              className="mapa-panel-btn mapa-panel-btn-servicio"
-            >
-              Crear mi servicio →
-            </Link>
-          ) : resolvedUserId === undefined ? (
+          {resolvedUserId === undefined ? (
             <div
               className="mapa-panel-btn mapa-panel-btn-propio"
               aria-disabled="true"
             >
               Verificando sesión…
             </div>
-          ) : selectedServicio.id === resolvedUserId ? (
+          ) : !resolvedUserId ? (
+            <Link
+              href="/login?next=/campos/mapa?vista=servicios"
+              className="mapa-panel-btn mapa-panel-btn-servicio"
+            >
+              Ingresá para consultar →
+            </Link>
+          ) : !selectedServicio.is_demo && selectedServicio.id === resolvedUserId ? (
             <div
               className="mapa-panel-btn mapa-panel-btn-propio"
               aria-disabled="true"
             >
-              Este es tu servicio
+              Este servicio es tuyo
+            </div>
+          ) : selectedServicio.is_demo ? (
+            <div
+              className="mapa-panel-btn mapa-panel-btn-propio"
+              aria-disabled="true"
+            >
+              Servicio demo
             </div>
           ) : (
             <Link
               href={`/mensajes/direct/${selectedServicio.id}`}
               className="mapa-panel-btn"
             >
-              Chatear online →
+              Consultar servicio →
             </Link>
           )}
         </div>

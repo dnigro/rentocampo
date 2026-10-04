@@ -28,11 +28,11 @@ export default function LandingHero() {
 
           <div className="editorialHero__desktopActions">
             <Link href="/register" className="editorialHero__desktopPrimary">
-              <span>Publicá tu campo</span>
+              <span>Publicá tu campo o servicio</span>
               <span aria-hidden="true">→</span>
             </Link>
             <Link href="/servicios-rurales" className="editorialHero__desktopService">
-              <span>Ofrecé servicios rurales</span>
+              <span>Buscá servicios</span>
               <span aria-hidden="true">→</span>
             </Link>
             <Link href="/campos" className="editorialHero__desktopSecondary">
@@ -61,11 +61,11 @@ export default function LandingHero() {
 
           <div className="editorialHero__actions">
             <Link href="/register" className="editorialHero__primary">
-              <span>Publicá tu campo</span>
+              <span>Publicá tu campo o servicio</span>
               <span className="editorialHero__arrow" aria-hidden="true">→</span>
             </Link>
             <Link href="/servicios-rurales" className="editorialHero__service">
-              <span>Ofrecé servicios rurales</span>
+              <span>Buscá servicios</span>
               <span className="editorialHero__arrow" aria-hidden="true">→</span>
             </Link>
             <Link href="/campos" className="editorialHero__secondary">

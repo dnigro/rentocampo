@@ -33,7 +33,7 @@ export default async function MisServiciosRuralesPage() {
           <h1 className="page-title">Mis servicios rurales</h1>
           <p className="page-subtitle">Tus publicaciones de servicios activas.</p>
         </div>
-        <Link href="/perfil#mis-servicios-rurales" className="btn-primary-lg">
+        <Link href="/mis-servicios-rurales/nuevo" className="btn-primary-lg">
           {servicios.length ? "Editar servicios" : "Publicar servicio"}
         </Link>
       </div>
@@ -45,7 +45,7 @@ export default async function MisServiciosRuralesPage() {
           <p className="empty-desc">
             Elegí qué trabajos ofrecés y la zona donde trabajás para aparecer en RentoCampo.
           </p>
-          <Link href="/perfil#mis-servicios-rurales" className="btn-primary-lg">
+          <Link href="/mis-servicios-rurales/nuevo" className="btn-primary-lg">
             Publicar mis servicios
           </Link>
         </div>
@@ -80,7 +80,7 @@ export default async function MisServiciosRuralesPage() {
                 )}
               </div>
               <div className="campo-card-actions">
-                <Link href="/perfil#mis-servicios-rurales" className="btn-action">
+                <Link href="/mis-servicios-rurales/nuevo" className="btn-action">
                   Editar
                 </Link>
                 <Link href="/servicios-rurales" className="btn-action">

@@ -3,6 +3,7 @@ import { createClient } from "@/lib/supabase/server";
 import CampoCard from "@/components/campos/CampoCard";
 import CampoFiltros from "@/components/campos/CampoFiltros";
 import DemandaZonasPanel from "@/components/campos/DemandaZonasPanel";
+import { seleccionarCamposPublicos } from "@/lib/campos/visible-fields";
 
 export interface CamposSearchParams {
   [key: string]: string | undefined;
@@ -24,30 +25,18 @@ interface Props {
 
 const PAGE_SIZE = 12;
 
-const HIDDEN_DEMO_CAMPO_IDS = [
-  "20000000-0000-4000-8000-000000000005",
-  "20000000-0000-4000-8000-000000000007",
-  "20000000-0000-4000-8000-000000000008",
-  "20000000-0000-4000-8000-000000000009",
-  "20000000-0000-4000-8000-000000000010",
-  ...Array.from({ length: 20 }, (_, i) =>
-    `20000000-0000-4000-8000-${String(i + 11).padStart(12, "0")}`,
-  ),
-];
-
 export default async function CamposListing({ params, titulo, descripcion }: Props) {
   const page = Math.max(1, Number(params.page ?? 1) || 1);
   const from = (page - 1) * PAGE_SIZE;
-  const to = from + PAGE_SIZE - 1;
+  const to = from + PAGE_SIZE;
   const supabase = await createClient();
 
   let query = supabase
     .from("campos")
-    .select("*, fotos:campos_fotos(id, url, orden, storage_path)", { count: "exact" })
+    .select("*, fotos:campos_fotos(id, url, orden, storage_path)")
     .eq("status", "activo")
-    .not("id", "in", `(${HIDDEN_DEMO_CAMPO_IDS.join(",")})`)
-    .order("created_at", { ascending: false })
-    .range(from, to);
+    .or("country_code.eq.AR,country_code.is.null")
+    .order("created_at", { ascending: false });
 
   if (params.provincia) query = query.eq("provincia", params.provincia);
   if (params.aptitud) query = query.eq("aptitud", params.aptitud);
@@ -64,12 +53,15 @@ export default async function CamposListing({ params, titulo, descripcion }: Pro
     query = query.gt("disponibilidad_desde", new Date().toISOString().slice(0, 10));
   }
 
-  const [{ data: campos, count }, { data: { user } }] = await Promise.all([
+  const [{ data: camposRaw }, { data: { user } }] = await Promise.all([
     query,
     supabase.auth.getUser(),
   ]);
 
-  const totalPages = Math.ceil((count ?? 0) / PAGE_SIZE);
+  const camposVisibles = seleccionarCamposPublicos(camposRaw ?? []);
+  const count = camposVisibles.length;
+  const campos = camposVisibles.slice(from, to);
+  const totalPages = Math.ceil(count / PAGE_SIZE);
   const hayFiltros = Object.keys(params).some(
     (key) => key !== "page" && params[key],
   );
@@ -90,7 +82,7 @@ export default async function CamposListing({ params, titulo, descripcion }: Pro
                 </h1>
                 {descripcion && <p className="seo-listing-description">{descripcion}</p>}
                 <p className="explorador-count">
-                  {count ?? 0} campo{count !== 1 ? "s" : ""} encontrado
+                  {count} campo{count !== 1 ? "s" : ""} encontrado
                   {count !== 1 ? "s" : ""}
                 </p>
               </div>
