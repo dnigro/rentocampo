@@ -3,6 +3,7 @@ import { createClient } from "@/lib/supabase/server";
 import CampoCard from "@/components/campos/CampoCard";
 import CampoFiltros from "@/components/campos/CampoFiltros";
 import DemandaZonasPanel from "@/components/campos/DemandaZonasPanel";
+import { seleccionarCamposPublicos } from "@/lib/campos/visible-fields";
 
 export interface CamposSearchParams {
   [key: string]: string | undefined;
@@ -23,18 +24,6 @@ interface Props {
 }
 
 const PAGE_SIZE = 12;
-
-const DEMO_CAMPO_VISIBLE_IDS = new Set([
-  "20000000-0000-4000-8000-000000000001",
-  "20000000-0000-4000-8000-000000000002",
-  "20000000-0000-4000-8000-000000000003",
-  "20000000-0000-4000-8000-000000000004",
-  "20000000-0000-4000-8000-000000000006",
-]);
-
-function campoVisible(id: string) {
-  return !id.startsWith("20000000-") || DEMO_CAMPO_VISIBLE_IDS.has(id);
-}
 
 export default async function CamposListing({ params, titulo, descripcion }: Props) {
   const page = Math.max(1, Number(params.page ?? 1) || 1);
@@ -69,7 +58,7 @@ export default async function CamposListing({ params, titulo, descripcion }: Pro
     supabase.auth.getUser(),
   ]);
 
-  const camposVisibles = (camposRaw ?? []).filter((campo) => campoVisible(campo.id));
+  const camposVisibles = seleccionarCamposPublicos(camposRaw ?? []);
   const count = camposVisibles.length;
   const campos = camposVisibles.slice(from, to);
   const totalPages = Math.ceil(count / PAGE_SIZE);
