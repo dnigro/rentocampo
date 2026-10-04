@@ -483,7 +483,7 @@ export default function CampoMapa({
       )}
 
       {selectedServicio && (
-        <div className="mapa-panel mapa-panel-servicio">
+        <div className="mapa-panel mapa-panel-servicio" data-demo={selectedServicio.is_demo ? "true" : "false"}>
           <button
             className="mapa-panel-close"
             onClick={() => setSelectedServicio(null)}
