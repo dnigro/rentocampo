@@ -1534,3 +1534,132 @@
     text-shadow: 64px 0 0 #c9a227;
   }
 }
+
+
+/* PR164 preview similar a la referencia aprobada: sello grande, circular y legible */
+.editorialHero__desktopAccentLine {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+}
+
+.editorialHero__desktopAccentLine .editorialHero__seal {
+  position: relative !important;
+  flex: 0 0 auto !important;
+  width: 122px !important;
+  height: 122px !important;
+  margin: -8px 0 0 10px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 50% !important;
+  background: transparent !important;
+  opacity: 1 !important;
+  transform: rotate(3deg) !important;
+  box-shadow: none !important;
+}
+
+.editorialHero__desktopAccentLine .editorialHero__seal::before,
+.editorialHero__desktopAccentLine .editorialHero__seal::after {
+  display: none !important;
+  content: none !important;
+}
+
+.editorialHero__sealSvg {
+  width: 100% !important;
+  height: 100% !important;
+  overflow: visible !important;
+  filter:
+    drop-shadow(0 4px 10px rgba(0,0,0,.34))
+    drop-shadow(0 0 2px rgba(224,185,55,.28));
+}
+
+.rc-seal-ring {
+  fill: rgba(20,20,18,.48);
+  stroke: #d0aa2c;
+}
+
+.rc-seal-ring--outer {
+  stroke-width: 4;
+}
+
+.rc-seal-ring--inner {
+  fill: none;
+  stroke-width: 2;
+  opacity: .95;
+}
+
+.rc-seal-arc {
+  fill: #e0b937;
+  font-family: var(--font-dm-sans), sans-serif;
+  font-weight: 950;
+  letter-spacing: 2.2px;
+  text-transform: uppercase;
+}
+
+.rc-seal-arc--top {
+  font-size: 11px;
+}
+
+.rc-seal-arc--bottom {
+  font-size: 6.7px;
+}
+
+.rc-seal-dot {
+  fill: #d0aa2c;
+}
+
+.rc-seal-center {
+  fill: #fff;
+  font-family: var(--font-dm-sans), sans-serif;
+  font-size: 47px;
+  font-weight: 950;
+  letter-spacing: -3px;
+  paint-order: stroke;
+  stroke: rgba(255,255,255,.05);
+  stroke-width: .5px;
+}
+
+@media (max-width: 900px) {
+  .editorialHero__desktopAccentLine {
+    align-items: center !important;
+    gap: 8px !important;
+  }
+
+  .editorialHero__desktopAccentLine .editorialHero__seal {
+    width: 98px !important;
+    height: 98px !important;
+    margin: -4px 0 0 4px !important;
+  }
+
+  .rc-seal-arc--top {
+    font-size: 10px;
+  }
+
+  .rc-seal-arc--bottom {
+    font-size: 6px;
+  }
+
+  .rc-seal-center {
+    font-size: 42px;
+  }
+}
+
+@media (max-width: 430px) {
+  .editorialHero__desktopAccentLine .editorialHero__seal {
+    width: 92px !important;
+    height: 92px !important;
+    margin-left: 2px !important;
+  }
+
+  .rc-seal-arc--top {
+    font-size: 9px;
+  }
+
+  .rc-seal-arc--bottom {
+    font-size: 5.4px;
+  }
+
+  .rc-seal-center {
+    font-size: 39px;
+  }
+}
