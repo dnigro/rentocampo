@@ -668,3 +668,52 @@ body:has(.mapa-page) {
 .mapa-panel-servicio[data-demo="true"] .mapa-servicio-foto img {
   filter: grayscale(1) contrast(1.05);
 }
+
+
+/* Ficha flotante de campos: misma lógica visual que servicios */
+.mapa-panel-campo {
+  overflow: hidden;
+}
+
+.mapa-campo-foto {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 14px;
+  margin-bottom: 14px;
+  background: #f2f0ea;
+}
+
+.mapa-campo-foto img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.mapa-campo-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.mapa-panel-campo .mapa-panel-close,
+.mapa-panel-servicio .mapa-panel-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 5;
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(0,0,0,.12);
+  border-radius: 999px;
+  background: rgba(255,255,255,.94);
+  color: #111;
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1;
+  box-shadow: 0 4px 14px rgba(0,0,0,.12);
+}
