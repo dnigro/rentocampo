@@ -23,8 +23,10 @@ interface CampoPin {
   longitud: number;
   hectareas: number;
   aptitud: string;
+  operacion?: "alquiler" | "venta" | "ambas";
   precio?: number;
   moneda?: string;
+  fotos?: Array<{ id?: string; url: string; orden?: number | null; storage_path?: string | null }>;
 }
 
 interface Props {
@@ -417,7 +419,7 @@ export default function CampoMapa({
       )}
 
       {selectedCampo && (
-        <div className="mapa-panel">
+        <div className="mapa-panel mapa-panel-campo">
           <button
             className="mapa-panel-close"
             onClick={() => setSelectedCampo(null)}
@@ -425,10 +427,32 @@ export default function CampoMapa({
           >
             ×
           </button>
-          <p className="mapa-panel-aptitud">
-            {selectedCampo.id.startsWith("20000000-") ? "PUBLICACIÓN DEMO · " : ""}
-            {APTITUD_LABEL[selectedCampo.aptitud] ?? selectedCampo.aptitud}
-          </p>
+          {selectedCampo.fotos?.[0]?.url && (
+            <div className="mapa-campo-foto">
+              <Image
+                src={[...selectedCampo.fotos]
+                  .sort((a, b) => (a.orden ?? 0) - (b.orden ?? 0))[0].url}
+                alt={selectedCampo.titulo}
+                width={640}
+                height={360}
+              />
+            </div>
+          )}
+          <div className="mapa-campo-tags">
+            <span className="mapa-panel-aptitud">
+              {selectedCampo.id.startsWith("20000000-") ? "PUBLICACIÓN DEMO · " : ""}
+              {APTITUD_LABEL[selectedCampo.aptitud] ?? selectedCampo.aptitud}
+            </span>
+            {selectedCampo.operacion && (
+              <span className="operacion-tag">
+                {selectedCampo.operacion === "venta"
+                  ? "Venta"
+                  : selectedCampo.operacion === "ambas"
+                    ? "Alquiler + Venta"
+                    : "Alquiler"}
+              </span>
+            )}
+          </div>
           <h3 className="mapa-panel-titulo">{selectedCampo.titulo}</h3>
           <p className="mapa-panel-ubicacion">
             {[selectedCampo.localidad, selectedCampo.provincia]
