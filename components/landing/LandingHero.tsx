@@ -14,7 +14,8 @@ export default function LandingHero() {
                 <span>Gratis para el campo.</span>
                 <span className="editorialHero__seal" aria-label="Sello RentoCampo">
                   <span className="editorialHero__sealWord">RENTOCAMPO</span>
-                  <strong><span>R</span><span>C</span></strong>
+                  <strong>RC</strong>
+                  <span className="editorialHero__sealMotto">LA PRODUCCIÓN NOS CONECTA</span>
                 </span>
               </span>
             </h1>
