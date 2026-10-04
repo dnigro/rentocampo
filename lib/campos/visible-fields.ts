@@ -17,19 +17,6 @@ type CampoVisible = {
   longitud?: number | string | null;
 };
 
-function tieneCoordenadasValidas(campo: CampoVisible) {
-  const lat = Number(campo.latitud);
-  const lng = Number(campo.longitud);
-  return (
-    Number.isFinite(lat) &&
-    Number.isFinite(lng) &&
-    lat >= -90 &&
-    lat <= 90 &&
-    lng >= -180 &&
-    lng <= 180
-  );
-}
-
 function esCampoDemo(campo: CampoVisible) {
   const titulo = (campo.titulo ?? "").trim().toUpperCase();
   return campo.id.startsWith("20000000-") || titulo.includes("DEMO");
