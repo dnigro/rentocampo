@@ -53,6 +53,7 @@ export interface Profile {
   telefono?: string;
   bio?: string;
   avatar_url?: string;
+  service_photo_url?: string;
   servicios_rurales?: ServicioRural[];
   zona_servicio?: string;
   provincia_servicio?: string;
