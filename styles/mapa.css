@@ -662,3 +662,9 @@ body:has(.mapa-page) {
   height: 100%;
   object-fit: cover;
 }
+
+
+/* Servicios DEMO: foto en blanco y negro */
+.mapa-panel-servicio .mapa-servicio-foto img {
+  filter: grayscale(1) contrast(1.05);
+}
