@@ -12,9 +12,9 @@ const faqs = [
 ];
 
 const planes = [
-  { nombre: "Tierra Productiva", publicaciones: "Hasta 10 publicaciones", precio: "USD 100 / año" },
-  { nombre: "Administrador de Tierras", publicaciones: "Hasta 20 publicaciones", precio: "USD 200 / año" },
-  { nombre: "RentoCampo Portfolio", publicaciones: "Publicaciones ilimitadas", precio: "USD 399 / año" },
+  { nombre: "Pack Tierra Productiva", publicaciones: "Hasta 10 publicaciones", precio: "USD 100 / año" },
+  { nombre: "Pack Administrador de Tierras", publicaciones: "Hasta 20 publicaciones", precio: "USD 200 / año" },
+  { nombre: "Pack RentoCampo Portfolio", publicaciones: "Publicaciones ilimitadas", precio: "USD 399 / año" },
 ];
 
 function FaqIcon({ children }: { children: string }) {
