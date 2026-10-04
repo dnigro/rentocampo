@@ -1380,3 +1380,32 @@
     font-size: 6px !important;
   }
 }
+
+
+/* PR164: sello RC con mayor impacto */
+.editorialHero__desktopAccentLine .editorialHero__seal {
+  opacity: .78 !important;
+  border-color: rgba(143, 110, 15, .98) !important;
+  background: rgba(18, 14, 6, .34) !important;
+  color: #8f6e0f !important;
+  box-shadow:
+    inset 0 0 0 4px rgba(143,110,15,.18),
+    0 0 0 1px rgba(0,0,0,.24) !important;
+}
+
+.editorialHero__desktopAccentLine .editorialHero__seal::after {
+  border-color: rgba(143,110,15,.94) !important;
+}
+
+.editorialHero__desktopAccentLine .editorialHero__sealWord {
+  color: #8f6e0f !important;
+  font-weight: 950 !important;
+}
+
+.editorialHero__desktopAccentLine .editorialHero__seal strong span:first-child {
+  color: #b08a18 !important;
+}
+
+.editorialHero__desktopAccentLine .editorialHero__seal strong span:last-child {
+  color: #8f6e0f !important;
+}
