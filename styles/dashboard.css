@@ -141,3 +141,31 @@
     line-height: 1.35 !important;
   }
 }
+
+
+/* Mobile dashboard: leave role badge first, then greeting below */
+@media (max-width: 760px) {
+  .app-shell .dashboard-header {
+    position: relative;
+    display: block !important;
+    padding-top: 44px !important;
+  }
+
+  .app-shell .dashboard-header > div {
+    width: 100%;
+  }
+
+  .app-shell .dashboard-header .badge-tipo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    max-width: calc(100vw - 48px);
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .app-shell .dashboard-title {
+    margin-top: 10px !important;
+    margin-bottom: 0 !important;
+  }
+}
