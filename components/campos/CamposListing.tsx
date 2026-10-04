@@ -24,6 +24,17 @@ interface Props {
 
 const PAGE_SIZE = 12;
 
+const HIDDEN_DEMO_CAMPO_IDS = [
+  "20000000-0000-4000-8000-000000000005",
+  "20000000-0000-4000-8000-000000000007",
+  "20000000-0000-4000-8000-000000000008",
+  "20000000-0000-4000-8000-000000000009",
+  "20000000-0000-4000-8000-000000000010",
+  ...Array.from({ length: 20 }, (_, i) =>
+    `20000000-0000-4000-8000-${String(i + 11).padStart(12, "0")}`,
+  ),
+];
+
 export default async function CamposListing({ params, titulo, descripcion }: Props) {
   const page = Math.max(1, Number(params.page ?? 1) || 1);
   const from = (page - 1) * PAGE_SIZE;
@@ -34,6 +45,7 @@ export default async function CamposListing({ params, titulo, descripcion }: Pro
     .from("campos")
     .select("*, fotos:campos_fotos(id, url, orden, storage_path)", { count: "exact" })
     .eq("status", "activo")
+    .not("id", "in", `(${HIDDEN_DEMO_CAMPO_IDS.join(",")})`)
     .order("created_at", { ascending: false })
     .range(from, to);
 
