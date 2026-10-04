@@ -218,7 +218,7 @@ export default async function ServiciosRuralesPage({
               {prestadores.map((prestador) => {
                 const servicios = prestador.servicios_rurales ?? [];
                 return (
-                  <article className="prestador-card" key={`${prestador.is_demo ? "demo" : "real"}-${prestador.id}`}>
+                  <article className="prestador-card" data-demo={prestador.is_demo ? "true" : "false"} key={`${prestador.is_demo ? "demo" : "real"}-${prestador.id}`}>
                     {prestador.service_photo_url && (
                       <div className="prestador-card__image">
                         <Image
