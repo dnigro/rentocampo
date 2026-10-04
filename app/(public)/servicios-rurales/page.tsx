@@ -98,7 +98,7 @@ export default async function ServiciosRuralesPage({
   let demosQuery = supabase
     .from("demo_servicios_rurales")
     .select(
-      "id, nombre, bio, imagen_url, servicios_rurales, zona_servicio, provincia_servicio, localidad_servicio",
+      "id, nombre, bio, servicios_rurales, zona_servicio, provincia_servicio, localidad_servicio",
     )
     .eq("activo", true);
 
@@ -119,12 +119,19 @@ export default async function ServiciosRuralesPage({
 
   const prestadores: Prestador[] = [
     ...(perfiles ?? []).map((item) => ({ ...item, is_demo: false })),
-    ...(demos ?? []).map((item) => ({
-      ...item,
-      avatar_url: null,
-      service_photo_url: item.imagen_url ?? null,
-      is_demo: true,
-    })),
+    ...(demos ?? [])
+      .filter((item) =>
+        [
+          "10000000-0000-4000-8000-000000000005",
+          "10000000-0000-4000-8000-000000000010",
+        ].includes(item.id),
+      )
+      .map((item) => ({
+        ...item,
+        avatar_url: null,
+        service_photo_url: "/demo-servicio-veterinaria.jpg",
+        is_demo: true,
+      })),
   ];
 
   const jsonLd = {
