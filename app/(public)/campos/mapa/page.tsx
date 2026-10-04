@@ -5,6 +5,23 @@ import type { ServicioRural } from "@/types";
 import type { Metadata } from "next";
 import "@/styles/mapa.css";
 
+const DEMO_CAMPO_VISIBLE_IDS = new Set([
+  "20000000-0000-4000-8000-000000000001",
+  "20000000-0000-4000-8000-000000000002",
+  "20000000-0000-4000-8000-000000000003",
+  "20000000-0000-4000-8000-000000000004",
+  "20000000-0000-4000-8000-000000000006",
+]);
+
+const DEMO_SERVICIO_VISIBLE_IDS = new Set([
+  "10000000-0000-4000-8000-000000000005",
+  "10000000-0000-4000-8000-000000000010",
+]);
+
+function campoVisibleEnMapa(id: string) {
+  return !id.startsWith("20000000-") || DEMO_CAMPO_VISIBLE_IDS.has(id);
+}
+
 export const metadata: Metadata = {
   title: "Mapa de campos y servicios rurales | RentoCampo",
   description:
@@ -58,17 +75,23 @@ export default async function MapaPage({
       ...prestador,
       is_demo: false,
     })),
-    ...(serviciosDemo ?? []).map((prestador) => ({
-      ...prestador,
-      avatar_url: undefined,
-      is_demo: true,
-    })),
+    ...(serviciosDemo ?? [])
+      .filter((prestador) => DEMO_SERVICIO_VISIBLE_IDS.has(prestador.id))
+      .map((prestador) => ({
+        ...prestador,
+        avatar_url: undefined,
+        is_demo: true,
+      })),
   ];
+
+  const camposMapa = (campos ?? []).filter((campo) =>
+    campoVisibleEnMapa(campo.id),
+  );
 
   return (
     <div className="mapa-page">
       <CampoMapa
-        campos={campos ?? []}
+        campos={camposMapa}
         prestadores={prestadoresMapa}
         currentUserId={user?.id}
         initialVista={vista === "servicios" ? "servicios" : "tierra"}
