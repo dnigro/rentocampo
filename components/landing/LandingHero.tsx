@@ -10,12 +10,14 @@ export default function LandingHero() {
           <div className="editorialHero__desktopTitleRow">
             <h1 className="editorialHero__desktopTitle">
               <span className="editorialHero__desktopYellow">#1 Red Federal</span>
-              <span>Gratis para el campo.</span>
+              <span className="editorialHero__desktopAccentLine">
+                <span>Gratis para el campo.</span>
+                <span className="editorialHero__seal" aria-label="Sello RentoCampo">
+                  <span className="editorialHero__sealWord">RENTOCAMPO</span>
+                  <strong><span>R</span><span>C</span></strong>
+                </span>
+              </span>
             </h1>
-            <div className="editorialHero__seal" aria-label="Sello RentoCampo">
-              <span className="editorialHero__sealWord">RENTOCAMPO</span>
-              <strong><span>R</span><span>C</span></strong>
-            </div>
           </div>
 
           <div className="editorialHero__desktopPillars" aria-label="Propuesta de valor">
