@@ -52,6 +52,7 @@ export default async function MapaPage({
       "id, titulo, country_code, provincia, localidad, latitud, longitud, hectareas, aptitud, precio, moneda",
     )
     .eq("status", "activo")
+    .or("country_code.eq.AR,country_code.is.null")
     .not("latitud", "is", null)
     .not("longitud", "is", null);
 
