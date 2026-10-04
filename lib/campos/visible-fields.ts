@@ -8,6 +8,19 @@ export const DEMO_CAMPO_VISIBLE_IDS = new Set([
 
 const REAL_FIELDS_LIMIT = 3;
 
+export function normalizarCoordenada(
+  value: number | string | null | undefined,
+): number | null {
+  if (typeof value === "number") {
+    return Number.isFinite(value) ? value : null;
+  }
+  if (typeof value !== "string") return null;
+  const normalized = value.trim().replace(",", ".");
+  if (!normalized) return null;
+  const numberValue = Number(normalized);
+  return Number.isFinite(numberValue) ? numberValue : null;
+}
+
 type CampoVisible = {
   id: string;
   titulo?: string | null;
