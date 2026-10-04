@@ -620,3 +620,20 @@
     font-size: clamp(50px, 14vw, 74px);
   }
 }
+
+
+/* Imagen de cada publicación de servicios */
+.prestador-card__image {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 16px;
+  margin-bottom: 16px;
+  background: #f3f1eb;
+}
+
+.prestador-card__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
