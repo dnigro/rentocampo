@@ -34,13 +34,6 @@ export default async function DashboardPage() {
           <h1 className="dashboard-title">
             Hola, {profile?.nombre?.split(" ")[0] ?? "bienvenido"} 👋
           </h1>
-          <p className="dashboard-subtitle">
-            {esPrestador && !esPropietario && !esProductor
-              ? "Mostrá tus servicios y conectá con la actividad rural"
-              : esPropietario
-              ? "Buscá oportunidades y administrá tus campos"
-              : "Explorá campos disponibles y contactá propietarios"}
-          </p>
         </div>
         <span className={`badge-tipo ${esPropietario ? "propietario" : esPrestador ? "prestador" : "productor"}`}>
           {etiquetaPerfil}
