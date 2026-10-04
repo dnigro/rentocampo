@@ -7,11 +7,12 @@ export default function LandingHero() {
     <section className="editorialHero" id="hero">
       <div className="editorialHero__content">
         <div className="editorialHero__desktopImpact">
-          <p className="editorialHero__desktopTag">La producción nos conecta</p>
-          <h1 className="editorialHero__desktopTitle">
-            <span className="editorialHero__desktopYellow">#1 Red Federal</span>
-            <span>Gratis para el campo.</span>
-          </h1>
+          <div className="editorialHero__desktopTitleRow">
+            <h1 className="editorialHero__desktopTitle">
+              <span className="editorialHero__desktopYellow">#1 Red Federal</span>
+              <span className="editorialHero__desktopAccentLine">Gratis para el campo.</span>
+            </h1>
+          </div>
 
           <div className="editorialHero__desktopPillars" aria-label="Propuesta de valor">
             <span><b>+</b> Tierra productiva.</span>
@@ -102,9 +103,7 @@ export default function LandingHero() {
         <p className="editorialHero__territory" aria-hidden="true">
           Argentina / Una red federal
         </p>
-        <p className="editorialHero__signature" aria-hidden="true">
-          La producción nos conecta
-        </p>
+
       </div>
     </section>
   );

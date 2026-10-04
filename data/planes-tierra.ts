@@ -27,7 +27,7 @@ export const PLANES_TIERRA: PlanTierra[] = [
   },
   {
     id: "productiva",
-    nombre: "Tierra Productiva",
+    nombre: "Pack Tierra Productiva",
     bajada: "Hasta 10 oportunidades de publicación durante 12 meses.",
     perfilIdeal: "Para propietarios con varias oportunidades durante el año.",
     publicaciones: 10,
@@ -37,7 +37,7 @@ export const PLANES_TIERRA: PlanTierra[] = [
   },
   {
     id: "administrador",
-    nombre: "Administrador de Tierras",
+    nombre: "Pack Administrador de Tierras",
     bajada: "Hasta 20 oportunidades de publicación durante 12 meses.",
     perfilIdeal: "Para administradores, estudios o carteras medianas de tierras.",
     publicaciones: 20,
@@ -46,7 +46,7 @@ export const PLANES_TIERRA: PlanTierra[] = [
   },
   {
     id: "portfolio",
-    nombre: "RentoCampo Portfolio",
+    nombre: "Pack RentoCampo Portfolio",
     bajada: "Publicaciones ilimitadas durante 12 meses.",
     perfilIdeal: "Para inmobiliarias rurales y grandes portfolios de tierras.",
     publicaciones: null,

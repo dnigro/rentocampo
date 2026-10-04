@@ -915,3 +915,75 @@
     min-height: 54px;
   }
 }
+
+
+/* 2026-10-04: CTA Ver en mapa más visible y debajo del encabezado en mobile */
+.btn-mapa {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 52px;
+  padding: 0 22px !important;
+  border-radius: 14px !important;
+  font-size: 16px !important;
+  font-weight: 800 !important;
+}
+
+@media (max-width: 900px) {
+  .explorador-header {
+    align-items: flex-start !important;
+    flex-direction: column !important;
+    gap: 14px !important;
+  }
+
+  .explorador-header .btn-mapa,
+  .servicios-resultados-header .btn-mapa {
+    margin-top: 2px;
+    min-height: 56px;
+    padding: 0 24px !important;
+    font-size: 17px !important;
+  }
+}
+
+
+/* PR164 mobile: título de campos primero, filtros debajo */
+.explorador-mobile-header {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .explorador-layout {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  .explorador-mobile-header {
+    display: block;
+    order: 1;
+    padding: 0 24px 18px;
+  }
+
+  .explorador-mobile-header .explorador-title {
+    margin: 0;
+  }
+
+  .explorador-mobile-header .explorador-count {
+    margin: 10px 0 16px;
+  }
+
+  .explorador-mobile-header .btn-mapa {
+    margin-top: 0;
+  }
+
+  .explorador-sidebar {
+    order: 2;
+  }
+
+  .explorador-main {
+    order: 3;
+  }
+
+  .explorador-header-desktop {
+    display: none !important;
+  }
+}

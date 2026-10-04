@@ -41,9 +41,7 @@ export default async function MapaPage({
       "id, titulo, country_code, provincia, localidad, latitud, longitud, hectareas, aptitud, precio, moneda, created_at, fotos:campos_fotos(id, url, orden, storage_path)",
     )
     .eq("status", "activo")
-    .or("country_code.eq.AR,country_code.is.null")
-    .not("latitud", "is", null)
-    .not("longitud", "is", null);
+    .or("country_code.eq.AR,country_code.is.null");
 
   const { data: prestadores } = await supabase
     .from("profiles")

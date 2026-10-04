@@ -12,6 +12,7 @@ import {
 import type { ServicioRural } from "@/types";
 import { COUNTRIES, type CountryCode } from "@/data/countries";
 import { createClient } from "@/lib/supabase/client";
+import { normalizarCoordenada } from "@/lib/campos/visible-fields";
 
 interface CampoPin {
   id: string;
@@ -19,8 +20,8 @@ interface CampoPin {
   country_code?: CountryCode;
   provincia: string;
   localidad?: string;
-  latitud: number;
-  longitud: number;
+  latitud: number | string;
+  longitud: number | string;
   hectareas: number;
   aptitud: string;
   operacion?: "alquiler" | "venta" | "ambas";
@@ -114,16 +115,7 @@ export default function CampoMapa({
 
   const camposConCoordenadas = useMemo(
     () =>
-      campos.filter(
-        (campo) =>
-          (campo.country_code ?? "AR") === countryCode &&
-          Number.isFinite(campo.latitud) &&
-          Number.isFinite(campo.longitud) &&
-          campo.latitud >= -90 &&
-          campo.latitud <= 90 &&
-          campo.longitud >= -180 &&
-          campo.longitud <= 180,
-      ),
+      campos.filter((campo) => (campo.country_code ?? "AR") === countryCode),
     [campos, countryCode],
   );
 
@@ -157,8 +149,23 @@ export default function CampoMapa({
 
         const coordinates: [number, number][] = [];
 
-        camposConCoordenadas.forEach((campo) => {
-          const position: [number, number] = [campo.latitud, campo.longitud];
+        camposConCoordenadas.forEach((campo, index) => {
+          const lat = normalizarCoordenada(campo.latitud);
+          const lng = normalizarCoordenada(campo.longitud);
+          const centroProvincia = CENTROS_PROVINCIA[campo.provincia];
+          const offset = ((index % 5) - 2) * 0.045;
+          const position: [number, number] | null =
+            lat !== null &&
+            lng !== null &&
+            lat >= -90 &&
+            lat <= 90 &&
+            lng >= -180 &&
+            lng <= 180
+              ? [lat, lng]
+              : centroProvincia
+                ? [centroProvincia[0] + offset, centroProvincia[1] - offset]
+                : null;
+          if (!position) return;
           const esDemo = campo.id.startsWith("20000000-");
           coordinates.push(position);
           L.circleMarker(position, {

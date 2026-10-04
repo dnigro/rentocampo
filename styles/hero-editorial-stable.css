@@ -1075,3 +1075,25 @@
     font-size: 15px !important;
   }
 }
+
+
+/* Home headline: mantener el cambio previo sin sello */
+.editorialHero__content {
+  padding-top: 34px !important;
+}
+
+@media (min-width: 901px) {
+  .editorialHero__desktopImpact {
+    transform: translateY(-18px);
+  }
+}
+
+@media (max-width: 900px) {
+  .editorialHero__content {
+    padding-top: 22px !important;
+  }
+
+  .editorialHero__desktopImpact {
+    justify-content: flex-start !important;
+  }
+}

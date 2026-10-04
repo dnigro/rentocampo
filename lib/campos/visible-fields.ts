@@ -8,34 +8,38 @@ export const DEMO_CAMPO_VISIBLE_IDS = new Set([
 
 const REAL_FIELDS_LIMIT = 3;
 
+export function normalizarCoordenada(
+  value: number | string | null | undefined,
+): number | null {
+  if (typeof value === "number") {
+    return Number.isFinite(value) ? value : null;
+  }
+  if (typeof value !== "string") return null;
+  const normalized = value.trim().replace(",", ".");
+  if (!normalized) return null;
+  const numberValue = Number(normalized);
+  return Number.isFinite(numberValue) ? numberValue : null;
+}
+
 type CampoVisible = {
   id: string;
+  titulo?: string | null;
   country_code?: string | null;
   created_at?: string | null;
-  latitud?: number | null;
-  longitud?: number | null;
+  latitud?: number | string | null;
+  longitud?: number | string | null;
 };
 
-function tieneCoordenadasValidas(campo: CampoVisible) {
-  const lat = Number(campo.latitud);
-  const lng = Number(campo.longitud);
-  return (
-    Number.isFinite(lat) &&
-    Number.isFinite(lng) &&
-    lat >= -90 &&
-    lat <= 90 &&
-    lng >= -180 &&
-    lng <= 180
-  );
+function esCampoDemo(campo: CampoVisible) {
+  const titulo = (campo.titulo ?? "").trim().toUpperCase();
+  return campo.id.startsWith("20000000-") || titulo.includes("DEMO");
 }
 
 export function seleccionarCamposPublicos<T extends CampoVisible>(
   campos: T[],
 ): T[] {
   const argentina = campos.filter(
-    (campo) =>
-      (!campo.country_code || campo.country_code === "AR") &&
-      tieneCoordenadasValidas(campo),
+    (campo) => !campo.country_code || campo.country_code === "AR",
   );
 
   const demos = argentina.filter((campo) =>
@@ -43,7 +47,7 @@ export function seleccionarCamposPublicos<T extends CampoVisible>(
   );
 
   const reales = argentina
-    .filter((campo) => !campo.id.startsWith("20000000-"))
+    .filter((campo) => !esCampoDemo(campo))
     .sort((a, b) => {
       const fechaA = a.created_at ? new Date(a.created_at).getTime() : 0;
       const fechaB = b.created_at ? new Date(b.created_at).getTime() : 0;
