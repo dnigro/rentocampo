@@ -264,13 +264,21 @@ export default async function ServiciosRuralesPage({
                     )}
 
                     <div className="prestador-card__actions">
-                      {prestador.is_demo ? (
-                        <Link href={ofrecerServiciosHref}>
-                          Crear mi servicio →
+                      {!prestador.is_demo && user?.id === prestador.id ? (
+                        <span className="prestador-card__own">
+                          Este servicio es tuyo
+                        </span>
+                      ) : !user ? (
+                        <Link href="/login?next=/servicios-rurales">
+                          Ingresá para consultar →
                         </Link>
+                      ) : prestador.is_demo ? (
+                        <span className="prestador-card__own">
+                          Servicio demo
+                        </span>
                       ) : (
                         <Link href={`/mensajes/direct/${prestador.id}`}>
-                          Contactar →
+                          Consultar servicio →
                         </Link>
                       )}
                     </div>
