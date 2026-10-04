@@ -117,12 +117,12 @@ export default function CampoMapa({
       campos.filter(
         (campo) =>
           (campo.country_code ?? "AR") === countryCode &&
-          Number.isFinite(Number(campo.latitud)) &&
-          Number.isFinite(Number(campo.longitud)) &&
-          Number(campo.latitud) >= -90 &&
-          Number(campo.latitud) <= 90 &&
-          Number(campo.longitud) >= -180 &&
-          Number(campo.longitud) <= 180,
+          normalizarCoordenada(campo.latitud) !== null &&
+          normalizarCoordenada(campo.longitud) !== null &&
+          normalizarCoordenada(campo.latitud)! >= -90 &&
+          normalizarCoordenada(campo.latitud)! <= 90 &&
+          normalizarCoordenada(campo.longitud)! >= -180 &&
+          normalizarCoordenada(campo.longitud)! <= 180,
       ),
     [campos, countryCode],
   );
@@ -158,10 +158,10 @@ export default function CampoMapa({
         const coordinates: [number, number][] = [];
 
         camposConCoordenadas.forEach((campo) => {
-          const position: [number, number] = [
-            Number(campo.latitud),
-            Number(campo.longitud),
-          ];
+          const lat = normalizarCoordenada(campo.latitud);
+          const lng = normalizarCoordenada(campo.longitud);
+          if (lat === null || lng === null) return null;
+          const position: [number, number] = [lat, lng];
           const esDemo = campo.id.startsWith("20000000-");
           coordinates.push(position);
           L.circleMarker(position, {
