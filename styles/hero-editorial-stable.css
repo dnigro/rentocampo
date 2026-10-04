@@ -1784,3 +1784,74 @@
     font-size: 5.5px !important;
   }
 }
+
+
+/* Mobile fix: conservar GRATIS PARA EL CAMPO completo + sello visible dentro del viewport */
+@media (max-width: 600px) {
+  .editorialHero__desktopAccentLine {
+    width: 100% !important;
+    max-width: 100% !important;
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) 82px !important;
+    align-items: center !important;
+    column-gap: 5px !important;
+    overflow: visible !important;
+    white-space: nowrap !important;
+  }
+
+  .editorialHero__desktopAccentText {
+    min-width: 0 !important;
+    white-space: nowrap !important;
+    font-size: clamp(29px, 8.05vw, 37px) !important;
+    line-height: .96 !important;
+    letter-spacing: -.035em !important;
+  }
+
+  .editorialHero__desktopAccentLine .editorialHero__seal {
+    width: 82px !important;
+    height: 82px !important;
+    min-width: 82px !important;
+    flex-basis: 82px !important;
+    margin: 0 !important;
+    justify-self: end !important;
+    transform: rotate(4deg) !important;
+    overflow: visible !important;
+  }
+
+  .editorialHero__sealSvg {
+    display: block !important;
+    width: 82px !important;
+    height: 82px !important;
+    overflow: visible !important;
+  }
+
+  .rc-seal-arc--top {
+    font-size: 9px !important;
+  }
+
+  .rc-seal-arc--bottom {
+    font-size: 5.2px !important;
+  }
+
+  .rc-seal-center {
+    font-size: 39px !important;
+  }
+}
+
+@media (max-width: 390px) {
+  .editorialHero__desktopAccentLine {
+    grid-template-columns: minmax(0, 1fr) 74px !important;
+    column-gap: 3px !important;
+  }
+
+  .editorialHero__desktopAccentText {
+    font-size: clamp(27px, 7.8vw, 31px) !important;
+  }
+
+  .editorialHero__desktopAccentLine .editorialHero__seal,
+  .editorialHero__sealSvg {
+    width: 74px !important;
+    height: 74px !important;
+    min-width: 74px !important;
+  }
+}
