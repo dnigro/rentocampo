@@ -68,6 +68,17 @@ export default async function CamposListing({ params, titulo, descripcion }: Pro
 
   return (
     <div className="explorador-layout">
+      <div className="explorador-mobile-header">
+        <h1 className="explorador-title">
+          {titulo ?? (hayFiltros ? "Resultados" : "Campos disponibles")}
+        </h1>
+        {descripcion && <p className="seo-listing-description">{descripcion}</p>}
+        <p className="explorador-count">
+          {count} campo{count !== 1 ? "s" : ""} encontrado{count !== 1 ? "s" : ""}
+        </p>
+        <Link href="/campos/mapa" className="btn-mapa">🗺️ Ver en mapa</Link>
+      </div>
+
       <aside className="explorador-sidebar">
         <CampoFiltros filtrosActivos={params} />
       </aside>
@@ -75,7 +86,7 @@ export default async function CamposListing({ params, titulo, descripcion }: Pro
       <main className="explorador-main">
         <div className="explorador-contenido">
           <section className="explorador-resultados">
-            <div className="explorador-header">
+            <div className="explorador-header explorador-header-desktop">
               <div>
                 <h1 className="explorador-title">
                   {titulo ?? (hayFiltros ? "Resultados" : "Campos disponibles")}
