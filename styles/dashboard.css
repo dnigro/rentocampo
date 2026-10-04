@@ -169,3 +169,26 @@
     margin-bottom: 0 !important;
   }
 }
+
+
+/* Dashboard cards: improve text readability */
+.app-shell .dash-card-label {
+  font-size: 20px !important;
+  line-height: 1.15 !important;
+  font-weight: 800 !important;
+}
+
+.app-shell .dash-card-desc {
+  font-size: 15px !important;
+  line-height: 1.35 !important;
+}
+
+@media (max-width: 760px) {
+  .app-shell .dash-card-label {
+    font-size: 22px !important;
+  }
+
+  .app-shell .dash-card-desc {
+    font-size: 16px !important;
+  }
+}
