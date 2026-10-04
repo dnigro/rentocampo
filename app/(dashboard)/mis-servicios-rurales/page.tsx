@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { SERVICIO_LABEL } from "@/data/servicios-rurales";
@@ -17,7 +18,7 @@ export default async function MisServiciosRuralesPage() {
   const { data: profile } = await supabase
     .from("profiles")
     .select(
-      "roles, servicios_rurales, zona_servicio, provincia_servicio, localidad_servicio",
+      "roles, service_photo_url, servicios_rurales, zona_servicio, provincia_servicio, localidad_servicio",
     )
     .eq("id", user.id)
     .single();
@@ -52,6 +53,16 @@ export default async function MisServiciosRuralesPage() {
         <div className="campos-grid">
           {servicios.map((servicio) => (
             <article className="campo-card-admin" key={servicio}>
+              {profile?.service_photo_url && (
+                <div className="campo-card-img">
+                  <Image
+                    src={profile.service_photo_url}
+                    alt={`${SERVICIO_LABEL[servicio] ?? servicio} · servicio rural`}
+                    fill
+                    sizes="(max-width: 720px) 100vw, 320px"
+                  />
+                </div>
+              )}
               <div className="campo-card-body">
                 <span className="estado-badge estado-activo" style={{ position: "static", display: "inline-flex", marginBottom: 12 }}>
                   Activo
