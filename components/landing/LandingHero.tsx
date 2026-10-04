@@ -10,76 +10,7 @@ export default function LandingHero() {
           <div className="editorialHero__desktopTitleRow">
             <h1 className="editorialHero__desktopTitle">
               <span className="editorialHero__desktopYellow">#1 Red Federal</span>
-              <span className="editorialHero__desktopAccentLine">
-                <span className="editorialHero__desktopAccentText">Gratis para el campo.</span>
-                <span className="editorialHero__seal" aria-label="Sello RentoCampo">
-                  <svg
-                    className="editorialHero__sealSvg"
-                    viewBox="0 0 140 140"
-                    role="img"
-                    aria-hidden="true"
-                  >
-                    <defs>
-                      <path
-                        id="rcSealTopArc"
-                        d="M 26 70 A 44 44 0 0 1 114 70"
-                      />
-                      <path
-                        id="rcSealBottomArc"
-                        d="M 114 70 A 44 44 0 0 1 26 70"
-                      />
-                      <filter id="rcSealDistress" x="-20%" y="-20%" width="140%" height="140%">
-                        <feTurbulence
-                          type="fractalNoise"
-                          baseFrequency="0.72"
-                          numOctaves="2"
-                          seed="7"
-                          result="noise"
-                        />
-                        <feColorMatrix
-                          in="noise"
-                          type="matrix"
-                          values="1 0 0 0 0
-                                  0 1 0 0 0
-                                  0 0 1 0 0
-                                  0 0 0 .42 0"
-                          result="distressNoise"
-                        />
-                      </filter>
-                      <mask id="rcSealGrungeMask">
-                        <rect width="140" height="140" fill="white" />
-                        <rect
-                          width="140"
-                          height="140"
-                          filter="url(#rcSealDistress)"
-                          opacity=".34"
-                          fill="black"
-                        />
-                      </mask>
-                    </defs>
-
-                    <g mask="url(#rcSealGrungeMask)">
-                      <circle cx="70" cy="70" r="61" className="rc-seal-ring rc-seal-ring--outer" />
-                      <circle cx="70" cy="70" r="52" className="rc-seal-ring rc-seal-ring--inner" />
-                      <text className="rc-seal-arc rc-seal-arc--top">
-                        <textPath href="#rcSealTopArc" startOffset="50%" textAnchor="middle">
-                          RENTOCAMPO
-                        </textPath>
-                      </text>
-                      <text className="rc-seal-arc rc-seal-arc--bottom">
-                        <textPath href="#rcSealBottomArc" startOffset="50%" textAnchor="middle">
-                          LA PRODUCCIÓN NOS CONECTA
-                        </textPath>
-                      </text>
-                      <circle cx="20" cy="70" r="2.8" className="rc-seal-dot" />
-                      <circle cx="120" cy="70" r="2.8" className="rc-seal-dot" />
-                      <text x="70" y="84" textAnchor="middle" className="rc-seal-center">
-                        RC
-                      </text>
-                    </g>
-                  </svg>
-                </span>
-              </span>
+              <span className="editorialHero__desktopAccentLine">Gratis para el campo.</span>
             </h1>
           </div>
 
