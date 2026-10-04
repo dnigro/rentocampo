@@ -7,11 +7,16 @@ export default function LandingHero() {
     <section className="editorialHero" id="hero">
       <div className="editorialHero__content">
         <div className="editorialHero__desktopImpact">
-          <p className="editorialHero__desktopTag">La producción nos conecta</p>
-          <h1 className="editorialHero__desktopTitle">
-            <span className="editorialHero__desktopYellow">#1 Red Federal</span>
-            <span>Gratis para el campo.</span>
-          </h1>
+          <div className="editorialHero__desktopTitleRow">
+            <h1 className="editorialHero__desktopTitle">
+              <span className="editorialHero__desktopYellow">#1 Red Federal</span>
+              <span>Gratis para el campo.</span>
+            </h1>
+            <div className="editorialHero__seal" aria-label="Sello RentoCampo">
+              <span className="editorialHero__sealWord">RENTOCAMPO</span>
+              <strong><span>R</span><span>C</span></strong>
+            </div>
+          </div>
 
           <div className="editorialHero__desktopPillars" aria-label="Propuesta de valor">
             <span><b>+</b> Tierra productiva.</span>
