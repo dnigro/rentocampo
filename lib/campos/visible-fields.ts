@@ -10,10 +10,11 @@ const REAL_FIELDS_LIMIT = 3;
 
 type CampoVisible = {
   id: string;
+  titulo?: string | null;
   country_code?: string | null;
   created_at?: string | null;
-  latitud?: number | null;
-  longitud?: number | null;
+  latitud?: number | string | null;
+  longitud?: number | string | null;
 };
 
 function tieneCoordenadasValidas(campo: CampoVisible) {
@@ -29,13 +30,16 @@ function tieneCoordenadasValidas(campo: CampoVisible) {
   );
 }
 
+function esCampoDemo(campo: CampoVisible) {
+  const titulo = (campo.titulo ?? "").trim().toUpperCase();
+  return campo.id.startsWith("20000000-") || titulo.includes("DEMO");
+}
+
 export function seleccionarCamposPublicos<T extends CampoVisible>(
   campos: T[],
 ): T[] {
   const argentina = campos.filter(
-    (campo) =>
-      (!campo.country_code || campo.country_code === "AR") &&
-      tieneCoordenadasValidas(campo),
+    (campo) => !campo.country_code || campo.country_code === "AR",
   );
 
   const demos = argentina.filter((campo) =>
@@ -43,7 +47,7 @@ export function seleccionarCamposPublicos<T extends CampoVisible>(
   );
 
   const reales = argentina
-    .filter((campo) => !campo.id.startsWith("20000000-"))
+    .filter((campo) => !esCampoDemo(campo))
     .sort((a, b) => {
       const fechaA = a.created_at ? new Date(a.created_at).getTime() : 0;
       const fechaB = b.created_at ? new Date(b.created_at).getTime() : 0;
