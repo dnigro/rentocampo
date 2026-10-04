@@ -43,6 +43,11 @@ export default async function DashboardPage() {
       <div className="dashboard-cards">
         {esPropietario ? (
           <>
+            <Link href="/perfil" className="dash-card">
+              <span className="dash-card-icon">👤</span>
+              <span className="dash-card-label">Mi perfil</span>
+              <span className="dash-card-desc">Datos y configuración</span>
+            </Link>
             <Link href="/mis-campos" className="dash-card">
               <span className="dash-card-icon">🗺️</span>
               <span className="dash-card-label">Mis campos</span>
@@ -57,11 +62,6 @@ export default async function DashboardPage() {
               <span className="dash-card-icon">💬</span>
               <span className="dash-card-label">Consultas</span>
               <span className="dash-card-desc">Mensajes de productores</span>
-            </Link>
-            <Link href="/perfil" className="dash-card">
-              <span className="dash-card-icon">👤</span>
-              <span className="dash-card-label">Mi perfil</span>
-              <span className="dash-card-desc">Datos y configuración</span>
             </Link>
           </>
         ) : esPrestador && !esProductor ? (
