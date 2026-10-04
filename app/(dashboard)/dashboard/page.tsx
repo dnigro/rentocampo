@@ -53,6 +53,13 @@ export default async function DashboardPage() {
               <span className="dash-card-label">Mis campos</span>
               <span className="dash-card-desc">Publicar y gestionar</span>
             </Link>
+            {esPrestador && (
+              <Link href="/perfil#mis-servicios-rurales" className="dash-card">
+                <span className="dash-card-icon">⚙️</span>
+                <span className="dash-card-label">Mis servicios rurales</span>
+                <span className="dash-card-desc">Publicar y gestionar</span>
+              </Link>
+            )}
             <Link href="/favoritos" className="dash-card">
               <span className="dash-card-icon">❤️</span>
               <span className="dash-card-label">Favoritos</span>
@@ -71,10 +78,10 @@ export default async function DashboardPage() {
               <span className="dash-card-label">Mensajes</span>
               <span className="dash-card-desc">Consultas recibidas</span>
             </Link>
-            <Link href="/perfil" className="dash-card">
+            <Link href="/perfil#mis-servicios-rurales" className="dash-card">
               <span className="dash-card-icon">⚙️</span>
-              <span className="dash-card-label">Mis servicios</span>
-              <span className="dash-card-desc">Especialidades y zona</span>
+              <span className="dash-card-label">Mis servicios rurales</span>
+              <span className="dash-card-desc">Publicar y gestionar</span>
             </Link>
           </>
         ) : (
