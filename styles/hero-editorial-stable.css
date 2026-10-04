@@ -1663,3 +1663,124 @@
     font-size: 39px;
   }
 }
+
+
+/* PR164 final preview: sello vintage más grande + frase en una sola línea */
+.editorialHero__desktopAccentLine {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  flex-wrap: nowrap !important;
+  white-space: nowrap !important;
+}
+
+.editorialHero__desktopAccentText {
+  display: inline-block !important;
+  white-space: nowrap !important;
+  flex: 0 1 auto;
+}
+
+.editorialHero__desktopAccentLine .editorialHero__seal {
+  width: 138px !important;
+  height: 138px !important;
+  flex: 0 0 138px !important;
+  margin: -10px 0 0 8px !important;
+  transform: rotate(4deg) !important;
+  opacity: 1 !important;
+}
+
+.editorialHero__sealSvg {
+  filter:
+    drop-shadow(0 5px 14px rgba(0,0,0,.42))
+    drop-shadow(0 0 2px rgba(217,174,42,.34)) !important;
+}
+
+.rc-seal-ring {
+  fill: rgba(15,15,13,.56) !important;
+  stroke: #c99b21 !important;
+}
+
+.rc-seal-ring--outer {
+  stroke-width: 4.6 !important;
+  stroke-dasharray: 2.6 1.2;
+}
+
+.rc-seal-ring--inner {
+  fill: none !important;
+  stroke-width: 2.1 !important;
+  opacity: .96 !important;
+  stroke-dasharray: 3.4 1.1;
+}
+
+.rc-seal-arc {
+  fill: #d7aa2e !important;
+  font-family: var(--font-dm-sans), sans-serif !important;
+  font-weight: 950 !important;
+  letter-spacing: 2.2px !important;
+}
+
+.rc-seal-arc--top {
+  font-size: 11.5px !important;
+}
+
+.rc-seal-arc--bottom {
+  font-size: 6.9px !important;
+}
+
+.rc-seal-dot {
+  fill: #d7aa2e !important;
+}
+
+.rc-seal-center {
+  fill: #fff !important;
+  font-family: var(--font-dm-sans), sans-serif !important;
+  font-size: 48px !important;
+  font-weight: 950 !important;
+  letter-spacing: -3px !important;
+}
+
+@media (max-width: 900px) {
+  .editorialHero__desktopAccentLine {
+    gap: 6px !important;
+  }
+
+  .editorialHero__desktopAccentText {
+    font-size: .86em !important;
+    letter-spacing: -.02em !important;
+  }
+
+  .editorialHero__desktopAccentLine .editorialHero__seal {
+    width: 112px !important;
+    height: 112px !important;
+    flex-basis: 112px !important;
+    margin: -6px 0 0 2px !important;
+  }
+
+  .rc-seal-arc--top {
+    font-size: 10px !important;
+  }
+
+  .rc-seal-arc--bottom {
+    font-size: 6px !important;
+  }
+
+  .rc-seal-center {
+    font-size: 42px !important;
+  }
+}
+
+@media (max-width: 430px) {
+  .editorialHero__desktopAccentText {
+    font-size: .79em !important;
+  }
+
+  .editorialHero__desktopAccentLine .editorialHero__seal {
+    width: 102px !important;
+    height: 102px !important;
+    flex-basis: 102px !important;
+  }
+
+  .rc-seal-arc--bottom {
+    font-size: 5.5px !important;
+  }
+}
