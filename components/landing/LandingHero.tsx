@@ -107,9 +107,7 @@ export default function LandingHero() {
         <p className="editorialHero__territory" aria-hidden="true">
           Argentina / Una red federal
         </p>
-        <p className="editorialHero__signature" aria-hidden="true">
-          La producción nos conecta
-        </p>
+
       </div>
     </section>
   );
