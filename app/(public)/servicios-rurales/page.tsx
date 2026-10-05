@@ -177,6 +177,8 @@ export default async function ServiciosRuralesPage({
           mapHref={`/campos/mapa?${mapParams.toString()}`}
           publishHref={ofrecerServiciosHref}
           publishLabel="Publicar servicios"
+          secondaryPublishHref={user ? "/mis-campos/nuevo" : "/register?tipo=propietario"}
+          secondaryPublishLabel="Publicar campos"
         />
 
         <aside className="explorador-sidebar">
