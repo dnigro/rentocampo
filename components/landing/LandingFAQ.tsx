@@ -25,10 +25,15 @@ export default function LandingFAQ() {
   const [open, setOpen] = useState(0);
   const faqRef = useRef<HTMLDivElement>(null);
 
-  const toggleFaq = (index: number) => {
-    const scrollY = window.scrollY;
+  const toggleFaq = (index: number, button: HTMLButtonElement) => {
+    const topBefore = button.getBoundingClientRect().top;
     setOpen(open === index ? -1 : index);
-    requestAnimationFrame(() => window.scrollTo({ top: scrollY, behavior: "instant" }));
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        const topAfter = button.getBoundingClientRect().top;
+        window.scrollBy({ top: topAfter - topBefore, behavior: "auto" });
+      });
+    });
   };
 
   return (
@@ -42,7 +47,7 @@ export default function LandingFAQ() {
         <div className="rc-faq-content" ref={faqRef}>
           {faqs.map((faq, i) => (
             <div className="rc-question" key={faq.q}>
-              <button type="button" aria-expanded={open === i} onClick={() => toggleFaq(i)}>
+              <button type="button" aria-expanded={open === i} onClick={(event) => toggleFaq(i, event.currentTarget)}>
                 <span>{faq.q}</span><span>{open === i ? "−" : "+"}</span>
               </button>
 
