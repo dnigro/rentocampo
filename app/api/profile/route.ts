@@ -26,6 +26,7 @@ export async function POST(request: Request) {
       zona_servicio: typeof body.zona_servicio === "string" ? body.zona_servicio : null,
       provincia_servicio: typeof body.provincia_servicio === "string" ? body.provincia_servicio : null,
       localidad_servicio: typeof body.localidad_servicio === "string" ? body.localidad_servicio : null,
+      country_code: body.country_code === "AR" ? "AR" : "AR",
     })
     .eq("id", user.id)
     .select("id")
