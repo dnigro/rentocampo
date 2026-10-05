@@ -705,7 +705,9 @@
   }
 
   .demanda-zonas h2 {
-    font-size: clamp(46px, 15vw, 64px);
+    max-width: 100%;
+    font-size: clamp(40px, 12.5vw, 56px);
+    overflow-wrap: anywhere;
   }
 
   .demanda-cta {
