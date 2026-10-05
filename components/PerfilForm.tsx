@@ -132,6 +132,18 @@ export default function PerfilForm({ profile, userId, email }: Props) {
         setServicePhotoPreview(result.url);
       }
 
+      // Guardar primero los roles mediante la ruta autenticada. Esto permite
+      // volver a activar "prestador" antes de persistir sus datos de servicio.
+      const roleResponse = await fetch("/api/profile/role", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ roles: form.roles }),
+      });
+      const roleResult = await roleResponse.json();
+      if (!roleResponse.ok) {
+        throw new Error(roleResult.error ?? "No se pudo actualizar el perfil");
+      }
+
       const { error } = await supabase
         .from("profiles")
         .update({
@@ -155,16 +167,6 @@ export default function PerfilForm({ profile, userId, email }: Props) {
         .eq("id", userId);
 
       if (error) throw error;
-
-      const roleResponse = await fetch("/api/profile/role", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ roles: form.roles }),
-      });
-      const roleResult = await roleResponse.json();
-      if (!roleResponse.ok) {
-        throw new Error(roleResult.error ?? "No se pudo actualizar el perfil");
-      }
 
       setSuccessMsg("Perfil actualizado correctamente.");
     } catch (err: unknown) {
