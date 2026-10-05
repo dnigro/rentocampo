@@ -2,9 +2,9 @@
 
 .app-shell .perfil-page {
   width: 100%;
-  max-width: 1120px;
+  max-width: 1680px;
   margin: 0 auto;
-  padding: 36px 24px 80px;
+  padding: 36px 72px 80px;
 }
 
 .app-shell .perfil-page > .page-header {
@@ -17,7 +17,7 @@
 }
 
 .perfil-layout {
-  max-width: 720px;
+  max-width: 1480px;
   width: 100%;
   margin: 0 auto;
   display: flex;
@@ -94,6 +94,10 @@
 }
 .btn-danger-lg:hover:not(:disabled) { background: #991b1b; }
 .btn-danger-lg:disabled { opacity: .45; cursor: not-allowed; }
+
+@media (max-width: 1100px) {
+  .app-shell .perfil-page { padding-left: 32px; padding-right: 32px; }
+}
 
 @media (max-width: 640px) {
   .app-shell .perfil-page { padding: 28px 16px 64px; }
@@ -672,4 +676,104 @@
   color: #77736b;
   font-size: 14px;
   text-align: center;
+}
+
+
+/* 2026-10-05 — Escala visual desktop del perfil ampliado */
+@media (min-width: 901px) {
+  .perfil-section { padding: 36px 34px; }
+  .perfil-section-title { font-size: 26px; margin-bottom: 26px; }
+  .perfil-section .form-label { font-size: 16px; font-weight: 800; }
+  .perfil-section .form-input,
+  .perfil-section .form-textarea { min-height: 56px; font-size: 16px; padding: 14px 16px; }
+  .perfil-section .form-hint,
+  .avatar-hint { font-size: 13px; }
+  .perfil-role-option { min-height: 92px; padding: 20px; gap: 14px; }
+  .perfil-role-option input { width: 18px; height: 18px; }
+  .perfil-role-option strong { font-size: 18px; }
+  .perfil-role-option small { font-size: 14px; }
+  .avatar-preview { width: 112px; height: 112px; }
+  .avatar-info { gap: 10px; }
+  .perfil-section .btn-primary-lg,
+  .perfil-section .btn-secondary-lg { min-height: 50px; padding: 13px 24px; font-size: 16px; }
+  .servicios-profile-box { padding: 28px; }
+  .servicios-profile-box h3 { font-size: 24px; }
+  .servicios-profile-box p { font-size: 15px; }
+  .servicio-option span { padding: 10px 14px; font-size: 14px; }
+}
+
+
+/* 2026-10-05 — Reequilibrio visual desktop de Mi perfil */
+@media (min-width: 901px) {
+  .app-shell .perfil-page.page-container {
+    max-width: 1380px !important;
+    padding-left: 48px !important;
+    padding-right: 48px !important;
+  }
+
+  .app-shell .perfil-page > .page-header {
+    max-width: 1180px;
+    margin: 0 auto 28px;
+    padding: 26px 0 30px;
+  }
+
+  .app-shell .perfil-page > .page-header .page-title {
+    font-size: clamp(64px, 5.2vw, 86px) !important;
+    line-height: .9 !important;
+  }
+
+  .app-shell .perfil-page > .page-header .page-subtitle {
+    margin-top: 12px;
+    font-size: 22px !important;
+    line-height: 1.25;
+  }
+
+  .perfil-layout {
+    max-width: 1180px;
+    gap: 24px;
+  }
+
+  .perfil-section {
+    padding: 34px 36px;
+  }
+
+  .perfil-section-title {
+    font-family: var(--font-display), sans-serif !important;
+    font-size: 40px !important;
+    font-weight: 400 !important;
+    line-height: 1 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0 !important;
+  }
+
+  .perfil-section .form-field {
+    max-width: 100%;
+  }
+
+  .perfil-section .form-input,
+  .perfil-section .form-textarea {
+    width: 100%;
+    min-height: 50px;
+    font-size: 16px;
+    padding: 12px 14px;
+  }
+
+  .perfil-role-option {
+    min-height: 104px;
+    padding: 20px 18px;
+  }
+
+  .avatar-preview {
+    width: 104px;
+    height: 104px;
+  }
+
+  .servicio-foto-preview,
+  .servicio-foto-placeholder {
+    width: min(100%, 560px);
+  }
+
+  .servicios-profile-box {
+    padding: 24px;
+  }
 }

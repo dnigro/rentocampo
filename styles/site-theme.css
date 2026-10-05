@@ -2394,3 +2394,145 @@ body {
     color: #141414 !important;
   }
 }
+
+
+/* 2026-10-05 — Mi perfil usa el ancho editorial de desktop.
+   Debe ir después del max-width global de .page-container. */
+@media (min-width: 901px) {
+  .app-shell .perfil-page.page-container {
+    max-width: 1680px !important;
+    width: 100% !important;
+    padding-left: 72px !important;
+    padding-right: 72px !important;
+  }
+
+  .app-shell .perfil-page .perfil-form {
+    max-width: 1480px !important;
+    width: 100% !important;
+  }
+}
+
+
+/* 2026-10-05 — Login desktop: proporción contenida y legible */
+@media (min-width: 901px) {
+  .app-shell .auth-page:not(.auth-page-register) .auth-card {
+    width: min(100%, 620px) !important;
+    max-width: 620px !important;
+    padding: 42px 44px !important;
+  }
+
+  .app-shell .auth-page:not(.auth-page-register) .auth-form {
+    width: min(100%, 500px) !important;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .app-shell .auth-page:not(.auth-page-register) .auth-form .form-input,
+  .app-shell .auth-page:not(.auth-page-register) .password-input-wrapper {
+    width: 100% !important;
+    max-width: 500px !important;
+  }
+
+  .app-shell .auth-page:not(.auth-page-register) .auth-form .btn-submit {
+    width: 100% !important;
+    max-width: 500px !important;
+  }
+}
+
+
+/* 2026-10-05 — Ajuste final de proporciones login/perfil y defensa del menú mobile en desktop */
+@media (min-width: 901px) {
+  .app-shell .auth-page:not(.auth-page-register) .auth-card {
+    width: min(100%, 560px) !important;
+    max-width: 560px !important;
+    padding: 38px 40px !important;
+  }
+  .app-shell .auth-page:not(.auth-page-register) .auth-form {
+    width: min(100%, 440px) !important;
+  }
+  .app-shell .auth-page:not(.auth-page-register) .auth-form .form-input,
+  .app-shell .auth-page:not(.auth-page-register) .password-input-wrapper,
+  .app-shell .auth-page:not(.auth-page-register) .auth-form .btn-submit {
+    max-width: 440px !important;
+  }
+
+  .app-shell .perfil-page .page-title {
+    font-size: clamp(64px, 5vw, 88px) !important;
+  }
+  .app-shell .perfil-page .page-subtitle {
+    font-size: 27px !important;
+  }
+  .app-shell .perfil-page .perfil-section-title {
+    font-size: clamp(44px, 3.4vw, 62px) !important;
+  }
+  .app-shell .perfil-page .avatar-preview {
+    width: 104px !important;
+    height: 104px !important;
+  }
+  .app-shell .perfil-page .avatar-preview img {
+    width: 104px !important;
+    height: 104px !important;
+  }
+  .app-shell .perfil-page .form-label {
+    font-size: 18px !important;
+  }
+  .app-shell .perfil-page .form-input,
+  .app-shell .perfil-page textarea,
+  .app-shell .perfil-page select {
+    font-size: 18px !important;
+  }
+
+  .mobile-menu,
+  .mobile-menu-inner {
+    display: none !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+}
+
+
+/* 2026-10-05 — Mi perfil: títulos e imagen con mayor presencia */
+@media (min-width: 901px) {
+  .app-shell .perfil-page .page-title {
+    font-size: clamp(76px, 5.8vw, 104px) !important;
+  }
+  .app-shell .perfil-page .perfil-section-title {
+    font-size: clamp(52px, 4vw, 72px) !important;
+  }
+  .app-shell .perfil-page .avatar-preview,
+  .app-shell .perfil-page .avatar-preview img {
+    width: 132px !important;
+    height: 132px !important;
+  }
+}
+
+
+/* 2026-10-05 — Mi perfil: jerarquía visual reforzada */
+@media (min-width: 901px) {
+  .app-shell .perfil-page .page-title {
+    font-size: clamp(88px, 6.8vw, 118px) !important;
+    font-weight: 950 !important;
+    letter-spacing: -3px !important;
+  }
+  .app-shell .perfil-page .page-subtitle {
+    font-size: 30px !important;
+    font-weight: 600 !important;
+  }
+  .app-shell .perfil-page .perfil-section-title {
+    font-size: clamp(60px, 4.7vw, 82px) !important;
+    font-weight: 950 !important;
+    letter-spacing: -2px !important;
+  }
+  .app-shell .perfil-page .avatar-preview,
+  .app-shell .perfil-page .avatar-preview img {
+    width: 164px !important;
+    height: 164px !important;
+  }
+  .app-shell .perfil-page .perfil-photo-section {
+    padding-top: 42px !important;
+    padding-bottom: 42px !important;
+  }
+  .app-shell .perfil-page .avatar-upload-row {
+    gap: 30px !important;
+  }
+}

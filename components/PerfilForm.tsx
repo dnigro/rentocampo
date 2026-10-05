@@ -11,11 +11,10 @@ import { SERVICIOS_RURALES } from "@/data/servicios-rurales";
 
 interface Props {
   profile: Partial<Profile> | null;
-  userId: string;
   email: string;
 }
 
-export default function PerfilForm({ profile, userId, email }: Props) {
+export default function PerfilForm({ profile, email }: Props) {
   const router = useRouter();
   const [supabase] = useState(createClient);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -132,9 +131,23 @@ export default function PerfilForm({ profile, userId, email }: Props) {
         setServicePhotoPreview(result.url);
       }
 
-      const { error } = await supabase
-        .from("profiles")
-        .update({
+      // Guardar primero los roles mediante la ruta autenticada. Esto permite
+      // volver a activar "prestador" antes de persistir sus datos de servicio.
+      const roleResponse = await fetch("/api/profile/role", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ roles: form.roles }),
+      });
+      const roleResult = await roleResponse.json();
+      if (!roleResponse.ok) {
+        throw new Error(roleResult.error ?? "No se pudo actualizar el perfil");
+      }
+
+      const profileResponse = await fetch("/api/profile", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          roles: form.roles,
           nombre: form.nombre,
           country_code: form.country_code,
           telefono: form.telefono,
@@ -151,19 +164,11 @@ export default function PerfilForm({ profile, userId, email }: Props) {
           localidad_servicio: form.roles.includes("prestador")
             ? form.localidad_servicio
             : null,
-        })
-        .eq("id", userId);
-
-      if (error) throw error;
-
-      const roleResponse = await fetch("/api/profile/role", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ roles: form.roles }),
+        }),
       });
-      const roleResult = await roleResponse.json();
-      if (!roleResponse.ok) {
-        throw new Error(roleResult.error ?? "No se pudo actualizar el perfil");
+      const profileResult = await profileResponse.json();
+      if (!profileResponse.ok) {
+        throw new Error(profileResult.error ?? "No se pudieron guardar los datos del perfil");
       }
 
       setSuccessMsg("Perfil actualizado correctamente.");
