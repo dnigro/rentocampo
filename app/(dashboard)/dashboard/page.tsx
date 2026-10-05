@@ -41,78 +41,40 @@ export default async function DashboardPage() {
       </div>
 
       <div className="dashboard-cards">
-        {esPropietario ? (
-          <>
-            <Link href="/perfil" className="dash-card">
-              <span className="dash-card-icon">👤</span>
-              <span className="dash-card-label">Mi perfil</span>
-              <span className="dash-card-desc">Datos y configuración</span>
-            </Link>
-            <Link href="/mis-campos" className="dash-card">
-              <span className="dash-card-icon">🗺️</span>
-              <span className="dash-card-label">Mis campos</span>
-              <span className="dash-card-desc">Publicar y gestionar</span>
-            </Link>
-            {esPrestador && (
-              <Link href="/mis-servicios-rurales" className="dash-card">
-                <span className="dash-card-icon">⚙️</span>
-                <span className="dash-card-label">Mis servicios rurales</span>
-                <span className="dash-card-desc">Publicar y gestionar</span>
-              </Link>
-            )}
-            <Link href="/favoritos" className="dash-card">
-              <span className="dash-card-icon">❤️</span>
-              <span className="dash-card-label">Favoritos</span>
-              <span className="dash-card-desc">Campos guardados</span>
-            </Link>
-            <Link href="/mensajes" className="dash-card">
-              <span className="dash-card-icon">💬</span>
-              <span className="dash-card-label">Consultas</span>
-              <span className="dash-card-desc">Mensajes de productores</span>
-            </Link>
-          </>
-        ) : esPrestador && !esProductor ? (
-          <>
-            <Link href="/mensajes" className="dash-card">
-              <span className="dash-card-icon">💬</span>
-              <span className="dash-card-label">Mensajes</span>
-              <span className="dash-card-desc">Consultas recibidas</span>
-            </Link>
-            <Link href="/mis-servicios-rurales" className="dash-card">
-              <span className="dash-card-icon">⚙️</span>
-              <span className="dash-card-label">Mis servicios rurales</span>
-              <span className="dash-card-desc">Publicar y gestionar</span>
-            </Link>
-          </>
-        ) : (
-          <>
-            <Link href="/campos" className="dash-card">
-              <span className="dash-card-icon">🔍</span>
-              <span className="dash-card-label">Buscar campos</span>
-              <span className="dash-card-desc">Explorar disponibles</span>
-            </Link>
-            <Link href="/mis-campos" className="dash-card">
-              <span className="dash-card-icon">🗺️</span>
-              <span className="dash-card-label">Mis campos</span>
-              <span className="dash-card-desc">Publicar y gestionar</span>
-            </Link>
-            <Link href="/favoritos" className="dash-card">
-              <span className="dash-card-icon">❤️</span>
-              <span className="dash-card-label">Favoritos</span>
-              <span className="dash-card-desc">Campos guardados</span>
-            </Link>
-            <Link href="/mensajes" className="dash-card">
-              <span className="dash-card-icon">💬</span>
-              <span className="dash-card-label">Mensajes</span>
-              <span className="dash-card-desc">Mis consultas</span>
-            </Link>
-            <Link href="/perfil" className="dash-card">
-              <span className="dash-card-icon">👤</span>
-              <span className="dash-card-label">Mi perfil</span>
-              <span className="dash-card-desc">Datos y configuración</span>
-            </Link>
-          </>
+        <Link href="/perfil" className="dash-card">
+          <span className="dash-card-icon">👤</span>
+          <span className="dash-card-label">Mi perfil</span>
+          <span className="dash-card-desc">Datos y configuración</span>
+        </Link>
+        <Link href="/campos" className="dash-card">
+          <span className="dash-card-icon">🔍</span>
+          <span className="dash-card-label">Buscar campos</span>
+          <span className="dash-card-desc">Explorar disponibles</span>
+        </Link>
+        {esPropietario && (
+          <Link href="/mis-campos" className="dash-card">
+            <span className="dash-card-icon">🗺️</span>
+            <span className="dash-card-label">Mis campos</span>
+            <span className="dash-card-desc">Publicar y gestionar</span>
+          </Link>
         )}
+        {esPrestador && (
+          <Link href="/mis-servicios-rurales" className="dash-card">
+            <span className="dash-card-icon">⚙️</span>
+            <span className="dash-card-label">Mis servicios rurales</span>
+            <span className="dash-card-desc">Publicar y gestionar</span>
+          </Link>
+        )}
+        <Link href="/favoritos" className="dash-card">
+          <span className="dash-card-icon">❤️</span>
+          <span className="dash-card-label">Favoritos</span>
+          <span className="dash-card-desc">Campos guardados</span>
+        </Link>
+        <Link href="/mensajes" className="dash-card">
+          <span className="dash-card-icon">💬</span>
+          <span className="dash-card-label">Mensajes</span>
+          <span className="dash-card-desc">Mis consultas</span>
+        </Link>
       </div>
     </div>
   );
