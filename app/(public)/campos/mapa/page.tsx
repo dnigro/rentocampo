@@ -79,8 +79,8 @@ export default async function MapaPage({
   return (
     <div className="mapa-page">
       <nav className="mapa-listas-nav" aria-label="Volver a los listados">
-        <Link href="/campos" className="listing-button">← Lista de campos</Link>
-        <Link href="/servicios-rurales" className="listing-button">← Lista de servicios</Link>
+        <Link href="/campos" className="mapa-lista-link">← Lista de campos</Link>
+        <Link href="/servicios-rurales" className="mapa-lista-link">← Lista de servicios</Link>
       </nav>
       <CampoMapa
         campos={camposMapa}

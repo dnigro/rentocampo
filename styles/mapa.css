@@ -743,3 +743,39 @@ body:has(.mapa-page) {
   line-height: 1;
   box-shadow: 0 4px 14px rgba(0,0,0,.12);
 }
+
+
+/* 2026-10-05 — navegación del mapa como links simples, sin cajas de botón */
+.mapa-listas-nav {
+  justify-content: center;
+  gap: 30px;
+  padding: 14px 18px;
+}
+.mapa-lista-link {
+  color: #141414;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  padding: 4px 0;
+  font-size: 15px;
+  font-weight: 800;
+  text-decoration: none;
+}
+.mapa-lista-link:hover,
+.mapa-lista-link:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+@media (max-width: 640px) {
+  .mapa-listas-nav {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+    gap: 16px;
+    padding: 12px 14px;
+  }
+  .mapa-lista-link {
+    font-size: 14px;
+    white-space: nowrap;
+  }
+}
