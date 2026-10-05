@@ -1204,3 +1204,20 @@
     white-space: nowrap !important;
   }
 }
+
+
+/* 2026-10-04 — Mobile Home: amarillo institucional consistente con desktop */
+@media (max-width: 900px) {
+  .editorialHero__desktopPrimary,
+  .editorialHero__desktopPrimary:link,
+  .editorialHero__desktopPrimary:visited {
+    background: #E6D87A !important;
+    background-color: #E6D87A !important;
+    border-color: #E6D87A !important;
+    color: #141414 !important;
+  }
+
+  .editorialHero__desktopPrimary span {
+    color: #141414 !important;
+  }
+}
