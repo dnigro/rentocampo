@@ -38,7 +38,7 @@ export default async function PerfilPage() {
           <p className="page-subtitle">Editá tus datos personales</p>
         </div>
       </div>
-      <PerfilForm profile={profile} userId={user.id} email={user.email ?? ""} />
+      <PerfilForm profile={profile} email={user.email ?? ""} />
     </div>
   );
 }
