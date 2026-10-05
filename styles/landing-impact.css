@@ -1269,3 +1269,37 @@ body:has(.rc-landing) .navbar .btn-primary {
     font-size: 30px;
   }
 }
+
+
+/* 2026-10-04 — CTA final: negro mate y escala consistente con header */
+.rc-landing .rc-final .rc-button-yellow,
+.rc-landing .rc-final .rc-button-yellow:link,
+.rc-landing .rc-final .rc-button-yellow:visited {
+  min-height: 64px;
+  padding: 0 28px;
+  border: 1px solid #141414;
+  border-radius: 10px;
+  background: #141414;
+  color: #fff;
+  box-shadow: none;
+  font-size: 19px;
+  font-weight: 900;
+  line-height: 1.1;
+}
+
+.rc-landing .rc-final .rc-button-yellow:hover,
+.rc-landing .rc-final .rc-button-yellow:focus-visible {
+  background: #242424;
+  border-color: #242424;
+  color: #fff;
+}
+
+@media (max-width: 900px) {
+  .rc-landing .rc-final .rc-button-yellow,
+  .rc-landing .rc-final .rc-button-yellow:link,
+  .rc-landing .rc-final .rc-button-yellow:visited {
+    min-height: 58px;
+    padding: 0 22px;
+    font-size: 18px;
+  }
+}
