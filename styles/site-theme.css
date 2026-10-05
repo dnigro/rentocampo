@@ -2505,3 +2505,34 @@ body {
     height: 132px !important;
   }
 }
+
+
+/* 2026-10-05 — Mi perfil: jerarquía visual reforzada */
+@media (min-width: 901px) {
+  .app-shell .perfil-page .page-title {
+    font-size: clamp(88px, 6.8vw, 118px) !important;
+    font-weight: 950 !important;
+    letter-spacing: -3px !important;
+  }
+  .app-shell .perfil-page .page-subtitle {
+    font-size: 30px !important;
+    font-weight: 600 !important;
+  }
+  .app-shell .perfil-page .perfil-section-title {
+    font-size: clamp(60px, 4.7vw, 82px) !important;
+    font-weight: 950 !important;
+    letter-spacing: -2px !important;
+  }
+  .app-shell .perfil-page .avatar-preview,
+  .app-shell .perfil-page .avatar-preview img {
+    width: 164px !important;
+    height: 164px !important;
+  }
+  .app-shell .perfil-page .perfil-photo-section {
+    padding-top: 42px !important;
+    padding-bottom: 42px !important;
+  }
+  .app-shell .perfil-page .avatar-upload-row {
+    gap: 30px !important;
+  }
+}
