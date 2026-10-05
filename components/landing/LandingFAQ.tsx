@@ -22,7 +22,7 @@ function FaqIcon({ children }: { children: string }) {
 }
 
 export default function LandingFAQ() {
-  const [open, setOpen] = useState(0);
+  const [open, setOpen] = useState(-1);
   const faqRef = useRef<HTMLDivElement>(null);
 
   const toggleFaq = (index: number, button: HTMLButtonElement) => {

@@ -929,3 +929,12 @@
     color: #141414 !important;
   }
 }
+
+
+/* 2026-10-05 — El menú lateral es exclusivo de mobile. Evita overlays en desktop. */
+@media (min-width: 901px) {
+  .mobile-menu,
+  .mobile-menu-inner {
+    display: none !important;
+  }
+}
