@@ -75,7 +75,7 @@ export default function CampoMapa({
     null,
   );
   const [vista, setVista] = useState<"tierra" | "servicios">(initialVista);
-  const [countryCode, setCountryCode] = useState<CountryCode>(initialCountry);
+  const [countryCode] = useState<CountryCode>(initialCountry);
   const [mostrarCampos, setMostrarCampos] = useState(true);
   const [mapError, setMapError] = useState(false);
   const [supabase] = useState(createClient);
