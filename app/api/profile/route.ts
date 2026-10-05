@@ -16,20 +16,36 @@ export async function POST(request: Request) {
   }
 
   const admin = createAdminClient();
+  const requestedRoles = Array.isArray(body.roles)
+    ? body.roles.filter((role: unknown): role is string =>
+        typeof role === "string" && ["productor", "propietario", "prestador"].includes(role),
+      )
+    : [];
+
+  if (requestedRoles.length === 0) {
+    return NextResponse.json({ error: "Elegí al menos un perfil" }, { status: 400 });
+  }
+
+  const profileUpdate: Record<string, unknown> = {
+    roles: requestedRoles,
+    nombre: typeof body.nombre === "string" ? body.nombre : "",
+    telefono: typeof body.telefono === "string" ? body.telefono : "",
+    bio: typeof body.bio === "string" ? body.bio : "",
+    country_code: body.country_code === "AR" ? "AR" : "AR",
+  };
+
+  if (requestedRoles.includes("prestador")) {
+    profileUpdate.servicios_rurales = Array.isArray(body.servicios_rurales) ? body.servicios_rurales : [];
+    profileUpdate.zona_servicio = typeof body.zona_servicio === "string" ? body.zona_servicio : null;
+    profileUpdate.provincia_servicio = typeof body.provincia_servicio === "string" ? body.provincia_servicio : null;
+    profileUpdate.localidad_servicio = typeof body.localidad_servicio === "string" ? body.localidad_servicio : null;
+  }
+
   const { data, error } = await admin
     .from("profiles")
-    .update({
-      nombre: typeof body.nombre === "string" ? body.nombre : "",
-      telefono: typeof body.telefono === "string" ? body.telefono : "",
-      bio: typeof body.bio === "string" ? body.bio : "",
-      servicios_rurales: Array.isArray(body.servicios_rurales) ? body.servicios_rurales : [],
-      zona_servicio: typeof body.zona_servicio === "string" ? body.zona_servicio : null,
-      provincia_servicio: typeof body.provincia_servicio === "string" ? body.provincia_servicio : null,
-      localidad_servicio: typeof body.localidad_servicio === "string" ? body.localidad_servicio : null,
-      country_code: body.country_code === "AR" ? "AR" : "AR",
-    })
+    .update(profileUpdate)
     .eq("id", user.id)
-    .select("id")
+    .select("id, roles")
     .single();
 
   if (error || !data) {
