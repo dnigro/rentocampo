@@ -1097,3 +1097,52 @@
     justify-content: flex-start !important;
   }
 }
+
+
+/* 2026-10-04 — Hero web: aprovechar mejor el espacio blanco sin tocar mobile */
+@media (min-width: 901px) {
+  .editorialHero__desktopImpact {
+    width: min(760px, 60vw);
+    max-width: 760px;
+  }
+
+  .editorialHero h1.editorialHero__desktopTitle {
+    max-width: 760px;
+    font-size: clamp(72px, 5.5vw, 94px);
+    line-height: .79;
+  }
+
+  .editorialHero__desktopPillars {
+    max-width: 720px;
+    margin-top: 30px;
+    font-size: clamp(36px, 2.75vw, 48px);
+    line-height: .97;
+  }
+
+  .editorialHero__desktopOnePlace {
+    margin-top: 26px;
+    font-size: 20px;
+  }
+
+  .editorialHero__desktopIntro {
+    max-width: 700px;
+    margin-top: 20px;
+    font-size: clamp(20px, 1.45vw, 24px);
+    line-height: 1.46;
+  }
+
+  .editorialHero__desktopActions {
+    width: min(900px, 69vw) !important;
+    gap: 14px;
+    margin-top: 30px;
+  }
+
+  .editorialHero__desktopPrimary,
+  .editorialHero__desktopSecondary,
+  .editorialHero__desktopService {
+    min-height: 60px !important;
+    padding-left: 26px !important;
+    padding-right: 26px !important;
+    font-size: 16px !important;
+  }
+}
