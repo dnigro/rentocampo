@@ -35,8 +35,8 @@ export default function ServiciosFiltros({
   const hayFiltros = Boolean(provincia || servicio);
 
   return (
-    <div className="servicios-filtros-wrap">
-      <div className="filtros-panel servicios-filtros-panel">
+    <div>
+      <div className="filtros-panel">
         <div className="filtros-header">
           <span className="filtros-title">Filtros</span>
           {hayFiltros && (
@@ -46,7 +46,7 @@ export default function ServiciosFiltros({
           )}
         </div>
 
-        <div className="servicios-filtros-grid">
+        <div className="listing-filters-grid">
           <div className="filtro-grupo">
             <label className="filtro-label" htmlFor="servicios-provincia">
               Provincia
@@ -83,7 +83,7 @@ export default function ServiciosFiltros({
 
           <button
             type="button"
-            className="btn-aplicar servicios-filtros-aplicar"
+            className="listing-button listing-button-full"
             onClick={aplicar}
           >
             Aplicar filtros

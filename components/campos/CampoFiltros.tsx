@@ -114,7 +114,7 @@ export default function CampoFiltros({ filtrosActivos }: Props) {
         </select>
       </div>
 
-      <button className="btn-aplicar" onClick={aplicar}>
+      <button className="listing-button listing-button-full" onClick={aplicar}>
         Aplicar filtros
       </button>
     </div>
