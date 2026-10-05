@@ -868,3 +868,23 @@
     height: 23px;
   }
 }
+
+
+/* 2026-10-04 — Header: usar el amarillo institucional del hero */
+@media (min-width: 901px) {
+  .navbar-country-switch button.active {
+    background: #E6D87A;
+    color: #141414;
+  }
+
+  .navbar .btn-primary {
+    background: #E6D87A;
+    color: #141414;
+  }
+
+  .navbar .btn-primary:hover {
+    background: #E6D87A;
+    color: #141414;
+    filter: brightness(.96);
+  }
+}
