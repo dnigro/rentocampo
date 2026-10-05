@@ -326,21 +326,6 @@ export default function CampoMapa({
 
       {!mapError && (
         <div className="mapa-filtros" aria-label="Capas visibles del mapa">
-          <div className="mapa-paises" role="group" aria-label="País del mapa">
-            <button
-              type="button"
-              className={countryCode === "AR" ? "activo" : ""}
-              aria-pressed={countryCode === "AR"}
-              onClick={() => {
-                setCountryCode("AR");
-                setSelectedCampo(null);
-                setSelectedDemanda(null);
-                setSelectedServicio(null);
-              }}
-            >
-              🇦🇷 Argentina
-            </button>
-          </div>
 
           <div
             className="mapa-modos"
