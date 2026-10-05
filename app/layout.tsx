@@ -4,6 +4,7 @@ import { Suspense } from "react";
 import GoogleAnalytics from "@/components/analytics/GoogleAnalytics";
 import "./globals.css";
 import "@/styles/site-theme.css";
+import "@/styles/buttons.css";
 
 const SITE_URL = "https://rentocampo.com";
 const SITE_TITLE = "RentoCampo | Tierra, productores y servicios rurales";

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
+import ListingHeader from "@/components/listings/ListingHeader";
 import CampoCard from "@/components/campos/CampoCard";
 import CampoFiltros from "@/components/campos/CampoFiltros";
 import DemandaZonasPanel from "@/components/campos/DemandaZonasPanel";
@@ -68,16 +69,14 @@ export default async function CamposListing({ params, titulo, descripcion }: Pro
 
   return (
     <div className="explorador-layout">
-      <div className="explorador-mobile-header">
-        <h1 className="explorador-title">
-          {titulo ?? (hayFiltros ? "Resultados" : "Campos disponibles")}
-        </h1>
-        {descripcion && <p className="seo-listing-description">{descripcion}</p>}
-        <p className="explorador-count">
-          {count} campo{count !== 1 ? "s" : ""} encontrado{count !== 1 ? "s" : ""}
-        </p>
-        <Link href="/campos/mapa" className="btn-mapa">🗺️ Ver en mapa</Link>
-      </div>
+      <ListingHeader
+        title={titulo ?? (hayFiltros ? "Resultados" : "Campos disponibles")}
+        description={descripcion}
+        count={`${count} campo${count !== 1 ? "s" : ""} encontrado${count !== 1 ? "s" : ""}`}
+        mapHref="/campos/mapa"
+        publishHref={user ? "/mis-campos/nuevo" : "/register?tipo=propietario"}
+        publishLabel="Publicar campos"
+      />
 
       <aside className="explorador-sidebar">
         <CampoFiltros filtrosActivos={params} />
@@ -86,20 +85,6 @@ export default async function CamposListing({ params, titulo, descripcion }: Pro
       <main className="explorador-main">
         <div className="explorador-contenido">
           <section className="explorador-resultados">
-            <div className="explorador-header explorador-header-desktop">
-              <div>
-                <h1 className="explorador-title">
-                  {titulo ?? (hayFiltros ? "Resultados" : "Campos disponibles")}
-                </h1>
-                {descripcion && <p className="seo-listing-description">{descripcion}</p>}
-                <p className="explorador-count">
-                  {count} campo{count !== 1 ? "s" : ""} encontrado
-                  {count !== 1 ? "s" : ""}
-                </p>
-              </div>
-              <Link href="/campos/mapa" className="btn-mapa">🗺️ Ver en mapa</Link>
-            </div>
-
             {campos && campos.length > 0 ? (
               <>
                 <div className="campos-explorador-grid">
@@ -113,7 +98,7 @@ export default async function CamposListing({ params, titulo, descripcion }: Pro
                     {page > 1 && (
                       <Link
                         href={`?${new URLSearchParams({ ...params, page: String(page - 1) })}`}
-                        className="btn-pagina"
+                        className="listing-button"
                       >
                         ← Anterior
                       </Link>
@@ -122,7 +107,7 @@ export default async function CamposListing({ params, titulo, descripcion }: Pro
                     {page < totalPages && (
                       <Link
                         href={`?${new URLSearchParams({ ...params, page: String(page + 1) })}`}
-                        className="btn-pagina"
+                        className="listing-button"
                       >
                         Siguiente →
                       </Link>
@@ -135,7 +120,7 @@ export default async function CamposListing({ params, titulo, descripcion }: Pro
                 <span className="empty-icon">🔍</span>
                 <p className="empty-title">Todavía no hay campos publicados en esta categoría</p>
                 <p className="empty-desc">Podés explorar el mapa o publicar un campo gratuitamente.</p>
-                <Link href="/campos" className="btn-primary-lg">Ver todos los campos</Link>
+                <Link href="/campos" className="listing-button">Ver todos los campos</Link>
               </div>
             )}
           </section>

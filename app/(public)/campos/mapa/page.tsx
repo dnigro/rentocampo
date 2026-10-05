@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
+import Link from "next/link";
 import CampoMapa from "@/components/campos/CampoMapa";
 import { SERVICIOS_RURALES } from "@/data/servicios-rurales";
 import type { ServicioRural } from "@/types";
@@ -77,6 +78,10 @@ export default async function MapaPage({
 
   return (
     <div className="mapa-page">
+      <nav className="mapa-listas-nav" aria-label="Volver a los listados">
+        <Link href="/campos" className="listing-button">← Lista de campos</Link>
+        <Link href="/servicios-rurales" className="listing-button">← Lista de servicios</Link>
+      </nav>
       <CampoMapa
         campos={camposMapa}
         prestadores={prestadoresMapa}

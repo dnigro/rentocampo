@@ -4,6 +4,7 @@ import Image from "next/image";
 import { createClient } from "@/lib/supabase/server";
 import { SERVICIOS_RURALES, SERVICIO_LABEL } from "@/data/servicios-rurales";
 import type { ServicioRural } from "@/types";
+import ListingHeader from "@/components/listings/ListingHeader";
 import ServiciosFiltros from "@/components/servicios/ServiciosFiltros";
 import "@/styles/explorador.css";
 import "@/styles/servicios-rurales.css";
@@ -168,51 +169,24 @@ export default async function ServiciosRuralesPage({
         }}
       />
 
-      <section className="servicios-hero">
-        <span className="servicios-kicker">Servicios rurales · Argentina</span>
-        <h1>El trabajo que el campo necesita, más cerca.</h1>
-        <p>
-          Encontrá contratistas y prestadores por especialidad y zona. Revisá
-          sus servicios y conversá directamente desde RentoCampo.
-        </p>
-        <div className="servicios-actions">
-          <Link
-            href={`/campos/mapa?${mapParams.toString()}`}
-            className="servicios-btn servicios-btn-primary"
-          >
-            Ver servicios en mapa →
-          </Link>
-          <Link
-            href={ofrecerServiciosHref}
-            className="servicios-btn servicios-btn-secondary"
-          >
-            Ofrecer mis servicios
-          </Link>
-        </div>
-      </section>
+      <section className="explorador-layout" aria-labelledby="servicios-disponibles-titulo">
+        <ListingHeader
+          id="servicios-disponibles-titulo"
+          title="Servicios disponibles"
+          count={`${prestadores.length} prestador${prestadores.length !== 1 ? "es" : ""} encontrado${prestadores.length !== 1 ? "s" : ""}`}
+          mapHref={`/campos/mapa?${mapParams.toString()}`}
+          publishHref={ofrecerServiciosHref}
+          publishLabel="Publicar servicios"
+        />
 
-      <section className="servicios-explorador" aria-labelledby="servicios-disponibles-titulo">
-        <aside className="servicios-explorador__sidebar">
+        <aside className="explorador-sidebar">
           <ServiciosFiltros
             provinciaInicial={provincia}
             servicioInicial={servicioValido}
           />
         </aside>
 
-        <div className="servicios-explorador__main">
-          <div className="servicios-resultados-header">
-            <div>
-              <h2 id="servicios-disponibles-titulo">Servicios disponibles</h2>
-              <p>{prestadores.length} prestadores encontrados</p>
-            </div>
-            <Link
-              href={`/campos/mapa?${mapParams.toString()}`}
-              className="btn-mapa"
-            >
-              🗺️ Ver en mapa
-            </Link>
-          </div>
-
+        <div className="explorador-main">
           {prestadores.length > 0 ? (
             <div className="servicios-prestadores-grid">
               {prestadores.map((prestador) => {

@@ -1,5 +1,50 @@
 /* styles/explorador.css */
 
+/* Encabezado y acciones compartidos por campos y servicios. */
+.listing-header {
+  grid-column: 1 / -1;
+  width: 100%;
+  min-width: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.listing-header .explorador-count {
+  margin-top: 12px;
+}
+
+.listing-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.listing-button-full {
+  width: 100%;
+  margin-top: 4px;
+}
+
+@media (max-width: 900px) {
+  .listing-header {
+    align-items: stretch;
+    flex-direction: column;
+    padding-bottom: 24px;
+  }
+
+  .listing-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .explorador-layout > .explorador-sidebar,
+  .explorador-layout > .explorador-main {
+    width: 100%;
+  }
+}
+
 .explorador-layout {
   display: grid;
   grid-template-columns: 260px 1fr;
