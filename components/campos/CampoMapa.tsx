@@ -330,6 +330,7 @@ export default function CampoMapa({
             <button
               type="button"
               className={countryCode === "AR" ? "activo" : ""}
+              aria-pressed={countryCode === "AR"}
               onClick={() => {
                 setCountryCode("AR");
                 setSelectedCampo(null);
@@ -349,6 +350,7 @@ export default function CampoMapa({
             <button
               type="button"
               className={vista === "tierra" ? "activo" : ""}
+              aria-pressed={vista === "tierra"}
               onClick={() => cambiarVista("tierra")}
             >
               Tierra productiva
@@ -358,6 +360,7 @@ export default function CampoMapa({
               className={
                 vista === "servicios" ? "activo activo-servicios" : ""
               }
+              aria-pressed={vista === "servicios"}
               onClick={() => cambiarVista("servicios")}
             >
               Servicios rurales

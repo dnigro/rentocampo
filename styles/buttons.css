@@ -18,6 +18,8 @@
   .btn-pagina,
   .mapa-panel-btn,
   .mapa-publicar-btn,
+  .mapa-paises button,
+  .mapa-modos button,
   .servicios-btn,
   .prestador-card__actions a,
   .demanda-cta-boton,
@@ -68,4 +70,22 @@
     min-height: 58px;
     padding: 12px 22px !important;
   }
+}
+
+/* Selectores del mapa: misma familia visual, selección reconocible. */
+:root .app-shell :is(.mapa-paises, .mapa-modos) {
+  padding: 0;
+  gap: 10px;
+  background: transparent;
+}
+
+:root .app-shell :is(.mapa-paises, .mapa-modos) button {
+  width: 100%;
+  min-width: 0;
+  padding: 12px 10px !important;
+}
+
+:root .app-shell :is(.mapa-paises, .mapa-modos) button[aria-pressed="true"] {
+  border-color: var(--action-ink) !important;
+  box-shadow: inset 0 0 0 1px var(--action-ink) !important;
 }
