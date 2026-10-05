@@ -2411,3 +2411,30 @@ body {
     width: 100% !important;
   }
 }
+
+
+/* 2026-10-05 — Login desktop: proporción contenida y legible */
+@media (min-width: 901px) {
+  .app-shell .auth-page:not(.auth-page-register) .auth-card {
+    width: min(100%, 620px) !important;
+    max-width: 620px !important;
+    padding: 42px 44px !important;
+  }
+
+  .app-shell .auth-page:not(.auth-page-register) .auth-form {
+    width: min(100%, 500px) !important;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .app-shell .auth-page:not(.auth-page-register) .auth-form .form-input,
+  .app-shell .auth-page:not(.auth-page-register) .password-input-wrapper {
+    width: 100% !important;
+    max-width: 500px !important;
+  }
+
+  .app-shell .auth-page:not(.auth-page-register) .auth-form .btn-submit {
+    width: 100% !important;
+    max-width: 500px !important;
+  }
+}
