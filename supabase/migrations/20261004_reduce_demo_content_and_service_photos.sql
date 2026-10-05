@@ -1,5 +1,5 @@
 -- Reduce contenido DEMO y agrega imagen representativa a servicios rurales.
--- Se conservan 5 campos demo de zona núcleo y 2 servicios demo.
+-- Se conservan 2 campos demo de zona núcleo y 2 servicios demo.
 
 alter table public.profiles
   add column if not exists service_photo_url text;
@@ -20,7 +20,7 @@ where id in (
   '10000000-0000-4000-8000-000000000010'::uuid  -- Azul · Hotelería vacuna / veterinaria
 );
 
--- Oculta todos los campos DEMO existentes y reactiva solo 5 de zona núcleo.
+-- Oculta todos los campos DEMO existentes y reactiva solo 2 de zona núcleo.
 update public.campos
 set status = 'pausado'::campo_status
 where id::text like '20000000-%';
@@ -29,8 +29,5 @@ update public.campos
 set status = 'activo'::campo_status
 where id in (
   '20000000-0000-4000-8000-000000000001'::uuid, -- Pergamino
-  '20000000-0000-4000-8000-000000000002'::uuid, -- Rojas
-  '20000000-0000-4000-8000-000000000003'::uuid, -- Junín
-  '20000000-0000-4000-8000-000000000004'::uuid, -- Venado Tuerto
-  '20000000-0000-4000-8000-000000000006'::uuid  -- Marcos Juárez
+  '20000000-0000-4000-8000-000000000004'::uuid  -- Venado Tuerto
 );
