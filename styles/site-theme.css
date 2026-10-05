@@ -2489,3 +2489,19 @@ body {
     pointer-events: none !important;
   }
 }
+
+
+/* 2026-10-05 — Mi perfil: títulos e imagen con mayor presencia */
+@media (min-width: 901px) {
+  .app-shell .perfil-page .page-title {
+    font-size: clamp(76px, 5.8vw, 104px) !important;
+  }
+  .app-shell .perfil-page .perfil-section-title {
+    font-size: clamp(52px, 4vw, 72px) !important;
+  }
+  .app-shell .perfil-page .avatar-preview,
+  .app-shell .perfil-page .avatar-preview img {
+    width: 132px !important;
+    height: 132px !important;
+  }
+}
