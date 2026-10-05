@@ -22,39 +22,6 @@
   gap: 12px;
 }
 
-.listing-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 64px;
-  padding: 12px 26px;
-  box-sizing: border-box;
-  border: 1px solid #E6D87A;
-  border-radius: 10px;
-  background: #E6D87A;
-  color: #141414;
-  font: inherit;
-  font-size: 16px;
-  font-weight: 900;
-  line-height: 1.2;
-  letter-spacing: .035em;
-  text-align: center;
-  text-transform: uppercase;
-  text-decoration: none;
-  cursor: pointer;
-  transition: background .15s ease;
-}
-
-.listing-button:hover {
-  background: #DACC70;
-  border-color: #DACC70;
-}
-
-.listing-button:focus-visible {
-  outline: 3px solid #141414;
-  outline-offset: 3px;
-}
-
 .listing-button-full {
   width: 100%;
   margin-top: 4px;
@@ -70,11 +37,6 @@
   .listing-actions {
     display: grid;
     grid-template-columns: 1fr;
-  }
-
-  .listing-button {
-    min-height: 58px;
-    padding: 12px 22px;
   }
 
   .explorador-layout > .explorador-sidebar,
