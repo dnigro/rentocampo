@@ -868,3 +868,43 @@
     height: 23px;
   }
 }
+
+
+/* 2026-10-04 — Header: usar el amarillo institucional del hero */
+@media (min-width: 901px) {
+  .navbar-country-switch button.active {
+    background: #E6D87A;
+    color: #141414;
+  }
+
+  .navbar .btn-primary {
+    background: #E6D87A;
+    color: #141414;
+  }
+
+  .navbar .btn-primary:hover {
+    background: #E6D87A;
+    color: #141414;
+    filter: brightness(.96);
+  }
+}
+
+
+/* 2026-10-04 — Forzar amarillo mostaza institucional en acciones del header */
+@media (min-width: 901px) {
+  .navbar .navbar-country-switch button.active,
+  .navbar .btn-primary,
+  .navbar .btn-primary:link,
+  .navbar .btn-primary:visited {
+    background: #E6D87A !important;
+    background-color: #E6D87A !important;
+    color: #141414 !important;
+  }
+
+  .navbar .btn-primary:hover,
+  .navbar .btn-primary:focus-visible {
+    background: #DACC70 !important;
+    background-color: #DACC70 !important;
+    color: #141414 !important;
+  }
+}
