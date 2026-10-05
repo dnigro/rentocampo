@@ -20,7 +20,6 @@ export async function POST(request: Request) {
     .from("profiles")
     .update({
       nombre: typeof body.nombre === "string" ? body.nombre : "",
-      country_code: body.country_code === "AR" ? "AR" : "AR",
       telefono: typeof body.telefono === "string" ? body.telefono : "",
       bio: typeof body.bio === "string" ? body.bio : "",
       servicios_rurales: Array.isArray(body.servicios_rurales) ? body.servicios_rurales : [],
