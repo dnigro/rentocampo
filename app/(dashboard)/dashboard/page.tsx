@@ -51,7 +51,7 @@ export default async function DashboardPage() {
           <span className="dash-card-label">Buscar campos</span>
           <span className="dash-card-desc">Explorar disponibles</span>
         </Link>
-        {esPropietario && (
+        {(esProductor || esPropietario) && (
           <Link href="/mis-campos" className="dash-card">
             <span className="dash-card-icon">🗺️</span>
             <span className="dash-card-label">Mis campos</span>
