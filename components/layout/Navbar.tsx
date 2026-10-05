@@ -17,10 +17,7 @@ export default function Navbar() {
   const [supabase] = useState(createClient);
 
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const fromQuery = params.get("pais")?.toUpperCase();
-    const fromStorage = window.localStorage.getItem("rentocampo_country")?.toUpperCase();
-    const resolved: "AR" = "AR";
+    const resolved = "AR" as const;
     window.localStorage.setItem("rentocampo_country", resolved);
     const syncCountry = window.setTimeout(() => setActiveCountry(resolved), 0);
     return () => window.clearTimeout(syncCountry);

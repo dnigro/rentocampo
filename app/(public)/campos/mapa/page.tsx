@@ -24,7 +24,7 @@ export default async function MapaPage({
 }: {
   searchParams: Promise<{ vista?: string; servicio?: string; pais?: string }>;
 }) {
-  const { vista, servicio, pais } = await searchParams;
+  const { vista, servicio } = await searchParams;
   const servicioInicial = SERVICIOS_RURALES.some(
     (item) => item.value === servicio,
   )

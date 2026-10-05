@@ -70,12 +70,13 @@ export default function GaleriaCarrusel({ fotos, titulo }: Props) {
     setIndiceModal(indice);
   };
 
-  useEffect(() => {
-    if (zoom <= 1) {
+  const actualizarZoom = (nuevoZoom: number) => {
+    setZoom(nuevoZoom);
+    if (nuevoZoom <= 1) {
       setOffset({ x: 0, y: 0 });
       setPanInicio(null);
     }
-  }, [zoom]);
+  };
 
   // Teclado
   useEffect(() => {
@@ -220,7 +221,7 @@ export default function GaleriaCarrusel({ fotos, titulo }: Props) {
               )}
               <div
                 className={`carrusel-imagen ${zoom > 1 ? "zoom-activo" : ""}`}
-                onDoubleClick={() => setZoom((z) => (z > 1 ? 1 : 2))}
+                onDoubleClick={() => actualizarZoom(zoom > 1 ? 1 : 2)}
                 onTouchStart={(e) => {
                   if (e.touches.length === 2) {
                     const distancia = distanciaTouches(e.touches);
@@ -242,7 +243,7 @@ export default function GaleriaCarrusel({ fotos, titulo }: Props) {
                     e.preventDefault();
                     const distancia = distanciaTouches(e.touches);
                     const nuevoZoom = Math.min(4, Math.max(1, zoomInicio * (distancia / pinchInicio)));
-                    setZoom(nuevoZoom);
+                    actualizarZoom(nuevoZoom);
                   } else if (e.touches.length === 1 && zoom > 1 && panInicio) {
                     e.preventDefault();
                     const t = e.touches[0];
@@ -272,7 +273,7 @@ export default function GaleriaCarrusel({ fotos, titulo }: Props) {
                   <button
                     type="button"
                     aria-label="Alejar"
-                    onClick={() => setZoom((z) => Math.max(1, +(z - 0.5).toFixed(1)))}
+                    onClick={() => actualizarZoom(Math.max(1, +(zoom - 0.5).toFixed(1)))}
                     disabled={zoom <= 1}
                   >
                     −
