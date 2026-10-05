@@ -938,3 +938,14 @@
     display: none !important;
   }
 }
+
+
+/* 2026-10-05 — Defensa extra: el drawer mobile nunca puede renderizarse en desktop. */
+@media (min-width: 901px) {
+  body .mobile-menu,
+  body .mobile-menu .mobile-menu-inner {
+    display: none !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+}
