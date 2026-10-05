@@ -1187,3 +1187,20 @@
     white-space: normal;
   }
 }
+
+
+/* 2026-10-04 — CTA principal: dos líneas controladas */
+@media (min-width: 901px) {
+  .editorialHero__desktopPrimaryLabel {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1px;
+    white-space: nowrap;
+  }
+
+  .editorialHero__desktopPrimaryLabel > span {
+    display: block;
+    white-space: nowrap !important;
+  }
+}
