@@ -46,11 +46,6 @@ export default async function DashboardPage() {
           <span className="dash-card-label">Mi perfil</span>
           <span className="dash-card-desc">Datos y configuración</span>
         </Link>
-        <Link href="/campos" className="dash-card">
-          <span className="dash-card-icon">🔍</span>
-          <span className="dash-card-label">Buscar campos</span>
-          <span className="dash-card-desc">Explorar disponibles</span>
-        </Link>
         {(esProductor || esPropietario) && (
           <Link href="/mis-campos" className="dash-card">
             <span className="dash-card-icon">🗺️</span>
