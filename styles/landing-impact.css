@@ -1303,3 +1303,37 @@ body:has(.rc-landing) .navbar .btn-primary {
     font-size: 18px;
   }
 }
+
+
+/* 2026-10-05 — CTA del mapa con mayor presencia y negro mate */
+.rc-landing .rc-map-copy .rc-button-yellow,
+.rc-landing .rc-map-copy .rc-button-yellow:link,
+.rc-landing .rc-map-copy .rc-button-yellow:visited {
+  min-width: 300px;
+  min-height: 66px;
+  padding: 0 30px;
+  border: 1px solid #141414;
+  border-radius: 8px;
+  background: #141414;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing: .02em;
+}
+.rc-landing .rc-map-copy .rc-button-yellow:hover,
+.rc-landing .rc-map-copy .rc-button-yellow:focus-visible {
+  background: #242424;
+  border-color: #242424;
+  color: #fff;
+}
+@media (max-width: 900px) {
+  .rc-landing .rc-map-copy .rc-button-yellow,
+  .rc-landing .rc-map-copy .rc-button-yellow:link,
+  .rc-landing .rc-map-copy .rc-button-yellow:visited {
+    width: auto;
+    min-width: 0;
+    min-height: 64px;
+    padding: 0 28px;
+    font-size: 18px;
+  }
+}
