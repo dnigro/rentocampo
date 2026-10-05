@@ -11,11 +11,10 @@ import { SERVICIOS_RURALES } from "@/data/servicios-rurales";
 
 interface Props {
   profile: Partial<Profile> | null;
-  userId: string;
   email: string;
 }
 
-export default function PerfilForm({ profile, userId, email }: Props) {
+export default function PerfilForm({ profile, email }: Props) {
   const router = useRouter();
   const [supabase] = useState(createClient);
   const fileInputRef = useRef<HTMLInputElement>(null);
