@@ -1171,3 +1171,19 @@
     line-height: 1.12;
   }
 }
+
+
+/* 2026-10-04 — CTA principal más ancho para mantener “campo o servicio” en una línea */
+@media (min-width: 901px) {
+  .editorialHero__desktopActions {
+    grid-template-columns: minmax(310px, 1.22fr) minmax(225px, 1fr) minmax(225px, 1fr) !important;
+  }
+
+  .editorialHero__desktopPrimary {
+    min-width: 310px !important;
+  }
+
+  .editorialHero__desktopPrimary span:first-child {
+    white-space: normal;
+  }
+}
