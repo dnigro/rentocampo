@@ -23,8 +23,8 @@ export default function LandingHero() {
           <p className="editorialHero__desktopOnePlace">Todo en un solo lugar.</p>
           <p className="editorialHero__desktopIntro">
             Encontrá oportunidades con <strong>mapa</strong>, conectá por{" "}
-            <strong>chat online</strong> y avanzá de forma directa. Registrarte,
-            publicar y contactar es <strong>gratis.</strong>
+            <strong>chat online</strong> y avanzá de forma directa. <strong>REGISTRARTE,
+            PUBLICAR Y CONTACTAR ES GRATIS.</strong>
           </p>
 
           <div className="editorialHero__desktopActions">

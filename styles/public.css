@@ -908,3 +908,24 @@
     color: #141414 !important;
   }
 }
+
+
+/* 2026-10-04 — Mobile: mantener el mismo amarillo mostaza institucional */
+@media (max-width: 900px) {
+  .navbar .navbar-country-switch-mobile button.active,
+  .mobile-menu-btn,
+  .mobile-menu-btn:link,
+  .mobile-menu-btn:visited {
+    background: #E6D87A !important;
+    background-color: #E6D87A !important;
+    border-color: #E6D87A !important;
+    color: #141414 !important;
+  }
+
+  .mobile-menu-btn:hover,
+  .mobile-menu-btn:focus-visible {
+    background: #DACC70 !important;
+    background-color: #DACC70 !important;
+    color: #141414 !important;
+  }
+}
