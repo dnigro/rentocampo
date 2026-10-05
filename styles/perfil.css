@@ -677,3 +677,27 @@
   font-size: 14px;
   text-align: center;
 }
+
+
+/* 2026-10-05 — Escala visual desktop del perfil ampliado */
+@media (min-width: 901px) {
+  .perfil-section { padding: 36px 34px; }
+  .perfil-section-title { font-size: 26px; margin-bottom: 26px; }
+  .perfil-section .form-label { font-size: 16px; font-weight: 800; }
+  .perfil-section .form-input,
+  .perfil-section .form-textarea { min-height: 56px; font-size: 16px; padding: 14px 16px; }
+  .perfil-section .form-hint,
+  .avatar-hint { font-size: 13px; }
+  .perfil-role-option { min-height: 92px; padding: 20px; gap: 14px; }
+  .perfil-role-option input { width: 18px; height: 18px; }
+  .perfil-role-option strong { font-size: 18px; }
+  .perfil-role-option small { font-size: 14px; }
+  .avatar-preview { width: 112px; height: 112px; }
+  .avatar-info { gap: 10px; }
+  .perfil-section .btn-primary-lg,
+  .perfil-section .btn-secondary-lg { min-height: 50px; padding: 13px 24px; font-size: 16px; }
+  .servicios-profile-box { padding: 28px; }
+  .servicios-profile-box h3 { font-size: 24px; }
+  .servicios-profile-box p { font-size: 15px; }
+  .servicio-option span { padding: 10px 14px; font-size: 14px; }
+}
