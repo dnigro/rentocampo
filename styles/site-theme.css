@@ -2438,3 +2438,54 @@ body {
     max-width: 500px !important;
   }
 }
+
+
+/* 2026-10-05 — Ajuste final de proporciones login/perfil y defensa del menú mobile en desktop */
+@media (min-width: 901px) {
+  .app-shell .auth-page:not(.auth-page-register) .auth-card {
+    width: min(100%, 560px) !important;
+    max-width: 560px !important;
+    padding: 38px 40px !important;
+  }
+  .app-shell .auth-page:not(.auth-page-register) .auth-form {
+    width: min(100%, 440px) !important;
+  }
+  .app-shell .auth-page:not(.auth-page-register) .auth-form .form-input,
+  .app-shell .auth-page:not(.auth-page-register) .password-input-wrapper,
+  .app-shell .auth-page:not(.auth-page-register) .auth-form .btn-submit {
+    max-width: 440px !important;
+  }
+
+  .app-shell .perfil-page .page-title {
+    font-size: clamp(64px, 5vw, 88px) !important;
+  }
+  .app-shell .perfil-page .page-subtitle {
+    font-size: 27px !important;
+  }
+  .app-shell .perfil-page .perfil-section-title {
+    font-size: clamp(44px, 3.4vw, 62px) !important;
+  }
+  .app-shell .perfil-page .avatar-preview {
+    width: 104px !important;
+    height: 104px !important;
+  }
+  .app-shell .perfil-page .avatar-preview img {
+    width: 104px !important;
+    height: 104px !important;
+  }
+  .app-shell .perfil-page .form-label {
+    font-size: 18px !important;
+  }
+  .app-shell .perfil-page .form-input,
+  .app-shell .perfil-page textarea,
+  .app-shell .perfil-page select {
+    font-size: 18px !important;
+  }
+
+  .mobile-menu,
+  .mobile-menu-inner {
+    display: none !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+}
