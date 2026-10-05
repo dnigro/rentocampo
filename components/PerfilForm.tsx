@@ -148,6 +148,7 @@ export default function PerfilForm({ profile, userId, email }: Props) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          roles: form.roles,
           nombre: form.nombre,
           country_code: form.country_code,
           telefono: form.telefono,
