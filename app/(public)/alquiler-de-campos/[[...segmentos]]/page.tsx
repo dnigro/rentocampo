@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { createAdminClient } from "@/lib/supabase/admin";
 import CamposListing, { type CamposSearchParams } from "@/components/campos/CamposListing";
@@ -11,13 +10,6 @@ type Props = {
   params: Promise<{ segmentos?: string[] }>;
   searchParams: Promise<CamposSearchParams>;
 };
-
-const PROVINCIAS_DESTACADAS = [
-  ["buenos-aires", "Buenos Aires"],
-  ["cordoba", "Córdoba"],
-  ["santa-fe", "Santa Fe"],
-  ["entre-rios", "Entre Ríos"],
-] as const;
 
 function resolveCategoria(segmentos: string[] = []) {
   if (segmentos.length === 0) {
