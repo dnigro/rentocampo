@@ -2394,3 +2394,20 @@ body {
     color: #141414 !important;
   }
 }
+
+
+/* 2026-10-05 — Mi perfil usa el ancho editorial de desktop.
+   Debe ir después del max-width global de .page-container. */
+@media (min-width: 901px) {
+  .app-shell .perfil-page.page-container {
+    max-width: 1680px !important;
+    width: 100% !important;
+    padding-left: 72px !important;
+    padding-right: 72px !important;
+  }
+
+  .app-shell .perfil-page .perfil-form {
+    max-width: 1480px !important;
+    width: 100% !important;
+  }
+}
