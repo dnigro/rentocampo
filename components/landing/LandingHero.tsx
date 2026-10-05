@@ -29,7 +29,10 @@ export default function LandingHero() {
 
           <div className="editorialHero__desktopActions">
             <Link href="/register" className="editorialHero__desktopPrimary">
-              <span>Publicá tu campo o servicio</span>
+              <span className="editorialHero__desktopPrimaryLabel">
+                <span>Publicá tu</span>
+                <span>Campo o servicio</span>
+              </span>
               <span aria-hidden="true">→</span>
             </Link>
             <Link href="/servicios-rurales" className="editorialHero__desktopService">
