@@ -1146,3 +1146,28 @@
     font-size: 16px !important;
   }
 }
+
+
+/* 2026-10-04 — Ajuste fino desktop: segunda línea y CTAs consistentes */
+@media (min-width: 901px) {
+  .editorialHero__desktopAccentLine {
+    font-size: .90em;
+  }
+
+  .editorialHero__desktopPrimary,
+  .editorialHero__desktopSecondary,
+  .editorialHero__desktopService {
+    min-height: 64px !important;
+    height: 64px;
+    padding: 0 26px !important;
+    border-radius: 10px !important;
+    box-sizing: border-box;
+    align-items: center !important;
+  }
+
+  .editorialHero__desktopPrimary span:first-child,
+  .editorialHero__desktopSecondary span:first-child,
+  .editorialHero__desktopService span:first-child {
+    line-height: 1.12;
+  }
+}
