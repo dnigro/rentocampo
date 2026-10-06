@@ -30,9 +30,6 @@ export default async function NuevoServicioRuralPage() {
           <h1 className="page-title">
             Publicar servicio rural
           </h1>
-          <p className="page-subtitle">
-            Creá una publicación independiente para este servicio y su zona de cobertura.
-          </p>
         </div>
       </div>
 
