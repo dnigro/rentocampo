@@ -9,8 +9,21 @@ import { SERVICIOS_RURALES } from "@/data/servicios-rurales";
 import { PROVINCIAS_ARG, type Profile, type RolPerfil, type ServicioRural } from "@/types";
 import GeocoderInput, { type LugarSeleccionado } from "@/components/campos/GeocoderInput";
 
+interface ServicioInicial {
+  id: string;
+  servicios_rurales: ServicioRural[];
+  foto_url: string;
+  provincia: string;
+  localidad?: string | null;
+  zona?: string | null;
+  detalle?: string | null;
+  latitud?: number | null;
+  longitud?: number | null;
+}
+
 interface Props {
   profile: Partial<Profile> | null;
+  publicacion?: ServicioInicial | null;
 }
 
 export default function ServicioRuralForm({ profile, publicacion }: Props) {
