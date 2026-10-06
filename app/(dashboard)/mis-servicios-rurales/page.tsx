@@ -1,9 +1,7 @@
 import Link from "next/link";
-import Image from "next/image";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { SERVICIO_LABEL } from "@/data/servicios-rurales";
-import type { ServicioRural } from "@/types";
+import MisServiciosLista from "@/components/servicios/MisServiciosLista";
 import "@/styles/dashboard.css";
 import "@/styles/campos.css";
 
@@ -38,31 +36,7 @@ export default async function MisServiciosRuralesPage() {
           <Link href="/mis-servicios-rurales/nuevo" className="btn-primary-lg">Publicar servicio</Link>
         </div>
       ) : (
-        <div className="campos-grid">
-          {publicaciones.map((pub) => {
-            const rubros = (pub.servicios_rurales ?? []) as ServicioRural[];
-            return (
-              <article className="campo-card-admin" key={pub.id}>
-                <div className="campo-card-img">
-                  <Image src={pub.foto_url} alt="Servicio rural" fill sizes="(max-width: 720px) 100vw, 320px" />
-                </div>
-                <div className="campo-card-body">
-                  <span className="estado-badge estado-activo" style={{ position: "static", display: "inline-flex", marginBottom: 12 }}>
-                    {pub.activo ? "Activo" : "Inactivo"}
-                  </span>
-                  <h2 className="campo-card-titulo">
-                    {rubros.slice(0, 3).map((item) => SERVICIO_LABEL[item] ?? item).join(" · ")}
-                  </h2>
-                  <p className="campo-card-ubicacion">📍 {[pub.localidad, pub.provincia].filter(Boolean).join(", ")}</p>
-                  {pub.zona && <p className="campo-card-datos">{pub.zona}</p>}
-                </div>
-                <div className="campo-card-actions">
-                  <Link href="/servicios-rurales" className="btn-action">Ver publicación</Link>
-                </div>
-              </article>
-            );
-          })}
-        </div>
+        <MisServiciosLista publicaciones={publicaciones ?? []} />
       )}
     </div>
   );
