@@ -1,5 +1,5 @@
 :root {
-  --brand-yellow: #8f6f22;
+  --brand-yellow: #d2b84c;
   --brand-ink: #073f30;
   --brand-text: #263a32;
   --brand-muted: #718078;
@@ -2540,7 +2540,7 @@ body {
 
 /* 2026-10-06 — Header: marca con más presencia + paleta mostaza/carbón */
 .navbar {
-  --header-mustard: #8f6f22;
+  --header-mustard: #d2b84c;
   --header-charcoal: #20211f;
 }
 .brand-wordmark--text-only .brand-clean-name {
@@ -2573,7 +2573,7 @@ body {
     font-weight: 950 !important;
   }
   .navbar .navbar-logo .brand-clean-name .brand-initial {
-    color: #8f6f22 !important;
+    color: #d2b84c !important;
   }
   .navbar .navbar-logo .brand-clean-name {
     color: #20211f !important;
@@ -2586,14 +2586,14 @@ body {
   color: #20211f !important;
 }
 .navbar .navbar-logo .brand-clean-name .brand-initial {
-  color: #8f6f22 !important;
+  color: #d2b84c !important;
 }
 @media (min-width: 901px) {
   .navbar .navbar-logo .brand-wordmark--text-only .brand-clean-name {
     color: #20211f !important;
   }
   .navbar .navbar-logo .brand-clean-name .brand-initial {
-    color: #8f6f22 !important;
+    color: #d2b84c !important;
   }
 }
 
@@ -2603,6 +2603,6 @@ header.navbar a.navbar-logo span.brand-wordmark--text-only span.brand-clean-name
   color: #20211f !important;
 }
 header.navbar a.navbar-logo span.brand-wordmark--text-only span.brand-clean-name > span.brand-initial {
-  color: #8f6f22 !important;
-  -webkit-text-fill-color: #8f6f22 !important;
+  color: #d2b84c !important;
+  -webkit-text-fill-color: #d2b84c !important;
 }
