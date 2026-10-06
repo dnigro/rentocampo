@@ -1,5 +1,5 @@
 :root {
-  --brand-yellow: #f5bd00;
+  --brand-yellow: #b08a2e;
   --brand-ink: #073f30;
   --brand-text: #263a32;
   --brand-muted: #718078;
@@ -2540,7 +2540,7 @@ body {
 
 /* 2026-10-06 — Header: marca con más presencia + paleta mostaza/carbón */
 .navbar {
-  --header-mustard: #b58b22;
+  --header-mustard: #b08a2e;
   --header-charcoal: #20211f;
 }
 .brand-wordmark--text-only .brand-clean-name {
@@ -2573,9 +2573,26 @@ body {
     font-weight: 950 !important;
   }
   .navbar .navbar-logo .brand-clean-name .brand-initial {
-    color: #b58b22 !important;
+    color: #b08a2e !important;
   }
   .navbar .navbar-logo .brand-clean-name {
     color: #20211f !important;
+  }
+}
+
+
+/* 2026-10-06 — Wordmark final: misma paleta en desktop y mobile */
+.navbar .navbar-logo .brand-clean-name {
+  color: #20211f !important;
+}
+.navbar .navbar-logo .brand-clean-name .brand-initial {
+  color: #b08a2e !important;
+}
+@media (min-width: 901px) {
+  .navbar .navbar-logo .brand-wordmark--text-only .brand-clean-name {
+    color: #20211f !important;
+  }
+  .navbar .navbar-logo .brand-clean-name .brand-initial {
+    color: #b08a2e !important;
   }
 }
