@@ -150,8 +150,6 @@ export default function ServicioRuralForm({ profile, publicacion }: Props) {
 
   return (
     <form className="campo-form servicio-publicacion-form" onSubmit={handleSubmit}>
-      {error && <div className="form-error">{error}</div>}
-
       <div className="form-section">
         <h2 className="form-section-title form-section-title-editorial"><span className="form-section-number">01</span><span className="form-section-icon" aria-hidden="true"><FileText size={24} strokeWidth={1.8} /></span><span className="form-section-copy"><span>Información</span> <em>del servicio</em></span></h2>
       <div className="form-field">
@@ -285,6 +283,8 @@ export default function ServicioRuralForm({ profile, publicacion }: Props) {
       </div>
 
       </div>
+
+      {error && <div className="form-error servicio-form-error" role="alert">{error}</div>}
 
       <div className="form-actions">
         <button type="submit" className="btn-primary-lg" disabled={saving}>
