@@ -493,6 +493,14 @@
   margin-bottom: 8px;
 }
 
+.servicio-form-error {
+  margin: 24px 0 18px;
+  padding: 16px 20px;
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
 /* Geocoder custom */
 .geocoder-custom-wrapper {
   position: relative;
