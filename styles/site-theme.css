@@ -2540,7 +2540,7 @@ body {
 
 /* 2026-10-06 — Header: marca con más presencia + paleta mostaza/carbón */
 .navbar {
-  --header-mustard: #d7ad22;
+  --header-mustard: #b58b22;
   --header-charcoal: #20211f;
 }
 .brand-wordmark--text-only .brand-clean-name {
@@ -2566,8 +2566,16 @@ body {
   .navbar-inner {
     min-height: 82px !important;
   }
-  .brand-wordmark--text-only .brand-clean-name {
-    font-size: 35px !important;
-    letter-spacing: -1.4px !important;
+  .navbar .navbar-logo .brand-wordmark--text-only .brand-clean-name {
+    font-size: 40px !important;
+    line-height: .92 !important;
+    letter-spacing: -1.8px !important;
+    font-weight: 950 !important;
+  }
+  .navbar .navbar-logo .brand-clean-name .brand-initial {
+    color: #b58b22 !important;
+  }
+  .navbar .navbar-logo .brand-clean-name {
+    color: #20211f !important;
   }
 }
