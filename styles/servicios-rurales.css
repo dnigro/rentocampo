@@ -657,3 +657,65 @@
 .prestador-card[data-demo="true"] .prestador-card__image img {
   filter: grayscale(1) contrast(1.05);
 }
+
+
+/* Confirmación de eliminación — modal RentoCampo */
+.servicio-delete-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(12, 12, 10, .58);
+  backdrop-filter: blur(3px);
+}
+.servicio-delete-modal {
+  width: min(100%, 480px);
+  padding: 34px;
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 24px 70px rgba(0,0,0,.24);
+  color: #111;
+}
+.servicio-delete-kicker {
+  display: inline-block;
+  margin-bottom: 14px;
+  color: #9a7900;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: .14em;
+}
+.servicio-delete-modal h2 {
+  margin: 0;
+  font-size: 32px;
+  font-weight: 900;
+  line-height: 1.05;
+}
+.servicio-delete-modal p {
+  margin: 16px 0 26px;
+  color: #625f58;
+  font-size: 16px;
+  line-height: 1.5;
+}
+.servicio-delete-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+.servicio-delete-actions button {
+  min-height: 48px;
+  padding: 0 18px;
+  border: 1px solid #111;
+  border-radius: 4px;
+  font-weight: 900;
+  cursor: pointer;
+}
+.servicio-delete-cancel { background: #fff; color: #111; }
+.servicio-delete-confirm { background: #f6c500; color: #111; }
+.servicio-delete-actions button:disabled { cursor: wait; opacity: .65; }
+@media (max-width: 520px) {
+  .servicio-delete-modal { padding: 28px 22px; }
+  .servicio-delete-actions { flex-direction: column-reverse; }
+  .servicio-delete-actions button { width: 100%; }
+}

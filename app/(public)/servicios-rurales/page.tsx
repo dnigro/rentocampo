@@ -89,14 +89,6 @@ export default async function ServiciosRuralesPage({
     ? "/mis-servicios-rurales/nuevo"
     : "/register?tipo=prestador";
 
-  let perfilesQuery = supabase
-    .from("profiles")
-    .select(
-      "id, nombre, bio, avatar_url, service_photo_url, servicios_rurales, zona_servicio, provincia_servicio, localidad_servicio",
-    )
-    .contains("roles", ["prestador"])
-    .not("provincia_servicio", "is", null);
-
   let demosQuery = supabase
     .from("demo_servicios_rurales")
     .select(
@@ -105,19 +97,14 @@ export default async function ServiciosRuralesPage({
     .eq("activo", true);
 
   if (provincia) {
-    perfilesQuery = perfilesQuery.eq("provincia_servicio", provincia);
     demosQuery = demosQuery.eq("provincia_servicio", provincia);
   }
 
   if (servicioValido) {
-    perfilesQuery = perfilesQuery.contains("servicios_rurales", [servicioValido]);
     demosQuery = demosQuery.contains("servicios_rurales", [servicioValido]);
   }
 
-  const [{ data: perfiles }, { data: demos }] = await Promise.all([
-    perfilesQuery.order("nombre", { ascending: true }),
-    demosQuery.order("nombre", { ascending: true }),
-  ]);
+  const { data: demos } = await demosQuery.order("nombre", { ascending: true });
 
   const { data: publicaciones } = await supabase
     .from("servicios_publicaciones")
@@ -134,10 +121,8 @@ export default async function ServiciosRuralesPage({
     .filter((p) => (!provincia || p.provincia === provincia) && (!servicioValido || (p.servicios_rurales ?? []).includes(servicioValido)))
     .map((p) => ({ id: p.propietario_id, publicacion_id: p.id, nombre: ownerMap.get(p.propietario_id) ?? "Prestador rural", service_photo_url: p.foto_url, servicios_rurales: p.servicios_rurales ?? [], zona_servicio: p.zona, provincia_servicio: p.provincia, localidad_servicio: p.localidad, is_demo: false }));
 
-  const legacyOwnerIds = new Set(publicacionesPrestadores.map((p) => p.id));
   const prestadores: Prestador[] = [
     ...publicacionesPrestadores,
-    ...(perfiles ?? []).filter((item) => !legacyOwnerIds.has(item.id)).map((item) => ({ ...item, is_demo: false })),
     ...(demos ?? [])
       .filter((item) =>
         [
