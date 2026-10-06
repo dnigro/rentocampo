@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
+import { FileText, Images, MapPinned } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { SERVICIOS_RURALES } from "@/data/servicios-rurales";
 import { PROVINCIAS_ARG, type Profile, type RolPerfil, type ServicioRural } from "@/types";
@@ -131,9 +132,11 @@ export default function ServicioRuralForm({ profile }: Props) {
   }
 
   return (
-    <form className="perfil-section servicio-publicacion-form" onSubmit={handleSubmit}>
+    <form className="campo-form servicio-publicacion-form" onSubmit={handleSubmit}>
       {error && <div className="form-error">{error}</div>}
 
+      <div className="form-section">
+        <h2 className="form-section-title form-section-title-editorial"><span className="form-section-number">01</span><span className="form-section-icon" aria-hidden="true"><FileText size={24} strokeWidth={1.8} /></span><span className="form-section-copy"><span>Información</span> <em>del servicio</em></span></h2>
       <div className="form-field">
         <label className="form-label">
           ¿Qué servicios ofrecés? <span className="required">*</span>
@@ -155,6 +158,10 @@ export default function ServicioRuralForm({ profile }: Props) {
         </div>
       </div>
 
+      </div>
+
+      <div className="form-section">
+        <h2 className="form-section-title form-section-title-editorial"><span className="form-section-number">02</span><span className="form-section-icon" aria-hidden="true"><Images size={24} strokeWidth={1.8} /></span><span className="form-section-copy"><span>Foto</span> <em>del servicio</em></span></h2>
       <div className="form-field">
         <label className="form-label">Foto de tu servicio <span className="required">*</span></label>
         <p className="form-hint">Subí una foto clara y real de tu trabajo. Una buena imagen ayuda a que los productores entiendan rápidamente qué servicio ofrecés.</p>
@@ -189,6 +196,10 @@ export default function ServicioRuralForm({ profile }: Props) {
         </div>
       </div>
 
+      </div>
+
+      <div className="form-section">
+        <h2 className="form-section-title form-section-title-editorial"><span className="form-section-number">03</span><span className="form-section-icon" aria-hidden="true"><MapPinned size={24} strokeWidth={1.8} /></span><span className="form-section-copy"><span>Zona</span> <em>de cobertura</em></span></h2>
       <div className="form-field">
         <label className="form-label">Buscar zona de servicio en el mapa <span className="required">*</span></label>
         <GeocoderInput
@@ -247,7 +258,18 @@ export default function ServicioRuralForm({ profile }: Props) {
         />
       </div>
 
-      <div className="form-field">\n        <label className="form-label">Detalles del servicio</label>\n        <textarea className="form-input form-textarea" rows={5} value={detalle} onChange={(e) => setDetalle(e.target.value)} placeholder="Contá qué incluye el servicio, equipamiento, experiencia, disponibilidad u otra información útil para el productor." />\n      </div>\n\n      <div className="form-actions">
+      </div>
+
+      <div className="form-section">
+        <h2 className="form-section-title form-section-title-editorial"><span className="form-section-number">04</span><span className="form-section-copy"><span>Detalles</span> <em>del servicio</em></span></h2>
+      <div className="form-field">
+        <label className="form-label">Detalles del servicio</label>
+        <textarea className="form-input form-textarea" rows={5} value={detalle} onChange={(e) => setDetalle(e.target.value)} placeholder="Contá qué incluye el servicio, equipamiento, experiencia, disponibilidad u otra información útil para el productor." />
+      </div>
+
+      </div>
+
+      <div className="form-actions">
         <button type="submit" className="btn-primary-lg" disabled={saving}>
           {saving ? "Guardando..." : "Publicar servicio"}
         </button>
