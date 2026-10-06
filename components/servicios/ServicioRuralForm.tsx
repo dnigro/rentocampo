@@ -6,6 +6,7 @@ import { useRef, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { SERVICIOS_RURALES } from "@/data/servicios-rurales";
 import { PROVINCIAS_ARG, type Profile, type RolPerfil, type ServicioRural } from "@/types";
+import GeocoderInput, { type LugarSeleccionado } from "@/components/campos/GeocoderInput";
 
 interface Props {
   profile: Partial<Profile> | null;
@@ -22,6 +23,10 @@ export default function ServicioRuralForm({ profile }: Props) {
   const [zona, setZona] = useState(profile?.zona_servicio ?? "");
   const [provincia, setProvincia] = useState(profile?.provincia_servicio ?? "");
   const [localidad, setLocalidad] = useState(profile?.localidad_servicio ?? "");
+  const [ubicacion, setUbicacion] = useState("");
+  const [latitud, setLatitud] = useState<number | undefined>();
+  const [longitud, setLongitud] = useState<number | undefined>();
+  const [detalle, setDetalle] = useState("");
   const [photoPreview, setPhotoPreview] = useState(profile?.service_photo_url ?? "");
   const [photoFile, setPhotoFile] = useState<File | null>(null);
   const [saving, setSaving] = useState(false);
@@ -56,8 +61,8 @@ export default function ServicioRuralForm({ profile }: Props) {
       return;
     }
 
-    if (!provincia) {
-      setError("Elegí una provincia principal.");
+    if (!provincia || !ubicacion || typeof latitud !== "number" || typeof longitud !== "number") {
+      setError("Seleccioná la zona de servicio usando el buscador del mapa.");
       return;
     }
 
@@ -93,6 +98,9 @@ export default function ServicioRuralForm({ profile }: Props) {
         zona: zona || null,
         provincia,
         localidad: localidad || null,
+        latitud,
+        longitud,
+        detalle: detalle || null,
       });
       if (insertError) throw insertError;
 
@@ -181,6 +189,25 @@ export default function ServicioRuralForm({ profile }: Props) {
         </div>
       </div>
 
+      <div className="form-field">
+        <label className="form-label">Buscar zona de servicio en el mapa <span className="required">*</span></label>
+        <GeocoderInput
+          countryCode="AR"
+          valorInicial={ubicacion}
+          onChange={setUbicacion}
+          onSelect={(lugar: LugarSeleccionado) => {
+            setUbicacion(lugar.lugar);
+            setLatitud(lugar.lat);
+            setLongitud(lugar.lng);
+            if (lugar.provincia) setProvincia(lugar.provincia);
+            if (lugar.localidad) setLocalidad(lugar.localidad);
+          }}
+        />
+        {typeof latitud === "number" && typeof longitud === "number" && (
+          <span className="geocoder-coords">✓ Ubicación seleccionada: {latitud.toFixed(4)}, {longitud.toFixed(4)}</span>
+        )}
+      </div>
+
       <div className="form-row">
         <div className="form-field">
           <label className="form-label">
@@ -220,7 +247,7 @@ export default function ServicioRuralForm({ profile }: Props) {
         />
       </div>
 
-      <div className="form-actions">
+      <div className="form-field">\n        <label className="form-label">Detalles del servicio</label>\n        <textarea className="form-input form-textarea" rows={5} value={detalle} onChange={(e) => setDetalle(e.target.value)} placeholder="Contá qué incluye el servicio, equipamiento, experiencia, disponibilidad u otra información útil para el productor." />\n      </div>\n\n      <div className="form-actions">
         <button type="submit" className="btn-primary-lg" disabled={saving}>
           {saving ? "Guardando..." : "Publicar servicio"}
         </button>
