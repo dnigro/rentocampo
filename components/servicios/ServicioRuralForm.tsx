@@ -13,22 +13,22 @@ interface Props {
   profile: Partial<Profile> | null;
 }
 
-export default function ServicioRuralForm({ profile }: Props) {
+export default function ServicioRuralForm({ profile, publicacion }: Props) {
   const router = useRouter();
   const [supabase] = useState(createClient);
   const photoInputRef = useRef<HTMLInputElement>(null);
 
   const [servicios, setServicios] = useState<ServicioRural[]>(
-    profile?.servicios_rurales ?? [],
+    publicacion?.servicios_rurales ?? profile?.servicios_rurales ?? [],
   );
-  const [zona, setZona] = useState(profile?.zona_servicio ?? "");
-  const [provincia, setProvincia] = useState(profile?.provincia_servicio ?? "");
-  const [localidad, setLocalidad] = useState(profile?.localidad_servicio ?? "");
+  const [zona, setZona] = useState(publicacion?.zona ?? profile?.zona_servicio ?? "");
+  const [provincia, setProvincia] = useState(publicacion?.provincia ?? profile?.provincia_servicio ?? "");
+  const [localidad, setLocalidad] = useState(publicacion?.localidad ?? profile?.localidad_servicio ?? "");
   const [ubicacion, setUbicacion] = useState("");
-  const [latitud, setLatitud] = useState<number | undefined>();
-  const [longitud, setLongitud] = useState<number | undefined>();
-  const [detalle, setDetalle] = useState("");
-  const [photoPreview, setPhotoPreview] = useState(profile?.service_photo_url ?? "");
+  const [latitud, setLatitud] = useState<number | undefined>(publicacion?.latitud ?? undefined);
+  const [longitud, setLongitud] = useState<number | undefined>(publicacion?.longitud ?? undefined);
+  const [detalle, setDetalle] = useState(publicacion?.detalle ?? "");
+  const [photoPreview, setPhotoPreview] = useState(publicacion?.foto_url ?? profile?.service_photo_url ?? "");
   const [photoFile, setPhotoFile] = useState<File | null>(null);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
@@ -92,7 +92,7 @@ export default function ServicioRuralForm({ profile }: Props) {
       const resolvedPhotoUrl = photoFile ? photoPreview : fotoUrl;
       if (!resolvedPhotoUrl) throw new Error("La foto del servicio es obligatoria.");
 
-      const { error: insertError } = await supabase.from("servicios_publicaciones").insert({
+      const payload = {
         propietario_id: profile?.id,
         servicios_rurales: servicios,
         foto_url: resolvedPhotoUrl,
@@ -102,8 +102,11 @@ export default function ServicioRuralForm({ profile }: Props) {
         latitud,
         longitud,
         detalle: detalle || null,
-      });
-      if (insertError) throw insertError;
+      };
+      const { error: saveError } = publicacion
+        ? await supabase.from("servicios_publicaciones").update(payload).eq("id", publicacion.id)
+        : await supabase.from("servicios_publicaciones").insert(payload);
+      if (saveError) throw saveError;
 
       const roles = (profile?.roles ?? ["productor"]) as RolPerfil[];
       const rolesActualizados = roles.includes("prestador")
@@ -271,7 +274,7 @@ export default function ServicioRuralForm({ profile }: Props) {
 
       <div className="form-actions">
         <button type="submit" className="btn-primary-lg" disabled={saving}>
-          {saving ? "Guardando..." : "Publicar servicio"}
+          {saving ? "Guardando..." : publicacion ? "Guardar cambios" : "Publicar servicio"}
         </button>
       </div>
     </form>
