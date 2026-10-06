@@ -75,7 +75,7 @@ export default function ServicioRuralForm({ profile }: Props) {
         if (!response.ok || !result.url) {
           throw new Error(result.error ?? "No se pudo subir la foto del servicio");
         }
-        setPhotoPreview(result.url);
+        setPhotoPreview(result.url);\n        // La URL subida se usa inmediatamente al crear la publicación.\n        const uploadedUrl = result.url;\n        setPhotoFile(null);\n        photoInputRef.current?.setAttribute("data-uploaded-url", uploadedUrl);
       }
 
       const fotoUrl = photoFile ? undefined : photoPreview;\n      const resolvedPhotoUrl = photoFile ? photoPreview : fotoUrl;\n      if (!resolvedPhotoUrl) throw new Error("La foto del servicio es obligatoria.");\n\n      const { error: insertError } = await supabase.from("servicios_publicaciones").insert({\n        propietario_id: profile?.id,\n        servicios_rurales: servicios,\n        foto_url: resolvedPhotoUrl,\n        zona: zona || null,\n        provincia,\n        localidad: localidad || null,\n      });\n      if (insertError) throw insertError;
