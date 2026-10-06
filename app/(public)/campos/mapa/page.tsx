@@ -44,13 +44,16 @@ export default async function MapaPage({
     .eq("status", "activo")
     .or("country_code.eq.AR,country_code.is.null");
 
-  const { data: prestadores } = await supabase
-    .from("profiles")
-    .select(
-      "id, nombre, country_code, bio, avatar_url, service_photo_url, servicios_rurales, zona_servicio, provincia_servicio, localidad_servicio",
-    )
-    .contains("roles", ["prestador"])
-    .not("provincia_servicio", "is", null);
+  const { data: publicacionesServicios } = await supabase
+    .from("servicios_publicaciones")
+    .select("id, propietario_id, servicios_rurales, foto_url, provincia, localidad, zona, activo")
+    .eq("activo", true);
+
+  const ownerIds = [...new Set((publicacionesServicios ?? []).map((p) => p.propietario_id))];
+  const { data: owners } = ownerIds.length
+    ? await supabase.from("profiles").select("id, nombre").in("id", ownerIds)
+    : { data: [] as { id: string; nombre: string }[] };
+  const ownerMap = new Map((owners ?? []).map((o) => [o.id, o.nombre]));
 
   const { data: serviciosDemo } = await supabase
     .from("demo_servicios_rurales")
@@ -60,8 +63,20 @@ export default async function MapaPage({
     .eq("activo", true);
 
   const prestadoresMapa = [
-    ...(prestadores ?? []).map((prestador) => ({
-      ...prestador,
+    ...(publicacionesServicios ?? []).map((publicacion) => ({
+      id: publicacion.propietario_id,
+      publicacion_id: publicacion.id,
+      nombre: ownerMap.get(publicacion.propietario_id) ?? "Prestador rural",
+      country_code: "AR",
+      bio: null,
+      avatar_url: undefined,
+      service_photo_url: publicacion.foto_url,
+      servicios_rurales: publicacion.servicios_rurales ?? [],
+      zona_servicio: publicacion.zona,
+      provincia_servicio: publicacion.provincia,
+      localidad_servicio: publicacion.localidad,
+      latitud: null,
+      longitud: null,
       is_demo: false,
     })),
     ...(serviciosDemo ?? [])
