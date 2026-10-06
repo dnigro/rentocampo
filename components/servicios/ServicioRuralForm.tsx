@@ -51,6 +51,11 @@ export default function ServicioRuralForm({ profile }: Props) {
       return;
     }
 
+    if (!photoPreview && !photoFile) {
+      setError("Subí una foto clara y real del servicio que ofrecés.");
+      return;
+    }
+
     if (!provincia) {
       setError("Elegí una provincia principal.");
       return;
@@ -73,17 +78,7 @@ export default function ServicioRuralForm({ profile }: Props) {
         setPhotoPreview(result.url);
       }
 
-      const { error: updateError } = await supabase
-        .from("profiles")
-        .update({
-          servicios_rurales: servicios,
-          zona_servicio: zona || null,
-          provincia_servicio: provincia,
-          localidad_servicio: localidad || null,
-        })
-        .eq("id", profile?.id);
-
-      if (updateError) throw updateError;
+      const fotoUrl = photoFile ? undefined : photoPreview;\n      const resolvedPhotoUrl = photoFile ? photoPreview : fotoUrl;\n      if (!resolvedPhotoUrl) throw new Error("La foto del servicio es obligatoria.");\n\n      const { error: insertError } = await supabase.from("servicios_publicaciones").insert({\n        propietario_id: profile?.id,\n        servicios_rurales: servicios,\n        foto_url: resolvedPhotoUrl,\n        zona: zona || null,\n        provincia,\n        localidad: localidad || null,\n      });\n      if (insertError) throw insertError;
 
       const roles = (profile?.roles ?? ["productor"]) as RolPerfil[];
       const rolesActualizados = roles.includes("prestador")
@@ -137,7 +132,7 @@ export default function ServicioRuralForm({ profile }: Props) {
       </div>
 
       <div className="form-field">
-        <label className="form-label">Foto de tu servicio</label>
+        <label className="form-label">Foto de tu servicio <span className="required">*</span></label>\n        <p className="form-hint">Subí una foto clara y real de tu trabajo. Una buena imagen ayuda a que los productores entiendan rápidamente qué servicio ofrecés.</p>
         <div className="servicio-foto-editor">
           {photoPreview ? (
             <Image
