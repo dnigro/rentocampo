@@ -29,7 +29,7 @@ export async function POST(request: Request) {
   }
 
   const extension = file.name.split(".").pop()?.toLowerCase() || "jpg";
-  const path = `${user.id}/servicio.${extension}`;
+  const path = `${user.id}/servicios/${crypto.randomUUID()}.${extension}`;
   const admin = createAdminClient();
 
   const { error: uploadError } = await admin.storage
