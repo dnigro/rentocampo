@@ -19,6 +19,8 @@ export type ServicioPublicacion = {
 
 export default function MisServiciosLista({ publicaciones }: { publicaciones: ServicioPublicacion[] }) {
   const [lista, setLista] = useState(publicaciones);
+  const [pendienteEliminar, setPendienteEliminar] = useState<string | null>(null);
+  const [eliminando, setEliminando] = useState(false);
   const supabase = createClient();
 
   async function toggleEstado(id: string, activo: boolean) {
@@ -27,14 +29,18 @@ export default function MisServiciosLista({ publicaciones }: { publicaciones: Se
     setLista((prev) => prev.map((p) => p.id === id ? { ...p, activo: !activo } : p));
   }
 
-  async function eliminar(id: string) {
-    if (!window.confirm("¿Eliminar esta publicación de servicio? Esta acción no se puede deshacer.")) return;
-    const { error } = await supabase.from("servicios_publicaciones").delete().eq("id", id);
+  async function eliminar() {
+    if (!pendienteEliminar || eliminando) return;
+    setEliminando(true);
+    const { error } = await supabase.from("servicios_publicaciones").delete().eq("id", pendienteEliminar);
+    setEliminando(false);
     if (error) return window.alert("No se pudo eliminar la publicación.");
-    setLista((prev) => prev.filter((p) => p.id !== id));
+    setLista((prev) => prev.filter((p) => p.id !== pendienteEliminar));
+    setPendienteEliminar(null);
   }
 
-  return <div className="campos-grid">
+  return <>
+  <div className="campos-grid">
     {lista.map((pub) => {
       const rubros = (pub.servicios_rurales ?? []) as ServicioRural[];
       return <article className="campo-card-admin" key={pub.id}>
@@ -51,9 +57,23 @@ export default function MisServiciosLista({ publicaciones }: { publicaciones: Se
           <Link href={`/mis-servicios-rurales/${pub.id}/editar`} className="btn-action">Editar</Link>
           <button type="button" onClick={()=>toggleEstado(pub.id,pub.activo)} className="btn-action">{pub.activo ? "Pausar" : "Activar"}</button>
           {pub.activo && <Link href={`/servicios-rurales/${pub.id}`} className="btn-action">Ver</Link>}
-          <button type="button" onClick={()=>eliminar(pub.id)} className="btn-action btn-action-danger">Eliminar</button>
+          <button type="button" onClick={()=>setPendienteEliminar(pub.id)} className="btn-action btn-action-danger">Eliminar</button>
         </div>
       </article>;
     })}
-  </div>;
+  </div>
+  {pendienteEliminar && (
+    <div className="servicio-delete-backdrop" role="presentation" onMouseDown={(e) => { if (e.target === e.currentTarget && !eliminando) setPendienteEliminar(null); }}>
+      <div className="servicio-delete-modal" role="dialog" aria-modal="true" aria-labelledby="servicio-delete-title">
+        <span className="servicio-delete-kicker">RENTOCAMPO</span>
+        <h2 id="servicio-delete-title">¿Eliminar este servicio?</h2>
+        <p>La publicación dejará de aparecer en RentoCampo. Esta acción no se puede deshacer.</p>
+        <div className="servicio-delete-actions">
+          <button type="button" className="servicio-delete-cancel" onClick={()=>setPendienteEliminar(null)} disabled={eliminando}>Cancelar</button>
+          <button type="button" className="servicio-delete-confirm" onClick={eliminar} disabled={eliminando}>{eliminando ? "Eliminando…" : "Eliminar servicio"}</button>
+        </div>
+      </div>
+    </div>
+  )}
+  </>;
 }
