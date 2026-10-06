@@ -28,10 +28,10 @@ export default async function NuevoServicioRuralPage() {
       <div className="page-header">
         <div>
           <h1 className="page-title">
-            {profile?.servicios_rurales?.length ? "Editar servicio" : "Publicar servicio"}
+            Publicar servicio rural
           </h1>
           <p className="page-subtitle">
-            Mostrá qué hacés, dónde trabajás y sumá una foto real de tu actividad.
+            Creá una publicación independiente para este servicio y su zona de cobertura.
           </p>
         </div>
       </div>
