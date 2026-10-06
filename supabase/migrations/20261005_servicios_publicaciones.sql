@@ -7,6 +7,7 @@ create table if not exists public.servicios_publicaciones (
   provincia text not null,
   localidad text,
   zona text,
+  detalle text,
   latitud double precision,
   longitud double precision,
   activo boolean not null default true,
@@ -36,3 +37,8 @@ where cardinality(servicios_rurales) > 0
   and not exists (
     select 1 from public.servicios_publicaciones s where s.propietario_id = profiles.id
   );
+
+-- Compatibilidad si la tabla fue creada por una versión anterior de esta migración.
+alter table public.servicios_publicaciones add column if not exists detalle text;
+alter table public.servicios_publicaciones add column if not exists latitud double precision;
+alter table public.servicios_publicaciones add column if not exists longitud double precision;
