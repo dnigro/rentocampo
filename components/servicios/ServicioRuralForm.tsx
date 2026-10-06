@@ -83,6 +83,8 @@ export default function ServicioRuralForm({ profile, publicacion }: Props) {
     setSaving(true);
 
     try {
+      let resolvedPhotoUrl = photoPreview;
+
       if (photoFile) {
         const body = new FormData();
         body.set("file", photoFile);
@@ -94,15 +96,14 @@ export default function ServicioRuralForm({ profile, publicacion }: Props) {
         if (!response.ok || !result.url) {
           throw new Error(result.error ?? "No se pudo subir la foto del servicio");
         }
+
+        // Persistimos la URL pública devuelta por Storage, no el blob: local
+        // usado solamente para el preview del navegador.
+        resolvedPhotoUrl = result.url;
         setPhotoPreview(result.url);
-        // La URL subida se usa inmediatamente al crear la publicación.
-        const uploadedUrl = result.url;
         setPhotoFile(null);
-        photoInputRef.current?.setAttribute("data-uploaded-url", uploadedUrl);
       }
 
-      const fotoUrl = photoFile ? undefined : photoPreview;
-      const resolvedPhotoUrl = photoFile ? photoPreview : fotoUrl;
       if (!resolvedPhotoUrl) throw new Error("La foto del servicio es obligatoria.");
 
       const payload = {
