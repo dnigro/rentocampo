@@ -271,8 +271,8 @@ export default async function ServiciosRuralesPage({
                           Servicio demo
                         </span>
                       ) : (
-                        <Link href={prestador.publicacion_id ? `/servicios-rurales/${prestador.publicacion_id}` : `/mensajes/direct/${prestador.id}`}>
-                          Ver servicio →
+                        <Link href={prestador.publicacion_id ? `/servicios-rurales/${prestador.publicacion_id}` : `/servicios-rurales?prestador=${prestador.id}`}>
+                          Ver ficha →
                         </Link>
                       )}
                     </div>
