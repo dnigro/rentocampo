@@ -1,5 +1,5 @@
 :root {
-  --brand-yellow: #f5bd00;
+  --brand-yellow: #d2b84c;
   --brand-ink: #073f30;
   --brand-text: #263a32;
   --brand-muted: #718078;
@@ -2535,4 +2535,74 @@ body {
   .app-shell .perfil-page .avatar-upload-row {
     gap: 30px !important;
   }
+}
+
+
+/* 2026-10-06 — Header: marca con más presencia + paleta mostaza/carbón */
+.navbar {
+  --header-mustard: #d2b84c;
+  --header-charcoal: #20211f;
+}
+.brand-wordmark--text-only .brand-clean-name {
+  color: var(--header-charcoal) !important;
+}
+.brand-clean-name .brand-initial {
+  color: var(--header-mustard) !important;
+}
+.navbar .navbar-mensajes,
+.navbar .hamburguesa,
+.navbar .nav-link,
+.navbar .btn-ghost {
+  color: var(--header-charcoal) !important;
+}
+.navbar-country-switch button.active {
+  border-color: var(--header-mustard) !important;
+  background: #e8dfc4 !important;
+}
+@media (max-width: 900px) {
+  .navbar {
+    height: 82px !important;
+  }
+  .navbar-inner {
+    min-height: 82px !important;
+  }
+  .navbar .navbar-logo .brand-wordmark--text-only .brand-clean-name {
+    font-size: 40px !important;
+    line-height: .92 !important;
+    letter-spacing: -1.8px !important;
+    font-weight: 950 !important;
+  }
+  .navbar .navbar-logo .brand-clean-name .brand-initial {
+    color: #d2b84c !important;
+  }
+  .navbar .navbar-logo .brand-clean-name {
+    color: #20211f !important;
+  }
+}
+
+
+/* 2026-10-06 — Wordmark final: misma paleta en desktop y mobile */
+.navbar .navbar-logo .brand-clean-name {
+  color: #20211f !important;
+}
+.navbar .navbar-logo .brand-clean-name .brand-initial {
+  color: #d2b84c !important;
+}
+@media (min-width: 901px) {
+  .navbar .navbar-logo .brand-wordmark--text-only .brand-clean-name {
+    color: #20211f !important;
+  }
+  .navbar .navbar-logo .brand-clean-name .brand-initial {
+    color: #d2b84c !important;
+  }
+}
+
+
+/* Fuente única de color del wordmark del header */
+header.navbar a.navbar-logo span.brand-wordmark--text-only span.brand-clean-name {
+  color: #20211f !important;
+}
+header.navbar a.navbar-logo span.brand-wordmark--text-only span.brand-clean-name > span.brand-initial {
+  color: #d2b84c !important;
+  -webkit-text-fill-color: #d2b84c !important;
 }

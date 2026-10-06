@@ -2,6 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import Link from "next/link";
 import CampoMapa from "@/components/campos/CampoMapa";
 import { SERVICIOS_RURALES } from "@/data/servicios-rurales";
+import type { CountryCode } from "@/data/countries";
 import type { ServicioRural } from "@/types";
 import type { Metadata } from "next";
 import "@/styles/mapa.css";
@@ -67,16 +68,16 @@ export default async function MapaPage({
       id: publicacion.propietario_id,
       publicacion_id: publicacion.id,
       nombre: ownerMap.get(publicacion.propietario_id) ?? "Prestador rural",
-      country_code: "AR",
-      bio: null,
+      country_code: "AR" as CountryCode,
+      bio: undefined,
       avatar_url: undefined,
       service_photo_url: publicacion.foto_url,
       servicios_rurales: publicacion.servicios_rurales ?? [],
       zona_servicio: publicacion.zona,
       provincia_servicio: publicacion.provincia,
       localidad_servicio: publicacion.localidad,
-      latitud: null,
-      longitud: null,
+      latitud: undefined,
+      longitud: undefined,
       is_demo: false,
     })),
     ...(serviciosDemo ?? [])
