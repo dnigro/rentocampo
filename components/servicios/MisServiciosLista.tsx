@@ -50,7 +50,7 @@ export default function MisServiciosLista({ publicaciones }: { publicaciones: Se
         <div className="campo-card-actions">
           <Link href={`/mis-servicios-rurales/${pub.id}/editar`} className="btn-action">Editar</Link>
           <button type="button" onClick={()=>toggleEstado(pub.id,pub.activo)} className="btn-action">{pub.activo ? "Pausar" : "Activar"}</button>
-          {pub.activo && <Link href="/servicios-rurales" className="btn-action">Ver</Link>}
+          {pub.activo && <Link href={`/servicios-rurales/${pub.id}`} className="btn-action">Ver</Link>}
           <button type="button" onClick={()=>eliminar(pub.id)} className="btn-action btn-action-danger">Eliminar</button>
         </div>
       </article>;
