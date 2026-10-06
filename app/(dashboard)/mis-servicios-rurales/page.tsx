@@ -21,7 +21,6 @@ export default async function MisServiciosRuralesPage() {
       <div className="page-header">
         <div>
           <h1 className="page-title">Mis servicios rurales</h1>
-          <p className="page-subtitle">Tus publicaciones de servicios rurales.</p>
         </div>
         <Link href="/mis-servicios-rurales/nuevo" className="btn-primary-lg">
           + Publicar nuevo servicio
