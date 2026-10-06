@@ -75,10 +75,26 @@ export default function ServicioRuralForm({ profile }: Props) {
         if (!response.ok || !result.url) {
           throw new Error(result.error ?? "No se pudo subir la foto del servicio");
         }
-        setPhotoPreview(result.url);\n        // La URL subida se usa inmediatamente al crear la publicación.\n        const uploadedUrl = result.url;\n        setPhotoFile(null);\n        photoInputRef.current?.setAttribute("data-uploaded-url", uploadedUrl);
+        setPhotoPreview(result.url);
+        // La URL subida se usa inmediatamente al crear la publicación.
+        const uploadedUrl = result.url;
+        setPhotoFile(null);
+        photoInputRef.current?.setAttribute("data-uploaded-url", uploadedUrl);
       }
 
-      const fotoUrl = photoFile ? undefined : photoPreview;\n      const resolvedPhotoUrl = photoFile ? photoPreview : fotoUrl;\n      if (!resolvedPhotoUrl) throw new Error("La foto del servicio es obligatoria.");\n\n      const { error: insertError } = await supabase.from("servicios_publicaciones").insert({\n        propietario_id: profile?.id,\n        servicios_rurales: servicios,\n        foto_url: resolvedPhotoUrl,\n        zona: zona || null,\n        provincia,\n        localidad: localidad || null,\n      });\n      if (insertError) throw insertError;
+      const fotoUrl = photoFile ? undefined : photoPreview;
+      const resolvedPhotoUrl = photoFile ? photoPreview : fotoUrl;
+      if (!resolvedPhotoUrl) throw new Error("La foto del servicio es obligatoria.");
+
+      const { error: insertError } = await supabase.from("servicios_publicaciones").insert({
+        propietario_id: profile?.id,
+        servicios_rurales: servicios,
+        foto_url: resolvedPhotoUrl,
+        zona: zona || null,
+        provincia,
+        localidad: localidad || null,
+      });
+      if (insertError) throw insertError;
 
       const roles = (profile?.roles ?? ["productor"]) as RolPerfil[];
       const rolesActualizados = roles.includes("prestador")
@@ -132,7 +148,8 @@ export default function ServicioRuralForm({ profile }: Props) {
       </div>
 
       <div className="form-field">
-        <label className="form-label">Foto de tu servicio <span className="required">*</span></label>\n        <p className="form-hint">Subí una foto clara y real de tu trabajo. Una buena imagen ayuda a que los productores entiendan rápidamente qué servicio ofrecés.</p>
+        <label className="form-label">Foto de tu servicio <span className="required">*</span></label>
+        <p className="form-hint">Subí una foto clara y real de tu trabajo. Una buena imagen ayuda a que los productores entiendan rápidamente qué servicio ofrecés.</p>
         <div className="servicio-foto-editor">
           {photoPreview ? (
             <Image
