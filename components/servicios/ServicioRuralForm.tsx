@@ -3,26 +3,45 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
+import { FileText, Images, MapPinned } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { SERVICIOS_RURALES } from "@/data/servicios-rurales";
 import { PROVINCIAS_ARG, type Profile, type RolPerfil, type ServicioRural } from "@/types";
+import GeocoderInput, { type LugarSeleccionado } from "@/components/campos/GeocoderInput";
+
+interface ServicioInicial {
+  id: string;
+  servicios_rurales: ServicioRural[];
+  foto_url: string;
+  provincia: string;
+  localidad?: string | null;
+  zona?: string | null;
+  detalle?: string | null;
+  latitud?: number | null;
+  longitud?: number | null;
+}
 
 interface Props {
   profile: Partial<Profile> | null;
+  publicacion?: ServicioInicial | null;
 }
 
-export default function ServicioRuralForm({ profile }: Props) {
+export default function ServicioRuralForm({ profile, publicacion }: Props) {
   const router = useRouter();
   const [supabase] = useState(createClient);
   const photoInputRef = useRef<HTMLInputElement>(null);
 
   const [servicios, setServicios] = useState<ServicioRural[]>(
-    profile?.servicios_rurales ?? [],
+    publicacion?.servicios_rurales ?? profile?.servicios_rurales ?? [],
   );
-  const [zona, setZona] = useState(profile?.zona_servicio ?? "");
-  const [provincia, setProvincia] = useState(profile?.provincia_servicio ?? "");
-  const [localidad, setLocalidad] = useState(profile?.localidad_servicio ?? "");
-  const [photoPreview, setPhotoPreview] = useState(profile?.service_photo_url ?? "");
+  const [zona, setZona] = useState(publicacion?.zona ?? profile?.zona_servicio ?? "");
+  const [provincia, setProvincia] = useState(publicacion?.provincia ?? profile?.provincia_servicio ?? "");
+  const [localidad, setLocalidad] = useState(publicacion?.localidad ?? profile?.localidad_servicio ?? "");
+  const [ubicacion, setUbicacion] = useState("");
+  const [latitud, setLatitud] = useState<number | undefined>(publicacion?.latitud ?? undefined);
+  const [longitud, setLongitud] = useState<number | undefined>(publicacion?.longitud ?? undefined);
+  const [detalle, setDetalle] = useState(publicacion?.detalle ?? "");
+  const [photoPreview, setPhotoPreview] = useState(publicacion?.foto_url ?? profile?.service_photo_url ?? "");
   const [photoFile, setPhotoFile] = useState<File | null>(null);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
@@ -51,8 +70,13 @@ export default function ServicioRuralForm({ profile }: Props) {
       return;
     }
 
-    if (!provincia) {
-      setError("Elegí una provincia principal.");
+    if (!photoPreview && !photoFile) {
+      setError("Subí una foto clara y real del servicio que ofrecés.");
+      return;
+    }
+
+    if (!provincia || !ubicacion || typeof latitud !== "number" || typeof longitud !== "number") {
+      setError("Seleccioná la zona de servicio usando el buscador del mapa.");
       return;
     }
 
@@ -71,19 +95,31 @@ export default function ServicioRuralForm({ profile }: Props) {
           throw new Error(result.error ?? "No se pudo subir la foto del servicio");
         }
         setPhotoPreview(result.url);
+        // La URL subida se usa inmediatamente al crear la publicación.
+        const uploadedUrl = result.url;
+        setPhotoFile(null);
+        photoInputRef.current?.setAttribute("data-uploaded-url", uploadedUrl);
       }
 
-      const { error: updateError } = await supabase
-        .from("profiles")
-        .update({
-          servicios_rurales: servicios,
-          zona_servicio: zona || null,
-          provincia_servicio: provincia,
-          localidad_servicio: localidad || null,
-        })
-        .eq("id", profile?.id);
+      const fotoUrl = photoFile ? undefined : photoPreview;
+      const resolvedPhotoUrl = photoFile ? photoPreview : fotoUrl;
+      if (!resolvedPhotoUrl) throw new Error("La foto del servicio es obligatoria.");
 
-      if (updateError) throw updateError;
+      const payload = {
+        propietario_id: profile?.id,
+        servicios_rurales: servicios,
+        foto_url: resolvedPhotoUrl,
+        zona: zona || null,
+        provincia,
+        localidad: localidad || null,
+        latitud,
+        longitud,
+        detalle: detalle || null,
+      };
+      const { error: saveError } = publicacion
+        ? await supabase.from("servicios_publicaciones").update(payload).eq("id", publicacion.id)
+        : await supabase.from("servicios_publicaciones").insert(payload);
+      if (saveError) throw saveError;
 
       const roles = (profile?.roles ?? ["productor"]) as RolPerfil[];
       const rolesActualizados = roles.includes("prestador")
@@ -112,9 +148,11 @@ export default function ServicioRuralForm({ profile }: Props) {
   }
 
   return (
-    <form className="perfil-section servicio-publicacion-form" onSubmit={handleSubmit}>
+    <form className="campo-form servicio-publicacion-form" onSubmit={handleSubmit}>
       {error && <div className="form-error">{error}</div>}
 
+      <div className="form-section">
+        <h2 className="form-section-title form-section-title-editorial"><span className="form-section-number">01</span><span className="form-section-icon" aria-hidden="true"><FileText size={24} strokeWidth={1.8} /></span><span className="form-section-copy"><span>Información</span> <em>del servicio</em></span></h2>
       <div className="form-field">
         <label className="form-label">
           ¿Qué servicios ofrecés? <span className="required">*</span>
@@ -136,8 +174,13 @@ export default function ServicioRuralForm({ profile }: Props) {
         </div>
       </div>
 
+      </div>
+
+      <div className="form-section">
+        <h2 className="form-section-title form-section-title-editorial"><span className="form-section-number">02</span><span className="form-section-icon" aria-hidden="true"><Images size={24} strokeWidth={1.8} /></span><span className="form-section-copy"><span>Foto</span> <em>del servicio</em></span></h2>
       <div className="form-field">
-        <label className="form-label">Foto de tu servicio</label>
+        <label className="form-label">Foto de tu servicio <span className="required">*</span></label>
+        <p className="form-hint">Subí una foto clara y real de tu trabajo. Una buena imagen ayuda a que los productores entiendan rápidamente qué servicio ofrecés.</p>
         <div className="servicio-foto-editor">
           {photoPreview ? (
             <Image
@@ -167,6 +210,29 @@ export default function ServicioRuralForm({ profile }: Props) {
             onChange={handlePhotoChange}
           />
         </div>
+      </div>
+
+      </div>
+
+      <div className="form-section">
+        <h2 className="form-section-title form-section-title-editorial"><span className="form-section-number">03</span><span className="form-section-icon" aria-hidden="true"><MapPinned size={24} strokeWidth={1.8} /></span><span className="form-section-copy"><span>Zona</span> <em>de cobertura</em></span></h2>
+      <div className="form-field">
+        <label className="form-label">Buscar zona de servicio en el mapa <span className="required">*</span></label>
+        <GeocoderInput
+          countryCode="AR"
+          valorInicial={ubicacion}
+          onChange={setUbicacion}
+          onSelect={(lugar: LugarSeleccionado) => {
+            setUbicacion(lugar.lugar);
+            setLatitud(lugar.lat);
+            setLongitud(lugar.lng);
+            if (lugar.provincia) setProvincia(lugar.provincia);
+            if (lugar.localidad) setLocalidad(lugar.localidad);
+          }}
+        />
+        {typeof latitud === "number" && typeof longitud === "number" && (
+          <span className="geocoder-coords">✓ Ubicación seleccionada: {latitud.toFixed(4)}, {longitud.toFixed(4)}</span>
+        )}
       </div>
 
       <div className="form-row">
@@ -208,9 +274,20 @@ export default function ServicioRuralForm({ profile }: Props) {
         />
       </div>
 
+      </div>
+
+      <div className="form-section">
+        <h2 className="form-section-title form-section-title-editorial"><span className="form-section-number">04</span><span className="form-section-copy"><span>Detalles</span> <em>del servicio</em></span></h2>
+      <div className="form-field">
+        <label className="form-label">Detalles del servicio</label>
+        <textarea className="form-input form-textarea" rows={5} value={detalle} onChange={(e) => setDetalle(e.target.value)} placeholder="Contá qué incluye el servicio, equipamiento, experiencia, disponibilidad u otra información útil para el productor." />
+      </div>
+
+      </div>
+
       <div className="form-actions">
         <button type="submit" className="btn-primary-lg" disabled={saving}>
-          {saving ? "Guardando..." : "Publicar servicio"}
+          {saving ? "Guardando..." : publicacion ? "Guardar cambios" : "Publicar servicio"}
         </button>
       </div>
     </form>

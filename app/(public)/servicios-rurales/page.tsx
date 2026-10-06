@@ -34,6 +34,7 @@ type SearchParams = {
 
 type Prestador = {
   id: string;
+  publicacion_id?: string;
   nombre: string;
   bio?: string | null;
   avatar_url?: string | null;
@@ -118,8 +119,25 @@ export default async function ServiciosRuralesPage({
     demosQuery.order("nombre", { ascending: true }),
   ]);
 
+  const { data: publicaciones } = await supabase
+    .from("servicios_publicaciones")
+    .select("id, propietario_id, servicios_rurales, foto_url, provincia, localidad, zona, activo")
+    .eq("activo", true);
+
+  const ownerIds = [...new Set((publicaciones ?? []).map((p) => p.propietario_id))];
+  const { data: owners } = ownerIds.length
+    ? await supabase.from("profiles").select("id, nombre").in("id", ownerIds)
+    : { data: [] as { id: string; nombre: string }[] };
+  const ownerMap = new Map((owners ?? []).map((o) => [o.id, o.nombre]));
+
+  const publicacionesPrestadores: Prestador[] = (publicaciones ?? [])
+    .filter((p) => (!provincia || p.provincia === provincia) && (!servicioValido || (p.servicios_rurales ?? []).includes(servicioValido)))
+    .map((p) => ({ id: p.propietario_id, publicacion_id: p.id, nombre: ownerMap.get(p.propietario_id) ?? "Prestador rural", service_photo_url: p.foto_url, servicios_rurales: p.servicios_rurales ?? [], zona_servicio: p.zona, provincia_servicio: p.provincia, localidad_servicio: p.localidad, is_demo: false }));
+
+  const legacyOwnerIds = new Set(publicacionesPrestadores.map((p) => p.id));
   const prestadores: Prestador[] = [
-    ...(perfiles ?? []).map((item) => ({ ...item, is_demo: false })),
+    ...publicacionesPrestadores,
+    ...(perfiles ?? []).filter((item) => !legacyOwnerIds.has(item.id)).map((item) => ({ ...item, is_demo: false })),
     ...(demos ?? [])
       .filter((item) =>
         [
@@ -253,8 +271,8 @@ export default async function ServiciosRuralesPage({
                           Servicio demo
                         </span>
                       ) : (
-                        <Link href={`/mensajes/direct/${prestador.id}`}>
-                          Consultar servicio →
+                        <Link href={prestador.publicacion_id ? `/servicios-rurales/${prestador.publicacion_id}` : `/servicios-rurales?prestador=${prestador.id}`}>
+                          Ver ficha →
                         </Link>
                       )}
                     </div>
