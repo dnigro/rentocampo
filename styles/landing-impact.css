@@ -1337,3 +1337,21 @@ body:has(.rc-landing) .navbar .btn-primary {
     font-size: 18px;
   }
 }
+
+/* CTA Cómo funciona: misma pastilla mostaza que los botones principales. */
+.rc-landing .rc-process .rc-process-cta {
+  border-radius: 12px;
+  box-shadow: none;
+  min-height: 56px;
+  padding: 16px 26px;
+  background: #e7da79;
+  border: 1px solid #e7da79;
+  color: #141414;
+  font-weight: 800;
+  text-transform: uppercase;
+  transition: background .2s ease;
+}
+.rc-landing .rc-process .rc-process-cta:hover {
+  background: #d9c967;
+  transform: none;
+}
