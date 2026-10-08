@@ -222,6 +222,21 @@ export default function GaleriaCarrusel({ fotos, titulo }: Props) {
               <div
                 className={`carrusel-imagen ${zoom > 1 ? "zoom-activo" : ""}`}
                 onDoubleClick={() => actualizarZoom(zoom > 1 ? 1 : 2)}
+                onMouseDown={(e) => {
+                  if (zoom <= 1 || e.button !== 0) return;
+                  e.preventDefault();
+                  setPanInicio({ x: e.clientX, y: e.clientY, offsetX: offset.x, offsetY: offset.y });
+                }}
+                onMouseMove={(e) => {
+                  if (zoom <= 1 || !panInicio || (e.buttons & 1) === 0) return;
+                  e.preventDefault();
+                  setOffset({
+                    x: panInicio.offsetX + e.clientX - panInicio.x,
+                    y: panInicio.offsetY + e.clientY - panInicio.y,
+                  });
+                }}
+                onMouseUp={() => setPanInicio(null)}
+                onMouseLeave={() => setPanInicio(null)}
                 onTouchStart={(e) => {
                   if (e.touches.length === 2) {
                     const distancia = distanciaTouches(e.touches);
@@ -269,7 +284,7 @@ export default function GaleriaCarrusel({ fotos, titulo }: Props) {
                     draggable={false}
                   />
                 </div>
-                <div className="carrusel-zoom-controles" aria-label="Controles de zoom">
+                <div className="carrusel-zoom-controles" aria-label="Controles de zoom" onMouseDown={(e) => e.stopPropagation()}>
                   <button
                     type="button"
                     aria-label="Alejar"
