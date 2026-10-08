@@ -154,12 +154,13 @@ export default function Navbar() {
             <Link href="/campos" className="nav-link">
               Campos
             </Link>
-            <Link href="/#como-funciona" className="nav-link">
-              Cómo funciona
-            </Link>
             <Link href="/servicios-rurales" className="nav-link">
               Servicios rurales
             </Link>
+            <Link href="/#como-funciona" className="nav-link">
+              Cómo funciona
+            </Link>
+            
           </nav>
 
           {/* Acciones desktop */}
@@ -284,12 +285,13 @@ export default function Navbar() {
               <Link href="/campos" className="mobile-menu-link">
                 🌾 Campos
               </Link>
-              <Link href="/#como-funciona" className="mobile-menu-link">
-                ℹ️ Cómo funciona
-              </Link>
               <Link href="/servicios-rurales" className="mobile-menu-link">
                 🚜 Servicios rurales
               </Link>
+              <Link href="/#como-funciona" className="mobile-menu-link">
+                ℹ️ Cómo funciona
+              </Link>
+              
 
               <div className="mobile-menu-sep" />
 
