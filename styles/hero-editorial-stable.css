@@ -1221,3 +1221,8 @@
     color: #141414 !important;
   }
 }
+
+/* Ajuste fino desktop: separar el titular del borde superior sin alterar móvil. */
+@media (min-width: 901px) {
+  .editorialHero__desktopImpact { transform: translateY(10px); }
+}
