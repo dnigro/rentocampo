@@ -38,3 +38,8 @@
   .servicio-ficha-galeria { height: 250px; margin-bottom: 20px; }
   .servicio-ficha .ficha-sidebar { position: static; }
 }
+
+/* Fotografía demo: menor escala y estética editorial monocromática. */
+.servicio-ficha-galeria { height: clamp(220px, 25vw, 320px); max-width: 960px; margin-left: auto; margin-right: auto; }
+.servicio-ficha-galeria img { filter: grayscale(1) contrast(1.07); object-fit: contain; }
+@media (max-width: 768px) { .servicio-ficha-galeria { height: 230px; max-width: 100%; } }
