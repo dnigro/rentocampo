@@ -1,0 +1,45 @@
+/* Ficha de servicio alineada con el detalle de campos. */
+.servicio-ficha-volver {
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 14px;
+  padding: 13px 20px;
+  border-radius: 9px;
+  background: #e8dc7a;
+  color: #151515;
+  font-size: 13px;
+  font-weight: 800;
+  text-decoration: none;
+}
+.servicio-ficha-galeria {
+  position: relative;
+  width: 100%;
+  height: clamp(250px, 34vw, 420px);
+  margin-bottom: 32px;
+  overflow: hidden;
+  border-radius: 22px;
+  background: #f4f2ec;
+}
+.servicio-ficha-galeria img { object-fit: cover; }
+.servicio-ficha-card-titulo { color: #1a3a1a; font-size: 20px; }
+.servicio-ficha-cta {
+  display: block;
+  padding: 16px;
+  border-radius: 10px;
+  background: #e8dc7a;
+  color: #151515;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-weight: 800;
+}
+.servicio-ficha-cta:hover { background: #d9c967; }
+@media (max-width: 768px) {
+  .servicio-ficha-galeria { height: 250px; margin-bottom: 20px; }
+  .servicio-ficha .ficha-sidebar { position: static; }
+}
+
+/* Fotografía demo: menor escala y estética editorial monocromática. */
+.servicio-ficha-galeria { height: clamp(220px, 25vw, 320px); max-width: 960px; margin-left: auto; margin-right: auto; }
+.servicio-ficha-galeria img { filter: grayscale(1) contrast(1.07); object-fit: contain; }
+@media (max-width: 768px) { .servicio-ficha-galeria { height: 230px; max-width: 100%; } }

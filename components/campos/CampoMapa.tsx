@@ -41,6 +41,7 @@ interface Props {
 
 interface ServicioPin {
   id: string;
+  publicacion_id?: string;
   nombre: string;
   country_code?: CountryCode;
   bio?: string;
@@ -539,49 +540,15 @@ export default function CampoMapa({
           </div>
           {selectedServicio.zona_servicio && (
             <p className="mapa-panel-descripcion">
-              <strong>Zona de cobertura:</strong>{" "}
-              {selectedServicio.zona_servicio}
+              <strong>Zona de cobertura:</strong> {selectedServicio.zona_servicio}
             </p>
           )}
-          {selectedServicio.bio && (
-            <p className="mapa-panel-descripcion">{selectedServicio.bio}</p>
-          )}
-          {resolvedUserId === undefined ? (
-            <div
-              className="mapa-panel-btn mapa-panel-btn-propio"
-              aria-disabled="true"
-            >
-              Verificando sesión…
-            </div>
-          ) : !resolvedUserId ? (
-            <Link
-              href="/login?next=/campos/mapa?vista=servicios"
-              className="mapa-panel-btn mapa-panel-btn-servicio"
-            >
-              Ingresá para consultar →
-            </Link>
-          ) : !selectedServicio.is_demo && selectedServicio.id === resolvedUserId ? (
-            <div
-              className="mapa-panel-btn mapa-panel-btn-propio"
-              aria-disabled="true"
-            >
-              Este servicio es tuyo
-            </div>
-          ) : selectedServicio.is_demo ? (
-            <div
-              className="mapa-panel-btn mapa-panel-btn-propio"
-              aria-disabled="true"
-            >
-              Servicio demo
-            </div>
-          ) : (
-            <Link
-              href={`/mensajes/direct/${selectedServicio.id}`}
-              className="mapa-panel-btn"
-            >
-              Consultar servicio →
-            </Link>
-          )}
+          <Link
+            href={`/servicios-rurales/${selectedServicio.publicacion_id ?? selectedServicio.id}?from=mapa`}
+            className="mapa-panel-btn mapa-panel-btn-servicio"
+          >
+            Ver servicio →
+          </Link>
         </div>
       )}
 
