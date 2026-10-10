@@ -1,4 +1,6 @@
 import Link from "next/link";
+import Image from "next/image";
+import heroTambo from "@/public/rentocampo-hero-campo-bn-1920x1080.webp";
 import type { Metadata } from "next";
 export const metadata: Metadata = { title: "RentoCampo Lite | Preview" };
 const links = [
@@ -9,13 +11,13 @@ export default function LitePreview() {
  return <main style={{minHeight:"100dvh",background:"#f8f8f6",color:"#20201e",fontFamily:"Arial, Helvetica, sans-serif",maxWidth:520,margin:"auto",paddingBottom:95}}>
   <header style={{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"24px 22px 16px",background:"#fff"}}>
    <Link href="/lite" style={{display:"flex",alignItems:"center",gap:10,textDecoration:"none",color:"inherit"}}>
-    <span style={{display:"grid",placeItems:"center",background:"#20201e",color:"#d7bd70",width:44,height:48,borderRadius:"15px 15px 20px 20px",fontSize:19,fontWeight:900,letterSpacing:-2,border:"2px solid #777",boxShadow:"inset 0 -5px 0 #555"}}>RC</span>
+    <span style={{display:"grid",placeItems:"center",width:52,height:59,flexShrink:0}}><svg viewBox="0 0 207 240" width="52" height="59" aria-label="Escudo RC RentoCampo" role="img"><path d="M103 2 L205 29 L205 148 Q201 210 103 238 Q5 210 2 148 L2 29 Z" fill="white" stroke="#171717" strokeWidth="5"/><text x="20" y="118" fontSize="109" fontWeight="900" fontFamily="Arial" fill="#666" letterSpacing="-14">R</text><text x="93" y="118" fontSize="111" fontWeight="900" fontFamily="Arial" fill="#111">C</text><text x="18" y="150" fontSize="24" fontFamily="Arial" fill="#222">Rento</text><text x="88" y="150" fontSize="24" fontWeight="900" fontFamily="Arial" fill="#222">Campo</text><path d="M22 176 Q98 164 185 174 L183 182 Q102 177 29 192Z" fill="#111"/><path d="M36 202 Q86 181 162 188 L148 200 Q87 195 54 215Z" fill="#111"/><path d="M66 222 Q91 199 135 204 L111 231Z" fill="#111"/></svg></span>
     <span style={{fontSize:23,letterSpacing:-1}}><span style={{fontWeight:400}}>rento</span><strong>Campo</strong></span>
    </Link><Link href="/lite/perfil" style={{fontSize:13,color:"#20201e",textDecoration:"none",fontWeight:700}}>Mi cuenta ↗</Link>
   </header>
   <section style={{position:"relative",height:210,overflow:"hidden",background:"#252525"}}>
-   <div style={{position:"absolute",inset:0,backgroundImage:"linear-gradient(110deg,rgba(0,0,0,.68),rgba(0,0,0,.15)),url(https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=1100&q=80)",backgroundSize:"cover",backgroundPosition:"center",filter:"grayscale(1)"}}/>
-   <div style={{position:"absolute",right:-65,bottom:-95,width:240,height:250,transform:"rotate(32deg)",borderLeft:"7px solid #b6aa90",background:"rgba(255,255,255,.12)"}}/>
+   <Image src={heroTambo} alt="Vacas y tambo de RentoCampo" fill priority sizes="(max-width: 520px) 100vw, 520px" style={{objectFit:"cover",objectPosition:"68% center",filter:"grayscale(1) contrast(1.1) brightness(.72)"}}/><div style={{position:"absolute",inset:0,background:"linear-gradient(90deg,rgba(0,0,0,.78) 0%,rgba(0,0,0,.55) 46%,rgba(0,0,0,.12) 100%)"}}/>
+   <div style={{position:"absolute",right:-85,bottom:-110,width:175,height:300,transform:"rotate(32deg)",borderLeft:"5px solid rgba(219,203,156,.85)",background:"rgba(0,0,0,.12)"}}/>
    <div style={{position:"relative",padding:"37px 25px",color:"white"}}><span style={{fontSize:11,fontWeight:700,letterSpacing:2,color:"#e6d39a"}}>#1 RED FEDERAL</span><h1 style={{fontSize:35,lineHeight:1.08,letterSpacing:-1.8,margin:"14px 0"}}>El campo,<br/>más cerca.</h1><p style={{fontSize:13,maxWidth:230,lineHeight:1.5}}>Tierras y servicios rurales en un solo lugar.</p></div>
   </section>
   <section style={{padding:"27px 20px 16px"}}><p style={{fontSize:11,letterSpacing:2,fontWeight:800,color:"#777",marginBottom:10}}>EXPLORÁ RENTO CAMPO</p><h2 style={{fontSize:23,letterSpacing:-.7,margin:"0 0 19px"}}>¿Qué necesitás hoy?</h2>
