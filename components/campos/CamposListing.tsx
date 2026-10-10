@@ -74,14 +74,11 @@ export default async function CamposListing({ params, titulo, descripcion }: Pro
         description={descripcion}
         count={`${count} campo${count !== 1 ? "s" : ""} encontrado${count !== 1 ? "s" : ""}`}
         mapHref="/campos/mapa"
-        publishHref={user ? "/mis-campos/nuevo" : "/register?tipo=propietario"}
-        publishLabel="Publicar campos"
-        secondaryPublishHref={user ? "/mis-servicios-rurales/nuevo" : "/register?tipo=prestador"}
-        secondaryPublishLabel="Publicar servicios"
       />
 
       <aside className="explorador-sidebar">
         <CampoFiltros filtrosActivos={params} />
+        <Link href="/campos/mapa" className="listing-button rc-map-after-filters">Ver en mapa →</Link>
       </aside>
 
       <main className="explorador-main">
