@@ -1,0 +1,1 @@
+import LiteWorkflowLayout from "@/components/lite/LiteWorkflowLayout";import Workflow from "@/app/(public)/servicios-rurales/page";export default function Page({searchParams}:{searchParams:Promise<{provincia?:string;servicio?:string}>}){return <LiteWorkflowLayout><Workflow searchParams={searchParams}/></LiteWorkflowLayout>}
