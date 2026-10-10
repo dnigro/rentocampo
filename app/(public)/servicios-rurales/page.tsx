@@ -178,10 +178,6 @@ export default async function ServiciosRuralesPage({
           title="Servicios disponibles"
           count={`${prestadores.length} prestador${prestadores.length !== 1 ? "es" : ""} encontrado${prestadores.length !== 1 ? "s" : ""}`}
           mapHref={`/campos/mapa?${mapParams.toString()}`}
-          publishHref={ofrecerServiciosHref}
-          publishLabel="Publicar servicios"
-          secondaryPublishHref={user ? "/mis-campos/nuevo" : "/register?tipo=propietario"}
-          secondaryPublishLabel="Publicar campos"
         />
 
         <aside className="explorador-sidebar">
@@ -189,6 +185,7 @@ export default async function ServiciosRuralesPage({
             provinciaInicial={provincia}
             servicioInicial={servicioValido}
           />
+          <Link href={`/campos/mapa?${mapParams.toString()}`} className="listing-button rc-map-after-filters">Ver en mapa →</Link>
         </aside>
 
         <div className="explorador-main">
