@@ -1035,3 +1035,14 @@
     display: none !important;
   }
 }
+
+/* Mapa debajo del panel de filtros en ambas vistas */
+.rc-map-after-filters {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: 16px;
+  text-align: center;
+}
