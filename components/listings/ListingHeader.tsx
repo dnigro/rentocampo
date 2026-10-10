@@ -1,11 +1,8 @@
-import Link from "next/link";
-
 interface Props {
   id?: string;
   title: string;
   description?: string;
   count: string;
-  mapHref: string;
 }
 
 export default function ListingHeader({
@@ -13,7 +10,6 @@ export default function ListingHeader({
   title,
   description,
   count,
-  mapHref,
 }: Props) {
   return (
     <header className="listing-header">
