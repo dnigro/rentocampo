@@ -1226,3 +1226,75 @@
 @media (min-width: 901px) {
   .editorialHero__desktopImpact { transform: translateY(10px); }
 }
+
+
+/* PREVIEW MOBILE 2026-10-10: estilo real de la home, no WebView injection.
+   Mantener el amarillo en el texto de marca; controles solo blanco/negro. */
+@media (max-width: 900px) {
+  .rc-landing .editorialHero__desktopPrimary,
+  .rc-landing .editorialHero__desktopPrimary:link,
+  .rc-landing .editorialHero__desktopPrimary:visited {
+    background: #fff !important;
+    background-color: #fff !important;
+    border: 1px solid #fff !important;
+    color: #141414 !important;
+  }
+  .rc-landing .editorialHero__desktopPrimary span {
+    color: #141414 !important;
+  }
+  .rc-landing .editorialHero__desktopSecondary,
+  .rc-landing .editorialHero__desktopService {
+    background: #141414 !important;
+    background-color: #141414 !important;
+    border: 1px solid #fff !important;
+    color: #fff !important;
+  }
+  .rc-landing .editorialHero__desktopSecondary span,
+  .rc-landing .editorialHero__desktopService span {
+    color: #fff !important;
+  }
+  .rc-landing .editorialHero__desktopActions {
+    gap: 10px !important;
+    margin-top: 22px !important;
+  }
+  .rc-landing .editorialHero__desktopPrimary,
+  .rc-landing .editorialHero__desktopSecondary,
+  .rc-landing .editorialHero__desktopService {
+    min-height: 48px !important;
+    height: auto !important;
+    padding: 11px 16px !important;
+    font-size: 15px !important;
+    line-height: 1.2 !important;
+  }
+}
+@media (max-width: 560px) {
+  .rc-landing .editorialHero__content {
+    padding: 22px 18px 30px !important;
+  }
+  .rc-landing .editorialHero__desktopImpact {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  .rc-landing .editorialHero__desktopPillars {
+    font-size: clamp(23px, 7vw, 32px) !important;
+    line-height: 1.04 !important;
+    letter-spacing: -.025em !important;
+  }
+  .rc-landing .editorialHero__desktopOnePlace {
+    margin-top: 14px !important;
+    padding-top: 10px !important;
+    font-size: 13px !important;
+  }
+  .rc-landing .editorialHero__desktopIntro {
+    margin-top: 14px !important;
+    font-size: 14px !important;
+    line-height: 1.45 !important;
+  }
+  .rc-landing .editorialHero__desktopActions {
+    margin-top: 18px !important;
+  }
+  .rc-landing .rc-map-copy h2 {
+    font-size: clamp(32px, 9vw, 44px) !important;
+    overflow-wrap: anywhere;
+  }
+}
