@@ -73,7 +73,6 @@ export default async function CamposListing({ params, titulo, descripcion }: Pro
         title={titulo ?? (hayFiltros ? "Resultados" : "Campos disponibles")}
         description={descripcion}
         count={`${count} campo${count !== 1 ? "s" : ""} encontrado${count !== 1 ? "s" : ""}`}
-        mapHref="/campos/mapa"
       />
 
       <aside className="explorador-sidebar">
