@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { BackHandler, SafeAreaView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { BackHandler, SafeAreaView, StatusBar, Platform, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { WebView } from "react-native-webview";
 
 const SITE = "https://rentocampo.com";
@@ -25,7 +25,7 @@ export default function App() {
   }, [canGoBack, target]);
   return (
     <SafeAreaView style={styles.root}>
-      <StatusBar barStyle="dark-content" />
+      <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" translucent={false} />
       <View style={styles.header}><Text style={styles.logo}>rento<Text style={styles.bold}>Campo</Text></Text></View>
       <View style={styles.body}>
         <WebView
@@ -49,12 +49,12 @@ export default function App() {
   );
 }
 const styles = StyleSheet.create({
-  root: { flex: 1, backgroundColor: "#FFFFFF" },
-  header: { padding: 12, alignItems: "center", borderBottomWidth: 1, borderColor: "#E5E5E5" },
-  logo: { fontSize: 24, fontWeight: "300", color: "#171717" },
+  root: { flex: 1, backgroundColor: "#FFFFFF", paddingTop: Platform.OS === "android" ? (StatusBar.currentHeight ?? 0) : 0 },
+  header: { paddingVertical: 8, alignItems: "center", borderBottomWidth: 1, borderColor: "#E5E5E5" },
+  logo: { fontSize: 19, fontWeight: "300", color: "#171717" },
   bold: { fontWeight: "900" },
   body: { flex: 1 },
-  tabs: { flexDirection: "row", borderTopWidth: 1, borderColor: "#DDDDDD", paddingVertical: 15 },
+  tabs: { flexDirection: "row", borderTopWidth: 1, borderColor: "#DDDDDD", paddingTop: 12, paddingBottom: Platform.OS === "android" ? 24 : 12, backgroundColor: "#FFFFFF" },
   tab: { flex: 1, alignItems: "center" },
   tabText: { color: "#171717", fontWeight: "700", fontSize: 12 },
   error: { ...StyleSheet.absoluteFillObject, backgroundColor: "white", alignItems: "center", justifyContent: "center", padding: 20 },
