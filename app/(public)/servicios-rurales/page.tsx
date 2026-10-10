@@ -177,7 +177,6 @@ export default async function ServiciosRuralesPage({
           id="servicios-disponibles-titulo"
           title="Servicios disponibles"
           count={`${prestadores.length} prestador${prestadores.length !== 1 ? "es" : ""} encontrado${prestadores.length !== 1 ? "s" : ""}`}
-          mapHref={`/campos/mapa?${mapParams.toString()}`}
         />
 
         <aside className="explorador-sidebar">
