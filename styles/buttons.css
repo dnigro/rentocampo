@@ -1,8 +1,8 @@
 /* Acciones compartidas: mismo mostaza y formato en listados, fichas y formularios. */
 :root {
-  --action-mustard: #E6D87A;
-  --action-mustard-hover: #DACC70;
-  --action-ink: #141414;
+  --action-mustard: #171717;
+  --action-mustard-hover: #303030;
+  --action-ink: #FFFFFF;
 }
 
 :root .app-shell :is(a, button):is(
@@ -88,4 +88,38 @@
 :root .app-shell :is(.mapa-paises, .mapa-modos) button[aria-pressed="true"] {
   border-color: var(--action-ink) !important;
   box-shadow: inset 0 0 0 1px var(--action-ink) !important;
+}
+
+/* Paleta monocromatica: acciones primarias y filtros. */
+:root .app-shell :is(.filtro-chip.active, .filtro-chip[aria-pressed="true"], .tipo-option input:checked + .tipo-label) {
+  background: #171717 !important;
+  color: #ffffff !important;
+  border-color: #171717 !important;
+  box-shadow: none !important;
+}
+:root .app-shell :is(.filtro-chip, .filtro-chip:hover, .filtros-limpiar) {
+  border-color: #171717;
+}
+:root .app-shell :is(.rc-map-after-filters, .listing-button, .btn-aplicar) {
+  background: #171717 !important;
+  color: #ffffff !important;
+  border-color: #171717 !important;
+}
+:root .app-shell :is(.rc-map-after-filters, .listing-button, .btn-aplicar):hover {
+  background: #303030 !important;
+  color: #ffffff !important;
+}
+@media (max-width: 768px) {
+  :root .app-shell :is(.listing-button, .btn-aplicar, .rc-map-after-filters) {
+    min-height: 46px !important;
+    padding: 10px 14px !important;
+    font-size: 14px !important;
+  }
+  :root .app-shell .filtro-chip {
+    font-size: 13px !important;
+    padding: 8px 12px !important;
+  }
+  :root .app-shell .filtros-panel {
+    padding: 16px !important;
+  }
 }
