@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import LiteHeader from "@/components/lite/LiteHeader";
 import heroTambo from "@/public/rentocampo-hero-campo-bn-1920x1080.webp";
 import type { Metadata } from "next";
 export const metadata: Metadata = { title: "RentoCampo Lite | Preview" };
@@ -9,12 +10,7 @@ const links = [
 ];
 export default function LitePreview() {
  return <main style={{minHeight:"100dvh",background:"#f8f8f6",color:"#20201e",fontFamily:"Arial, Helvetica, sans-serif",maxWidth:520,margin:"auto",paddingBottom:95}}>
-  <header style={{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"24px 22px 16px",background:"#fff"}}>
-   <Link href="/lite" style={{display:"flex",alignItems:"center",gap:10,textDecoration:"none",color:"inherit"}}>
-    <span style={{display:"grid",placeItems:"center",width:100,height:108,flexShrink:0}}><svg viewBox="0 0 240 270" width="100" height="108" role="img" aria-label="Escudo RC RentoCampo"><path d="M120 7 L230 38 L230 167 Q224 226 120 264 Q16 226 10 167 L10 38 Z" fill="#fff" stroke="#111" strokeWidth="6"/><text x="33" y="141" fontFamily="Arial,sans-serif" fontSize="128" fontWeight="900" letterSpacing="-12" fill="#646464">R</text><text x="111" y="141" fontFamily="Arial,sans-serif" fontSize="130" fontWeight="900" letterSpacing="-12" fill="#070707">C</text><text x="36" y="175" fontFamily="Arial,sans-serif" fontSize="29" letterSpacing="-1.5" fill="#111">Rento</text><text x="112" y="175" fontFamily="Arial,sans-serif" fontSize="29" fontWeight="900" letterSpacing="-1.5" fill="#111">Campo</text><path d="M34 202 Q118 177 205 201 L194 213 Q114 193 42 218 Z" fill="#666"/><path d="M48 225 Q85 207 116 207 Q87 225 69 240Z M87 246 Q109 212 143 212 L128 256Z M150 248 Q161 225 187 218 L171 235Z" fill="#080808"/></svg></span>
-    <span style={{fontSize:23,letterSpacing:-1}}><span style={{fontWeight:400}}>rento</span><strong>Campo</strong></span>
-   </Link><Link href="/lite/perfil" style={{fontSize:13,color:"#20201e",textDecoration:"none",fontWeight:700}}>Mi cuenta ↗</Link>
-  </header>
+  <LiteHeader/>
   <section style={{position:"relative",height:210,overflow:"hidden",background:"#252525"}}>
    <Image src={heroTambo} alt="Vacas y tambo de RentoCampo" fill priority sizes="(max-width: 520px) 100vw, 520px" style={{objectFit:"cover",objectPosition:"68% center",filter:"grayscale(1) contrast(1.1) brightness(.72)"}}/><div style={{position:"absolute",inset:0,background:"linear-gradient(90deg,rgba(0,0,0,.78) 0%,rgba(0,0,0,.55) 46%,rgba(0,0,0,.12) 100%)"}}/>
    
