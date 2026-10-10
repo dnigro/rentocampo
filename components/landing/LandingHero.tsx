@@ -28,21 +28,8 @@ export default function LandingHero() {
           </p>
 
           <div className="editorialHero__desktopActions">
-            <Link href="/register" className="editorialHero__desktopPrimary">
-              <span className="editorialHero__desktopPrimaryLabel">
-                <span>Publicá tu</span>
-                <span>Campo o servicio</span>
-              </span>
-              <span aria-hidden="true">→</span>
-            </Link>
-            <Link href="/servicios-rurales" className="editorialHero__desktopService">
-              <span>Buscá servicios</span>
-              <span aria-hidden="true">→</span>
-            </Link>
-            <Link href="/campos" className="editorialHero__desktopSecondary">
-              <span>Buscá campos</span>
-              <span aria-hidden="true">→</span>
-            </Link>
+            <Link href="/campos" className="editorialHero__desktopPrimary"><span className="editorialHero__desktopPrimaryLabel"><span>Ver campos</span></span><span aria-hidden="true">→</span></Link>
+            <Link href="/servicios-rurales" className="editorialHero__desktopService"><span>Ver servicios</span><span aria-hidden="true">→</span></Link>
           </div>
         </div>
 
@@ -64,18 +51,8 @@ export default function LandingHero() {
           </p>
 
           <div className="editorialHero__actions">
-            <Link href="/register" className="editorialHero__primary">
-              <span>Publicá tu campo o servicio</span>
-              <span className="editorialHero__arrow" aria-hidden="true">→</span>
-            </Link>
-            <Link href="/servicios-rurales" className="editorialHero__service">
-              <span>Buscá servicios</span>
-              <span className="editorialHero__arrow" aria-hidden="true">→</span>
-            </Link>
-            <Link href="/campos" className="editorialHero__secondary">
-              <span>Buscá campos</span>
-              <span className="editorialHero__arrow" aria-hidden="true">→</span>
-            </Link>
+            <Link href="/campos" className="editorialHero__primary"><span>Ver campos</span><span className="editorialHero__arrow" aria-hidden="true">→</span></Link>
+            <Link href="/servicios-rurales" className="editorialHero__service"><span>Ver servicios</span><span className="editorialHero__arrow" aria-hidden="true">→</span></Link>
           </div>
         </div>
 
