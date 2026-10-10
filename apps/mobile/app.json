@@ -1,0 +1,24 @@
+{
+  "expo": {
+    "name": "RentoCampo",
+    "slug": "rentocampo",
+    "scheme": "rentocampo",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.rentocampo.app"
+    },
+    "android": {
+      "package": "com.rentocampo.app"
+    },
+    "plugins": [
+      "expo-web-browser"
+    ],
+    "extra": {
+      "environment": "prototype"
+    },
+    "description": "Prototipo interno de navegación móvil de RentoCampo. No apto para publicar en tiendas."
+  }
+}
