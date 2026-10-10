@@ -1,0 +1,3 @@
+import Link from "next/link";
+import Image from "next/image";
+export default function LiteHeader(){return <header style={{display:"flex",alignItems:"center",gap:12,padding:"12px 18px",background:"#fff",borderBottom:"1px solid #e7e7e7"}}><Link href="/lite" aria-label="RentoCampo Lite Inicio" style={{display:"flex",alignItems:"center",gap:9,textDecoration:"none",color:"#171717",minWidth:0}}><Image src="/icon.svg" width={68} height={68} alt="RC" style={{width:68,height:68,objectFit:"contain"}}/><span style={{fontSize:22,letterSpacing:-1}}>rento<b>Campo</b></span></Link><Link href="/lite/perfil" style={{marginLeft:"auto",fontSize:13,color:"#222",textDecoration:"none",fontWeight:700,whiteSpace:"nowrap"}}>Mi cuenta ↗</Link></header>}
