@@ -1,4 +1,4 @@
-name: Mobile Android debug APK
+name: Mobile Android standalone APK
 on:
   workflow_dispatch:
   push:
@@ -35,11 +35,15 @@ jobs:
         run: npm run typecheck
       - name: Generate native Android project
         run: npx expo prebuild --platform android --no-install --clean
-      - name: Build debug APK
-        run: cd android && chmod +x gradlew && ./gradlew assembleDebug --no-daemon
+      - name: Build standalone release APK with bundled JavaScript
+        run: cd android && chmod +x gradlew && ./gradlew assembleRelease --no-daemon
+      - name: Verify standalone APK
+        run: |
+          test -s android/app/build/outputs/apk/release/app-release.apk
+          unzip -l android/app/build/outputs/apk/release/app-release.apk | grep -E 'assets/index.android.bundle|assets/index.android.bundle.hbc|assets/.*bundle' || { echo 'Missing embedded JS bundle'; exit 1; }
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: rentocampo-android-debug
-          path: apps/mobile/android/app/build/outputs/apk/debug/app-debug.apk
+          name: rentocampo-android-standalone
+          path: apps/mobile/android/app/build/outputs/apk/release/app-release.apk
           if-no-files-found: error
