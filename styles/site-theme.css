@@ -2613,3 +2613,15 @@ header.navbar a.navbar-logo span.brand-wordmark--text-only span.brand-clean-name
 .navbar .brand-wordmark-tagline { color: #d7d7d7 !important; }
 .navbar .nav-link:hover, .navbar .btn-ghost:hover, .navbar .navbar-mensajes:hover { background: #55595e !important; color: #fff !important; }
 @media (max-width: 760px) { .navbar { background: #414448 !important; } }
+
+/* Mobile: cuenta accesible y selección de rol legible */
+.navbar-mobile-account { color: #fff !important; font-size: 13px; font-weight: 800; text-decoration: none; white-space: nowrap; }
+.navbar-mobile-right { display: flex; align-items: center; gap: 10px; }
+.auth-page-register .tipo-option input:checked + .tipo-label,
+.auth-page .tipo-option input:checked + .tipo-label { background: #202020 !important; border-color: #202020 !important; color: #fff !important; box-shadow: none !important; }
+.auth-page-register .tipo-option input:checked + .tipo-label .tipo-nombre,
+.auth-page-register .tipo-option input:checked + .tipo-label .tipo-desc,
+.auth-page-register .tipo-option input:checked + .tipo-label .tipo-emoji,
+.auth-page .tipo-option input:checked + .tipo-label .tipo-nombre,
+.auth-page .tipo-option input:checked + .tipo-label .tipo-desc,
+.auth-page .tipo-option input:checked + .tipo-label .tipo-emoji { color: #fff !important; }
