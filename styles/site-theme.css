@@ -2625,3 +2625,47 @@ header.navbar a.navbar-logo span.brand-wordmark--text-only span.brand-clean-name
 .auth-page .tipo-option input:checked + .tipo-label .tipo-nombre,
 .auth-page .tipo-option input:checked + .tipo-label .tipo-desc,
 .auth-page .tipo-option input:checked + .tipo-label .tipo-emoji { color: #fff !important; }
+
+
+/* 2026-10-10 | Header gris plomo definitivo en Home, web y móvil.
+   Selectores específicos para prevalecer sobre reglas antiguas .app-shell
+   y sobre los estilos cargados únicamente en la landing. */
+html body header.navbar,
+html body .app-shell header.navbar,
+html body:has(.rc-landing) header.navbar {
+  background: #414448 !important;
+  border-bottom: 1px solid #34373a !important;
+  box-shadow: none !important;
+}
+html body header.navbar .nav-link,
+html body header.navbar .btn-ghost,
+html body header.navbar .navbar-mensajes,
+html body header.navbar .hamburguesa,
+html body header.navbar .navbar-mobile-account,
+html body .app-shell header.navbar .nav-link,
+html body .app-shell header.navbar .btn-ghost,
+html body .app-shell header.navbar .navbar-mensajes,
+html body .app-shell header.navbar .hamburguesa {
+  color: #fff !important;
+}
+html body header.navbar .navbar-logo .brand-clean-name,
+html body header.navbar a.navbar-logo span.brand-wordmark--text-only span.brand-clean-name {
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+}
+html body header.navbar a.navbar-logo span.brand-wordmark--text-only span.brand-clean-name > span.brand-initial {
+  color: #d2b84c !important;
+  -webkit-text-fill-color: #d2b84c !important;
+}
+html body header.navbar .brand-clean-tagline,
+html body header.navbar .brand-wordmark-tagline {
+  color: #e6e6e6 !important;
+}
+html body header.navbar .nav-link:hover,
+html body header.navbar .btn-ghost:hover,
+html body header.navbar .navbar-mensajes:hover,
+html body .app-shell header.navbar .nav-link:hover,
+html body .app-shell header.navbar .btn-ghost:hover {
+  background: #565a5f !important;
+  color: #fff !important;
+}
