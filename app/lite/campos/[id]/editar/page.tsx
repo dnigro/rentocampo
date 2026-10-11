@@ -1,0 +1,1 @@
+import LiteWorkflowLayout from "@/components/lite/LiteWorkflowLayout";import Workflow from "@/app/(dashboard)/mis-campos/[id]/editar/page";import {requireLiteUser} from "@/lib/lite/require-user";export default async function Page(props:{params:Promise<{id:string}>}){await requireLiteUser();return <LiteWorkflowLayout><Workflow params={props.params}/></LiteWorkflowLayout>}

@@ -1,0 +1,1 @@
+import LiteWorkflowLayout from "@/components/lite/LiteWorkflowLayout";import Workflow from "@/app/(public)/campos/page";export default function Page({searchParams}:{searchParams:Promise<{[key:string]:string|undefined}>}){return <LiteWorkflowLayout><Workflow searchParams={searchParams}/></LiteWorkflowLayout>}
