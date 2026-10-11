@@ -223,6 +223,7 @@ export default function Navbar() {
 
           {/* Hamburguesa mobile */}
           <div className="navbar-mobile-right">
+            <Link href={user ? "/dashboard" : "/login"} className="navbar-mobile-account" aria-label={user ? "Mi cuenta" : "Ingresar"}>{user ? "Mi cuenta" : "Ingresar"}</Link>
             <div className="navbar-country-switch navbar-country-switch-mobile" aria-label="Seleccionar país">
               <button
                 type="button"
