@@ -2606,3 +2606,10 @@ header.navbar a.navbar-logo span.brand-wordmark--text-only span.brand-clean-name
   color: #d2b84c !important;
   -webkit-text-fill-color: #d2b84c !important;
 }
+
+/* Header gris plomo: escritorio y móvil */
+.navbar { background: #414448 !important; border-bottom-color: #34373a !important; }
+.navbar .nav-link, .navbar .btn-ghost, .navbar .navbar-mensajes, .navbar .hamburguesa, .navbar .brand-wordmark-rento, .navbar .brand-wordmark-campo, .navbar .brand-wordmark-text { color: #fff !important; }
+.navbar .brand-wordmark-tagline { color: #d7d7d7 !important; }
+.navbar .nav-link:hover, .navbar .btn-ghost:hover, .navbar .navbar-mensajes:hover { background: #55595e !important; color: #fff !important; }
+@media (max-width: 760px) { .navbar { background: #414448 !important; } }
