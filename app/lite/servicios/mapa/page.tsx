@@ -1,0 +1,1 @@
+import LiteWorkflowLayout from "@/components/lite/LiteWorkflowLayout";import Workflow from "@/app/(public)/campos/mapa/page";export default async function Page(){return <LiteWorkflowLayout><Workflow searchParams={Promise.resolve({vista:"servicios"})}/></LiteWorkflowLayout>}
