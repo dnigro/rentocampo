@@ -39,6 +39,12 @@ export async function generateMetadata({
   return {
     title,
     description,
+    // Los ejemplos ilustrativos siguen accesibles, pero no deben posicionarse
+    // en Google como ofertas reales de alquiler.
+    robots:
+      id.startsWith("20000000-") || /\bDEMO\b/i.test(campo.titulo ?? "")
+        ? { index: false, follow: true }
+        : { index: true, follow: true },
     alternates: { canonical: `${SITE_URL}/campos/${id}` },
     openGraph: {
       title,
