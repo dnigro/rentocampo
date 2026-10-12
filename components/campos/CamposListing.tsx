@@ -22,11 +22,12 @@ interface Props {
   params: CamposSearchParams;
   titulo?: string;
   descripcion?: string;
+  soloAlquiler?: boolean;
 }
 
 const PAGE_SIZE = 12;
 
-export default async function CamposListing({ params, titulo, descripcion }: Props) {
+export default async function CamposListing({ params, titulo, descripcion, soloAlquiler = false }: Props) {
   const page = Math.max(1, Number(params.page ?? 1) || 1);
   const from = (page - 1) * PAGE_SIZE;
   const to = from + PAGE_SIZE;
@@ -39,6 +40,8 @@ export default async function CamposListing({ params, titulo, descripcion }: Pro
     .or("country_code.eq.AR,country_code.is.null")
     .order("created_at", { ascending: false });
 
+  // En landings de alquiler, no presentar avisos declarados solo para venta.
+  if (soloAlquiler) query = query.in("operacion", ["alquiler", "ambas"]);
   if (params.provincia) query = query.eq("provincia", params.provincia);
   if (params.aptitud) query = query.eq("aptitud", params.aptitud);
   if (params.hectareas_min) query = query.gte("hectareas", Number(params.hectareas_min));
