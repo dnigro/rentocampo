@@ -56,7 +56,9 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
   let countQuery = admin
     .from("campos")
     .select("id", { count: "exact", head: true })
-    .eq("status", "activo");
+    .eq("status", "activo")
+    .or("country_code.eq.AR,country_code.is.null")
+    .in("operacion", ["alquiler", "ambas"]);
   if (categoria.filtros.provincia) {
     countQuery = countQuery.eq("provincia", categoria.filtros.provincia);
   }
@@ -128,7 +130,12 @@ export default async function AlquilerDeCamposPage({ params, searchParams }: Pro
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionJsonLd).replace(/</g, "\\u003c") }}
       />
-      <CamposListing params={filtros} titulo={categoria.titulo} />
+      <CamposListing
+        params={filtros}
+        titulo={categoria.titulo}
+        descripcion={categoria.descripcion}
+        soloAlquiler
+      />
     </>
   );
 }
