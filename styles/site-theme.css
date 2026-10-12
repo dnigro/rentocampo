@@ -2607,12 +2607,12 @@ header.navbar a.navbar-logo span.brand-wordmark--text-only span.brand-clean-name
   -webkit-text-fill-color: #d2b84c !important;
 }
 
-/* Header gris plomo: escritorio y móvil */
-.navbar { background: #414448 !important; border-bottom-color: #34373a !important; }
+/* Header negro mate: escritorio y móvil (actualización de marca 2026-10-12) */
+.navbar { background: #0b0b0b !important; border-bottom-color: #0b0b0b !important; }
 .navbar .nav-link, .navbar .btn-ghost, .navbar .navbar-mensajes, .navbar .hamburguesa, .navbar .brand-wordmark-rento, .navbar .brand-wordmark-campo, .navbar .brand-wordmark-text { color: #fff !important; }
 .navbar .brand-wordmark-tagline { color: #d7d7d7 !important; }
 .navbar .nav-link:hover, .navbar .btn-ghost:hover, .navbar .navbar-mensajes:hover { background: #55595e !important; color: #fff !important; }
-@media (max-width: 760px) { .navbar { background: #414448 !important; } }
+@media (max-width: 760px) { .navbar { background: #0b0b0b !important; } }
 
 /* Mobile: cuenta accesible y selección de rol legible */
 .navbar-mobile-account { color: #fff !important; font-size: 13px; font-weight: 800; text-decoration: none; white-space: nowrap; }
@@ -2627,14 +2627,14 @@ header.navbar a.navbar-logo span.brand-wordmark--text-only span.brand-clean-name
 .auth-page .tipo-option input:checked + .tipo-label .tipo-emoji { color: #fff !important; }
 
 
-/* 2026-10-10 | Header gris plomo definitivo en Home, web y móvil.
+/* 2026-10-12 | Header negro mate en Home, web y móvil.
    Selectores específicos para prevalecer sobre reglas antiguas .app-shell
    y sobre los estilos cargados únicamente en la landing. */
 html body header.navbar,
 html body .app-shell header.navbar,
 html body:has(.rc-landing) header.navbar {
-  background: #414448 !important;
-  border-bottom: 1px solid #34373a !important;
+  background: #0b0b0b !important;
+  border-bottom: 1px solid #0b0b0b !important;
   box-shadow: none !important;
 }
 html body header.navbar .nav-link,
@@ -2680,7 +2680,7 @@ html body .app-shell header.navbar .btn-ghost:hover {
     text-size-adjust: 100%;
   }
 
-  /* Header: conservar gris plomo y mostaza, sin cortar logo ni acciones. */
+  /* Header: conservar negro mate y mostaza, sin cortar logo ni acciones. */
   html body .app-shell header.navbar {
     height: 64px !important;
     min-height: 64px !important;
