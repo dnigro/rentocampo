@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { createClient } from "@supabase/supabase-js";
 import { APTITUD_SEO, SITE_URL, slugify } from "@/lib/seo/campos";
+import { seleccionarCamposPublicos } from "@/lib/campos/visible-fields";
 
 export const revalidate = 3600;
 
@@ -30,14 +31,26 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   });
   const { data: campos } = await admin
     .from("campos")
-    .select("id, provincia, aptitud, updated_at")
-    .eq("status", "activo");
+    .select("id, titulo, country_code, created_at, provincia, aptitud, operacion, updated_at")
+    .eq("status", "activo")
+    .or("country_code.eq.AR,country_code.is.null");
 
+  // Solo anunciar a los buscadores los registros públicos, no avisos DEMO
+  // como resultados inmobiliarios reales.
+  const camposVisibles = seleccionarCamposPublicos(campos ?? []);
+  const camposReales = camposVisibles.filter(
+    (campo) =>
+      !campo.id.startsWith("20000000-") &&
+      !/\bDEMO\b/i.test(campo.titulo ?? ""),
+  );
+  const alquileres = camposVisibles.filter(
+    (campo) => campo.operacion === "alquiler" || campo.operacion === "ambas",
+  );
   const provincias = [
-    ...new Set((campos ?? []).map((campo) => campo.provincia).filter(Boolean)),
+    ...new Set(alquileres.map((campo) => campo.provincia).filter(Boolean)),
   ];
   const aptitudes = [
-    ...new Set((campos ?? []).map((campo) => campo.aptitud).filter(Boolean)),
+    ...new Set(alquileres.map((campo) => campo.aptitud).filter(Boolean)),
   ];
   const slugPorAptitud = Object.fromEntries(
     Object.entries(APTITUD_SEO).map(([slug, item]) => [item.value, slug]),
@@ -57,7 +70,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...provincias.map((provincia) => ({
       url: `${SITE_URL}/alquiler-de-campos/${slugify(provincia)}`,
       lastModified: ultimaActualizacion(
-        (campos ?? []).filter((campo) => campo.provincia === provincia),
+        alquileres.filter((campo) => campo.provincia === provincia),
       ),
       changeFrequency: "daily" as const,
       priority: 0.8,
@@ -67,12 +80,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       .map((aptitud) => ({
         url: `${SITE_URL}/alquiler-de-campos/${slugPorAptitud[aptitud]}`,
         lastModified: ultimaActualizacion(
-          (campos ?? []).filter((campo) => campo.aptitud === aptitud),
+          alquileres.filter((campo) => campo.aptitud === aptitud),
         ),
         changeFrequency: "daily" as const,
         priority: 0.8,
       })),
-    ...(campos ?? []).map((campo) => ({
+    ...camposReales.map((campo) => ({
       url: `${SITE_URL}/campos/${campo.id}`,
       lastModified: campo.updated_at ? new Date(campo.updated_at) : undefined,
       changeFrequency: "weekly" as const,

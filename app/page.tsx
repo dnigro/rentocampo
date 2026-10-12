@@ -11,11 +11,11 @@ import "@/styles/hero-editorial-stable.css";
 import "@/styles/landing-impact.css";
 
 export const metadata: Metadata = {
-  title: "RentoCampo | Tierra, productores y servicios rurales",
+  title: "RentoCampo | Alquiler de campos y servicios rurales en Argentina",
   description:
-    "Tierra productiva, productores y servicios rurales en una red federal. Explorá el mapa, publicá y conectá por chat gratis.",
+    "Buscá campos en alquiler en Argentina: agrícolas, ganaderos y mixtos. Explorá tierras por provincia, publicá tu campo y contactá directamente a propietarios.",
   keywords:
-    "arrendamiento campos argentina, alquiler campos agrícolas, renta campo, campos en arriendo, tierra para producir",
+    "alquiler de campos Argentina, campos en alquiler, arrendamiento rural, campos agrícolas en alquiler, campos ganaderos, servicios rurales",
   alternates: { canonical: "https://rentocampo.com" },
   openGraph: {
     title: "RentoCampo | La red federal del campo argentino",

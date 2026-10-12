@@ -1,4 +1,9 @@
+import type { Metadata } from "next";
 import Link from "next/link";
+export const metadata: Metadata = {
+  // Lite ofrece otra interfaz al mismo catálogo: no competir con las páginas SEO.
+  robots: { index: false, follow: true },
+};
 export default function LiteLayout({children}:{children:React.ReactNode}){
  return <div style={{minHeight:"100dvh",background:"#f7f7f5"}}>
  {children}
