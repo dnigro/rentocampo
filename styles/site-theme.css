@@ -2607,12 +2607,12 @@ header.navbar a.navbar-logo span.brand-wordmark--text-only span.brand-clean-name
   -webkit-text-fill-color: #d2b84c !important;
 }
 
-/* Header gris plomo: escritorio y móvil */
-.navbar { background: #414448 !important; border-bottom-color: #34373a !important; }
+/* Header negro mate: escritorio y móvil (actualización de marca 2026-10-12) */
+.navbar { background: #0b0b0b !important; border-bottom-color: #0b0b0b !important; }
 .navbar .nav-link, .navbar .btn-ghost, .navbar .navbar-mensajes, .navbar .hamburguesa, .navbar .brand-wordmark-rento, .navbar .brand-wordmark-campo, .navbar .brand-wordmark-text { color: #fff !important; }
 .navbar .brand-wordmark-tagline { color: #d7d7d7 !important; }
 .navbar .nav-link:hover, .navbar .btn-ghost:hover, .navbar .navbar-mensajes:hover { background: #55595e !important; color: #fff !important; }
-@media (max-width: 760px) { .navbar { background: #414448 !important; } }
+@media (max-width: 760px) { .navbar { background: #0b0b0b !important; } }
 
 /* Mobile: cuenta accesible y selección de rol legible */
 .navbar-mobile-account { color: #fff !important; font-size: 13px; font-weight: 800; text-decoration: none; white-space: nowrap; }
@@ -2627,14 +2627,14 @@ header.navbar a.navbar-logo span.brand-wordmark--text-only span.brand-clean-name
 .auth-page .tipo-option input:checked + .tipo-label .tipo-emoji { color: #fff !important; }
 
 
-/* 2026-10-10 | Header gris plomo definitivo en Home, web y móvil.
+/* 2026-10-12 | Header negro mate en Home, web y móvil.
    Selectores específicos para prevalecer sobre reglas antiguas .app-shell
    y sobre los estilos cargados únicamente en la landing. */
 html body header.navbar,
 html body .app-shell header.navbar,
 html body:has(.rc-landing) header.navbar {
-  background: #414448 !important;
-  border-bottom: 1px solid #34373a !important;
+  background: #0b0b0b !important;
+  border-bottom: 1px solid #0b0b0b !important;
   box-shadow: none !important;
 }
 html body header.navbar .nav-link,
@@ -2668,4 +2668,179 @@ html body .app-shell header.navbar .nav-link:hover,
 html body .app-shell header.navbar .btn-ghost:hover {
   background: #565a5f !important;
   color: #fff !important;
+}
+
+
+/* Mobile social/browser QA — 2026-10-12
+   El navegador interno de Facebook expone la escala exagerada de reglas
+   editoriales heredadas. Compactar solo mobile sin alterar desktop. */
+@media (max-width: 760px) {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  /* Header: conservar negro mate y mostaza, sin cortar logo ni acciones. */
+  html body .app-shell header.navbar {
+    height: 64px !important;
+    min-height: 64px !important;
+  }
+
+  html body .app-shell header.navbar .navbar-inner {
+    height: 64px !important;
+    min-height: 64px !important;
+    padding-inline: 12px !important;
+    gap: 8px !important;
+  }
+
+  html body .app-shell header.navbar .navbar-logo {
+    min-width: 0 !important;
+    flex: 1 1 auto !important;
+    overflow: hidden !important;
+  }
+
+  html body .app-shell header.navbar .brand-wordmark--text-only,
+  html body .app-shell header.navbar .brand-clean-copy {
+    min-width: 0 !important;
+    max-width: 100% !important;
+  }
+
+  html body .app-shell header.navbar .navbar-logo .brand-wordmark--text-only .brand-clean-name {
+    font-size: clamp(20px, 6vw, 26px) !important;
+    line-height: 1 !important;
+    letter-spacing: -0.055em !important;
+    white-space: nowrap;
+  }
+
+  html body .app-shell header.navbar .brand-clean-tagline {
+    display: none !important;
+  }
+
+  html body .app-shell header.navbar .navbar-mobile-right {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    gap: 8px !important;
+    margin-left: auto;
+  }
+
+  /* Argentina es el único país seleccionable en el registro actual. */
+  html body .app-shell header.navbar .navbar-country-switch-mobile {
+    display: none !important;
+  }
+
+  html body .app-shell header.navbar .navbar-mobile-account {
+    font-size: 13px !important;
+    white-space: nowrap;
+  }
+
+  /* Registro: menos escala y aire sobrante, sin reducir controles táctiles. */
+  html body .app-shell .auth-page-register {
+    padding: 20px 16px 36px !important;
+  }
+
+  html body .app-shell .auth-page-register .auth-card {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  html body .app-shell .auth-page-register .auth-card::before {
+    top: 2px !important;
+    right: 0 !important;
+    font-size: 38px !important;
+    line-height: 1 !important;
+  }
+
+  html body .app-shell .auth-page-register .auth-header {
+    padding: 0 48px 14px 0 !important;
+    margin-bottom: 22px !important;
+    min-width: 0;
+  }
+
+  html body .app-shell .auth-page-register .auth-title {
+    font-size: clamp(34px, 10vw, 44px) !important;
+    line-height: 1.02 !important;
+    letter-spacing: 0 !important;
+    margin-bottom: 6px !important;
+  }
+
+  html body .app-shell .auth-page-register .auth-subtitle {
+    font-size: 15px !important;
+    line-height: 1.4 !important;
+  }
+
+  html body .app-shell .auth-page-register .auth-form {
+    gap: 17px !important;
+  }
+
+  html body .app-shell .auth-page-register .form-field:first-of-type > .form-label {
+    font-size: 24px !important;
+    margin-bottom: 6px !important;
+  }
+
+  html body .app-shell .auth-page-register .tipo-selector {
+    gap: 8px !important;
+  }
+
+  html body .app-shell .auth-page-register .tipo-label {
+    display: grid !important;
+    grid-template-columns: 30px minmax(0, 1fr) !important;
+    grid-template-rows: auto auto !important;
+    column-gap: 12px !important;
+    row-gap: 2px !important;
+    min-height: 82px !important;
+    padding: 12px 14px !important;
+    text-align: left !important;
+    align-items: center !important;
+  }
+
+  html body .app-shell .auth-page-register .tipo-emoji {
+    grid-row: 1 / span 2;
+  }
+
+  html body .app-shell .auth-page-register .tipo-emoji svg {
+    width: 26px;
+    height: 26px;
+  }
+
+  html body .app-shell .auth-page-register .tipo-nombre {
+    font-size: 17px !important;
+    line-height: 1.2 !important;
+  }
+
+  html body .app-shell .auth-page-register .tipo-desc {
+    color: #585852 !important;
+    font-size: 13px !important;
+    line-height: 1.35 !important;
+  }
+
+  /* Corregir el bajo contraste del rol seleccionado observado en Facebook. */
+  html body .app-shell .auth-page-register .tipo-option input:checked + .tipo-label {
+    background: #202020 !important;
+    border-color: #202020 !important;
+  }
+
+  html body .app-shell .auth-page-register .tipo-option input:checked + .tipo-label .tipo-nombre,
+  html body .app-shell .auth-page-register .tipo-option input:checked + .tipo-label .tipo-desc,
+  html body .app-shell .auth-page-register .tipo-option input:checked + .tipo-label .tipo-emoji {
+    color: #fff !important;
+  }
+
+  html body .app-shell .auth-page-register .form-input {
+    font-size: 16px !important; /* evita auto-zoom al enfocar en iOS */
+  }
+}
+
+@media (max-width: 360px) {
+  html body .app-shell header.navbar .navbar-logo .brand-wordmark--text-only .brand-clean-name {
+    font-size: 20px !important;
+  }
+
+  html body .app-shell .auth-page-register .auth-title {
+    font-size: 33px !important;
+  }
+
+  html body .app-shell .auth-page-register .auth-header {
+    padding-right: 42px !important;
+  }
 }
