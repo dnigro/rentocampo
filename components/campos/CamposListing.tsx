@@ -71,17 +71,16 @@ export default async function CamposListing({ params, titulo, descripcion, soloA
   );
 
   return (
-    <div className="explorador-layout">
+    <div className="explorador-layout explorador-layout-results-first">
       <ListingHeader
         title={titulo ?? (hayFiltros ? "Resultados" : "Campos disponibles")}
         description={descripcion}
         count={`${count} campo${count !== 1 ? "s" : ""} encontrado${count !== 1 ? "s" : ""}`}
       />
 
-      <aside className="explorador-sidebar">
-        <CampoFiltros filtrosActivos={params} />
-        <Link href="/campos/mapa" className="listing-button rc-map-after-filters">Ver en mapa →</Link>
-      </aside>
+      <nav className="explorador-switch" aria-label="Explorar otras publicaciones">
+        <Link href="/servicios-rurales">Ver servicios rurales →</Link>
+      </nav>
 
       <main className="explorador-main">
         <div className="explorador-contenido">
@@ -124,6 +123,10 @@ export default async function CamposListing({ params, titulo, descripcion, soloA
                 <Link href="/campos" className="listing-button">Ver todos los campos</Link>
               </div>
             )}
+            <aside className="explorador-sidebar explorador-sidebar-bottom" aria-label="Filtrar campos">
+              <CampoFiltros filtrosActivos={params} />
+              <Link href="/campos/mapa" className="listing-button rc-map-after-filters">Ver en mapa →</Link>
+            </aside>
           </section>
 
           <DemandaZonasPanel provincia={params.provincia} />
