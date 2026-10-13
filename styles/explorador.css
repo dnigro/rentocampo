@@ -1046,3 +1046,86 @@
   margin-top: 16px;
   text-align: center;
 }
+
+
+/* Listados de campos y servicios: publicaciones primero, filtros después. */
+.explorador-layout-results-first {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.explorador-layout-results-first > .listing-header,
+.explorador-layout-results-first > .explorador-switch,
+.explorador-layout-results-first > .explorador-main {
+  grid-column: 1 / -1;
+}
+
+.explorador-layout-results-first .explorador-switch {
+  display: flex;
+  align-items: center;
+  margin: -12px 0 8px;
+}
+
+.explorador-layout-results-first .explorador-switch a {
+  color: #171717;
+  font-size: 16px;
+  font-weight: 800;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.explorador-layout-results-first .explorador-sidebar-bottom {
+  position: static;
+  width: 100%;
+  max-width: 680px;
+  margin: 28px auto 0;
+}
+
+.app-shell .explorador-layout-results-first .explorador-title {
+  font-size: clamp(42px, 5vw, 66px) !important;
+  line-height: .94 !important;
+}
+
+.app-shell .explorador-layout-results-first .filtros-title {
+  font-size: 26px !important;
+  line-height: 1.15 !important;
+}
+
+.app-shell .explorador-layout-results-first .filtro-label {
+  font-size: 16px !important;
+}
+
+@media (max-width: 900px) {
+  .explorador-layout-results-first > .listing-header {
+    order: 1;
+    padding-bottom: 10px;
+  }
+
+  .explorador-layout-results-first > .explorador-switch {
+    order: 2;
+    margin: 0 0 18px;
+  }
+
+  .explorador-layout-results-first > .explorador-main {
+    order: 3;
+    padding-top: 0;
+  }
+}
+
+@media (max-width: 640px) {
+  .app-shell .explorador-layout-results-first .explorador-title {
+    font-size: clamp(36px, 10vw, 46px) !important;
+    line-height: .97 !important;
+  }
+
+  .app-shell .explorador-layout-results-first .filtros-title {
+    font-size: 24px !important;
+  }
+
+  .app-shell .explorador-layout-results-first .filtro-label {
+    font-size: 16px !important;
+  }
+
+  .explorador-layout-results-first .explorador-sidebar-bottom .filtros-panel {
+    padding: 20px;
+  }
+}
