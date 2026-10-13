@@ -172,20 +172,16 @@ export default async function ServiciosRuralesPage({
         }}
       />
 
-      <section className="explorador-layout" aria-labelledby="servicios-disponibles-titulo">
+      <section className="explorador-layout explorador-layout-results-first" aria-labelledby="servicios-disponibles-titulo">
         <ListingHeader
           id="servicios-disponibles-titulo"
           title="Servicios disponibles"
           count={`${prestadores.length} prestador${prestadores.length !== 1 ? "es" : ""} encontrado${prestadores.length !== 1 ? "s" : ""}`}
         />
 
-        <aside className="explorador-sidebar">
-          <ServiciosFiltros
-            provinciaInicial={provincia}
-            servicioInicial={servicioValido}
-          />
-          <Link href={`/campos/mapa?${mapParams.toString()}`} className="listing-button rc-map-after-filters">Ver en mapa →</Link>
-        </aside>
+        <nav className="explorador-switch" aria-label="Explorar otras publicaciones">
+          <Link href="/campos">Ver campos →</Link>
+        </nav>
 
         <div className="explorador-main">
           {prestadores.length > 0 ? (
@@ -268,6 +264,14 @@ export default async function ServiciosRuralesPage({
               <Link href="/servicios-rurales">Ver todos los servicios →</Link>
             </div>
           )}
+
+          <aside className="explorador-sidebar explorador-sidebar-bottom" aria-label="Filtrar servicios rurales">
+            <ServiciosFiltros
+              provinciaInicial={provincia}
+              servicioInicial={servicioValido}
+            />
+            <Link href={`/campos/mapa?${mapParams.toString()}`} className="listing-button rc-map-after-filters">Ver en mapa →</Link>
+          </aside>
         </div>
       </section>
 
