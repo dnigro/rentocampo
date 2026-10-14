@@ -2608,11 +2608,11 @@ header.navbar a.navbar-logo span.brand-wordmark--text-only span.brand-clean-name
 }
 
 /* Header negro mate: escritorio y móvil (actualización de marca 2026-10-12) */
-.navbar { background: #0b0b0b !important; border-bottom-color: #0b0b0b !important; }
+.navbar { background: #303332 !important; border-bottom-color: #303332 !important; }
 .navbar .nav-link, .navbar .btn-ghost, .navbar .navbar-mensajes, .navbar .hamburguesa, .navbar .brand-wordmark-rento, .navbar .brand-wordmark-campo, .navbar .brand-wordmark-text { color: #fff !important; }
 .navbar .brand-wordmark-tagline { color: #d7d7d7 !important; }
 .navbar .nav-link:hover, .navbar .btn-ghost:hover, .navbar .navbar-mensajes:hover { background: #55595e !important; color: #fff !important; }
-@media (max-width: 760px) { .navbar { background: #0b0b0b !important; } }
+@media (max-width: 760px) { .navbar { background: #303332 !important; } }
 
 /* Mobile: cuenta accesible y selección de rol legible */
 .navbar-mobile-account { color: #fff !important; font-size: 13px; font-weight: 800; text-decoration: none; white-space: nowrap; }
@@ -2633,8 +2633,8 @@ header.navbar a.navbar-logo span.brand-wordmark--text-only span.brand-clean-name
 html body header.navbar,
 html body .app-shell header.navbar,
 html body:has(.rc-landing) header.navbar {
-  background: #0b0b0b !important;
-  border-bottom: 1px solid #0b0b0b !important;
+  background: #303332 !important;
+  border-bottom: 1px solid #303332 !important;
   box-shadow: none !important;
 }
 html body header.navbar .nav-link,
