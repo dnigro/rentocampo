@@ -2845,16 +2845,10 @@ html body .app-shell header.navbar .btn-ghost:hover {
   }
 }
 
-/* Separación visual entre el header grafito y la sección siguiente. */
+/* Separador discreto bajo el header, sin espacio adicional. */
 html body header.navbar,
 html body .app-shell header.navbar,
 html body:has(.rc-landing) header.navbar {
-  margin-bottom: 28px !important;
-}
-@media (max-width: 760px) {
-  html body header.navbar,
-  html body .app-shell header.navbar,
-  html body:has(.rc-landing) header.navbar {
-    margin-bottom: 18px !important;
-  }
+  margin-bottom: 0 !important;
+  border-bottom: 1px dashed #858985 !important;
 }
