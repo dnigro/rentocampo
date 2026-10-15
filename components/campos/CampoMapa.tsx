@@ -76,7 +76,7 @@ export default function CampoMapa({
     null,
   );
   const [vista, setVista] = useState<"tierra" | "servicios">(initialVista);
-  const [countryCode] = useState<CountryCode>(initialCountry);
+  const countryCode = initialCountry;
   const [mostrarCampos, setMostrarCampos] = useState(true);
   const [mapError, setMapError] = useState(false);
   const [supabase] = useState(createClient);
@@ -313,7 +313,9 @@ export default function CampoMapa({
             src={
               countryCode === "UY"
                 ? "https://www.openstreetmap.org/export/embed.html?bbox=-58.7%2C-35.2%2C-53.0%2C-30.0&layer=mapnik"
-                : "https://www.openstreetmap.org/export/embed.html?bbox=-73.8%2C-55.3%2C-53.4%2C-21.4&layer=mapnik"
+                : countryCode === "PY"
+                  ? "https://www.openstreetmap.org/export/embed.html?bbox=-62.7%2C-27.8%2C-54.2%2C-19.2&layer=mapnik"
+                  : "https://www.openstreetmap.org/export/embed.html?bbox=-73.8%2C-55.3%2C-53.4%2C-21.4&layer=mapnik"
             }
             loading="lazy"
           />
@@ -328,6 +330,13 @@ export default function CampoMapa({
       {!mapError && (
         <div className="mapa-filtros" aria-label="Capas visibles del mapa">
 
+          <nav className="mapa-modos" aria-label="Seleccionar país">
+            {(["AR", "UY", "PY"] as const).map((code) => (
+              <Link key={code} href={`/campos/mapa?pais=${code}&vista=${vista}`} className={countryCode === code ? "activo" : ""}>
+                {COUNTRIES[code].flag} {COUNTRIES[code].name}
+              </Link>
+            ))}
+          </nav>
           <div
             className="mapa-modos"
             role="group"
