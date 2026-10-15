@@ -346,6 +346,8 @@ export default function CampoForm({
             required
           >
             <option value="AR">🇦🇷 Argentina</option>
+            <option value="UY">🇺🇾 Uruguay</option>
+            <option value="PY">🇵🇾 Paraguay</option>
           </select>
         </div>
 
