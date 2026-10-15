@@ -1,4 +1,5 @@
 import "@/styles/public.css";
+import "@/styles/auth-responsive.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 
