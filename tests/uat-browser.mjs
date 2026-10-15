@@ -109,7 +109,7 @@ async function login(user,size){
 }
 async function register(){
  const b=await chromium.launch(),c=await context(b,{width:390,height:844}),page=await c.newPage();
- const u={email:"uat-reg-"+randomUUID()+"@example.com",password:"Uat!9"+randomUUID().replaceAll("-",""),country:"AR",role:"propietario"};
+ const u={email:"uat-reg-"+randomUUID()+"@yopmail.com",password:"Uat!9"+randomUUID().replaceAll("-",""),country:"AR",role:"propietario"};
  try{
   await check("REAL registration form -> UAT Auth -> profile -> confirmation -> login",async()=>{
    await open(page,"/register?pais=AR&tipo=propietario","#country_code");
