@@ -27,6 +27,7 @@ export default function Navbar() {
   function cambiarPais(country: CountryCode) {
     setActiveCountry(country);
     window.localStorage.setItem("rentocampo_country", country);
+    document.cookie = `rentocampo_country=${country}; path=/; max-age=31536000; SameSite=Lax`;
     router.push(`/campos/mapa?pais=${country}`);
     router.refresh();
   }
