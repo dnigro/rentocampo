@@ -1,32 +1,54 @@
-name: UAT Regional Browser
+name: UAT Registro Multiformato
+
 on:
   workflow_dispatch:
   push:
     branches: [feat/regional-ar-uy-py-20261014]
+
 permissions:
   contents: read
+
 jobs:
-  regional-browser:
+  registro-browser-uat:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 25
     env:
-      UAT_PREVIEW_URL: https://rentocampo-git-feat-regional-ar-uy-py-20261014-rento-campo.vercel.app
+      # Local Next runtime, never production or the protected Vercel preview.
+      NEXT_PUBLIC_SUPABASE_URL: https://wibqszhvuvpjycheaxzi.supabase.co
+      NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.UAT_SUPABASE_PUBLISHABLE_KEY }}
+      SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.UAT_SUPABASE_SERVICE_ROLE_KEY }}
       UAT_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.UAT_SUPABASE_PUBLISHABLE_KEY }}
       UAT_SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.UAT_SUPABASE_SERVICE_ROLE_KEY }}
-      VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
+      NEXT_PUBLIC_APP_URL: http://127.0.0.1:3000
+      NEXT_TELEMETRY_DISABLED: "1"
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 24
           cache: npm
-      - run: npm ci
-      - name: Require isolated UAT credentials
+      - name: Enforce UAT-only credentials
+        shell: bash
         run: |
-          test -n "$UAT_SUPABASE_PUBLISHABLE_KEY" || { echo "::error::Missing UAT_SUPABASE_PUBLISHABLE_KEY secret"; exit 1; }
-          test -n "$UAT_SUPABASE_SERVICE_ROLE_KEY" || { echo "::error::Missing UAT_SUPABASE_SERVICE_ROLE_KEY secret"; exit 1; }
-      - name: Install isolated browser test dependency
+          test -n "$UAT_SUPABASE_PUBLISHABLE_KEY" || { echo "::error::UAT publishable key missing"; exit 1; }
+          test -n "$UAT_SUPABASE_SERVICE_ROLE_KEY" || { echo "::error::UAT private key missing"; exit 1; }
+          test "$NEXT_PUBLIC_SUPABASE_URL" = "https://wibqszhvuvpjycheaxzi.supabase.co" || exit 1
+          test -z "$VERCEL_ENV" || { echo "::error::Cloud deployment forbidden"; exit 1; }
+      - name: Install project dependencies
+        run: npm ci
+      - name: Install browser test runner
         run: npm install --no-save --package-lock=false playwright
-      - run: npx playwright install --with-deps chromium
-      - name: Browser UAT against isolated Preview
+      - name: Install Chromium, Firefox and WebKit
+        run: npx playwright install --with-deps chromium firefox webkit
+      - name: Build local UAT application
+        run: npm run build
+      - name: Real browser signup and responsive tests
         run: node tests/uat-browser.mjs
+      - name: Upload UAT evidence (even on failure)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: uat-registro-multiformato
+          path: test-results/
+          if-no-files-found: warn
+          retention-days: 7
