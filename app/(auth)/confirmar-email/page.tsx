@@ -1,16 +1,16 @@
 import Link from "next/link";
 import "@/styles/public.css";
+import "@/styles/confirm-email-compact.css";
 
 export default function ConfirmarEmailPage() {
   return (
-    <div className="auth-page">
-      <div className="auth-card">
+    <div className="auth-page rc-email-confirm-page">
+      <div className="auth-card rc-email-confirm-card">
         <div className="auth-header">
           <div className="confirm-icon">📬</div>
           <h1 className="auth-title">Revisá tu email</h1>
           <p className="auth-subtitle">
-            Te enviamos un link de confirmación. Hacé click en el link para
-            activar tu cuenta.
+            Te enviamos un enlace de confirmación para activar tu cuenta.
           </p>
         </div>
 

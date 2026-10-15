@@ -201,6 +201,8 @@ export default async function ServiciosRuralesPage({
           <Link href={`/campos?pais=${pais}`}>Ver campos →</Link>
         </nav>
 
+        <Link href={`/campos/mapa?${mapParams.toString()}`} className="listing-button rc-map-before-listings">Ver en mapa →</Link>
+
         <div className="explorador-main">
           {prestadores.length > 0 ? (
             <div className="servicios-prestadores-grid">
@@ -289,7 +291,6 @@ export default async function ServiciosRuralesPage({
               provinciaInicial={provincia}
               servicioInicial={servicioValido}
             />
-            <Link href={`/campos/mapa?${mapParams.toString()}`} className="listing-button rc-map-after-filters">Ver en mapa →</Link>
           </aside>
         </div>
       </section>

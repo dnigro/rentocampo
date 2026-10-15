@@ -91,6 +91,8 @@ export default async function CamposListing({ params, titulo, descripcion, soloA
         <Link href={`/servicios-rurales?pais=${pais}`}>Ver servicios rurales →</Link>
       </nav>
 
+      <Link href={`/campos/mapa?${mapParams}`} className="listing-button rc-map-before-listings">Ver en mapa →</Link>
+
       <main className="explorador-main">
         <div className="explorador-contenido">
           <section className="explorador-resultados">
@@ -134,7 +136,6 @@ export default async function CamposListing({ params, titulo, descripcion, soloA
             )}
             <aside className="explorador-sidebar explorador-sidebar-bottom" aria-label="Filtrar campos">
               <CampoFiltros filtrosActivos={{ ...params, pais }} />
-              <Link href={`/campos/mapa?${mapParams}`} className="listing-button rc-map-after-filters">Ver en mapa →</Link>
             </aside>
           </section>
 

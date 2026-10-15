@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import RegionalLink from "@/components/layout/RegionalLink";
 import heroCampoMobile from "@/public/rentocampo-hero-campo-bn-1920x1080.webp";
 
 export default function LandingHero() {
@@ -7,6 +8,7 @@ export default function LandingHero() {
     <section className="editorialHero" id="hero">
       <div className="editorialHero__content">
         <div className="editorialHero__desktopImpact">
+          <p className="editorialHero__regionalLabel">AR · UY · PY</p>
           <div className="editorialHero__desktopTitleRow">
             <h1 className="editorialHero__desktopTitle">
               <span className="editorialHero__desktopYellow">#1 Red Federal</span>
@@ -28,6 +30,7 @@ export default function LandingHero() {
           </p>
 
           <div className="editorialHero__desktopActions">
+            <RegionalLink href="/register" className="editorialHero__registerCta"><span>Registrarse</span><span aria-hidden="true">→</span></RegionalLink>
             <Link href="/campos" className="editorialHero__desktopPrimary"><span className="editorialHero__desktopPrimaryLabel"><span>Ver campos</span></span><span aria-hidden="true">→</span></Link>
             <Link href="/servicios-rurales" className="editorialHero__desktopService"><span>Ver servicios</span><span aria-hidden="true">→</span></Link>
           </div>
@@ -57,7 +60,7 @@ export default function LandingHero() {
         </div>
 
         <p className="editorialHero__proof">
-          De cada región productiva de la Argentina, para todo el país
+          Tierras productivas de Argentina, Uruguay y Paraguay
         </p>
       </div>
 
@@ -73,7 +76,7 @@ export default function LandingHero() {
         />
         <Image
           src={heroCampoMobile}
-          alt="Tierra productiva argentina vista desde el campo"
+          alt="Tierra productiva de la región vista desde el campo"
           fill
           priority
           placeholder="blur"
@@ -81,7 +84,7 @@ export default function LandingHero() {
           className="editorialHero__image editorialHero__image--mobile"
         />
         <p className="editorialHero__territory" aria-hidden="true">
-          Argentina / Una red federal
+          Una Red Regional
         </p>
 
       </div>

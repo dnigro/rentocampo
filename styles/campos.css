@@ -1038,3 +1038,17 @@
   font-size: 11px;
   font-weight: 800;
 }
+
+/* Campo: señalización visible y accesible del desplegable de operación. */
+.app-shell .campo-form .rc-operation-select { position: relative; width: 100%; }
+.app-shell .campo-form .rc-operation-select select {
+  display: block; width: 100%; cursor: pointer;
+  appearance: none !important; -webkit-appearance: none !important;
+  background-image: none !important; padding-right: 52px !important;
+}
+.app-shell .campo-form .rc-operation-chevron {
+  position: absolute; top: 50%; right: 19px;
+  width: 12px; height: 12px;
+  border-right: 2px solid #26332d; border-bottom: 2px solid #26332d;
+  transform: translateY(-70%) rotate(45deg); pointer-events: none;
+}
