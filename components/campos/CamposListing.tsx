@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { cookies } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
 import ListingHeader from "@/components/listings/ListingHeader";
 import CampoCard from "@/components/campos/CampoCard";
@@ -8,6 +9,8 @@ import { seleccionarCamposPublicos } from "@/lib/campos/visible-fields";
 
 export interface CamposSearchParams {
   [key: string]: string | undefined;
+  pais?: string;
+  operacion?: string;
   provincia?: string;
   aptitud?: string;
   hectareas_min?: string;
@@ -33,15 +36,18 @@ export default async function CamposListing({ params, titulo, descripcion, soloA
   const to = from + PAGE_SIZE;
   const supabase = await createClient();
 
+  const saved = (await cookies()).get("rentocampo_country")?.value;
+  const pais = ["AR", "UY", "PY"].includes(params.pais ?? "") ? params.pais! : (["AR", "UY", "PY"].includes(saved ?? "") ? saved! : "AR");
   let query = supabase
     .from("campos")
     .select("*, fotos:campos_fotos(id, url, orden, storage_path)")
     .eq("status", "activo")
-    .or("country_code.eq.AR,country_code.is.null")
+    .eq("country_code", pais)
     .order("created_at", { ascending: false });
 
   // En landings de alquiler, no presentar avisos declarados solo para venta.
   if (soloAlquiler) query = query.in("operacion", ["alquiler", "ambas"]);
+  else if (["alquiler", "venta", "ambas"].includes(params.operacion ?? "")) query = query.eq("operacion", params.operacion!);
   if (params.provincia) query = query.eq("provincia", params.provincia);
   if (params.aptitud) query = query.eq("aptitud", params.aptitud);
   if (params.hectareas_min) query = query.gte("hectareas", Number(params.hectareas_min));
@@ -124,8 +130,8 @@ export default async function CamposListing({ params, titulo, descripcion, soloA
               </div>
             )}
             <aside className="explorador-sidebar explorador-sidebar-bottom" aria-label="Filtrar campos">
-              <CampoFiltros filtrosActivos={params} />
-              <Link href="/campos/mapa" className="listing-button rc-map-after-filters">Ver en mapa →</Link>
+              <CampoFiltros filtrosActivos={{ ...params, pais }} />
+              <Link href={`/campos/mapa?pais=${pais}`} className="listing-button rc-map-after-filters">Ver en mapa →</Link>
             </aside>
           </section>
 
