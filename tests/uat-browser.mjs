@@ -23,13 +23,24 @@ if(verification.error)throw Error('UAT admin key verification failed: '+verifica
 const browser=await chromium.launch({headless:true});
 const users=[];
 const results=[];
+async function openAuthPage(page,path,expectedSelector){
+ const response=await page.goto(base+path,{waitUntil:'domcontentloaded'});
+ const status=response?.status();
+ const title=await page.title();
+ const visible=await page.locator(expectedSelector).count();
+ if(status!==200||visible===0){
+   const heading=await page.locator('h1').allTextContents();
+   const snippet=(await page.locator('body').innerText().catch(()=>'' )).slice(0,350);
+   throw Error('Auth page unavailable: path='+path+' status='+status+' finalURL='+page.url()+' title='+JSON.stringify(title)+' headings='+JSON.stringify(heading)+' body='+JSON.stringify(snippet));
+ }
+}
 async function test(name,fn){try{await fn();results.push({name,result:'PASS'});console.log('PASS',name)}catch(e){results.push({name,result:'FAIL',error:String(e)});console.error('FAIL',name,String(e))}}
 try{
  for(const country of ['AR','UY','PY']){
   await test('Registration country and role '+country,async()=>{
    const page=await browser.newPage();
    try{
-    await page.goto(base+'/register?pais='+country+'&tipo=prestador',{waitUntil:'domcontentloaded'});
+    await openAuthPage(page,'/register?pais='+country+'&tipo=prestador','#country_code');
     await page.locator('#country_code').waitFor();
     if(await page.locator('#country_code').inputValue()!==country)throw Error('country default mismatch');
     if(!await page.locator('#tipo-prestador').isChecked())throw Error('role default mismatch');
@@ -43,7 +54,7 @@ try{
    users.push(created.data.user.id);
    const page=await browser.newPage();
    try{
-    await page.goto(base+'/login',{waitUntil:'domcontentloaded'});
+    await openAuthPage(page,'/login','input[type="password"]');
     await page.locator('input[type="email"]').first().fill(email);
     await page.locator('#password').fill(password);
     await page.getByRole('button',{name:'Ingresar',exact:true}).click();
@@ -56,7 +67,7 @@ try{
  await test('Password recovery form submits to UAT Auth',async()=>{
   const page=await browser.newPage();
   try{
-   await page.goto(base+'/recuperar-contrasena',{waitUntil:'domcontentloaded'});
+   await openAuthPage(page,'/recuperar-contrasena','input[type="email"]');
    await page.locator('input[type="email"]').first().fill('uat-recovery-'+randomUUID()+'@example.invalid');
    await page.getByRole('button',{name:/enviar|recuperar|restablecer/i}).click();
    await page.getByText('Revisá tu email').waitFor({timeout:15000});
