@@ -1,0 +1,51 @@
+name: Temporary Hero Asset Preparation
+on:
+  push:
+    branches:
+      - feat/hero-regional-conversion-v1-20261015
+    paths:
+      - .github/workflows/tmp-hero-photo.yml
+
+permissions:
+  contents: write
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install image converter
+        run: python -m pip install --disable-pip-version-check pillow
+      - name: Download licensed photograph and optimize
+        run: |
+          curl --fail --location --retry 2 --max-time 50 --user-agent "Mozilla/5.0" \
+            "https://cdn.pixabay.com/photo/2020/09/08/21/47/farm-5555942_1280.jpg" -o /tmp/rural-photo.jpg
+          python - <<'PY'
+          from PIL import Image, ImageOps, ImageEnhance
+          from pathlib import Path
+          im = Image.open("/tmp/rural-photo.jpg").convert("RGB")
+          if min(im.size) < 600:
+              raise RuntimeError(f"Unexpected photo size: {im.size}")
+          # Cinematic 16:9 composition, gently muted B&W, no embedded text.
+          im = ImageOps.fit(im, (1280, 720), method=Image.Resampling.LANCZOS, centering=(.5, .55))
+          im = ImageOps.grayscale(im)
+          im = ImageEnhance.Contrast(im).enhance(.88)
+          im = ImageEnhance.Brightness(im).enhance(.83)
+          destination = Path("public/hero-regional-campo-bn.webp")
+          im.save(destination, format="WEBP", quality=79, method=6)
+          print("Photo verified and prepared: ", destination, destination.stat().st_size, "bytes")
+          PY
+      - name: Commit hero asset to PR branch only
+        run: |
+          test "$GITHUB_REF_NAME" = "feat/hero-regional-conversion-v1-20261015"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/hero-regional-campo-bn.webp
+          git commit -m "assets(hero): add optimized regional B&W rural photo from Pixabay"
+          git push origin "HEAD:$GITHUB_REF_NAME"
