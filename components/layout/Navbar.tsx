@@ -169,7 +169,7 @@ export default function Navbar() {
           {/* Acciones desktop */}
           <div className="navbar-actions navbar-desktop">
             <div className="navbar-country-switch" aria-label="Seleccionar país">
-              <select aria-label="Seleccionar país" value={activeCountry} onChange={(event) => cambiarPais(event.target.value as CountryCode)} style={{background:"#f6d65c",color:"#111",borderRadius:"20px",padding:"7px 9px",fontWeight:700,cursor:"pointer"}}>
+              <select aria-label="Seleccionar país" value={activeCountry} onChange={(event) => cambiarPais(event.target.value as CountryCode)} style={{background:"#c6a23a",color:"#111",borderRadius:"20px",padding:"7px 9px",fontWeight:700,cursor:"pointer"}}>
                 {(["AR","UY","PY"] as const).map((code) => <option key={code} value={code}>{COUNTRIES[code].flag} {code}</option>)}
               </select>
             </div>
@@ -223,7 +223,7 @@ export default function Navbar() {
           <div className="navbar-mobile-right">
             <Link href={user ? "/dashboard" : "/login"} className="navbar-mobile-account" aria-label={user ? "Mi cuenta" : "Ingresar"}>{user ? "Mi cuenta" : "Ingresar"}</Link>
             <div className="navbar-country-switch navbar-country-switch-mobile" aria-label="Seleccionar país">
-              <select aria-label="Seleccionar país" value={activeCountry} onChange={(event) => cambiarPais(event.target.value as CountryCode)} style={{background:"#f6d65c",color:"#111",borderRadius:"20px",padding:"7px",fontWeight:700}}>
+              <select aria-label="Seleccionar país" value={activeCountry} onChange={(event) => cambiarPais(event.target.value as CountryCode)} style={{background:"#c6a23a",color:"#111",borderRadius:"20px",padding:"7px",fontWeight:700}}>
                 {(["AR","UY","PY"] as const).map((code) => <option key={code} value={code}>{COUNTRIES[code].flag} {code}</option>)}
               </select>
             </div>
