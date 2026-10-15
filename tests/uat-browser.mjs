@@ -154,6 +154,30 @@ async function deepLinksAndLogins(){
   }
  }finally{await b.close()}
 }
+async function generatedConfirmationLink(){
+ const b=await chromium.launch(),c=await context(b,{width:390,height:844}),page=await c.newPage();
+ try{
+  await check("UAT token_hash signup confirmation -> real authenticated dashboard",async()=>{
+   // Admin generates a genuine Supabase signup token WITHOUT sending an email.
+   // This independently tests our confirmation route while UAT's built-in mail quota is exhausted.
+   const email="uat-link-"+randomUUID()+"@yopmail.com";
+   const response=await admin.auth.admin.generateLink({
+    type:"signup",email,password:"Uat!9"+randomUUID().replaceAll("-",""),
+    options:{data:{nombre:"UAT Link",tipo:"productor",country_code:"AR"}}
+   });
+   if(response.error)throw Error("UAT generateLink: "+response.error.message);
+   if(response.data.user?.id)userIds.push(response.data.user.id);
+   const token=response.data.properties?.hashed_token;
+   if(!token)throw Error("Supabase did not generate a signup token hash");
+   await page.goto(origin+"/auth/confirm?token_hash="+encodeURIComponent(token)+"&type=signup",{waitUntil:"domcontentloaded",timeout:22000});
+   await page.waitForURL(/\/dashboard(?:\?|$)/,{timeout:20000});
+   await page.locator(".dashboard-title").waitFor({state:"visible",timeout:12000});
+   if(response.data.user?.id)await profile(response.data.user.id,"AR","productor");
+   await overflow(page,"confirmation dashboard");
+  },page);
+ }finally{await c.close();await b.close()}
+}
+
 async function recover(){
  const b=await chromium.launch(),c=await context(b,{width:375,height:812}),page=await c.newPage();
  try{
@@ -168,7 +192,7 @@ async function recover(){
 try{
  const r=await admin.auth.admin.listUsers({page:1,perPage:1});
  if(r.error)throw Error("UAT admin verification failed: "+r.error.message);
- await start();await matrix();await deepLinksAndLogins();await register();await recover();
+ await start();await matrix();await deepLinksAndLogins();await register();await generatedConfirmationLink();await recover();
 }catch(error){results.push({name:"UAT setup",result:"FAIL",detail:String(error)});console.error(error)}
 finally{
  for(const id of userIds){const r=await admin.auth.admin.deleteUser(id);if(r.error)results.push({name:"UAT cleanup",result:"FAIL",detail:r.error.message})}
