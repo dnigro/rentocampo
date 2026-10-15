@@ -24,7 +24,8 @@ jobs:
         run: |
           test -n "$UAT_SUPABASE_PUBLISHABLE_KEY" || { echo "::error::Missing UAT_SUPABASE_PUBLISHABLE_KEY secret"; exit 1; }
           test -n "$UAT_SUPABASE_SERVICE_ROLE_KEY" || { echo "::error::Missing UAT_SUPABASE_SERVICE_ROLE_KEY secret"; exit 1; }
-      - run: npm install --no-save --package-lock=false playwright
+      - name: Install isolated browser test dependency
+        run: npm install --no-save --package-lock=false playwright
       - run: npx playwright install --with-deps chromium
       - name: Browser UAT against isolated Preview
         run: node tests/uat-browser.mjs
