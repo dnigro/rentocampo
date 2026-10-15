@@ -8,10 +8,18 @@ const base=process.env.UAT_PREVIEW_URL || 'https://rentocampo-git-feat-regional-
 const publicKey=process.env.UAT_SUPABASE_PUBLISHABLE_KEY;
 const privateKey=process.env.UAT_SUPABASE_SERVICE_ROLE_KEY;
 if(!publicKey?.startsWith('sb_publishable_') || !privateKey) throw Error('UAT-only CI secrets are required');
-const claims=JSON.parse(Buffer.from(privateKey.split('.')[1]||'','base64url').toString());
-if(claims.ref!==ref || claims.role!=='service_role') throw Error('Refusing non-UAT service key');
+if(privateKey.startsWith('eyJ')){
+  const payload=privateKey.split('.')[1];
+  if(!payload)throw Error('Malformed legacy UAT key');
+  const claims=JSON.parse(Buffer.from(payload,'base64url').toString('utf8'));
+  if(claims.ref!==ref || claims.role!=='service_role')throw Error('UAT project mismatch');
+}else if(!privateKey.startsWith('sb_secret_')){
+  throw Error('Unsupported UAT admin key format');
+}
 if(new URL(base).hostname==='rentocampo.com') throw Error('Refusing production origin');
 const admin=createClient(url,privateKey,{auth:{persistSession:false}});
+const verification=await admin.auth.admin.listUsers({page:1,perPage:1});
+if(verification.error)throw Error('UAT admin key verification failed: '+verification.error.message);
 const browser=await chromium.launch({headless:true});
 const users=[];
 const results=[];
