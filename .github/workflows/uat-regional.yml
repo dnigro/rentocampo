@@ -13,6 +13,7 @@ jobs:
       UAT_PREVIEW_URL: https://rentocampo-git-feat-regional-ar-uy-py-20261014-rento-campo.vercel.app
       UAT_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.UAT_SUPABASE_PUBLISHABLE_KEY }}
       UAT_SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.UAT_SUPABASE_SERVICE_ROLE_KEY }}
+      VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
