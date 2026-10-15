@@ -18,7 +18,7 @@ export default async function NuevoCampoPage() {
     .select("country_code")
     .eq("id", user.id)
     .single();
-  const initialCountry = profile?.country_code === "UY" ? "UY" : "AR";
+  const initialCountry = profile?.country_code === "UY" || profile?.country_code === "PY" ? profile.country_code : "AR";
 
   return (
     <div className="page-container">
