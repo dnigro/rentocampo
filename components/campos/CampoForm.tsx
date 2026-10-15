@@ -530,8 +530,10 @@ export default function CampoForm({
           <label className="form-label">
             Tipo de operación <span className="required">*</span>
           </label>
-          <select
+          <div className="rc-operation-select">
+            <select
             name="operacion"
+            aria-label="Tipo de operación"
             className="form-input form-select"
             value={form.operacion}
             onChange={handleChange}
@@ -540,7 +542,9 @@ export default function CampoForm({
             <option value="alquiler">Alquiler</option>
             <option value="venta">Venta</option>
             <option value="ambas">Alquiler y venta</option>
-          </select>
+            </select>
+            <span className="rc-operation-chevron" aria-hidden="true" />
+          </div>
           <span className="geocoder-hint">
             RentoCampo está orientado principalmente al alquiler rural. Si también evaluás vender, podés indicarlo acá.
           </span>

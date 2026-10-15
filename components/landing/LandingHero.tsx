@@ -1,89 +1,42 @@
 import Image from "next/image";
-import Link from "next/link";
-import heroCampoMobile from "@/public/rentocampo-hero-campo-bn-1920x1080.webp";
+import RegionalLink from "@/components/layout/RegionalLink";
+import heroCampo from "@/public/rentocampo-hero-campo-bn-1920x1080.webp";
 
+/**
+ * V1 regional conversion hero. The original wordmark remains in the site navbar.
+ * Preserve all downstream landing sections including the drone video.
+ */
 export default function LandingHero() {
   return (
-    <section className="editorialHero" id="hero">
-      <div className="editorialHero__content">
-        <div className="editorialHero__desktopImpact">
-          <div className="editorialHero__desktopTitleRow">
-            <h1 className="editorialHero__desktopTitle">
-              <span className="editorialHero__desktopYellow">#1 Red Federal</span>
-              <span className="editorialHero__desktopAccentLine">Gratis para el campo.</span>
-            </h1>
-          </div>
-
-          <div className="editorialHero__desktopPillars" aria-label="Propuesta de valor">
-            <span><b>+</b> Tierra productiva.</span>
-            <span><b>+</b> Productores.</span>
-            <span className="is-yellow"><b>+</b> Servicios rurales.</span>
-          </div>
-
-          <p className="editorialHero__desktopOnePlace">Todo en un solo lugar.</p>
-          <p className="editorialHero__desktopIntro">
-            Encontrá oportunidades con <strong>mapa</strong>, conectá por{" "}
-            <strong>chat online</strong> y avanzá de forma directa. <strong>REGISTRARTE,
-            PUBLICAR Y CONTACTAR ES GRATIS.</strong>
-          </p>
-
-          <div className="editorialHero__desktopActions">
-            <Link href="/campos" className="editorialHero__desktopPrimary"><span className="editorialHero__desktopPrimaryLabel"><span>Ver campos</span></span><span aria-hidden="true">→</span></Link>
-            <Link href="/servicios-rurales" className="editorialHero__desktopService"><span>Ver servicios</span><span aria-hidden="true">→</span></Link>
-          </div>
-        </div>
-
-        <div className="editorialHero__message">
-          <p className="editorialHero__eyebrow">#1 Red Federal · Gratis para el campo</p>
-          <h1>
-            <span><b className="editorialHero__plus">+</b>Tierra productiva.</span>
-            <span><b className="editorialHero__plus">+</b>Productores.</span>
-            <span className="editorialHero__highlight">
-              <b className="editorialHero__plus">+</b>Servicios rurales.
-            </span>
-            <span className="editorialHero__free">Todo en un solo lugar.</span>
-          </h1>
-
-          <p className="editorialHero__intro">
-            Encontrá oportunidades con <strong>mapa</strong>, conectá por{" "}
-            <strong>chat online</strong> y avanzá de forma directa. Registrarte,
-            publicar y contactar es <strong>gratis.</strong>
-          </p>
-
-          <div className="editorialHero__actions">
-            <Link href="/campos" className="editorialHero__primary"><span>Ver campos</span><span className="editorialHero__arrow" aria-hidden="true">→</span></Link>
-            <Link href="/servicios-rurales" className="editorialHero__service"><span>Ver servicios</span><span className="editorialHero__arrow" aria-hidden="true">→</span></Link>
-          </div>
-        </div>
-
-        <p className="editorialHero__proof">
-          De cada región productiva de la Argentina, para todo el país
+    <section className="rc-hero-conversion" id="hero" aria-labelledby="rc-hero-conversion-title">
+      <Image
+        src={heroCampo}
+        alt="Panorama de campos productivos y actividad rural"
+        fill
+        priority
+        placeholder="blur"
+        sizes="100vw"
+        className="rc-hero-conversion__photo"
+      />
+      <div className="rc-hero-conversion__shade" aria-hidden="true" />
+      <div className="rc-hero-conversion__body">
+        <p className="rc-hero-conversion__eyebrow">Argentina · Uruguay · Paraguay</p>
+        <h1 id="rc-hero-conversion-title">
+          Registrate en la primera red federal de{" "}
+          <span>servicios y tierras productivas</span> de la región.
+        </h1>
+        <p className="rc-hero-conversion__lead">
+          Registrarte y contactar es gratis. Publicá tu primer campo o tus
+          servicios rurales sin costo.
         </p>
-      </div>
-
-      <div className="editorialHero__visual">
-        <Image
-          src={heroCampoMobile}
-          alt="Vacas y tambo en un entorno productivo rural"
-          fill
-          priority
-          placeholder="blur"
-          sizes="(min-width: 901px) 54vw, 1px"
-          className="editorialHero__image editorialHero__image--desktop"
-        />
-        <Image
-          src={heroCampoMobile}
-          alt="Tierra productiva argentina vista desde el campo"
-          fill
-          priority
-          placeholder="blur"
-          sizes="(max-width: 900px) 100vw, 1px"
-          className="editorialHero__image editorialHero__image--mobile"
-        />
-        <p className="editorialHero__territory" aria-hidden="true">
-          Argentina / Una red federal
-        </p>
-
+        <div className="rc-hero-conversion__buttons">
+          <RegionalLink href="/register" className="rc-hero-conversion__btn rc-hero-conversion__btn--primary">
+            Registrarme gratis <span aria-hidden="true">→</span>
+          </RegionalLink>
+          <RegionalLink href="/campos" className="rc-hero-conversion__btn rc-hero-conversion__btn--secondary">
+            Ver campos <span aria-hidden="true">→</span>
+          </RegionalLink>
+        </div>
       </div>
     </section>
   );

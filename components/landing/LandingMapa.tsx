@@ -7,9 +7,9 @@ export default function LandingMapa() {
     <section className="rc-map-section" id="visibilidad">
       <div className="rc-shell">
         <div className="rc-map-copy">
-          <p className="rc-kicker">Campos en todo el país</p>
-          <h2 className="rc-map-title">La Primera Red Federal</h2>
-          <p>Buscá campos en alquiler en Argentina, por provincia y aptitud agrícola, ganadera o mixta.</p>
+          <p className="rc-kicker">Tierras productivas en la región</p>
+          <h2 className="rc-map-title">La red federal del campo</h2>
+          <p>Buscá campos disponibles en Argentina, Uruguay y Paraguay, por zona y aptitud agrícola, ganadera o mixta.</p>
           <p className="rc-map-emphasis">
             Conectamos oportunidades en cada región productiva.{" "}
             <Link href="/alquiler-de-campos">Explorar alquiler de campos →</Link>
@@ -22,7 +22,7 @@ export default function LandingMapa() {
             muted
             playsInline
             preload="metadata"
-            aria-label="Vista aérea de campos agrícolas argentinos"
+            aria-label="Vista aérea de actividad agrícola en el campo"
             onTimeUpdate={(event) => {
               const video = event.currentTarget;
               if (Number.isFinite(video.duration) && video.currentTime >= video.duration - 1.1) {

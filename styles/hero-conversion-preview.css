@@ -1,0 +1,120 @@
+/* RentoCampo V1: hero editorial regional, fotografía mate, CTA de registro prioritario.
+   No altera el video ni los componentes que siguen debajo del hero. */
+.rc-landing .rc-hero-conversion {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  align-items: center;
+  min-height: clamp(560px, 73vh, 790px);
+  overflow: hidden;
+  background: #1a1c1b;
+  color: #fff;
+}
+.rc-landing .rc-hero-conversion__photo {
+  z-index: -2;
+  object-fit: cover;
+  object-position: 63% 55%;
+  filter: grayscale(1) saturate(0) brightness(.70) contrast(.94);
+}
+.rc-landing .rc-hero-conversion__shade {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(90deg, rgba(8,11,10,.83) 0%, rgba(8,11,10,.73) 36%, rgba(8,11,10,.38) 71%, rgba(8,11,10,.13) 100%);
+}
+.rc-landing .rc-hero-conversion__body {
+  width: min(1300px, calc(100% - 96px));
+  margin: 0 auto;
+  padding: 62px 0;
+}
+.rc-landing .rc-hero-conversion__eyebrow {
+  color: #ead178;
+  font-size: clamp(12px, 1vw, 14px);
+  font-weight: 800;
+  line-height: 1.3;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+.rc-landing .rc-hero-conversion h1 {
+  max-width: min(980px, 83%);
+  margin: 20px 0 20px;
+  color: #fff;
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(48px, 5.5vw, 86px);
+  font-weight: 700;
+  letter-spacing: -.018em;
+  line-height: .94;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+.rc-landing .rc-hero-conversion h1 span { color: #e5c24b; }
+.rc-landing .rc-hero-conversion__lead {
+  max-width: 620px;
+  margin: 0;
+  color: #f4f5f3;
+  font-size: clamp(17px, 1.5vw, 23px);
+  line-height: 1.45;
+  font-weight: 500;
+}
+.rc-landing .rc-hero-conversion__buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 30px;
+}
+.rc-landing .rc-hero-conversion__btn,
+.rc-landing .rc-hero-conversion__btn:visited {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 25px;
+  min-width: 226px;
+  min-height: 60px;
+  padding: 14px 23px;
+  border: 1px solid #d7dfd9;
+  border-radius: 7px;
+  color: #fff;
+  font-family: var(--font-dm-sans), Arial, sans-serif;
+  font-size: 18px;
+  font-weight: 850;
+  line-height: 1.15;
+  text-decoration: none;
+  text-transform: none;
+  box-shadow: none;
+  transition: background-color .15s, border-color .15s;
+}
+.rc-landing .rc-hero-conversion__btn--primary,
+.rc-landing .rc-hero-conversion__btn--primary:visited {
+  background: #174833;
+  border-color: #174833;
+}
+.rc-landing .rc-hero-conversion__btn--secondary,
+.rc-landing .rc-hero-conversion__btn--secondary:visited {
+  background: rgba(17, 22, 20, .83);
+}
+.rc-landing .rc-hero-conversion__btn--primary:hover { background: #235b43; border-color: #235b43; }
+.rc-landing .rc-hero-conversion__btn--secondary:hover { background: #26352e; }
+.rc-landing .rc-hero-conversion__btn:focus-visible {
+  outline: 3px solid #e5c24b;
+  outline-offset: 4px;
+}
+@media(max-width: 900px) {
+  .rc-landing .rc-hero-conversion { min-height: 580px; }
+  .rc-landing .rc-hero-conversion__body { width: calc(100% - 42px); padding: 54px 0; }
+  .rc-landing .rc-hero-conversion h1 {
+    max-width: 100%;
+    font-size: clamp(42px, 8.1vw, 66px);
+  }
+  .rc-landing .rc-hero-conversion__photo { object-position: 64% center; }
+  .rc-landing .rc-hero-conversion__shade { background: linear-gradient(90deg, rgba(8,11,10,.86), rgba(8,11,10,.53)); }
+}
+@media(max-width: 520px) {
+  .rc-landing .rc-hero-conversion { min-height: 630px; }
+  .rc-landing .rc-hero-conversion__body { width: calc(100% - 36px); padding: 34px 0; }
+  .rc-landing .rc-hero-conversion h1 { margin: 16px 0; font-size: clamp(37px, 10.1vw, 53px); line-height: 1; }
+  .rc-landing .rc-hero-conversion__lead { font-size: 16px; }
+  .rc-landing .rc-hero-conversion__buttons { display: grid; gap: 12px; margin-top: 22px; }
+  .rc-landing .rc-hero-conversion__btn { min-width: 0; width: 100%; min-height: 55px; }
+  .rc-landing .rc-hero-conversion__shade { background: rgba(8, 11, 10, .73); }
+}

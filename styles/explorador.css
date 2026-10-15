@@ -1129,3 +1129,40 @@
     padding: 20px;
   }
 }
+
+/* Mostrar mapa arriba de las fichas; los filtros siguen al final.
+   Se usa el mismo estilo y posición para campos y servicios. */
+.explorador-layout-results-first > .rc-map-before-listings,
+.explorador-layout-results-first > .rc-map-before-listings:link,
+.explorador-layout-results-first > .rc-map-before-listings:visited {
+  display: flex;
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: center;
+  grid-column: 1 / -1;
+  width: 100%;
+  max-width: 100%;
+  min-height: 67px;
+  margin: 0 0 18px;
+  padding: 15px 22px;
+  background: #161616;
+  color: #fff;
+  border: 1px solid #161616;
+  border-radius: 9px;
+  font-size: 17px;
+  font-weight: 850;
+  line-height: 1.2;
+  text-align: center;
+  text-decoration: none;
+}
+.explorador-layout-results-first > .rc-map-before-listings:hover {
+  background: #303332;
+}
+.explorador-layout-results-first > .rc-map-before-listings:focus-visible {
+  outline: 3px solid #b9952e;
+  outline-offset: 3px;
+}
+@media(max-width:900px) {
+  .explorador-layout-results-first > .rc-map-before-listings { order: 3; min-height: 60px; }
+  .explorador-layout-results-first > .explorador-main { order: 4; }
+}

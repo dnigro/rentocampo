@@ -9,18 +9,19 @@ import "@/styles/landing-marketplace.css";
 import "@/styles/landing-editorial-reference.css";
 import "@/styles/hero-editorial-stable.css";
 import "@/styles/landing-impact.css";
+import "@/styles/hero-conversion-preview.css";
 
 export const metadata: Metadata = {
-  title: "RentoCampo | Alquiler de campos y servicios rurales en Argentina",
+  title: "RentoCampo | Servicios rurales y tierras productivas en la región",
   description:
-    "Buscá campos en alquiler en Argentina: agrícolas, ganaderos y mixtos. Explorá tierras por provincia, publicá tu campo y contactá directamente a propietarios.",
+    "Registrate gratis en RentoCampo: la red regional de tierras productivas y servicios rurales de Argentina, Uruguay y Paraguay. Encontrá campos y conectá directamente.",
   keywords:
     "alquiler de campos Argentina, campos en alquiler, arrendamiento rural, campos agrícolas en alquiler, campos ganaderos, servicios rurales",
   alternates: { canonical: "https://rentocampo.com" },
   openGraph: {
-    title: "RentoCampo | La red federal del campo argentino",
+    title: "RentoCampo | Red regional de servicios y tierras productivas",
     description:
-      "Tierra productiva, productores y servicios rurales en un solo lugar. Mapa, publicaciones y chat online gratis.",
+      "Campos, productores y servicios rurales de Argentina, Uruguay y Paraguay en una sola plataforma regional.",
     type: "website",
     locale: "es_AR",
   },
