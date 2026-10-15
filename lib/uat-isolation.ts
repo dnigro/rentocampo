@@ -18,18 +18,24 @@ export function enforceUatIsolation(env: Record<string, string | undefined>) {
     ) delete env[key];
   }
 
-  if (env.NEXT_PUBLIC_SUPABASE_URL !== UAT_URL) {
-    const actual = env.NEXT_PUBLIC_SUPABASE_URL;
-    const classification = !actual
-      ? "missing"
-      : actual.trim() === UAT_URL
-        ? "uat-with-surrounding-whitespace"
-        : "different-value";
-    // Diagnostic intentionally excludes URLs, project refs, and all secrets.
-    console.error("[UAT isolation] NEXT_PUBLIC_SUPABASE_URL classification:", classification);
+  // Vercel's Supabase integration can inject a production URL across all environments.
+  // A branch-specific UAT key is required before overriding that inherited URL.
+  // Never combine a production public key with the UAT endpoint.
+  const uatPublicKey = env.UAT_SUPABASE_PUBLISHABLE_KEY;
+  if (!uatPublicKey || !uatPublicKey.startsWith("sb_publishable_")) {
     delete env.SUPABASE_SERVICE_ROLE_KEY;
-    throw new Error("UAT isolation: the regional preview must use the UAT database.");
+    throw new Error("UAT isolation: configure UAT_SUPABASE_PUBLISHABLE_KEY for the regional preview.");
   }
+  const urlStatus = !env.NEXT_PUBLIC_SUPABASE_URL
+    ? "missing"
+    : env.NEXT_PUBLIC_SUPABASE_URL === UAT_URL
+      ? "uat"
+      : "overridden-inherited-value";
+  console.info("[UAT isolation] Supabase URL status:", urlStatus);
+  env.NEXT_PUBLIC_SUPABASE_URL = UAT_URL;
+  env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY = uatPublicKey;
+  delete env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY;
+  delete env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
   const token = env.SUPABASE_SERVICE_ROLE_KEY;
   let claims: { ref?: string; role?: string } = {};
