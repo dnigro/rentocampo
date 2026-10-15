@@ -1,4 +1,4 @@
-export type CountryCode = "AR" | "UY";
+export type CountryCode = "AR" | "UY" | "PY";
 
 export const COUNTRIES = {
   AR: {
@@ -10,6 +10,16 @@ export const COUNTRIES = {
     subdivisionLabel: "Provincia",
     mapCenter: [-34, -63.5] as [number, number],
     mapZoom: 4.5,
+  },
+  PY: {
+    code: "PY" as const,
+    name: "Paraguay",
+    flag: "🇵🇾",
+    locale: "es-PY",
+    currency: "PYG",
+    subdivisionLabel: "Departamento",
+    mapCenter: [-23.7, -58.3] as [number, number],
+    mapZoom: 6,
   },
   UY: {
     code: "UY" as const,
@@ -43,4 +53,8 @@ export const DEPARTAMENTOS_UY = [
   "Soriano",
   "Tacuarembó",
   "Treinta y Tres",
+] as const;
+
+export const DEPARTAMENTOS_PY = [
+  "Alto Paraguay", "Alto Paraná", "Amambay", "Asunción", "Boquerón", "Caaguazú", "Caazapá", "Canindeyú", "Central", "Concepción", "Cordillera", "Guairá", "Itapúa", "Misiones", "Ñeembucú", "Paraguarí", "Presidente Hayes", "San Pedro",
 ] as const;
