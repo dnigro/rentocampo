@@ -1,0 +1,30 @@
+name: UAT Regional Browser
+on:
+  workflow_dispatch:
+  push:
+    branches: [feat/regional-ar-uy-py-20261014]
+permissions:
+  contents: read
+jobs:
+  regional-browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      UAT_PREVIEW_URL: https://rentocampo-git-feat-regional-ar-uy-py-20261014-rento-campo.vercel.app
+      UAT_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.UAT_SUPABASE_PUBLISHABLE_KEY }}
+      UAT_SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.UAT_SUPABASE_SERVICE_ROLE_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Require isolated UAT credentials
+        run: |
+          test -n "$UAT_SUPABASE_PUBLISHABLE_KEY" || { echo "::error::Missing UAT_SUPABASE_PUBLISHABLE_KEY secret"; exit 1; }
+          test -n "$UAT_SUPABASE_SERVICE_ROLE_KEY" || { echo "::error::Missing UAT_SUPABASE_SERVICE_ROLE_KEY secret"; exit 1; }
+      - run: npm install --no-save --package-lock=false playwright
+      - run: npx playwright install --with-deps chromium
+      - name: Browser UAT against isolated Preview
+        run: node tests/uat-browser.mjs
