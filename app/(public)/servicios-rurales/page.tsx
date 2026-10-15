@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { cookies } from "next/headers";
+import type { CountryCode } from "@/data/countries";
 import Link from "next/link";
 import Image from "next/image";
 import { createClient } from "@/lib/supabase/server";
@@ -28,6 +30,7 @@ export const metadata: Metadata = {
 };
 
 type SearchParams = {
+  pais?: string;
   provincia?: string;
   servicio?: string;
 };
@@ -76,6 +79,8 @@ export default async function ServiciosRuralesPage({
   searchParams: Promise<SearchParams>;
 }) {
   const params = await searchParams;
+  const saved = (await cookies()).get("rentocampo_country")?.value;
+  const pais: CountryCode = params.pais === "UY" || params.pais === "PY" || params.pais === "AR" ? params.pais : (saved === "UY" || saved === "PY" ? saved : "AR");
   const provincia = params.provincia ?? "";
   const servicioValido = SERVICIOS_RURALES.some((item) => item.value === params.servicio)
     ? (params.servicio as ServicioRural)
@@ -92,9 +97,10 @@ export default async function ServiciosRuralesPage({
   let demosQuery = supabase
     .from("demo_servicios_rurales")
     .select(
-      "id, nombre, bio, servicios_rurales, zona_servicio, provincia_servicio, localidad_servicio",
+      "id, nombre, bio, servicios_rurales, zona_servicio, provincia_servicio, localidad_servicio, country_code",
     )
-    .eq("activo", true);
+    .eq("activo", true)
+    .eq("country_code", pais);
 
   if (provincia) {
     demosQuery = demosQuery.eq("provincia_servicio", provincia);
@@ -118,7 +124,7 @@ export default async function ServiciosRuralesPage({
   const ownerMap = new Map((owners ?? []).map((o) => [o.id, o.nombre]));
 
   const publicacionesPrestadores: Prestador[] = (publicaciones ?? [])
-    .filter((p) => (!provincia || p.provincia === provincia) && (!servicioValido || (p.servicios_rurales ?? []).includes(servicioValido)))
+    .filter((p) => pais === "AR" && (!provincia || p.provincia === provincia) && (!servicioValido || (p.servicios_rurales ?? []).includes(servicioValido)))
     .map((p) => ({ id: p.propietario_id, publicacion_id: p.id, nombre: ownerMap.get(p.propietario_id) ?? "Prestador rural", service_photo_url: p.foto_url, servicios_rurales: p.servicios_rurales ?? [], zona_servicio: p.zona, provincia_servicio: p.provincia, localidad_servicio: p.localidad, is_demo: false }));
 
   const prestadores: Prestador[] = [
@@ -128,6 +134,8 @@ export default async function ServiciosRuralesPage({
         [
           "10000000-0000-4000-8000-000000000005",
           "10000000-0000-4000-8000-000000000010",
+          "10000000-0000-4000-8000-000000000011",
+          "10000000-0000-4000-8000-000000000012",
         ].includes(item.id),
       )
       .map((item) => ({
@@ -160,6 +168,7 @@ export default async function ServiciosRuralesPage({
   };
 
   const mapParams = new URLSearchParams({ vista: "servicios" });
+  mapParams.set("pais", pais);
   if (provincia) mapParams.set("provincia", provincia);
   if (servicioValido) mapParams.set("servicio", servicioValido);
 
@@ -267,6 +276,7 @@ export default async function ServiciosRuralesPage({
 
           <aside className="explorador-sidebar explorador-sidebar-bottom" aria-label="Filtrar servicios rurales">
             <ServiciosFiltros
+              paisInicial={pais}
               provinciaInicial={provincia}
               servicioInicial={servicioValido}
             />
