@@ -10,7 +10,7 @@
 - Aislamiento: sólo la preview de la rama regional apunta a `wibqszhvuvpjycheaxzi`. Se eliminan del proceso las credenciales heredadas Postgres, MercadoPago, Resend, cron y secretos alternativos Supabase. Clave administrativa de otro proyecto se descarta. Las páginas públicas y Auth UAT siguen disponibles; las APIs administrativas requieren la clave privada UAT correcta.
 
 ## Preparación
-La migración `20261015142007_regional_profile_service_countries.sql` ya se aplicó exclusivamente en Supabase UAT. No se aplicó a producción. Las publicaciones legacy sin país permanecen en AR; las nuevas omisiones de país se derivan del perfil una sola vez. No se reescriben los perfiles históricos ni sus roles.
+La migración `20261015214052_regional_profile_service_countries.sql` ya se aplicó exclusivamente en Supabase UAT. No se aplicó a producción. Las publicaciones legacy sin país permanecen en AR; las nuevas omisiones de país se derivan del perfil una sola vez. No se reescriben los perfiles históricos ni sus roles.
 
 La clave `SUPABASE_SERVICE_ROLE_KEY` UAT continúa en el archivo local ignorado por git. Su transferencia a Vercel sigue pendiente de aprobación explícita: no copiar secretos en comentarios, chat o repositorio. No ejecutar pruebas de escritura en una preview hasta verificar el origen UAT y configurar esta Secret exclusiva de la rama. Mantener pagos y correo transaccional deshabilitados. Supabase Auth de prueba usa el buzón ficticio autorizado.
 
@@ -42,3 +42,7 @@ El runner de integración inicia y detiene `next start` en el mismo proceso de e
 El límite de tres campos reales no cambia: #204 requiere una decisión de producto explícita. Los tickets #200–#206 permanecen abiertos hasta repetir la UAT visual. La entrega de estas correcciones no autoriza merge ni despliegue de producción.
 
 Advisor UAT: sin nuevos avisos de las funciones incorporadas. Permanecen advertencias sobre `delete_own_account` SECURITY DEFINER intencional y protección de contraseñas filtradas desactivada; no se modificaron planes ni controles pagos.
+
+
+## Pase V1 a producción (15 de octubre de 2026)
+Migración registrada por Supabase PROD con versión `20261015214052` bajo el nombre `regional_profile_service_countries`. Se conservaron 6 usuarios, 6 perfiles, 37 campos, 3 servicios y 12 demos. Los 3 servicios legados se asignaron a AR. La misma DDL fue aplicada en UAT con versión interna `20261015142105`; no ejecutar nuevamente sin revisar el historial de cada entorno. Las advertencias del Security Advisor continúan sin cambios frente a la línea base.
