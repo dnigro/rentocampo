@@ -211,6 +211,7 @@ function RegisterForm() {
               required
             >
               <option value="AR">{COUNTRIES.AR.flag} Argentina</option>
+              <option value="PY">{COUNTRIES.PY.flag} Paraguay</option>
             </select>
             <span className="form-hint">
               Usamos este dato para mostrarte campos, servicios y opciones de tu mercado.
