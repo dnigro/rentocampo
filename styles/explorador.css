@@ -1129,3 +1129,35 @@
     padding: 20px;
   }
 }
+
+/* Acceso compacto a mapa encima del listado; filtros continúan debajo. */
+.explorador-layout-results-first > .rc-map-before-listings,
+.explorador-layout-results-first > .rc-map-before-listings:link,
+.explorador-layout-results-first > .rc-map-before-listings:visited {
+  display: inline-flex;
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: center;
+  grid-column: 1 / -1;
+  width: min(100%, 286px);
+  max-width: 286px;
+  min-height: 56px;
+  justify-self: start;
+  margin: 0 0 18px;
+  padding: 12px 18px;
+  background: #161616;
+  border: 1px solid #161616;
+  border-radius: 9px;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 850;
+  line-height: 1.2;
+  text-align: center;
+  text-decoration: none;
+}
+.explorador-layout-results-first > .rc-map-before-listings:hover { background: #303332; }
+.explorador-layout-results-first > .rc-map-before-listings:focus-visible { outline: 3px solid #b9952e; outline-offset: 3px; }
+@media(max-width:900px) {
+  .explorador-layout-results-first > .rc-map-before-listings { order: 3; width: min(100%,320px); max-width: 320px; }
+  .explorador-layout-results-first > .explorador-main { order: 4; }
+}

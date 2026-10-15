@@ -1,0 +1,24 @@
+/* Pantalla de activación más compacta en web, manteniendo el diseño general. */
+.rc-email-confirm-page { padding: 28px 20px !important; min-height: calc(100svh - 72px); }
+.rc-email-confirm-page .rc-email-confirm-card {
+  width: min(100%, 720px);
+  max-width: 720px !important;
+  padding: clamp(24px, 3vw, 37px) !important;
+  border-radius: 20px;
+}
+.rc-email-confirm-page .auth-header { margin-bottom: 17px; }
+.rc-email-confirm-page .auth-title {
+  font-size: clamp(31px, 4.2vw, 51px) !important;
+  line-height: 1.08 !important;
+  letter-spacing: -.02em;
+  white-space: nowrap;
+}
+.rc-email-confirm-page .confirm-icon { margin-bottom: 7px; font-size: 33px !important; }
+.rc-email-confirm-page .auth-subtitle { max-width: 530px; margin: 0 auto; font-size: 17px; line-height: 1.45; }
+.rc-email-confirm-page .confirm-pasos { margin: 18px 0; gap: 10px; padding: 16px 19px; }
+.rc-email-confirm-page .confirm-footer { gap: 10px; }
+@media(max-width:560px) {
+  .rc-email-confirm-page .rc-email-confirm-card { padding: 22px 16px !important; }
+  .rc-email-confirm-page .auth-title { font-size: clamp(28px, 7vw, 38px) !important; }
+  .rc-email-confirm-page .auth-subtitle { font-size: 15px; }
+}

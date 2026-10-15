@@ -1,0 +1,54 @@
+/* Ajustes incrementales sobre el hero aprobado de PROD.
+   Conservar intactos composición diagonal, foto B/N, copy, videos y CTAs actuales. */
+.editorialHero__regionalLabel {
+  display: block;
+  width: fit-content;
+  margin: 0 0 12px;
+  color: #45433c;
+  font-family: var(--font-dm-sans), sans-serif;
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: .22em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+.editorialHero__registerCta,
+.editorialHero__registerCta:link,
+.editorialHero__registerCta:visited {
+  display: inline-flex !important;
+  min-height: 58px !important;
+  min-width: 0 !important;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 0 20px;
+  border: 1px solid #194b36 !important;
+  border-radius: 3px !important;
+  background: #194b36 !important;
+  color: #fff !important;
+  font-family: var(--font-dm-sans), sans-serif;
+  font-size: 16px !important;
+  font-weight: 900;
+  line-height: 1.2;
+  text-decoration: none;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.editorialHero__registerCta span { color: #fff !important; }
+.editorialHero__registerCta:hover { background: #286747 !important; border-color: #286747 !important; }
+.editorialHero__registerCta:focus-visible { outline: 3px solid #e6d87a; outline-offset: 3px; }
+@media(min-width:901px) {
+  /* Tres botones como estaban previstos, sin invadir la foto diagonal. */
+  .editorialHero__desktopActions {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0,1fr)) !important;
+    width: min(760px, 62vw) !important;
+    gap: 12px !important;
+  }
+  .editorialHero__registerCta { font-size: clamp(13px,1vw,16px) !important; }
+}
+@media(max-width:900px) {
+  .editorialHero__regionalLabel { color: #e6d87a; font-size: 12px; margin-bottom: 13px; }
+  .editorialHero__desktopActions { display: grid !important; grid-template-columns: minmax(0, 1fr) !important; }
+  .editorialHero__registerCta { width: 100%; min-height: 55px !important; font-size: 17px !important; }
+}
