@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { LandPlot, Sprout, Wrench } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -22,6 +22,13 @@ export default function RegisterForm({ initialCountry: paisInicial, initialRole:
   const [acceptedTerms, setAcceptedTerms] = useState(false);
   const router = useRouter();
   const supabase = createClient();
+  const interactionRecorded = useRef(false);
+
+  function handleFirstInteraction() {
+    if (interactionRecorded.current) return;
+    interactionRecorded.current = true;
+    trackEvent("registro_iniciado", { rol: form.tipo, pais: form.country_code });
+  }
 
   function handleChange(
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
@@ -39,16 +46,20 @@ export default function RegisterForm({ initialCountry: paisInicial, initialRole:
     setLoading(true);
 
     if (form.password.length < 6) {
+      trackEvent("registro_error", { motivo: "password_corta", rol: form.tipo, pais: form.country_code });
       setError("La contraseña debe tener al menos 6 caracteres.");
       setLoading(false);
       return;
     }
 
     if (!acceptedTerms) {
+      trackEvent("registro_error", { motivo: "terminos", rol: form.tipo, pais: form.country_code });
       setError("Para crear tu cuenta, aceptá los términos y condiciones.");
       setLoading(false);
       return;
     }
+
+    trackEvent("registro_enviado", { rol: form.tipo, pais: form.country_code });
 
     // Construir la URL de callback dinámicamente según el entorno
     const origin = window.location.origin;
@@ -77,13 +88,24 @@ export default function RegisterForm({ initialCountry: paisInicial, initialRole:
         normalizedError.includes("already been registered") ||
         error.code === "user_already_exists";
 
+      const isEmailLimit =
+        error.code === "over_email_send_rate_limit" ||
+        normalizedError.includes("email rate limit");
+      trackEvent("registro_error", {
+        motivo: isDuplicateAccount ? "cuenta_existente" : isEmailLimit ? "limite_email" : "error_auth",
+        rol: form.tipo,
+        pais: form.country_code,
+      });
+
       if (isDuplicateAccount) {
         setAccountExists(true);
       } else {
         setError(
-          normalizedError.includes("password")
-            ? "La contraseña no cumple los requisitos mínimos."
-            : `No pudimos crear la cuenta: ${error.message}`,
+          isEmailLimit
+            ? "Ahora no podemos enviar el correo de activación. Probá nuevamente más tarde."
+            : normalizedError.includes("password")
+              ? "La contraseña no cumple los requisitos mínimos."
+              : `No pudimos crear la cuenta: ${error.message}`,
         );
       }
       setLoading(false);
@@ -98,6 +120,7 @@ export default function RegisterForm({ initialCountry: paisInicial, initialRole:
       data.user.identities.length === 0;
 
     if (isObfuscatedExistingAccount) {
+      trackEvent("registro_error", { motivo: "cuenta_existente", rol: form.tipo, pais: form.country_code });
       setAccountExists(true);
       setLoading(false);
       return;
@@ -108,7 +131,16 @@ export default function RegisterForm({ initialCountry: paisInicial, initialRole:
       pais: form.country_code,
     });
 
-    // Redirigir a página de confirmación
+    // Si Auth devuelve sesión, no existe un correo pendiente que confirmar.
+    if (data.session) {
+      router.replace("/dashboard");
+      return;
+    }
+
+    trackEvent("registro_pendiente_confirmacion", {
+      rol: form.tipo,
+      pais: form.country_code,
+    });
     router.push("/confirmar-email");
   }
 
@@ -120,7 +152,7 @@ export default function RegisterForm({ initialCountry: paisInicial, initialRole:
           <p className="auth-subtitle">Empezá a usar RentoCampo gratis</p>
         </div>
 
-        <form className="auth-form" onSubmit={handleSubmit}>
+        <form className="auth-form" onSubmit={handleSubmit} onFocusCapture={handleFirstInteraction}>
           {accountExists && (
             <div className="auth-error" role="alert">
               <strong>La cuenta ya está registrada.</strong>{" "}
