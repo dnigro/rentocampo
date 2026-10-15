@@ -20,7 +20,11 @@ if(new URL(base).hostname==='rentocampo.com') throw Error('Refusing production o
 const admin=createClient(url,privateKey,{auth:{persistSession:false}});
 const verification=await admin.auth.admin.listUsers({page:1,perPage:1});
 if(verification.error)throw Error('UAT admin key verification failed: '+verification.error.message);
+const bypass=process.env.VERCEL_AUTOMATION_BYPASS_SECRET;
+if(!bypass)throw Error('Missing VERCEL_AUTOMATION_BYPASS_SECRET GitHub Actions secret for protected Preview');
 const browser=await chromium.launch({headless:true});
+const originalNewPage=browser.newPage.bind(browser);
+browser.newPage=(options={})=>originalNewPage({...options,extraHTTPHeaders:{...options.extraHTTPHeaders,'x-vercel-protection-bypass':bypass,'x-vercel-set-bypass-cookie':'true'}});
 const users=[];
 const results=[];
 async function openAuthPage(page,path,expectedSelector){
