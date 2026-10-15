@@ -1,4 +1,5 @@
-import { createClient } from "@/lib/supabase/server";
+import { createServerClient } from "@supabase/ssr";
+import { getSupabasePublicConfig } from "@/lib/supabase/config";
 import { NextResponse, type NextRequest } from "next/server";
 import type { EmailOtpType } from "@supabase/supabase-js";
 
@@ -13,18 +14,31 @@ export async function GET(request: NextRequest) {
       : "/dashboard";
 
   if (tokenHash && type) {
-    const supabase = await createClient();
+    // Verify OTP and attach every session cookie to the SAME redirect response.
+    // cookies().set alone may not carry those cookies into a separately-created
+    // NextResponse.redirect, leaving users back on /login after confirmation.
+    const successResponse = NextResponse.redirect(new URL(next, origin));
+    const { url, key } = getSupabasePublicConfig();
+    const supabase = createServerClient(url, key, {
+      cookies: {
+        getAll() {
+          return request.cookies.getAll();
+        },
+        setAll(cookiesToSet) {
+          cookiesToSet.forEach(({ name, value, options }) => {
+            request.cookies.set(name, value);
+            successResponse.cookies.set(name, value, options);
+          });
+        },
+      },
+    });
+
     const { error } = await supabase.auth.verifyOtp({
       type,
       token_hash: tokenHash,
     });
+    if (!error) return successResponse;
 
-    if (!error) {
-      return NextResponse.redirect(new URL(next, origin));
-    }
-
-    // Keep signup/confirmation failures separate from password recovery.
-    // A failed signup link must never send the user to the recovery form.
     const destination =
       type === "recovery" ? "/recuperar-contrasena" : "/login";
     const errorUrl = new URL(destination, origin);
@@ -33,8 +47,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.redirect(errorUrl);
   }
 
-  // PKCE links generated with emailRedirectTo arrive with ?code=...
-  // Delegate those to the single client callback that exchanges the code once.
+  // PKCE email links are redeemed on the client callback exactly once.
   const code = searchParams.get("code");
   if (code) {
     const callbackUrl = new URL("/auth/callback", origin);
