@@ -26,7 +26,8 @@ export default async function MapaPage({
 }: {
   searchParams: Promise<{ vista?: string; servicio?: string; pais?: string }>;
 }) {
-  const { vista, servicio } = await searchParams;
+  const { vista, servicio, pais } = await searchParams;
+  const selectedCountry: CountryCode = pais === "UY" || pais === "PY" ? pais : "AR";
   const servicioInicial = SERVICIOS_RURALES.some(
     (item) => item.value === servicio,
   )
@@ -43,7 +44,7 @@ export default async function MapaPage({
       "id, titulo, country_code, provincia, localidad, latitud, longitud, hectareas, aptitud, precio, moneda, created_at, fotos:campos_fotos(id, url, orden, storage_path)",
     )
     .eq("status", "activo")
-    .or("country_code.eq.AR,country_code.is.null");
+    .eq("country_code", selectedCountry);
 
   const { data: publicacionesServicios } = await supabase
     .from("servicios_publicaciones")
@@ -104,7 +105,7 @@ export default async function MapaPage({
         currentUserId={user?.id}
         initialVista={vista === "servicios" ? "servicios" : "tierra"}
         initialServicio={servicioInicial}
-        initialCountry="AR"
+        initialCountry={selectedCountry}
       />
     </div>
   );
