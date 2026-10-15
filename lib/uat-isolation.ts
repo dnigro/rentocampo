@@ -19,6 +19,14 @@ export function enforceUatIsolation(env: Record<string, string | undefined>) {
   }
 
   if (env.NEXT_PUBLIC_SUPABASE_URL !== UAT_URL) {
+    const actual = env.NEXT_PUBLIC_SUPABASE_URL;
+    const classification = !actual
+      ? "missing"
+      : actual.trim() === UAT_URL
+        ? "uat-with-surrounding-whitespace"
+        : "different-value";
+    // Diagnostic intentionally excludes URLs, project refs, and all secrets.
+    console.error("[UAT isolation] NEXT_PUBLIC_SUPABASE_URL classification:", classification);
     delete env.SUPABASE_SERVICE_ROLE_KEY;
     throw new Error("UAT isolation: the regional preview must use the UAT database.");
   }
