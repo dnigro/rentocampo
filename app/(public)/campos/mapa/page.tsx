@@ -12,6 +12,8 @@ import { seleccionarCamposPublicos } from "@/lib/campos/visible-fields";
 const DEMO_SERVICIO_VISIBLE_IDS = new Set<string>([
   "10000000-0000-4000-8000-000000000005",
   "10000000-0000-4000-8000-000000000010",
+  "10000000-0000-4000-8000-000000000011",
+  "10000000-0000-4000-8000-000000000012",
 ]);
 
 export const metadata: Metadata = {
