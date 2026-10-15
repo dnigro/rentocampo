@@ -21,10 +21,10 @@ export function enforceUatIsolation(env: Record<string, string | undefined>) {
   // Vercel's Supabase integration can inject a production URL across all environments.
   // A branch-specific UAT key is required before overriding that inherited URL.
   // Never combine a production public key with the UAT endpoint.
-  const uatPublicKey = env.UAT_SUPABASE_PUBLISHABLE_KEY;
+  const uatPublicKey = env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
   if (!uatPublicKey || !uatPublicKey.startsWith("sb_publishable_")) {
     delete env.SUPABASE_SERVICE_ROLE_KEY;
-    throw new Error("UAT isolation: configure UAT_SUPABASE_PUBLISHABLE_KEY for the regional preview.");
+    throw new Error("UAT isolation: configure NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY for the regional preview.");
   }
   const urlStatus = !env.NEXT_PUBLIC_SUPABASE_URL
     ? "missing"
