@@ -6,6 +6,7 @@ import { createClient } from "@/lib/supabase/client";
 import { useEffect, useState } from "react";
 import type { User } from "@supabase/supabase-js";
 import BrandWordmark from "@/components/layout/BrandWordmark";
+import { COUNTRIES, type CountryCode } from "@/data/countries";
 
 export default function Navbar() {
   const [user, setUser] = useState<User | null>(null);
@@ -13,20 +14,21 @@ export default function Navbar() {
   const [menuAbierto, setMenuAbierto] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
-  const [activeCountry, setActiveCountry] = useState<"AR" | "UY">("AR");
+  const [activeCountry, setActiveCountry] = useState<CountryCode>("AR");
   const [supabase] = useState(createClient);
 
   useEffect(() => {
-    const resolved = "AR" as const;
-    window.localStorage.setItem("rentocampo_country", resolved);
+    const stored = window.localStorage.getItem("rentocampo_country");
+    const resolved: CountryCode = stored === "UY" || stored === "PY" ? stored : "AR";
     const syncCountry = window.setTimeout(() => setActiveCountry(resolved), 0);
     return () => window.clearTimeout(syncCountry);
   }, [pathname]);
 
-  function cambiarPais(country: "AR" | "UY") {
+  function cambiarPais(country: CountryCode) {
     setActiveCountry(country);
     window.localStorage.setItem("rentocampo_country", country);
     router.push(`/campos/mapa?pais=${country}`);
+    router.refresh();
   }
 
   useEffect(() => {
@@ -166,14 +168,9 @@ export default function Navbar() {
           {/* Acciones desktop */}
           <div className="navbar-actions navbar-desktop">
             <div className="navbar-country-switch" aria-label="Seleccionar país">
-              <button
-                type="button"
-                className={activeCountry === "AR" ? "active" : ""}
-                title="Ver Argentina"
-                onClick={() => cambiarPais("AR")}
-              >
-                🇦🇷 <span>AR</span>
-              </button>
+              <select aria-label="Seleccionar país" value={activeCountry} onChange={(event) => cambiarPais(event.target.value as CountryCode)} style={{background:"#f6d65c",color:"#111",borderRadius:"20px",padding:"7px 9px",fontWeight:700,cursor:"pointer"}}>
+                {(["AR","UY","PY"] as const).map((code) => <option key={code} value={code}>{COUNTRIES[code].flag} {code}</option>)}
+              </select>
             </div>
             {user ? (
               <>
@@ -225,14 +222,9 @@ export default function Navbar() {
           <div className="navbar-mobile-right">
             <Link href={user ? "/dashboard" : "/login"} className="navbar-mobile-account" aria-label={user ? "Mi cuenta" : "Ingresar"}>{user ? "Mi cuenta" : "Ingresar"}</Link>
             <div className="navbar-country-switch navbar-country-switch-mobile" aria-label="Seleccionar país">
-              <button
-                type="button"
-                className={activeCountry === "AR" ? "active" : ""}
-                title="Ver Argentina"
-                onClick={() => cambiarPais("AR")}
-              >
-                🇦🇷 <span>AR</span>
-              </button>
+              <select aria-label="Seleccionar país" value={activeCountry} onChange={(event) => cambiarPais(event.target.value as CountryCode)} style={{background:"#f6d65c",color:"#111",borderRadius:"20px",padding:"7px",fontWeight:700}}>
+                {(["AR","UY","PY"] as const).map((code) => <option key={code} value={code}>{COUNTRIES[code].flag} {code}</option>)}
+              </select>
             </div>
             {user && (
               <Link
