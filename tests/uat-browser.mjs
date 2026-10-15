@@ -108,6 +108,15 @@ async function login(user,size){
  }finally{await c.close();await b.close()}
 }
 async function register(){
+ // SMTP is external infrastructure: the hosted UAT project currently rejects
+ // new signup email sends with over_email_send_rate_limit. Do not repeatedly
+ // consume Auth quotas or misrepresent this test as passing.
+ if(process.env.UAT_SMTP_ENABLED!=="true"){
+  const name="Public signup + actual email delivery";
+  results.push({name,result:"BLOCKED",detail:"Hosted UAT email quota; set UAT_SMTP_ENABLED=true only after configuring isolated test SMTP."});
+  console.log("BLOCKED "+name+" (UAT SMTP unconfigured, no production traffic)");
+  return;
+ }
  const b=await chromium.launch(),c=await context(b,{width:390,height:844}),page=await c.newPage();
  const u={email:"uat-reg-"+randomUUID()+"@yopmail.com",password:"Uat!9"+randomUUID().replaceAll("-",""),country:"AR",role:"propietario"};
  try{
@@ -169,8 +178,12 @@ async function generatedConfirmationLink(){
    if(response.data.user?.id)userIds.push(response.data.user.id);
    const token=response.data.properties?.hashed_token;
    if(!token)throw Error("Supabase did not generate a signup token hash");
-   await page.goto(origin+"/auth/confirm?token_hash="+encodeURIComponent(token)+"&type=signup",{waitUntil:"domcontentloaded",timeout:22000});
-   await page.waitForURL(/\/dashboard(?:\?|$)/,{timeout:20000});
+   await page.goto(origin+"/auth/confirm?token_hash="+encodeURIComponent(token)+"&type=email",{waitUntil:"domcontentloaded",timeout:22000});
+   await page.waitForURL(url=>["/dashboard","/login"].includes(new URL(url).pathname),{timeout:20000});
+   if(new URL(page.url()).pathname!=="/dashboard"){
+    const hints=await page.locator(".auth-error, .auth-subtitle, h1").allTextContents();
+    throw Error("Token was not confirmed into a browser session; final="+page.url()+"; screen="+hints.slice(0,4).join(" / "));
+   }
    await page.locator(".dashboard-title").waitFor({state:"visible",timeout:12000});
    if(response.data.user?.id)await profile(response.data.user.id,"AR","productor");
    await overflow(page,"confirmation dashboard");
@@ -197,8 +210,9 @@ try{
 finally{
  for(const id of userIds){const r=await admin.auth.admin.deleteUser(id);if(r.error)results.push({name:"UAT cleanup",result:"FAIL",detail:r.error.message})}
  if(child)child.kill("SIGINT");
- writeFileSync("test-results/uat-responsive.json",JSON.stringify({date:new Date().toISOString(),target:"localhost Next + Supabase UAT only",engines:Object.keys(engines),viewports,results,notes:"Actual browser signup uses UAT Auth; confirmation via UAT admin. Does not verify inbox delivery. GA4 calls blocked."},null,2));
+ writeFileSync("test-results/uat-responsive.json",JSON.stringify({date:new Date().toISOString(),target:"localhost Next + Supabase UAT only",engines:Object.keys(engines),viewports,results,notes:"Browser E2E login, recovery, token-hash confirmation against isolated UAT. Hosted UAT SMTP delivery is explicitly BLOCKED unless dedicated SMTP enabled. GA4 blocked."},null,2));
 }
-const failed=results.filter(r=>r.result!=="PASS").length;
-console.log("UAT CROSS-FORMAT: "+(results.length-failed)+" PASS; "+failed+" FAIL");
+const failed=results.filter(r=>r.result==="FAIL").length;
+const blocked=results.filter(r=>r.result==="BLOCKED").length;
+console.log("UAT CROSS-FORMAT: "+results.filter(r=>r.result==="PASS").length+" PASS; "+failed+" FAIL; "+blocked+" BLOCKED (SMTP delivery not certified)");
 if(failed)process.exitCode=1;

@@ -5,6 +5,10 @@ on:
   push:
     branches: [feat/regional-ar-uy-py-20261014]
 
+concurrency:
+  group: uat-registro-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
 
@@ -21,6 +25,7 @@ jobs:
       UAT_SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.UAT_SUPABASE_SERVICE_ROLE_KEY }}
       NEXT_PUBLIC_APP_URL: http://127.0.0.1:3000
       NEXT_TELEMETRY_DISABLED: "1"
+      UAT_SMTP_ENABLED: "false"
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -37,7 +42,8 @@ jobs:
       - name: Install project dependencies
         run: npm ci
       - name: Install browser test runner
-        run: npm install --no-save --package-lock=false playwright
+        timeout-minutes: 4
+        run: npm install --no-save --package-lock=false --prefer-offline --no-audit --no-fund --fetch-retries=1 --fetch-timeout=30000 playwright
       - name: Install Chromium, Firefox and WebKit
         run: npx playwright install --with-deps chromium firefox webkit
       - name: Build local UAT application
