@@ -35,15 +35,15 @@ function esCampoDemo(campo: CampoVisible) {
 export function seleccionarCamposPublicos<T extends CampoVisible>(
   campos: T[],
 ): T[] {
-  const argentina = campos.filter(
-    (campo) => !campo.country_code || campo.country_code === "AR",
+  const regionales = campos.filter(
+    (campo) => !campo.country_code || ["AR", "UY", "PY"].includes(campo.country_code),
   );
 
-  const demos = argentina.filter((campo) =>
+  const demos = regionales.filter((campo) =>
     DEMO_CAMPO_VISIBLE_IDS.has(campo.id),
   );
 
-  const reales = argentina
+  const reales = regionales
     .filter((campo) => !esCampoDemo(campo))
     .sort((a, b) => {
       const fechaA = a.created_at ? new Date(a.created_at).getTime() : 0;
