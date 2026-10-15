@@ -5,6 +5,7 @@ import { SERVICIOS_RURALES } from "@/data/servicios-rurales";
 import type { CountryCode } from "@/data/countries";
 import type { ServicioRural } from "@/types";
 import type { Metadata } from "next";
+import { cookies } from "next/headers";
 import "@/styles/mapa.css";
 import { seleccionarCamposPublicos } from "@/lib/campos/visible-fields";
 
@@ -27,7 +28,9 @@ export default async function MapaPage({
   searchParams: Promise<{ vista?: string; servicio?: string; pais?: string }>;
 }) {
   const { vista, servicio, pais } = await searchParams;
-  const selectedCountry: CountryCode = pais === "UY" || pais === "PY" ? pais : "AR";
+  const storedCountry = (await cookies()).get("rentocampo_country")?.value;
+  const selected = pais ?? storedCountry;
+  const selectedCountry: CountryCode = selected === "UY" || selected === "PY" ? selected : "AR";
   const servicioInicial = SERVICIOS_RURALES.some(
     (item) => item.value === servicio,
   )
