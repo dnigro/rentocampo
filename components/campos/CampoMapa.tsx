@@ -76,7 +76,7 @@ export default function CampoMapa({
     null,
   );
   const [vista, setVista] = useState<"tierra" | "servicios">(initialVista);
-  const [countryCode] = useState<CountryCode>(initialCountry);
+  const countryCode = initialCountry;
   const [mostrarCampos, setMostrarCampos] = useState(true);
   const [mapError, setMapError] = useState(false);
   const [supabase] = useState(createClient);
@@ -167,7 +167,7 @@ export default function CampoMapa({
                 ? [centroProvincia[0] + offset, centroProvincia[1] - offset]
                 : null;
           if (!position) return;
-          const esDemo = campo.id.startsWith("20000000-");
+          const esDemo = campo.id.startsWith("20000000-") || campo.titulo.toUpperCase().includes("DEMO");
           coordinates.push(position);
           L.circleMarker(position, {
             radius: 9,
@@ -313,7 +313,9 @@ export default function CampoMapa({
             src={
               countryCode === "UY"
                 ? "https://www.openstreetmap.org/export/embed.html?bbox=-58.7%2C-35.2%2C-53.0%2C-30.0&layer=mapnik"
-                : "https://www.openstreetmap.org/export/embed.html?bbox=-73.8%2C-55.3%2C-53.4%2C-21.4&layer=mapnik"
+                : countryCode === "PY"
+                  ? "https://www.openstreetmap.org/export/embed.html?bbox=-62.7%2C-27.8%2C-54.2%2C-19.2&layer=mapnik"
+                  : "https://www.openstreetmap.org/export/embed.html?bbox=-73.8%2C-55.3%2C-53.4%2C-21.4&layer=mapnik"
             }
             loading="lazy"
           />
@@ -327,7 +329,6 @@ export default function CampoMapa({
 
       {!mapError && (
         <div className="mapa-filtros" aria-label="Capas visibles del mapa">
-
           <div
             className="mapa-modos"
             role="group"
@@ -397,14 +398,14 @@ export default function CampoMapa({
           >
             {vista === "tierra" ? (
               <Link
-                href="/register?tipo=propietario"
+                href={`/register?tipo=propietario&pais=${countryCode}`}
                 className="mapa-publicar-btn mapa-publicar-btn-principal"
               >
                 Publicar un campo →
               </Link>
             ) : (
               <Link
-                href={resolvedUserId ? "/mis-servicios-rurales/nuevo" : "/register?tipo=prestador"}
+                href={resolvedUserId ? "/mis-servicios-rurales/nuevo" : `/register?tipo=prestador&pais=${countryCode}`}
                 className="mapa-publicar-btn mapa-publicar-btn-principal mapa-publicar-btn-principal-servicio"
               >
                 Publicar mis servicios →
@@ -436,7 +437,7 @@ export default function CampoMapa({
           )}
           <div className="mapa-campo-tags">
             <span className="mapa-panel-aptitud">
-              {selectedCampo.id.startsWith("20000000-") ? "PUBLICACIÓN DEMO · " : ""}
+              {(selectedCampo.id.startsWith("20000000-") || selectedCampo.titulo.toUpperCase().includes("DEMO")) ? "PUBLICACIÓN DEMO · " : ""}
               {APTITUD_LABEL[selectedCampo.aptitud] ?? selectedCampo.aptitud}
             </span>
             {selectedCampo.operacion && (
@@ -494,7 +495,7 @@ export default function CampoMapa({
             publicado.
           </p>
           <Link
-            href={`/register?tipo=propietario&zona=${encodeURIComponent(selectedDemanda.zona)}`}
+            href={`/register?tipo=propietario&pais=${countryCode}&zona=${encodeURIComponent(selectedDemanda.zona)}`}
             className="mapa-panel-btn mapa-panel-btn-demanda"
           >
             Publicar campo en esta zona

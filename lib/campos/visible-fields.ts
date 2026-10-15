@@ -1,6 +1,7 @@
 export const DEMO_CAMPO_VISIBLE_IDS = new Set([
   "20000000-0000-4000-8000-000000000001",
   "20000000-0000-4000-8000-000000000004",
+  "0fa32c53-c447-4bf3-818a-83f4db63a384",
 ]);
 
 const REAL_FIELDS_LIMIT = 3;
@@ -35,15 +36,16 @@ function esCampoDemo(campo: CampoVisible) {
 export function seleccionarCamposPublicos<T extends CampoVisible>(
   campos: T[],
 ): T[] {
-  const argentina = campos.filter(
-    (campo) => !campo.country_code || campo.country_code === "AR",
+  const regionales = campos.filter(
+    (campo) => !campo.country_code || ["AR", "UY", "PY"].includes(campo.country_code),
   );
 
-  const demos = argentina.filter((campo) =>
-    DEMO_CAMPO_VISIBLE_IDS.has(campo.id),
+  const demos = regionales.filter((campo) =>
+    DEMO_CAMPO_VISIBLE_IDS.has(campo.id) ||
+    (campo.country_code !== "AR" && esCampoDemo(campo)),
   );
 
-  const reales = argentina
+  const reales = regionales
     .filter((campo) => !esCampoDemo(campo))
     .sort((a, b) => {
       const fechaA = a.created_at ? new Date(a.created_at).getTime() : 0;

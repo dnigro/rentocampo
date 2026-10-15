@@ -39,8 +39,8 @@ export type DisponibilidadCampo =
   | "a_convenir";
 
 export type OperacionCampo = "alquiler" | "venta" | "ambas";
-export type MonedaCampo = "USD" | "ARS" | "UYU";
-export type CountryCode = "AR" | "UY";
+export type MonedaCampo = "USD" | "ARS" | "UYU" | "PYG";
+export type CountryCode = "AR" | "UY" | "PY";
 
 // ============================================================
 // MODELOS

@@ -1,9 +1,32 @@
-import { createClient } from "@/lib/supabase/server";
+import { createServerClient } from "@supabase/ssr";
+import { getSupabasePublicConfig } from "@/lib/supabase/config";
 import { NextResponse, type NextRequest } from "next/server";
 import type { EmailOtpType } from "@supabase/supabase-js";
 
+function redirectOrigin(request: NextRequest): string {
+  // Next.js can normalize request.url to "localhost" even when the browser
+  // accessed 127.0.0.1. A cross-host redirect drops host-only auth cookies.
+  // On hosted deployments trust only recognized first-party/Vercel hostnames.
+  const original = new URL(request.url);
+  const fromHostHeader = request.headers.get("host");
+  const fromProxy = request.headers.get("x-forwarded-host");
+  const valid = (value: string | null): value is string => {
+    if (!value || !/^[a-zA-Z0-9.-]+(?::[0-9]{1,5})?$/.test(value)) return false;
+    const hostname = value.split(":")[0].toLowerCase();
+    return hostname === "127.0.0.1" || hostname === "localhost" ||
+      hostname === "rentocampo.com" || hostname === "www.rentocampo.com" ||
+      hostname.endsWith(".vercel.app");
+  };
+  const preferred = process.env.VERCEL ? [fromProxy, fromHostHeader] : [fromHostHeader, fromProxy];
+  const publicHost = preferred.find(valid) ?? original.host;
+  const forwardProtocol = request.headers.get("x-forwarded-proto");
+  const scheme = forwardProtocol === "https" || forwardProtocol === "http" ? forwardProtocol : original.protocol.slice(0, -1);
+  return `${scheme}://${publicHost}`;
+}
+
 export async function GET(request: NextRequest) {
-  const { searchParams, origin } = new URL(request.url);
+  const { searchParams } = new URL(request.url);
+  const origin = redirectOrigin(request);
   const tokenHash = searchParams.get("token_hash");
   const type = searchParams.get("type") as EmailOtpType | null;
   const requestedNext = searchParams.get("next");
@@ -13,18 +36,31 @@ export async function GET(request: NextRequest) {
       : "/dashboard";
 
   if (tokenHash && type) {
-    const supabase = await createClient();
+    // Verify OTP and attach every session cookie to the SAME redirect response.
+    // cookies().set alone may not carry those cookies into a separately-created
+    // NextResponse.redirect, leaving users back on /login after confirmation.
+    const successResponse = NextResponse.redirect(new URL(next, origin));
+    const { url, key } = getSupabasePublicConfig();
+    const supabase = createServerClient(url, key, {
+      cookies: {
+        getAll() {
+          return request.cookies.getAll();
+        },
+        setAll(cookiesToSet) {
+          cookiesToSet.forEach(({ name, value, options }) => {
+            request.cookies.set(name, value);
+            successResponse.cookies.set(name, value, options);
+          });
+        },
+      },
+    });
+
     const { error } = await supabase.auth.verifyOtp({
       type,
       token_hash: tokenHash,
     });
+    if (!error) return successResponse;
 
-    if (!error) {
-      return NextResponse.redirect(new URL(next, origin));
-    }
-
-    // Keep signup/confirmation failures separate from password recovery.
-    // A failed signup link must never send the user to the recovery form.
     const destination =
       type === "recovery" ? "/recuperar-contrasena" : "/login";
     const errorUrl = new URL(destination, origin);
@@ -33,8 +69,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.redirect(errorUrl);
   }
 
-  // PKCE links generated with emailRedirectTo arrive with ?code=...
-  // Delegate those to the single client callback that exchanges the code once.
+  // PKCE email links are redeemed on the client callback exactly once.
   const code = searchParams.get("code");
   if (code) {
     const callbackUrl = new URL("/auth/callback", origin);

@@ -1,6 +1,6 @@
 "use client";
+import RegionalLink from "@/components/layout/RegionalLink";
 
-import Link from "next/link";
 import Image from "next/image";
 import { useRef, useState } from "react";
 
@@ -65,9 +65,9 @@ export default function LandingFAQ() {
                       </div>
                     </div>
                     <div className="rc-faq-plans" aria-label="Paquetes para publicar más campos">
-                      {planes.map((plan) => <Link className="rc-faq-plan" key={plan.nombre} href="/register?tipo=propietario">
+                      {planes.map((plan) => <RegionalLink className="rc-faq-plan" key={plan.nombre} href="/register?tipo=propietario">
                         <strong>{plan.nombre}</strong><span>{plan.publicaciones}</span><b>{plan.precio}</b><em>Crear cuenta →</em>
-                      </Link>)}
+                      </RegionalLink>)}
                     </div>
                   </>}
 

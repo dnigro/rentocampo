@@ -3,23 +3,28 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { PROVINCIAS_ARG } from "@/types";
+import { COUNTRIES, DEPARTAMENTOS_UY, DEPARTAMENTOS_PY, type CountryCode } from "@/data/countries";
 import { SERVICIOS_RURALES } from "@/data/servicios-rurales";
 
 interface Props {
+  paisInicial?: CountryCode;
   provinciaInicial?: string;
   servicioInicial?: string;
 }
 
 export default function ServiciosFiltros({
+  paisInicial = "AR",
   provinciaInicial = "",
   servicioInicial = "",
 }: Props) {
   const router = useRouter();
+  const [pais, setPais] = useState<CountryCode>(paisInicial);
   const [provincia, setProvincia] = useState(provinciaInicial);
   const [servicio, setServicio] = useState(servicioInicial);
 
   function aplicar() {
     const params = new URLSearchParams();
+    params.set("pais", pais);
     if (provincia) params.set("provincia", provincia);
     if (servicio) params.set("servicio", servicio);
     const query = params.toString();
@@ -29,7 +34,7 @@ export default function ServiciosFiltros({
   function limpiar() {
     setProvincia("");
     setServicio("");
-    router.push("/servicios-rurales");
+    router.push(`/servicios-rurales?pais=${pais}`);
   }
 
   const hayFiltros = Boolean(provincia || servicio);
@@ -47,9 +52,10 @@ export default function ServiciosFiltros({
         </div>
 
         <div className="listing-filters-grid">
+          <div className="filtro-grupo"><label className="filtro-label" htmlFor="servicios-pais">País</label><select id="servicios-pais" className="filtro-input" value={pais} onChange={(e) => { setPais(e.target.value as CountryCode); setProvincia(""); }}>{(["AR","UY","PY"] as const).map((code) => <option key={code} value={code}>{COUNTRIES[code].name}</option>)}</select></div>
           <div className="filtro-grupo">
             <label className="filtro-label" htmlFor="servicios-provincia">
-              Provincia
+              {pais === "AR" ? "Provincia" : "Departamento"}
             </label>
             <select
               id="servicios-provincia"
@@ -58,7 +64,7 @@ export default function ServiciosFiltros({
               onChange={(e) => setProvincia(e.target.value)}
             >
               <option value="">Todas</option>
-              {PROVINCIAS_ARG.map((item) => (
+              {(pais === "UY" ? DEPARTAMENTOS_UY : pais === "PY" ? DEPARTAMENTOS_PY : PROVINCIAS_ARG).map((item) => (
                 <option key={item} value={item}>{item}</option>
               ))}
             </select>

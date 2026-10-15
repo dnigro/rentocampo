@@ -1,3 +1,4 @@
+import { resolveCountry } from "@/data/countries";
 import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
@@ -15,12 +16,12 @@ export default async function ServicioDetallePage({ params }: { params: Promise<
   const { data: { user } } = await supabase.auth.getUser();
 
   const { data: publicacion } = await supabase.from("servicios_publicaciones")
-    .select("id, propietario_id, servicios_rurales, foto_url, provincia, localidad, zona, detalle, activo")
+    .select("id, propietario_id, servicios_rurales, foto_url, provincia, localidad, zona, detalle, activo, country_code")
     .eq("id", id).eq("activo", true).maybeSingle();
 
   const { data: demo } = !publicacion
     ? await supabase.from("demo_servicios_rurales")
-        .select("id, nombre, bio, servicios_rurales, zona_servicio, provincia_servicio, localidad_servicio")
+        .select("id, nombre, bio, servicios_rurales, zona_servicio, provincia_servicio, localidad_servicio, country_code")
         .eq("id", id).eq("activo", true).maybeSingle()
     : { data: null };
 
@@ -30,6 +31,7 @@ export default async function ServicioDetallePage({ params }: { params: Promise<
     ? await supabase.from("profiles").select("nombre").eq("id", publicacion.propietario_id).maybeSingle()
     : { data: null };
 
+  const pais = resolveCountry(publicacion?.country_code, demo?.country_code);
   const esDemo = Boolean(demo);
   const rubros = (publicacion?.servicios_rurales ?? demo?.servicios_rurales ?? []) as ServicioRural[];
   const titulo = rubros.map((item) => SERVICIO_LABEL[item] ?? item).join(" · ");
@@ -42,7 +44,7 @@ export default async function ServicioDetallePage({ params }: { params: Promise<
 
   return (
     <div className="ficha-container servicio-ficha">
-      <Link href="/campos/mapa?vista=servicios" className="servicio-ficha-volver">
+      <Link href={`/campos/mapa?vista=servicios&pais=${pais}`} className="servicio-ficha-volver">
         ← Volver al mapa de servicios
       </Link>
 

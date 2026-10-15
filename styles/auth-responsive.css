@@ -1,0 +1,22 @@
+/* Registro legible y operable también en pantallas de 320 px. */
+@media (max-width: 600px) {
+  .auth-page-register { padding-inline: 12px; }
+  .auth-page-register .auth-card { padding: 24px 16px; max-width: 100%; }
+  .auth-page-register .auth-title { font-size: clamp(24px, 7vw, 30px); }
+  .auth-page-register .tipo-selector { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+  .auth-page-register .tipo-label {
+    display: grid;
+    grid-template-columns: 38px minmax(0, 1fr);
+    grid-template-rows: auto auto;
+    align-items: center;
+    gap: 2px 10px;
+    text-align: left;
+    padding: 11px 12px;
+    min-height: 64px;
+  }
+  .auth-page-register .tipo-emoji { grid-row: 1 / span 2; grid-column: 1; }
+  .auth-page-register .tipo-nombre { grid-row: 1; grid-column: 2; font-size: 14px; }
+  .auth-page-register .tipo-desc { grid-row: 2; grid-column: 2; font-size: 12px; }
+  .auth-page-register .form-input { width: 100%; min-width: 0; font-size: 16px; }
+  .auth-page-register .auth-form { min-width: 0; }
+}

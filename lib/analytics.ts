@@ -4,6 +4,10 @@ export type AnalyticsEventName =
   | "ofrecer_servicio"
   | "buscar_servicio"
   | "registrarse"
+  | "registro_iniciado"
+  | "registro_enviado"
+  | "registro_error"
+  | "registro_pendiente_confirmacion"
   | "enviar_mensaje"
   | "iniciar_pago"
   | "checkout_mercadopago_abierto";

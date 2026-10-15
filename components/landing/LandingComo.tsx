@@ -1,4 +1,4 @@
-import Link from "next/link";
+import RegionalLink from "@/components/layout/RegionalLink";
 
 const steps = [
   {
@@ -61,12 +61,12 @@ export default function LandingComo() {
           ))}
         </div>
 
-        <Link
+        <RegionalLink
           href="/register?tipo=propietario"
           className="rc-button rc-button-dark rc-process-cta"
         >
           Publicar mi campo gratis →
-        </Link>
+        </RegionalLink>
       </div>
     </section>
   );

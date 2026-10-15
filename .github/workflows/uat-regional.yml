@@ -1,0 +1,60 @@
+name: UAT Registro Multiformato
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [feat/regional-ar-uy-py-20261014]
+
+concurrency:
+  group: uat-registro-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  registro-browser-uat:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      # Local Next runtime, never production or the protected Vercel preview.
+      NEXT_PUBLIC_SUPABASE_URL: https://wibqszhvuvpjycheaxzi.supabase.co
+      NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.UAT_SUPABASE_PUBLISHABLE_KEY }}
+      SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.UAT_SUPABASE_SERVICE_ROLE_KEY }}
+      UAT_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.UAT_SUPABASE_PUBLISHABLE_KEY }}
+      UAT_SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.UAT_SUPABASE_SERVICE_ROLE_KEY }}
+      NEXT_PUBLIC_APP_URL: http://127.0.0.1:3000
+      NEXT_TELEMETRY_DISABLED: "1"
+      UAT_SMTP_ENABLED: "false"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - name: Enforce UAT-only credentials
+        shell: bash
+        run: |
+          test -n "$UAT_SUPABASE_PUBLISHABLE_KEY" || { echo "::error::UAT publishable key missing"; exit 1; }
+          test -n "$UAT_SUPABASE_SERVICE_ROLE_KEY" || { echo "::error::UAT private key missing"; exit 1; }
+          test "$NEXT_PUBLIC_SUPABASE_URL" = "https://wibqszhvuvpjycheaxzi.supabase.co" || exit 1
+          test -z "$VERCEL_ENV" || { echo "::error::Cloud deployment forbidden"; exit 1; }
+      - name: Install project dependencies
+        run: npm ci
+      - name: Install browser test runner
+        timeout-minutes: 4
+        run: npm install --no-save --package-lock=false --prefer-offline --no-audit --no-fund --fetch-retries=1 --fetch-timeout=30000 playwright
+      - name: Install Chromium, Firefox and WebKit
+        run: npx playwright install --with-deps chromium firefox webkit
+      - name: Build local UAT application
+        run: npm run build
+      - name: Real browser signup and responsive tests
+        run: node tests/uat-browser.mjs
+      - name: Upload UAT evidence (even on failure)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: uat-registro-multiformato
+          path: test-results/
+          if-no-files-found: warn
+          retention-days: 7
