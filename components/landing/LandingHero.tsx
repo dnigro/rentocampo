@@ -1,6 +1,6 @@
 import Image from "next/image";
 import RegionalLink from "@/components/layout/RegionalLink";
-import heroCampo from "@/public/rentocampo-hero-campo-bn-1920x1080.webp";
+// Foto rural local optimizada, separada del material del hero anterior.
 
 /**
  * V1 regional conversion hero. The original wordmark remains in the site navbar.
@@ -10,11 +10,10 @@ export default function LandingHero() {
   return (
     <section className="rc-hero-conversion" id="hero" aria-labelledby="rc-hero-conversion-title">
       <Image
-        src={heroCampo}
-        alt="Panorama de campos productivos y actividad rural"
+        src="/hero-regional-campo-bn.webp"
+        alt="Ganado pastando junto a un establecimiento rural"
         fill
         priority
-        placeholder="blur"
         sizes="100vw"
         className="rc-hero-conversion__photo"
       />
