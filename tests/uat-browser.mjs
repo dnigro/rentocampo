@@ -180,6 +180,9 @@ async function generatedConfirmationLink(){
    if(!token)throw Error("Supabase did not generate a signup token hash");
    await page.goto(origin+"/auth/confirm?token_hash="+encodeURIComponent(token)+"&type=email",{waitUntil:"domcontentloaded",timeout:22000});
    await page.waitForURL(url=>["/dashboard","/login"].includes(new URL(url).pathname),{timeout:20000});
+   if(new URL(page.url()).hostname !== new URL(origin).hostname) {
+    throw Error("Auth confirmation redirected across hosts and lost the browser's host-only cookies: "+page.url());
+   }
    if(new URL(page.url()).pathname!=="/dashboard"){
     const hints=await page.locator(".auth-error, .auth-subtitle, h1").allTextContents();
     throw Error("Token was not confirmed into a browser session; final="+page.url()+"; screen="+hints.slice(0,4).join(" / "));

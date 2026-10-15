@@ -3,8 +3,30 @@ import { getSupabasePublicConfig } from "@/lib/supabase/config";
 import { NextResponse, type NextRequest } from "next/server";
 import type { EmailOtpType } from "@supabase/supabase-js";
 
+function redirectOrigin(request: NextRequest): string {
+  // Next.js can normalize request.url to "localhost" even when the browser
+  // accessed 127.0.0.1. A cross-host redirect drops host-only auth cookies.
+  // On hosted deployments trust only recognized first-party/Vercel hostnames.
+  const original = new URL(request.url);
+  const fromHostHeader = request.headers.get("host");
+  const fromProxy = request.headers.get("x-forwarded-host");
+  const valid = (value: string | null): value is string => {
+    if (!value || !/^[a-zA-Z0-9.-]+(?::[0-9]{1,5})?$/.test(value)) return false;
+    const hostname = value.split(":")[0].toLowerCase();
+    return hostname === "127.0.0.1" || hostname === "localhost" ||
+      hostname === "rentocampo.com" || hostname === "www.rentocampo.com" ||
+      hostname.endsWith(".vercel.app");
+  };
+  const preferred = process.env.VERCEL ? [fromProxy, fromHostHeader] : [fromHostHeader, fromProxy];
+  const publicHost = preferred.find(valid) ?? original.host;
+  const forwardProtocol = request.headers.get("x-forwarded-proto");
+  const scheme = forwardProtocol === "https" || forwardProtocol === "http" ? forwardProtocol : original.protocol.slice(0, -1);
+  return `${scheme}://${publicHost}`;
+}
+
 export async function GET(request: NextRequest) {
-  const { searchParams, origin } = new URL(request.url);
+  const { searchParams } = new URL(request.url);
+  const origin = redirectOrigin(request);
   const tokenHash = searchParams.get("token_hash");
   const type = searchParams.get("type") as EmailOtpType | null;
   const requestedNext = searchParams.get("next");
