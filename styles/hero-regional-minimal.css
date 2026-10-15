@@ -52,3 +52,57 @@
   .editorialHero__desktopActions { display: grid !important; grid-template-columns: minmax(0, 1fr) !important; }
   .editorialHero__registerCta { width: 100%; min-height: 55px !important; font-size: 17px !important; }
 }
+
+/* HOTFIX — tres CTAs sin superposición ni invasión del panel fotográfico.
+   Sobrescribe los min-width heredados de la antigua grilla del hero. */
+@media (min-width: 901px) {
+  .rc-landing .editorialHero .editorialHero__desktopActions {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    width: min(100%, 700px) !important;
+    max-width: 100% !important;
+    gap: 12px !important;
+    box-sizing: border-box !important;
+  }
+  .rc-landing .editorialHero .editorialHero__desktopActions > a {
+    display: inline-flex !important;
+    box-sizing: border-box !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    min-height: 60px !important;
+    height: 60px !important;
+    padding: 0 14px !important;
+    gap: 8px !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    font-size: clamp(12px, .91vw, 15px) !important;
+    white-space: nowrap !important;
+  }
+  .rc-landing .editorialHero .editorialHero__desktopActions > a span {
+    min-width: 0;
+  }
+}
+@media (min-width: 901px) and (max-width: 1180px) {
+  /* En escritorios estrechos, un CTA arriba y los dos existentes abajo. */
+  .rc-landing .editorialHero .editorialHero__desktopActions {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    width: min(100%, 550px) !important;
+  }
+  .rc-landing .editorialHero .editorialHero__registerCta {
+    grid-column: 1 / -1;
+  }
+}
+@media (max-width: 900px) {
+  .rc-landing .editorialHero .editorialHero__desktopActions {
+    width: 100% !important;
+    max-width: 100% !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+  .rc-landing .editorialHero .editorialHero__desktopActions > a {
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+}
