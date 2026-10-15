@@ -44,8 +44,12 @@ async function open(page,path,selector){
  await page.locator(selector).first().waitFor({state:"visible",timeout:12000});
 }
 async function overflow(page,label){
- const s=await page.evaluate(()=>[document.documentElement.clientWidth,document.documentElement.scrollWidth,document.body.scrollWidth]);
- if(s[1]>s[0]+2||s[2]>s[0]+2)throw Error(label+" horizontal overflow: "+s.join("/"));
+ const s=await page.evaluate(()=>{
+  const zoom=Number.parseFloat(getComputedStyle(document.documentElement).zoom)||1;
+  return {viewport:document.documentElement.clientWidth,html:document.documentElement.scrollWidth,body:document.body.scrollWidth,zoom};
+ });
+ // A desktop CSS zoom of .8 intentionally gives 125% unscaled layout width.
+ if(s.html>s.viewport+2||s.body*s.zoom>s.viewport+2)throw Error(label+" visible horizontal overflow: "+JSON.stringify(s));
 }
 async function start(){
  child=spawn(process.execPath,["node_modules/next/dist/bin/next","start","--hostname","127.0.0.1","--port","3000"],{env:{...process.env,NEXT_TELEMETRY_DISABLED:"1"},stdio:["ignore","pipe","pipe"]});
@@ -115,13 +119,13 @@ async function register(){
    await page.getByRole("button",{name:"Crear cuenta",exact:true}).click();
    await Promise.race([
     page.waitForURL(/\/confirmar-email(?:\?|$)/,{timeout:19000}).catch(()=>{}),
-    page.locator("[role=alert]").first().waitFor({state:"visible",timeout:19000}).catch(()=>{})
+    page.locator(".auth-error[role=alert]").first().waitFor({state:"visible",timeout:19000}).catch(()=>{})
    ]);
    const listed=await admin.auth.admin.listUsers({page:1,perPage:1000});
    if(listed.error)throw Error("Cannot inspect UAT account "+listed.error.message);
    const signed=listed.data.users.find(a=>a.email===u.email);
    if(signed)userIds.push(signed.id);
-   if(!page.url().includes("/confirmar-email"))throw Error("Signup did not complete: "+(await page.locator("[role=alert]").allTextContents()).join(" "));
+   if(!page.url().includes("/confirmar-email"))throw Error("Signup did not complete: "+(await page.locator(".auth-error[role=alert]").allTextContents()).join(" "));
    if(!signed)throw Error("UI reported success but UAT Auth user absent");
    await profile(signed.id,u.country,u.role);
    const confirmed=await admin.auth.admin.updateUserById(signed.id,{email_confirm:true});
