@@ -1,6 +1,7 @@
 export const DEMO_CAMPO_VISIBLE_IDS = new Set([
   "20000000-0000-4000-8000-000000000001",
   "20000000-0000-4000-8000-000000000004",
+  "0fa32c53-c447-4bf3-818a-83f4db63a384",
 ]);
 
 const REAL_FIELDS_LIMIT = 3;
@@ -40,7 +41,8 @@ export function seleccionarCamposPublicos<T extends CampoVisible>(
   );
 
   const demos = regionales.filter((campo) =>
-    DEMO_CAMPO_VISIBLE_IDS.has(campo.id),
+    DEMO_CAMPO_VISIBLE_IDS.has(campo.id) ||
+    (campo.country_code !== "AR" && esCampoDemo(campo)),
   );
 
   const reales = regionales
