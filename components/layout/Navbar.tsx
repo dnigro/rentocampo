@@ -145,10 +145,11 @@ function NavbarContent() {
   }
 
   const enMensajes = pathname?.startsWith("/mensajes");
+  const homeEditorial = pathname === "/";
 
   return (
     <>
-      <header className="navbar">
+      <header className={homeEditorial ? "navbar rc-home-navbar" : "navbar"}>
         <div className="navbar-inner">
           <Link href="/" className="navbar-logo">
             <BrandWordmark className="brand-wordmark-nav" />
