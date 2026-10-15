@@ -167,7 +167,7 @@ export default function CampoMapa({
                 ? [centroProvincia[0] + offset, centroProvincia[1] - offset]
                 : null;
           if (!position) return;
-          const esDemo = campo.id.startsWith("20000000-");
+          const esDemo = campo.id.startsWith("20000000-") || campo.titulo.toUpperCase().includes("DEMO");
           coordinates.push(position);
           L.circleMarker(position, {
             radius: 9,
@@ -437,7 +437,7 @@ export default function CampoMapa({
           )}
           <div className="mapa-campo-tags">
             <span className="mapa-panel-aptitud">
-              {selectedCampo.id.startsWith("20000000-") ? "PUBLICACIÓN DEMO · " : ""}
+              {(selectedCampo.id.startsWith("20000000-") || selectedCampo.titulo.toUpperCase().includes("DEMO")) ? "PUBLICACIÓN DEMO · " : ""}
               {APTITUD_LABEL[selectedCampo.aptitud] ?? selectedCampo.aptitud}
             </span>
             {selectedCampo.operacion && (
