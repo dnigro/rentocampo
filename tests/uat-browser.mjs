@@ -44,7 +44,7 @@ try{
    const page=await browser.newPage();
    try{
     await page.goto(base+'/login',{waitUntil:'domcontentloaded'});
-    await page.locator('#email').fill(email);
+    await page.locator('input[type="email"]').first().fill(email);
     await page.locator('#password').fill(password);
     await page.getByRole('button',{name:'Ingresar',exact:true}).click();
     await page.waitForURL(/\/dashboard/,{timeout:20000});
@@ -57,7 +57,7 @@ try{
   const page=await browser.newPage();
   try{
    await page.goto(base+'/recuperar-contrasena',{waitUntil:'domcontentloaded'});
-   await page.locator('#email').fill('uat-recovery-'+randomUUID()+'@example.invalid');
+   await page.locator('input[type="email"]').first().fill('uat-recovery-'+randomUUID()+'@example.invalid');
    await page.getByRole('button',{name:/enviar|recuperar|restablecer/i}).click();
    await page.getByText('Revisá tu email').waitFor({timeout:15000});
   }finally{await page.close()}
