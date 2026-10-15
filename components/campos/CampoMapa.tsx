@@ -329,14 +329,6 @@ export default function CampoMapa({
 
       {!mapError && (
         <div className="mapa-filtros" aria-label="Capas visibles del mapa">
-
-          <nav className="mapa-modos" aria-label="Seleccionar país">
-            {(["AR", "UY", "PY"] as const).map((code) => (
-              <Link key={code} href={`/campos/mapa?pais=${code}&vista=${vista}`} className={countryCode === code ? "activo" : ""}>
-                {COUNTRIES[code].flag} {COUNTRIES[code].name}
-              </Link>
-            ))}
-          </nav>
           <div
             className="mapa-modos"
             role="group"
