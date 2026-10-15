@@ -12,7 +12,7 @@ function RegisterForm() {
   const searchParams = useSearchParams();
   const tipoParam = searchParams.get("tipo");
   const paisParam = searchParams.get("pais")?.toUpperCase();
-  const paisInicial: CountryCode = paisParam === "UY" ? "UY" : "AR";
+  const paisInicial: CountryCode = paisParam === "UY" || paisParam === "PY" ? paisParam : "AR";
   const tipoInicial = ["propietario", "productor", "prestador"].includes(tipoParam ?? "")
     ? tipoParam
     : "productor";
@@ -211,6 +211,7 @@ function RegisterForm() {
               required
             >
               <option value="AR">{COUNTRIES.AR.flag} Argentina</option>
+              <option value="UY">{COUNTRIES.UY.flag} Uruguay</option>
               <option value="PY">{COUNTRIES.PY.flag} Paraguay</option>
             </select>
             <span className="form-hint">
