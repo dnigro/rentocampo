@@ -1,20 +1,22 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter, usePathname } from "next/navigation";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import type { User } from "@supabase/supabase-js";
 import BrandWordmark from "@/components/layout/BrandWordmark";
-import { COUNTRIES, type CountryCode } from "@/data/countries";
+import { COUNTRIES, resolveCountry, type CountryCode } from "@/data/countries";
 
-export default function Navbar() {
+function NavbarContent() {
   const [user, setUser] = useState<User | null>(null);
   const [noLeidos, setNoLeidos] = useState(0);
   const [menuAbierto, setMenuAbierto] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
-  const [activeCountry, setActiveCountry] = useState<CountryCode>("AR");
+  const [storedCountry, setActiveCountry] = useState<CountryCode>("AR");
+  const searchParams = useSearchParams();
+  const activeCountry = resolveCountry(searchParams.get("pais"), storedCountry);
   const [supabase] = useState(createClient);
 
   useEffect(() => {
@@ -212,7 +214,7 @@ export default function Navbar() {
                 <Link href="/login" className="btn-ghost">
                   Ingresar
                 </Link>
-                <Link href={`/register?pais=${activeCountry}`} className="btn-primary">
+                <Link href={`/register?pais=${activeCountry}&tipo=propietario`} className="btn-primary">
                   Publicar campo
                 </Link>
               </>
@@ -321,7 +323,7 @@ export default function Navbar() {
                   <Link href="/login" className="mobile-menu-link">
                     Ingresar
                   </Link>
-                  <Link href={`/register?pais=${activeCountry}`} className="mobile-menu-btn">
+                  <Link href={`/register?pais=${activeCountry}&tipo=propietario`} className="mobile-menu-btn">
                     Publicar campo gratis
                   </Link>
                 </>
@@ -332,4 +334,8 @@ export default function Navbar() {
       )}
     </>
   );
+}
+
+export default function Navbar() {
+  return <Suspense fallback={null}><NavbarContent /></Suspense>;
 }

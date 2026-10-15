@@ -58,3 +58,11 @@ export const DEPARTAMENTOS_UY = [
 export const DEPARTAMENTOS_PY = [
   "Alto Paraguay", "Alto Paraná", "Amambay", "Asunción", "Boquerón", "Caaguazú", "Caazapá", "Canindeyú", "Central", "Concepción", "Cordillera", "Guairá", "Itapúa", "Misiones", "Ñeembucú", "Paraguarí", "Presidente Hayes", "San Pedro",
 ] as const;
+
+export function isCountryCode(value: unknown): value is CountryCode {
+  return value === "AR" || value === "UY" || value === "PY";
+}
+
+export function resolveCountry(value?: string | null, saved?: string | null): CountryCode {
+  return isCountryCode(value) ? value : isCountryCode(saved) ? saved : "AR";
+}

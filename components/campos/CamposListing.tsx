@@ -1,3 +1,5 @@
+import { resolveCountry } from "@/data/countries";
+import { campoFilterParams } from "@/lib/campos/filter-params";
 import Link from "next/link";
 import { cookies } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
@@ -37,7 +39,8 @@ export default async function CamposListing({ params, titulo, descripcion, soloA
   const supabase = await createClient();
 
   const saved = (await cookies()).get("rentocampo_country")?.value;
-  const pais = ["AR", "UY", "PY"].includes(params.pais ?? "") ? params.pais! : (["AR", "UY", "PY"].includes(saved ?? "") ? saved! : "AR");
+  const pais = resolveCountry(params.pais, saved);
+  const mapParams = campoFilterParams({ ...params, pais, ...(soloAlquiler ? { operacion: "alquiler_o_ambas" } : {}) });
   let query = supabase
     .from("campos")
     .select("*, fotos:campos_fotos(id, url, orden, storage_path)")
@@ -85,7 +88,7 @@ export default async function CamposListing({ params, titulo, descripcion, soloA
       />
 
       <nav className="explorador-switch" aria-label="Explorar otras publicaciones">
-        <Link href="/servicios-rurales">Ver servicios rurales →</Link>
+        <Link href={`/servicios-rurales?pais=${pais}`}>Ver servicios rurales →</Link>
       </nav>
 
       <main className="explorador-main">
@@ -126,16 +129,16 @@ export default async function CamposListing({ params, titulo, descripcion, soloA
                 <span className="empty-icon">🔍</span>
                 <p className="empty-title">Todavía no hay campos publicados en esta categoría</p>
                 <p className="empty-desc">Podés explorar el mapa o publicar un campo gratuitamente.</p>
-                <Link href="/campos" className="listing-button">Ver todos los campos</Link>
+                <Link href={`/campos?pais=${pais}`} className="listing-button">Ver todos los campos</Link>
               </div>
             )}
             <aside className="explorador-sidebar explorador-sidebar-bottom" aria-label="Filtrar campos">
               <CampoFiltros filtrosActivos={{ ...params, pais }} />
-              <Link href={`/campos/mapa?pais=${pais}`} className="listing-button rc-map-after-filters">Ver en mapa →</Link>
+              <Link href={`/campos/mapa?${mapParams}`} className="listing-button rc-map-after-filters">Ver en mapa →</Link>
             </aside>
           </section>
 
-          <DemandaZonasPanel provincia={params.provincia} />
+          {pais === "AR" && <DemandaZonasPanel provincia={params.provincia} />}
         </div>
 
         <section className="demanda-cta">
@@ -144,12 +147,12 @@ export default async function CamposListing({ params, titulo, descripcion, soloA
             <h2>¿Tenés un campo en alguna de estas zonas?</h2>
             <p>Hay productores interesados. Hacelo visible y empezá a recibir consultas directas.</p>
           </div>
-          <Link href="/register?tipo=propietario" className="demanda-cta-boton">
+          <Link href={`/register?tipo=propietario&pais=${pais}`} className="demanda-cta-boton">
             Publicar mi campo gratis →
           </Link>
         </section>
 
-        <nav className="seo-explore" aria-label="Explorar alquileres rurales">
+        {pais === "AR" && <nav className="seo-explore" aria-label="Explorar alquileres rurales">
           <p className="seo-explore-title">Explorá campos por zona y aptitud</p>
           <div className="seo-explore-links">
             <Link href="/alquiler-de-campos/buenos-aires">Buenos Aires</Link>
@@ -159,7 +162,7 @@ export default async function CamposListing({ params, titulo, descripcion, soloA
             <Link href="/alquiler-de-campos/ganaderos">Ganaderos</Link>
             <Link href="/alquiler-de-campos/mixtos">Mixtos</Link>
           </div>
-        </nav>
+        </nav>}
       </main>
     </div>
   );

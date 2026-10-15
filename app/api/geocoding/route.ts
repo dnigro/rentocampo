@@ -1,12 +1,12 @@
 import { NextResponse } from "next/server";
+import { resolveCountry } from "@/data/countries";
 
 export async function GET(request: Request) {
   const requestUrl = new URL(request.url);
   const query = requestUrl.searchParams.get("q")?.trim();
   const lat = requestUrl.searchParams.get("lat");
   const lon = requestUrl.searchParams.get("lon");
-  const country =
-    requestUrl.searchParams.get("country")?.toUpperCase() === "UY" ? "UY" : "AR";
+  const country = resolveCountry(requestUrl.searchParams.get("country")?.toUpperCase());
 
   if (!query && (!lat || !lon)) {
     return NextResponse.json({ results: [] });
@@ -42,5 +42,6 @@ export async function GET(request: Request) {
   }
 
   const result = await response.json();
-  return NextResponse.json({ results: query ? result : [result] });
+  const results = (query ? result : [result]) as { address?: { country_code?: string } }[];
+  return NextResponse.json({ results: results.filter((item) => item.address?.country_code?.toUpperCase() === country) });
 }

@@ -1,4 +1,7 @@
 import type { NextConfig } from "next";
+import { enforceUatIsolation } from "./lib/uat-isolation";
+
+enforceUatIsolation(process.env);
 
 const isDevelopment = process.env.NODE_ENV === "development";
 

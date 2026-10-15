@@ -398,14 +398,14 @@ export default function CampoMapa({
           >
             {vista === "tierra" ? (
               <Link
-                href="/register?tipo=propietario"
+                href={`/register?tipo=propietario&pais=${countryCode}`}
                 className="mapa-publicar-btn mapa-publicar-btn-principal"
               >
                 Publicar un campo →
               </Link>
             ) : (
               <Link
-                href={resolvedUserId ? "/mis-servicios-rurales/nuevo" : "/register?tipo=prestador"}
+                href={resolvedUserId ? "/mis-servicios-rurales/nuevo" : `/register?tipo=prestador&pais=${countryCode}`}
                 className="mapa-publicar-btn mapa-publicar-btn-principal mapa-publicar-btn-principal-servicio"
               >
                 Publicar mis servicios →
@@ -495,7 +495,7 @@ export default function CampoMapa({
             publicado.
           </p>
           <Link
-            href={`/register?tipo=propietario&zona=${encodeURIComponent(selectedDemanda.zona)}`}
+            href={`/register?tipo=propietario&pais=${countryCode}&zona=${encodeURIComponent(selectedDemanda.zona)}`}
             className="mapa-panel-btn mapa-panel-btn-demanda"
           >
             Publicar campo en esta zona

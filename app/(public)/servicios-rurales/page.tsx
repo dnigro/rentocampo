@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { cookies } from "next/headers";
-import type { CountryCode } from "@/data/countries";
+import { COUNTRIES, resolveCountry } from "@/data/countries";
 import Link from "next/link";
 import Image from "next/image";
 import { createClient } from "@/lib/supabase/server";
@@ -13,7 +13,7 @@ import "@/styles/servicios-rurales.css";
 
 const SITE_URL = "https://rentocampo.com";
 
-export const metadata: Metadata = {
+const baseMetadata: Metadata = {
   title: "Servicios rurales en Argentina | RentoCampo",
   description:
     "Encontrá contratistas y prestadores de cosecha, siembra, pulverización, maquinaria, transporte y otros servicios rurales en Argentina.",
@@ -34,6 +34,14 @@ type SearchParams = {
   provincia?: string;
   servicio?: string;
 };
+
+export async function generateMetadata({ searchParams }: { searchParams: Promise<SearchParams> }): Promise<Metadata> {
+  const params = await searchParams;
+  const pais = resolveCountry(params.pais, (await cookies()).get("rentocampo_country")?.value);
+  const title = `Servicios rurales en ${COUNTRIES[pais].name} | RentoCampo`;
+  const url = `${SITE_URL}/servicios-rurales?pais=${pais}`;
+  return { ...baseMetadata, title, description: `Encontrá servicios rurales en ${COUNTRIES[pais].name} por especialidad y zona.`, alternates: { canonical: url }, openGraph: { ...baseMetadata.openGraph, title, url, locale: COUNTRIES[pais].locale.replace("-", "_") } };
+}
 
 type Prestador = {
   id: string;
@@ -80,7 +88,7 @@ export default async function ServiciosRuralesPage({
 }) {
   const params = await searchParams;
   const saved = (await cookies()).get("rentocampo_country")?.value;
-  const pais: CountryCode = params.pais === "UY" || params.pais === "PY" || params.pais === "AR" ? params.pais : (saved === "UY" || saved === "PY" ? saved : "AR");
+  const pais = resolveCountry(params.pais, saved);
   const provincia = params.provincia ?? "";
   const servicioValido = SERVICIOS_RURALES.some((item) => item.value === params.servicio)
     ? (params.servicio as ServicioRural)
@@ -92,7 +100,7 @@ export default async function ServiciosRuralesPage({
   } = await supabase.auth.getUser();
   const ofrecerServiciosHref = user
     ? "/mis-servicios-rurales/nuevo"
-    : "/register?tipo=prestador";
+    : `/register?tipo=prestador&pais=${pais}`;
 
   let demosQuery = supabase
     .from("demo_servicios_rurales")
@@ -114,8 +122,9 @@ export default async function ServiciosRuralesPage({
 
   const { data: publicaciones } = await supabase
     .from("servicios_publicaciones")
-    .select("id, propietario_id, servicios_rurales, foto_url, provincia, localidad, zona, activo")
-    .eq("activo", true);
+    .select("id, propietario_id, servicios_rurales, foto_url, provincia, localidad, zona, activo, country_code")
+    .eq("activo", true)
+    .eq("country_code", pais);
 
   const ownerIds = [...new Set((publicaciones ?? []).map((p) => p.propietario_id))];
   const { data: owners } = ownerIds.length
@@ -124,7 +133,7 @@ export default async function ServiciosRuralesPage({
   const ownerMap = new Map((owners ?? []).map((o) => [o.id, o.nombre]));
 
   const publicacionesPrestadores: Prestador[] = (publicaciones ?? [])
-    .filter((p) => pais === "AR" && (!provincia || p.provincia === provincia) && (!servicioValido || (p.servicios_rurales ?? []).includes(servicioValido)))
+    .filter((p) => (!provincia || p.provincia === provincia) && (!servicioValido || (p.servicios_rurales ?? []).includes(servicioValido)))
     .map((p) => ({ id: p.propietario_id, publicacion_id: p.id, nombre: ownerMap.get(p.propietario_id) ?? "Prestador rural", service_photo_url: p.foto_url, servicios_rurales: p.servicios_rurales ?? [], zona_servicio: p.zona, provincia_servicio: p.provincia, localidad_servicio: p.localidad, is_demo: false }));
 
   const prestadores: Prestador[] = [
@@ -151,7 +160,7 @@ export default async function ServiciosRuralesPage({
     "@graph": [
       {
         "@type": "CollectionPage",
-        name: "Servicios rurales en Argentina",
+        name: `Servicios rurales en ${COUNTRIES[pais].name}`,
         description:
           "Contratistas y prestadores de servicios rurales por especialidad y zona.",
         url: `${SITE_URL}/servicios-rurales`,
@@ -189,7 +198,7 @@ export default async function ServiciosRuralesPage({
         />
 
         <nav className="explorador-switch" aria-label="Explorar otras publicaciones">
-          <Link href="/campos">Ver campos →</Link>
+          <Link href={`/campos?pais=${pais}`}>Ver campos →</Link>
         </nav>
 
         <div className="explorador-main">
@@ -198,7 +207,7 @@ export default async function ServiciosRuralesPage({
               {prestadores.map((prestador) => {
                 const servicios = prestador.servicios_rurales ?? [];
                 return (
-                  <article className="prestador-card" data-demo={prestador.is_demo ? "true" : "false"} key={`${prestador.is_demo ? "demo" : "real"}-${prestador.id}`}>
+                  <article className="prestador-card" data-demo={prestador.is_demo ? "true" : "false"} key={`${prestador.is_demo ? "demo" : "real"}-${prestador.publicacion_id ?? prestador.id}`}>
                     {prestador.service_photo_url && (
                       <div className="prestador-card__image">
                         <Image
@@ -270,7 +279,7 @@ export default async function ServiciosRuralesPage({
             <div className="servicios-empty">
               <strong>No encontramos prestadores con estos filtros.</strong>
               <p>Probá otra provincia o rubro, o limpiá los filtros.</p>
-              <Link href="/servicios-rurales">Ver todos los servicios →</Link>
+              <Link href={`/servicios-rurales?pais=${pais}`}>Ver todos los servicios →</Link>
             </div>
           )}
 

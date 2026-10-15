@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { COUNTRIES, DEPARTAMENTOS_UY, DEPARTAMENTOS_PY, resolveCountry, type CountryCode } from "@/data/countries";
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 import { FileText, Images, MapPinned } from "lucide-react";
@@ -11,6 +12,7 @@ import GeocoderInput, { type LugarSeleccionado } from "@/components/campos/Geoco
 
 interface ServicioInicial {
   id: string;
+  country_code?: CountryCode;
   servicios_rurales: ServicioRural[];
   foto_url: string;
   provincia: string;
@@ -34,10 +36,12 @@ export default function ServicioRuralForm({ profile, publicacion }: Props) {
   const [servicios, setServicios] = useState<ServicioRural[]>(
     publicacion?.servicios_rurales ?? profile?.servicios_rurales ?? [],
   );
+  const [country, setCountry] = useState<CountryCode>(resolveCountry(publicacion?.country_code, profile?.country_code));
+  const subdivisions = country === "UY" ? DEPARTAMENTOS_UY : country === "PY" ? DEPARTAMENTOS_PY : PROVINCIAS_ARG;
   const [zona, setZona] = useState(publicacion?.zona ?? profile?.zona_servicio ?? "");
   const [provincia, setProvincia] = useState(publicacion?.provincia ?? profile?.provincia_servicio ?? "");
   const [localidad, setLocalidad] = useState(publicacion?.localidad ?? profile?.localidad_servicio ?? "");
-  const [ubicacion, setUbicacion] = useState("");
+  const [ubicacion, setUbicacion] = useState([publicacion?.localidad, publicacion?.provincia].filter(Boolean).join(", "));
   const [latitud, setLatitud] = useState<number | undefined>(publicacion?.latitud ?? undefined);
   const [longitud, setLongitud] = useState<number | undefined>(publicacion?.longitud ?? undefined);
   const [detalle, setDetalle] = useState(publicacion?.detalle ?? "");
@@ -108,6 +112,7 @@ export default function ServicioRuralForm({ profile, publicacion }: Props) {
 
       const payload = {
         propietario_id: profile?.id,
+        country_code: country,
         servicios_rurales: servicios,
         foto_url: resolvedPhotoUrl,
         zona: zona || null,
@@ -216,9 +221,20 @@ export default function ServicioRuralForm({ profile, publicacion }: Props) {
       <div className="form-section">
         <h2 className="form-section-title form-section-title-editorial"><span className="form-section-number">03</span><span className="form-section-icon" aria-hidden="true"><MapPinned size={24} strokeWidth={1.8} /></span><span className="form-section-copy"><span>Zona</span> <em>de cobertura</em></span></h2>
       <div className="form-field">
+        <label className="form-label" htmlFor="servicio-pais">País</label>
+        <select id="servicio-pais" className="form-input" value={country} onChange={(e) => {
+          setCountry(e.target.value as CountryCode);
+          setProvincia(""); setLocalidad(""); setUbicacion(""); setZona("");
+          setLatitud(undefined); setLongitud(undefined);
+        }}>
+          {(["AR", "UY", "PY"] as const).map((code) => <option key={code} value={code}>{COUNTRIES[code].name}</option>)}
+        </select>
+      </div>
+      <div className="form-field">
         <label className="form-label">Buscar zona de servicio en el mapa <span className="required">*</span></label>
         <GeocoderInput
-          countryCode="AR"
+          key={country}
+          countryCode={country}
           valorInicial={ubicacion}
           onChange={setUbicacion}
           onSelect={(lugar: LugarSeleccionado) => {
@@ -237,16 +253,16 @@ export default function ServicioRuralForm({ profile, publicacion }: Props) {
       <div className="form-row">
         <div className="form-field">
           <label className="form-label">
-            Provincia principal <span className="required">*</span>
+            {COUNTRIES[country].subdivisionLabel} principal <span className="required">*</span>
           </label>
           <select
             className="form-input"
             value={provincia}
-            onChange={(e) => setProvincia(e.target.value)}
+            onChange={(e) => { setProvincia(e.target.value); setUbicacion(""); setLatitud(undefined); setLongitud(undefined); }}
             required
           >
-            <option value="">Elegí una provincia</option>
-            {PROVINCIAS_ARG.map((item) => (
+            <option value="">{country === "AR" ? "Elegí una provincia" : "Elegí un departamento"}</option>
+            {subdivisions.map((item) => (
               <option key={item} value={item}>{item}</option>
             ))}
           </select>

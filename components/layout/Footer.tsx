@@ -1,8 +1,12 @@
+import RegionalLink from "@/components/layout/RegionalLink";
+import { cookies } from "next/headers";
+import { resolveCountry } from "@/data/countries";
 import Link from "next/link";
 import "@/styles/footer.css";
 import BrandWordmark from "@/components/layout/BrandWordmark";
 
-export default function Footer() {
+export default async function Footer() {
+  const country = resolveCountry((await cookies()).get("rentocampo_country")?.value);
   return (
     <footer className="footer">
       <div className="footer-inner">
@@ -25,24 +29,24 @@ export default function Footer() {
             <Link href="/campos/mapa" className="footer-link">
               Ver mapa
             </Link>
-            <Link href="/register?tipo=productor" className="footer-link">
+            <RegionalLink href="/register?tipo=productor" fallbackCountry={country} className="footer-link">
               Cómo alquilar
-            </Link>
+            </RegionalLink>
           </nav>
         </div>
 
         <div className="footer-col">
           <h4 className="footer-col-title">Propietarios</h4>
           <nav className="footer-nav">
-            <Link href="/register?tipo=propietario" className="footer-link">
+            <RegionalLink href="/register?tipo=propietario" fallbackCountry={country} className="footer-link">
               Publicar un campo
-            </Link>
+            </RegionalLink>
             <Link href="/mis-campos" className="footer-link">
               Panel del propietario
             </Link>
-            <Link href="/register?tipo=propietario" className="footer-link">
+            <RegionalLink href="/register?tipo=propietario" fallbackCountry={country} className="footer-link">
               Cómo publicar
-            </Link>
+            </RegionalLink>
           </nav>
         </div>
 
@@ -55,9 +59,9 @@ export default function Footer() {
             <Link href="/campos/mapa?vista=servicios" className="footer-link">
               Ver mapa de servicios
             </Link>
-            <Link href="/register?tipo=prestador" className="footer-link">
+            <RegionalLink href="/register?tipo=prestador" fallbackCountry={country} className="footer-link">
               Ofrecer mis servicios
-            </Link>
+            </RegionalLink>
             <a href="mailto:hola@rentocampo.com" className="footer-link">
               hola@rentocampo.com
             </a>

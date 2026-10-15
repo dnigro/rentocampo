@@ -334,12 +334,14 @@ export default function PerfilForm({ profile, email }: Props) {
               setForm((prev) => ({
                 ...prev,
                 country_code: e.target.value as CountryCode,
+                zona_servicio: "",
                 provincia_servicio: "",
                 localidad_servicio: "",
               }))
             }
           >
             <option value="AR">{COUNTRIES.AR.flag} Argentina</option>
+            <option value="UY">{COUNTRIES.UY.flag} Uruguay</option>
             <option value="PY">{COUNTRIES.PY.flag} Paraguay</option>
           </select>
           <span className="form-hint">
@@ -458,11 +460,11 @@ export default function PerfilForm({ profile, email }: Props) {
             <div className="form-row">
               <div className="form-field">
                 <label className="form-label" htmlFor="provincia_servicio">
-                  {form.country_code === "UY" ? "Departamento principal" : "Provincia principal"}
+                  {`${COUNTRIES[form.country_code].subdivisionLabel} principal`}
                 </label>
                 <select id="provincia_servicio" name="provincia_servicio" className="form-input" value={form.provincia_servicio} onChange={handleChange}>
                   <option value="">
-                    {form.country_code === "UY" ? "Elegí un departamento" : "Elegí una provincia"}
+                    {form.country_code === "AR" ? "Elegí una provincia" : "Elegí un departamento"}
                   </option>
                   {(form.country_code === "UY" ? DEPARTAMENTOS_UY : form.country_code === "PY" ? DEPARTAMENTOS_PY : PROVINCIAS_ARG).map((provincia) => <option key={provincia} value={provincia}>{provincia}</option>)}
                 </select>
