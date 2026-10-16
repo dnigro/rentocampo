@@ -1,0 +1,156 @@
+/* EXPERIMENTO V3 — una sola foto B/N compartida por header y CTA.
+   No crear una franja separada ni repetir el fondo dentro del botón.
+   Se reutiliza la fotografía rural ya existente en /public.
+   El experimento mantiene las dimensiones y controles del header regional. */
+
+html body header.navbar.navbar-landscape-unified,
+html body .app-shell header.navbar.navbar-landscape-unified,
+html body:has(.rc-landing) header.navbar.navbar-landscape-unified {
+  isolation: isolate;
+  background: linear-gradient(90deg, rgba(13,16,15,.93) 0%, rgba(12,14,13,.78) 35%, rgba(11,15,13,.83) 62%, rgba(9,12,10,.94) 100%), url("/landing-campo-rentocampo.jpg") center 53% / cover no-repeat #161616 !important;
+  border-bottom: 1px solid rgba(255,255,255,.27) !important;
+  box-shadow: 0 3px 12px rgba(0,0,0,.18) !important;
+}
+
+html body header.navbar.navbar-landscape-unified .navbar-inner {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 1640px !important;
+  gap: clamp(12px, 1.65vw, 30px);
+}
+
+html body header.navbar.navbar-landscape-unified a.navbar-logo .brand-clean-name,
+html body header.navbar.navbar-landscape-unified a.navbar-logo .brand-clean-copy,
+html body header.navbar.navbar-landscape-unified a.navbar-logo .brand-wordmark {
+  color: #fff !important;
+}
+html body header.navbar.navbar-landscape-unified a.navbar-logo .brand-initial {
+  color: #e6d87a !important;
+}
+html body header.navbar.navbar-landscape-unified a.navbar-logo .brand-clean-tagline {
+  color: rgba(255,255,255,.86) !important;
+}
+html body header.navbar.navbar-landscape-unified .navbar-links .nav-link,
+html body header.navbar.navbar-landscape-unified .navbar-actions .btn-ghost,
+html body header.navbar.navbar-landscape-unified .navbar-actions .navbar-mensajes,
+html body header.navbar.navbar-landscape-unified .navbar-mobile-account {
+  color: #fff !important;
+  text-shadow: 0 1px 4px rgba(0,0,0,.35);
+}
+html body header.navbar.navbar-landscape-unified .navbar-links .nav-link:hover,
+html body header.navbar.navbar-landscape-unified .navbar-actions .btn-ghost:hover,
+html body header.navbar.navbar-landscape-unified .navbar-links .nav-link:focus-visible,
+html body header.navbar.navbar-landscape-unified .navbar-actions .btn-ghost:focus-visible {
+  color: #fff !important;
+  background: rgba(255,255,255,.15) !important;
+}
+
+/* El CTA no lleva una segunda imagen: la misma fotografía continúa detrás. */
+@media (min-width: 901px) {
+  html body header.navbar.navbar-landscape-unified .navbar-actions a.btn-primary.navbar-landscape-cta,
+  html body header.navbar.navbar-landscape-unified .navbar-actions a.btn-primary.navbar-landscape-cta:link,
+  html body header.navbar.navbar-landscape-unified .navbar-actions a.btn-primary.navbar-landscape-cta:visited {
+    box-sizing: border-box !important;
+    display: inline-flex !important;
+    min-width: 213px !important;
+    min-height: 69px !important;
+    height: auto !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 16px !important;
+    padding: 12px 15px !important;
+    color: #fff !important;
+    background: rgba(11,63,46,.58) !important;
+    border: 1px solid rgba(224,235,228,.63) !important;
+    border-left: 3px solid #e6d87a !important;
+    border-radius: 12px !important;
+    box-shadow: none !important;
+    text-decoration: none !important;
+    white-space: nowrap !important;
+    transition: background-color .2s, border-color .2s !important;
+  }
+  html body header.navbar.navbar-landscape-unified .navbar-actions a.btn-primary.navbar-landscape-cta:hover,
+  html body header.navbar.navbar-landscape-unified .navbar-actions a.btn-primary.navbar-landscape-cta:focus-visible {
+    color: #fff !important;
+    border-color: #e6d87a !important;
+    background: rgba(15,89,61,.82) !important;
+    outline-offset: 3px;
+  }
+  html body header.navbar.navbar-landscape-unified .navbar-landscape-cta__copy {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 5px;
+    text-align: left;
+  }
+  html body header.navbar.navbar-landscape-unified .navbar-landscape-cta__copy strong {
+    font-size: 17px;
+    line-height: 1.06;
+    font-weight: 900;
+    color: #fff;
+  }
+  html body header.navbar.navbar-landscape-unified .navbar-landscape-cta__copy small {
+    color: #e6d87a;
+    font-size: 11px;
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: .025em;
+  }
+  html body header.navbar.navbar-landscape-unified .navbar-landscape-cta__arrow {
+    flex: 0 0 20px;
+    color: #e6d87a;
+    font-size: 23px;
+    line-height: 1;
+  }
+}
+
+@media (min-width: 901px) and (max-width: 1230px) {
+  html body header.navbar.navbar-landscape-unified .navbar-inner {
+    gap: 11px !important;
+    padding-inline: 14px !important;
+  }
+  html body header.navbar.navbar-landscape-unified .brand-clean-name {
+    font-size: clamp(23px, 2.55vw, 31px) !important;
+  }
+  html body header.navbar.navbar-landscape-unified .navbar-links {
+    gap: 0;
+    min-width: 0;
+  }
+  html body header.navbar.navbar-landscape-unified .navbar-links .nav-link {
+    font-size: 13px !important;
+    padding-inline: 6px !important;
+  }
+  html body header.navbar.navbar-landscape-unified .navbar-actions {
+    gap: 5px;
+  }
+  html body header.navbar.navbar-landscape-unified .navbar-actions .btn-ghost {
+    font-size: 13px !important;
+    padding-inline: 5px !important;
+  }
+  html body header.navbar.navbar-landscape-unified .navbar-actions a.btn-primary.navbar-landscape-cta {
+    min-width: 168px !important;
+    min-height: 62px !important;
+    padding: 9px 10px !important;
+    gap: 6px !important;
+  }
+  html body header.navbar.navbar-landscape-unified .navbar-landscape-cta__copy strong { font-size: 14px; }
+  html body header.navbar.navbar-landscape-unified .navbar-landscape-cta__copy small { font-size: 10px; }
+}
+
+@media (max-width: 900px) {
+  html body header.navbar.navbar-landscape-unified,
+  html body .app-shell header.navbar.navbar-landscape-unified {
+    height: 76px !important;
+    min-height: 76px !important;
+    background-position: 45% center !important;
+  }
+  html body header.navbar.navbar-landscape-unified .navbar-mobile-account,
+  html body .app-shell header.navbar.navbar-landscape-unified .navbar-mobile-account {
+    color: #fff !important;
+  }
+  /* El CTA móvil continúa dentro del menú de navegación existente. */
+  html body header.navbar.navbar-landscape-unified .navbar-country-switch-mobile select {
+    background: #fff !important;
+    color: #141414 !important;
+  }
+}
