@@ -87,7 +87,12 @@ export default async function ServicioDetallePage({ params }: { params: Promise<
           <div className="ficha-precio-card">
             <strong className="servicio-ficha-card-titulo">{esDemo ? "Publicación demostrativa" : "Consultar servicio"}</strong>
             {esDemo ? (
-              <p className="ficha-descripcion">Este servicio es un ejemplo de RentoCampo. No representa una oferta comercial activa y no admite consultas.</p>
+              <>
+                <p className="ficha-descripcion">Este servicio es un ejemplo de RentoCampo. No representa una oferta comercial activa y no admite consultas.</p>
+                <Link href={user ? "/servicios-rurales" : `/login?next=/servicios-rurales/${id}`} className="servicio-ficha-cta">
+                  {user ? "Ver servicios disponibles →" : "Ingresá para consultar →"}
+                </Link>
+              </>
             ) : user?.id === publicacion?.propietario_id ? (
               <Link href={`/mis-servicios-rurales/${publicacion?.id}/editar`} className="servicio-ficha-cta">Editar publicación</Link>
             ) : user ? (
