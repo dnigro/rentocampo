@@ -2857,7 +2857,22 @@ html body:has(.rc-landing) header.navbar {
 /* Header regional único — Home, campos, servicios, mapas y cuenta.
    La referencia móvil es: logo, Mi cuenta y selector blanco AR/UY/PY.
    La navegación y los mensajes siguen disponibles desde las páginas de cuenta. */
+@media (min-width: 901px) {
+  html body header.navbar .navbar-mobile-right {
+    display: none !important;
+  }
+}
 @media (max-width: 900px) {
+  html body header.navbar,
+  html body .app-shell header.navbar {
+    height: 76px !important;
+    min-height: 76px !important;
+  }
+  html body header.navbar .navbar-inner,
+  html body .app-shell header.navbar .navbar-inner {
+    height: 76px !important;
+    min-height: 76px !important;
+  }
   html body header.navbar .navbar-inner,
   html body .app-shell header.navbar .navbar-inner {
     padding-inline: 12px !important;
