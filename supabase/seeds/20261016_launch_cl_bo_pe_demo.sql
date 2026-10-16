@@ -26,8 +26,8 @@ from demos cross join owner
 on conflict (id) do nothing;
 
 -- Use the already-approved demo photograph, with site asset fallback.
-insert into public.campos_fotos (campo_id, url, orden, storage_path)
-select demo.id, coalesce(foto.url, '/hero-campo.jpeg'), 0, foto.storage_path
+insert into public.campos_fotos (campo_id, propietario_id, url, orden, storage_path)
+select demo.id, (select propietario_id from public.campos where id = demo.id), coalesce(foto.url, '/hero-campo.jpeg'), 0, foto.storage_path
 from (values
   ('20000000-0000-4000-8000-000000000041'::uuid),
   ('20000000-0000-4000-8000-000000000042'::uuid),
