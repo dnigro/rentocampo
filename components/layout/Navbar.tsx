@@ -148,7 +148,16 @@ function NavbarContent() {
 
   return (
     <>
-      <header className="navbar">
+      <header className="navbar navbar-strip-variant">
+        <Link
+          href={user ? "/mis-campos" : `/register?pais=${activeCountry}&tipo=propietario`}
+          className="header-photo-strip"
+          aria-label="Publicá tu campo — primera publicación gratis"
+        >
+          <span className="header-photo-strip__label">Publicá tu campo</span>
+          <span className="header-photo-strip__note">1ra publicación gratis</span>
+          <span className="header-photo-strip__arrow" aria-hidden="true">↗</span>
+        </Link>
         <div className="navbar-inner">
           <Link href="/" className="navbar-logo">
             <BrandWordmark className="brand-wordmark-nav" />
@@ -214,9 +223,7 @@ function NavbarContent() {
                 <Link href="/login" className="btn-ghost">
                   Ingresar
                 </Link>
-                <Link href={`/register?pais=${activeCountry}&tipo=propietario`} className="btn-primary">
-                  Publicar campo
-                </Link>
+
               </>
             )}
           </div>
