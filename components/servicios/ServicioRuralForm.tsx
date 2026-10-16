@@ -1,13 +1,13 @@
 "use client";
 
 import Image from "next/image";
-import { COUNTRIES, DEPARTAMENTOS_UY, DEPARTAMENTOS_PY, resolveCountry, type CountryCode } from "@/data/countries";
+import { COUNTRIES, COUNTRY_CODES, getCountrySubdivisions, resolveCountry, type CountryCode } from "@/data/countries";
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 import { FileText, Images, MapPinned } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { SERVICIOS_RURALES } from "@/data/servicios-rurales";
-import { PROVINCIAS_ARG, type Profile, type RolPerfil, type ServicioRural } from "@/types";
+import { type Profile, type RolPerfil, type ServicioRural } from "@/types";
 import GeocoderInput, { type LugarSeleccionado } from "@/components/campos/GeocoderInput";
 
 interface ServicioInicial {
@@ -37,7 +37,7 @@ export default function ServicioRuralForm({ profile, publicacion }: Props) {
     publicacion?.servicios_rurales ?? profile?.servicios_rurales ?? [],
   );
   const [country, setCountry] = useState<CountryCode>(resolveCountry(publicacion?.country_code, profile?.country_code));
-  const subdivisions = country === "UY" ? DEPARTAMENTOS_UY : country === "PY" ? DEPARTAMENTOS_PY : PROVINCIAS_ARG;
+  const subdivisions = getCountrySubdivisions(country);
   const [zona, setZona] = useState(publicacion?.zona ?? profile?.zona_servicio ?? "");
   const [provincia, setProvincia] = useState(publicacion?.provincia ?? profile?.provincia_servicio ?? "");
   const [localidad, setLocalidad] = useState(publicacion?.localidad ?? profile?.localidad_servicio ?? "");
@@ -227,7 +227,7 @@ export default function ServicioRuralForm({ profile, publicacion }: Props) {
           setProvincia(""); setLocalidad(""); setUbicacion(""); setZona("");
           setLatitud(undefined); setLongitud(undefined);
         }}>
-          {(["AR", "UY", "PY"] as const).map((code) => <option key={code} value={code}>{COUNTRIES[code].name}</option>)}
+          {COUNTRY_CODES.map((code) => <option key={code} value={code}>{COUNTRIES[code].name}</option>)}
         </select>
       </div>
       <div className="form-field">
@@ -261,7 +261,7 @@ export default function ServicioRuralForm({ profile, publicacion }: Props) {
             onChange={(e) => { setProvincia(e.target.value); setUbicacion(""); setLatitud(undefined); setLongitud(undefined); }}
             required
           >
-            <option value="">{country === "AR" ? "Elegí una provincia" : "Elegí un departamento"}</option>
+            <option value="">{`Elegí ${COUNTRIES[country].subdivisionLabel.toLowerCase()}`}</option>
             {subdivisions.map((item) => (
               <option key={item} value={item}>{item}</option>
             ))}
