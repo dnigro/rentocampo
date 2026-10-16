@@ -87,6 +87,68 @@ async function matrix(){
   }finally{await browser.close()}
  }
 }
+// Launch-day public E2E smoke: regional DEMO cards, photos, map pins and UAT data.
+async function regionalDemoSmoke(){
+ const cases=[
+  {pais:"CL",campo:"20000000-0000-4000-8000-000000000041",servicio:"10000000-0000-4000-8000-000000000013",campoZona:"Ñuble",servicioZona:"Maule"},
+  {pais:"BO",campo:"20000000-0000-4000-8000-000000000042",servicio:"10000000-0000-4000-8000-000000000014",campoZona:"Santa Cruz",servicioZona:"Santa Cruz"},
+  {pais:"PE",campo:"20000000-0000-4000-8000-000000000043",servicio:"10000000-0000-4000-8000-000000000015",campoZona:"Junín",servicioZona:"La Libertad"}
+ ];
+ const b=await chromium.launch();
+ try{
+  for(const spec of cases){
+   const c=await context(b,{width:390,height:844}),page=await c.newPage();
+   try{
+    await check("REGIONAL "+spec.pais+" persisted UAT demo image and service coordinates",async()=>{
+     const [{data:campo,error:e1},{data:fotos,error:e2},{data:servicio,error:e3}]=await Promise.all([
+      admin.from("campos").select("id,country_code,provincia,latitud,longitud,status").eq("id",spec.campo).single(),
+      admin.from("campos_fotos").select("url,storage_path").eq("campo_id",spec.campo),
+      admin.from("demo_servicios_rurales").select("id,country_code,activo,provincia_servicio,imagen_url,latitud,longitud").eq("id",spec.servicio).single()
+     ]);
+     if(e1||e2||e3)throw Error("Missing UAT fixture: "+[e1?.message,e2?.message,e3?.message].filter(Boolean).join(", "));
+     if(campo.country_code!==spec.pais||campo.provincia!==spec.campoZona||campo.status!=="activo"||!Number.isFinite(campo.latitud)||!Number.isFinite(campo.longitud))throw Error("Invalid demo field data");
+     if(fotos.length!==1||fotos[0].url!=="/rentocampo-hero-campo-bn-1920x1080.webp")throw Error("Wrong uploaded DEMO field image: "+JSON.stringify(fotos));
+     if(servicio.country_code!==spec.pais||servicio.provincia_servicio!==spec.servicioZona||servicio.activo!==true||!Number.isFinite(servicio.latitud)||!Number.isFinite(servicio.longitud)||servicio.imagen_url!=="/demo-servicio-veterinaria.jpg")throw Error("Wrong service DEMO image or geocoordinates");
+    },page);
+    await check("REGIONAL "+spec.pais+" public registration and field card/photo",async()=>{
+     await open(page,"/register?pais="+spec.pais,"#country_code");
+     if(await page.locator("#country_code").inputValue()!==spec.pais)throw Error("Country selection lost in register");
+     await open(page,"/campos?pais="+spec.pais,".campo-card-pub");
+     const card=page.locator(".campo-card-pub").filter({has:page.locator('a[href="/campos/'+spec.campo+'"]')}).first();
+     if(!await card.count())throw Error("Demo field invisible in country listing");
+     const img=await card.locator("img").first().getAttribute("src");
+     if(!img?.includes("rentocampo-hero-campo-bn-1920x1080.webp"))throw Error("Wrong DEMO image "+img);
+     await overflow(page,"regional fields");
+     await open(page,"/campos/"+spec.campo,".ficha-titulo");
+     if(!(await page.locator(".ficha-titulo").innerText()).includes("DEMO"))throw Error("Field detail not marked DEMO");
+    },page);
+    await check("REGIONAL "+spec.pais+" public service card/photo and detail",async()=>{
+     await open(page,"/servicios-rurales?pais="+spec.pais,"article.prestador-card[data-demo=true]");
+     const card=page.locator("article.prestador-card[data-demo=true]").first();
+     if(!(await card.innerText()).includes("DEMO"))throw Error("Demo badge missing");
+     const href=await card.getByRole("link",{name:/ver ficha demo/i}).getAttribute("href");
+     if(href!=="/servicios-rurales/"+spec.servicio)throw Error("Bad service detail URL "+href);
+     const photo=await card.locator("img").first().getAttribute("src");
+     if(!photo?.includes("demo-servicio-veterinaria.jpg"))throw Error("Wrong service photo "+photo);
+     await open(page,href,".servicio-ficha");
+     if(!(await page.locator("body").innerText()).includes("Publicación demostrativa"))throw Error("Service not marked noncommercial");
+     await overflow(page,"regional services");
+    },page);
+    await check("REGIONAL "+spec.pais+" map pins and Lite lists",async()=>{
+     await open(page,"/campos/mapa?pais="+spec.pais,".mapa-page");
+     await page.locator(".leaflet-interactive").first().waitFor({state:"visible",timeout:18000});
+     await open(page,"/campos/mapa?pais="+spec.pais+"&vista=servicios",".mapa-page");
+     await page.locator(".leaflet-interactive").first().waitFor({state:"visible",timeout:18000});
+     await c.addCookies([{name:"rentocampo_country",value:spec.pais,url:origin}]);
+     await open(page,"/lite/campos","body");
+     if(!(await page.locator("body").innerText()).includes(spec.campoZona))throw Error("Lite field list missing regional demo");
+     await open(page,"/lite/servicios","body");
+     if(!(await page.locator("body").innerText()).includes(spec.servicioZona))throw Error("Lite service list missing regional demo");
+    },page);
+   }finally{await c.close()}
+  }
+ }finally{await b.close()}
+}
 async function profile(id,country,role){
  for(let i=0;i<18;i++){
   const r=await admin.from("profiles").select("country_code,roles").eq("id",id).maybeSingle();
@@ -208,7 +270,7 @@ async function recover(){
 try{
  const r=await admin.auth.admin.listUsers({page:1,perPage:1});
  if(r.error)throw Error("UAT admin verification failed: "+r.error.message);
- await start();await matrix();await deepLinksAndLogins();await register();await generatedConfirmationLink();await recover();
+ await start();await regionalDemoSmoke();await matrix();await deepLinksAndLogins();await register();await generatedConfirmationLink();await recover();
 }catch(error){results.push({name:"UAT setup",result:"FAIL",detail:String(error)});console.error(error)}
 finally{
  for(const id of userIds){const r=await admin.auth.admin.deleteUser(id);if(r.error)results.push({name:"UAT cleanup",result:"FAIL",detail:r.error.message})}
