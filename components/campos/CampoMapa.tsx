@@ -427,7 +427,7 @@ export default function CampoMapa({
           {(selectedCampo.fotos?.[0]?.url || selectedCampo.id.startsWith("20000000-")) && (
             <div className="mapa-campo-foto">
               <Image
-                src={selectedCampo.fotos?.length ? [...selectedCampo.fotos].sort((a, b) => (a.orden ?? 0) - (b.orden ?? 0))[0].url : "/hero-campo.jpeg"}
+                src={selectedCampo.fotos?.length ? [...selectedCampo.fotos].sort((a, b) => (a.orden ?? 0) - (b.orden ?? 0))[0].url : "/rentocampo-hero-campo-bn-1920x1080.webp"}
                 alt={selectedCampo.titulo}
                 width={640}
                 height={360}
