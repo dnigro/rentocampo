@@ -221,9 +221,9 @@
   }
 }
 @media (max-width: 570px) {
-  .rc-landing .triptychHero__intro { padding-bottom: 142px; }
+  .rc-landing .triptychHero__intro { padding-bottom: 175px; }
   .rc-landing .triptychHero__actions {
     width: min(290px, calc(100% - 34px));
-    margin: -112px auto 23px;
+    margin: -125px auto 40px;
   }
 }
