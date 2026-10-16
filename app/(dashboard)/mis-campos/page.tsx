@@ -5,6 +5,7 @@ import MisCamposLista from "@/components/campos/MisCamposLista";
 import PlanesTierra from "@/components/planes/PlanesTierra";
 import { getLandQuotaStatus } from "@/lib/billing/land-quota";
 import { getPlanExpiryDays } from "@/lib/billing/plan-expiry";
+import { isCountryCode } from "@/data/countries";
 import "@/styles/perfil.css";
 import "@/styles/campos.css";
 
@@ -17,7 +18,7 @@ export default async function MisCamposPage() {
 
   const { data: profile } = await supabase
     .from("profiles")
-    .select("roles")
+    .select("roles,country_code")
     .eq("id", user.id)
     .single();
 
@@ -88,6 +89,7 @@ export default async function MisCamposPage() {
       </div>
 
       <PlanesTierra
+        countryCode={isCountryCode(profile?.country_code) ? profile.country_code : null}
         planActualId={quota.planId}
         planActualNombre={quota.planName}
         publicacionesUsadas={quota.used}
