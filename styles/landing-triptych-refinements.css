@@ -227,3 +227,43 @@
     margin: -125px auto 40px;
   }
 }
+
+/* Structural mobile fix: CTA and copy share the SAME photo container.
+   No negative margins, so the button cannot overlap the first card. */
+.rc-landing .triptychHero__mobileHero { display: contents; }
+@media (max-width: 900px) {
+  .rc-landing .triptychHero__mobileHero {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    width: 100%;
+    background:
+      linear-gradient(180deg,rgba(10,10,10,.58),rgba(10,10,10,.55)),
+      url("/image_trigo_pix.png") center / cover no-repeat;
+  }
+  .rc-landing .triptychHero__mobileHero .triptychHero__intro {
+    width: 100%;
+    flex: none;
+    background: transparent;
+    padding-bottom: 24px;
+  }
+  .rc-landing .triptychHero__mobileHero .triptychHero__actions {
+    position: relative;
+    order: initial;
+    z-index: 5;
+    width: min(290px, calc(100% - 34px));
+    max-width: none;
+    left: auto;
+    right: auto;
+    bottom: auto;
+    margin: 0 auto 38px;
+    justify-content: center;
+  }
+  .rc-landing .triptychHero__panels {
+    margin-top: 12px;
+  }
+}
+@media (max-width: 570px) {
+  .rc-landing .triptychHero__mobileHero .triptychHero__intro { padding-bottom: 24px; }
+  .rc-landing .triptychHero__mobileHero .triptychHero__actions { margin: 0 auto 38px; }
+}
