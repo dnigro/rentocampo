@@ -6,8 +6,7 @@ import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { FileText, Images, MapPinned, Sprout, WalletCards } from "lucide-react";
-import { PROVINCIAS_ARG } from "@/types";
-import { COUNTRIES, DEPARTAMENTOS_UY, DEPARTAMENTOS_PY, type CountryCode } from "@/data/countries";
+import { COUNTRIES, COUNTRY_CODES, getCountrySubdivisions, type CountryCode } from "@/data/countries";
 import type { CampoFormData } from "@/types";
 import { trackEvent } from "@/lib/analytics";
 import GeocoderInput, {
@@ -81,7 +80,7 @@ export default function CampoForm({
   const countryCode: CountryCode = form.country_code ?? "AR";
   const country = COUNTRIES[countryCode];
   const subdivisiones =
-    countryCode === "UY" ? DEPARTAMENTOS_UY : countryCode === "PY" ? DEPARTAMENTOS_PY : PROVINCIAS_ARG;
+    getCountrySubdivisions(countryCode);
 
   const [fotos, setFotos] = useState<
     { id?: string; url: string; file?: File; orden: number }[]
@@ -339,15 +338,13 @@ export default function CampoForm({
                 ubicacion: "",
                 latitud: undefined,
                 longitud: undefined,
-                moneda: nextCountry === "UY" ? "USD" : prev.moneda === "UYU" ? "USD" : prev.moneda,
+                moneda: "USD",
               }));
               setLugarGeocodificado("");
             }}
             required
           >
-            <option value="AR">🇦🇷 Argentina</option>
-            <option value="UY">🇺🇾 Uruguay</option>
-            <option value="PY">🇵🇾 Paraguay</option>
+            {COUNTRY_CODES.map((code) => <option key={code} value={code}>{COUNTRIES[code].flag} {COUNTRIES[code].name}</option>)}
           </select>
         </div>
 
@@ -563,7 +560,10 @@ export default function CampoForm({
                 <option value="USD">USD</option>
                 <option value="ARS">ARS</option>
                 {countryCode === "UY" && <option value="UYU">UYU</option>}
-              {countryCode === "PY" && <option value="PYG">PYG</option>}
+                {countryCode === "PY" && <option value="PYG">PYG</option>}
+                {countryCode === "CL" && <option value="CLP">CLP</option>}
+                {countryCode === "BO" && <option value="BOB">BOB</option>}
+                {countryCode === "PE" && <option value="PEN">PEN</option>}
               </select>
               <input
                 name="precio"
