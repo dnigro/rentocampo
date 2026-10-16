@@ -3,7 +3,7 @@ name: UAT Registro Multiformato
 on:
   workflow_dispatch:
   push:
-    branches: [feat/regional-ar-uy-py-20261014]
+    branches: [feat/regional-ar-uy-py-20261014, feat/regional-six-countries-20261015]
 
 concurrency:
   group: uat-registro-${{ github.ref }}
