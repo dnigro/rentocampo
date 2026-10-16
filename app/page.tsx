@@ -14,14 +14,14 @@ import "@/styles/hero-regional-minimal.css";
 export const metadata: Metadata = {
   title: "RentoCampo | Campos y servicios rurales en la región",
   description:
-    "Encontrá campos y servicios rurales en Argentina, Uruguay y Paraguay. Registrate gratis, explorá oportunidades y contactá directamente.",
+    "Encontrá campos y servicios rurales en Argentina, Uruguay, Paraguay, Chile, Bolivia y Perú. Registrate gratis, explorá oportunidades y contactá directamente.",
   keywords:
     "alquiler de campos Argentina, campos en alquiler, arrendamiento rural, campos agrícolas en alquiler, campos ganaderos, servicios rurales",
   alternates: { canonical: "https://rentocampo.com" },
   openGraph: {
     title: "RentoCampo | Red regional de tierras productivas y servicios rurales",
     description:
-      "Tierras productivas, productores y servicios rurales de Argentina, Uruguay y Paraguay en un solo lugar.",
+      "Tierras productivas, productores y servicios rurales de Argentina, Uruguay, Paraguay, Chile, Bolivia y Perú en un solo lugar.",
     type: "website",
     locale: "es_AR",
   },
