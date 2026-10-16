@@ -92,7 +92,7 @@ export default async function CampoFichaPage({ params }: PageProps) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  const fotosOrdenadas = fotos?.length ? [...fotos].sort((a, b) => a.orden - b.orden) : id.startsWith("20000000-") ? [{ url: "/hero-campo.jpeg", orden: 0 }] : [];
+  const fotosOrdenadas = fotos?.length ? [...fotos].sort((a, b) => a.orden - b.orden) : id.startsWith("20000000-") ? [{ url: "/rentocampo-hero-campo-bn-1920x1080.webp", orden: 0 }] : [];
 
   const APTITUD_LABEL: Record<string, string> = {
     agricola: "Agrícola",
