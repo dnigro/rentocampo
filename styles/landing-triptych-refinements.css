@@ -160,3 +160,9 @@
  .rc-landing .triptychHero__title>strong{color:#e9d7bf}
  .rc-landing .triptychHero__countries,.rc-landing .triptychHero__summary,.rc-landing .triptychHero__detail{color:white}
 }
+
+/* Preview de paleta mate pastel: luz suave y fotografías sin brillos intensos. */
+.rc-landing .triptychHero__photo{filter:grayscale(.34) saturate(.48) brightness(.85) contrast(.86) sepia(.12)!important;transition:filter .25s ease}
+.rc-landing .triptychHero__panel:hover .triptychHero__photo{filter:grayscale(.22) saturate(.55) brightness(.89) contrast(.9) sepia(.1)!important}
+.rc-landing .triptychHero__panelShade{background:linear-gradient(180deg,rgba(28,33,37,.57) 0%,rgba(39,43,42,.13) 45%,rgba(20,24,22,.42) 100%)!important}
+@media(min-width:901px){.rc-landing .triptychHero__intro{background:linear-gradient(180deg,rgba(32,38,40,.55),rgba(43,45,40,.2) 50%,rgba(24,29,25,.57)),url("/landing-campo-rentocampo.jpg") center/cover no-repeat}}
