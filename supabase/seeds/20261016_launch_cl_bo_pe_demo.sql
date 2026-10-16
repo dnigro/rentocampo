@@ -26,11 +26,12 @@ from demos cross join owner
 on conflict (id) do nothing;
 
 -- Same pre-existing photo as the current RentoCampo field DEMOs.
--- storage_path marks a versioned /public asset, not a Storage upload.
+-- The existing photo table requires a path prefixed by its owner's UUID. The URL
+-- points to our original checked-in DEMO asset; no external storage copy is required.
 insert into public.campos_fotos (campo_id, propietario_id, url, orden, storage_path)
 select c.id, c.propietario_id,
        '/rentocampo-hero-campo-bn-1920x1080.webp', 0,
-       'public-assets/rentocampo-hero-campo-bn-1920x1080.webp'
+       c.propietario_id::text || '/demo-rentocampo-hero-campo-bn-1920x1080.webp'
 from public.campos c
 where c.id in (
  '20000000-0000-4000-8000-000000000041'::uuid,
