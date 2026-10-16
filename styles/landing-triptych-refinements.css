@@ -112,3 +112,13 @@
  .rc-landing .triptychHero__panel--fields{z-index:3}
  .rc-landing .triptychHero__panel--fields .triptychHero__panelContent{left:24%;right:4%}
 }
+
+/* Corrección final: todas las costuras bajan hacia la izquierda.
+   El primer panel inicia antes arriba y termina más a la izquierda abajo. */
+@media(min-width:901px){
+ .rc-landing .triptychHero__intro {clip-path:none;z-index:1}
+ .rc-landing .triptychHero__panels {z-index:2;overflow:hidden;inset:0 0 0 37%}
+ .rc-landing .triptychHero__panel--fields {left:0;width:38%;clip-path:polygon(13% 0,100% 0,87% 100%,0 100%)}
+ .rc-landing .triptychHero__panel--producers {left:32%;width:39%;clip-path:polygon(13% 0,100% 0,87% 100%,0 100%)}
+ .rc-landing .triptychHero__panel--services {left:65%;width:39%;clip-path:polygon(13% 0,100% 0,100% 100%,0 100%)}
+}
