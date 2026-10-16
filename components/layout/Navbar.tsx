@@ -148,7 +148,7 @@ function NavbarContent() {
 
   return (
     <>
-      <header className="navbar">
+      <header className="navbar navbar-photo-variant">
         <div className="navbar-inner">
           <Link href="/" className="navbar-logo">
             <BrandWordmark className="brand-wordmark-nav" />
@@ -208,14 +208,25 @@ function NavbarContent() {
                 <button onClick={handleLogout} className="btn-ghost">
                   Salir
                 </button>
+                <Link href="/mis-campos" className="btn-primary header-photo-cta">
+                  <span className="header-photo-cta__copy">
+                    <span className="header-photo-cta__title">Publicá tu campo</span>
+                    <span className="header-photo-cta__subtitle">1ra publicación gratis</span>
+                  </span>
+                  <span className="header-photo-cta__arrow" aria-hidden="true">↗</span>
+                </Link>
               </>
             ) : (
               <>
                 <Link href="/login" className="btn-ghost">
                   Ingresar
                 </Link>
-                <Link href={`/register?pais=${activeCountry}&tipo=propietario`} className="btn-primary">
-                  Publicar campo
+                <Link href={`/register?pais=${activeCountry}&tipo=propietario`} className="btn-primary header-photo-cta">
+                  <span className="header-photo-cta__copy">
+                    <span className="header-photo-cta__title">Publicá tu campo</span>
+                    <span className="header-photo-cta__subtitle">1ra publicación gratis</span>
+                  </span>
+                  <span className="header-photo-cta__arrow" aria-hidden="true">↗</span>
                 </Link>
               </>
             )}
