@@ -193,3 +193,37 @@
 
 /* Ajuste final aprobado: subir ligeramente el botón Registrarse. */
 @media(min-width:901px){.rc-landing .triptychHero__actions{bottom:12%;}}
+
+
+/* Mobile web + installed Lite webview: CTA dentro de la imagen superior.
+   Se reserva espacio en el fondo del hero y se superpone el botón,
+   evitando la franja blanca que aparecía en pantallas angostas. */
+@media (max-width: 900px) {
+  .rc-landing .triptychHero__intro {
+    padding-bottom: clamp(132px, 20vw, 170px);
+  }
+  .rc-landing .triptychHero__actions {
+    position: relative;
+    z-index: 5;
+    left: auto;
+    right: auto;
+    bottom: auto;
+    width: min(290px, calc(100% - 34px));
+    max-width: none;
+    margin: -112px auto 28px;
+    display: flex;
+    justify-content: center;
+  }
+  .rc-landing .triptychHero__button--register {
+    width: 100%;
+    min-height: 66px;
+    border-radius: 22px;
+  }
+}
+@media (max-width: 570px) {
+  .rc-landing .triptychHero__intro { padding-bottom: 142px; }
+  .rc-landing .triptychHero__actions {
+    width: min(290px, calc(100% - 34px));
+    margin: -112px auto 23px;
+  }
+}
