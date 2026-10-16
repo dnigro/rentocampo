@@ -2909,6 +2909,11 @@ html body:has(.rc-landing) header.navbar {
     font-weight: 800 !important;
     text-decoration: none !important;
     white-space: nowrap !important;
+    border: 0 !important;
+    padding: 0 !important;
+    background: transparent !important;
+    font-family: inherit !important;
+    cursor: pointer;
   }
   html body header.navbar .navbar-country-switch-mobile,
   html body .app-shell header.navbar .navbar-country-switch-mobile {
