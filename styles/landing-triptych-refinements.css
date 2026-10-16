@@ -86,7 +86,7 @@
 
 /* Versión editorial gris/negro: fotografías apagadas y cortes oblicuos continuos. */
 @media (min-width:901px) {
- .rc-landing .triptychHero__intro { width: 43%; background:linear-gradient(180deg,rgba(19,19,19,.74),rgba(25,25,25,.46) 60%,rgba(15,15,15,.48)),url("/landing-campo-rentocampo.jpg") center/cover no-repeat; color:#fff; }
+ .rc-landing .triptychHero__intro { width: 43%; background:linear-gradient(180deg,rgba(19,19,19,.74),rgba(25,25,25,.46) 60%,rgba(15,15,15,.48)),url("/image_trigo_pix.png") center/cover no-repeat; color:#fff; }
  .rc-landing .triptychHero__panels { inset:0 0 0 37%; background:#222; }
  .rc-landing .triptychHero__panel--fields {left:0;width:38%;clip-path:polygon(13% 0,100% 0,87% 100%,0 100%)}
  .rc-landing .triptychHero__panel--producers {left:32%;width:39%;clip-path:polygon(13% 0,100% 0,87% 100%,0 100%)}
@@ -133,7 +133,7 @@
  .rc-landing .triptychHero__intro{
    width:40%;z-index:4;position:absolute;inset:0 auto 0 0;
    clip-path:polygon(0 0,100% 0,84% 100%,0 100%);
-   background:linear-gradient(180deg,rgba(10,10,10,.63),rgba(15,15,15,.36) 48%,rgba(8,8,8,.7)),url("/landing-campo-rentocampo.jpg") center/cover no-repeat;
+   background:linear-gradient(180deg,rgba(10,10,10,.63),rgba(15,15,15,.36) 48%,rgba(8,8,8,.7)),url("/image_trigo_pix.png") center/cover no-repeat;
    padding-right:6%;
  }
  .rc-landing .triptychHero__panels{position:absolute;inset:0;width:100%;height:100%;overflow:hidden;z-index:2;background:#171717}
@@ -155,7 +155,7 @@
  .rc-landing .triptychHero__panelText{font-size:12px}
 }
 @media(max-width:900px){
- .rc-landing .triptychHero__intro{background:linear-gradient(180deg,rgba(10,10,10,.58),rgba(10,10,10,.55)),url("/landing-campo-rentocampo.jpg") center/cover no-repeat;color:white}
+ .rc-landing .triptychHero__intro{background:linear-gradient(180deg,rgba(10,10,10,.58),rgba(10,10,10,.55)),url("/image_trigo_pix.png") center/cover no-repeat;color:white}
  .rc-landing .triptychHero__title>span{color:white}
  .rc-landing .triptychHero__title>strong{color:#e9d7bf}
  .rc-landing .triptychHero__countries,.rc-landing .triptychHero__summary,.rc-landing .triptychHero__detail{color:white}
@@ -165,4 +165,4 @@
 .rc-landing .triptychHero__photo{filter:grayscale(.34) saturate(.48) brightness(.85) contrast(.86) sepia(.12)!important;transition:filter .25s ease}
 .rc-landing .triptychHero__panel:hover .triptychHero__photo{filter:grayscale(.22) saturate(.55) brightness(.89) contrast(.9) sepia(.1)!important}
 .rc-landing .triptychHero__panelShade{background:linear-gradient(180deg,rgba(28,33,37,.57) 0%,rgba(39,43,42,.13) 45%,rgba(20,24,22,.42) 100%)!important}
-@media(min-width:901px){.rc-landing .triptychHero__intro{background:linear-gradient(180deg,rgba(32,38,40,.55),rgba(43,45,40,.2) 50%,rgba(24,29,25,.57)),url("/landing-campo-rentocampo.jpg") center/cover no-repeat}}
+@media(min-width:901px){.rc-landing .triptychHero__intro{background:linear-gradient(180deg,rgba(32,38,40,.55),rgba(43,45,40,.2) 50%,rgba(24,29,25,.57)),url("/image_trigo_pix.png") center/cover no-repeat}}
