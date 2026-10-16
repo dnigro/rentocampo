@@ -223,7 +223,7 @@ function NavbarContent() {
 
           {/* Hamburguesa mobile */}
           <div className="navbar-mobile-right">
-            <Link href={user ? "/dashboard" : "/login"} className="navbar-mobile-account" aria-label={user ? "Mi cuenta" : "Ingresar"}>{user ? "Mi cuenta" : "Ingresar"}</Link>
+            <Link href={user ? "/dashboard" : "/login"} className="navbar-mobile-account" aria-label={user ? "Mi cuenta" : "Mi cuenta (ingresar)"}>Mi cuenta</Link>
             <div className="navbar-country-switch navbar-country-switch-mobile" aria-label="Seleccionar país">
               <select aria-label="Seleccionar país" value={activeCountry} onChange={(event) => cambiarPais(event.target.value as CountryCode)} style={{background:"#fff",color:"#111",borderRadius:"20px",padding:"7px",fontWeight:700}}>
                 {(["AR","UY","PY"] as const).map((code) => <option key={code} value={code}>{COUNTRIES[code].flag} {code}</option>)}
