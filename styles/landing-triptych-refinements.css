@@ -83,3 +83,22 @@
   .rc-landing .triptychHero__panelTitle { font-size: 27px; }
   .rc-landing .triptychHero__panelText { font-size: 15px; }
 }
+
+/* Versión editorial gris/negro: fotografías apagadas y cortes oblicuos continuos. */
+@media (min-width:901px) {
+ .rc-landing .triptychHero__intro { width: 43%; background:linear-gradient(180deg,rgba(19,19,19,.74),rgba(25,25,25,.46) 60%,rgba(15,15,15,.48)),url("/landing-campo-rentocampo.jpg") center/cover no-repeat; color:#fff; }
+ .rc-landing .triptychHero__panels { inset:0 0 0 37%; background:#222; }
+ .rc-landing .triptychHero__panel--fields {left:0;width:38%;clip-path:polygon(13% 0,100% 0,87% 100%,0 100%)}
+ .rc-landing .triptychHero__panel--producers {left:32%;width:39%;clip-path:polygon(13% 0,100% 0,87% 100%,0 100%)}
+ .rc-landing .triptychHero__panel--services {left:65%;width:39%;clip-path:polygon(13% 0,100% 0,100% 100%,0 100%)}
+ .rc-landing .triptychHero__title {font-size:clamp(70px,6.8vw,132px);font-weight:950;letter-spacing:-.055em}
+ .rc-landing .triptychHero__title > span {color:#fff}
+ .rc-landing .triptychHero__title > strong {color:#d9d1bf;font-size:.72em}
+ .rc-landing .triptychHero__countries,.rc-landing .triptychHero__summary,.rc-landing .triptychHero__detail {color:#fff;text-shadow:0 2px 8px #111}
+}
+.rc-landing .triptychHero__photo {filter:grayscale(1) brightness(.77) contrast(1.1) !important}
+.rc-landing .triptychHero__panel:hover .triptychHero__photo {filter:grayscale(1) brightness(.9) contrast(1.1) !important}
+.rc-landing .triptychHero__panelShade,.rc-landing .triptychHero__panel--producers .triptychHero__panelShade,.rc-landing .triptychHero__panel--services .triptychHero__panelShade {background:linear-gradient(180deg,rgba(12,12,12,.75),rgba(27,27,27,.2) 55%,rgba(10,10,10,.45))}
+.rc-landing .triptychHero__panelTitle {font-size:clamp(24px,1.8vw,36px);font-weight:950}
+.rc-landing .triptychHero__panelText {font-size:clamp(14px,1.12vw,19px);font-weight:800}
+@media(max-width:900px){.rc-landing .triptychHero__panelTitle{font-size:28px}.rc-landing .triptychHero__panelText{font-size:16px}}
