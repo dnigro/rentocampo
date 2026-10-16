@@ -114,3 +114,11 @@
     gap: 14px !important;
   }
 }
+
+/* Ajuste visual aprobado para revisión: misma curvatura en los tres CTA,
+   sin modificar su tamaño, colores ni la grilla anti-superposición. */
+.rc-landing .editorialHero .editorialHero__desktopActions > a,
+.rc-landing .editorialHero .editorialHero__desktopActions > a:link,
+.rc-landing .editorialHero .editorialHero__desktopActions > a:visited {
+  border-radius: 12px !important;
+}
