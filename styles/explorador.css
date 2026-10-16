@@ -1161,3 +1161,9 @@
   .explorador-layout-results-first > .rc-map-before-listings { order: 3; width: min(100%,320px); max-width: 320px; }
   .explorador-layout-results-first > .explorador-main { order: 4; }
 }
+
+/* País junto a Ver en mapa, adaptable a web, tablet y móvil. */
+.rc-listing-map-country{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin:14px 0 28px}
+.rc-listing-map-country .rc-map-before-listings{margin:0!important}
+.rc-listing-map-country>div{margin:0!important}
+@media(max-width:600px){.rc-listing-map-country{gap:10px;align-items:stretch}.rc-listing-map-country .rc-map-before-listings{flex:1 1 175px;min-height:55px;display:inline-flex;align-items:center;justify-content:center}.rc-listing-map-country>div{flex:1 1 190px}.rc-listing-map-country select{width:100%;min-width:0!important}}

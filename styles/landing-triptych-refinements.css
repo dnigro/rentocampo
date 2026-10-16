@@ -1,0 +1,195 @@
+/* RentoCampo: proporciones corregidas del tríptico aprobado.
+   Paneles equilibrados, textos más gruesos y botones únicamente debajo. */
+.rc-landing .triptychHero__title > span {
+  -webkit-text-stroke: 1.1px #141414;
+}
+.rc-landing .triptychHero__title > strong {
+  -webkit-text-stroke: .85px #b4a253;
+}
+.rc-landing .triptychHero__summary { font-weight: 850; }
+.rc-landing .triptychHero__detail { font-weight: 650; }
+.rc-landing .triptychHero__panelTitle {
+  font-weight: 900;
+  letter-spacing: -.025em;
+  text-wrap: balance;
+}
+.rc-landing .triptychHero__panelText {
+  font-weight: 750;
+  text-wrap: pretty;
+}
+@media (min-width: 901px) {
+  /* Tres paneles del mismo ancho base, con diagonales simétricas.
+     Cada costura solapa ligeramente el panel contiguo para evitar huecos. */
+  .rc-landing .triptychHero__panels { inset: 0 0 0 39%; }
+  .rc-landing .triptychHero__panel--fields {
+    left: 0%; width: 37%;
+    clip-path: polygon(10% 0, 100% 0, 92% 100%, 0 100%);
+  }
+  .rc-landing .triptychHero__panel--producers {
+    left: 33.33%; width: 37%;
+    clip-path: polygon(10% 0, 100% 0, 92% 100%, 0 100%);
+  }
+  .rc-landing .triptychHero__panel--services {
+    left: 66.66%; width: 37%;
+    clip-path: polygon(10% 0, 100% 0, 100% 100%, 0 100%);
+  }
+  .rc-landing .triptychHero__panelContent {
+    left: 19%; right: 5%;
+  }
+  .rc-landing .triptychHero__panel--services .triptychHero__panelContent {
+    left: 20%; right: 5%;
+  }
+  .rc-landing .triptychHero__panelTitle {
+    font-size: clamp(17px, 1.3vw, 24px);
+    overflow-wrap: normal;
+  }
+  .rc-landing .triptychHero__panelText {
+    font-size: clamp(12px, .93vw, 15px);
+  }
+}
+@media (min-width: 901px) and (max-width: 1250px) {
+  .rc-landing .triptychHero__panels { inset: 0 0 0 40%; }
+  .rc-landing .triptychHero__panelContent { left: 20%; right: 4%; }
+  .rc-landing .triptychHero__panel--services .triptychHero__panelContent {
+    left: 21%; right: 3%;
+  }
+  .rc-landing .triptychHero__panelTitle { font-size: clamp(13px, 1.38vw, 18px); }
+  .rc-landing .triptychHero__panelText { font-size: 12px; }
+}
+@media (max-width: 900px) {
+  /* En móvil son tres tarjetas clickeables y los botones solo debajo del bloque introductorio. */
+  .rc-landing .triptychHero__panelTitle { font-size: 24px; }
+  .rc-landing .triptychHero__panelText { font-size: 14px; }
+  .rc-landing .triptychHero__title > span { -webkit-text-stroke: .8px #141414; }
+  .rc-landing .triptychHero__title > strong { -webkit-text-stroke: .5px #b4a253; }
+}
+
+/* Jerarquía tipográfica de alto impacto aprobada para el hero. */
+.rc-landing .triptychHero__title > span { font-weight: 950; letter-spacing: -.065em; -webkit-text-stroke: 0; }
+.rc-landing .triptychHero__title > strong { font-weight: 950; letter-spacing: -.055em; -webkit-text-stroke: 0; color: #9c8430; }
+.rc-landing .triptychHero__panelTitle { font-weight: 950; letter-spacing: -.045em; text-transform: uppercase; line-height: 1.04; }
+.rc-landing .triptychHero__panelText { font-weight: 800; line-height: 1.25; }
+.rc-landing .triptychHero__summary { font-weight: 900; letter-spacing: -.025em; }
+.rc-landing .triptychHero__button { font-weight: 900; }
+@media (min-width: 1251px) {
+  .rc-landing .triptychHero__panelTitle { font-size: clamp(22px, 1.65vw, 32px); }
+  .rc-landing .triptychHero__panelText { font-size: clamp(14px, 1.02vw, 18px); }
+}
+@media (min-width: 901px) and (max-width: 1250px) {
+  .rc-landing .triptychHero__panelTitle { font-size: clamp(16px, 1.5vw, 21px); }
+  .rc-landing .triptychHero__panelText { font-size: 13px; }
+}
+@media (max-width: 900px) {
+  .rc-landing .triptychHero__panelTitle { font-size: 27px; }
+  .rc-landing .triptychHero__panelText { font-size: 15px; }
+}
+
+/* Versión editorial gris/negro: fotografías apagadas y cortes oblicuos continuos. */
+@media (min-width:901px) {
+ .rc-landing .triptychHero__intro { width: 43%; background:linear-gradient(180deg,rgba(19,19,19,.74),rgba(25,25,25,.46) 60%,rgba(15,15,15,.48)),url("/image_trigo_pix.png") center/cover no-repeat; color:#fff; }
+ .rc-landing .triptychHero__panels { inset:0 0 0 37%; background:#222; }
+ .rc-landing .triptychHero__panel--fields {left:0;width:38%;clip-path:polygon(13% 0,100% 0,87% 100%,0 100%)}
+ .rc-landing .triptychHero__panel--producers {left:32%;width:39%;clip-path:polygon(13% 0,100% 0,87% 100%,0 100%)}
+ .rc-landing .triptychHero__panel--services {left:65%;width:39%;clip-path:polygon(13% 0,100% 0,100% 100%,0 100%)}
+ .rc-landing .triptychHero__title {font-size:clamp(70px,6.8vw,132px);font-weight:950;letter-spacing:-.055em}
+ .rc-landing .triptychHero__title > span {color:#fff}
+ .rc-landing .triptychHero__title > strong {color:#d9d1bf;font-size:.72em}
+ .rc-landing .triptychHero__countries,.rc-landing .triptychHero__summary,.rc-landing .triptychHero__detail {color:#fff;text-shadow:0 2px 8px #111}
+}
+.rc-landing .triptychHero__photo {filter:grayscale(1) brightness(.77) contrast(1.1) !important}
+.rc-landing .triptychHero__panel:hover .triptychHero__photo {filter:grayscale(1) brightness(.9) contrast(1.1) !important}
+.rc-landing .triptychHero__panelShade,.rc-landing .triptychHero__panel--producers .triptychHero__panelShade,.rc-landing .triptychHero__panel--services .triptychHero__panelShade {background:linear-gradient(180deg,rgba(12,12,12,.75),rgba(27,27,27,.2) 55%,rgba(10,10,10,.45))}
+.rc-landing .triptychHero__panelTitle {font-size:clamp(24px,1.8vw,36px);font-weight:950}
+.rc-landing .triptychHero__panelText {font-size:clamp(14px,1.12vw,19px);font-weight:800}
+@media(max-width:900px){.rc-landing .triptychHero__panelTitle{font-size:28px}.rc-landing .triptychHero__panelText{font-size:16px}}
+
+/* Geometría única: no recortar el contenedor ni crear una franja vertical.
+   La primera costura usa el mismo desplazamiento que las siguientes. */
+@media(min-width:901px){
+ .rc-landing .triptychHero__intro{z-index:1;clip-path:none;width:43%}
+ .rc-landing .triptychHero__panels{z-index:2;overflow:visible;inset:0 0 0 37%;background:transparent}
+ .rc-landing .triptychHero__panel--fields{z-index:3;left:-6%;width:44%;clip-path:polygon(13.65% 0,100% 0,87% 100%,0 100%)}
+ .rc-landing .triptychHero__panel--producers{z-index:2;left:32%;width:39%;clip-path:polygon(13% 0,100% 0,87% 100%,0 100%)}
+ .rc-landing .triptychHero__panel--services{z-index:1;left:65%;width:39%;clip-path:polygon(13% 0,100% 0,100% 100%,0 100%)}
+ .rc-landing .triptychHero__panel--fields .triptychHero__panelContent{left:28%;right:4%}
+}
+
+/* CTA único, alineado al margen izquierdo en escritorio, móvil y App Lite web. */
+.rc-landing .triptychHero__actions{display:flex;width:auto;max-width:calc(100% - 40px);grid-template-columns:none}
+.rc-landing .triptychHero__button--register{width:clamp(235px,17vw,290px)}
+@media(max-width:900px){.rc-landing .triptychHero__actions{width:auto;max-width:none;margin:0 22px 27px;display:flex}.rc-landing .triptychHero__button--register{width:min(290px,100%)}}
+@media(max-width:570px){.rc-landing .triptychHero__actions{margin:0 17px 23px}.rc-landing .triptychHero__button--register{width:min(290px,100%)}}
+
+/* CTA Registrarse: centrado en su posición, proporciones de Publicar campo. */
+.rc-landing .triptychHero__actions{justify-content:center;left:clamp(26px,4vw,74px);width:clamp(235px,17vw,290px);max-width:calc(100% - 52px)}
+.rc-landing .triptychHero__button--register,.rc-landing .triptychHero__button--register:link,.rc-landing .triptychHero__button--register:visited{width:100%;min-height:76px;border-radius:22px;padding:15px 23px;font-size:clamp(16px,1.13vw,19px);font-weight:950;letter-spacing:-.025em;align-items:center;justify-content:center;gap:16px}
+.rc-landing .triptychHero__button--register>span:last-child{font-size:23px}
+@media(max-width:900px){.rc-landing .triptychHero__actions{width:min(290px,calc(100% - 44px));max-width:none;margin:0 auto 27px;left:auto;justify-content:center}.rc-landing .triptychHero__button--register{min-height:66px}}
+@media(max-width:570px){.rc-landing .triptychHero__actions{width:min(290px,calc(100% - 34px));margin:0 auto 23px}}
+
+/* Cuatro imágenes aprobadas: registro / campos / productores / servicios.
+   Geometría en coordenadas del hero completo, sin costuras verticales. */
+@media(min-width:901px){
+ .rc-landing .triptychHero__intro{
+   width:40%;z-index:4;position:absolute;inset:0 auto 0 0;
+   clip-path:polygon(0 0,100% 0,84% 100%,0 100%);
+   background:linear-gradient(180deg,rgba(10,10,10,.63),rgba(15,15,15,.36) 48%,rgba(8,8,8,.7)),url("/image_trigo_pix.png") center/cover no-repeat;
+   padding-right:6%;
+ }
+ .rc-landing .triptychHero__panels{position:absolute;inset:0;width:100%;height:100%;overflow:hidden;z-index:2;background:#171717}
+ .rc-landing .triptychHero__panel--fields{left:32%;width:27%;z-index:3;clip-path:polygon(23% 0,100% 0,77% 100%,0 100%)}
+ .rc-landing .triptychHero__panel--producers{left:52%;width:27%;z-index:2;clip-path:polygon(23% 0,100% 0,77% 100%,0 100%)}
+ .rc-landing .triptychHero__panel--services{left:72%;width:28%;z-index:1;clip-path:polygon(23% 0,100% 0,100% 100%,0 100%)}
+ .rc-landing .triptychHero__panelContent,.rc-landing .triptychHero__panel--fields .triptychHero__panelContent,.rc-landing .triptychHero__panel--services .triptychHero__panelContent{left:28%;right:5%;top:10%}
+ .rc-landing .triptychHero__panelTitle{font-size:clamp(20px,1.65vw,31px)}
+ .rc-landing .triptychHero__panelText{font-size:clamp(13px,1.04vw,19px)}
+ .rc-landing .triptychHero__title{font-size:clamp(54px,5.1vw,98px);line-height:.99}
+ .rc-landing .triptychHero__title>strong{font-size:.74em;color:#e9d7bf}
+ .rc-landing .triptychHero__actions{z-index:8;position:absolute;bottom:7%;left:3%;margin:0;width:clamp(230px,18vw,320px);max-width:31%}
+ .rc-landing .triptychHero__button--register{min-height:75px;border-radius:24px;font-weight:950}
+}
+@media(min-width:901px) and (max-width:1250px){
+ .rc-landing .triptychHero__intro{width:41%;padding-right:7%}
+ .rc-landing .triptychHero__title{font-size:clamp(48px,5vw,67px)}
+ .rc-landing .triptychHero__panelTitle{font-size:clamp(17px,1.65vw,22px)}
+ .rc-landing .triptychHero__panelText{font-size:12px}
+}
+@media(max-width:900px){
+ .rc-landing .triptychHero__intro{background:linear-gradient(180deg,rgba(10,10,10,.58),rgba(10,10,10,.55)),url("/image_trigo_pix.png") center/cover no-repeat;color:white}
+ .rc-landing .triptychHero__title>span{color:white}
+ .rc-landing .triptychHero__title>strong{color:#e9d7bf}
+ .rc-landing .triptychHero__countries,.rc-landing .triptychHero__summary,.rc-landing .triptychHero__detail{color:white}
+}
+
+/* Preview de paleta mate pastel: luz suave y fotografías sin brillos intensos. */
+.rc-landing .triptychHero__photo{filter:grayscale(.34) saturate(.48) brightness(.85) contrast(.86) sepia(.12)!important;transition:filter .25s ease}
+.rc-landing .triptychHero__panel:hover .triptychHero__photo{filter:grayscale(.22) saturate(.55) brightness(.89) contrast(.9) sepia(.1)!important}
+.rc-landing .triptychHero__panelShade{background:linear-gradient(180deg,rgba(28,33,37,.57) 0%,rgba(39,43,42,.13) 45%,rgba(20,24,22,.42) 100%)!important}
+@media(min-width:901px){.rc-landing .triptychHero__intro{background:linear-gradient(180deg,rgba(32,38,40,.55),rgba(43,45,40,.2) 50%,rgba(24,29,25,.57)),url("/image_trigo_pix.png") center/cover no-repeat}}
+
+/* Paneles: títulos y descripciones más grandes y centrados visualmente. */
+@media(min-width:901px){
+ .rc-landing .triptychHero__panelContent,.rc-landing .triptychHero__panel--fields .triptychHero__panelContent,.rc-landing .triptychHero__panel--services .triptychHero__panelContent{left:24%;right:9%;top:34%;text-align:center;align-items:center}
+ .rc-landing .triptychHero__panelTitle{font-size:clamp(25px,2.05vw,39px);line-height:1.07}
+ .rc-landing .triptychHero__panelText{font-size:clamp(16px,1.2vw,22px);line-height:1.3}
+ .rc-landing .triptychHero__panelArrow{font-size:clamp(28px,2.3vw,40px)}
+}
+@media(min-width:901px) and (max-width:1250px){
+ .rc-landing .triptychHero__panelContent,.rc-landing .triptychHero__panel--fields .triptychHero__panelContent,.rc-landing .triptychHero__panel--services .triptychHero__panelContent{left:25%;right:7%;top:34%}
+ .rc-landing .triptychHero__panelTitle{font-size:clamp(21px,2vw,27px)}
+ .rc-landing .triptychHero__panelText{font-size:clamp(14px,1.35vw,17px)}
+}
+@media(max-width:900px){.rc-landing .triptychHero__panelContent{text-align:center;align-items:center}.rc-landing .triptychHero__panelTitle{font-size:clamp(28px,5vw,35px)}.rc-landing .triptychHero__panelText{font-size:clamp(16px,3vw,19px)}}
+
+/* Ajuste visual: subir títulos y enfocar tractor en panel Servicios. */
+@media(min-width:901px){
+ .rc-landing .triptychHero__panelContent,.rc-landing .triptychHero__panel--fields .triptychHero__panelContent,.rc-landing .triptychHero__panel--services .triptychHero__panelContent{top:19%;}
+ .rc-landing .triptychHero__panel--services .triptychHero__photo{object-position:18% 50%!important;transform:scale(1.18);transform-origin:22% center}
+}
+@media(min-width:901px) and (max-width:1250px){
+ .rc-landing .triptychHero__panelContent,.rc-landing .triptychHero__panel--fields .triptychHero__panelContent,.rc-landing .triptychHero__panel--services .triptychHero__panelContent{top:19%;}
+}
+@media(max-width:900px){.rc-landing .triptychHero__panel--services .triptychHero__photo{object-position:20% 50%!important}}
+
+/* Ajuste final aprobado: subir ligeramente el botón Registrarse. */
+@media(min-width:901px){.rc-landing .triptychHero__actions{bottom:12%;}}

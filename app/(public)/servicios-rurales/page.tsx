@@ -7,6 +7,7 @@ import { createClient } from "@/lib/supabase/server";
 import { SERVICIOS_RURALES, SERVICIO_LABEL } from "@/data/servicios-rurales";
 import type { ServicioRural } from "@/types";
 import ListingHeader from "@/components/listings/ListingHeader";
+import ListingCountrySelector from "@/components/listings/ListingCountrySelector";
 import ServiciosFiltros from "@/components/servicios/ServiciosFiltros";
 import "@/styles/explorador.css";
 import "@/styles/servicios-rurales.css";
@@ -200,11 +201,11 @@ export default async function ServiciosRuralesPage({
           count={`${prestadores.length} prestador${prestadores.length !== 1 ? "es" : ""} encontrado${prestadores.length !== 1 ? "s" : ""}`}
         />
 
-        <nav className="explorador-switch" aria-label="Explorar otras publicaciones">
+      <nav className="explorador-switch" aria-label="Explorar otras publicaciones">
           <Link href={`/campos?pais=${pais}`}>Ver campos →</Link>
         </nav>
 
-        <Link href={`/campos/mapa?${mapParams.toString()}`} className="listing-button rc-map-before-listings">Ver en mapa →</Link>
+        <div className="rc-listing-map-country"><Link href={`/campos/mapa?${mapParams.toString()}`} className="listing-button rc-map-before-listings">Ver en mapa →</Link><ListingCountrySelector country={pais} /></div>
 
         <div className="explorador-main">
           {prestadores.length > 0 ? (

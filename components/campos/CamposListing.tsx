@@ -4,6 +4,7 @@ import Link from "next/link";
 import { cookies } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
 import ListingHeader from "@/components/listings/ListingHeader";
+import ListingCountrySelector from "@/components/listings/ListingCountrySelector";
 import CampoCard from "@/components/campos/CampoCard";
 import CampoFiltros from "@/components/campos/CampoFiltros";
 import DemandaZonasPanel from "@/components/campos/DemandaZonasPanel";
@@ -91,7 +92,7 @@ export default async function CamposListing({ params, titulo, descripcion, soloA
         <Link href={`/servicios-rurales?pais=${pais}`}>Ver servicios rurales →</Link>
       </nav>
 
-      <Link href={`/campos/mapa?${mapParams}`} className="listing-button rc-map-before-listings">Ver en mapa →</Link>
+      <div className="rc-listing-map-country"><Link href={`/campos/mapa?${mapParams}`} className="listing-button rc-map-before-listings">Ver en mapa →</Link><ListingCountrySelector country={pais} /></div>
 
       <main className="explorador-main">
         <div className="explorador-contenido">
