@@ -267,3 +267,27 @@
   .rc-landing .triptychHero__mobileHero .triptychHero__intro { padding-bottom: 24px; }
   .rc-landing .triptychHero__mobileHero .triptychHero__actions { margin: 0 auto 38px; }
 }
+
+/* Final mobile polish: compact transition to the first card, rounded hero bottom. */
+@media (max-width: 900px) {
+  .rc-landing .triptychHero__mobileHero {
+    border-radius: 0 0 26px 26px;
+    overflow: hidden;
+  }
+  .rc-landing .triptychHero__mobileHero .triptychHero__actions {
+    margin-bottom: 24px;
+  }
+  .rc-landing .triptychHero__panels {
+    margin-top: 0;
+    padding-top: 12px;
+  }
+}
+@media (max-width: 570px) {
+  .rc-landing .triptychHero__mobileHero {
+    border-radius: 0 0 24px 24px;
+  }
+  .rc-landing .triptychHero__mobileHero .triptychHero__actions {
+    margin-bottom: 22px;
+  }
+  .rc-landing .triptychHero__panels { padding-top: 10px; }
+}
