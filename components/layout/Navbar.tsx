@@ -221,14 +221,14 @@ function NavbarContent() {
             )}
           </div>
 
-          {/* Hamburguesa mobile */}
+          {/* Header mobile: país a la izquierda, menú de usuario al extremo derecho */}
           <div className="navbar-mobile-right">
-            <button type="button" className="navbar-mobile-account" aria-label="Mi cuenta y navegación" aria-expanded={menuAbierto} aria-controls="navbar-mobile-menu" onClick={() => setMenuAbierto((open) => !open)}>Mi cuenta</button>
             <div className="navbar-country-switch navbar-country-switch-mobile" aria-label="Seleccionar país">
               <select aria-label="Seleccionar país" value={activeCountry} onChange={(event) => cambiarPais(event.target.value as CountryCode)} style={{background:"#fff",color:"#111",borderRadius:"20px",padding:"7px",fontWeight:700}}>
                 {(["AR","UY","PY"] as const).map((code) => <option key={code} value={code}>{COUNTRIES[code].flag} {code}</option>)}
               </select>
             </div>
+            <button type="button" className="navbar-mobile-account" aria-label="Mi cuenta y navegación" aria-expanded={menuAbierto} aria-controls="navbar-mobile-menu" onClick={() => setMenuAbierto((open) => !open)}>Mi cuenta</button>
             {user && (
               <Link
                 href="/mensajes"
