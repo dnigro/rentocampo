@@ -12,6 +12,7 @@ import servicesPhoto from "@/public/image_truck_pix.png";
 export default function LandingTriptychHero() {
   return (
     <section className="triptychHero" id="hero" aria-labelledby="triptychHero-title">
+      <div className="triptychHero__mobileHero">
       <div className="triptychHero__intro">
         <p className="triptychHero__countries">AR · UY · PY · CL · BO · PE</p>
         <h1 className="triptychHero__title" id="triptychHero-title">
@@ -25,6 +26,13 @@ export default function LandingTriptychHero() {
           Explorá oportunidades con mapa, publicá tu primer campo gratis
           y conectá de forma directa.
         </p>
+      </div>
+
+      <nav className="triptychHero__actions" aria-label="Acciones principales">
+        <RegionalLink href="/register" className="triptychHero__button triptychHero__button--register">
+          <span>Registrarse</span><span aria-hidden="true">→</span>
+        </RegionalLink>
+      </nav>
       </div>
 
       <div className="triptychHero__panels" aria-label="Explorá RentoCampo">
@@ -76,11 +84,7 @@ export default function LandingTriptychHero() {
         </Link>
       </div>
 
-      <nav className="triptychHero__actions" aria-label="Acciones principales">
-        <RegionalLink href="/register" className="triptychHero__button triptychHero__button--register">
-          <span>Registrarse</span><span aria-hidden="true">→</span>
-        </RegionalLink>
-      </nav>
+
     </section>
   );
 }
