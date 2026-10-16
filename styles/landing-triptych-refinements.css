@@ -190,3 +190,6 @@
  .rc-landing .triptychHero__panelContent,.rc-landing .triptychHero__panel--fields .triptychHero__panelContent,.rc-landing .triptychHero__panel--services .triptychHero__panelContent{top:19%;}
 }
 @media(max-width:900px){.rc-landing .triptychHero__panel--services .triptychHero__photo{object-position:20% 50%!important}}
+
+/* Ajuste final aprobado: subir ligeramente el botón Registrarse. */
+@media(min-width:901px){.rc-landing .triptychHero__actions{bottom:12%;}}
