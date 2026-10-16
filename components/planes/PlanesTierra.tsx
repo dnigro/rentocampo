@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { PLANES_TIERRA, planTierraRank, publicacionesLabel } from "@/data/planes-tierra";
 import { trackEvent } from "@/lib/analytics";
+import { COUNTRIES, type CountryCode } from "@/data/countries";
 
 interface Props {
   planActualId: string;
@@ -13,6 +14,7 @@ interface Props {
   publicacionesRestantes: number | null;
   expiryLabel: string | null;
   expiryDays: number | null;
+  countryCode: CountryCode | null;
 }
 
 export default function PlanesTierra({
@@ -23,12 +25,18 @@ export default function PlanesTierra({
   publicacionesRestantes,
   expiryLabel,
   expiryDays,
+  countryCode,
 }: Props) {
   const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
   const [checkoutError, setCheckoutError] = useState("");
+  const [checkoutNotice, setCheckoutNotice] = useState("");
+  const paidPlansEnabled = countryCode === "AR";
+  const countryLabel = countryCode ? COUNTRIES[countryCode].name : "tu país";
 
   async function iniciarCheckout(planId: string) {
+    if (!paidPlansEnabled) return;
     setCheckoutError("");
+    setCheckoutNotice("");
 
     const plan = PLANES_TIERRA.find((item) => item.id === planId);
     trackEvent("iniciar_pago", {
@@ -48,6 +56,11 @@ export default function PlanesTierra({
         body: JSON.stringify({ planId }),
       });
       const result = await response.json();
+
+      if (response.status === 403 && result.code === "billing_country_unsupported") {
+        setCheckoutNotice(result.message ?? result.error ?? "La compra de paquetes todavía no está disponible en tu país.");
+        return;
+      }
 
       if (!response.ok || !result.checkoutUrl) {
         throw new Error(
@@ -110,8 +123,20 @@ export default function PlanesTierra({
         </div>
       )}
 
+      {!paidPlansEnabled && (
+        <div className="planes-tierra-region-notice" role="status">
+          <strong>Estamos llegando a {countryLabel}</strong>
+          <p>La compra de paquetes de publicaciones todavía no está disponible en tu país. Estamos trabajando para habilitarla.</p>
+          <p>Mientras tanto, podés publicar tu primer campo gratis y utilizar los servicios rurales sin costo.</p>
+        </div>
+      )}
+
+      {checkoutNotice && (
+        <div className="planes-tierra-region-notice" role="status">{checkoutNotice}</div>
+      )}
+
       {checkoutError && (
-        <div className="planes-tierra-checkout-error">{checkoutError}</div>
+        <div className="planes-tierra-checkout-error" role="alert">{checkoutError}</div>
       )}
 
       <div className="planes-tierra-grid">
@@ -147,6 +172,8 @@ export default function PlanesTierra({
               <div className="plan-tierra-price">
                 {plan.precioUsdAnual === 0 ? (
                   <strong>Gratis</strong>
+                ) : !paidPlansEnabled ? (
+                  <strong className="plan-tierra-price-soon">Próximamente</strong>
                 ) : (
                   <>
                     <strong>USD {plan.precioUsdAnual}</strong>
@@ -170,8 +197,8 @@ export default function PlanesTierra({
               <button
                 type="button"
                 className="plan-tierra-button"
-                disabled={bloqueadoPorPlan || loadingPlan !== null}
-                aria-disabled={bloqueadoPorPlan || loadingPlan !== null}
+                disabled={bloqueadoPorPlan || !paidPlansEnabled || loadingPlan !== null}
+                aria-disabled={bloqueadoPorPlan || !paidPlansEnabled || loadingPlan !== null}
                 onClick={() => {
                   if (!bloqueadoPorPlan) void iniciarCheckout(plan.id);
                 }}
@@ -180,6 +207,8 @@ export default function PlanesTierra({
                   ? "Plan actual"
                   : esInferior
                     ? "Incluido en tu plan"
+                    : !paidPlansEnabled
+                      ? "No disponible aún"
                     : loadingPlan === plan.id
                       ? "Abriendo Mercado Pago..."
                       : "Elegir plan"}
@@ -190,7 +219,7 @@ export default function PlanesTierra({
       </div>
 
       <div className="planes-tierra-note">
-        <strong>Modelo comercial activo.</strong> Los campos de demostración no
+        <strong>{paidPlansEnabled ? "Modelo comercial activo." : "Paquetes en preparación."}</strong> Los campos de demostración no
         consumen publicaciones. Tenés {publicacionesReales} campo{publicacionesReales === 1 ? "" : "s"} real{publicacionesReales === 1 ? "" : "es"} registrado{publicacionesReales === 1 ? "" : "s"}.
       </div>
     </section>
