@@ -4,6 +4,7 @@ import Link from "next/link";
 import { cookies } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
 import ListingHeader from "@/components/listings/ListingHeader";
+import ListingCountrySelector from "@/components/listings/ListingCountrySelector";
 import CampoCard from "@/components/campos/CampoCard";
 import CampoFiltros from "@/components/campos/CampoFiltros";
 import DemandaZonasPanel from "@/components/campos/DemandaZonasPanel";
@@ -86,6 +87,8 @@ export default async function CamposListing({ params, titulo, descripcion, soloA
         description={descripcion}
         count={`${count} campo${count !== 1 ? "s" : ""} encontrado${count !== 1 ? "s" : ""}`}
       />
+
+      <ListingCountrySelector country={pais} />
 
       <nav className="explorador-switch" aria-label="Explorar otras publicaciones">
         <Link href={`/servicios-rurales?pais=${pais}`}>Ver servicios rurales →</Link>
