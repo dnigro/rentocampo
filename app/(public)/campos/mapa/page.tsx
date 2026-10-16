@@ -16,6 +16,9 @@ const DEMO_SERVICIO_VISIBLE_IDS = new Set<string>([
   "10000000-0000-4000-8000-000000000010",
   "10000000-0000-4000-8000-000000000011",
   "10000000-0000-4000-8000-000000000012",
+  "10000000-0000-4000-8000-000000000013",
+  "10000000-0000-4000-8000-000000000014",
+  "10000000-0000-4000-8000-000000000015",
 ]);
 
 export const metadata: Metadata = {
@@ -81,9 +84,10 @@ export default async function MapaPage({
   const { data: serviciosDemo } = await supabase
     .from("demo_servicios_rurales")
     .select(
-      "id, nombre, country_code, bio, servicios_rurales, zona_servicio, provincia_servicio, localidad_servicio, latitud, longitud",
+      "id, nombre, country_code, bio, servicios_rurales, zona_servicio, provincia_servicio, localidad_servicio, latitud, longitud, imagen_url",
     )
-    .eq("activo", true);
+    .eq("activo", true)
+    .eq("country_code", selectedCountry);
 
   const prestadoresMapa = [
     ...(publicacionesServicios ?? []).map((publicacion) => ({
@@ -107,7 +111,7 @@ export default async function MapaPage({
       .map((prestador) => ({
         ...prestador,
         avatar_url: undefined,
-        service_photo_url: "/demo-servicio-veterinaria.jpg",
+        service_photo_url: prestador.imagen_url || "/demo-servicio-veterinaria.jpg",
         is_demo: true,
       })),
   ].filter((p) => (!params.provincia || p.provincia_servicio === params.provincia) && (!servicioInicial || p.servicios_rurales.includes(servicioInicial)));
