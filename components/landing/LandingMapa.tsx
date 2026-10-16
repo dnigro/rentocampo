@@ -9,7 +9,7 @@ export default function LandingMapa() {
         <div className="rc-map-copy">
           <p className="rc-kicker">Tierras productivas en la región</p>
           <h2 className="rc-map-title">La red federal del campo</h2>
-          <p>Buscá campos disponibles en Argentina, Uruguay y Paraguay, por zona y aptitud agrícola, ganadera o mixta.</p>
+          <p>Buscá campos disponibles en Argentina, Uruguay, Paraguay, Chile, Bolivia y Perú, por zona y aptitud agrícola, ganadera o mixta.</p>
           <p className="rc-map-emphasis">
             Conectamos oportunidades en cada región productiva.{" "}
             <Link href="/alquiler-de-campos">Explorar alquiler de campos →</Link>
