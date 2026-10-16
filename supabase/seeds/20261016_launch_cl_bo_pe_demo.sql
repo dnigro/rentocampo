@@ -25,18 +25,40 @@ select demos.id, owner.id, demos.country_code, demos.titulo, demos.descripcion, 
 from demos cross join owner
 on conflict (id) do nothing;
 
--- Copy the already-approved demo photograph if one exists. In a clean UAT DB,\n-- site UI uses its local static demo fallback without inventing storage objects.
+-- Same pre-existing photo as the current RentoCampo field DEMOs.
+-- storage_path marks a versioned /public asset, not a Storage upload.
 insert into public.campos_fotos (campo_id, propietario_id, url, orden, storage_path)
-select demo.id, (select propietario_id from public.campos where id = demo.id), foto.url, 0, foto.storage_path
-from (values
-  ('20000000-0000-4000-8000-000000000041'::uuid),
-  ('20000000-0000-4000-8000-000000000042'::uuid),
-  ('20000000-0000-4000-8000-000000000043'::uuid)
-) demo(id)
-cross join lateral (
-  select url, storage_path from public.campos_fotos
-  where campo_id = '20000000-0000-4000-8000-000000000001'::uuid
-  order by orden asc limit 1
-) foto
-where exists (select 1 from public.campos c where c.id = demo.id)
-  and not exists (select 1 from public.campos_fotos existing where existing.campo_id = demo.id);
+select c.id, c.propietario_id,
+       '/rentocampo-hero-campo-bn-1920x1080.webp', 0,
+       'public-assets/rentocampo-hero-campo-bn-1920x1080.webp'
+from public.campos c
+where c.id in (
+ '20000000-0000-4000-8000-000000000041'::uuid,
+ '20000000-0000-4000-8000-000000000042'::uuid,
+ '20000000-0000-4000-8000-000000000043'::uuid
+)
+and not exists (select 1 from public.campos_fotos f where f.campo_id=c.id);
+
+-- One service DEMO per country with RentoCampo's existing rural veterinary photo.
+insert into public.demo_servicios_rurales
+(id,nombre,bio,servicios_rurales,zona_servicio,provincia_servicio,
+ localidad_servicio,latitud,longitud,activo,country_code,imagen_url)
+values
+('10000000-0000-4000-8000-000000000013'::uuid,'DEMO · Veterinaria rural en Maule, Chile',
+ 'PERFIL DEMO · Servicio de ejemplo de RentoCampo. No representa una empresa real ni admite consultas.',
+ array['veterinaria']::text[],'Talca, Curicó y zonas ganaderas del Maule',
+ 'Maule','Talca',-35.4264,-71.6554,true,'CL','/demo-servicio-veterinaria.jpg'),
+('10000000-0000-4000-8000-000000000014'::uuid,'DEMO · Veterinaria rural en Santa Cruz, Bolivia',
+ 'PERFIL DEMO · Servicio de ejemplo de RentoCampo. No representa una empresa real ni admite consultas.',
+ array['veterinaria']::text[],'Warnes, Montero y áreas de producción ganadera',
+ 'Santa Cruz','Warnes',-17.5163,-63.1669,true,'BO','/demo-servicio-veterinaria.jpg'),
+('10000000-0000-4000-8000-000000000015'::uuid,'DEMO · Veterinaria rural en La Libertad, Perú',
+ 'PERFIL DEMO · Servicio de ejemplo de RentoCampo. No representa una empresa real ni admite consultas.',
+ array['veterinaria']::text[],'Trujillo, valles rurales y alrededores',
+ 'La Libertad','Trujillo',-8.1116,-79.0287,true,'PE','/demo-servicio-veterinaria.jpg')
+on conflict (id) do update set
+ nombre=excluded.nombre,bio=excluded.bio,servicios_rurales=excluded.servicios_rurales,
+ zona_servicio=excluded.zona_servicio,provincia_servicio=excluded.provincia_servicio,
+ localidad_servicio=excluded.localidad_servicio,latitud=excluded.latitud,
+ longitud=excluded.longitud,activo=excluded.activo,country_code=excluded.country_code,
+ imagen_url=excluded.imagen_url;
