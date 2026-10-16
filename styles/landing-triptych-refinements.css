@@ -63,3 +63,23 @@
   .rc-landing .triptychHero__title > span { -webkit-text-stroke: .8px #141414; }
   .rc-landing .triptychHero__title > strong { -webkit-text-stroke: .5px #b4a253; }
 }
+
+/* Jerarquía tipográfica de alto impacto aprobada para el hero. */
+.rc-landing .triptychHero__title > span { font-weight: 950; letter-spacing: -.065em; -webkit-text-stroke: 0; }
+.rc-landing .triptychHero__title > strong { font-weight: 950; letter-spacing: -.055em; -webkit-text-stroke: 0; color: #9c8430; }
+.rc-landing .triptychHero__panelTitle { font-weight: 950; letter-spacing: -.045em; text-transform: uppercase; line-height: 1.04; }
+.rc-landing .triptychHero__panelText { font-weight: 800; line-height: 1.25; }
+.rc-landing .triptychHero__summary { font-weight: 900; letter-spacing: -.025em; }
+.rc-landing .triptychHero__button { font-weight: 900; }
+@media (min-width: 1251px) {
+  .rc-landing .triptychHero__panelTitle { font-size: clamp(22px, 1.65vw, 32px); }
+  .rc-landing .triptychHero__panelText { font-size: clamp(14px, 1.02vw, 18px); }
+}
+@media (min-width: 901px) and (max-width: 1250px) {
+  .rc-landing .triptychHero__panelTitle { font-size: clamp(16px, 1.5vw, 21px); }
+  .rc-landing .triptychHero__panelText { font-size: 13px; }
+}
+@media (max-width: 900px) {
+  .rc-landing .triptychHero__panelTitle { font-size: 27px; }
+  .rc-landing .triptychHero__panelText { font-size: 15px; }
+}
