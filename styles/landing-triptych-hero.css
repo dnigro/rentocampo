@@ -1,0 +1,375 @@
+/*
+ * Tríptico de portada RentoCampo — aislado del antiguo hero editorial.
+ * Solo se carga en app/page.tsx; no afecta Navbar ni otras páginas.
+ */
+.rc-landing .triptychHero {
+  --triptych-gold: #e6d87a;
+  position: relative;
+  isolation: isolate;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 660px;
+  height: clamp(660px, 77vh, 790px);
+  overflow: hidden;
+  background: #ece9df;
+  color: #171717;
+  border-bottom: 1px solid #1b1b1b;
+}
+.rc-landing .triptychHero__intro {
+  position: relative;
+  z-index: 2;
+  box-sizing: border-box;
+  width: 40%;
+  height: 100%;
+  padding: clamp(55px, 7vh, 94px) 0 140px clamp(26px, 4vw, 74px);
+  background:
+    linear-gradient(180deg, rgba(250,249,246,.99) 0%,rgba(250,249,246,.98) 49%,rgba(250,249,246,.76) 71%,rgba(250,249,246,.01) 100%),
+    url("/landing-campo-rentocampo.jpg") 50% 70% / cover no-repeat;
+}
+.rc-landing .triptychHero__countries {
+  margin: 0 0 20px;
+  color: #38332b;
+  font-family: var(--font-dm-sans), sans-serif;
+  font-size: clamp(12px, 1vw, 15px);
+  font-weight: 900;
+  letter-spacing: .20em;
+  line-height: 1.4;
+}
+.rc-landing .triptychHero__title {
+  display: flex;
+  flex-direction: column;
+  max-width: 650px;
+  margin: 0;
+  color: #141414;
+  font-family: var(--font-display), "Arial Narrow", sans-serif;
+  font-weight: 400;
+  font-size: clamp(64px, 6vw, 112px);
+  letter-spacing: -.019em;
+  line-height: .91;
+  text-transform: uppercase;
+}
+.rc-landing .triptychHero__title span {
+  display: block;
+  white-space: nowrap;
+}
+.rc-landing .triptychHero__title strong {
+  display: block;
+  margin-top: 10px;
+  color: #b4a253;
+  font-size: .76em;
+  font-weight: 400;
+  line-height: .96;
+  text-wrap: balance;
+}
+.rc-landing .triptychHero__summary,
+.rc-landing .triptychHero__detail {
+  max-width: 415px;
+  margin: 23px 28px 0 0;
+  color: #242424;
+  font-size: clamp(17px, 1.28vw, 22px);
+  font-weight: 800;
+  line-height: 1.3;
+}
+.rc-landing .triptychHero__detail {
+  max-width: 380px;
+  margin-top: 12px;
+  color: #383733;
+  font-size: clamp(14px, 1vw, 17px);
+  font-weight: 500;
+  line-height: 1.45;
+}
+
+/* Tres planos consecutivos con inclinación editorial tipo tríptico. */
+.rc-landing .triptychHero__panels {
+  position: absolute;
+  z-index: 1;
+  inset: 0 0 0 37%;
+  overflow: hidden;
+  background: #252723;
+}
+.rc-landing .triptychHero__panel {
+  position: absolute;
+  display: block;
+  top: 0;
+  bottom: 0;
+  box-sizing: border-box;
+  overflow: hidden;
+  color: #fff;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+  clip-path: polygon(14% 0%,100% 0%,86% 100%,0% 100%);
+}
+.rc-landing .triptychHero__panel--fields { z-index: 3; left: 0; width: 40%; }
+.rc-landing .triptychHero__panel--producers { z-index: 2; left: 31%; width: 40%; }
+.rc-landing .triptychHero__panel--services {
+  z-index: 1;
+  left: 59%;
+  width: 45%;
+  clip-path: polygon(14% 0%,100% 0%,100% 100%,0% 100%);
+}
+.rc-landing .triptychHero__photo {
+  object-fit: cover;
+  object-position: 53% 50%;
+  filter: grayscale(.5) saturate(.63) contrast(1.10);
+  transform: scale(1.04);
+  transition: transform .35s ease, filter .35s ease;
+}
+.rc-landing .triptychHero__panel--fields .triptychHero__photo { object-position: 45% 60%; }
+.rc-landing .triptychHero__panel--producers .triptychHero__photo { object-position: 61% 55%; }
+.rc-landing .triptychHero__panel--services .triptychHero__photo { object-position: 68% 50%; }
+.rc-landing .triptychHero__panelShade {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg,rgba(30,27,22,.75) 0%,rgba(51,43,32,.38) 40%,rgba(30,25,19,.06) 75%,rgba(11,11,10,.50) 100%);
+}
+.rc-landing .triptychHero__panel--producers .triptychHero__panelShade {
+  background: linear-gradient(180deg,rgba(28,49,32,.86),rgba(34,67,39,.37) 51%,rgba(7,34,21,.48));
+}
+.rc-landing .triptychHero__panel--services .triptychHero__panelShade {
+  background: linear-gradient(180deg,rgba(41,48,54,.78),rgba(46,58,60,.21) 55%,rgba(14,21,22,.43));
+}
+.rc-landing .triptychHero__panelContent {
+  position: absolute;
+  z-index: 2;
+  top: clamp(65px, 8.5vh, 112px);
+  left: 21%;
+  right: 10%;
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 9px;
+  text-shadow: 0 1px 7px rgba(0,0,0,.45);
+}
+.rc-landing .triptychHero__panel--services .triptychHero__panelContent { left: 19%; right: 4%; }
+.rc-landing .triptychHero__panelTitle {
+  color: #fff;
+  font-size: clamp(15px, 1.45vw, 25px);
+  font-weight: 900;
+  line-height: 1.10;
+  text-transform: uppercase;
+}
+.rc-landing .triptychHero__panelText {
+  max-width: 220px;
+  color: rgba(255,255,255,.94);
+  font-size: clamp(12px, 1vw, 16px);
+  font-weight: 600;
+  line-height: 1.35;
+}
+.rc-landing .triptychHero__panelArrow {
+  display: block;
+  margin-top: 12px;
+  color: #fff;
+  font-size: 33px;
+  font-weight: 400;
+  line-height: 1;
+  transition: transform .2s ease;
+}
+.rc-landing .triptychHero__panel:hover .triptychHero__photo,
+.rc-landing .triptychHero__panel:focus-visible .triptychHero__photo {
+  filter: grayscale(.20) saturate(.82) contrast(1.08);
+  transform: scale(1.095);
+}
+.rc-landing .triptychHero__panel:hover .triptychHero__panelArrow { transform: translateX(8px); }
+.rc-landing .triptychHero__panel:focus-visible {
+  outline: 4px solid var(--triptych-gold);
+  outline-offset: -9px;
+}
+
+/* CTAs redondeados flotan sobre las tres fotografías, sin tapar titulares. */
+.rc-landing .triptychHero__actions {
+  position: absolute;
+  z-index: 5;
+  bottom: clamp(28px, 5vh, 48px);
+  left: clamp(26px, 4vw, 74px);
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0,1fr));
+  box-sizing: border-box;
+  width: min(730px, 63vw);
+  gap: 12px;
+}
+.rc-landing .triptychHero__button,
+.rc-landing .triptychHero__button:link,
+.rc-landing .triptychHero__button:visited {
+  display: inline-flex;
+  box-sizing: border-box;
+  min-width: 0;
+  min-height: 68px;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 9px;
+  padding: 12px clamp(13px, 1.25vw, 21px);
+  border-radius: 12px;
+  border: 1px solid transparent;
+  color: #fff;
+  font-family: var(--font-dm-sans), sans-serif;
+  font-size: clamp(13px, 1.05vw, 18px);
+  font-weight: 900;
+  text-decoration: none;
+  text-transform: uppercase;
+  white-space: nowrap;
+  box-shadow: 0 6px 20px rgba(0,0,0,.11);
+  transition: transform .15s, background-color .15s;
+}
+.rc-landing .triptychHero__button--register { background: #194b36; border-color: #194b36; }
+.rc-landing .triptychHero__button--fields { background: #141414; border-color: #141414; }
+.rc-landing .triptychHero__button--services {
+  color: #141414 !important;
+  background: #d6d4ce;
+  border-color: #d6d4ce;
+}
+.rc-landing .triptychHero__button:hover { transform: translateY(-3px); }
+.rc-landing .triptychHero__button--register:hover { background: #22654a; }
+.rc-landing .triptychHero__button--fields:hover { background: #333; }
+.rc-landing .triptychHero__button--services:hover { background: #f3f0e8; }
+.rc-landing .triptychHero__button:focus-visible { outline: 3px solid #d4b446; outline-offset: 3px; }
+.rc-landing .triptychHero__button > span:last-child { flex: 0 0 auto; font-size: 22px; font-weight: 400; }
+
+@media(max-width:1250px) and (min-width:901px) {
+  .rc-landing .triptychHero__intro {
+    width: 42%;
+    padding-left: 28px;
+  }
+  .rc-landing .triptychHero__title { font-size: clamp(59px, 5.8vw, 78px); }
+  .rc-landing .triptychHero__title strong { font-size: .72em; }
+  .rc-landing .triptychHero__summary { font-size: 18px; }
+  .rc-landing .triptychHero__detail { font-size: 14px; }
+  .rc-landing .triptychHero__panelContent { left: 19%; right: 4%; }
+  .rc-landing .triptychHero__panelTitle { font-size: clamp(14px,1.5vw,18px); }
+  .rc-landing .triptychHero__panelText { font-size: 12px; }
+  .rc-landing .triptychHero__actions { left: 28px; width: min(650px, 76vw); }
+  .rc-landing .triptychHero__button { padding: 10px 13px; font-size: clamp(13px,1.1vw,15px); }
+}
+
+/* Mobile: las diagonales se transforman en tres tarjetas completas, grandes
+ * y táctiles; el CTA no cubre las fotos ni las palabras. */
+@media(max-width:900px) {
+  .rc-landing .triptychHero {
+    display: flex;
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    flex-direction: column;
+    overflow: visible;
+    background: #f8f7f3;
+  }
+  .rc-landing .triptychHero__intro {
+    width: 100%;
+    height: auto;
+    padding: 38px 22px 26px;
+    background: #f8f7f3;
+  }
+  .rc-landing .triptychHero__countries {
+    margin: 0 0 15px;
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: .17em;
+    overflow-wrap: anywhere;
+  }
+  .rc-landing .triptychHero__title { font-size: clamp(58px, 10.3vw, 85px); }
+  .rc-landing .triptychHero__title strong { margin-top: 5px; font-size: .71em; }
+  .rc-landing .triptychHero__summary {
+    max-width: 650px;
+    margin: 17px 0 0;
+    font-size: 19px;
+    line-height: 1.28;
+  }
+  .rc-landing .triptychHero__detail {
+    max-width: 600px;
+    margin: 10px 0 0;
+    font-size: 15px;
+  }
+  .rc-landing .triptychHero__actions {
+    position: relative;
+    z-index: 4;
+    order: 2;
+    left: auto;
+    bottom: auto;
+    width: auto;
+    margin: 0 22px 27px;
+    grid-template-columns: repeat(3,minmax(0,1fr));
+    gap: 9px;
+  }
+  .rc-landing .triptychHero__button,
+  .rc-landing .triptychHero__button:link,
+  .rc-landing .triptychHero__button:visited {
+    min-height: 55px;
+    padding: 10px 13px;
+    font-size: 13px;
+    box-shadow: none;
+  }
+  .rc-landing .triptychHero__panels {
+    position: relative;
+    inset: auto;
+    z-index: 1;
+    order: 3;
+    display: flex;
+    width: 100%;
+    height: auto;
+    flex-direction: column;
+    gap: 8px;
+    padding: 0 12px 14px;
+    box-sizing: border-box;
+    background: #f8f7f3;
+    overflow: visible;
+  }
+  .rc-landing .triptychHero__panel,
+  .rc-landing .triptychHero__panel--services {
+    position: relative;
+    top: auto;
+    bottom: auto;
+    left: auto;
+    width: 100%;
+    min-height: 174px;
+    border-radius: 12px;
+    clip-path: none;
+    isolation: isolate;
+  }
+  .rc-landing .triptychHero__panelContent,
+  .rc-landing .triptychHero__panel--services .triptychHero__panelContent {
+    top: 22px;
+    left: 23px;
+    right: 23px;
+    gap: 7px;
+  }
+  .rc-landing .triptychHero__panelTitle { font-size: 23px; }
+  .rc-landing .triptychHero__panelText { font-size: 14px; }
+  .rc-landing .triptychHero__panelArrow { margin-top: 5px; font-size: 27px; }
+  .rc-landing .triptychHero__photo { object-position: center 60%; }
+}
+@media(max-width:570px) {
+  .rc-landing .triptychHero__intro { padding: 31px 17px 21px; }
+  .rc-landing .triptychHero__title { font-size: clamp(56px,13vw,76px); }
+  .rc-landing .triptychHero__title strong {
+    font-size: .62em;
+    text-wrap: pretty;
+    overflow-wrap: anywhere;
+  }
+  .rc-landing .triptychHero__countries {
+    font-size: 11px;
+    letter-spacing: .11em;
+  }
+  .rc-landing .triptychHero__summary { font-size: 17px; }
+  .rc-landing .triptychHero__detail { font-size: 14px; }
+  .rc-landing .triptychHero__actions {
+    margin: 0 17px 23px;
+    grid-template-columns: 1fr;
+    gap: 9px;
+  }
+  .rc-landing .triptychHero__button,
+  .rc-landing .triptychHero__button:link,
+  .rc-landing .triptychHero__button:visited {
+    min-height: 55px;
+    padding: 12px 18px;
+    font-size: 16px;
+  }
+  .rc-landing .triptychHero__panels { padding-inline: 10px; }
+  .rc-landing .triptychHero__panel { min-height: 174px; }
+}
+@media(prefers-reduced-motion:reduce) {
+  .rc-landing .triptychHero__button,
+  .rc-landing .triptychHero__photo,
+  .rc-landing .triptychHero__panelArrow { transition: none !important; }
+}
