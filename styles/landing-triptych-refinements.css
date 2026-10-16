@@ -103,22 +103,13 @@
 .rc-landing .triptychHero__panelText {font-size:clamp(14px,1.12vw,19px);font-weight:800}
 @media(max-width:900px){.rc-landing .triptychHero__panelTitle{font-size:28px}.rc-landing .triptychHero__panelText{font-size:16px}}
 
-/* Alinear la primera costura con las otras: el inicio del primer panel
-   se inclina desde x=+38px arriba hasta x=-38px abajo. */
+/* Geometría única: no recortar el contenedor ni crear una franja vertical.
+   La primera costura usa el mismo desplazamiento que las siguientes. */
 @media(min-width:901px){
- .rc-landing .triptychHero__panels{overflow:visible;clip-path:none}
- .rc-landing .triptychHero__panel--fields{clip-path:polygon(13% 0,100% 0,87% 100%,0 100%)}
- .rc-landing .triptychHero__intro{z-index:2;clip-path:polygon(0 0,calc(100% - 42px) 0,calc(100% + 42px) 100%,0 100%)}
- .rc-landing .triptychHero__panel--fields{z-index:3}
- .rc-landing .triptychHero__panel--fields .triptychHero__panelContent{left:24%;right:4%}
-}
-
-/* Corrección final: todas las costuras bajan hacia la izquierda.
-   El primer panel inicia antes arriba y termina más a la izquierda abajo. */
-@media(min-width:901px){
- .rc-landing .triptychHero__intro {clip-path:none;z-index:1}
- .rc-landing .triptychHero__panels {z-index:2;overflow:hidden;inset:0 0 0 37%}
- .rc-landing .triptychHero__panel--fields {left:0;width:38%;clip-path:polygon(13% 0,100% 0,87% 100%,0 100%)}
- .rc-landing .triptychHero__panel--producers {left:32%;width:39%;clip-path:polygon(13% 0,100% 0,87% 100%,0 100%)}
- .rc-landing .triptychHero__panel--services {left:65%;width:39%;clip-path:polygon(13% 0,100% 0,100% 100%,0 100%)}
+ .rc-landing .triptychHero__intro{z-index:1;clip-path:none;width:43%}
+ .rc-landing .triptychHero__panels{z-index:2;overflow:visible;inset:0 0 0 37%;background:transparent}
+ .rc-landing .triptychHero__panel--fields{z-index:3;left:-6%;width:44%;clip-path:polygon(13.65% 0,100% 0,87% 100%,0 100%)}
+ .rc-landing .triptychHero__panel--producers{z-index:2;left:32%;width:39%;clip-path:polygon(13% 0,100% 0,87% 100%,0 100%)}
+ .rc-landing .triptychHero__panel--services{z-index:1;left:65%;width:39%;clip-path:polygon(13% 0,100% 0,100% 100%,0 100%)}
+ .rc-landing .triptychHero__panel--fields .triptychHero__panelContent{left:28%;right:4%}
 }
