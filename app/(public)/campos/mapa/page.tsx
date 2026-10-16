@@ -4,7 +4,7 @@ import CampoMapa from "@/components/campos/CampoMapa";
 import { SERVICIOS_RURALES } from "@/data/servicios-rurales";
 import { campoFilterParams } from "@/lib/campos/filter-params";
 import type { CamposSearchParams } from "@/components/campos/CamposListing";
-import type { CountryCode } from "@/data/countries";
+import { resolveCountry, type CountryCode } from "@/data/countries";
 import type { ServicioRural } from "@/types";
 import type { Metadata } from "next";
 import { cookies } from "next/headers";
