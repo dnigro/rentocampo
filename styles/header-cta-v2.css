@@ -1,0 +1,79 @@
+/* EXPERIMENTO V2 — franja fotográfica sutil sobre la navegación habitual.
+   No altera el selector, el menú, la autenticación ni el hero. */
+html body header.navbar.navbar-strip-variant,
+html body .app-shell header.navbar.navbar-strip-variant {
+  height: auto !important;
+  min-height: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: visible !important;
+}
+html body header.navbar.navbar-strip-variant .navbar-inner {
+  box-sizing: border-box;
+  width: 100%;
+  flex: 0 0 96px;
+  height: 96px !important;
+  min-height: 96px !important;
+  margin-inline: auto;
+}
+html body header.navbar.navbar-strip-variant .header-photo-strip,
+html body header.navbar.navbar-strip-variant .header-photo-strip:link,
+html body header.navbar.navbar-strip-variant .header-photo-strip:visited {
+  position: relative;
+  display: flex;
+  width: 100%;
+  min-height: 39px;
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  overflow: hidden;
+  padding: 8px 20px;
+  border-bottom: 1px solid rgba(255,255,255,.16);
+  color: #fff !important;
+  text-decoration: none !important;
+  background-image: linear-gradient(90deg, rgba(9,11,11,.72),rgba(13,16,15,.94) 46%, #171a18 100%), url("/rentocampo-hero-campo-bn-1920x1080.webp");
+  background-size: cover;
+  background-position: center 56%;
+}
+html body header.navbar.navbar-strip-variant .header-photo-strip:hover { filter: brightness(1.2); }
+html body header.navbar.navbar-strip-variant .header-photo-strip__label {
+  color: #fff !important;
+  font-size: 14px;
+  font-weight: 900;
+  letter-spacing: .012em;
+}
+html body header.navbar.navbar-strip-variant .header-photo-strip__note {
+  color: #f0e599 !important;
+  font-size: 12px;
+  font-weight: 700;
+}
+html body header.navbar.navbar-strip-variant .header-photo-strip__arrow {
+  color: #f0e599 !important;
+  font-size: 18px;
+  line-height: 1;
+}
+html body header.navbar.navbar-strip-variant .header-photo-strip:focus-visible {
+  outline: 3px solid #e6d87a;
+  outline-offset: -3px;
+}
+@media(max-width:900px) {
+  html body header.navbar.navbar-strip-variant,
+  html body .app-shell header.navbar.navbar-strip-variant { height: auto !important; min-height: 0 !important; }
+  html body header.navbar.navbar-strip-variant .navbar-inner,
+  html body .app-shell header.navbar.navbar-strip-variant .navbar-inner {
+    flex: 0 0 76px !important;
+    height: 76px !important;
+    min-height: 76px !important;
+  }
+  html body header.navbar.navbar-strip-variant .header-photo-strip {
+    min-height: 39px;
+    gap: 8px;
+    padding: 8px 12px;
+  }
+  html body header.navbar.navbar-strip-variant .header-photo-strip__label { font-size: 12px; }
+  html body header.navbar.navbar-strip-variant .header-photo-strip__note { font-size: 11px; }
+}
+@media(max-width:390px) {
+  html body header.navbar.navbar-strip-variant .header-photo-strip__note { display: none; }
+}
