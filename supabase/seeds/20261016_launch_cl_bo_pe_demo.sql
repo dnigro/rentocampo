@@ -25,18 +25,18 @@ select demos.id, owner.id, demos.country_code, demos.titulo, demos.descripcion, 
 from demos cross join owner
 on conflict (id) do nothing;
 
--- Use the already-approved demo photograph, with site asset fallback.
+-- Copy the already-approved demo photograph if one exists. In a clean UAT DB,\n-- site UI uses its local static demo fallback without inventing storage objects.
 insert into public.campos_fotos (campo_id, propietario_id, url, orden, storage_path)
-select demo.id, (select propietario_id from public.campos where id = demo.id), coalesce(foto.url, '/hero-campo.jpeg'), 0, foto.storage_path
+select demo.id, (select propietario_id from public.campos where id = demo.id), foto.url, 0, foto.storage_path
 from (values
   ('20000000-0000-4000-8000-000000000041'::uuid),
   ('20000000-0000-4000-8000-000000000042'::uuid),
   ('20000000-0000-4000-8000-000000000043'::uuid)
 ) demo(id)
-left join lateral (
+cross join lateral (
   select url, storage_path from public.campos_fotos
   where campo_id = '20000000-0000-4000-8000-000000000001'::uuid
   order by orden asc limit 1
-) foto on true
+) foto
 where exists (select 1 from public.campos c where c.id = demo.id)
   and not exists (select 1 from public.campos_fotos existing where existing.campo_id = demo.id);
