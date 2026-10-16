@@ -7,12 +7,34 @@ html body header.navbar.navbar-landscape-unified,
 html body .app-shell header.navbar.navbar-landscape-unified,
 html body:has(.rc-landing) header.navbar.navbar-landscape-unified {
   isolation: isolate;
-  background: linear-gradient(90deg, rgba(13,16,15,.93) 0%, rgba(12,14,13,.78) 35%, rgba(11,15,13,.83) 62%, rgba(9,12,10,.94) 100%), url("/landing-campo-rentocampo.jpg") center 53% / cover no-repeat #161616 !important;
+  background: #161616 !important;
   border-bottom: 1px solid rgba(255,255,255,.27) !important;
   box-shadow: 0 3px 12px rgba(0,0,0,.18) !important;
 }
 
+/* Una sola capa fotográfica a escala de grises para todo el header. */
+html body header.navbar.navbar-landscape-unified::before,
+html body .app-shell header.navbar.navbar-landscape-unified::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  pointer-events: none;
+  background: url("/landing-campo-rentocampo.jpg") center 56% / cover no-repeat;
+  filter: grayscale(1) contrast(1.14) brightness(.72);
+}
+html body header.navbar.navbar-landscape-unified::after,
+html body .app-shell header.navbar.navbar-landscape-unified::after {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(90deg, rgba(8,11,10,.72), rgba(8,11,10,.35) 45%, rgba(8,11,10,.58) 75%, rgba(8,11,10,.76));
+}
 html body header.navbar.navbar-landscape-unified .navbar-inner {
+  position: relative;
+  z-index: 1;
   box-sizing: border-box;
   width: 100%;
   max-width: 1640px !important;
@@ -142,7 +164,7 @@ html body header.navbar.navbar-landscape-unified .navbar-actions .btn-ghost:focu
   html body .app-shell header.navbar.navbar-landscape-unified {
     height: 76px !important;
     min-height: 76px !important;
-    background-position: 45% center !important;
+    background-color: #161616 !important;
   }
   html body header.navbar.navbar-landscape-unified .navbar-mobile-account,
   html body .app-shell header.navbar.navbar-landscape-unified .navbar-mobile-account {
