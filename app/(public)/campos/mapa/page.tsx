@@ -34,8 +34,7 @@ export default async function MapaPage({
   const params = await searchParams;
   const { vista, servicio, pais } = params;
   const storedCountry = (await cookies()).get("rentocampo_country")?.value;
-  const selected = pais ?? storedCountry;
-  const selectedCountry: CountryCode = selected === "UY" || selected === "PY" ? selected : "AR";
+  const selectedCountry: CountryCode = resolveCountry(pais, storedCountry);
   const servicioInicial = SERVICIOS_RURALES.some(
     (item) => item.value === servicio,
   )
