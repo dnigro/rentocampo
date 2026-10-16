@@ -119,3 +119,10 @@
 .rc-landing .triptychHero__button--register{width:clamp(235px,17vw,290px)}
 @media(max-width:900px){.rc-landing .triptychHero__actions{width:auto;max-width:none;margin:0 22px 27px;display:flex}.rc-landing .triptychHero__button--register{width:min(290px,100%)}}
 @media(max-width:570px){.rc-landing .triptychHero__actions{margin:0 17px 23px}.rc-landing .triptychHero__button--register{width:min(290px,100%)}}
+
+/* CTA Registrarse: centrado en su posición, proporciones de Publicar campo. */
+.rc-landing .triptychHero__actions{justify-content:center;left:clamp(26px,4vw,74px);width:clamp(235px,17vw,290px);max-width:calc(100% - 52px)}
+.rc-landing .triptychHero__button--register,.rc-landing .triptychHero__button--register:link,.rc-landing .triptychHero__button--register:visited{width:100%;min-height:76px;border-radius:22px;padding:15px 23px;font-size:clamp(16px,1.13vw,19px);font-weight:950;letter-spacing:-.025em;align-items:center;justify-content:center;gap:16px}
+.rc-landing .triptychHero__button--register>span:last-child{font-size:23px}
+@media(max-width:900px){.rc-landing .triptychHero__actions{width:min(290px,calc(100% - 44px));max-width:none;margin:0 auto 27px;left:auto;justify-content:center}.rc-landing .triptychHero__button--register{min-height:66px}}
+@media(max-width:570px){.rc-landing .triptychHero__actions{width:min(290px,calc(100% - 34px));margin:0 auto 23px}}
