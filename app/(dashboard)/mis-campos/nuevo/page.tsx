@@ -2,6 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import CampoForm from "@/components/campos/CampoForm";
 import { getLandQuotaStatus } from "@/lib/billing/land-quota";
+import { resolveCountry } from "@/data/countries";
 import "@/styles/campos.css";
 import "@/styles/campo-location-improvements.css";
 
@@ -18,7 +19,7 @@ export default async function NuevoCampoPage() {
     .select("country_code")
     .eq("id", user.id)
     .single();
-  const initialCountry = profile?.country_code === "UY" || profile?.country_code === "PY" ? profile.country_code : "AR";
+  const initialCountry = resolveCountry(profile?.country_code);
 
   return (
     <div className="page-container">
