@@ -1,9 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import RegionalLink from "@/components/layout/RegionalLink";
-import fieldsPhoto from "@/public/landing-campo-rentocampo.jpg";
-import producersPhoto from "@/public/rentocampo-hero-campo-bn-1920x1080.webp";
-import servicesPhoto from "@/public/hero-campo.jpeg";
+import fieldsPhoto from "@/public/image_eol_pix.png";
+import producersPhoto from "@/public/image_vaca_pix.png";
+import servicesPhoto from "@/public/image_truck_pix.png";
 
 /**
  * Experimento visual de la portada. Tríptico editorial: Campos, Productores
