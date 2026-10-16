@@ -1,0 +1,87 @@
+/* EXPERIMENTO V1 — CTA fotográfico dentro del header regional compartido.
+   Usar la foto B/N existente, sin cargar assets nuevos ni alterar navegación. */
+@media (min-width: 901px) {
+  html body header.navbar.navbar-photo-variant .navbar-inner {
+    width: min(100%, 1680px);
+    max-width: 1680px;
+    gap: clamp(12px, 1.6vw, 30px);
+  }
+  html body header.navbar.navbar-photo-variant .navbar-actions {
+    gap: clamp(6px, .75vw, 12px);
+  }
+  html body header.navbar.navbar-photo-variant .navbar-actions a.header-photo-cta.btn-primary,
+  html body header.navbar.navbar-photo-variant .navbar-actions a.header-photo-cta.btn-primary:link,
+  html body header.navbar.navbar-photo-variant .navbar-actions a.header-photo-cta.btn-primary:visited {
+    display: inline-flex !important;
+    box-sizing: border-box !important;
+    flex: 0 0 auto !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 16px !important;
+    min-width: 228px !important;
+    min-height: 70px !important;
+    padding: 11px 15px 11px 18px !important;
+    border: 1px solid rgba(255,255,255,.26) !important;
+    border-radius: 12px !important;
+    background-image: linear-gradient(96deg, rgba(9,12,11,.93), rgba(9,12,11,.70) 62%,rgba(9,12,11,.42)), url("/rentocampo-hero-campo-bn-1920x1080.webp") !important;
+    background-size: cover !important;
+    background-position: center 54% !important;
+    background-color: #161616 !important;
+    color: #fff !important;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,.08) !important;
+    text-decoration: none !important;
+    line-height: 1.15 !important;
+    text-transform: none !important;
+    white-space: normal !important;
+  }
+  html body header.navbar.navbar-photo-variant .navbar-actions a.header-photo-cta.btn-primary:hover {
+    border-color: #e6d87a !important;
+    filter: brightness(1.13);
+  }
+  html body header.navbar.navbar-photo-variant .header-photo-cta__copy {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 5px;
+    align-items: flex-start;
+  }
+  html body header.navbar.navbar-photo-variant .header-photo-cta__title {
+    color: #fff !important;
+    font-size: 17px;
+    font-weight: 900;
+    line-height: 1.1;
+  }
+  html body header.navbar.navbar-photo-variant .header-photo-cta__subtitle {
+    color: #e6d87a !important;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: .025em;
+  }
+  html body header.navbar.navbar-photo-variant .header-photo-cta__arrow {
+    display: grid;
+    flex: 0 0 28px;
+    height: 28px;
+    place-items: center;
+    border: 1px solid rgba(255,255,255,.50);
+    border-radius: 50%;
+    color: #fff !important;
+    font-size: 17px;
+  }
+}
+@media (min-width: 901px) and (max-width: 1300px) {
+  html body header.navbar.navbar-photo-variant .navbar-inner { gap: 12px; padding-inline: 18px; }
+  html body header.navbar.navbar-photo-variant .navbar-links { gap: 0; }
+  html body header.navbar.navbar-photo-variant .navbar-links .nav-link { padding-inline: 8px; font-size: 13px; }
+  html body header.navbar.navbar-photo-variant .navbar-actions a.header-photo-cta.btn-primary {
+    min-width: 185px !important;
+    min-height: 65px !important;
+    gap: 8px !important;
+    padding-inline: 12px !important;
+  }
+  html body header.navbar.navbar-photo-variant .header-photo-cta__title { font-size: 15px; }
+  html body header.navbar.navbar-photo-variant .header-photo-cta__subtitle { font-size: 11px; }
+}
+@media (max-width: 900px) {
+  /* El menú móvil conserva la CTA existente y los controles aprobados. */
+  html body header.navbar.navbar-photo-variant .header-photo-cta { display: none !important; }
+}
