@@ -8,7 +8,7 @@ export default function LandingHero() {
     <section className="editorialHero" id="hero">
       <div className="editorialHero__content">
         <div className="editorialHero__desktopImpact">
-          <p className="editorialHero__regionalLabel">AR · UY · PY</p>
+          <p className="editorialHero__regionalLabel">AR · UY · PY · CL · BO · PE</p>
           <div className="editorialHero__desktopTitleRow">
             <h1 className="editorialHero__desktopTitle">
               <span className="editorialHero__desktopYellow">#1 Red Federal</span>
@@ -60,7 +60,7 @@ export default function LandingHero() {
         </div>
 
         <p className="editorialHero__proof">
-          Tierras productivas de Argentina, Uruguay y Paraguay
+          Tierras productivas de Argentina, Uruguay, Paraguay, Chile, Bolivia y Perú
         </p>
       </div>
 
