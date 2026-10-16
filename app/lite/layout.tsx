@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import "@/styles/lite-header.css";
 import Link from "next/link";
 export const metadata: Metadata = {
   // Lite ofrece otra interfaz al mismo catálogo: no competir con las páginas SEO.
