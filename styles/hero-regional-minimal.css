@@ -70,13 +70,15 @@
     min-width: 0 !important;
     max-width: 100% !important;
     width: 100% !important;
-    min-height: 60px !important;
-    height: 60px !important;
-    padding: 0 14px !important;
-    gap: 8px !important;
+    min-height: 70px !important;
+    height: 70px !important;
+    padding: 0 18px !important;
+    gap: 12px !important;
     justify-content: space-between !important;
     align-items: center !important;
-    font-size: clamp(12px, .91vw, 15px) !important;
+    font-family: var(--font-dm-sans), sans-serif !important;
+    font-size: clamp(18px, 1.12vw, 20px) !important;
+    font-weight: 850 !important;
     white-space: nowrap !important;
   }
   .rc-landing .editorialHero .editorialHero__desktopActions > a span {
@@ -104,5 +106,19 @@
     width: 100% !important;
     max-width: 100% !important;
     min-width: 0 !important;
+    min-height: 62px !important;
+    height: auto !important;
+    font-size: 18px !important;
+    font-weight: 850 !important;
+    padding: 13px 20px !important;
+    gap: 14px !important;
   }
+}
+
+/* Ajuste visual aprobado para revisión: misma curvatura en los tres CTA,
+   sin modificar su tamaño, colores ni la grilla anti-superposición. */
+.rc-landing .editorialHero .editorialHero__desktopActions > a,
+.rc-landing .editorialHero .editorialHero__desktopActions > a:link,
+.rc-landing .editorialHero .editorialHero__desktopActions > a:visited {
+  border-radius: 12px !important;
 }
