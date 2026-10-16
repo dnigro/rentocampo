@@ -113,3 +113,9 @@
  .rc-landing .triptychHero__panel--services{z-index:1;left:65%;width:39%;clip-path:polygon(13% 0,100% 0,100% 100%,0 100%)}
  .rc-landing .triptychHero__panel--fields .triptychHero__panelContent{left:28%;right:4%}
 }
+
+/* CTA único, alineado al margen izquierdo en escritorio, móvil y App Lite web. */
+.rc-landing .triptychHero__actions{display:flex;width:auto;max-width:calc(100% - 40px);grid-template-columns:none}
+.rc-landing .triptychHero__button--register{width:clamp(235px,17vw,290px)}
+@media(max-width:900px){.rc-landing .triptychHero__actions{width:auto;max-width:none;margin:0 22px 27px;display:flex}.rc-landing .triptychHero__button--register{width:min(290px,100%)}}
+@media(max-width:570px){.rc-landing .triptychHero__actions{margin:0 17px 23px}.rc-landing .triptychHero__button--register{width:min(290px,100%)}}
