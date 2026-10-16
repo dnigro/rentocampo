@@ -11,6 +11,7 @@ import "@/styles/hero-editorial-stable.css";
 import "@/styles/landing-impact.css";
 import "@/styles/hero-regional-minimal.css";
 import "@/styles/landing-triptych-hero.css";
+import "@/styles/landing-triptych-refinements.css";
 
 export const metadata: Metadata = {
   title: "RentoCampo | Campos y servicios rurales en la región",
