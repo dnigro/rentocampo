@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { createClient } from "@supabase/supabase-js";
 import { APTITUD_SEO, SITE_URL, slugify } from "@/lib/seo/campos";
 import { seleccionarCamposPublicos } from "@/lib/campos/visible-fields";
+import { COUNTRY_CODES } from "@/data/countries";
 
 export const revalidate = 3600;
 
@@ -33,7 +34,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     .from("campos")
     .select("id, titulo, country_code, created_at, provincia, aptitud, operacion, updated_at")
     .eq("status", "activo")
-    .or("country_code.eq.AR,country_code.is.null");
+    .in("country_code", [...COUNTRY_CODES]);
 
   // Solo anunciar a los buscadores los registros públicos, no avisos DEMO
   // como resultados inmobiliarios reales.
@@ -44,7 +45,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       !/\bDEMO\b/i.test(campo.titulo ?? ""),
   );
   const alquileres = camposVisibles.filter(
-    (campo) => campo.operacion === "alquiler" || campo.operacion === "ambas",
+    (campo) => campo.country_code === "AR" && (campo.operacion === "alquiler" || campo.operacion === "ambas"),
   );
   const provincias = [
     ...new Set(alquileres.map((campo) => campo.provincia).filter(Boolean)),
