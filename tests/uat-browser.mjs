@@ -267,12 +267,97 @@ async function recover(){
   },page);
  }finally{await c.close();await b.close()}
 }
+
+// Real authenticated regional writes, isolated to Supabase UAT and cleaned after the run.
+const regionalFieldIds=[],regionalServiceIds=[];
+async function regionalAuthenticatedWrites(){
+ const cases=[
+  {country:"CL",provincia:"Ñuble",localidad:"Chillán",lat:-36.6064,lng:-72.1034},
+  {country:"BO",provincia:"Santa Cruz",localidad:"Montero",lat:-17.3392,lng:-63.2568},
+  {country:"PE",provincia:"Junín",localidad:"Huancayo",lat:-12.0651,lng:-75.2049}
+ ];
+ const browser=await chromium.launch();
+ try{
+  for(const x of cases){
+   const u={email:"uat-write-"+randomUUID()+"@example.com",password:"Uat!9"+randomUUID().replaceAll("-","")};
+   const created=await admin.auth.admin.createUser({email:u.email,password:u.password,email_confirm:true,
+    user_metadata:{nombre:"UAT write "+x.country,tipo:"propietario",country_code:x.country}});
+   if(created.error)throw Error("UAT actor creation: "+created.error.message);
+   userIds.push(created.data.user.id);
+   await profile(created.data.user.id,x.country,"propietario");
+   const c=await context(browser,{width:390,height:844}),page=await c.newPage();
+   try{
+    await check("REGIONAL "+x.country+" authenticated field publish, quota and public visibility",async()=>{
+     await open(page,"/login","#password");
+     await page.locator("#email").fill(u.email);
+     await page.locator("#password").fill(u.password);
+     await page.getByRole("button",{name:"Ingresar",exact:true}).click();
+     await page.waitForURL(/\/dashboard(?:\?|$)/,{timeout:20000});
+     await open(page,"/mis-campos/nuevo","form.campo-form");
+     if(await page.locator("select[name=country_code]").inputValue()!==x.country)throw Error("Field form lost user's country");
+     const payload={country_code:x.country,titulo:"UAT TEMP "+x.country+" "+randomUUID().slice(0,8),
+      ubicacion:x.localidad+", "+x.provincia,provincia:x.provincia,localidad:x.localidad,
+      hectareas:25,aptitud:"agricola",moneda:"USD",operacion:"alquiler",
+      disponibilidad:"a_convenir",mejoras:"No",latitud:x.lat,longitud:x.lng};
+     const written=await page.evaluate(async form=>{
+      const response=await fetch("/api/campos/publicar",{method:"POST",
+       headers:{"Content-Type":"application/json"},body:JSON.stringify({form,estado:"activo"})});
+      return {status:response.status,body:await response.json()};
+     },payload);
+     if(written.status!==200||!written.body.id)throw Error("Authenticated field publish "+JSON.stringify(written));
+     regionalFieldIds.push(written.body.id);
+     const {data:row,error:err}=await admin.from("campos").select("id,country_code,status,propietario_id").eq("id",written.body.id).single();
+     if(err||row.country_code!==x.country||row.status!=="activo"||row.propietario_id!==created.data.user.id)throw Error("Wrong persisted field "+String(err?.message));
+     const {data:event,error:evErr}=await admin.from("land_publication_events").select("id").eq("campo_id",written.body.id);
+     if(evErr||event?.length!==1)throw Error("Published field quota event missing");
+     await open(page,"/campos?pais="+x.country,".campo-card-pub");
+     if(!await page.locator('a[href="/campos/'+written.body.id+'"]').count())throw Error("Field missing public listing");
+    },page);
+    await check("REGIONAL "+x.country+" service RLS insert and non-AR checkout blocked",async()=>{
+     await open(page,"/mis-servicios-rurales/nuevo","form.servicio-publicacion-form");
+     if(await page.locator("#servicio-pais").inputValue()!==x.country)throw Error("Service form lost user's country");
+     const authClient=createClient(uat,pub,{auth:{persistSession:false,autoRefreshToken:false}});
+     const signed=await authClient.auth.signInWithPassword({email:u.email,password:u.password});
+     if(signed.error)throw Error("Service login failed "+signed.error.message);
+     const {data:svc,error:sErr}=await authClient.from("servicios_publicaciones").insert({
+      propietario_id:created.data.user.id,country_code:x.country,servicios_rurales:["veterinaria"],
+      foto_url:"/demo-servicio-veterinaria.jpg",provincia:x.provincia,localidad:x.localidad,
+      zona:x.localidad,detalle:"UAT TEMP regional E2E",latitud:x.lat,longitud:x.lng
+     }).select("id").single();
+     if(sErr||!svc?.id)throw Error("Service authenticated RLS insert "+sErr?.message);
+     regionalServiceIds.push(svc.id);
+     const response=await page.evaluate(async()=>{
+      const r=await fetch("/api/billing/checkout",{method:"POST",
+       headers:{"Content-Type":"application/json"},body:JSON.stringify({planId:"productiva"})});
+      return {status:r.status,body:await r.json()};
+     });
+     if(response.status!==403||response.body.code!=="billing_country_unsupported")
+      throw Error("Non-AR payment must be blocked "+JSON.stringify(response));
+     await open(page,"/servicios-rurales?pais="+x.country,"article.prestador-card");
+     if(!await page.locator('a[href="/servicios-rurales/'+svc.id+'"]').count())throw Error("Service missing public listing");
+     await authClient.auth.signOut();
+    },page);
+   }finally{await c.close()}
+  }
+ }finally{await browser.close()}
+}
+
 try{
  const r=await admin.auth.admin.listUsers({page:1,perPage:1});
  if(r.error)throw Error("UAT admin verification failed: "+r.error.message);
- await start();await regionalDemoSmoke();await matrix();await deepLinksAndLogins();await register();await generatedConfirmationLink();await recover();
+ await start();await regionalDemoSmoke();await matrix();await deepLinksAndLogins();await regionalAuthenticatedWrites();await register();await generatedConfirmationLink();await recover();
 }catch(error){results.push({name:"UAT setup",result:"FAIL",detail:String(error)});console.error(error)}
 finally{
+ if(regionalServiceIds.length){
+  const {error}=await admin.from("servicios_publicaciones").delete().in("id",regionalServiceIds);
+  if(error)results.push({name:"UAT service cleanup",result:"FAIL",detail:error.message});
+ }
+ if(regionalFieldIds.length){
+  const ev=await admin.from("land_publication_events").delete().in("campo_id",regionalFieldIds);
+  if(ev.error)results.push({name:"UAT quota cleanup",result:"FAIL",detail:ev.error.message});
+  const fields=await admin.from("campos").delete().in("id",regionalFieldIds);
+  if(fields.error)results.push({name:"UAT field cleanup",result:"FAIL",detail:fields.error.message});
+ }
  for(const id of userIds){const r=await admin.auth.admin.deleteUser(id);if(r.error)results.push({name:"UAT cleanup",result:"FAIL",detail:r.error.message})}
  if(child)child.kill("SIGINT");
  writeFileSync("test-results/uat-responsive.json",JSON.stringify({date:new Date().toISOString(),target:"localhost Next + Supabase UAT only",engines:Object.keys(engines),viewports,results,notes:"Browser E2E login, recovery, token-hash confirmation against isolated UAT. Hosted UAT SMTP delivery is explicitly BLOCKED unless dedicated SMTP enabled. GA4 blocked."},null,2));
