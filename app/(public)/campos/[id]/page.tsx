@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { COUNTRIES, resolveCountry } from "@/data/countries";
 import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
@@ -16,14 +17,21 @@ import { campoDescription, campoSeoTitle, SITE_URL } from "@/lib/seo/campos";
 
 type PageProps = { params: Promise<{ id: string }> };
 
+// The isolated regional Preview intentionally has no admin credentials.
+// Published listings and their photos are publicly readable via UAT RLS.
+// Production keeps its existing privileged reader unchanged.
+const publicRegionalPreview = () =>
+  process.env.VERCEL_ENV === "preview" &&
+  process.env.VERCEL_GIT_COMMIT_REF === "feat/regional-six-countries-20261015";
+
 export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
   const { id } = await params;
-  const admin = createAdminClient();
+  const admin = publicRegionalPreview() ? await createClient() : createAdminClient();
   const { data: campo } = await admin
     .from("campos")
-    .select("titulo, hectareas, aptitud, localidad, provincia, status")
+    .select("titulo, hectareas, aptitud, localidad, provincia, country_code, status")
     .eq("id", id)
     .eq("status", "activo")
     .maybeSingle();
@@ -51,7 +59,7 @@ export async function generateMetadata({
       description,
       url: `${SITE_URL}/campos/${id}`,
       type: "website",
-      locale: "es_AR",
+      locale: COUNTRIES[resolveCountry(campo.country_code)].locale.replace("-", "_"),
     },
   };
 }
@@ -59,7 +67,7 @@ export async function generateMetadata({
 export default async function CampoFichaPage({ params }: PageProps) {
   const { id } = await params;
   const supabase = await createClient();
-  const admin = createAdminClient();
+  const admin = publicRegionalPreview() ? supabase : createAdminClient();
 
   // La ficha es pública, pero solo expone campos publicados.
   // La lectura administrativa evita que las políticas RLS privadas conviertan
@@ -92,7 +100,7 @@ export default async function CampoFichaPage({ params }: PageProps) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  const fotosOrdenadas = fotos?.sort((a, b) => a.orden - b.orden) ?? [];
+  const fotosOrdenadas = fotos?.length ? [...fotos].sort((a, b) => a.orden - b.orden) : id.startsWith("20000000-") ? [{ url: "/rentocampo-hero-campo-bn-1920x1080.webp", orden: 0 }] : [];
 
   const APTITUD_LABEL: Record<string, string> = {
     agricola: "Agrícola",
@@ -118,7 +126,7 @@ export default async function CampoFichaPage({ params }: PageProps) {
       "@type": "PostalAddress",
       addressLocality: campoConPropietario.localidad || undefined,
       addressRegion: campoConPropietario.provincia || undefined,
-      addressCountry: "AR",
+      addressCountry: resolveCountry(campoConPropietario.country_code),
     },
     additionalProperty: [
       {

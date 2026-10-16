@@ -6,7 +6,7 @@ import { createClient } from "@/lib/supabase/client";
 import { Suspense, useEffect, useState } from "react";
 import type { User } from "@supabase/supabase-js";
 import BrandWordmark from "@/components/layout/BrandWordmark";
-import { COUNTRIES, resolveCountry, type CountryCode } from "@/data/countries";
+import { COUNTRIES, COUNTRY_CODES, isCountryCode, resolveCountry, type CountryCode } from "@/data/countries";
 
 function NavbarContent() {
   const [user, setUser] = useState<User | null>(null);
@@ -21,7 +21,7 @@ function NavbarContent() {
 
   useEffect(() => {
     const stored = window.localStorage.getItem("rentocampo_country");
-    const resolved: CountryCode = stored === "UY" || stored === "PY" ? stored : "AR";
+    const resolved: CountryCode = isCountryCode(stored) ? stored : "AR";
     const syncCountry = window.setTimeout(() => setActiveCountry(resolved), 0);
     return () => window.clearTimeout(syncCountry);
   }, [pathname]);
@@ -172,7 +172,7 @@ function NavbarContent() {
           <div className="navbar-actions navbar-desktop">
             <div className="navbar-country-switch" aria-label="Seleccionar país">
               <select aria-label="Seleccionar país" value={activeCountry} onChange={(event) => cambiarPais(event.target.value as CountryCode)} style={{background:"#fff",color:"#111",borderRadius:"20px",padding:"7px 9px",fontWeight:700,cursor:"pointer"}}>
-                {(["AR","UY","PY"] as const).map((code) => <option key={code} value={code}>{COUNTRIES[code].flag} {code}</option>)}
+                {COUNTRY_CODES.map((code) => <option key={code} value={code}>{COUNTRIES[code].flag} {code}</option>)}
               </select>
             </div>
             {user ? (
@@ -225,7 +225,7 @@ function NavbarContent() {
           <div className="navbar-mobile-right">
             <div className="navbar-country-switch navbar-country-switch-mobile" aria-label="Seleccionar país">
               <select aria-label="Seleccionar país" value={activeCountry} onChange={(event) => cambiarPais(event.target.value as CountryCode)} style={{background:"#fff",color:"#111",borderRadius:"20px",padding:"7px",fontWeight:700}}>
-                {(["AR","UY","PY"] as const).map((code) => <option key={code} value={code}>{COUNTRIES[code].flag} {code}</option>)}
+                {COUNTRY_CODES.map((code) => <option key={code} value={code}>{COUNTRIES[code].flag} {code}</option>)}
               </select>
             </div>
             <button type="button" className="navbar-mobile-account" aria-label="Mi cuenta y navegación" aria-expanded={menuAbierto} aria-controls="navbar-mobile-menu" onClick={() => setMenuAbierto((open) => !open)}>Mi cuenta</button>

@@ -23,7 +23,7 @@ function getDisponibilidad(campo: Campo) {
 }
 
 export default function CampoCard({ campo, userId }: Props) {
-  const foto = campo.fotos?.sort((a, b) => a.orden - b.orden)[0];
+  const foto = campo.fotos?.sort((a, b) => a.orden - b.orden)[0] ?? (campo.id.startsWith("20000000-") ? { url: "/rentocampo-hero-campo-bn-1920x1080.webp", orden: 0 } : undefined);
   const disponibilidad = getDisponibilidad(campo);
 
   return (

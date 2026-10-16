@@ -1,8 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { PROVINCIAS_ARG } from "@/types";
-import { COUNTRIES, DEPARTAMENTOS_UY, DEPARTAMENTOS_PY, type CountryCode } from "@/data/countries";
+import { COUNTRIES, getCountrySubdivisions, type CountryCode } from "@/data/countries";
 
 export interface LugarSeleccionado {
   lat: number;
@@ -73,7 +72,7 @@ export default function GeocoderInput({
   }, []);
 
   const subdivisiones =
-    countryCode === "UY" ? DEPARTAMENTOS_UY : countryCode === "PY" ? DEPARTAMENTOS_PY : PROVINCIAS_ARG;
+    getCountrySubdivisions(countryCode);
   const locale = COUNTRIES[countryCode].locale;
   const provinciasVisibles = subdivisiones.filter((provincia) =>
     provincia.toLocaleLowerCase(locale).includes(query.toLocaleLowerCase(locale)),

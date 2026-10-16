@@ -21,7 +21,7 @@ export default async function ServicioDetallePage({ params }: { params: Promise<
 
   const { data: demo } = !publicacion
     ? await supabase.from("demo_servicios_rurales")
-        .select("id, nombre, bio, servicios_rurales, zona_servicio, provincia_servicio, localidad_servicio, country_code")
+        .select("id, nombre, bio, servicios_rurales, zona_servicio, provincia_servicio, localidad_servicio, country_code, imagen_url")
         .eq("id", id).eq("activo", true).maybeSingle()
     : { data: null };
 
@@ -40,7 +40,7 @@ export default async function ServicioDetallePage({ params }: { params: Promise<
   const localidad = publicacion?.localidad ?? demo?.localidad_servicio;
   const zona = publicacion?.zona ?? demo?.zona_servicio;
   const descripcion = publicacion?.detalle ?? demo?.bio;
-  const foto = publicacion?.foto_url || "/demo-servicio-veterinaria.jpg";
+  const foto = publicacion?.foto_url || demo?.imagen_url || "/demo-servicio-veterinaria.jpg";
 
   return (
     <div className="ficha-container servicio-ficha">

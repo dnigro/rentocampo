@@ -1,4 +1,5 @@
-export type CountryCode = "AR" | "UY" | "PY";
+export const COUNTRY_CODES = ["AR", "UY", "PY", "CL", "BO", "PE"] as const;
+export type CountryCode = (typeof COUNTRY_CODES)[number];
 
 export const COUNTRIES = {
   AR: {
@@ -20,6 +21,21 @@ export const COUNTRIES = {
     subdivisionLabel: "Departamento",
     mapCenter: [-23.7, -58.3] as [number, number],
     mapZoom: 6,
+  },
+  CL: {
+    code: "CL" as const,
+    name: "Chile", flag: "🇨🇱", locale: "es-CL", currency: "CLP",
+    subdivisionLabel: "Región", mapCenter: [-35.7, -71.5] as [number, number], mapZoom: 4.8,
+  },
+  BO: {
+    code: "BO" as const,
+    name: "Bolivia", flag: "🇧🇴", locale: "es-BO", currency: "BOB",
+    subdivisionLabel: "Departamento", mapCenter: [-16.7, -64.7] as [number, number], mapZoom: 5.7,
+  },
+  PE: {
+    code: "PE" as const,
+    name: "Perú", flag: "🇵🇪", locale: "es-PE", currency: "PEN",
+    subdivisionLabel: "Departamento", mapCenter: [-9.4, -75.2] as [number, number], mapZoom: 5.4,
   },
   UY: {
     code: "UY" as const,
@@ -59,8 +75,22 @@ export const DEPARTAMENTOS_PY = [
   "Alto Paraguay", "Alto Paraná", "Amambay", "Asunción", "Boquerón", "Caaguazú", "Caazapá", "Canindeyú", "Central", "Concepción", "Cordillera", "Guairá", "Itapúa", "Misiones", "Ñeembucú", "Paraguarí", "Presidente Hayes", "San Pedro",
 ] as const;
 
+export const REGIONES_CL = ["Arica y Parinacota", "Tarapacá", "Antofagasta", "Atacama", "Coquimbo", "Valparaíso", "Metropolitana de Santiago", "O'Higgins", "Maule", "Ñuble", "Biobío", "La Araucanía", "Los Ríos", "Los Lagos", "Aysén", "Magallanes"] as const;
+export const DEPARTAMENTOS_BO = ["Beni", "Chuquisaca", "Cochabamba", "La Paz", "Oruro", "Pando", "Potosí", "Santa Cruz", "Tarija"] as const;
+export const DEPARTAMENTOS_PE = ["Amazonas", "Áncash", "Apurímac", "Arequipa", "Ayacucho", "Cajamarca", "Callao", "Cusco", "Huancavelica", "Huánuco", "Ica", "Junín", "La Libertad", "Lambayeque", "Lima", "Loreto", "Madre de Dios", "Moquegua", "Pasco", "Piura", "Puno", "San Martín", "Tacna", "Tumbes", "Ucayali"] as const;
+
+export function getCountrySubdivisions(code: CountryCode): readonly string[] {
+  switch (code) {
+    case "UY": return DEPARTAMENTOS_UY;
+    case "PY": return DEPARTAMENTOS_PY;
+    case "CL": return REGIONES_CL;
+    case "BO": return DEPARTAMENTOS_BO;
+    case "PE": return DEPARTAMENTOS_PE;
+    default: return ["Buenos Aires", "CABA", "Catamarca", "Chaco", "Chubut", "Córdoba", "Corrientes", "Entre Ríos", "Formosa", "Jujuy", "La Pampa", "La Rioja", "Mendoza", "Misiones", "Neuquén", "Río Negro", "Salta", "San Juan", "San Luis", "Santa Cruz", "Santa Fe", "Santiago del Estero", "Tierra del Fuego", "Tucumán"];
+  }
+}
 export function isCountryCode(value: unknown): value is CountryCode {
-  return value === "AR" || value === "UY" || value === "PY";
+  return typeof value === "string" && (COUNTRY_CODES as readonly string[]).includes(value);
 }
 
 export function resolveCountry(value?: string | null, saved?: string | null): CountryCode {

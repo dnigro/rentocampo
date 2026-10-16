@@ -1,10 +1,10 @@
-const UAT_BRANCH = "feat/regional-ar-uy-py-20261014";
+const UAT_BRANCHES = ["feat/regional-ar-uy-py-20261014", "feat/regional-six-countries-20261015"];
 const UAT_REF = "wibqszhvuvpjycheaxzi";
 const UAT_URL = `https://${UAT_REF}.supabase.co`;
 
 /** Only the regional preview is a UAT runtime; production is never changed. */
 export function enforceUatIsolation(env: Record<string, string | undefined>) {
-  if (env.VERCEL_ENV !== "preview" || env.VERCEL_GIT_COMMIT_REF !== UAT_BRANCH) return;
+  if (env.VERCEL_ENV !== "preview" || !UAT_BRANCHES.includes(env.VERCEL_GIT_COMMIT_REF ?? "")) return;
 
   // Remove inherited production credentials before accepting any requests.
   for (const key of Object.keys(env)) {
@@ -52,5 +52,5 @@ export function enforceUatIsolation(env: Record<string, string | undefined>) {
   }
 
   env.SUPABASE_URL = UAT_URL;
-  env.NEXT_PUBLIC_APP_URL = `https://rentocampo-git-${UAT_BRANCH.replaceAll("/", "-")}-rento-campo.vercel.app`;
+  env.NEXT_PUBLIC_APP_URL = `https://rentocampo-git-${env.VERCEL_GIT_COMMIT_REF?.replaceAll("/", "-")}-rento-campo.vercel.app`;
 }

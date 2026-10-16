@@ -5,7 +5,7 @@ import { LandPlot, Sprout, Wrench } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
-import { COUNTRIES, type CountryCode } from "@/data/countries";
+import { COUNTRIES, COUNTRY_CODES, type CountryCode } from "@/data/countries";
 import { trackEvent } from "@/lib/analytics";
 
 export default function RegisterForm({ initialCountry: paisInicial, initialRole: tipoInicial }: { initialCountry: CountryCode; initialRole: "propietario" | "productor" | "prestador" }) {
@@ -235,9 +235,7 @@ export default function RegisterForm({ initialCountry: paisInicial, initialRole:
               onChange={handleChange}
               required
             >
-              <option value="AR">{COUNTRIES.AR.flag} Argentina</option>
-              <option value="UY">{COUNTRIES.UY.flag} Uruguay</option>
-              <option value="PY">{COUNTRIES.PY.flag} Paraguay</option>
+              {COUNTRY_CODES.map((code) => <option key={code} value={code}>{COUNTRIES[code].flag} {COUNTRIES[code].name}</option>)}
             </select>
             <span className="form-hint">
               Usamos este dato para mostrarte campos, servicios y opciones de tu mercado.

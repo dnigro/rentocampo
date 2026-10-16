@@ -105,7 +105,7 @@ export default async function ServiciosRuralesPage({
   let demosQuery = supabase
     .from("demo_servicios_rurales")
     .select(
-      "id, nombre, bio, servicios_rurales, zona_servicio, provincia_servicio, localidad_servicio, country_code",
+      "id, nombre, bio, servicios_rurales, zona_servicio, provincia_servicio, localidad_servicio, country_code, imagen_url",
     )
     .eq("activo", true)
     .eq("country_code", pais);
@@ -145,12 +145,15 @@ export default async function ServiciosRuralesPage({
           "10000000-0000-4000-8000-000000000010",
           "10000000-0000-4000-8000-000000000011",
           "10000000-0000-4000-8000-000000000012",
+          "10000000-0000-4000-8000-000000000013",
+          "10000000-0000-4000-8000-000000000014",
+          "10000000-0000-4000-8000-000000000015",
         ].includes(item.id),
       )
       .map((item) => ({
         ...item,
         avatar_url: null,
-        service_photo_url: "/demo-servicio-veterinaria.jpg",
+        service_photo_url: item.imagen_url || "/demo-servicio-veterinaria.jpg",
         is_demo: true,
       })),
   ];
@@ -255,7 +258,11 @@ export default async function ServiciosRuralesPage({
                     )}
 
                     <div className="prestador-card__actions">
-                      {!prestador.is_demo && user?.id === prestador.id ? (
+                      {prestador.is_demo ? (
+                        <Link href={`/servicios-rurales/${prestador.id}`}>
+                          Ver ficha DEMO →
+                        </Link>
+                      ) : user?.id === prestador.id ? (
                         <span className="prestador-card__own">
                           Este servicio es tuyo
                         </span>
@@ -263,10 +270,6 @@ export default async function ServiciosRuralesPage({
                         <Link href="/login?next=/servicios-rurales">
                           Ingresá para consultar →
                         </Link>
-                      ) : prestador.is_demo ? (
-                        <span className="prestador-card__own">
-                          Servicio demo
-                        </span>
                       ) : (
                         <Link href={prestador.publicacion_id ? `/servicios-rurales/${prestador.publicacion_id}` : `/servicios-rurales?prestador=${prestador.id}`}>
                           Ver ficha →

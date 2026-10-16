@@ -2,8 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { PROVINCIAS_ARG } from "@/types";
-import { COUNTRIES, DEPARTAMENTOS_UY, DEPARTAMENTOS_PY, type CountryCode } from "@/data/countries";
+import { COUNTRIES, COUNTRY_CODES, getCountrySubdivisions, type CountryCode } from "@/data/countries";
 import { SERVICIOS_RURALES } from "@/data/servicios-rurales";
 
 interface Props {
@@ -52,10 +51,10 @@ export default function ServiciosFiltros({
         </div>
 
         <div className="listing-filters-grid">
-          <div className="filtro-grupo"><label className="filtro-label" htmlFor="servicios-pais">País</label><select id="servicios-pais" className="filtro-input" value={pais} onChange={(e) => { setPais(e.target.value as CountryCode); setProvincia(""); }}>{(["AR","UY","PY"] as const).map((code) => <option key={code} value={code}>{COUNTRIES[code].name}</option>)}</select></div>
+          <div className="filtro-grupo"><label className="filtro-label" htmlFor="servicios-pais">País</label><select id="servicios-pais" className="filtro-input" value={pais} onChange={(e) => { setPais(e.target.value as CountryCode); setProvincia(""); }}>{COUNTRY_CODES.map((code) => <option key={code} value={code}>{COUNTRIES[code].name}</option>)}</select></div>
           <div className="filtro-grupo">
             <label className="filtro-label" htmlFor="servicios-provincia">
-              {pais === "AR" ? "Provincia" : "Departamento"}
+              {COUNTRIES[pais].subdivisionLabel}
             </label>
             <select
               id="servicios-provincia"
@@ -64,7 +63,7 @@ export default function ServiciosFiltros({
               onChange={(e) => setProvincia(e.target.value)}
             >
               <option value="">Todas</option>
-              {(pais === "UY" ? DEPARTAMENTOS_UY : pais === "PY" ? DEPARTAMENTOS_PY : PROVINCIAS_ARG).map((item) => (
+              {getCountrySubdivisions(pais).map((item) => (
                 <option key={item} value={item}>{item}</option>
               ))}
             </select>

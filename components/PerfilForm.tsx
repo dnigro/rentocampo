@@ -5,8 +5,8 @@ import { useRouter } from "next/navigation";
 
 import { useState, useRef } from "react";
 import { createClient } from "@/lib/supabase/client";
-import { PROVINCIAS_ARG, type Profile, type RolPerfil, type ServicioRural } from "@/types";
-import { COUNTRIES, DEPARTAMENTOS_UY, DEPARTAMENTOS_PY, type CountryCode } from "@/data/countries";
+import { type Profile, type RolPerfil, type ServicioRural } from "@/types";
+import { COUNTRIES, COUNTRY_CODES, getCountrySubdivisions, type CountryCode } from "@/data/countries";
 import { SERVICIOS_RURALES } from "@/data/servicios-rurales";
 
 interface Props {
@@ -340,9 +340,7 @@ export default function PerfilForm({ profile, email }: Props) {
               }))
             }
           >
-            <option value="AR">{COUNTRIES.AR.flag} Argentina</option>
-            <option value="UY">{COUNTRIES.UY.flag} Uruguay</option>
-            <option value="PY">{COUNTRIES.PY.flag} Paraguay</option>
+            {COUNTRY_CODES.map((code) => <option key={code} value={code}>{COUNTRIES[code].flag} {COUNTRIES[code].name}</option>)}
           </select>
           <span className="form-hint">
             Define tu mercado principal y adapta campos, servicios y ubicaciones.
@@ -464,9 +462,9 @@ export default function PerfilForm({ profile, email }: Props) {
                 </label>
                 <select id="provincia_servicio" name="provincia_servicio" className="form-input" value={form.provincia_servicio} onChange={handleChange}>
                   <option value="">
-                    {form.country_code === "AR" ? "Elegí una provincia" : "Elegí un departamento"}
+                    {`Elegí ${COUNTRIES[form.country_code].subdivisionLabel.toLowerCase()}`}
                   </option>
-                  {(form.country_code === "UY" ? DEPARTAMENTOS_UY : form.country_code === "PY" ? DEPARTAMENTOS_PY : PROVINCIAS_ARG).map((provincia) => <option key={provincia} value={provincia}>{provincia}</option>)}
+                  {getCountrySubdivisions(form.country_code).map((provincia) => <option key={provincia} value={provincia}>{provincia}</option>)}
                 </select>
               </div>
               <div className="form-field">

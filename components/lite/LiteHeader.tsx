@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import type { User } from "@supabase/supabase-js";
 import { createClient } from "@/lib/supabase/client";
-import { COUNTRIES, type CountryCode } from "@/data/countries";
+import { COUNTRIES, COUNTRY_CODES, isCountryCode, type CountryCode } from "@/data/countries";
 
 /** Header compartido por todas las rutas /lite; mismo orden visual que web móvil. */
 export default function LiteHeader() {
@@ -17,7 +17,7 @@ export default function LiteHeader() {
 
   useEffect(() => {
     const saved = window.localStorage.getItem("rentocampo_country");
-    const resolved: CountryCode = saved === "UY" || saved === "PY" ? saved : "AR";
+    const resolved: CountryCode = isCountryCode(saved) ? saved : "AR";
     const syncCountry = window.setTimeout(() => setCountry(resolved), 0);
     return () => window.clearTimeout(syncCountry);
   }, []);
@@ -61,7 +61,7 @@ export default function LiteHeader() {
           value={country}
           onChange={(event) => changeCountry(event.target.value as CountryCode)}
         >
-          {(["AR", "UY", "PY"] as const).map((code) => (
+          {COUNTRY_CODES.map((code) => (
             <option value={code} key={code}>
               {COUNTRIES[code].flag} {code}
             </option>
