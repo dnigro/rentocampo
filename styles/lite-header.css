@@ -1,0 +1,121 @@
+/* App Lite: mismo header regional aprobado para la web móvil. */
+.lite-regional-header {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 76px;
+  min-height: 76px;
+  width: 100%;
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 0 12px;
+  background: #303332;
+  border-bottom: 1px dashed #858985;
+  color: #fff;
+  font-family: var(--font-dm-sans), Arial, sans-serif;
+  position: relative;
+  z-index: 40;
+}
+
+.lite-regional-logo {
+  display: block;
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-decoration: none;
+  color: #fff;
+  font-size: clamp(20px, 6vw, 30px);
+  font-weight: 950;
+  letter-spacing: -.055em;
+  line-height: 1;
+}
+
+.lite-regional-logo .lite-regional-initial {
+  color: #d2b84c;
+}
+
+.lite-regional-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+  flex: 0 0 auto;
+}
+
+.lite-regional-country {
+  box-sizing: border-box;
+  min-height: 44px;
+  border-radius: 999px;
+  border: 1px solid #e6e6e6;
+  background: #fff;
+  color: #151515;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 850;
+  padding: 0 12px;
+  cursor: pointer;
+  max-width: 88px;
+}
+
+.lite-regional-account {
+  background: transparent;
+  border: 0;
+  color: #fff;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 800;
+  white-space: nowrap;
+  padding: 8px 0;
+  min-height: 44px;
+  cursor: pointer;
+}
+
+.lite-regional-country:focus-visible,
+.lite-regional-account:focus-visible {
+  outline: 3px solid #d2b84c;
+  outline-offset: 2px;
+}
+
+.lite-regional-menu {
+  position: absolute;
+  top: 100%;
+  right: 8px;
+  z-index: 60;
+  width: min(285px, calc(100vw - 16px));
+  display: grid;
+  gap: 1px;
+  padding: 10px;
+  background: #fff;
+  border: 1px solid #dededb;
+  border-radius: 14px;
+  box-shadow: 0 16px 44px rgb(0 0 0 / 18%);
+}
+
+.lite-regional-menu a,
+.lite-regional-menu button {
+  color: #20211f;
+  text-decoration: none;
+  text-align: left;
+  display: block;
+  padding: 12px 14px;
+  border: 0;
+  border-radius: 9px;
+  background: transparent;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 750;
+  cursor: pointer;
+}
+
+.lite-regional-menu a:hover,
+.lite-regional-menu button:hover {
+  background: #f1f1ed;
+}
+
+@media (max-width: 375px) {
+  .lite-regional-logo { font-size: 20px; }
+  .lite-regional-country { padding-inline: 8px; font-size: 13px; }
+  .lite-regional-controls { gap: 7px; }
+}

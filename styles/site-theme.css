@@ -2724,9 +2724,9 @@ html body .app-shell header.navbar .btn-ghost:hover {
     margin-left: auto;
   }
 
-  /* Argentina es el único país seleccionable en el registro actual. */
+  /* Mantener visible AR/UY/PY en todas las páginas, no solo en la Home. */
   html body .app-shell header.navbar .navbar-country-switch-mobile {
-    display: none !important;
+    display: inline-flex !important;
   }
 
   html body .app-shell header.navbar .navbar-mobile-account {
@@ -2851,4 +2851,109 @@ html body .app-shell header.navbar,
 html body:has(.rc-landing) header.navbar {
   margin-bottom: 0 !important;
   border-bottom: 1px dashed #858985 !important;
+}
+
+
+/* Header regional único — Home, campos, servicios, mapas y cuenta.
+   La referencia móvil es: logo, Mi cuenta y selector blanco AR/UY/PY.
+   La navegación y los mensajes siguen disponibles desde las páginas de cuenta. */
+@media (min-width: 901px) {
+  html body header.navbar .navbar-mobile-right {
+    display: none !important;
+  }
+}
+@media (max-width: 900px) {
+  html body header.navbar,
+  html body .app-shell header.navbar {
+    height: 76px !important;
+    min-height: 76px !important;
+  }
+  html body header.navbar .navbar-inner,
+  html body .app-shell header.navbar .navbar-inner {
+    height: 76px !important;
+    min-height: 76px !important;
+  }
+  html body header.navbar .navbar-inner,
+  html body .app-shell header.navbar .navbar-inner {
+    padding-inline: 12px !important;
+    gap: 8px !important;
+  }
+  html body header.navbar a.navbar-logo,
+  html body .app-shell header.navbar a.navbar-logo {
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+    overflow: hidden !important;
+  }
+  html body header.navbar .navbar-logo .brand-wordmark--text-only .brand-clean-name,
+  html body .app-shell header.navbar .navbar-logo .brand-wordmark--text-only .brand-clean-name {
+    font-size: clamp(20px, 6vw, 30px) !important;
+    line-height: 1 !important;
+    letter-spacing: -.055em !important;
+    white-space: nowrap !important;
+  }
+  html body header.navbar .navbar-mobile-right,
+  html body .app-shell header.navbar .navbar-mobile-right {
+    display: flex !important;
+    flex: 0 0 auto !important;
+    align-items: center !important;
+    gap: 8px !important;
+    margin-left: auto !important;
+  }
+  html body header.navbar .navbar-mobile-account,
+  html body .app-shell header.navbar .navbar-mobile-account {
+    display: inline-flex !important;
+    align-items: center !important;
+    flex: 0 0 auto !important;
+    color: #fff !important;
+    font-size: 13px !important;
+    font-weight: 800 !important;
+    text-decoration: none !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+    padding: 0 !important;
+    background: transparent !important;
+    font-family: inherit !important;
+    cursor: pointer;
+  }
+  html body header.navbar .navbar-country-switch-mobile,
+  html body .app-shell header.navbar .navbar-country-switch-mobile {
+    display: inline-flex !important;
+    align-items: center !important;
+    flex: 0 0 auto !important;
+    padding: 0 !important;
+    background: transparent !important;
+    border: 0 !important;
+  }
+  html body header.navbar .navbar-country-switch-mobile select,
+  html body .app-shell header.navbar .navbar-country-switch-mobile select {
+    box-sizing: border-box !important;
+    width: auto !important;
+    min-height: 44px !important;
+    padding: 0 12px !important;
+    border: 1px solid #e6e6e6 !important;
+    border-radius: 999px !important;
+    background: #fff !important;
+    color: #151515 !important;
+    font-family: inherit !important;
+    font-size: 14px !important;
+    font-weight: 850 !important;
+    cursor: pointer;
+  }
+  /* Evitar que iconos secundarios expulsen el país fuera de pantalla. */
+  html body header.navbar .navbar-mobile-right > .navbar-mensajes,
+  html body header.navbar .navbar-mobile-right > .hamburguesa,
+  html body .app-shell header.navbar .navbar-mobile-right > .navbar-mensajes,
+  html body .app-shell header.navbar .navbar-mobile-right > .hamburguesa {
+    display: none !important;
+  }
+}
+@media (max-width: 375px) {
+  html body header.navbar .navbar-logo .brand-wordmark--text-only .brand-clean-name,
+  html body .app-shell header.navbar .navbar-logo .brand-wordmark--text-only .brand-clean-name {
+    font-size: 20px !important;
+  }
+  html body header.navbar .navbar-country-switch-mobile select,
+  html body .app-shell header.navbar .navbar-country-switch-mobile select {
+    padding-inline: 8px !important;
+  }
 }

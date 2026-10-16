@@ -1,3 +1,103 @@
+"use client";
+
 import Link from "next/link";
-import Image from "next/image";
-export default function LiteHeader(){return <header style={{display:"flex",alignItems:"center",gap:10,padding:"12px 18px",background:"#191919",borderBottom:"1px solid #333",maxWidth:520,margin:"auto"}}><Link href="/lite" aria-label="RentoCampo Lite Inicio" style={{display:"flex",alignItems:"center",gap:9,textDecoration:"none",color:"#fff",minWidth:0}}><Image src="/lite-logo.svg" width={92} height={98} alt="RC" style={{width:92,height:98,objectFit:"contain",background:"#fff",borderRadius:8,padding:3}}/><span style={{fontSize:22,letterSpacing:-1}}>rento<b>Campo</b></span></Link><Link href="/lite/perfil" style={{marginLeft:"auto",fontSize:13,color:"#fff",textDecoration:"none",fontWeight:700,whiteSpace:"nowrap"}}>Mi cuenta ↗</Link></header>}
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import type { User } from "@supabase/supabase-js";
+import { createClient } from "@/lib/supabase/client";
+import { COUNTRIES, type CountryCode } from "@/data/countries";
+
+/** Header compartido por todas las rutas /lite; mismo orden visual que web móvil. */
+export default function LiteHeader() {
+  const router = useRouter();
+  const [country, setCountry] = useState<CountryCode>("AR");
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
+  const [supabase] = useState(createClient);
+
+  useEffect(() => {
+    const saved = window.localStorage.getItem("rentocampo_country");
+    const resolved: CountryCode = saved === "UY" || saved === "PY" ? saved : "AR";
+    const syncCountry = window.setTimeout(() => setCountry(resolved), 0);
+    return () => window.clearTimeout(syncCountry);
+  }, []);
+
+  useEffect(() => {
+    void supabase.auth.getUser().then(({ data }) => setUser(data.user));
+    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+    return () => listener.subscription.unsubscribe();
+  }, [supabase]);
+
+  function changeCountry(next: CountryCode) {
+    setCountry(next);
+    setMenuOpen(false);
+    window.localStorage.setItem("rentocampo_country", next);
+    document.cookie = `rentocampo_country=${next}; path=/; max-age=31536000; SameSite=Lax`;
+    // El mapa regional ya soporta AR/UY/PY. Los listados Lite siguen en evolución.
+    router.push(`/campos/mapa?pais=${next}`);
+  }
+
+  async function logout() {
+    await supabase.auth.signOut();
+    setMenuOpen(false);
+    router.push("/lite");
+    router.refresh();
+  }
+
+  const closeMenu = () => setMenuOpen(false);
+
+  return (
+    <header className="lite-regional-header">
+      <Link href="/lite" className="lite-regional-logo" aria-label="RentoCampo Lite - Inicio">
+        <span className="lite-regional-initial">R</span>ento<span className="lite-regional-initial">C</span>ampo
+      </Link>
+
+      <div className="lite-regional-controls">
+        <select
+          className="lite-regional-country"
+          aria-label="Seleccionar país"
+          value={country}
+          onChange={(event) => changeCountry(event.target.value as CountryCode)}
+        >
+          {(["AR", "UY", "PY"] as const).map((code) => (
+            <option value={code} key={code}>
+              {COUNTRIES[code].flag} {code}
+            </option>
+          ))}
+        </select>
+        <button
+          type="button"
+          className="lite-regional-account"
+          aria-controls="lite-regional-user-menu"
+          aria-expanded={menuOpen}
+          aria-label="Mi cuenta y navegación"
+          onClick={() => setMenuOpen((open) => !open)}
+        >
+          Mi cuenta
+        </button>
+      </div>
+
+      {menuOpen && (
+        <nav id="lite-regional-user-menu" className="lite-regional-menu" aria-label="Navegación de usuario">
+          <Link onClick={closeMenu} href="/lite">Inicio</Link>
+          <Link onClick={closeMenu} href="/lite/campos">Campos</Link>
+          <Link onClick={closeMenu} href="/lite/servicios">Servicios rurales</Link>
+          <Link onClick={closeMenu} href="/lite/perfil">Mi perfil</Link>
+          {user ? (
+            <>
+              <Link onClick={closeMenu} href="/lite/perfil/mensajes">Mensajes</Link>
+              <button type="button" onClick={() => void logout()}>Cerrar sesión</button>
+            </>
+          ) : (
+            <>
+              <Link onClick={closeMenu} href="/lite/cuenta/ingresar">Ingresar</Link>
+              <Link onClick={closeMenu} href="/lite/cuenta/registro">Registrarse</Link>
+            </>
+          )}
+        </nav>
+      )}
+    </header>
+  );
+}
