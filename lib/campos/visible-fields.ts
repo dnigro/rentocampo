@@ -1,3 +1,5 @@
+import { COUNTRY_CODES } from "@/data/countries";
+
 export const DEMO_CAMPO_VISIBLE_IDS = new Set([
   "20000000-0000-4000-8000-000000000001",
   "20000000-0000-4000-8000-000000000004",
@@ -37,7 +39,7 @@ export function seleccionarCamposPublicos<T extends CampoVisible>(
   campos: T[],
 ): T[] {
   const regionales = campos.filter(
-    (campo) => !campo.country_code || ["AR", "UY", "PY"].includes(campo.country_code),
+    (campo) => !campo.country_code || (COUNTRY_CODES as readonly string[]).includes(campo.country_code),
   );
 
   const demos = regionales.filter((campo) =>
