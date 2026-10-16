@@ -10,25 +10,11 @@ export default async function PerfilPage() {
   } = await supabase.auth.getUser();
   if (!user) redirect("/login");
 
-  let { data: profile } = await supabase
+  const { data: profile } = await supabase
     .from("profiles")
     .select("*")
     .eq("id", user.id)
     .single();
-
-  const metadataCountry =
-    user.user_metadata?.country_code === "UY" ? "UY" : null;
-
-  if (metadataCountry && profile?.country_code !== metadataCountry) {
-    const { data: updatedProfile } = await supabase
-      .from("profiles")
-      .update({ country_code: metadataCountry })
-      .eq("id", user.id)
-      .select("*")
-      .single();
-
-    if (updatedProfile) profile = updatedProfile;
-  }
 
   return (
     <div className="page-container perfil-page">
