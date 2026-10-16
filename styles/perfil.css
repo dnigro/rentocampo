@@ -579,6 +579,34 @@
 }
 
 
+.planes-tierra-region-notice {
+  margin: 0 0 18px;
+  padding: 16px 18px;
+  border: 1px solid #c9d0c3;
+  border-radius: 14px;
+  background: #f6f7f3;
+  color: #253b30;
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+.planes-tierra-region-notice strong {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 19px;
+  font-weight: 900;
+}
+
+.planes-tierra-region-notice p {
+  margin: 6px 0 0;
+}
+
+.plan-tierra-price .plan-tierra-price-soon {
+  color: #395247;
+  font-size: 26px;
+  font-weight: 800;
+}
+
 .planes-tierra-checkout-error {
   margin: 0 0 16px;
   padding: 12px 14px;
