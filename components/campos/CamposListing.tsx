@@ -88,13 +88,11 @@ export default async function CamposListing({ params, titulo, descripcion, soloA
         count={`${count} campo${count !== 1 ? "s" : ""} encontrado${count !== 1 ? "s" : ""}`}
       />
 
-      <ListingCountrySelector country={pais} />
-
       <nav className="explorador-switch" aria-label="Explorar otras publicaciones">
         <Link href={`/servicios-rurales?pais=${pais}`}>Ver servicios rurales →</Link>
       </nav>
 
-      <Link href={`/campos/mapa?${mapParams}`} className="listing-button rc-map-before-listings">Ver en mapa →</Link>
+      <div className="rc-listing-map-country"><Link href={`/campos/mapa?${mapParams}`} className="listing-button rc-map-before-listings">Ver en mapa →</Link><ListingCountrySelector country={pais} /></div>
 
       <main className="explorador-main">
         <div className="explorador-contenido">
