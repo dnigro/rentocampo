@@ -25,8 +25,9 @@ export async function POST(request: Request) {
   const { data: billingProfile, error: billingProfileError } = await supabase
     .from("profiles").select("country_code").eq("id", user.id).maybeSingle();
   if (billingProfileError || billingProfile?.country_code !== "AR") {
+    const message = "La compra de paquetes de publicaciones todavía no está disponible en tu país. Estamos trabajando para habilitarla. Mientras tanto, podés publicar tu primer campo gratis.";
     return NextResponse.json(
-      { error: "Los packs pagos están disponibles solo para Argentina por ahora.", code: "billing_country_unsupported" },
+      { error: message, message, code: "billing_country_unsupported" },
       { status: 403 },
     );
   }
