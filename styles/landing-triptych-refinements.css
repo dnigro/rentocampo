@@ -291,3 +291,34 @@
   }
   .rc-landing .triptychHero__panels { padding-top: 10px; }
 }
+
+/* Igualar el marco del hero superior a las tarjetas inferiores en mobile. */
+@media (max-width: 900px) {
+  .rc-landing .triptychHero {
+    padding-top: 12px;
+  }
+  .rc-landing .triptychHero__mobileHero {
+    width: calc(100% - 24px);
+    margin: 0 12px;
+    border-radius: 20px;
+    overflow: hidden;
+  }
+  .rc-landing .triptychHero__panels {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+}
+@media (max-width: 570px) {
+  .rc-landing .triptychHero {
+    padding-top: 10px;
+  }
+  .rc-landing .triptychHero__mobileHero {
+    width: calc(100% - 20px);
+    margin: 0 10px;
+    border-radius: 12px;
+  }
+  .rc-landing .triptychHero__panels {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
