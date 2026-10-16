@@ -334,7 +334,8 @@ async function regionalAuthenticatedWrites(){
      if(response.status!==403||response.body.code!=="billing_country_unsupported")
       throw Error("Non-AR payment must be blocked "+JSON.stringify(response));
      await open(page,"/servicios-rurales?pais="+x.country,"article.prestador-card");
-     if(!await page.locator('a[href="/servicios-rurales/'+svc.id+'"]').count())throw Error("Service missing public listing");
+     if(!(await page.locator("article.prestador-card[data-demo=false]").allTextContents()).some(t=>t.includes("UAT write "+x.country)))throw Error("Authenticated service missing country listing");
+     await open(page,"/servicios-rurales/"+svc.id,".servicio-ficha");
      await authClient.auth.signOut();
     },page);
    }finally{await c.close()}
