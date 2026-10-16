@@ -180,3 +180,13 @@
  .rc-landing .triptychHero__panelText{font-size:clamp(14px,1.35vw,17px)}
 }
 @media(max-width:900px){.rc-landing .triptychHero__panelContent{text-align:center;align-items:center}.rc-landing .triptychHero__panelTitle{font-size:clamp(28px,5vw,35px)}.rc-landing .triptychHero__panelText{font-size:clamp(16px,3vw,19px)}}
+
+/* Ajuste visual: subir títulos y enfocar tractor en panel Servicios. */
+@media(min-width:901px){
+ .rc-landing .triptychHero__panelContent,.rc-landing .triptychHero__panel--fields .triptychHero__panelContent,.rc-landing .triptychHero__panel--services .triptychHero__panelContent{top:19%;}
+ .rc-landing .triptychHero__panel--services .triptychHero__photo{object-position:18% 50%!important;transform:scale(1.18);transform-origin:22% center}
+}
+@media(min-width:901px) and (max-width:1250px){
+ .rc-landing .triptychHero__panelContent,.rc-landing .triptychHero__panel--fields .triptychHero__panelContent,.rc-landing .triptychHero__panel--services .triptychHero__panelContent{top:19%;}
+}
+@media(max-width:900px){.rc-landing .triptychHero__panel--services .triptychHero__photo{object-position:20% 50%!important}}
