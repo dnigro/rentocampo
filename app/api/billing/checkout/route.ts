@@ -20,6 +20,17 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "No autenticado" }, { status: 401 });
   }
 
+  // Mercado Pago Checkout Pro is exclusively available to Argentine accounts.
+  // Other regional markets keep free publication, without exposing a false payment flow.
+  const { data: billingProfile, error: billingProfileError } = await supabase
+    .from("profiles").select("country_code").eq("id", user.id).maybeSingle();
+  if (billingProfileError || billingProfile?.country_code !== "AR") {
+    return NextResponse.json(
+      { error: "Los packs pagos están disponibles solo para Argentina por ahora.", code: "billing_country_unsupported" },
+      { status: 403 },
+    );
+  }
+
   const body = await request.json().catch(() => null);
   const planId = body?.planId;
 
