@@ -80,12 +80,6 @@ export default function LandingTriptychHero() {
         <RegionalLink href="/register" className="triptychHero__button triptychHero__button--register">
           <span>Registrarse</span><span aria-hidden="true">→</span>
         </RegionalLink>
-        <Link href="/campos" className="triptychHero__button triptychHero__button--fields">
-          <span>Ver campos</span><span aria-hidden="true">→</span>
-        </Link>
-        <Link href="/servicios-rurales" className="triptychHero__button triptychHero__button--services">
-          <span>Ver servicios</span><span aria-hidden="true">→</span>
-        </Link>
       </nav>
     </section>
   );
