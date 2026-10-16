@@ -148,7 +148,7 @@ function NavbarContent() {
 
   return (
     <>
-      <header className="navbar">
+      <header className="navbar navbar-landscape-unified">
         <div className="navbar-inner">
           <Link href="/" className="navbar-logo">
             <BrandWordmark className="brand-wordmark-nav" />
@@ -214,8 +214,12 @@ function NavbarContent() {
                 <Link href="/login" className="btn-ghost">
                   Ingresar
                 </Link>
-                <Link href={`/register?pais=${activeCountry}&tipo=propietario`} className="btn-primary">
-                  Publicar campo
+                <Link href={`/register?pais=${activeCountry}&tipo=propietario`} className="btn-primary navbar-landscape-cta" aria-label="Publicá tu campo. Primera publicación gratis">
+                  <span className="navbar-landscape-cta__copy">
+                    <strong>Publicá tu campo</strong>
+                    <small>1ra publicación gratis</small>
+                  </span>
+                  <span className="navbar-landscape-cta__arrow" aria-hidden="true">↗</span>
                 </Link>
               </>
             )}
