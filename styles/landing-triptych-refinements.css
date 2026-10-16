@@ -102,3 +102,13 @@
 .rc-landing .triptychHero__panelTitle {font-size:clamp(24px,1.8vw,36px);font-weight:950}
 .rc-landing .triptychHero__panelText {font-size:clamp(14px,1.12vw,19px);font-weight:800}
 @media(max-width:900px){.rc-landing .triptychHero__panelTitle{font-size:28px}.rc-landing .triptychHero__panelText{font-size:16px}}
+
+/* Alinear la primera costura con las otras: el inicio del primer panel
+   se inclina desde x=+38px arriba hasta x=-38px abajo. */
+@media(min-width:901px){
+ .rc-landing .triptychHero__panels{overflow:visible;clip-path:none}
+ .rc-landing .triptychHero__panel--fields{clip-path:polygon(13% 0,100% 0,87% 100%,0 100%)}
+ .rc-landing .triptychHero__intro{z-index:2;clip-path:polygon(0 0,calc(100% - 42px) 0,calc(100% + 42px) 100%,0 100%)}
+ .rc-landing .triptychHero__panel--fields{z-index:3}
+ .rc-landing .triptychHero__panel--fields .triptychHero__panelContent{left:24%;right:4%}
+}
