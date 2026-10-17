@@ -601,26 +601,33 @@
 
   .rc-landing .triptychHero__title {
     display: flex;
-    flex-direction: column;
-    gap: 2px;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: baseline;
+    gap: .26em;
     max-width: 100%;
     margin: 0;
-    font-size: clamp(37px, 9.5vw, 60px);
+    font-size: clamp(15px, 5vw, 31px);
     font-weight: 950;
-    line-height: 1;
-    letter-spacing: -.052em;
+    line-height: 1.13;
+    letter-spacing: -.055em;
+    white-space: nowrap;
   }
   .rc-landing .triptychHero__title > span {
     color: #252924;
+    flex: 0 0 auto;
+    white-space: nowrap;
   }
   .rc-landing .triptychHero__title > strong {
     margin: 0;
     color: #8a7637;
-    font-size: clamp(23px, 5.8vw, 38px);
+    font-size: 1em;
     font-weight: 950;
     line-height: 1.08;
-    letter-spacing: -.045em;
-    text-wrap: balance;
+    letter-spacing: -.055em;
+    flex: 0 0 auto;
+    white-space: nowrap;
+    text-wrap: nowrap;
     overflow-wrap: normal;
   }
 
@@ -641,9 +648,6 @@
     padding: 14px 9px 12px;
   }
   .rc-landing .triptychHero__title {
-    font-size: clamp(36px, 9.7vw, 51px);
-  }
-  .rc-landing .triptychHero__title > strong {
-    font-size: clamp(21px, 5.9vw, 31px);
+    font-size: clamp(15px, 5vw, 28px);
   }
 }
