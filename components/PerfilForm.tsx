@@ -38,6 +38,8 @@ export default function PerfilForm({ profile, email }: Props) {
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
   const [servicePhotoPreview, setServicePhotoPreview] = useState(profile?.service_photo_url ?? "");
   const [servicePhotoFile, setServicePhotoFile] = useState<File | null>(null);
+  const [removeAvatar, setRemoveAvatar] = useState(false);
+  const [removeServicePhoto, setRemoveServicePhoto] = useState(false);
 
   const [passwords, setPasswords] = useState({
     nueva: "",
@@ -66,6 +68,7 @@ export default function PerfilForm({ profile, email }: Props) {
     const file = e.target.files?.[0];
     if (!file) return;
     setAvatarFile(file);
+    setRemoveAvatar(false);
     setAvatarPreview(URL.createObjectURL(file));
   }
 
@@ -73,6 +76,7 @@ export default function PerfilForm({ profile, email }: Props) {
     const file = e.target.files?.[0];
     if (!file) return;
     setServicePhotoFile(file);
+    setRemoveServicePhoto(false);
     setServicePhotoPreview(URL.createObjectURL(file));
   }
 
@@ -148,6 +152,8 @@ export default function PerfilForm({ profile, email }: Props) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           roles: form.roles,
+          remove_avatar: removeAvatar,
+          remove_service_photo: removeServicePhoto,
           nombre: form.nombre,
           country_code: form.country_code,
           telefono: form.telefono,
@@ -290,6 +296,7 @@ export default function PerfilForm({ profile, email }: Props) {
                 onClick={() => {
                   setAvatarPreview("");
                   setAvatarFile(null);
+                  setRemoveAvatar(true);
                 }}
               >
                 Eliminar foto
@@ -428,6 +435,13 @@ export default function PerfilForm({ profile, email }: Props) {
                 >
                   {servicePhotoPreview ? "Cambiar foto" : "Subir foto"}
                 </button>
+                {servicePhotoPreview && (
+                  <button type="button" className="btn-secondary-lg" onClick={() => {
+                    setServicePhotoPreview("");
+                    setServicePhotoFile(null);
+                    setRemoveServicePhoto(true);
+                  }}>Eliminar foto</button>
+                )}
                 <input
                   ref={servicePhotoInputRef}
                   type="file"

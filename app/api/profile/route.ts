@@ -46,6 +46,11 @@ export async function POST(request: Request) {
     profileUpdate.localidad_servicio = typeof body.localidad_servicio === "string" ? body.localidad_servicio : null;
   }
 
+  if (body.remove_avatar === true) profileUpdate.avatar_url = null;
+  if (body.remove_service_photo === true && requestedRoles.includes("prestador")) {
+    profileUpdate.service_photo_url = null;
+  }
+
   const { data, error } = await admin
     .from("profiles")
     .update(profileUpdate)
