@@ -30,7 +30,7 @@ export default function LandingTriptychHero() {
 
       <nav className="triptychHero__actions" aria-label="Acciones principales">
         <RegionalLink href="/register" className="triptychHero__button triptychHero__button--register">
-          <span>Registrarse</span><span aria-hidden="true">→</span>
+          <span>REGISTRATE</span><span aria-hidden="true">→</span>
         </RegionalLink>
       </nav>
       </div>
