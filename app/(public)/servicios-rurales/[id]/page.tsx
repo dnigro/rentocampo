@@ -6,6 +6,11 @@ import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { SERVICIO_LABEL } from "@/data/servicios-rurales";
 import type { ServicioRural } from "@/types";
+import "@/styles/servicios-rurales.css";
+import "@/styles/campos.css";
+import "@/styles/ficha.css";
+import "@/styles/servicio-ficha.css";
+
 
 const SITE_URL = "https://rentocampo.com";
 
@@ -47,10 +52,6 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   };
 }
 
-import "@/styles/servicios-rurales.css";
-import "@/styles/campos.css";
-import "@/styles/ficha.css";
-import "@/styles/servicio-ficha.css";
 
 export default async function ServicioDetallePage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
