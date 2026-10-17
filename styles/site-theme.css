@@ -2957,3 +2957,72 @@ html body:has(.rc-landing) header.navbar {
     padding-inline: 8px !important;
   }
 }
+
+
+/* Preview paleta 2026-10-16: negro editorial #141414 como sección tres pasos.
+   Sin modificar tamaños, navegación, tarjetas ni CTAs. */
+:root {
+  --rc-chrome-graphite: #141414;
+  --rc-chrome-graphite-border: #363636;
+  --rc-chrome-hover: #292929;
+}
+
+/* La misma navegación en Home, páginas públicas, cuenta y App Lite web. */
+html body header.navbar,
+html body .app-shell header.navbar,
+html body:has(.rc-landing) header.navbar {
+  background: var(--rc-chrome-graphite) !important;
+  border-bottom: 1px solid var(--rc-chrome-graphite-border) !important;
+  box-shadow: none !important;
+}
+html body header.navbar .nav-link:hover,
+html body header.navbar .btn-ghost:hover,
+html body header.navbar .navbar-mensajes:hover,
+html body .app-shell header.navbar .nav-link:hover,
+html body .app-shell header.navbar .btn-ghost:hover,
+html body .app-shell header.navbar .navbar-mensajes:hover {
+  background: var(--rc-chrome-hover) !important;
+  color: #fff !important;
+}
+
+/* Pie unificado: negro editorial con textos claros y acentos dorados existentes. */
+html body footer.footer,
+html body .app-shell footer.footer,
+html body:has(.rc-landing) footer.footer {
+  background: var(--rc-chrome-graphite) !important;
+  color: #fff !important;
+  border-top: 1px solid var(--rc-chrome-graphite-border) !important;
+}
+html body footer.footer .footer-col-title,
+html body footer.footer .brand-clean-name {
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+}
+html body footer.footer .brand-clean-name > .brand-initial {
+  color: #d2b84c !important;
+  -webkit-text-fill-color: #d2b84c !important;
+}
+html body footer.footer .footer-desc,
+html body footer.footer .footer-link,
+html body footer.footer .footer-bottom,
+html body footer.footer .footer-bottom-link,
+html body footer.footer .brand-clean-tagline {
+  color: #eef0ec !important;
+}
+html body footer.footer .footer-link:hover,
+html body footer.footer .footer-bottom-link:hover {
+  color: #fff7d5 !important;
+}
+html body footer.footer .footer-bottom {
+  border-top-color: var(--rc-chrome-graphite-border) !important;
+}
+html body footer.footer .footer-social-link {
+  color: #fff !important;
+  background: #262626 !important;
+  border-color: #505050 !important;
+}
+html body footer.footer .footer-social-link:hover {
+  color: #202420 !important;
+  background: #e6d87a !important;
+  border-color: #e6d87a !important;
+}
