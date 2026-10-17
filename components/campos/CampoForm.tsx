@@ -134,10 +134,10 @@ export default function CampoForm({
   }
 
   async function uploadFotos(id: string) {
-    const subidas: { url: string; orden: number }[] = [];
+    const subidas: { id: string; orden: number }[] = [];
     for (const foto of fotos) {
       if (foto.id) {
-        subidas.push({ url: foto.url, orden: foto.orden });
+        subidas.push({ id: foto.id, orden: foto.orden });
         continue;
       }
       if (!foto.file) continue;
@@ -148,10 +148,10 @@ export default function CampoForm({
       body.set("file", foto.file);
       const response = await fetch("/api/campos/fotos", { method: "POST", body });
       const result = await response.json();
-      if (!response.ok || !result.url) {
+      if (!response.ok || !result.url || !result.id) {
         throw new Error(result.error ?? "No se pudo subir la foto del campo");
       }
-      subidas.push({ url: result.url, orden: foto.orden });
+      subidas.push({ id: result.id, orden: foto.orden });
     }
     return subidas;
   }
@@ -216,7 +216,16 @@ export default function CampoForm({
       id = result.id;
 
       if (id) {
-        await uploadFotos(id);
+        const seleccion = await uploadFotos(id);
+        const syncResponse = await fetch("/api/campos/fotos", {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ campoId: id, fotos: seleccion }),
+        });
+        if (!syncResponse.ok) {
+          const syncResult = await syncResponse.json();
+          throw new Error(syncResult.error ?? "No se pudieron guardar los cambios en las fotos");
+        }
       }
 
       if (!campoId && estado === "activo") {
