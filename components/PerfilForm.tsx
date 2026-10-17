@@ -296,6 +296,7 @@ export default function PerfilForm({ profile, email }: Props) {
                 onClick={() => {
                   setAvatarPreview("");
                   setAvatarFile(null);
+                  setRemoveAvatar(true);
                 }}
               >
                 Eliminar foto
