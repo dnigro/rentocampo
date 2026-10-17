@@ -65,7 +65,7 @@ export default function LandingComo() {
           href="/register?tipo=propietario"
           className="rc-button rc-button-dark rc-process-cta"
         >
-          Publicar mi campo gratis →
+          PUBLICAR GRATIS →
         </RegionalLink>
       </div>
     </section>
