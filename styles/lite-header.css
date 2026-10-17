@@ -7,11 +7,11 @@
   height: 76px;
   min-height: 76px;
   width: 100%;
-  max-width: 520px;
+  max-width: none;
   margin: 0 auto;
-  padding: 0 12px;
-  background: #303332;
-  border-bottom: 1px dashed #858985;
+  padding: 0 max(12px, calc((100% - 520px) / 2 + 12px));
+  background: #141414;
+  border-bottom: 1px solid #363636;
   color: #fff;
   font-family: var(--font-dm-sans), Arial, sans-serif;
   position: relative;
@@ -118,4 +118,12 @@
   .lite-regional-logo { font-size: 20px; }
   .lite-regional-country { padding-inline: 8px; font-size: 13px; }
   .lite-regional-controls { gap: 7px; }
+}
+
+
+/* El footer Lite es el mismo componente global, sin duplicar contenido.
+   El espacio inferior evita que la navegación fija tape los enlaces legales. */
+.lite-app-footer {
+  padding-bottom: 88px;
+  background: #141414;
 }
