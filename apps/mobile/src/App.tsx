@@ -113,10 +113,10 @@ function AppShell() {
 
   return (
     <View style={[styles.root, { paddingTop: insets.top }]}>
-      <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" translucent={false} />
+      <StatusBar barStyle="light-content" backgroundColor="#141414" translucent={false} />
       <View style={styles.header}>
         <TouchableOpacity onPress={() => destination ? setDestination(null) : select("inicio")} accessibilityLabel={destination ? "Volver" : "Inicio"}>
-          <Text style={styles.brand}>rento<Text style={styles.brandBold}>Campo</Text></Text>
+          <Text style={styles.brand}><Text style={styles.brandInitial}>R</Text>ento<Text style={styles.brandInitial}>C</Text>ampo</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => destination ? setDestination(null) : select("inicio")} style={styles.monogram}>
           <Text style={styles.monogramText}>{destination ? "←" : "RC"}</Text>
@@ -181,11 +181,11 @@ export default function App() {
 
 const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: "#FFFFFF" },
-  header: { minHeight: 64, paddingHorizontal: 22, flexDirection: "row", alignItems: "center", justifyContent: "space-between", borderBottomWidth: 1, borderBottomColor: "#ECECEC" },
-  brand: { color: "#111111", fontSize: 26, fontWeight: "300", letterSpacing: -1.1 },
-  brandBold: { fontWeight: "900" },
-  monogram: { width: 40, height: 40, borderWidth: 2, borderColor: "#111111", borderRadius: 20, justifyContent: "center", alignItems: "center" },
-  monogramText: { fontSize: 15, fontWeight: "900", color: "#111111" },
+  header: { minHeight: 76, paddingHorizontal: 22, flexDirection: "row", alignItems: "center", justifyContent: "space-between", borderBottomWidth: 1, borderBottomColor: "#363636", backgroundColor: "#141414" },
+  brand: { color: "#FFFFFF", fontSize: 26, fontWeight: "900", letterSpacing: -1.1 },
+  brandInitial: { color: "#D2B84C" },
+  monogram: { width: 40, height: 40, borderWidth: 2, borderColor: "#E6D87A", borderRadius: 20, justifyContent: "center", alignItems: "center" },
+  monogramText: { fontSize: 15, fontWeight: "900", color: "#FFFFFF" },
   body: { flex: 1 },
   page: { paddingHorizontal: 24, paddingTop: 42, paddingBottom: 36, flexGrow: 1 },
   kicker: { fontSize: 11, letterSpacing: 2.3, fontWeight: "900", color: "#666666" },
@@ -202,14 +202,14 @@ const styles = StyleSheet.create({
   arrow: { fontSize: 25, color: "#111111", marginLeft: 8 },
   foot: { marginTop: 32, fontSize: 10, lineHeight: 17, letterSpacing: 1.2, fontWeight: "800", color: "#777777" },
   rule: { height: 1, backgroundColor: "#EEEEEE", marginVertical: 15 },
-  tabs: { flexDirection: "row", borderTopWidth: 1, borderColor: "#E5E5E5", paddingTop: 9, paddingHorizontal: 8, backgroundColor: "#FFFFFF" },
+  tabs: { flexDirection: "row", borderTopWidth: 1, borderColor: "#363636", paddingTop: 9, paddingHorizontal: 8, backgroundColor: "#141414" },
   tab: { flex: 1, minHeight: 43, alignItems: "center", justifyContent: "center", borderRadius: 8, marginHorizontal: 3 },
-  activeTab: { backgroundColor: "#111111" },
-  tabLabel: { fontSize: 12, fontWeight: "800", color: "#111111" },
+  activeTab: { backgroundColor: "#303030" },
+  tabLabel: { fontSize: 12, fontWeight: "800", color: "#E8E8E8" },
   activeLabel: { color: "#FFFFFF" },
-  webBar: { height: 46, flexDirection: "row", alignItems: "center", gap: 15, paddingHorizontal: 20, borderBottomWidth: 1, borderBottomColor: "#EEEEEE" },
-  webBack: { fontSize: 14, fontWeight: "800", color: "#111111" },
-  webTitle: { fontSize: 13, color: "#666666", flex: 1 },
+  webBar: { height: 46, flexDirection: "row", alignItems: "center", gap: 15, paddingHorizontal: 20, borderBottomWidth: 1, borderBottomColor: "#363636", backgroundColor: "#141414" },
+  webBack: { fontSize: 14, fontWeight: "800", color: "#FFFFFF" },
+  webTitle: { fontSize: 13, color: "#E8E8E8", flex: 1 },
   error: { ...StyleSheet.absoluteFillObject, backgroundColor: "#FFFFFF", alignItems: "center", justifyContent: "center", padding: 20 },
   retry: { marginTop: 20, fontWeight: "800", textDecorationLine: "underline" },
 });
