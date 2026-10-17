@@ -1,16 +1,20 @@
 import type { Metadata } from "next";
+import Footer from "@/components/layout/Footer";
 import "@/styles/lite-header.css";
-import Link from "next/link";
+
 export const metadata: Metadata = {
   // Lite ofrece otra interfaz al mismo catálogo: no competir con las páginas SEO.
   robots: { index: false, follow: true },
 };
-export default function LiteLayout({children}:{children:React.ReactNode}){
- return <div style={{minHeight:"100dvh",background:"#f7f7f5"}}>
- {children}
- <footer style={{background:"#191919",color:"#e8e8e8",textAlign:"center",padding:"26px 16px 105px",fontFamily:"Arial,sans-serif",fontSize:13}}>
- <div style={{fontWeight:700,letterSpacing:".02em",marginBottom:12}}>rentoCampo · Red Federal</div>
- <Link href="/terminos-y-condiciones" style={{color:"#fff",textDecoration:"underline",textUnderlineOffset:4,fontWeight:600}}>Términos y condiciones</Link>
- <div style={{color:"#aaa",marginTop:12}}>© {new Date().getFullYear()} RentoCampo</div>
- </footer></div>
+
+/** Reutiliza exactamente el footer público para web, móvil y App Lite. */
+export default function LiteLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="lite-app" style={{ minHeight: "100dvh", background: "#f7f7f5" }}>
+      {children}
+      <div className="lite-app-footer">
+        <Footer />
+      </div>
+    </div>
+  );
 }
