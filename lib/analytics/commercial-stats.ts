@@ -22,7 +22,6 @@ type ServiceRow = {
 };
 
 type CountryMetrics = { country: CountryCode; registrations: number; activeLands: number; activeServices: number };
-type MonthlyMetrics = { month: string; registrations: number; activeLands: number; activeServices: number };
 
 function normalizeCountry(value: string | null | undefined): CountryCode {
   return COUNTRY_CODES.find((country) => country === value?.toUpperCase()) ?? "AR";
