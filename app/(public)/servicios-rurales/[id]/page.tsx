@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { resolveCountry } from "@/data/countries";
 import Link from "next/link";
 import Image from "next/image";
@@ -5,6 +6,47 @@ import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { SERVICIO_LABEL } from "@/data/servicios-rurales";
 import type { ServicioRural } from "@/types";
+
+const SITE_URL = "https://rentocampo.com";
+
+// Only active, authentic services should be offered to search engines.
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+  const { id } = await params;
+  const supabase = await createClient();
+  const { data: publicacion } = await supabase
+    .from("servicios_publicaciones")
+    .select("id, servicios_rurales, provincia, localidad, detalle, activo, country_code")
+    .eq("id", id)
+    .eq("activo", true)
+    .maybeSingle();
+
+  if (!publicacion) {
+    return {
+      title: "Servicio rural de ejemplo o no disponible | RentoCampo",
+      robots: { index: false, follow: true },
+      alternates: { canonical: `${SITE_URL}/servicios-rurales/${id}` },
+    };
+  }
+
+  const rubros = ((publicacion.servicios_rurales ?? []) as ServicioRural[])
+    .map((item) => SERVICIO_LABEL[item] ?? item);
+  const actividad = rubros.slice(0, 2).join(" y ") || "Servicios rurales";
+  const ubicacion = [publicacion.localidad, publicacion.provincia].filter(Boolean).join(", ");
+  const title = `${actividad}${ubicacion ? ` en ${ubicacion}` : ""} | RentoCampo`;
+  const description = publicacion.detalle?.trim()
+    ? String(publicacion.detalle).trim().slice(0, 155)
+    : `Encontrá ${actividad.toLowerCase()}${ubicacion ? ` en ${ubicacion}` : ""} y contactá directamente al prestador en RentoCampo.`;
+  const url = `${SITE_URL}/servicios-rurales/${id}`;
+
+  return {
+    title,
+    description,
+    robots: { index: true, follow: true },
+    alternates: { canonical: url },
+    openGraph: { title, description, url, type: "website" },
+  };
+}
+
 import "@/styles/servicios-rurales.css";
 import "@/styles/campos.css";
 import "@/styles/ficha.css";
@@ -42,8 +84,29 @@ export default async function ServicioDetallePage({ params }: { params: Promise<
   const descripcion = publicacion?.detalle ?? demo?.bio;
   const foto = publicacion?.foto_url || demo?.imagen_url || "/demo-servicio-veterinaria.jpg";
 
+  const serviceJsonLd = !esDemo ? {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: titulo || "Servicio rural",
+    description: descripcion || undefined,
+    url: `${SITE_URL}/servicios-rurales/${id}`,
+    provider: perfil?.nombre ? { "@type": "Person", name: perfil.nombre } : undefined,
+    areaServed: provincia ? {
+      "@type": "AdministrativeArea",
+      name: [localidad, provincia].filter(Boolean).join(", "),
+    } : undefined,
+  } : null;
+
   return (
     <div className="ficha-container servicio-ficha">
+      {serviceJsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(serviceJsonLd).replace(/</g, "\\u003c"),
+          }}
+        />
+      )}
       <Link href={`/campos/mapa?vista=servicios&pais=${pais}`} className="servicio-ficha-volver">
         ← Volver al mapa de servicios
       </Link>

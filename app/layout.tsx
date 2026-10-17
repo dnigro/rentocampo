@@ -77,7 +77,7 @@ export default function RootLayout({
               url: SITE_URL,
               logo: `${SITE_URL}/logo-rentocampo-rc.svg`,
               description:
-                "Plataforma argentina que conecta tierra productiva, productores y servicios rurales.",
+                "Plataforma regional que conecta tierra productiva, productores y servicios rurales.",
               sameAs: [
                 "https://www.instagram.com/rento_campo",
                 "https://www.facebook.com/rentocampo",
