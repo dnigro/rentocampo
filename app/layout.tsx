@@ -19,10 +19,9 @@ export const metadata: Metadata = {
   alternates: { canonical: "/" },
   robots: { index: true, follow: true },
   icons: {
-    icon: [
-      { url: "/favicon.ico", type: "image/x-icon" },
-      { url: "/icon-512.png", type: "image/png", sizes: "512x512" },
-    ],
+    // Fuente única para el ícono del navegador y de resultados de Google.
+    // El .ico es exactamente el escudo RC oficial (16/32/48/64 px).
+    icon: [{ url: "/favicon.ico", type: "image/x-icon", sizes: "any" }],
     shortcut: "/favicon.ico",
     apple: "/icon-512.png",
   },
@@ -75,7 +74,7 @@ export default function RootLayout({
               "@type": "Organization",
               name: "RentoCampo",
               url: SITE_URL,
-              logo: `${SITE_URL}/logo-rentocampo-rc.svg`,
+              logo: `${SITE_URL}/icon-512.png`,
               description:
                 "Plataforma regional que conecta tierra productiva, productores y servicios rurales.",
               sameAs: [
