@@ -651,3 +651,27 @@
     font-size: clamp(15px, 5vw, 28px);
   }
 }
+
+/* Unificar CTA de registro con el mostaza institucional de «Cómo funciona».
+   Anulación posterior a todas las reglas responsive: evita que el verde
+   vuelva a aparecer en desktop, tablet o móvil/App Lite web. */
+.rc-landing .triptychHero__button--register,
+.rc-landing .triptychHero__button--register:link,
+.rc-landing .triptychHero__button--register:visited {
+  background-color: #e7da79;
+  border-color: #e7da79;
+  color: #141414;
+  font-family: var(--font-dm-sans), sans-serif;
+  font-weight: 800;
+  letter-spacing: 0;
+  text-shadow: none;
+}
+.rc-landing .triptychHero__button--register:hover {
+  background-color: #d9c967;
+  border-color: #d9c967;
+  color: #141414;
+}
+.rc-landing .triptychHero__button--register:focus-visible {
+  outline: 3px solid #141414;
+  outline-offset: 3px;
+}
