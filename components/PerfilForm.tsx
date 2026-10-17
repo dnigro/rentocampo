@@ -434,6 +434,13 @@ export default function PerfilForm({ profile, email }: Props) {
                 >
                   {servicePhotoPreview ? "Cambiar foto" : "Subir foto"}
                 </button>
+                {servicePhotoPreview && (
+                  <button type="button" className="btn-secondary-lg" onClick={() => {
+                    setServicePhotoPreview("");
+                    setServicePhotoFile(null);
+                    setRemoveServicePhoto(true);
+                  }}>Eliminar foto</button>
+                )}
                 <input
                   ref={servicePhotoInputRef}
                   type="file"
