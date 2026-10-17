@@ -3027,12 +3027,17 @@ html body footer.footer .footer-social-link:hover {
   border-color: #e6d87a !important;
 }
 
-/* Branding aprobado: versión B — gris plateado sobre superficies oscuras.
-   Afecta solamente la marca del header/footer, no las fichas ni los CTA. */
-.navbar .brand-clean-name,
-.navbar .brand-clean-name .brand-initial,
-.footer .brand-clean-name,
-.footer .brand-clean-name .brand-initial {
+/* Marca B: gris plateado, sin acentos amarillos.
+   Regla única y específica que prevalece sobre el wordmark legacy (#20211f)
+   y el blanco del header/footer. Igual en Home, interiores, desktop y móvil. */
+html body header.navbar a.navbar-logo span.brand-wordmark--text-only span.brand-clean-name,
+html body .app-shell header.navbar a.navbar-logo span.brand-wordmark--text-only span.brand-clean-name,
+html body footer.footer .footer-logo .brand-wordmark--text-only .brand-clean-name,
+html body .app-shell footer.footer .footer-logo .brand-wordmark--text-only .brand-clean-name,
+html body header.navbar a.navbar-logo span.brand-wordmark--text-only span.brand-clean-name > span.brand-initial,
+html body .app-shell header.navbar a.navbar-logo span.brand-wordmark--text-only span.brand-clean-name > span.brand-initial,
+html body footer.footer .footer-logo .brand-wordmark--text-only .brand-clean-name > span.brand-initial,
+html body .app-shell footer.footer .footer-logo .brand-wordmark--text-only .brand-clean-name > span.brand-initial {
   color: #c5c5c5 !important;
   -webkit-text-fill-color: #c5c5c5 !important;
 }
