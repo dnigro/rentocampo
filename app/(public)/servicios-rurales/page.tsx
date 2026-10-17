@@ -40,8 +40,19 @@ export async function generateMetadata({ searchParams }: { searchParams: Promise
   const params = await searchParams;
   const pais = resolveCountry(params.pais, (await cookies()).get("rentocampo_country")?.value);
   const title = `Servicios rurales en ${COUNTRIES[pais].name} | RentoCampo`;
-  const url = `${SITE_URL}/servicios-rurales?pais=${pais}`;
-  return { ...baseMetadata, title, description: `Encontrá servicios rurales en ${COUNTRIES[pais].name} por especialidad y zona.`, alternates: { canonical: url }, openGraph: { ...baseMetadata.openGraph, title, url, locale: COUNTRIES[pais].locale.replace("-", "_") } };
+  // A single canonical for Argentina; other countries have explicit, stable URLs.
+  // Faceted searches must not compete with the main landing in Google.
+  const url = pais === "AR" ? `${SITE_URL}/servicios-rurales` : `${SITE_URL}/servicios-rurales?pais=${pais}`;
+  const hasFilters = Boolean(params.provincia || params.servicio);
+  const hasExplicitCountry = Boolean(params.pais);
+  return {
+    ...baseMetadata,
+    title,
+    description: `Encontrá servicios rurales en ${COUNTRIES[pais].name} por especialidad y zona.`,
+    alternates: { canonical: url },
+    robots: { index: !hasFilters && (pais === "AR" || hasExplicitCountry), follow: true },
+    openGraph: { ...baseMetadata.openGraph, title, url, locale: COUNTRIES[pais].locale.replace("-", "_") },
+  };
 }
 
 type Prestador = {
@@ -197,7 +208,7 @@ export default async function ServiciosRuralesPage({
       <section className="explorador-layout explorador-layout-results-first" aria-labelledby="servicios-disponibles-titulo">
         <ListingHeader
           id="servicios-disponibles-titulo"
-          title="Servicios disponibles"
+          title={`Servicios rurales en ${COUNTRIES[pais].name}`}
           count={`${prestadores.length} prestador${prestadores.length !== 1 ? "es" : ""} encontrado${prestadores.length !== 1 ? "s" : ""}`}
         />
 

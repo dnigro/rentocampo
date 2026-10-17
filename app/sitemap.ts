@@ -30,11 +30,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const admin = createClient(url, key, {
     auth: { autoRefreshToken: false, persistSession: false },
   });
-  const { data: campos } = await admin
-    .from("campos")
-    .select("id, titulo, country_code, created_at, provincia, aptitud, operacion, updated_at")
-    .eq("status", "activo")
-    .in("country_code", [...COUNTRY_CODES]);
+  const [{ data: campos }, { data: servicios }] = await Promise.all([
+    admin
+      .from("campos")
+      .select("id, titulo, country_code, created_at, provincia, aptitud, operacion, updated_at")
+      .eq("status", "activo")
+      .in("country_code", [...COUNTRY_CODES]),
+    admin
+      .from("servicios_publicaciones")
+      .select("id, country_code")
+      .eq("activo", true)
+      .in("country_code", [...COUNTRY_CODES]),
+  ]);
 
   // Solo anunciar a los buscadores los registros públicos, no avisos DEMO
   // como resultados inmobiliarios reales.
@@ -44,9 +51,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       !campo.id.startsWith("20000000-") &&
       !/\bDEMO\b/i.test(campo.titulo ?? ""),
   );
-  const alquileres = camposVisibles.filter(
+  // DEMO fields may be visible in the UI, but must not generate SEO category URLs.
+  const alquileres = camposReales.filter(
     (campo) => campo.country_code === "AR" && (campo.operacion === "alquiler" || campo.operacion === "ambas"),
   );
+  // Unlike illustrative demo profiles, these are published real services.
+  const serviciosReales = (servicios ?? []).filter((servicio) => Boolean(servicio.id));
+  const paisesConServicios = [...new Set(
+    serviciosReales.map((servicio) => servicio.country_code).filter((pais) => pais && pais !== "AR"),
+  )];
   const provincias = [
     ...new Set(alquileres.map((campo) => campo.provincia).filter(Boolean)),
   ];
@@ -89,6 +102,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...camposReales.map((campo) => ({
       url: `${SITE_URL}/campos/${campo.id}`,
       lastModified: campo.updated_at ? new Date(campo.updated_at) : undefined,
+      changeFrequency: "weekly" as const,
+      priority: 0.7,
+    })),
+    ...paisesConServicios.map((pais) => ({
+      url: `${SITE_URL}/servicios-rurales?pais=${pais}`,
+      changeFrequency: "weekly" as const,
+      priority: 0.7,
+    })),
+    ...serviciosReales.map((servicio) => ({
+      url: `${SITE_URL}/servicios-rurales/${servicio.id}`,
       changeFrequency: "weekly" as const,
       priority: 0.7,
     })),

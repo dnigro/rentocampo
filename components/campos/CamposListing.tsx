@@ -40,7 +40,8 @@ export default async function CamposListing({ params, titulo, descripcion, soloA
   const supabase = await createClient();
 
   const saved = (await cookies()).get("rentocampo_country")?.value;
-  const pais = resolveCountry(params.pais, saved);
+  // This SEO landing explicitly describes Argentina, regardless of a visitor's saved region.
+  const pais = soloAlquiler ? "AR" : resolveCountry(params.pais, saved);
   const mapParams = campoFilterParams({ ...params, pais, ...(soloAlquiler ? { operacion: "alquiler_o_ambas" } : {}) });
   let query = supabase
     .from("campos")

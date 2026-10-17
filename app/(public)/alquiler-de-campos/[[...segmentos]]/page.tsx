@@ -55,9 +55,9 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
   const admin = createAdminClient();
   let countQuery = admin
     .from("campos")
-    .select("id", { count: "exact", head: true })
+    .select("id, titulo")
     .eq("status", "activo")
-    .or("country_code.eq.AR,country_code.is.null")
+    .eq("country_code", "AR")
     .in("operacion", ["alquiler", "ambas"]);
   if (categoria.filtros.provincia) {
     countQuery = countQuery.eq("provincia", categoria.filtros.provincia);
@@ -65,7 +65,10 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
   if (categoria.filtros.aptitud) {
     countQuery = countQuery.eq("aptitud", categoria.filtros.aptitud);
   }
-  const { count } = await countQuery;
+  const { data: candidatos, error: countError } = await countQuery;
+  const hayAlquileresReales = !countError && (candidatos ?? []).some(
+    (campo) => !campo.id.startsWith("20000000-") && !/\bDEMO\b/i.test(campo.titulo ?? ""),
+  );
 
   return {
     title: `${categoria.titulo} | RentoCampo`,
@@ -76,7 +79,7 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
         : undefined,
     alternates: { canonical: `${SITE_URL}${categoria.canonical}` },
     robots:
-      tieneFiltrosAdicionales || count === 0
+      tieneFiltrosAdicionales || !hayAlquileresReales
         ? { index: false, follow: true }
         : { index: true, follow: true },
     openGraph: {
