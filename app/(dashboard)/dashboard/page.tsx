@@ -2,6 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import "@/styles/dashboard.css";
+import { INTERNAL_TEST_EMAILS } from "@/lib/analytics/commercial-filters";
 
 export default async function DashboardPage() {
   const supabase = await createClient();
@@ -10,6 +11,9 @@ export default async function DashboardPage() {
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) redirect("/login");
+  const canViewCommercialReport = Boolean(
+    user.email && INTERNAL_TEST_EMAILS.includes(user.email.trim().toLowerCase()),
+  );
 
   const { data: profile } = await supabase
     .from("profiles")
@@ -41,6 +45,13 @@ export default async function DashboardPage() {
       </div>
 
       <div className="dashboard-cards">
+        {canViewCommercialReport && (
+          <Link href="/gerencial" className="dash-card" aria-label="Abrir reporte gerencial por país">
+            <span className="dash-card-icon">📊</span>
+            <span className="dash-card-label">Reporte gerencial</span>
+            <span className="dash-card-desc">Registros, campos y servicios reales por país</span>
+          </Link>
+        )}
         <Link href="/perfil" className="dash-card">
           <span className="dash-card-icon">👤</span>
           <span className="dash-card-label">Mi perfil</span>
