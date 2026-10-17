@@ -50,7 +50,7 @@ export async function POST(request: Request) {
   const {
     data: { publicUrl },
   } = admin.storage.from("campos-fotos").getPublicUrl(path);
-  const { error: photoError } = await admin
+  const { data: insertedPhoto, error: photoError } = await admin
     .from("campos_fotos")
     .insert({
       campo_id: campoId,
@@ -58,14 +58,14 @@ export async function POST(request: Request) {
       storage_path: path,
       url: publicUrl,
       orden,
-    });
+    }).select("id").single();
 
   if (photoError) {
     await admin.storage.from("campos-fotos").remove([path]);
     return NextResponse.json({ error: photoError.message }, { status: 500 });
   }
 
-  return NextResponse.json({ url: publicUrl, orden });
+  return NextResponse.json({ id: insertedPhoto.id, url: publicUrl, orden });
 }
 
 /** Synchronize the final photo selection after new uploads have completed. */
