@@ -62,7 +62,17 @@ export default function ServicioRuralForm({ profile, publicacion }: Props) {
     const file = e.target.files?.[0];
     if (!file) return;
     setPhotoFile(file);
-    setPhotoPreview(URL.createObjectURL(file));
+    setPhotoPreview((previous) => { if (previous.startsWith("blob:")) URL.revokeObjectURL(previous); return URL.createObjectURL(file); });
+    e.target.value = "";
+  }
+
+  function removePhoto() {
+    setPhotoPreview((previous) => {
+      if (previous.startsWith("blob:")) URL.revokeObjectURL(previous);
+      return "";
+    });
+    setPhotoFile(null);
+    if (photoInputRef.current) photoInputRef.current.value = "";
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -123,7 +133,7 @@ export default function ServicioRuralForm({ profile, publicacion }: Props) {
         detalle: detalle || null,
       };
       const { error: saveError } = publicacion
-        ? await supabase.from("servicios_publicaciones").update(payload).eq("id", publicacion.id)
+        ? await supabase.from("servicios_publicaciones").update(payload).eq("id", publicacion.id).eq("propietario_id", profile?.id)
         : await supabase.from("servicios_publicaciones").insert(payload);
       if (saveError) throw saveError;
 
@@ -206,6 +216,11 @@ export default function ServicioRuralForm({ profile, publicacion }: Props) {
           >
             {photoPreview ? "Cambiar foto" : "Subir foto"}
           </button>
+          {photoPreview && (
+            <button type="button" className="btn-secondary-lg" onClick={removePhoto}>
+              Eliminar foto
+            </button>
+          )}
           <input
             ref={photoInputRef}
             type="file"
