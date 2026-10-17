@@ -2959,12 +2959,12 @@ html body:has(.rc-landing) header.navbar {
 }
 
 
-/* Preview paleta 2026-10-16: grafito cálido para header y footer.
+/* Preview paleta 2026-10-16: negro editorial #141414 como sección tres pasos.
    Sin modificar tamaños, navegación, tarjetas ni CTAs. */
 :root {
-  --rc-chrome-graphite: #555b58;
-  --rc-chrome-graphite-border: #727873;
-  --rc-chrome-hover: #656c67;
+  --rc-chrome-graphite: #141414;
+  --rc-chrome-graphite-border: #363636;
+  --rc-chrome-hover: #292929;
 }
 
 /* La misma navegación en Home, páginas públicas, cuenta y App Lite web. */
@@ -2985,7 +2985,7 @@ html body .app-shell header.navbar .navbar-mensajes:hover {
   color: #fff !important;
 }
 
-/* Pie unificado: gris más suave con texto claro y acentos dorados existentes. */
+/* Pie unificado: negro editorial con textos claros y acentos dorados existentes. */
 html body footer.footer,
 html body .app-shell footer.footer,
 html body:has(.rc-landing) footer.footer {
@@ -3018,8 +3018,8 @@ html body footer.footer .footer-bottom {
 }
 html body footer.footer .footer-social-link {
   color: #fff !important;
-  background: #646b65 !important;
-  border-color: #858b85 !important;
+  background: #262626 !important;
+  border-color: #505050 !important;
 }
 html body footer.footer .footer-social-link:hover {
   color: #202420 !important;
