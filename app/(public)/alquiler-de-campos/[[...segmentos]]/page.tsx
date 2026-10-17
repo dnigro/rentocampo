@@ -67,7 +67,7 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
   }
   const { data: candidatos, error: countError } = await countQuery;
   const hayAlquileresReales = !countError && (candidatos ?? []).some(
-    (campo) => !campo.id.startsWith("20000000-") && !/\\bDEMO\\b/i.test(campo.titulo ?? ""),
+    (campo) => !campo.id.startsWith("20000000-") && !/\bDEMO\b/i.test(campo.titulo ?? ""),
   );
 
   return {
