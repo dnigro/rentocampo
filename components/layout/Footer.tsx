@@ -16,7 +16,7 @@ export default async function Footer() {
           </Link>
           <p className="footer-desc">
             Tierra productiva, productores y servicios rurales conectados en
-            toda la Argentina.
+            toda la región.
           </p>
         </div>
 
