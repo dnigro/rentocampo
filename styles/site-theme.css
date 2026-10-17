@@ -3026,3 +3026,13 @@ html body footer.footer .footer-social-link:hover {
   background: #e6d87a !important;
   border-color: #e6d87a !important;
 }
+
+/* Branding aprobado: versión B — gris plateado sobre superficies oscuras.
+   Afecta solamente la marca del header/footer, no las fichas ni los CTA. */
+.navbar .brand-clean-name,
+.navbar .brand-clean-name .brand-initial,
+.footer .brand-clean-name,
+.footer .brand-clean-name .brand-initial {
+  color: #c5c5c5 !important;
+  -webkit-text-fill-color: #c5c5c5 !important;
+}
