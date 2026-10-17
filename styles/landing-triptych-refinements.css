@@ -322,3 +322,332 @@
     padding-right: 10px;
   }
 }
+
+
+/* Preview mobile 2026-10-16: tríptico continuo con diagonales.
+   Solo <=900px; escritorio y demás páginas conservan su diseño. */
+@media (max-width: 900px) {
+  .rc-landing .triptychHero {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    min-height: 0;
+    padding: 12px 0 24px;
+    overflow: hidden;
+    border-bottom: 0;
+    background: #f5f3ee;
+  }
+
+  /* Aplanar el wrapper permite colocar las fotos antes del único CTA
+     sin alterar el JSX ni el posicionamiento absoluto de escritorio. */
+  .rc-landing .triptychHero__mobileHero {
+    display: contents;
+  }
+
+  .rc-landing .triptychHero__mobileHero .triptychHero__intro {
+    order: 1;
+    display: flex;
+    flex: 0 0 auto;
+    flex-direction: column;
+    justify-content: center;
+    width: calc(100% - 24px);
+    min-height: 245px;
+    height: auto;
+    margin: 0 12px;
+    padding: 24px clamp(16px, 4vw, 30px) 26px;
+    border-radius: 20px;
+    box-sizing: border-box;
+    overflow: hidden;
+    color: #fff;
+    background:
+      linear-gradient(180deg, rgba(22,26,19,.65) 0%, rgba(23,29,20,.58) 55%, rgba(13,24,17,.72) 100%),
+      url("/image_trigo_pix.png") center 52% / cover no-repeat;
+  }
+
+  .rc-landing .triptychHero__countries {
+    margin: 0 0 12px;
+    color: #f0e8d5;
+    font-size: clamp(10px, 2.6vw, 12px);
+    font-weight: 850;
+    letter-spacing: .11em;
+  }
+  .rc-landing .triptychHero__title {
+    max-width: 100%;
+    margin: 0;
+    font-size: clamp(47px, 12.9vw, 78px);
+    line-height: .95;
+  }
+  .rc-landing .triptychHero__title > span { color: #fff; }
+  .rc-landing .triptychHero__title > strong {
+    margin-top: 7px;
+    color: #efe1ca;
+    font-size: clamp(28px, 7.6vw, 48px);
+    line-height: .98;
+    letter-spacing: -.045em;
+    text-wrap: balance;
+  }
+  .rc-landing .triptychHero__summary {
+    margin: 16px 0 0;
+    max-width: 450px;
+    color: #fff;
+    font-size: clamp(14px, 3.6vw, 18px);
+    font-weight: 800;
+    line-height: 1.3;
+  }
+  .rc-landing .triptychHero__detail { display: none; }
+
+  /* Las tres fotos quedan en una sola banda con dos uniones oblicuas
+     coincidentes arriba y abajo, sin huecos ni tarjetas apiladas. */
+  .rc-landing .triptychHero__panels {
+    order: 2;
+    display: block;
+    position: relative;
+    z-index: 1;
+    inset: auto;
+    flex: 0 0 auto;
+    width: calc(100% - 24px);
+    height: clamp(236px, 64vw, 345px);
+    min-height: 0;
+    margin: 10px 12px 0;
+    padding: 0;
+    box-sizing: border-box;
+    border-radius: 20px;
+    isolation: isolate;
+    overflow: hidden;
+    background: #2e332f;
+  }
+  .rc-landing .triptychHero__panel,
+  .rc-landing .triptychHero__panel--services {
+    position: absolute;
+    display: block;
+    top: 0;
+    bottom: 0;
+    min-height: 0;
+    height: 100%;
+    margin: 0;
+    border-radius: 0;
+    isolation: auto;
+  }
+  .rc-landing .triptychHero__panel--fields {
+    left: 0;
+    width: 43%;
+    z-index: 3;
+    clip-path: polygon(0 0, 100% 0, 73% 100%, 0 100%);
+  }
+  .rc-landing .triptychHero__panel--producers {
+    left: 31.4%;
+    width: 43%;
+    z-index: 2;
+    clip-path: polygon(27% 0, 100% 0, 73% 100%, 0 100%);
+  }
+  .rc-landing .triptychHero__panel--services {
+    left: 62.8%;
+    width: 37.2%;
+    z-index: 1;
+    clip-path: polygon(31% 0, 100% 0, 100% 100%, 0 100%);
+  }
+
+  .rc-landing .triptychHero__photo {
+    object-fit: cover;
+    filter: grayscale(.38) saturate(.53) brightness(.77) contrast(.9) !important;
+    transform: scale(1.05);
+  }
+  .rc-landing .triptychHero__panelShade,
+  .rc-landing .triptychHero__panel--producers .triptychHero__panelShade,
+  .rc-landing .triptychHero__panel--services .triptychHero__panelShade {
+    background: linear-gradient(180deg,rgba(15,20,18,.76),rgba(18,21,19,.18) 55%,rgba(10,13,12,.49)) !important;
+  }
+  .rc-landing .triptychHero__panelContent,
+  .rc-landing .triptychHero__panel--services .triptychHero__panelContent {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    top: 20px;
+    bottom: 13px;
+    right: 6%;
+    left: 24%;
+    gap: 8px;
+    text-align: center;
+    text-shadow: 0 2px 5px rgba(0,0,0,.6);
+  }
+  .rc-landing .triptychHero__panel--fields .triptychHero__panelContent {
+    left: 5%;
+    right: 24%;
+  }
+  .rc-landing .triptychHero__panel--producers .triptychHero__panelContent {
+    left: 26%;
+    right: 9%;
+  }
+  .rc-landing .triptychHero__panel--services .triptychHero__panelContent {
+    left: 27%;
+    right: 3%;
+  }
+  .rc-landing .triptychHero__panelTitle {
+    color: #fff;
+    font-size: clamp(12px, 3.05vw, 19px);
+    font-weight: 950;
+    letter-spacing: -.045em;
+    line-height: 1.1;
+    overflow-wrap: normal;
+  }
+  .rc-landing .triptychHero__panelText { display: none; }
+  .rc-landing .triptychHero__panelArrow {
+    margin: auto 0 0;
+    font-size: 25px;
+    line-height: 1;
+  }
+
+  /* Un CTA después de las imágenes, nunca superpuesto al tríptico. */
+  .rc-landing .triptychHero__actions,
+  .rc-landing .triptychHero__mobileHero .triptychHero__actions {
+    order: 3;
+    position: relative;
+    inset: auto;
+    left: auto;
+    right: auto;
+    bottom: auto;
+    display: flex;
+    flex: 0 0 auto;
+    align-self: center;
+    justify-content: center;
+    width: calc(100% - 24px);
+    max-width: none;
+    margin: 12px 12px 0;
+    padding: 0;
+  }
+  .rc-landing .triptychHero__button--register,
+  .rc-landing .triptychHero__button--register:link,
+  .rc-landing .triptychHero__button--register:visited {
+    width: 100%;
+    min-height: 60px;
+    padding: 13px 22px;
+    border-radius: 19px;
+    background: #184b39;
+    color: #fff;
+    font-size: 17px;
+    font-weight: 950;
+    box-shadow: none;
+  }
+}
+
+@media (max-width: 570px) {
+  .rc-landing .triptychHero__mobileHero .triptychHero__intro {
+    width: calc(100% - 20px);
+    min-height: 245px;
+    margin: 0 10px;
+    border-radius: 16px;
+  }
+  .rc-landing .triptychHero__panels {
+    width: calc(100% - 20px);
+    margin: 10px 10px 0;
+    border-radius: 16px;
+  }
+  .rc-landing .triptychHero__actions,
+  .rc-landing .triptychHero__mobileHero .triptychHero__actions {
+    width: calc(100% - 20px);
+    margin: 12px 10px 0;
+  }
+  .rc-landing .triptychHero__panelContent,
+  .rc-landing .triptychHero__panel--services .triptychHero__panelContent {
+    top: 18px;
+    bottom: 12px;
+  }
+  .rc-landing .triptychHero__panelTitle {
+    font-size: clamp(11px, 3.1vw, 15px);
+  }
+}
+
+
+/* Preview mobile v2 — sin fotografía superior.
+   Encabezado tipográfico compacto + tríptico diagonal + único CTA.
+   Desktop >= 901px conserva la versión publicada. */
+@media (max-width: 900px) {
+  .rc-landing .triptychHero {
+    padding-top: 4px;
+    padding-bottom: 24px;
+    background: #f5f3ee;
+  }
+
+  .rc-landing .triptychHero__mobileHero {
+    display: contents;
+  }
+
+  .rc-landing .triptychHero__mobileHero .triptychHero__intro {
+    order: 1;
+    display: block;
+    width: calc(100% - 24px);
+    max-width: 740px;
+    min-height: 0;
+    height: auto;
+    margin: 0 auto;
+    padding: 17px 8px 11px;
+    box-sizing: border-box;
+    border-radius: 0;
+    color: #242722;
+    background: none;
+    overflow: visible;
+  }
+
+  .rc-landing .triptychHero__countries {
+    margin: 0 0 9px;
+    color: #686b61;
+    font-size: clamp(10px, 2.5vw, 12px);
+    font-weight: 900;
+    letter-spacing: .13em;
+    line-height: 1.3;
+  }
+
+  .rc-landing .triptychHero__title {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: baseline;
+    gap: .26em;
+    max-width: 100%;
+    margin: 0;
+    font-size: clamp(15px, 5vw, 31px);
+    font-weight: 950;
+    line-height: 1.13;
+    letter-spacing: -.055em;
+    white-space: nowrap;
+  }
+  .rc-landing .triptychHero__title > span {
+    color: #252924;
+    flex: 0 0 auto;
+    white-space: nowrap;
+  }
+  .rc-landing .triptychHero__title > strong {
+    margin: 0;
+    color: #8a7637;
+    font-size: 1em;
+    font-weight: 950;
+    line-height: 1.08;
+    letter-spacing: -.055em;
+    flex: 0 0 auto;
+    white-space: nowrap;
+    text-wrap: nowrap;
+    overflow-wrap: normal;
+  }
+
+  .rc-landing .triptychHero__summary,
+  .rc-landing .triptychHero__detail {
+    display: none;
+  }
+
+  .rc-landing .triptychHero__panels {
+    margin-top: 3px;
+  }
+}
+
+@media (max-width: 570px) {
+  .rc-landing .triptychHero__mobileHero .triptychHero__intro {
+    width: calc(100% - 20px);
+    min-height: 0;
+    padding: 14px 9px 12px;
+  }
+  .rc-landing .triptychHero__title {
+    font-size: clamp(15px, 5vw, 28px);
+  }
+}
