@@ -10,6 +10,8 @@ import "@/styles/servicios-rurales.css";
 import "@/styles/campos.css";
 import "@/styles/ficha.css";
 import "@/styles/servicio-ficha.css";
+import "@/styles/visual-experiences.css";
+import FichaVisualNav from "@/components/listings/FichaVisualNav";
 
 
 const SITE_URL = "https://rentocampo.com";
@@ -112,12 +114,13 @@ export default async function ServicioDetallePage({ params }: { params: Promise<
         ← Volver al mapa de servicios
       </Link>
 
-      <div className="servicio-ficha-galeria">
+      <FichaVisualNav />
+      <div id="ficha-fotos" className="servicio-ficha-galeria">
         <Image src={foto} alt={titulo || nombre} fill sizes="(max-width: 768px) 100vw, 1180px" priority />
       </div>
 
       <div className="ficha-body">
-        <main className="ficha-main">
+        <main id="ficha-detalles" className="ficha-main">
           <div className="ficha-tags">
             <span className="aptitud-tag">{esDemo ? "Servicio demo" : "Servicio rural"}</span>
           </div>
@@ -147,7 +150,7 @@ export default async function ServicioDetallePage({ params }: { params: Promise<
           )}
         </main>
 
-        <aside className="ficha-sidebar">
+        <aside id="ficha-contacto" className="ficha-sidebar">
           <div className="ficha-precio-card">
             <strong className="servicio-ficha-card-titulo">{esDemo ? "Publicación demostrativa" : "Consultar servicio"}</strong>
             {esDemo ? (
