@@ -5,6 +5,8 @@ import { cookies } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
 import ListingHeader from "@/components/listings/ListingHeader";
 import ListingCountrySelector from "@/components/listings/ListingCountrySelector";
+import VisualDiscovery from "@/components/listings/VisualDiscovery";
+import "@/styles/visual-experiences.css";
 import CampoCard from "@/components/campos/CampoCard";
 import CampoFiltros from "@/components/campos/CampoFiltros";
 import DemandaZonasPanel from "@/components/campos/DemandaZonasPanel";
@@ -81,9 +83,24 @@ export default async function CamposListing({ params, titulo, descripcion, soloA
     (key) => key !== "page" && params[key],
   );
 
+  const visualTiles = camposVisibles
+    .filter((campo) => !campo.id.startsWith("20000000-") && !/\\bDEMO\\b/i.test(campo.titulo ?? ""))
+    .flatMap((campo) => {
+      const foto = [...(campo.fotos ?? [])].sort((a, b) => a.orden - b.orden)[0]?.url;
+      return foto ? [{
+        src: foto,
+        href: `/campos/${campo.id}`,
+        title: campo.titulo,
+        subtitle: [campo.localidad, campo.provincia].filter(Boolean).join(", "),
+      }] : [];
+    })
+    .slice(0, 3);
+
   return (
     <div className="explorador-layout explorador-layout-results-first">
+      {!soloAlquiler && <VisualDiscovery tipo="campos" pais={pais} mapHref={`/campos/mapa?${mapParams}`} tiles={visualTiles} />}
       <ListingHeader
+        id="publicaciones-disponibles"
         title={titulo ?? (hayFiltros ? "Resultados" : "Campos disponibles")}
         description={descripcion}
         count={`${count} campo${count !== 1 ? "s" : ""} encontrado${count !== 1 ? "s" : ""}`}
