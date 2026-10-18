@@ -8,6 +8,8 @@ import { SERVICIOS_RURALES, SERVICIO_LABEL } from "@/data/servicios-rurales";
 import type { ServicioRural } from "@/types";
 import ListingHeader from "@/components/listings/ListingHeader";
 import ListingCountrySelector from "@/components/listings/ListingCountrySelector";
+import VisualDiscovery from "@/components/listings/VisualDiscovery";
+import "@/styles/visual-experiences.css";
 import ServiciosFiltros from "@/components/servicios/ServiciosFiltros";
 import "@/styles/explorador.css";
 import "@/styles/servicios-rurales.css";
@@ -196,6 +198,16 @@ export default async function ServiciosRuralesPage({
   if (provincia) mapParams.set("provincia", provincia);
   if (servicioValido) mapParams.set("servicio", servicioValido);
 
+  const visualTiles = prestadores
+    .filter((prestador) => !prestador.is_demo && prestador.service_photo_url && prestador.publicacion_id)
+    .slice(0, 3)
+    .map((prestador) => ({
+      src: prestador.service_photo_url!,
+      href: `/servicios-rurales/${prestador.publicacion_id}`,
+      title: prestador.nombre,
+      subtitle: [prestador.localidad_servicio, prestador.provincia_servicio].filter(Boolean).join(", "),
+    }));
+
   return (
     <div className="servicios-seo-page">
       <script
@@ -205,7 +217,9 @@ export default async function ServiciosRuralesPage({
         }}
       />
 
-      <section className="explorador-layout explorador-layout-results-first" aria-labelledby="servicios-disponibles-titulo">
+      <VisualDiscovery tipo="servicios" pais={pais} mapHref={`/campos/mapa?${mapParams.toString()}`} tiles={visualTiles} />
+
+      <section id="publicaciones-disponibles" className="explorador-layout explorador-layout-results-first" aria-labelledby="servicios-disponibles-titulo">
         <ListingHeader
           id="servicios-disponibles-titulo"
           title={`Servicios rurales en ${COUNTRIES[pais].name}`}
