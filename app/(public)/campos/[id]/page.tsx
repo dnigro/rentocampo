@@ -6,6 +6,8 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import ConsultaButton from "@/components/campos/ConsultaButton";
 import GaleriaCarrusel from "@/components/campos/GaleriaCarrusel";
+import FichaVisualNav from "@/components/listings/FichaVisualNav";
+import "@/styles/visual-experiences.css";
 import "@/styles/carrusel.css";
 import "@/styles/campos.css";
 import "@/styles/ficha.css";
@@ -153,15 +155,18 @@ export default async function CampoFichaPage({ params }: PageProps) {
         }}
       />
       <VolverButton />
+      <FichaVisualNav fotos={fotosOrdenadas.length > 0} />
       {/* Galería de fotos */}
-      <GaleriaCarrusel
-        fotos={fotosOrdenadas}
-        titulo={campoConPropietario.titulo}
-      />
+      <div id="ficha-fotos">
+        <GaleriaCarrusel
+          fotos={fotosOrdenadas}
+          titulo={campoConPropietario.titulo}
+        />
+      </div>
 
       <div className="ficha-body">
         {/* Columna principal */}
-        <div className="ficha-main">
+        <div id="ficha-detalles" className="ficha-main">
           <div className="ficha-tags">
             <span className="aptitud-tag">
               {APTITUD_LABEL[campoConPropietario.aptitud] ??
@@ -250,7 +255,7 @@ export default async function CampoFichaPage({ params }: PageProps) {
         </div>
 
         {/* Sidebar de contacto */}
-        <aside className="ficha-sidebar">
+        <aside id="ficha-contacto" className="ficha-sidebar">
           <div className="ficha-precio-card">
             {campoConPropietario.precio ? (
               <div className="ficha-precio">
