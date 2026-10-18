@@ -84,7 +84,7 @@ export default async function CamposListing({ params, titulo, descripcion, soloA
   );
 
   const visualTiles = camposVisibles
-    .filter((campo) => !campo.id.startsWith("20000000-") && !/\\bDEMO\\b/i.test(campo.titulo ?? ""))
+    .filter((campo) => !campo.id.startsWith("20000000-") && !(campo.titulo ?? "").toUpperCase().includes("DEMO"))
     .flatMap((campo) => {
       const foto = [...(campo.fotos ?? [])].sort((a, b) => a.orden - b.orden)[0]?.url;
       return foto ? [{
