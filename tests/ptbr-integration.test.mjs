@@ -30,7 +30,8 @@ test("hero has named actions on all cards, with country retained", () => {
   assert.match(hero, /SOU PRODUTOR/);
   assert.match(hero, /VER SERVIÇOS/);
   assert.equal((hero.match(/triptychHero__panelCta/g) || []).length, 3);
-  assert.ok(!hero.includes('className="triptychHero__panel triptychHero__panel--fields" href="/campos"'));
+  assert.match(hero, /<RegionalLink className="triptychHero__panel triptychHero__panel--fields" href="\/campos">/);
+  assert.match(hero, /<RegionalLink className="triptychHero__panel triptychHero__panel--services" href="\/servicios-rurales">/);
   assert.match(css, /\.triptychHero__panelCta/);
 });
 
