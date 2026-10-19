@@ -74,8 +74,8 @@ async function run() {
         },page);
         await check(size.name+" free home and no pack calls-to-action",async()=>{
           await open(page,"/?pais=AR",".rc-faq");
-          const faq=await page.locator(".rc-faq").innerText();
-          if(!faq.includes("100% gratis") || faq.includes("Pack Tierra Productiva"))throw Error("Paid pack marketing visible");
+          const faq=(await page.locator(".rc-faq").innerText()).toLowerCase();
+          if(!faq.includes("100% gratis") || faq.includes("pack tierra productiva"))throw Error("Paid pack marketing visible");
         },page);
         for(const x of countries){
           await context.addCookies([{name:"rentocampo_country",value:x.code,url:origin}]);

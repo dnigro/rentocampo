@@ -129,3 +129,13 @@ test("field preview and local UAT use RLS for public reads without admin secrets
  assert.match(field,/process\.env\.VERCEL_ENV !== "production"/);
  assert.match(field,/wibqszhvuvpjycheaxzi\.supabase\.co/);
 });
+
+test("growth mode does not silently hide a fourth real field or local AR demo", () => {
+  const visible=read("lib/campos/visible-fields.ts");
+  assert.match(visible, /const demos = regionales\.filter\(esCampoDemo\)/);
+  assert.ok(!visible.includes("REAL_FIELDS_LIMIT"));
+  assert.ok(!visible.includes("DEMO_CAMPO_VISIBLE_IDS"));
+  const service=read("app/(public)/servicios-rurales/page.tsx");
+  for(const suffix of ["016","017","018","019"])
+    assert.ok(service.includes("10000000-0000-4000-8000-000000000"+suffix));
+});

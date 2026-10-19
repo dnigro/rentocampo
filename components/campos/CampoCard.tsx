@@ -96,7 +96,7 @@ export default function CampoCard({ campo, userId }: Props) {
         </div>
 
         {/* Botón favorito en el texto */}
-        <FavoritoBtn campoId={campo.id} userId={userId} />
+        {!isDemo && <FavoritoBtn campoId={campo.id} userId={userId} />}
       </div>
     </div>
   );
