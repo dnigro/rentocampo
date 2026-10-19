@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { UserRoundPlus, MapPinned, FilePlus2, MessagesSquare, ArrowRight } from "lucide-react";
 import RegionalLink from "@/components/layout/RegionalLink";
 import fieldsPhoto from "@/public/image_eol_pix.png";
 import producersPhoto from "@/public/image_vaca_pix.png";
@@ -30,6 +31,25 @@ export default function LandingTriptychHero() {
         <p className="triptychHero__detail">
           {t("Explorá oportunidades con mapa, publicá tus campos gratis y conectá de forma directa.", "Explore oportunidades no mapa, anuncie suas terras gratuitamente e faça contato direto.")}
         </p>
+        <div className="triptychHero__journey" aria-label={t("Cómo funciona RentoCampo", "Como funciona a RentoCampo")}>
+          <h2>{t("Encontrá, publicá y conectá con el campo.", "Encontre, anuncie e conecte-se com o campo.")}</h2>
+          <p>{t("Una experiencia simple para productores, propietarios y servicios rurales.", "Uma experiência simples para produtores, proprietários e serviços rurais.")}</p>
+          <ol>
+            {[
+              { Icon: UserRoundPlus, title: t("Registrate", "Cadastre-se"), detail: t("Creá tu cuenta gratis.", "Crie sua conta grátis.") },
+              { Icon: MapPinned, title: t("Explorá", "Explore"), detail: t("Buscá en el mapa.", "Busque no mapa.") },
+              { Icon: FilePlus2, title: t("Publicá", "Anuncie"), detail: t("Sumá campos o servicios.", "Anuncie terras ou serviços.") },
+              { Icon: MessagesSquare, title: t("Conectá", "Conecte-se"), detail: t("Contactá directamente.", "Entre em contato direto.") },
+            ].map(({ Icon, title, detail }, index) => (
+              <li key={title}>
+                <span className="triptychHero__journeyIcon"><Icon size={25} strokeWidth={1.7} aria-hidden="true" /></span>
+                <strong>{title}</strong>
+                <small>{detail}</small>
+                {index < 3 && <ArrowRight className="triptychHero__journeyArrow" size={17} aria-hidden="true" />}
+              </li>
+            ))}
+          </ol>
+        </div>
       </div>
 
       <nav className="triptychHero__actions" aria-label={t("Acciones principales", "Ações principais")}>
