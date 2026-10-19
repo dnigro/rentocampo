@@ -88,7 +88,7 @@ export async function POST(request: Request) {
     );
   }
 
-  const admin = createAdminClient();
+  const admin = supabase;
   const { data: destinatario } = await admin
     .from("profiles")
     .select("id")
