@@ -1,38 +1,43 @@
 import Link from "next/link";
+import { cookies } from "next/headers";
+import { resolveCountry } from "@/data/countries";
+import { translate } from "@/lib/i18n/messages";
 import "@/styles/public.css";
 import "@/styles/confirm-email-compact.css";
 
-export default function ConfirmarEmailPage() {
+export default async function ConfirmarEmailPage() {
+  const country=resolveCountry((await cookies()).get("rentocampo_country")?.value);
+  const t=(key: Parameters<typeof translate>[1]) => translate(country,key);
   return (
     <div className="auth-page rc-email-confirm-page">
       <div className="auth-card rc-email-confirm-card">
         <div className="auth-header">
           <div className="confirm-icon">📬</div>
-          <h1 className="auth-title">Revisá tu email</h1>
+          <h1 className="auth-title">{t("auth.checkEmail")}</h1>
           <p className="auth-subtitle">
-            Te enviamos un enlace de confirmación para activar tu cuenta.
+            {t("auth.confirmationSent")}
           </p>
         </div>
 
         <div className="confirm-pasos">
           <div className="confirm-paso">
             <span className="paso-num">1</span>
-            <span className="paso-texto">Abrí tu casilla de email</span>
+            <span className="paso-texto">{t("auth.openInbox")}</span>
           </div>
           <div className="confirm-paso">
             <span className="paso-num">2</span>
-            <span className="paso-texto">Buscá el mail de RentoCampo</span>
+            <span className="paso-texto">{t("auth.lookForMail")}</span>
           </div>
           <div className="confirm-paso">
             <span className="paso-num">3</span>
             <span className="paso-texto">
-              Hacé click en &quot;Confirmar email&quot;
+              {t("auth.clickConfirm")}
             </span>
           </div>
         </div>
 
         <div className="confirm-footer">
-          <p>¿No llegó el mail? Revisá la carpeta de spam.</p>
+          <p>{t("auth.checkSpam")}</p>
           <Link
             href="/login"
             className="btn-submit"
@@ -42,7 +47,7 @@ export default function ConfirmarEmailPage() {
               display: "block",
             }}
           >
-            Ya confirmé, ingresar
+            {t("auth.confirmedLogin")}
           </Link>
         </div>
       </div>

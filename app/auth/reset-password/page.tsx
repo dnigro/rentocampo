@@ -3,9 +3,11 @@
 import { useState, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
+import { useTranslations } from "@/lib/i18n/useTranslations";
 import "@/styles/public.css";
 
 export default function ResetPasswordPage() {
+  const {t} = useTranslations();
   const [password, setPassword] = useState("");
   const [confirmar, setConfirmar] = useState("");
   const [loading, setLoading] = useState(false);
@@ -21,7 +23,7 @@ export default function ResetPasswordPage() {
       const code = new URLSearchParams(window.location.search).get("code");
       if (code) {
         const { error } = await supabase.auth.exchangeCodeForSession(code);
-        if (error) setLinkError("El link de recuperación expiró o ya fue usado.");
+        if (error) setLinkError(t("auth.linkExpired"));
       } else {
         const { data } = await supabase.auth.getSession();
         if (!data.session) setLinkError("El link de recuperación expiró o ya fue usado.");
@@ -36,11 +38,11 @@ export default function ResetPasswordPage() {
     setError("");
 
     if (password.length < 6) {
-      setError("La contraseña debe tener al menos 6 caracteres.");
+      setError(t("auth.passwordTooShort"));
       return;
     }
     if (password !== confirmar) {
-      setError("Las contraseñas no coinciden.");
+      setError(t("auth.passwordMismatch"));
       return;
     }
 
@@ -51,14 +53,14 @@ export default function ResetPasswordPage() {
       const message = error.message.toLowerCase();
 
       if (message.includes("same password")) {
-        setError("La nueva contraseña debe ser diferente de la anterior.");
+        setError(t("auth.passwordDifferent"));
       } else if (
         error.code === "weak_password" ||
         message.includes("password should") ||
         message.includes("weak")
       ) {
         setError(
-          "La contraseña no cumple los requisitos de seguridad. Usá al menos 8 caracteres, con mayúscula, minúscula, número y símbolo.",
+          t("auth.securityRequirements"),
         );
       } else if (
         message.includes("session") ||
@@ -66,7 +68,7 @@ export default function ResetPasswordPage() {
         message.includes("expired")
       ) {
         setError(
-          "La sesión de recuperación venció. Solicitá un nuevo link y volvé a intentarlo.",
+          t("auth.sessionExpired"),
         );
       } else {
         setError(`No pudimos actualizar la contraseña: ${error.message}`);
@@ -86,8 +88,8 @@ export default function ResetPasswordPage() {
         <div className="auth-card">
           <div className="auth-header">
             <div className="confirm-icon">✅</div>
-            <h1 className="auth-title">¡Contraseña actualizada!</h1>
-            <p className="auth-subtitle">Redirigiendo a tu cuenta...</p>
+            <h1 className="auth-title">{t("auth.passwordSaved")}</h1>
+            <p className="auth-subtitle">{t("auth.redirecting")}</p>
           </div>
         </div>
       </div>
@@ -98,8 +100,8 @@ export default function ResetPasswordPage() {
     <div className="auth-page">
       <div className="auth-card">
         <div className="auth-header">
-          <h1 className="auth-title">Nueva contraseña</h1>
-          <p className="auth-subtitle">Ingresá tu nueva contraseña</p>
+          <h1 className="auth-title">{t("auth.newPassword")}</h1>
+          <p className="auth-subtitle">{t("auth.enterNew")}</p>
         </div>
 
         <form className="auth-form" onSubmit={handleSubmit}>
@@ -107,13 +109,13 @@ export default function ResetPasswordPage() {
 
           <div className="form-field">
             <label className="form-label" htmlFor="password">
-              Nueva contraseña
+              {t("auth.newPassword")}
             </label>
             <input
               id="password"
               type="password"
               className="form-input"
-              placeholder="Mínimo 6 caracteres"
+              placeholder={t("auth.minSix")}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
@@ -123,13 +125,13 @@ export default function ResetPasswordPage() {
 
           <div className="form-field">
             <label className="form-label" htmlFor="confirmar">
-              Confirmar contraseña
+              {t("auth.confirmPassword")}
             </label>
             <input
               id="confirmar"
               type="password"
               className="form-input"
-              placeholder="Repetí la contraseña"
+              placeholder={t("auth.repeatPassword")}
               value={confirmar}
               onChange={(e) => setConfirmar(e.target.value)}
               required
@@ -138,7 +140,7 @@ export default function ResetPasswordPage() {
           </div>
 
           <button type="submit" className="btn-submit" disabled={loading || validandoLink || Boolean(linkError)}>
-            {validandoLink ? "Validando link..." : loading ? "Guardando..." : "Guardar nueva contraseña"}
+            {validandoLink ? t("auth.validating") : loading ? t("auth.saving") : t("auth.savePassword")}
           </button>
         </form>
       </div>

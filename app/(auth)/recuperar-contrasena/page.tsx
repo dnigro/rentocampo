@@ -3,9 +3,11 @@
 import { useState } from "react";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
+import { useTranslations } from "@/lib/i18n/useTranslations";
 import "@/styles/public.css";
 
 export default function RecuperarPage() {
+  const {t} = useTranslations();
   const [email, setEmail] = useState("");
   const [enviado, setEnviado] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -40,30 +42,30 @@ export default function RecuperarPage() {
         <div className="auth-card">
           <div className="auth-header">
             <div className="confirm-icon">📬</div>
-            <h1 className="auth-title">Revisá tu email</h1>
+            <h1 className="auth-title">{t("auth.checkEmail")}</h1>
             <p className="auth-subtitle">
-              Te enviamos un link para restablecer tu contraseña a{" "}
+              {t("auth.recoverySent")}{" "}
               <strong>{email}</strong>
             </p>
           </div>
           <div className="confirm-pasos">
             <div className="confirm-paso">
               <span className="paso-num">1</span>
-              <span className="paso-texto">Abrí tu casilla de email</span>
+              <span className="paso-texto">{t("auth.openInbox")}</span>
             </div>
             <div className="confirm-paso">
               <span className="paso-num">2</span>
               <span className="paso-texto">
-                Hacé click en &quot;Restablecer contraseña&quot;
+                {t("auth.clickReset")}
               </span>
             </div>
             <div className="confirm-paso">
               <span className="paso-num">3</span>
-              <span className="paso-texto">Ingresá tu nueva contraseña</span>
+              <span className="paso-texto">{t("auth.enterNew")}</span>
             </div>
           </div>
           <div className="confirm-footer">
-            <p>¿No llegó el mail? Revisá la carpeta de spam.</p>
+            <p>{t("auth.checkSpam")}</p>
             <Link
               href="/login"
               className="btn-submit"
@@ -73,7 +75,7 @@ export default function RecuperarPage() {
                 display: "block",
               }}
             >
-              Volver al login
+              {t("auth.backToLogin")}
             </Link>
           </div>
         </div>
@@ -85,10 +87,9 @@ export default function RecuperarPage() {
     <div className="auth-page">
       <div className="auth-card">
         <div className="auth-header">
-          <h1 className="auth-title">Recuperar contraseña</h1>
+          <h1 className="auth-title">{t("auth.recover")}</h1>
           <p className="auth-subtitle">
-            Ingresá tu email y te enviamos un link para crear una nueva
-            contraseña
+            {t("auth.recoverSubtitle")}
           </p>
         </div>
 
@@ -97,7 +98,7 @@ export default function RecuperarPage() {
 
           <div className="form-field">
             <label className="form-label" htmlFor="email">
-              Email
+              {t("auth.email")}
             </label>
             <input
               id="email"
@@ -112,12 +113,12 @@ export default function RecuperarPage() {
           </div>
 
           <button type="submit" className="btn-submit" disabled={loading}>
-            {loading ? "Enviando..." : "Enviar link de recuperación"}
+            {loading ? t("auth.sending") : t("auth.sendRecovery")}
           </button>
         </form>
 
         <div className="auth-footer">
-          <Link href="/login">← Volver al login</Link>
+          <Link href="/login">← {t("auth.backToLogin")}</Link>
         </div>
       </div>
     </div>
