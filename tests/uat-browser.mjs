@@ -21,7 +21,11 @@ const engines={chromium,firefox,webkit},viewports=[
  {name:"tablet-landscape-1024",width:1024,height:768},{name:"desktop-1440",width:1440,height:900},
  {name:"mobile-landscape-844",width:844,height:390}
 ];
-const actors=[{country:"AR",role:"propietario"},{country:"UY",role:"productor"},{country:"PY",role:"prestador"}];
+const actors=[
+ {country:"AR",role:"propietario"},{country:"UY",role:"productor"},{country:"PY",role:"prestador"},
+ {country:"CL",role:"propietario"},{country:"BO",role:"productor"},{country:"PE",role:"prestador"},
+ {country:"BR",role:"propietario"}
+];
 const results=[],userIds=[];
 mkdirSync("test-results/screenshots",{recursive:true});
 const pause=t=>new Promise(r=>setTimeout(r,t));
@@ -90,6 +94,10 @@ async function matrix(){
 // Launch-day public E2E smoke: regional DEMO cards, photos, map pins and UAT data.
 async function regionalDemoSmoke(){
  const cases=[
+  {pais:"AR",campo:"20000000-0000-4000-8000-000000000044",servicio:"10000000-0000-4000-8000-000000000016",campoZona:"Buenos Aires",servicioZona:"Buenos Aires"},
+  {pais:"UY",campo:"20000000-0000-4000-8000-000000000045",servicio:"10000000-0000-4000-8000-000000000017",campoZona:"Colonia",servicioZona:"Colonia"},
+  {pais:"PY",campo:"20000000-0000-4000-8000-000000000046",servicio:"10000000-0000-4000-8000-000000000018",campoZona:"Itapúa",servicioZona:"Itapúa"},
+  {pais:"BR",campo:"20000000-0000-4000-8000-000000000047",servicio:"10000000-0000-4000-8000-000000000019",campoZona:"São Paulo",servicioZona:"São Paulo"},
   {pais:"CL",campo:"20000000-0000-4000-8000-000000000041",servicio:"10000000-0000-4000-8000-000000000013",campoZona:"Ñuble",servicioZona:"Maule"},
   {pais:"BO",campo:"20000000-0000-4000-8000-000000000042",servicio:"10000000-0000-4000-8000-000000000014",campoZona:"Santa Cruz",servicioZona:"Santa Cruz"},
   {pais:"PE",campo:"20000000-0000-4000-8000-000000000043",servicio:"10000000-0000-4000-8000-000000000015",campoZona:"Junín",servicioZona:"La Libertad"}
@@ -131,7 +139,7 @@ async function regionalDemoSmoke(){
      const photo=await card.locator("img").first().getAttribute("src");
      if(!photo?.includes("demo-servicio-veterinaria.jpg"))throw Error("Wrong service photo "+photo);
      await open(page,href,".servicio-ficha");
-     if(!(await page.locator("body").innerText()).includes("Publicación demostrativa"))throw Error("Service not marked noncommercial");
+     if(!/Publicación demostrativa|Anúncio demonstrativo/i.test(await page.locator("body").innerText()))throw Error("Service not marked noncommercial");
      await overflow(page,"regional services");
     },page);
     await check("REGIONAL "+spec.pais+" map pins and Lite lists",async()=>{
@@ -257,6 +265,10 @@ async function generatedConfirmationLink(){
 }
 
 async function recover(){
+ if (process.env.UAT_SMTP_ENABLED !== "true") {
+   results.push({name:"Real password reset email delivery",result:"BLOCKED",detail:"UAT SMTP disabled intentionally; recovery interface tested by public browser matrix."});
+   return;
+ }
  const b=await chromium.launch(),c=await context(b,{width:375,height:812}),page=await c.newPage();
  try{
   await check("Submit password recovery through UAT Auth",async()=>{
@@ -269,9 +281,13 @@ async function recover(){
 }
 
 // Real authenticated regional writes, isolated to Supabase UAT and cleaned after the run.
-const regionalFieldIds=[],regionalServiceIds=[];
+const regionalFieldIds=[],regionalServiceIds=[],regionalStoragePaths=[];
 async function regionalAuthenticatedWrites(){
  const cases=[
+  {country:"AR",provincia:"Buenos Aires",localidad:"Pergamino",lat:-33.8895,lng:-60.5736},
+  {country:"UY",provincia:"Colonia",localidad:"Colonia Valdense",lat:-34.337,lng:-57.262},
+  {country:"PY",provincia:"Itapúa",localidad:"Encarnación",lat:-27.33,lng:-55.866},
+  {country:"BR",provincia:"São Paulo",localidad:"Ribeirão Preto",lat:-21.169,lng:-47.81},
   {country:"CL",provincia:"Ñuble",localidad:"Chillán",lat:-36.6064,lng:-72.1034},
   {country:"BO",provincia:"Santa Cruz",localidad:"Montero",lat:-17.3392,lng:-63.2568},
   {country:"PE",provincia:"Junín",localidad:"Huancayo",lat:-12.0651,lng:-75.2049}
@@ -309,11 +325,40 @@ async function regionalAuthenticatedWrites(){
      const {data:row,error:err}=await admin.from("campos").select("id,country_code,status,propietario_id").eq("id",written.body.id).single();
      if(err||row.country_code!==x.country||row.status!=="activo"||row.propietario_id!==created.data.user.id)throw Error("Wrong persisted field "+String(err?.message));
      const {data:event,error:evErr}=await admin.from("land_publication_events").select("id").eq("campo_id",written.body.id);
-     if(evErr||event?.length!==1)throw Error("Published field quota event missing");
+     if(evErr||event?.length!==0)throw Error("Free publication unexpectedly consumed paid quota");
+     // The second active publication proves that the old 1-field free quota is gone.
+     const second=await page.evaluate(async form=>{
+       const r=await fetch("/api/campos/publicar",{method:"POST",headers:{"Content-Type":"application/json"},
+         body:JSON.stringify({form:{...form,titulo:form.titulo+" SECOND"},estado:"activo"})});
+       return {status:r.status,body:await r.json()};
+     },payload);
+     if(second.status!==200||!second.body.id)throw Error("Second free publication blocked: "+JSON.stringify(second));
+     regionalFieldIds.push(second.body.id);
+     if(["AR","BR"].includes(x.country)){
+       const img=await page.evaluate(async campoId=>{
+         const bytes=Uint8Array.from(atob("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+/VsoAAAAASUVORK5CYII="),ch=>ch.charCodeAt(0));
+         const file=new File([bytes],"uat-photo.png",{type:"image/png"});
+         const form=new FormData();form.set("campoId",campoId);form.set("orden","0");form.set("file",file);
+         const r=await fetch("/api/campos/fotos",{method:"POST",body:form});
+         return {status:r.status,body:await r.json()};
+       },written.body.id);
+       if(img.status!==200||!img.body.id)throw Error("Authenticated photo upload rejected "+JSON.stringify(img));
+       const {data:stored,error:pErr}=await admin.from("campos_fotos").select("storage_path").eq("id",img.body.id).single();
+       if(pErr||!stored?.storage_path)throw Error("Photo row missing "+pErr?.message);
+       regionalStoragePaths.push(stored.storage_path);
+       const patched=await page.evaluate(async campoId=>{
+         const r=await fetch("/api/campos/fotos",{method:"PATCH",
+           headers:{"Content-Type":"application/json"},body:JSON.stringify({campoId,fotos:[]})});
+         return {status:r.status,body:await r.json()};
+       },written.body.id);
+       if(patched.status!==200)throw Error("Photo delete failed: "+JSON.stringify(patched));
+       const {data:left}=await admin.from("campos_fotos").select("id").eq("campo_id",written.body.id);
+       if(left?.length)throw Error("Removed photo record remains");
+     }
      await open(page,"/campos?pais="+x.country,".campo-card-pub");
      if(!await page.locator('a[href="/campos/'+written.body.id+'"]').count())throw Error("Field missing public listing");
     },page);
-    await check("REGIONAL "+x.country+" service RLS insert and non-AR checkout blocked",async()=>{
+    await check("REGIONAL "+x.country+" service RLS insert and paid checkout blocked",async()=>{
      await open(page,"/mis-servicios-rurales/nuevo","form.servicio-publicacion-form");
      if(await page.locator("#servicio-pais").inputValue()!==x.country)throw Error("Service form lost user's country");
      const authClient=createClient(uat,pub,{auth:{persistSession:false,autoRefreshToken:false}});
@@ -331,8 +376,8 @@ async function regionalAuthenticatedWrites(){
        headers:{"Content-Type":"application/json"},body:JSON.stringify({planId:"productiva"})});
       return {status:r.status,body:await r.json()};
      });
-     if(response.status!==403||response.body.code!=="billing_country_unsupported")
-      throw Error("Non-AR payment must be blocked "+JSON.stringify(response));
+     if(response.status!==403||response.body.code!=="billing_paused")
+      throw Error("Paid checkout must be blocked for all countries "+JSON.stringify(response));
      await open(page,"/servicios-rurales?pais="+x.country,"article.prestador-card");
      if(!(await page.locator("article.prestador-card[data-demo=false]").allTextContents()).some(t=>t.includes("UAT write "+x.country)))throw Error("Authenticated service missing country listing");
      await open(page,"/servicios-rurales/"+svc.id,".servicio-ficha");
@@ -352,6 +397,10 @@ finally{
  if(regionalServiceIds.length){
   const {error}=await admin.from("servicios_publicaciones").delete().in("id",regionalServiceIds);
   if(error)results.push({name:"UAT service cleanup",result:"FAIL",detail:error.message});
+ }
+ if(regionalStoragePaths.length){
+  const removed=await admin.storage.from("campos-fotos").remove(regionalStoragePaths);
+  if(removed.error)results.push({name:"UAT storage cleanup",result:"FAIL",detail:removed.error.message});
  }
  if(regionalFieldIds.length){
   const ev=await admin.from("land_publication_events").delete().in("campo_id",regionalFieldIds);
