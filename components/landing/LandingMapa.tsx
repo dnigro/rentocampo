@@ -1,20 +1,24 @@
 "use client";
 
-import Link from "next/link";
+import RegionalLink from "@/components/layout/RegionalLink";
+import { regionalText } from "@/lib/i18n/regional";
+import { useRegionalCountry } from "@/lib/i18n/useRegionalCountry";
 
 export default function LandingMapa() {
+  const country = useRegionalCountry();
+  const t = (es: string, pt: string) => regionalText(country, es, pt);
   return (
     <section className="rc-map-section" id="visibilidad">
       <div className="rc-shell">
         <div className="rc-map-copy">
-          <p className="rc-kicker">Tierras productivas en la región</p>
-          <h2 className="rc-map-title">La red del campo</h2>
-          <p>Buscá campos disponibles en Argentina, Uruguay, Paraguay, Chile, Bolivia y Perú, por zona y aptitud agrícola, ganadera o mixta.</p>
+          <p className="rc-kicker">{t("Tierras productivas en la región", "Terras produtivas na região")}</p>
+          <h2 className="rc-map-title">{t("La red del campo", "A rede do campo")}</h2>
+          <p>{t("Buscá campos disponibles en Argentina, Uruguay, Paraguay, Chile, Bolivia y Perú, por zona y aptitud agrícola, ganadera o mixta.", "Encontre terras no Brasil e na região por localização e aptidão agrícola, pecuária ou mista.")}</p>
           <p className="rc-map-emphasis">
-            Conectamos oportunidades en cada región productiva.{" "}
-            <Link href="/alquiler-de-campos">Explorar alquiler de campos →</Link>
+            {t("Conectamos oportunidades en cada región productiva.", "Conectamos oportunidades em cada região produtiva.")}{" "}
+            <RegionalLink href="/alquiler-de-campos">{t("Explorar alquiler de campos →", "Explorar arrendamento rural →")}</RegionalLink>
           </p>
-          <Link href="/campos/mapa" className="rc-button rc-button-yellow">Ver mapa de campos →</Link>
+          <RegionalLink href="/campos/mapa" className="rc-button rc-button-yellow">{t("Ver mapa de campos →", "Ver mapa de terras →")}</RegionalLink>
         </div>
         <div className="rc-map rc-aerial-video">
           <video

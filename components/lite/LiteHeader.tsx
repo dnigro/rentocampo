@@ -5,22 +5,17 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import type { User } from "@supabase/supabase-js";
 import { createClient } from "@/lib/supabase/client";
-import { COUNTRIES, COUNTRY_CODES, isCountryCode, type CountryCode } from "@/data/countries";
+import { COUNTRIES, COUNTRY_CODES, type CountryCode } from "@/data/countries";
+import { regionalText } from "@/lib/i18n/regional";
+import { selectRegionalCountry, useRegionalCountry } from "@/lib/i18n/useRegionalCountry";
 
 /** Header compartido por todas las rutas /lite; mismo orden visual que web móvil. */
 export default function LiteHeader() {
   const router = useRouter();
-  const [country, setCountry] = useState<CountryCode>("AR");
+  const country = useRegionalCountry();
   const [menuOpen, setMenuOpen] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const [supabase] = useState(createClient);
-
-  useEffect(() => {
-    const saved = window.localStorage.getItem("rentocampo_country");
-    const resolved: CountryCode = isCountryCode(saved) ? saved : "AR";
-    const syncCountry = window.setTimeout(() => setCountry(resolved), 0);
-    return () => window.clearTimeout(syncCountry);
-  }, []);
 
   useEffect(() => {
     void supabase.auth.getUser().then(({ data }) => setUser(data.user));
@@ -31,12 +26,13 @@ export default function LiteHeader() {
   }, [supabase]);
 
   function changeCountry(next: CountryCode) {
-    setCountry(next);
     setMenuOpen(false);
-    window.localStorage.setItem("rentocampo_country", next);
-    document.cookie = `rentocampo_country=${next}; path=/; max-age=31536000; SameSite=Lax`;
-    // El mapa regional ya soporta AR/UY/PY. Los listados Lite siguen en evolución.
-    router.push(`/campos/mapa?pais=${next}`);
+    selectRegionalCountry(next);
+    const destination = new URL(window.location.href);
+    destination.searchParams.set("pais", next);
+    ["provincia", "departamento", "region", "localidad"].forEach((key) => destination.searchParams.delete(key));
+    router.push(`${destination.pathname}${destination.search}${destination.hash}`);
+    router.refresh();
   }
 
   async function logout() {
@@ -75,25 +71,25 @@ export default function LiteHeader() {
           aria-label="Mi cuenta y navegación"
           onClick={() => setMenuOpen((open) => !open)}
         >
-          Mi cuenta
+          {regionalText(country, "Mi cuenta", "Minha conta")}
         </button>
       </div>
 
       {menuOpen && (
         <nav id="lite-regional-user-menu" className="lite-regional-menu" aria-label="Navegación de usuario">
-          <Link onClick={closeMenu} href="/lite">Inicio</Link>
-          <Link onClick={closeMenu} href="/lite/campos">Campos</Link>
-          <Link onClick={closeMenu} href="/lite/servicios">Servicios rurales</Link>
-          <Link onClick={closeMenu} href="/lite/perfil">Mi perfil</Link>
+          <Link onClick={closeMenu} href="/lite">{regionalText(country, "Inicio", "Início")}</Link>
+          <Link onClick={closeMenu} href="/lite/campos">{regionalText(country, "Campos", "Terras")}</Link>
+          <Link onClick={closeMenu} href="/lite/servicios">{regionalText(country, "Servicios rurales", "Serviços rurais")}</Link>
+          <Link onClick={closeMenu} href="/lite/perfil">{regionalText(country, "Mi perfil", "Meu perfil")}</Link>
           {user ? (
             <>
-              <Link onClick={closeMenu} href="/lite/perfil/mensajes">Mensajes</Link>
-              <button type="button" onClick={() => void logout()}>Cerrar sesión</button>
+              <Link onClick={closeMenu} href="/lite/perfil/mensajes">{regionalText(country, "Mensajes", "Mensagens")}</Link>
+              <button type="button" onClick={() => void logout()}>{regionalText(country, "Cerrar sesión", "Sair da conta")}</button>
             </>
           ) : (
             <>
-              <Link onClick={closeMenu} href="/lite/cuenta/ingresar">Ingresar</Link>
-              <Link onClick={closeMenu} href="/lite/cuenta/registro">Registrarse</Link>
+              <Link onClick={closeMenu} href="/lite/cuenta/ingresar">{regionalText(country, "Ingresar", "Entrar")}</Link>
+              <Link onClick={closeMenu} href="/lite/cuenta/registro">{regionalText(country, "Registrarse", "Cadastrar-se")}</Link>
             </>
           )}
         </nav>

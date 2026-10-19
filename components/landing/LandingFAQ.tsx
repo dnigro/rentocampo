@@ -3,6 +3,7 @@ import RegionalLink from "@/components/layout/RegionalLink";
 
 import Image from "next/image";
 import { useRef, useState } from "react";
+import { useRegionalCountry } from "@/lib/i18n/useRegionalCountry";
 
 const faqs = [
   { q: "¿Publicar tiene costo?", type: "cost" },
@@ -22,6 +23,7 @@ function FaqIcon({ children }: { children: string }) {
 }
 
 export default function LandingFAQ() {
+  const country = useRegionalCountry();
   const [open, setOpen] = useState(-1);
   const faqRef = useRef<HTMLDivElement>(null);
 
@@ -35,6 +37,26 @@ export default function LandingFAQ() {
       });
     });
   };
+
+  if (country === "BR") {
+    const items = [
+      ["Anunciar tem custo?", "O primeiro anúncio de terra é gratuito. O cadastro de produtores e a divulgação de serviços também são gratuitos. Os planos pagos ainda não estão disponíveis no Brasil."],
+      ["Quem pode se cadastrar?", "Proprietários de terras, produtores e prestadores de serviços rurais."],
+      ["A RentoCampo participa da negociação?", "Não. Arrendamento, compra, venda e prestação de serviços são negociados diretamente entre os usuários."],
+      ["Como entram em contato comigo?", "Interessados podem enviar mensagens pelo anúncio e você responde pela plataforma."],
+    ];
+    return <section className="rc-faq" id="preguntas"><div className="rc-shell rc-faq-grid">
+      <div className="rc-faq-promise"><p className="rc-kicker">Perguntas frequentes</p>
+        <h2><span>Produtores e</span><span>serviços rurais</span><strong>100% grátis.</strong></h2></div>
+      <div className="rc-faq-content" ref={faqRef}>
+        {items.map(([question, answer], i) => <div className="rc-question" key={question}>
+          <button type="button" aria-expanded={open === i} onClick={(event) => toggleFaq(i, event.currentTarget)}>
+            <span>{question}</span><span>{open === i ? "−" : "+"}</span>
+          </button>
+          {open === i && <div className="rc-question-answer"><p>{answer}</p></div>}
+        </div>)}
+      </div></div></section>;
+  }
 
   return (
     <section className="rc-faq" id="preguntas">

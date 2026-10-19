@@ -1,6 +1,8 @@
 import { Bebas_Neue, DM_Sans } from "next/font/google";
 import type { Metadata, Viewport } from "next";
 import { Suspense } from "react";
+import { cookies } from "next/headers";
+import { resolveCountry } from "@/data/countries";
 import GoogleAnalytics from "@/components/analytics/GoogleAnalytics";
 import "./globals.css";
 import "@/styles/site-theme.css";
@@ -58,13 +60,14 @@ const bebasNeue = Bebas_Neue({
   variable: "--font-display",
 });
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const country = resolveCountry((await cookies()).get("rentocampo_country")?.value);
   return (
-    <html lang="es" className={`${dmSans.variable} ${bebasNeue.variable}`}>
+    <html lang={country === "BR" ? "pt-BR" : "es"} className={`${dmSans.variable} ${bebasNeue.variable}`}>
       <head>
         <script
           type="application/ld+json"
