@@ -148,3 +148,13 @@ test("web and Lite country selectors cannot swallow first choice before hydratio
   assert.match(nav,/setCountrySelectReady\(true\)/);
   assert.match(lite,/setCountrySelectReady\(true\)/);
 });
+
+test("the map and listing both show seven-country service demos", () => {
+ const map=read("app/(public)/campos/mapa/page.tsx");
+ const services=read("app/(public)/servicios-rurales/page.tsx");
+ for(const n of ["013","014","015","016","017","018","019"]){
+  const id="10000000-0000-4000-8000-000000000"+n;
+  assert.ok(map.includes(id),`missing map service demo ${n}`);
+  assert.ok(services.includes(id),`missing listing service demo ${n}`);
+ }
+});
