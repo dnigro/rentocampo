@@ -26,6 +26,7 @@ function getDisponibilidad(campo: Campo) {
 
 export default function CampoCard({ campo, userId }: Props) {
   const country=resolveCountry(campo.country_code);
+  const isDemo=campo.id.startsWith("20000000-") || /\bDEMO\b/i.test(campo.titulo ?? "");
   const tt=(es:string,pt:string)=>regionalText(country,es,pt);
   const foto = campo.fotos?.sort((a, b) => a.orden - b.orden)[0] ?? (campo.id.startsWith("20000000-") ? { url: "/rentocampo-hero-campo-bn-1920x1080.webp", orden: 0 } : undefined);
   const disponibilidad = tt(getDisponibilidad(campo),!campo.disponibilidad_desde?"A combinar":new Date(campo.disponibilidad_desde)<=new Date()?"Disponível agora":"Próxima safra");
@@ -52,6 +53,7 @@ export default function CampoCard({ campo, userId }: Props) {
       {/* Cuerpo */}
       <div className="campo-card-pub-body">
         <div className="campo-card-pub-top">
+          {isDemo && <span className="aptitud-tag" title={tt("Publicación de ejemplo: no es una oferta real", "Anúncio de exemplo: não é uma oferta real")}>DEMO</span>}
           <span className="aptitud-tag">
             {country==="BR"?({agricola:"Agrícola",ganadera:"Pecuária",mixta:"Mista",forestal:"Florestal",otro:"Outro"} as Record<string,string>)[campo.aptitud]??campo.aptitud:APTITUD_LABEL[campo.aptitud] ?? campo.aptitud}
           </span>

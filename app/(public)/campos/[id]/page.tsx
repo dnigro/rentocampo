@@ -97,6 +97,7 @@ export default async function CampoFichaPage({ params }: PageProps) {
 
   const campoConPropietario = { ...campo, propietario };
   const countryCode = resolveCountry(campo.country_code);
+  const esDemo = campo.id.startsWith("20000000-") || /\bDEMO\b/i.test(campo.titulo ?? "");
   const tt = (es:string, pt:string)=>regionalText(countryCode,es,pt);
   const localizeAptitud=(key:string)=>countryCode==="BR"?({agricola:"Agrícola",ganadera:"Pecuária",mixta:"Mista",forestal:"Florestal",otro:"Outro"} as Record<string,string>)[key]??key:APTITUD_LABEL[key]??key;
 
@@ -269,16 +270,31 @@ export default async function CampoFichaPage({ params }: PageProps) {
               <p className="precio-consultar">{tt("Precio a consultar","Preço sob consulta")}</p>
             )}
 
-            <ConsultaButton
-              campoId={campoConPropietario.id}
-              propietarioId={campoConPropietario.propietario?.id}
-              userId={user?.id}
-            />
-            <FavoritoBtn campoId={campoConPropietario.id} userId={user?.id} />
+            {esDemo ? (
+              <div className="ficha-demo-notice" role="status">
+                <strong>DEMO</strong>
+                <p>{tt(
+                  "Ficha demostrativa. No representa una oferta real y no permite consultas.",
+                  "Anúncio demonstrativo. Não representa uma oferta real e não permite consultas."
+                )}</p>
+                <Link href={`/campos?pais=${countryCode}`} className="btn-consultar">
+                  {tt("Explorar campos disponibles", "Explorar terras disponíveis")}
+                </Link>
+              </div>
+            ) : (
+              <>
+                <ConsultaButton
+                  campoId={campoConPropietario.id}
+                  propietarioId={campoConPropietario.propietario?.id}
+                  userId={user?.id}
+                />
+                <FavoritoBtn campoId={campoConPropietario.id} userId={user?.id} />
+              </>
+            )}
           </div>
 
           {/* Info propietario */}
-          {campoConPropietario.propietario && (
+          {!esDemo && campoConPropietario.propietario && (
             <div className="ficha-propietario">
               <div className="propietario-avatar">
                 {campoConPropietario.propietario.avatar_url ? (

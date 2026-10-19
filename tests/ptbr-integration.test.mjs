@@ -113,3 +113,12 @@ test("public marketing no longer promotes annual packs or only-first-listing fre
   assert.ok(!hero.includes("primer campo gratis"));
   assert.match(faq, /100% GRATIS/);
 });
+
+test("demo listing/field details cannot contact demo owners and have clear labels", () => {
+ const field = read("app/(public)/campos/[id]/page.tsx");
+ const card = read("components/campos/CampoCard.tsx");
+ assert.match(field, /esDemo \? \(/);
+ assert.match(field, /Ficha demostrativa\. No representa una oferta real/);
+ assert.match(field, /!esDemo && campoConPropietario\.propietario/);
+ assert.match(card, /isDemo && <span className="aptitud-tag"/);
+});
