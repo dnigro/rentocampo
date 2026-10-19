@@ -1,27 +1,100 @@
 "use client";
+
+import Image from "next/image";
 import RegionalLink from "@/components/layout/RegionalLink";
+import fieldsPhoto from "@/public/image_eol_pix.png";
+import producersPhoto from "@/public/image_vaca_pix.png";
+import servicesPhoto from "@/public/image_truck_pix.png";
 import { regionalText } from "@/lib/i18n/regional";
 import { useRegionalCountry } from "@/lib/i18n/useRegionalCountry";
+
+/**
+ * Experimento visual de la portada. Tríptico editorial: Campos, Productores
+ * y Servicios Rurales. Mantiene enlaces reales y selector regional del Navbar.
+ */
 export default function LandingTriptychHero() {
- const country=useRegionalCountry();
- const t=(es:string,pt:string)=>regionalText(country,es,pt);
- const steps=[
-  {title:t("Registrate","Cadastre-se"),description:t("Creá tu cuenta gratis en minutos.","Crie sua conta grátis em minutos."),icon:"user"},
-  {title:t("Explorá","Explore"),description:t("Buscá campos y servicios en el mapa.","Encontre terras e serviços no mapa."),icon:"map"},
-  {title:t("Publicá","Anuncie"),description:t("Sumá tus campos o servicios gratis.","Anuncie terras ou serviços gratuitamente."),icon:"post"},
-  {title:t("Conectá","Conecte-se"),description:t("Contactá de forma directa y sin intermediarios.","Entre em contato diretamente, sem intermediários."),icon:"chat"}
- ];
- return <section className="triptychHero" id="hero" aria-labelledby="triptychHero-title"><div className="rc-heroWorkflow">
-  <h1 id="triptychHero-title" className="rc-heroWorkflow__title">{t("Encontrá, publicá y conectá con el campo.","Encontre, anuncie e conecte-se com o campo.")}</h1>
-  <p className="rc-heroWorkflow__subtitle">{t("Una experiencia simple para productores, propietarios y servicios rurales.","Uma experiência simples para produtores, proprietários e serviços rurais.")}</p>
-  <ol className="rc-heroWorkflow__steps">{steps.map((s,i)=><li className="rc-heroWorkflow__step" key={s.icon}>
-   <div className="rc-heroWorkflow__icon"><span className="rc-heroWorkflow__number">{i+1}</span>
-    {s.icon==="user"&&<svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="21" cy="14" r="8"/><path d="M5 42v-5c0-9 7-15 16-15 5 0 9 2 12 6M37 31v14M30 38h14"/></svg>}
-    {s.icon==="map"&&<svg viewBox="0 0 48 48" aria-hidden="true"><path d="m4 14 12-5 16 5 16-5v29l-16 5-16-5-12 5zM16 9v29M32 14v29"/><path d="M24 3c-6 0-10 4-10 10 0 7 10 18 10 18s10-11 10-18c0-6-4-10-10-10z"/><circle cx="24" cy="13" r="3"/></svg>}
-    {s.icon==="post"&&<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M33 24V7a4 4 0 0 0-4-4H10a4 4 0 0 0-4 4v34a4 4 0 0 0 4 4h15M13 14h14M13 23h12M13 32h9M35 29v16M27 37h16"/></svg>}
-    {s.icon==="chat"&&<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M6 8h25a5 5 0 0 1 5 5v17a5 5 0 0 1-5 5H17L7 43v-8a5 5 0 0 1-6-5V13a5 5 0 0 1 5-5zM36 18h5a5 5 0 0 1 5 5v17l-7-5"/></svg>}
-   </div><h2 className="rc-heroWorkflow__stepTitle">{s.title}</h2><p className="rc-heroWorkflow__stepText">{s.description}</p>
-  </li>)}</ol>
-  <RegionalLink href="/register" className="rc-heroWorkflow__cta">{t("REGISTRATE","CADASTRE-SE")}</RegionalLink>
- </div></section>;
+  const country = useRegionalCountry();
+  const t = (es: string, pt: string) => regionalText(country, es, pt);
+  return (
+    <section className="triptychHero" id="hero" aria-labelledby="triptychHero-title">
+      <div className="triptychHero__mobileHero">
+      <div className="triptychHero__intro">
+        <p className="triptychHero__countries">AR · UY · PY · CL · BO · PE · BR</p>
+        <h1 className="triptychHero__title" id="triptychHero-title">
+          <span>{t("#1 RED", "#1 REDE")}</span>
+          <strong>{t("GRATIS PARA EL CAMPO.", "GRÁTIS PARA O CAMPO.")}</strong>
+        </h1>
+        <div className="rc-wheatSteps" aria-label={t("Cómo funciona RentoCampo","Como funciona a RentoCampo")}>
+          {[
+            [t("Registrate","Cadastre-se"),t("Gratis","Grátis")],
+            [t("Explorá","Explore"),t("Campos y servicios","Terras e serviços")],
+            [t("Publicá","Anuncie"),t("Tu campo o servicio","Sua terra ou serviço")],
+            [t("Conectá","Conecte-se"),t("Sin intermediarios","Sem intermediários")]
+          ].map(([name,detail],index)=><div className="rc-wheatSteps__item" key={index}>
+            <span className="rc-wheatSteps__number">{index+1}</span>
+            <span className="rc-wheatSteps__name">{name}</span>
+            <span className="rc-wheatSteps__detail">{detail}</span>
+          </div>)}
+        </div>
+      </div>
+
+      <nav className="triptychHero__actions" aria-label={t("Acciones principales", "Ações principais")}>
+        <RegionalLink href="/register" className="triptychHero__button triptychHero__button--register">
+          <span>{t("REGISTRATE", "CADASTRE-SE")}</span>
+        </RegionalLink>
+      </nav>
+      </div>
+
+      <div className="triptychHero__panels" aria-label={t("Explorá RentoCampo", "Explore a RentoCampo")}>
+        <RegionalLink className="triptychHero__panel triptychHero__panel--fields" href="/campos">
+          <Image
+            src={fieldsPhoto}
+            alt=""
+            fill
+            priority
+            sizes="(max-width: 900px) 100vw, 27vw"
+            className="triptychHero__photo"
+          />
+          <span className="triptychHero__panelShade" aria-hidden="true" />
+          <span className="triptychHero__panelContent">
+            <span className="triptychHero__panelTitle">{t("Campos", "Terras")}</span>
+            <span className="triptychHero__panelText">{t("Venta, alquiler y oportunidades", "Venda, arrendamento e oportunidades")}</span>
+            <span className="triptychHero__panelCta">{t("VER CAMPOS", "VER TERRAS")}</span>
+          </span>
+        </RegionalLink>
+        <RegionalLink className="triptychHero__panel triptychHero__panel--producers" href="/register?tipo=productor">
+          <Image
+            src={producersPhoto}
+            alt=""
+            fill
+            sizes="(max-width: 900px) 100vw, 27vw"
+            className="triptychHero__photo"
+          />
+          <span className="triptychHero__panelShade" aria-hidden="true" />
+          <span className="triptychHero__panelContent">
+            <span className="triptychHero__panelTitle">{t("Productores", "Produtores")}</span>
+            <span className="triptychHero__panelText">{t("Conectá y hacé crecer tu producción", "Conecte-se e amplie sua produção")}</span>
+            <span className="triptychHero__panelCta">{t("SOY PRODUCTOR", "SOU PRODUTOR")}</span>
+          </span>
+        </RegionalLink>
+        <RegionalLink className="triptychHero__panel triptychHero__panel--services" href="/servicios-rurales">
+          <Image
+            src={servicesPhoto}
+            alt=""
+            fill
+            sizes="(max-width: 900px) 100vw, 29vw"
+            className="triptychHero__photo"
+          />
+          <span className="triptychHero__panelShade" aria-hidden="true" />
+          <span className="triptychHero__panelContent">
+            <span className="triptychHero__panelTitle">{t("Servicios rurales", "Serviços rurais")}</span>
+            <span className="triptychHero__panelText">{t("Todo el apoyo que el campo necesita", "Todo o apoio de que o campo precisa")}</span>
+            <span className="triptychHero__panelCta">{t("VER SERVICIOS", "VER SERVIÇOS")}</span>
+          </span>
+        </RegionalLink>
+      </div>
+
+
+    </section>
+  );
 }
