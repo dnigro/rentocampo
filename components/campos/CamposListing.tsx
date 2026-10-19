@@ -9,6 +9,7 @@ import CampoCard from "@/components/campos/CampoCard";
 import CampoFiltros from "@/components/campos/CampoFiltros";
 import DemandaZonasPanel from "@/components/campos/DemandaZonasPanel";
 import { seleccionarCamposPublicos } from "@/lib/campos/visible-fields";
+import { regionalText } from "@/lib/i18n/regional";
 
 export interface CamposSearchParams {
   [key: string]: string | undefined;
@@ -42,6 +43,7 @@ export default async function CamposListing({ params, titulo, descripcion, soloA
   const saved = (await cookies()).get("rentocampo_country")?.value;
   // This SEO landing explicitly describes Argentina, regardless of a visitor's saved region.
   const pais = soloAlquiler ? "AR" : resolveCountry(params.pais, saved);
+  const tt=(es:string,pt:string)=>regionalText(pais,es,pt);
   const mapParams = campoFilterParams({ ...params, pais, ...(soloAlquiler ? { operacion: "alquiler_o_ambas" } : {}) });
   let query = supabase
     .from("campos")
@@ -84,16 +86,16 @@ export default async function CamposListing({ params, titulo, descripcion, soloA
   return (
     <div className="explorador-layout explorador-layout-results-first">
       <ListingHeader
-        title={titulo ?? (hayFiltros ? "Resultados" : "Campos disponibles")}
+        title={titulo ?? (hayFiltros ? tt("Resultados","Resultados") : tt("Campos disponibles","Terras disponíveis"))}
         description={descripcion}
-        count={`${count} campo${count !== 1 ? "s" : ""} encontrado${count !== 1 ? "s" : ""}`}
+        count={pais==="BR"?`${count} terra${count!==1?"s":""} encontrada${count!==1?"s":""}`:`${count} campo${count !== 1 ? "s" : ""} encontrado${count !== 1 ? "s" : ""}`}
       />
 
       <nav className="explorador-switch" aria-label="Explorar otras publicaciones">
-        <Link href={`/servicios-rurales?pais=${pais}`}>Ver servicios rurales →</Link>
+        <Link href={`/servicios-rurales?pais=${pais}`}>{tt("Ver servicios rurales →", "Ver serviços rurais →")}</Link>
       </nav>
 
-      <div className="rc-listing-map-country"><Link href={`/campos/mapa?${mapParams}`} className="listing-button rc-map-before-listings">Ver en mapa →</Link><ListingCountrySelector country={pais} /></div>
+      <div className="rc-listing-map-country"><Link href={`/campos/mapa?${mapParams}`} className="listing-button rc-map-before-listings">{tt("Ver en mapa →", "Ver no mapa →")}</Link><ListingCountrySelector country={pais} /></div>
 
       <main className="explorador-main">
         <div className="explorador-contenido">
@@ -113,16 +115,16 @@ export default async function CamposListing({ params, titulo, descripcion, soloA
                         href={`?${new URLSearchParams({ ...params, page: String(page - 1) })}`}
                         className="listing-button"
                       >
-                        ← Anterior
+                        ← {tt("Anterior","Anterior")}
                       </Link>
                     )}
-                    <span className="pagina-info">Página {page} de {totalPages}</span>
+                    <span className="pagina-info">{tt("Página","Página")} {page} {tt("de","de")} {totalPages}</span>
                     {page < totalPages && (
                       <Link
                         href={`?${new URLSearchParams({ ...params, page: String(page + 1) })}`}
                         className="listing-button"
                       >
-                        Siguiente →
+                        {tt("Siguiente","Próxima")} →
                       </Link>
                     )}
                   </div>
@@ -131,9 +133,9 @@ export default async function CamposListing({ params, titulo, descripcion, soloA
             ) : (
               <div className="empty-state">
                 <span className="empty-icon">🔍</span>
-                <p className="empty-title">Todavía no hay campos publicados en esta categoría</p>
-                <p className="empty-desc">Podés explorar el mapa o publicar un campo gratuitamente.</p>
-                <Link href={`/campos?pais=${pais}`} className="listing-button">Ver todos los campos</Link>
+                <p className="empty-title">{tt("Todavía no hay campos publicados en esta categoría", "Ainda não há terras anunciadas nesta categoria")}</p>
+                <p className="empty-desc">{tt("Podés explorar el mapa o publicar un campo gratuitamente.", "Você pode explorar o mapa ou anunciar uma terra gratuitamente.")}</p>
+                <Link href={`/campos?pais=${pais}`} className="listing-button">{tt("Ver todos los campos", "Ver todas as terras")}</Link>
               </div>
             )}
             <aside className="explorador-sidebar explorador-sidebar-bottom" aria-label="Filtrar campos">
@@ -146,12 +148,12 @@ export default async function CamposListing({ params, titulo, descripcion, soloA
 
         <section className="demanda-cta">
           <div>
-            <p className="demanda-cta-kicker">Publicar es gratis</p>
-            <h2>¿Tenés un campo en alguna de estas zonas?</h2>
-            <p>Hay productores interesados. Hacelo visible y empezá a recibir consultas directas.</p>
+            <p className="demanda-cta-kicker">{tt("Publicar es gratis", "Anunciar é grátis")}</p>
+            <h2>{tt("¿Tenés un campo en alguna de estas zonas?", "Você tem terras em alguma dessas regiões?")}</h2>
+            <p>{tt("Hay productores interesados. Hacelo visible y empezá a recibir consultas directas.", "Há produtores interessados. Anuncie e comece a receber contatos diretamente.")}</p>
           </div>
           <Link href={`/register?tipo=propietario&pais=${pais}`} className="demanda-cta-boton">
-            Publicar mi campo gratis →
+            {tt("Publicar mi campo gratis →","Anunciar minha terra gratuitamente →")}
           </Link>
         </section>
 
