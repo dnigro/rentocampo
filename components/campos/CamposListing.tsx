@@ -7,6 +7,7 @@ import ListingHeader from "@/components/listings/ListingHeader";
 import ListingExplorerToolbar from "@/components/listings/ListingExplorerToolbar";
 import CampoCard from "@/components/campos/CampoCard";
 import CampoFiltros from "@/components/campos/CampoFiltros";
+import ListingFiltersPanel from "@/components/listings/ListingFiltersPanel";
 import DemandaZonasPanel from "@/components/campos/DemandaZonasPanel";
 import { seleccionarCamposPublicos } from "@/lib/campos/visible-fields";
 import { regionalText } from "@/lib/i18n/regional";
@@ -102,6 +103,13 @@ export default async function CamposListing({ params, titulo, descripcion, soloA
       />
 
       <main className="explorador-main">
+        <div className="rc-explorer-grid">
+          <ListingFiltersPanel
+            title={tt("Filtrar campos", "Filtrar terras")}
+            activeCount={["operacion", "provincia", "aptitud", "disponibilidad", "hectareas_min", "hectareas_max", "precio_min", "precio_max"].filter(key => Boolean(params[key])).length}
+          >
+            <CampoFiltros key={pais} filtrosActivos={{ ...params, pais }} />
+          </ListingFiltersPanel>
         <div className="explorador-contenido">
           <section className="explorador-resultados">
             {campos && campos.length > 0 ? (
@@ -142,18 +150,16 @@ export default async function CamposListing({ params, titulo, descripcion, soloA
                 <Link href={`/campos?pais=${pais}`} className="listing-button">{tt("Ver todos los campos", "Ver todas as terras")}</Link>
               </div>
             )}
-            <aside className="explorador-sidebar explorador-sidebar-bottom" aria-label="Filtrar campos">
-              <CampoFiltros filtrosActivos={{ ...params, pais }} />
-            </aside>
           </section>
 
           {pais === "AR" && <DemandaZonasPanel provincia={params.provincia} />}
+        </div>
         </div>
 
         <section className="demanda-cta">
           <div>
             <p className="demanda-cta-kicker">{tt("Publicar es gratis", "Anunciar é grátis")}</p>
-            <h2>{tt("¿Tenés un campo en alguna de estas zonas?", "Você tem terras em alguma dessas regiões?")}</h2>
+            <h2>{tt("¿Tenés un campo para publicar?", "Você tem uma terra para anunciar?")}</h2>
             <p>{tt("Hay productores interesados. Hacelo visible y empezá a recibir consultas directas.", "Há produtores interessados. Anuncie e comece a receber contatos diretamente.")}</p>
           </div>
           <Link href={`/register?tipo=propietario&pais=${pais}`} className="demanda-cta-boton">
@@ -161,17 +167,7 @@ export default async function CamposListing({ params, titulo, descripcion, soloA
           </Link>
         </section>
 
-        {pais === "AR" && <nav className="seo-explore" aria-label="Explorar alquileres rurales">
-          <p className="seo-explore-title">Explorá campos por zona y aptitud</p>
-          <div className="seo-explore-links">
-            <Link href="/alquiler-de-campos/buenos-aires">Buenos Aires</Link>
-            <Link href="/alquiler-de-campos/santa-fe">Santa Fe</Link>
-            <Link href="/alquiler-de-campos/cordoba">Córdoba</Link>
-            <Link href="/alquiler-de-campos/agricolas">Agrícolas</Link>
-            <Link href="/alquiler-de-campos/ganaderos">Ganaderos</Link>
-            <Link href="/alquiler-de-campos/mixtos">Mixtos</Link>
-          </div>
-        </nav>}
+
       </main>
     </div>
   );

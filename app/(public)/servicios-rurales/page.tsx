@@ -10,6 +10,7 @@ import type { ServicioRural } from "@/types";
 import ListingHeader from "@/components/listings/ListingHeader";
 import ListingExplorerToolbar from "@/components/listings/ListingExplorerToolbar";
 import ServiciosFiltros from "@/components/servicios/ServiciosFiltros";
+import ListingFiltersPanel from "@/components/listings/ListingFiltersPanel";
 import "@/styles/explorador.css";
 import "@/styles/servicios-rurales.css";
 
@@ -230,6 +231,19 @@ export default async function ServiciosRuralesPage({
         />
 
         <div className="explorador-main">
+          <div className="rc-explorer-grid">
+            <ListingFiltersPanel
+              title={tt("Filtrar servicios", "Filtrar serviços")}
+              activeCount={[provincia, servicioValido].filter(Boolean).length}
+            >
+              <ServiciosFiltros
+                key={pais}
+                paisInicial={pais}
+                provinciaInicial={provincia}
+                servicioInicial={servicioValido}
+              />
+            </ListingFiltersPanel>
+            <div className="rc-explorer-grid__results">
           {prestadores.length > 0 ? (
             <div className="servicios-prestadores-grid">
               {prestadores.map((prestador) => {
@@ -311,13 +325,8 @@ export default async function ServiciosRuralesPage({
             </div>
           )}
 
-          <aside className="explorador-sidebar explorador-sidebar-bottom" aria-label="Filtrar servicios rurales">
-            <ServiciosFiltros
-              paisInicial={pais}
-              provinciaInicial={provincia}
-              servicioInicial={servicioValido}
-            />
-          </aside>
+            </div>
+          </div>
         </div>
       </section>
 
