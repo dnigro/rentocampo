@@ -30,7 +30,8 @@ function NavbarContent() {
     if (country === activeCountry) return;
     selectRegionalCountry(country);
     // RSC content (lists, footer, map) reloads against the selected cookie and URL.
-    router.refresh();
+    const nextUrl = new URL(window.location.href);
+    router.replace(`${nextUrl.pathname}${nextUrl.search}${nextUrl.hash}`, { scroll: false });
   }
 
   useEffect(() => {

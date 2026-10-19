@@ -150,7 +150,6 @@ export default function CampoMapa({
         demandaLayer.current = demandaGroup;
         serviciosLayer.current = serviciosGroup;
 
-        const coordinates: [number, number][] = [];
 
         camposConCoordenadas.forEach((campo, index) => {
           const lat = normalizarCoordenada(campo.latitud);
@@ -170,7 +169,6 @@ export default function CampoMapa({
                 : null;
           if (!position) return;
           const esDemo = campo.id.startsWith("20000000-") || campo.titulo.toUpperCase().includes("DEMO");
-          coordinates.push(position);
           L.circleMarker(position, {
             radius: 9,
             color: "#ffffff",
@@ -191,7 +189,6 @@ export default function CampoMapa({
             demanda.latitud,
             demanda.longitud,
           ];
-          coordinates.push(position);
           L.circleMarker(position, {
             radius: 11,
             color: "#1a3a1a",
@@ -217,7 +214,6 @@ export default function CampoMapa({
           const position: [number, number] = tieneCoordenadas
             ? [prestador.latitud as number, prestador.longitud as number]
             : [centro![0] + offset, centro![1] - offset];
-          if (vista === "servicios") coordinates.push(position);
           L.circleMarker(position, {
             radius: 10,
             color: "#7a3158",
@@ -242,12 +238,10 @@ export default function CampoMapa({
           serviciosGroup.addTo(leafletMap);
         }
 
-        if (coordinates.length > 0) {
-          leafletMap.fitBounds(L.latLngBounds(coordinates), {
-            padding: [48, 48],
-            maxZoom: 7,
-          });
-        }
+        // The country selection owns the viewport, not whichever pins were
+        // rendered first. Keep the country's mapCenter/mapZoom authoritative.
+        leafletMap.setView(country.mapCenter, country.mapZoom, { animate: false });
+
       })
       .catch(() => {
         if (!cancelled) setMapError(true);

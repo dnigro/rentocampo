@@ -43,7 +43,7 @@ export function selectRegionalCountry(country: CountryCode): void {
   // read the stale ?pais value and reverted the first user selection.
   const destination = new URL(window.location.href);
   destination.searchParams.set("pais", country);
-  for (const filter of ["provincia", "departamento", "region", "localidad"]) {
+  for (const filter of ["provincia", "departamento", "region", "localidad", "page"]) {
     destination.searchParams.delete(filter);
   }
   window.history.replaceState(
