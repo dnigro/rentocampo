@@ -122,3 +122,10 @@ test("demo listing/field details cannot contact demo owners and have clear label
  assert.match(field, /!esDemo && campoConPropietario\.propietario/);
  assert.match(card, /isDemo && <span className="aptitud-tag"/);
 });
+
+test("field preview and local UAT use RLS for public reads without admin secrets", () => {
+ const field=read("app/(public)/campos/[id]/page.tsx");
+ assert.match(field,/import Link from "next\/link"/);
+ assert.match(field,/process\.env\.VERCEL_ENV !== "production"/);
+ assert.match(field,/wibqszhvuvpjycheaxzi\.supabase\.co/);
+});

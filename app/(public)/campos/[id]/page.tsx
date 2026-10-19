@@ -4,6 +4,7 @@ import { COUNTRIES, resolveCountry } from "@/data/countries";
 import { regionalText } from "@/lib/i18n/regional";
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import ConsultaButton from "@/components/campos/ConsultaButton";
 import GaleriaCarrusel from "@/components/campos/GaleriaCarrusel";
@@ -22,8 +23,10 @@ type PageProps = { params: Promise<{ id: string }> };
 // Published listings and their photos are publicly readable via UAT RLS.
 // Production keeps its existing privileged reader unchanged.
 const publicRegionalPreview = () =>
-  process.env.VERCEL_ENV === "preview" &&
-  ["feat/regional-six-countries-20261015","feat/brasil-foundation-20261019"].includes(process.env.VERCEL_GIT_COMMIT_REF ?? "");
+  (process.env.VERCEL_ENV === "preview" &&
+    ["feat/regional-six-countries-20261015","feat/brasil-foundation-20261019"].includes(process.env.VERCEL_GIT_COMMIT_REF ?? "")) ||
+  (process.env.VERCEL_ENV !== "production" &&
+    process.env.NEXT_PUBLIC_SUPABASE_URL === "https://wibqszhvuvpjycheaxzi.supabase.co");
 
 export async function generateMetadata({
   params,
