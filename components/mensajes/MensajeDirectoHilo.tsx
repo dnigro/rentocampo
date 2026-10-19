@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { trackEvent } from "@/lib/analytics";
+import { useTranslations } from "@/lib/i18n/useTranslations";
 
 interface Mensaje {
   id: string;
@@ -17,6 +18,8 @@ interface Props {
 }
 
 export default function MensajeDirectoHilo({ userId, destinatarioId, mensajesIniciales }: Props) {
+  const {country}=useTranslations();
+  const tt=(es:string,pt:string)=>country==="BR"?pt:es;
   const [mensajes, setMensajes] = useState(mensajesIniciales);
   const mensajesRef = useRef(mensajesIniciales);
   const [texto, setTexto] = useState("");
@@ -92,7 +95,7 @@ export default function MensajeDirectoHilo({ userId, destinatarioId, mensajesIni
 
       if (!response.ok || !result.mensaje) {
         console.error("Error enviando mensaje directo:", result.error);
-        setError(result.error ?? "No pudimos enviar el mensaje. Intentá nuevamente.");
+        setError(result.error ?? tt("No pudimos enviar el mensaje. Intentá nuevamente.","Não foi possível enviar a mensagem. Tente novamente."));
         return;
       }
 
@@ -107,7 +110,7 @@ export default function MensajeDirectoHilo({ userId, destinatarioId, mensajesIni
       trackEvent("enviar_mensaje", { tipo: "directo" });
     } catch (cause) {
       console.error("Error enviando mensaje directo:", cause);
-      setError("No pudimos conectar para enviar el mensaje. Intentá nuevamente.");
+      setError(tt("No pudimos conectar para enviar el mensaje. Intentá nuevamente.","Não foi possível conectar para enviar a mensagem. Tente novamente."));
     } finally {
       setEnviando(false);
     }
@@ -115,7 +118,7 @@ export default function MensajeDirectoHilo({ userId, destinatarioId, mensajesIni
 
   return <div className="hilo-container">
     <div className="hilo-mensajes">
-      {mensajes.length === 0 && <div className="hilo-vacio"><p>Iniciá la conversación.</p></div>}
+      {mensajes.length === 0 && <div className="hilo-vacio"><p>{tt("Iniciá la conversación.","Inicie uma conversa.")}</p></div>}
       {mensajes.map((mensaje) => <div className={`mensaje-row ${mensaje.remitente_id === userId ? "mensaje-mio" : "mensaje-otro"}`} key={mensaje.id}>
         <div className={`mensaje-burbuja ${mensaje.remitente_id === userId ? "burbuja-mia" : "burbuja-otra"}`}>{mensaje.contenido}</div>
       </div>)}
@@ -123,7 +126,7 @@ export default function MensajeDirectoHilo({ userId, destinatarioId, mensajesIni
     </div>
     {error && <p role="alert" className="mensaje-error">{error}</p>}
     <form className="mensaje-form" onSubmit={enviar}>
-      <input className="mensaje-input" placeholder="Escribí un mensaje..." value={texto} onChange={(event) => setTexto(event.target.value)} disabled={enviando} autoComplete="off" />
+      <input className="mensaje-input" placeholder={tt("Escribí un mensaje...","Digite uma mensagem...")} value={texto} onChange={(event) => setTexto(event.target.value)} disabled={enviando} autoComplete="off" />
       <button type="submit" className="mensaje-send" disabled={!texto.trim() || enviando}>{enviando ? "..." : "↑"}</button>
     </form>
   </div>;

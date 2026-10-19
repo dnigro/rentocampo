@@ -185,7 +185,7 @@ export default function PlanesTierra({
               </div>
 
               <ul>
-                <li>{publicacionesLabel(plan)}</li>
+                <li>{countryCode==="BR"?(plan.publicaciones===null?"Anúncios ilimitados":`Até ${plan.publicaciones} anúncios`):publicacionesLabel(plan)}</li>
                 <li>{tt("Vigencia de 12 meses","Validade de 12 meses")}</li>
                 <li>
                   {plan.publicaciones === null

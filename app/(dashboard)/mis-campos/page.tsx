@@ -5,11 +5,15 @@ import MisCamposLista from "@/components/campos/MisCamposLista";
 import PlanesTierra from "@/components/planes/PlanesTierra";
 import { getLandQuotaStatus } from "@/lib/billing/land-quota";
 import { getPlanExpiryDays } from "@/lib/billing/plan-expiry";
-import { isCountryCode } from "@/data/countries";
+import { isCountryCode, resolveCountry } from "@/data/countries";
+import { regionalText } from "@/lib/i18n/regional";
+import { cookies } from "next/headers";
 import "@/styles/perfil.css";
 import "@/styles/campos.css";
 
 export default async function MisCamposPage() {
+  const country=resolveCountry((await cookies()).get("rentocampo_country")?.value);
+  const tt=(es:string,pt:string)=>regionalText(country,es,pt);
   const supabase = await createClient();
   const {
     data: { user },
@@ -29,20 +33,19 @@ export default async function MisCamposPage() {
       <div className="page-container">
         <div className="page-header">
           <div>
-            <h1 className="page-title">Mis campos</h1>
-            <p className="page-subtitle">Publicá y administrá tus campos desde acá.</p>
+            <h1 className="page-title">{tt("Mis campos","Minhas terras")}</h1>
+            <p className="page-subtitle">{tt("Publicá y administrá tus campos desde acá.","Anuncie e gerencie suas terras aqui.")}</p>
           </div>
         </div>
 
         <div className="role-gate-card">
           <div className="role-gate-icon">🌾</div>
-          <h2>Para publicar campos tenés que cambiar tu rol a Propietario</h2>
+          <h2>{tt("Para publicar campos tenés que cambiar tu rol a Propietario","Para anunciar terras, ative o perfil de Proprietário")}</h2>
           <p>
-            Podés hacerlo desde Mi perfil. Activá el rol Propietario y después
-            volvé a Mis campos para comenzar a publicar.
+            {tt("Podés hacerlo desde Mi perfil. Activá el rol Propietario y después volvé a Mis campos para comenzar a publicar.","Faça isso em Meu perfil. Ative o perfil Proprietário e volte a Minhas terras para começar a anunciar.")}
           </p>
           <Link href="/perfil?activar=propietario" className="btn-primary-lg">
-            Cambiar mi rol en el perfil
+            {tt("Cambiar mi rol en el perfil","Alterar meu perfil")}
           </Link>
         </div>
       </div>
@@ -64,7 +67,7 @@ export default async function MisCamposPage() {
     ? getPlanExpiryDays(quota.expiresAt)
     : null;
   const expiryLabel = expiryDate
-    ? new Intl.DateTimeFormat("es-AR", {
+    ? new Intl.DateTimeFormat(country==="BR"?"pt-BR":"es-AR", {
         day: "2-digit",
         month: "2-digit",
         year: "numeric",
@@ -79,12 +82,12 @@ export default async function MisCamposPage() {
           <h1 className="page-title">Mis campos</h1>
           <p className="page-subtitle">
             {campos?.length
-              ? `${campos.length} campo${campos.length !== 1 ? "s" : ""} publicado${campos.length !== 1 ? "s" : ""}`
-              : "Todavía no publicaste ningún campo"}
+              ? country==="BR"?`${campos.length} terra${campos.length!==1?"s":""} anunciada${campos.length!==1?"s":""}`:`${campos.length} campo${campos.length !== 1 ? "s" : ""} publicado${campos.length !== 1 ? "s" : ""}`
+               : tt("Todavía no publicaste ningún campo","Você ainda não anunciou terras")}
           </p>
         </div>
         <Link href="/mis-campos/nuevo" className="btn-primary-lg">
-          + Publicar campo
+          + {tt("Publicar campo","Anunciar terra")}
         </Link>
       </div>
 
