@@ -1,5 +1,4 @@
 import { createClient } from "@/lib/supabase/server";
-import { createAdminClient } from "@/lib/supabase/admin";
 import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
@@ -14,7 +13,8 @@ export default async function MensajeDirectoPage({ params }: { params: Promise<{
   if (!user) redirect("/login");
   if (user.id === usuarioId) redirect("/campos/mapa");
 
-  const admin = createAdminClient();
+  // Authenticated client applies participant RLS; no service-role key needed.
+  const admin = supabase;
   const { data: contacto } = await admin
     .from("profiles")
     .select("id, nombre, avatar_url")

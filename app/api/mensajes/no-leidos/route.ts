@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
-import { createAdminClient } from "@/lib/supabase/admin";
 import { isMissingMensajesDirectosLeido } from "@/lib/supabase/mensajes-directos";
 
 export async function GET() {
@@ -13,7 +12,8 @@ export async function GET() {
     return NextResponse.json({ error: "No autenticado" }, { status: 401 });
   }
 
-  const admin = createAdminClient();
+  // Authenticated client applies participant RLS; no service-role key needed.
+  const admin = supabase;
   const [mensajesResult, directosResult] = await Promise.all([
     admin
       .from("mensajes")

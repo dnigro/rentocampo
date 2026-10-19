@@ -158,3 +158,15 @@ test("the map and listing both show seven-country service demos", () => {
   assert.ok(services.includes(id),`missing listing service demo ${n}`);
  }
 });
+
+test("authenticated messaging uses RLS and blocks DEMO contact at API", () => {
+ const direct=read("app/api/mensajes/directos/route.ts");
+ const campo=read("app/api/mensajes/route.ts");
+ const unread=read("app/api/mensajes/no-leidos/route.ts");
+ const page=read("app/(dashboard)/mensajes/direct/[usuarioId]/page.tsx");
+ for (const x of [direct,campo,unread,page]){
+   assert.ok(!x.includes("createAdminClient"), "no service-role dependency in authenticated conversations");
+   assert.match(x,/const admin = supabase/);
+ }
+ assert.match(campo,/code:"demo_not_contactable"/);
+});
