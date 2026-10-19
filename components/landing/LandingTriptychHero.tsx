@@ -24,12 +24,22 @@ export default function LandingTriptychHero() {
           <span>{t("#1 RED", "#1 REDE")}</span>
           <strong>{t("GRATIS PARA EL CAMPO.", "GRÁTIS PARA O CAMPO.")}</strong>
         </h1>
-        <p className="triptychHero__summary">
-          {t("Campos, productores y servicios rurales en un solo lugar.", "Terras, produtores e serviços rurais em um só lugar.")}
-        </p>
-        <p className="triptychHero__detail">
-          {t("Explorá oportunidades con mapa, publicá tus campos gratis y conectá de forma directa.", "Explore oportunidades no mapa, anuncie suas terras gratuitamente e faça contato direto.")}
-        </p>
+        <div className="rc-miniFlow" aria-label={t("Cómo funciona RentoCampo", "Como funciona a RentoCampo")}>
+          {[
+            { title: t("Registrate", "Cadastre-se"), detail: t("Gratis", "Grátis"), symbol: "＋" },
+            { title: t("Explorá", "Explore"), detail: t("Campos y servicios", "Terras e serviços"), symbol: "⌖" },
+            { title: t("Publicá", "Anuncie"), detail: t("Tu campo o servicio", "Sua terra ou serviço"), symbol: "▤" },
+            { title: t("Conectá", "Conecte-se"), detail: t("Sin intermediarios", "Sem intermediários"), symbol: "▢" }
+          ].map((step, index) => (
+            <div className="rc-miniFlow__step" key={index}>
+              <span className="rc-miniFlow__symbol" aria-hidden="true">{step.symbol}</span>
+              <span className="rc-miniFlow__copy">
+                <strong>{step.title}</strong>
+                <small>{step.detail}</small>
+              </span>
+            </div>
+          ))}
+        </div>
       </div>
 
       <nav className="triptychHero__actions" aria-label={t("Acciones principales", "Ações principais")}>
