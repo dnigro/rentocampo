@@ -17,6 +17,7 @@ export default function LandingTriptychHero() {
   const country = useRegionalCountry();
   const t = (es: string, pt: string) => regionalText(country, es, pt);
   return (
+    <>
     <section className="triptychHero" id="hero" aria-labelledby="triptychHero-title">
       <div className="triptychHero__mobileHero">
       <div className="triptychHero__intro">
@@ -92,5 +93,12 @@ export default function LandingTriptychHero() {
 
 
     </section>
+    {/* En escritorio el workflow ocupa todo el ancho, fuera del corte diagonal. */}
+    <div className="triptychHero__desktopJourney">
+      <div className="triptychHero__desktopJourneyInner">
+        <RuralExperienceWorkflow country={country} />
+      </div>
+    </div>
+    </>
   );
 }
