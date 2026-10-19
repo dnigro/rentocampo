@@ -102,3 +102,14 @@ test("free-growth mode hides paid packs and disables checkout and quota consumpt
   assert.ok(!liteFields.includes('href="/lite/campos/packs"'));
   assert.ok(!liteProfile.includes('href="/lite/campos/packs"'));
 });
+
+test("public marketing no longer promotes annual packs or only-first-listing free", () => {
+  const faq = read("components/landing/LandingFAQ.tsx");
+  const hero = read("components/landing/LandingTriptychHero.tsx");
+  assert.ok(!faq.includes("Pack Tierra Productiva"));
+  assert.ok(!faq.includes("mercado-pago-clean.png"));
+  assert.ok(!faq.includes("Primera publicación gratis"));
+  assert.ok(!faq.includes("de por vida"));
+  assert.ok(!hero.includes("primer campo gratis"));
+  assert.match(faq, /100% GRATIS/);
+});

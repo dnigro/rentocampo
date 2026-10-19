@@ -28,7 +28,7 @@ export default function LandingTriptychHero() {
           {t("Campos, productores y servicios rurales en un solo lugar.", "Terras, produtores e serviços rurais em um só lugar.")}
         </p>
         <p className="triptychHero__detail">
-          {t("Explorá oportunidades con mapa, publicá tu primer campo gratis y conectá de forma directa.", "Explore oportunidades no mapa, anuncie sua primeira terra gratuitamente e faça contato direto.")}
+          {t("Explorá oportunidades con mapa, publicá tus campos gratis y conectá de forma directa.", "Explore oportunidades no mapa, anuncie suas terras gratuitamente e faça contato direto.")}
         </p>
       </div>
 

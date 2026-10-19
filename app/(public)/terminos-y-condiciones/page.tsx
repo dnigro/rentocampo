@@ -23,7 +23,7 @@ export default function TerminosYCondicionesPage() {
           Operador de la plataforma: <strong>RentoCampo S.A.S.</strong> · Contacto:{" "}
           <a href="mailto:hola@rentocampo.com">hola@rentocampo.com</a>
         </p>
-        <p className="terms-date">Versión del 23 de septiembre de 2026</p>
+        <p className="terms-date">Versión propuesta: 19 de octubre de 2026 · Pendiente de revisión legal antes de producción</p>
       </header>
 
       <div className="terms-content">
@@ -110,11 +110,15 @@ export default function TerminosYCondicionesPage() {
           <p>
             RentoCampo no recibe, custodia ni garantiza pagos entre usuarios
             por operaciones rurales, salvo que una funcionalidad futura lo
-            indique de modo expreso. La primera publicación de un campo es
-            gratuita. Si se ofrecen planes pagos para publicar más, su precio,
-            vigencia, prestaciones y condiciones aplicables deberán mostrarse
-            antes de contratar; estos términos no crean por sí mismos un cargo
-            ni una suscripción.
+            indique de modo expreso. Durante la actual etapa de crecimiento,
+            crear una cuenta, publicar campos y servicios rurales y contactar
+            otros usuarios es gratuito, sin necesidad de contratar packs y
+            sin límite comercial de publicaciones. RentoCampo podrá ofrecer
+            funciones pagas en el futuro, comunicando previamente sus
+            precios y condiciones. Estos términos no crean por sí mismos
+            cargos, deudas ni suscripciones. Los pagos y derechos derivados
+            de compras anteriores se mantienen según las condiciones
+            aplicables al momento de su contratación.
           </p>
         </section>
 
