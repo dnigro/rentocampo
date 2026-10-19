@@ -222,3 +222,10 @@
   .rc-landing .triptychHero__journey *,
   .lite-app .triptychHero__journey * {transition:none;}
 }
+
+/* Consistent white hero headline and legible mustard accents across mobile. */
+@media(max-width:900px){
+ .rc-landing .triptychHero__mobileHero .triptychHero__title > span,
+ .rc-landing .triptychHero__mobileHero .triptychHero__title > strong {color:#fff !important;text-shadow:0 2px 8px rgba(0,0,0,.7);}
+ .rc-landing .triptychHero__mobileHero .triptychHero__countries {color:#fff !important;}
+}
