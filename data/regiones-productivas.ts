@@ -55,11 +55,12 @@ export const REGIONES_PRODUCTIVAS: Record<CountryCode, readonly RegionProductiva
   ],
 };
 
-export const REGIONES_EDITORIALES_ES: Record<Exclude<CountryCode, "BR">, string> = {
+export const REGIONES_EDITORIALES_ES: Record<CountryCode, string> = {
   AR: "De la zona núcleo a las tierras ganaderas del interior.",
   UY: "Del litoral agrícola a los campos ganaderos y lecheros.",
   PY: "Regiones agrícolas y ganaderas con identidad propia.",
   CL: "De los valles centrales al sur productivo.",
   BO: "Valles, llanos y territorios de producción rural.",
   PE: "Costa, sierra y selva: distintas formas de producir.",
+  BR: "Do interior paulista ao Cerrado e ao Sul.",
 };

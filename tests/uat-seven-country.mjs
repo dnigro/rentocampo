@@ -158,7 +158,7 @@ async function run() {
             const links=cards.locator("a.rc-regions-showcase__action");
             if(await links.count()!==4)throw Error(x.code+": registration links missing");
             for(const href of await links.evaluateAll(nodes=>nodes.map(n=>n.getAttribute("href")))){
-              const url=new URL(href,location.origin);
+              const url=new URL(href,origin);
               if(url.pathname!=="/register"||url.searchParams.get("pais")!==x.code||url.searchParams.get("tipo")!=="propietario"||!url.searchParams.get("zona"))throw Error(x.code+": wrong registration link "+href);
             }
             if(await zone.getByText(/demanda activa|hay productores buscando tierra/i).count())throw Error(x.code+": misleading demand statement");
