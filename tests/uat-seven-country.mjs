@@ -113,7 +113,6 @@ async function run() {
           for(const path of ["/campos?pais=PY","/servicios-rurales?pais=PY"]){
             await open(page,path,".rc-explorer-filters");
             const filters=page.locator(".rc-explorer-filters");
-            const results=page.locator(".rc-explorer-grid");
             const positions=await page.evaluate(()=>{
               const filters=document.querySelector(".rc-explorer-filters");
               const results=document.querySelector(".rc-explorer-grid__results, .explorador-contenido");
