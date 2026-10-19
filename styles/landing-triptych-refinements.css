@@ -723,3 +723,77 @@
 @media(prefers-reduced-motion:reduce) {
   .rc-landing .triptychHero__panel .triptychHero__panelCta { transition: none; }
 }
+
+
+/* CTA de registro 2026-10-19: texto realmente bold y alineación responsive.
+   Desktop: centro del bloque de lectura izquierdo, no del tríptico completo.
+   Tablet/mobile: botón centrado y ancho táctil sin invadir las tres fichas.
+   App Lite webview sigue los mismos breakpoints cuando utiliza este hero. */
+.rc-landing .triptychHero__button--register,
+.rc-landing .triptychHero__button--register:link,
+.rc-landing .triptychHero__button--register:visited {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-weight: 900;
+  font-size: clamp(16px, 1.1vw, 20px);
+  letter-spacing: .012em;
+  line-height: 1.15;
+}
+.rc-landing .triptychHero__button--register > span:last-child {
+  flex: 0 1 auto;
+  font-size: inherit;
+  font-weight: 900;
+  letter-spacing: inherit;
+  line-height: inherit;
+}
+@media (min-width: 901px) {
+  .rc-landing .triptychHero__actions {
+    display: flex;
+    left: clamp(26px, 4vw, 74px);
+    bottom: 12%;
+    width: min(415px, calc(39% - clamp(26px, 4vw, 74px) - 12px));
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    justify-content: center;
+  }
+  .rc-landing .triptychHero__button--register {
+    width: min(290px, 100%);
+    min-height: clamp(66px, 5vw, 76px);
+  }
+}
+@media (max-width: 900px) {
+  .rc-landing .triptychHero__actions,
+  .rc-landing .triptychHero__mobileHero .triptychHero__actions {
+    position: relative;
+    left: auto;
+    right: auto;
+    bottom: auto;
+    display: flex;
+    align-self: center;
+    justify-content: center;
+    width: min(100% - 24px, 720px);
+    max-width: none;
+    margin: 14px auto 0;
+    padding: 0;
+  }
+  .rc-landing .triptychHero__button--register {
+    width: min(360px, 100%);
+    min-height: 60px;
+    font-size: clamp(16px, 2.6vw, 19px);
+  }
+}
+@media (max-width: 570px) {
+  .rc-landing .triptychHero__actions,
+  .rc-landing .triptychHero__mobileHero .triptychHero__actions {
+    width: calc(100% - 32px);
+    margin: 12px auto 0;
+  }
+  .rc-landing .triptychHero__button--register {
+    width: min(100%, 320px);
+    min-height: 58px;
+    font-size: 17px;
+  }
+}

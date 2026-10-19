@@ -62,3 +62,11 @@ test("field and service forms have localized Brazilian labels", () => {
   assert.match(serviceForm, /Quais serviços você oferece/);
   assert.match(serviceForm, /Anunciar serviço/);
 });
+
+test("registration CTA is centered and bold across desktop, tablet and mobile", () => {
+  assert.match(hero, /triptychHero__button--register/);
+  assert.match(css, /\.triptychHero__button--register > span:last-child\s*\{[^}]*font-weight:\s*900/s);
+  assert.match(css, /@media \(min-width: 901px\)\s*\{[\s\S]*?left:\s*clamp\(26px, 4vw, 74px\)/);
+  assert.match(css, /@media \(max-width: 900px\)\s*\{[\s\S]*?width:\s*min\(100% - 24px, 720px\)/);
+  assert.match(css, /@media \(max-width: 570px\)\s*\{[\s\S]*?width:\s*min\(100%, 320px\)/);
+});
