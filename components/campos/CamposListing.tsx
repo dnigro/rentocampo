@@ -1,10 +1,10 @@
-import { resolveCountry } from "@/data/countries";
+import { COUNTRIES, resolveCountry } from "@/data/countries";
 import { campoFilterParams } from "@/lib/campos/filter-params";
 import Link from "next/link";
 import { cookies } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
 import ListingHeader from "@/components/listings/ListingHeader";
-import ListingCountrySelector from "@/components/listings/ListingCountrySelector";
+import ListingExplorerToolbar from "@/components/listings/ListingExplorerToolbar";
 import CampoCard from "@/components/campos/CampoCard";
 import CampoFiltros from "@/components/campos/CampoFiltros";
 import DemandaZonasPanel from "@/components/campos/DemandaZonasPanel";
@@ -80,22 +80,26 @@ export default async function CamposListing({ params, titulo, descripcion, soloA
   const campos = camposVisibles.slice(from, to);
   const totalPages = Math.ceil(count / PAGE_SIZE);
   const hayFiltros = Object.keys(params).some(
-    (key) => key !== "page" && params[key],
+    (key) => key !== "page" && key !== "pais" && params[key],
   );
 
   return (
     <div className="explorador-layout explorador-layout-results-first">
       <ListingHeader
         title={titulo ?? (hayFiltros ? tt("Resultados","Resultados") : tt("Campos disponibles","Terras disponíveis"))}
-        description={descripcion}
+        description={descripcion ?? tt(`Explorá campos para venta o alquiler en ${COUNTRIES[pais].name}. Contactá directamente a sus propietarios.`, `Explore terras para venda ou arrendamento no ${COUNTRIES[pais].name}. Fale diretamente com os proprietários.`)}
+        eyebrow={tt("CAMPOS Y OPORTUNIDADES", "TERRAS E OPORTUNIDADES")}
         count={pais==="BR"?`${count} terra${count!==1?"s":""} encontrada${count!==1?"s":""}`:`${count} campo${count !== 1 ? "s" : ""} encontrado${count !== 1 ? "s" : ""}`}
       />
 
-      <nav className="explorador-switch" aria-label="Explorar otras publicaciones">
-        <Link href={`/servicios-rurales?pais=${pais}`}>{tt("Ver servicios rurales →", "Ver serviços rurais →")}</Link>
-      </nav>
-
-      <div className="rc-listing-map-country"><Link href={`/campos/mapa?${mapParams}`} className="listing-button rc-map-before-listings">{tt("Ver en mapa →", "Ver no mapa →")}</Link><ListingCountrySelector country={pais} /></div>
+      <ListingExplorerToolbar
+        country={pais}
+        mapHref={`/campos/mapa?${mapParams}`}
+        mapLabel={tt("Ver en mapa", "Ver no mapa")}
+        relatedHref={`/servicios-rurales?pais=${pais}`}
+        relatedLabel={tt("Explorar servicios rurales", "Explorar serviços rurais")}
+        ariaLabel={tt("Explorar campos por país", "Explorar terras por país")}
+      />
 
       <main className="explorador-main">
         <div className="explorador-contenido">

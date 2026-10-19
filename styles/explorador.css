@@ -1167,3 +1167,76 @@
 .rc-listing-map-country .rc-map-before-listings{margin:0!important}
 .rc-listing-map-country>div{margin:0!important}
 @media(max-width:600px){.rc-listing-map-country{gap:10px;align-items:stretch}.rc-listing-map-country .rc-map-before-listings{flex:1 1 175px;min-height:55px;display:inline-flex;align-items:center;justify-content:center}.rc-listing-map-country>div{flex:1 1 190px}.rc-listing-map-country select{width:100%;min-width:0!important}}
+
+/* Encabezado y acciones regionales unificados: Campos / Servicios */
+.explorador-layout-results-first { row-gap: 20px; padding-top: clamp(28px, 4vw, 52px); }
+.app-shell .explorador-layout-results-first .rc-explorer-header {
+  display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between;
+  gap: 12px 30px; padding-bottom: 4px;
+}
+.rc-explorer-header__copy { min-width: 0; max-width: 780px; }
+.rc-explorer-header__eyebrow {
+  margin: 0 0 11px; color: #73736e; font-size: 12px; font-weight: 800;
+  letter-spacing: .17em; text-transform: uppercase;
+}
+.app-shell .explorador-layout-results-first .rc-explorer-header .explorador-title {
+  margin: 0; font-size: clamp(34px, 4.2vw, 54px) !important;
+  line-height: 1.06 !important; text-wrap: balance;
+}
+.rc-explorer-header__description {
+  max-width: 680px; margin: 13px 0 0; color: #666760;
+  font-size: clamp(15px, 1.35vw, 18px); line-height: 1.5;
+}
+.rc-explorer-header__count {
+  display: inline-flex; align-items: center; min-height: 37px;
+  padding: 8px 14px; border: 1px solid #e2e0d9; border-radius: 999px;
+  background: #f4f3ef; color: #595a55;
+  font-size: 14px; font-weight: 750; white-space: nowrap;
+}
+.rc-explorer-toolbar {
+  grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center;
+  gap: 12px 18px; margin: 0 0 6px; padding: 14px 0 20px;
+  border-bottom: 1px solid #e7e5df;
+}
+.rc-explorer-toolbar__map,
+.rc-explorer-toolbar__map:visited {
+  display: inline-flex; justify-content: center; align-items: center; gap: 7px;
+  min-height: 48px; padding: 12px 24px;
+  background: #191a19; border: 1px solid #191a19; border-radius: 12px;
+  color: #fff; text-decoration: none; font-size: 14px; font-weight: 850; white-space: nowrap;
+}
+.rc-explorer-toolbar__map:hover { background: #353635; }
+.rc-explorer-toolbar__related,
+.rc-explorer-toolbar__related:visited {
+  margin-left: auto; color: #30332e; font-size: 14px; font-weight: 800;
+  text-decoration: underline; text-underline-offset: 5px; white-space: nowrap;
+}
+.rc-explorer-country { display: inline-flex; align-items: center; gap: 10px; }
+.rc-explorer-country label { color: #4d4e49; font-size: 14px; font-weight: 800; }
+.rc-explorer-country select {
+  min-height: 48px; min-width: 176px; padding: 10px 34px 10px 12px;
+  border: 1px solid #dddcd6; border-radius: 12px; background: #fff;
+  color: #232522; font-size: 14px; font-weight: 800; cursor: pointer;
+}
+.rc-explorer-country select:focus-visible, .rc-explorer-toolbar a:focus-visible {
+  outline: 3px solid #a4a35e; outline-offset: 3px;
+}
+@media (max-width: 700px) {
+  .explorador-layout-results-first { row-gap: 15px; padding-top: 27px; }
+  .app-shell .explorador-layout-results-first .rc-explorer-header { padding-bottom: 0; }
+  .app-shell .explorador-layout-results-first .rc-explorer-header .explorador-title {
+    font-size: clamp(32px, 8.4vw, 44px) !important;
+  }
+  .rc-explorer-header__description { margin-top: 9px; }
+  .rc-explorer-header__count { min-height: 31px; padding: 6px 12px; font-size: 13px; }
+  .rc-explorer-toolbar { gap: 13px; padding: 4px 0 18px; }
+  .rc-explorer-toolbar__map { flex: 1 1 130px; min-height: 48px; }
+  .rc-explorer-country { flex: 1 1 175px; justify-content: flex-end; }
+  .rc-explorer-country select { min-width: 0; width: 100%; max-width: 220px; }
+  .rc-explorer-toolbar__related { width: 100%; margin: 0; text-align: left; }
+}
+@media (max-width: 385px) {
+  .rc-explorer-toolbar__map, .rc-explorer-country { flex: 1 1 100%; }
+  .rc-explorer-country { justify-content: space-between; }
+  .rc-explorer-country select { max-width: 65%; }
+}
