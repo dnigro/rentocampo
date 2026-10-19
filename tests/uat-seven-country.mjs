@@ -72,6 +72,43 @@ async function run() {
           await page.waitForFunction(() => new URL(location.href).searchParams.get("pais")==="AR",null,{timeout:7500});
           if(await sel.inputValue()!=="AR")throw Error("Could not switch back on first selection");
         },page);
+        await check(size.name+" regional map recenters after country selection",async()=>{
+          await open(page,"/campos/mapa?pais=AR",".mapa-wrapper");
+          const selector=size.name==="desktop"?page.locator(".navbar-desktop select"):page.locator(".navbar-mobile-right select");
+          await page.waitForFunction((selectorText) => {
+            const s=document.querySelector(selectorText);
+            return s && !s.disabled;
+          },size.name==="desktop"?".navbar-desktop select":".navbar-mobile-right select");
+          const regions=[
+            {code:"PY",center:"-23.7,-58.3"},
+            {code:"UY",center:"-32.8,-56"},
+            {code:"BO",center:"-16.7,-64.7"},
+            {code:"BR",center:"-14.2,-51.9"},
+            {code:"CL",center:"-35.7,-71.5"},
+            {code:"PE",center:"-9.4,-75.2"},
+            {code:"AR",center:"-34,-63.5"}
+          ];
+          for(const region of regions){
+            await selector.selectOption(region.code);
+            await page.waitForFunction(({code,center})=>{
+              const wrapper=document.querySelector(".mapa-wrapper");
+              return new URL(location.href).searchParams.get("pais")===code &&
+                wrapper?.getAttribute("data-country")===code &&
+                wrapper?.getAttribute("data-map-center")===center;
+            },region,{timeout:12000});
+          }
+          await page.screenshot({path:"test-results/seven-country/map-country-"+size.name+".png",fullPage:true});
+        },page);
+        await check(size.name+" unified Fields and Services header layout",async()=>{
+          for(const path of ["/campos?pais=PY","/servicios-rurales?pais=PY"]){
+            await open(page,path,".rc-explorer-header");
+            const actions=page.locator(".rc-explorer-toolbar");
+            await actions.getByRole("link",{name:/ver en mapa/i}).waitFor({state:"visible"});
+            if(await actions.locator("#listing-country").inputValue()!=="PY")throw Error("Country selector not aligned");
+            if(await actions.locator(".rc-explorer-toolbar__related").count()!==1)throw Error("Related listing link missing");
+          }
+          await page.screenshot({path:"test-results/seven-country/explorer-header-"+size.name+".png",fullPage:true});
+        },page);
         await check(size.name+" free home and no pack calls-to-action",async()=>{
           await open(page,"/?pais=AR",".rc-faq");
           const faq=(await page.locator(".rc-faq").innerText()).toLowerCase();

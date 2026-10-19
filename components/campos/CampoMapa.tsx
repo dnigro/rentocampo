@@ -295,7 +295,7 @@ export default function CampoMapa({
   };
 
   return (
-    <div className="mapa-wrapper">
+    <div className="mapa-wrapper" data-country={countryCode} data-map-center={COUNTRIES[countryCode].mapCenter.join(",")}>
       <div
         ref={mapContainer}
         className={`mapa-canvas ${mapError ? "mapa-canvas-oculto" : ""}`}

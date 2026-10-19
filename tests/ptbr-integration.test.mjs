@@ -179,3 +179,36 @@ test("UAT messaging exercises real field consultations, direct chat and DEMO blo
  assert.match(content,/regionalMessageIds\.length/);
  assert.match(content,/regionalDirectMessageIds\.length/);
 });
+
+test("new regional explorer toolbar is common to fields and services", () => {
+ const fields=read("components/campos/CamposListing.tsx");
+ const services=read("app/(public)/servicios-rurales/page.tsx");
+ const toolbar=read("components/listings/ListingExplorerToolbar.tsx");
+ const styles=read("styles/explorador.css");
+ for(const component of [fields,services]) {
+  assert.match(component,/<ListingExplorerToolbar/);
+  assert.ok(!component.includes('className="explorador-switch"'));
+  assert.ok(!component.includes('className="rc-listing-map-country"'));
+ }
+ assert.match(toolbar,/ListingCountrySelector/);
+ assert.match(styles,/\.rc-explorer-toolbar__related/);
+ assert.match(styles,/@media \(max-width: 700px\)/);
+});
+test("maps center on the selected country's predefined mapCenter", () => {
+ const map=read("components/campos/CampoMapa.tsx");
+ const page=read("app/(public)/campos/mapa/page.tsx");
+ const nav=read("components/layout/Navbar.tsx");
+ const selector=read("components/listings/ListingCountrySelector.tsx");
+ assert.ok(!map.includes("fitBounds("));
+ assert.match(map,/leafletMap\.setView\(country\.mapCenter, country\.mapZoom/);
+ assert.match(map,/data-country=\{countryCode\}/);
+ assert.match(page,/key=\{selectedCountry\}/);
+ assert.match(nav,/router\.replace\(/);
+ assert.match(selector,/router\.replace\(/);
+});
+test("FAQ message puts free search and connection first without packs", () => {
+ const faq=read("components/landing/LandingFAQ.tsx");
+ assert.match(faq,/<span>Publicá, buscá<\/span><span>y conectá<\/span>/);
+ assert.match(faq,/<span>Anuncie, busque<\/span><span>e conecte-se<\/span>/);
+ assert.ok(!faq.toLowerCase().includes("packs"));
+});
