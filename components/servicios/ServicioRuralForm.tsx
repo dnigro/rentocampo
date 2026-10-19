@@ -6,7 +6,8 @@ import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 import { FileText, Images, MapPinned } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
-import { SERVICIOS_RURALES } from "@/data/servicios-rurales";
+import { SERVICIOS_RURALES, servicioLabel } from "@/data/servicios-rurales";
+import { regionalText } from "@/lib/i18n/regional";
 import { type Profile, type RolPerfil, type ServicioRural } from "@/types";
 import GeocoderInput, { type LugarSeleccionado } from "@/components/campos/GeocoderInput";
 
@@ -38,6 +39,7 @@ export default function ServicioRuralForm({ profile, publicacion }: Props) {
   );
   const [country, setCountry] = useState<CountryCode>(resolveCountry(publicacion?.country_code, profile?.country_code));
   const subdivisions = getCountrySubdivisions(country);
+  const tt=(es:string,pt:string)=>regionalText(country,es,pt);
   const [zona, setZona] = useState(publicacion?.zona ?? profile?.zona_servicio ?? "");
   const [provincia, setProvincia] = useState(publicacion?.provincia ?? profile?.provincia_servicio ?? "");
   const [localidad, setLocalidad] = useState(publicacion?.localidad ?? profile?.localidad_servicio ?? "");
@@ -80,17 +82,17 @@ export default function ServicioRuralForm({ profile, publicacion }: Props) {
     setError("");
 
     if (!servicios.length) {
-      setError("Elegí al menos un servicio rural.");
+      setError(tt("Elegí al menos un servicio rural.","Selecione pelo menos um serviço rural."));
       return;
     }
 
     if (!photoPreview && !photoFile) {
-      setError("Subí una foto clara y real del servicio que ofrecés.");
+      setError(tt("Subí una foto clara y real del servicio que ofrecés.","Envie uma foto real e nítida do serviço que oferece."));
       return;
     }
 
     if (!provincia || !ubicacion || typeof latitud !== "number" || typeof longitud !== "number") {
-      setError("Seleccioná la zona de servicio usando el buscador del mapa.");
+      setError(tt("Seleccioná la zona de servicio usando el buscador del mapa.","Selecione a área de atendimento usando o buscador do mapa."));
       return;
     }
 
@@ -108,7 +110,7 @@ export default function ServicioRuralForm({ profile, publicacion }: Props) {
         });
         const result = await response.json();
         if (!response.ok || !result.url) {
-          throw new Error(result.error ?? "No se pudo subir la foto del servicio");
+          throw new Error(result.error ?? tt("No se pudo subir la foto del servicio","Não foi possível enviar a foto do serviço"));
         }
 
         // Persistimos la URL pública devuelta por Storage, no el blob: local
@@ -118,7 +120,7 @@ export default function ServicioRuralForm({ profile, publicacion }: Props) {
         setPhotoFile(null);
       }
 
-      if (!resolvedPhotoUrl) throw new Error("La foto del servicio es obligatoria.");
+      if (!resolvedPhotoUrl) throw new Error(tt("La foto del servicio es obligatoria.","A foto do serviço é obrigatória."));
 
       const payload = {
         propietario_id: profile?.id,
@@ -149,14 +151,14 @@ export default function ServicioRuralForm({ profile, publicacion }: Props) {
       });
       const roleResult = await roleResponse.json();
       if (!roleResponse.ok) {
-        throw new Error(roleResult.error ?? "No se pudo activar el perfil de servicios");
+        throw new Error(roleResult.error ?? tt("No se pudo activar el perfil de servicios","Não foi possível ativar o perfil de serviços"));
       }
 
       router.push("/mis-servicios-rurales");
       router.refresh();
     } catch (err: unknown) {
       setError(
-        err instanceof Error ? err.message : "No se pudo guardar el servicio.",
+        err instanceof Error ? err.message : tt("No se pudo guardar el servicio.","Não foi possível salvar o serviço."),
       );
     } finally {
       setSaving(false);
@@ -166,13 +168,13 @@ export default function ServicioRuralForm({ profile, publicacion }: Props) {
   return (
     <form className="campo-form servicio-publicacion-form" onSubmit={handleSubmit}>
       <div className="form-section">
-        <h2 className="form-section-title form-section-title-editorial"><span className="form-section-number">01</span><span className="form-section-icon" aria-hidden="true"><FileText size={24} strokeWidth={1.8} /></span><span className="form-section-copy"><span>Información</span> <em>del servicio</em></span></h2>
+        <h2 className="form-section-title form-section-title-editorial"><span className="form-section-number">01</span><span className="form-section-icon" aria-hidden="true"><FileText size={24} strokeWidth={1.8} /></span><span className="form-section-copy"><span>{tt("Información","Informações")}</span> <em>{tt("del servicio","do serviço")}</em></span></h2>
       <div className="form-field">
         <label className="form-label">
-          ¿Qué servicios ofrecés? <span className="required">*</span>
+          {tt("¿Qué servicios ofrecés?","Quais serviços você oferece?")} <span className="required">*</span>
         </label>
         <p className="form-hint">
-          Elegí uno o varios rubros. Estos son los que verán los usuarios en tu publicación.
+          {tt("Elegí uno o varios rubros. Estos son los que verán los usuarios en tu publicación.","Escolha uma ou mais categorias. Elas aparecerão no seu anúncio.")}
         </p>
         <div className="servicios-options">
           {SERVICIOS_RURALES.map((servicio) => (
@@ -182,7 +184,7 @@ export default function ServicioRuralForm({ profile, publicacion }: Props) {
                 checked={servicios.includes(servicio.value)}
                 onChange={() => toggleServicio(servicio.value)}
               />
-              <span>{servicio.label}</span>
+              <span>{servicioLabel(servicio.value,country)}</span>
             </label>
           ))}
         </div>
@@ -191,22 +193,22 @@ export default function ServicioRuralForm({ profile, publicacion }: Props) {
       </div>
 
       <div className="form-section">
-        <h2 className="form-section-title form-section-title-editorial"><span className="form-section-number">02</span><span className="form-section-icon" aria-hidden="true"><Images size={24} strokeWidth={1.8} /></span><span className="form-section-copy"><span>Foto</span> <em>del servicio</em></span></h2>
+        <h2 className="form-section-title form-section-title-editorial"><span className="form-section-number">02</span><span className="form-section-icon" aria-hidden="true"><Images size={24} strokeWidth={1.8} /></span><span className="form-section-copy"><span>{tt("Foto","Foto")}</span> <em>{tt("del servicio","do serviço")}</em></span></h2>
       <div className="form-field">
-        <label className="form-label">Foto de tu servicio <span className="required">*</span></label>
-        <p className="form-hint">Subí una foto clara y real de tu trabajo. Una buena imagen ayuda a que los productores entiendan rápidamente qué servicio ofrecés.</p>
+        <label className="form-label">{tt("Foto de tu servicio","Foto do seu serviço")} <span className="required">*</span></label>
+        <p className="form-hint">{tt("Subí una foto clara y real de tu trabajo. Una buena imagen ayuda a que los productores entiendan rápidamente qué servicio ofrecés.","Envie uma foto nítida e real do seu trabalho. Uma boa imagem ajuda os produtores a entender seu serviço.")}</p>
         <div className="servicio-foto-editor">
           {photoPreview ? (
             <Image
               src={photoPreview}
-              alt="Foto de tu servicio rural"
+              alt={tt("Foto de tu servicio rural","Foto do seu serviço rural")}
               width={900}
               height={580}
               className="servicio-foto-preview"
             />
           ) : (
             <div className="servicio-foto-placeholder">
-              📷 Subí una foto real que represente tu trabajo
+              📷 {tt("Subí una foto real que represente tu trabajo","Envie uma foto real que represente seu trabalho")}
             </div>
           )}
           <button
@@ -214,11 +216,11 @@ export default function ServicioRuralForm({ profile, publicacion }: Props) {
             className="btn-secondary-lg"
             onClick={() => photoInputRef.current?.click()}
           >
-            {photoPreview ? "Cambiar foto" : "Subir foto"}
+            {photoPreview ? tt("Cambiar foto","Trocar foto") : tt("Subir foto","Enviar foto")}
           </button>
           {photoPreview && (
             <button type="button" className="btn-secondary-lg" onClick={removePhoto}>
-              Eliminar foto
+              {tt("Eliminar foto","Excluir foto")}
             </button>
           )}
           <input
@@ -234,9 +236,9 @@ export default function ServicioRuralForm({ profile, publicacion }: Props) {
       </div>
 
       <div className="form-section">
-        <h2 className="form-section-title form-section-title-editorial"><span className="form-section-number">03</span><span className="form-section-icon" aria-hidden="true"><MapPinned size={24} strokeWidth={1.8} /></span><span className="form-section-copy"><span>Zona</span> <em>de cobertura</em></span></h2>
+        <h2 className="form-section-title form-section-title-editorial"><span className="form-section-number">03</span><span className="form-section-icon" aria-hidden="true"><MapPinned size={24} strokeWidth={1.8} /></span><span className="form-section-copy"><span>{tt("Zona","Área")}</span> <em>{tt("de cobertura","de atendimento")}</em></span></h2>
       <div className="form-field">
-        <label className="form-label" htmlFor="servicio-pais">País</label>
+        <label className="form-label" htmlFor="servicio-pais">{tt("País","País")}</label>
         <select id="servicio-pais" className="form-input" value={country} onChange={(e) => {
           setCountry(e.target.value as CountryCode);
           setProvincia(""); setLocalidad(""); setUbicacion(""); setZona("");
@@ -246,7 +248,7 @@ export default function ServicioRuralForm({ profile, publicacion }: Props) {
         </select>
       </div>
       <div className="form-field">
-        <label className="form-label">Buscar zona de servicio en el mapa <span className="required">*</span></label>
+        <label className="form-label">{tt("Buscar zona de servicio en el mapa","Buscar área de atendimento no mapa")} <span className="required">*</span></label>
         <GeocoderInput
           key={country}
           countryCode={country}
@@ -261,14 +263,14 @@ export default function ServicioRuralForm({ profile, publicacion }: Props) {
           }}
         />
         {typeof latitud === "number" && typeof longitud === "number" && (
-          <span className="geocoder-coords">✓ Ubicación seleccionada: {latitud.toFixed(4)}, {longitud.toFixed(4)}</span>
+          <span className="geocoder-coords">✓ {tt("Ubicación seleccionada:","Localização selecionada:")} {latitud.toFixed(4)}, {longitud.toFixed(4)}</span>
         )}
       </div>
 
       <div className="form-row">
         <div className="form-field">
           <label className="form-label">
-            {COUNTRIES[country].subdivisionLabel} principal <span className="required">*</span>
+            {COUNTRIES[country].subdivisionLabel} {tt("principal","principal")} <span className="required">*</span>
           </label>
           <select
             className="form-input"
@@ -276,7 +278,7 @@ export default function ServicioRuralForm({ profile, publicacion }: Props) {
             onChange={(e) => { setProvincia(e.target.value); setUbicacion(""); setLatitud(undefined); setLongitud(undefined); }}
             required
           >
-            <option value="">{`Elegí ${COUNTRIES[country].subdivisionLabel.toLowerCase()}`}</option>
+            <option value="">{tt(`Elegí ${COUNTRIES[country].subdivisionLabel.toLowerCase()}`,`Selecione ${COUNTRIES[country].subdivisionLabel.toLowerCase()}`)}</option>
             {subdivisions.map((item) => (
               <option key={item} value={item}>{item}</option>
             ))}
@@ -284,33 +286,33 @@ export default function ServicioRuralForm({ profile, publicacion }: Props) {
         </div>
 
         <div className="form-field">
-          <label className="form-label">Localidad de referencia</label>
+          <label className="form-label">{tt("Localidad de referencia","Cidade de referência")}</label>
           <input
             className="form-input"
             value={localidad}
             onChange={(e) => setLocalidad(e.target.value)}
-            placeholder="Ej: Rafaela"
+            placeholder={tt("Ej: Rafaela","Ex.: Campinas")}
           />
         </div>
       </div>
 
       <div className="form-field">
-        <label className="form-label">Zona donde trabajás</label>
+        <label className="form-label">{tt("Zona donde trabajás","Área onde você atende")}</label>
         <input
           className="form-input"
           value={zona}
           onChange={(e) => setZona(e.target.value)}
-          placeholder="Ej: Rafaela y cuenca lechera"
+          placeholder={tt("Ej: Rafaela y cuenca lechera","Ex.: Campinas e região")}
         />
       </div>
 
       </div>
 
       <div className="form-section">
-        <h2 className="form-section-title form-section-title-editorial"><span className="form-section-number">04</span><span className="form-section-copy"><span>Detalles</span> <em>del servicio</em></span></h2>
+        <h2 className="form-section-title form-section-title-editorial"><span className="form-section-number">04</span><span className="form-section-copy"><span>{tt("Detalles","Detalhes")}</span> <em>{tt("del servicio","do serviço")}</em></span></h2>
       <div className="form-field">
-        <label className="form-label">Detalles del servicio</label>
-        <textarea className="form-input form-textarea" rows={5} value={detalle} onChange={(e) => setDetalle(e.target.value)} placeholder="Contá qué incluye el servicio, equipamiento, experiencia, disponibilidad u otra información útil para el productor." />
+        <label className="form-label">{tt("Detalles del servicio","Detalhes do serviço")}</label>
+        <textarea className="form-input form-textarea" rows={5} value={detalle} onChange={(e) => setDetalle(e.target.value)} placeholder={tt("Contá qué incluye el servicio, equipamiento, experiencia, disponibilidad u otra información útil para el productor.","Descreva o serviço, equipamentos, experiência, disponibilidade e outras informações úteis para o produtor.")} />
       </div>
 
       </div>
@@ -319,7 +321,7 @@ export default function ServicioRuralForm({ profile, publicacion }: Props) {
 
       <div className="form-actions">
         <button type="submit" className="btn-primary-lg" disabled={saving}>
-          {saving ? "Guardando..." : publicacion ? "Guardar cambios" : "Publicar servicio"}
+          {saving ? tt("Guardando...","Salvando...") : publicacion ? tt("Guardar cambios","Salvar alterações") : tt("Publicar servicio","Anunciar serviço")}
         </button>
       </div>
     </form>
