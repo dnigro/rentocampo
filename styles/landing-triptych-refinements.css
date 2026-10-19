@@ -675,3 +675,59 @@
   outline: 3px solid #141414;
   outline-offset: 3px;
 }
+
+/* Brasil i18n CTA: visual affordance for all 3 click targets, keeping approved triptych. */
+.rc-landing .triptychHero__panel .triptychHero__panelCta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: fit-content;
+  max-width: 100%;
+  min-height: 42px;
+  margin: 17px auto 0;
+  padding: 9px 14px;
+  box-sizing: border-box;
+  border: 1px solid rgba(255,255,255,.8);
+  border-radius: 999px;
+  background: #f0ede5;
+  color: #202320;
+  font-family: var(--font-dm-sans), sans-serif;
+  font-size: clamp(11px, 1vw, 14px);
+  font-weight: 900;
+  letter-spacing: .01em;
+  line-height: 1.1;
+  white-space: nowrap;
+  text-shadow: none;
+  box-shadow: 0 4px 16px rgba(0,0,0,.16);
+  transition: background .2s ease, transform .2s ease;
+}
+.rc-landing .triptychHero__panel .triptychHero__panelCta > span {
+  font-size: 20px;
+  line-height: .8;
+}
+.rc-landing .triptychHero__panel:hover .triptychHero__panelCta,
+.rc-landing .triptychHero__panel:focus-visible .triptychHero__panelCta {
+  background: #e7da79;
+  transform: translateY(-2px);
+}
+@media (min-width: 901px) and (max-width: 1250px) {
+  .rc-landing .triptychHero__panel .triptychHero__panelCta {
+    padding: 8px 11px;
+    gap: 8px;
+    font-size: clamp(10px, .91vw, 12px);
+  }
+}
+@media (max-width: 900px) {
+  .rc-landing .triptychHero__panel .triptychHero__panelCta {
+    min-height: 32px;
+    margin: auto auto 0;
+    padding: 6px 9px;
+    gap: 5px;
+    font-size: clamp(9px, 2.5vw, 12px);
+  }
+  .rc-landing .triptychHero__panel .triptychHero__panelCta > span {font-size: 14px}
+}
+@media(prefers-reduced-motion:reduce) {
+  .rc-landing .triptychHero__panel .triptychHero__panelCta { transition: none; }
+}
