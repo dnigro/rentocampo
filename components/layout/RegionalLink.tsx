@@ -8,7 +8,11 @@ import { resolveCountry, type CountryCode } from "@/data/countries";
 type Props = { href: string; className?: string; children: ReactNode; fallbackCountry?: CountryCode };
 const subscribe = (listener: () => void) => {
   window.addEventListener("storage", listener);
-  return () => window.removeEventListener("storage", listener);
+  window.addEventListener("rentocampo:country-change", listener);
+  return () => {
+    window.removeEventListener("storage", listener);
+    window.removeEventListener("rentocampo:country-change", listener);
+  };
 };
 const savedCountry = () => resolveCountry(document.cookie.split("; ").find((item) => item.startsWith("rentocampo_country="))?.split("=")[1]);
 

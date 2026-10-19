@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { FREE_PUBLICATIONS_ENABLED } from "@/lib/commercial/free-publications";
 
 const MAX_FOTO_BYTES = 8 * 1024 * 1024;
 
@@ -38,7 +39,7 @@ export async function POST(request: Request) {
 
   const extension = file.name.split(".").pop()?.toLowerCase() || "jpg";
   const path = `${campo.propietario_id}/${crypto.randomUUID()}.${extension}`;
-  const admin = createAdminClient();
+  const admin = FREE_PUBLICATIONS_ENABLED ? supabase : createAdminClient();
   const { error: uploadError } = await admin.storage
     .from("campos-fotos")
     .upload(path, file, { contentType: file.type, upsert: false });
@@ -88,7 +89,7 @@ export async function PATCH(request: Request) {
     .eq("id", campoId).eq("propietario_id", user.id).maybeSingle();
   if (!campo) return NextResponse.json({ error: "Sin permiso" }, { status: 403 });
 
-  const admin = createAdminClient();
+  const admin = FREE_PUBLICATIONS_ENABLED ? supabase : createAdminClient();
   const { data: existentes, error: readError } = await admin.from("campos_fotos")
     .select("id").eq("campo_id", campoId).eq("propietario_id", user.id);
   if (readError) return NextResponse.json({ error: readError.message }, { status: 500 });

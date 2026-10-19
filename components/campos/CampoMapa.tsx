@@ -7,10 +7,11 @@ import Image from "next/image";
 import { DEMANDA_ZONAS, type DemandaZona } from "@/data/demanda-zonas";
 import {
   CENTROS_PROVINCIA,
-  SERVICIO_LABEL,
+  servicioLabel,
 } from "@/data/servicios-rurales";
 import type { ServicioRural } from "@/types";
 import { COUNTRIES, type CountryCode } from "@/data/countries";
+import { regionalText } from "@/lib/i18n/regional";
 import { createClient } from "@/lib/supabase/client";
 import { normalizarCoordenada } from "@/lib/campos/visible-fields";
 
@@ -77,6 +78,7 @@ export default function CampoMapa({
   );
   const [vista, setVista] = useState<"tierra" | "servicios">(initialVista);
   const countryCode = initialCountry;
+  const tt=(es:string,pt:string)=>regionalText(countryCode,es,pt);
   const [mostrarCampos, setMostrarCampos] = useState(true);
   const [mapError, setMapError] = useState(false);
   const [supabase] = useState(createClient);
@@ -315,24 +317,26 @@ export default function CampoMapa({
                 ? "https://www.openstreetmap.org/export/embed.html?bbox=-58.7%2C-35.2%2C-53.0%2C-30.0&layer=mapnik"
                 : countryCode === "PY"
                   ? "https://www.openstreetmap.org/export/embed.html?bbox=-62.7%2C-27.8%2C-54.2%2C-19.2&layer=mapnik"
+                  : countryCode === "BR"
+                  ? "https://www.openstreetmap.org/export/embed.html?bbox=-74.1%2C-34.0%2C-34.7%2C5.3&layer=mapnik"
                   : "https://www.openstreetmap.org/export/embed.html?bbox=-73.8%2C-55.3%2C-53.4%2C-21.4&layer=mapnik"
             }
             loading="lazy"
           />
           <div className="mapa-fallback-aviso">
-            <strong>Mapa de oportunidades rurales</strong>
-            <span>No se pudo cargar el mapa interactivo.</span>
-            <Link href="/campos">Ver campos disponibles →</Link>
+            <strong>{tt("Mapa de oportunidades rurales","Mapa de oportunidades rurais")}</strong>
+            <span>{tt("No se pudo cargar el mapa interactivo.","Não foi possível carregar o mapa interativo.")}</span>
+            <Link href="/campos">{tt("Ver campos disponibles →","Ver terras disponíveis →")}</Link>
           </div>
         </div>
       )}
 
       {!mapError && (
-        <div className="mapa-filtros" aria-label="Capas visibles del mapa">
+        <div className="mapa-filtros" aria-label={tt("Capas visibles del mapa","Camadas visíveis do mapa")}>
           <div
             className="mapa-modos"
             role="group"
-            aria-label="Qué querés encontrar"
+            aria-label={tt("Qué querés encontrar","O que você procura")}
           >
             <button
               type="button"
@@ -340,7 +344,7 @@ export default function CampoMapa({
               aria-pressed={vista === "tierra"}
               onClick={() => cambiarVista("tierra")}
             >
-              Tierra productiva
+              {tt("Tierra productiva","Terra produtiva")}
             </button>
             <button
               type="button"
@@ -350,12 +354,12 @@ export default function CampoMapa({
               aria-pressed={vista === "servicios"}
               onClick={() => cambiarVista("servicios")}
             >
-              Servicios rurales
+              {tt("Servicios rurales","Serviços rurais")}
             </button>
           </div>
           {vista === "tierra" ? (
             <>
-              <p className="mapa-filtros-titulo">Mostrar en el mapa</p>
+              <p className="mapa-filtros-titulo">{tt("Mostrar en el mapa","Mostrar no mapa")}</p>
               <button
                 type="button"
                 className={`mapa-filtro ${mostrarCampos ? "activo" : ""}`}
@@ -366,49 +370,49 @@ export default function CampoMapa({
                 }}
               >
                 <span className="mapa-filtro-punto mapa-filtro-punto-campo" />
-                Campos disponibles
+                {tt("Campos disponibles","Terras disponíveis")}
               </button>
             </>
           ) : (
             <div
               className="mapa-filtro mapa-filtro-fijo mapa-filtro-servicios"
-              aria-label="Servicios ofrecidos siempre visibles"
+              aria-label={tt("Servicios ofrecidos siempre visibles","Serviços oferecidos sempre visíveis")}
             >
               <span className="mapa-filtro-punto mapa-filtro-punto-servicio" />
-              Servicios ofrecidos
+              {tt("Servicios ofrecidos","Serviços oferecidos")}
             </div>
           )}
 
           <div className="mapa-contador">
             {vista === "tierra" ? (
               <>
-                <strong>{camposConCoordenadas.length}</strong> campos en{" "}
+                <strong>{camposConCoordenadas.length}</strong> {tt("campos en","terras em")}{" "}
                 {COUNTRIES[countryCode].name}
               </>
             ) : (
               <>
-                <strong>{prestadoresFiltrados.length}</strong> servicios en mapa
+                <strong>{prestadoresFiltrados.length}</strong> {tt("servicios en mapa","serviços no mapa")}
               </>
             )}
           </div>
 
           <div
             className="mapa-publicar-acciones"
-            aria-label="Publicar en RentoCampo"
+            aria-label={tt("Publicar en RentoCampo","Anunciar na RentoCampo")}
           >
             {vista === "tierra" ? (
               <Link
                 href={`/register?tipo=propietario&pais=${countryCode}`}
                 className="mapa-publicar-btn mapa-publicar-btn-principal"
               >
-                Publicar un campo →
+                {tt("Publicar un campo →","Anunciar terra →")}
               </Link>
             ) : (
               <Link
                 href={resolvedUserId ? "/mis-servicios-rurales/nuevo" : `/register?tipo=prestador&pais=${countryCode}`}
                 className="mapa-publicar-btn mapa-publicar-btn-principal mapa-publicar-btn-principal-servicio"
               >
-                Publicar mis servicios →
+                {tt("Publicar mis servicios →","Anunciar meus serviços →")}
               </Link>
             )}
           </div>
@@ -420,7 +424,7 @@ export default function CampoMapa({
           <button
             className="mapa-panel-close"
             onClick={() => setSelectedCampo(null)}
-            aria-label="Cerrar detalle del campo"
+            aria-label={tt("Cerrar detalle del campo","Fechar detalhes da terra")}
           >
             ×
           </button>
@@ -436,16 +440,16 @@ export default function CampoMapa({
           )}
           <div className="mapa-campo-tags">
             <span className="mapa-panel-aptitud">
-              {(selectedCampo.id.startsWith("20000000-") || selectedCampo.titulo.toUpperCase().includes("DEMO")) ? "PUBLICACIÓN DEMO · " : ""}
-              {APTITUD_LABEL[selectedCampo.aptitud] ?? selectedCampo.aptitud}
+              {(selectedCampo.id.startsWith("20000000-") || selectedCampo.titulo.toUpperCase().includes("DEMO")) ? tt("PUBLICACIÓN DEMO · ","ANÚNCIO DEMO · ") : ""}
+              {countryCode==="BR"?({agricola:"Agrícola",ganadera:"Pecuária",mixta:"Mista",forestal:"Florestal",otro:"Outro"} as Record<string,string>)[selectedCampo.aptitud]??selectedCampo.aptitud:APTITUD_LABEL[selectedCampo.aptitud]??selectedCampo.aptitud}
             </span>
             {selectedCampo.operacion && (
               <span className="operacion-tag">
                 {selectedCampo.operacion === "venta"
-                  ? "Venta"
+                  ? tt("Venta","Venda")
                   : selectedCampo.operacion === "ambas"
-                    ? "Alquiler + Venta"
-                    : "Alquiler"}
+                    ? tt("Alquiler + Venta","Arrendamento + Venda")
+                    : tt("Alquiler","Arrendamento")}
               </span>
             )}
           </div>
@@ -465,7 +469,7 @@ export default function CampoMapa({
             )}
           </div>
           <Link href={`/campos/${selectedCampo.id}`} className="mapa-panel-btn">
-            Ver campo →
+            {tt("Ver campo →","Ver terra →")}
           </Link>
         </div>
       )}
@@ -475,7 +479,7 @@ export default function CampoMapa({
           <button
             className="mapa-panel-close"
             onClick={() => setSelectedDemanda(null)}
-            aria-label="Cerrar detalle de la demanda"
+            aria-label={tt("Cerrar detalle de la demanda","Fechar detalhes da demanda")}
           >
             ×
           </button>
@@ -483,21 +487,20 @@ export default function CampoMapa({
             Demanda por zona
           </p>
           <h3 className="mapa-panel-titulo">
-            Productores buscan campos en {selectedDemanda.zona}
+            {tt("Productores buscan campos en","Produtores procuram terras em")} {selectedDemanda.zona}
           </h3>
           <p className="mapa-panel-ubicacion">{selectedDemanda.provincia}</p>
           <p className="mapa-panel-descripcion">
             {selectedDemanda.descripcion}
           </p>
           <p className="mapa-panel-aclaracion">
-            Marcador institucional de RentoCampo. No representa un campo
-            publicado.
+            {tt("Marcador institucional de RentoCampo. No representa un campo publicado.","Marcador institucional da RentoCampo. Não representa um anúncio de terra.")}
           </p>
           <Link
             href={`/register?tipo=propietario&pais=${countryCode}&zona=${encodeURIComponent(selectedDemanda.zona)}`}
             className="mapa-panel-btn mapa-panel-btn-demanda"
           >
-            Publicar campo en esta zona
+            {tt("Publicar campo en esta zona","Anunciar terra nesta região")}
           </Link>
         </div>
       )}
@@ -507,7 +510,7 @@ export default function CampoMapa({
           <button
             className="mapa-panel-close"
             onClick={() => setSelectedServicio(null)}
-            aria-label="Cerrar detalle del servicio"
+            aria-label={tt("Cerrar detalle del servicio","Fechar detalhes do serviço")}
           >
             ×
           </button>
@@ -522,7 +525,7 @@ export default function CampoMapa({
             </div>
           )}
           <p className="mapa-panel-aptitud mapa-panel-aptitud-servicio">
-            {selectedServicio.is_demo ? "SERVICIO DEMO" : "Servicios rurales"}
+            {selectedServicio.is_demo ? tt("SERVICIO DEMO","SERVIÇO DEMO") : tt("Servicios rurales","Serviços rurais")}
           </p>
           <h3 className="mapa-panel-titulo">{selectedServicio.nombre}</h3>
           <p className="mapa-panel-ubicacion">
@@ -535,19 +538,19 @@ export default function CampoMapa({
           </p>
           <div className="mapa-servicio-tags">
             {selectedServicio.servicios_rurales.map((servicio) => (
-              <span key={servicio}>{SERVICIO_LABEL[servicio] ?? servicio}</span>
+              <span key={servicio}>{servicioLabel(servicio,countryCode)}</span>
             ))}
           </div>
           {selectedServicio.zona_servicio && (
             <p className="mapa-panel-descripcion">
-              <strong>Zona de cobertura:</strong> {selectedServicio.zona_servicio}
+              <strong>{tt("Zona de cobertura:","Área de atendimento:")}</strong> {selectedServicio.zona_servicio}
             </p>
           )}
           <Link
             href={`/servicios-rurales/${selectedServicio.publicacion_id ?? selectedServicio.id}?from=mapa`}
             className="mapa-panel-btn mapa-panel-btn-servicio"
           >
-            Ver servicio →
+            {tt("Ver servicio →","Ver serviço →")}
           </Link>
         </div>
       )}

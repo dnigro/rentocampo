@@ -3,7 +3,7 @@ name: UAT Registro Multiformato
 on:
   workflow_dispatch:
   push:
-    branches: [feat/regional-ar-uy-py-20261014, feat/regional-six-countries-20261015]
+    branches: [feat/regional-ar-uy-py-20261014, feat/regional-six-countries-20261015, feat/brasil-foundation-20261019]
 
 concurrency:
   group: uat-registro-${{ github.ref }}
@@ -41,11 +41,14 @@ jobs:
           test -z "$VERCEL_ENV" || { echo "::error::Cloud deployment forbidden"; exit 1; }
       - name: Install project dependencies
         run: npm ci
-      - name: Install browser test runner
-        timeout-minutes: 4
-        run: npm install --no-save --package-lock=false --prefer-offline --no-audit --no-fund --fetch-retries=1 --fetch-timeout=30000 playwright
+      - name: Install Playwright in a separate temporary npm project
+        timeout-minutes: 5
+        run: |
+          mkdir -p "$RUNNER_TEMP/rc-uat-playwright"
+          npm install --prefix "$RUNNER_TEMP/rc-uat-playwright" --no-save --no-audit --no-fund playwright@1.55.0
+          ln -s "$RUNNER_TEMP/rc-uat-playwright/node_modules/playwright" ./node_modules/playwright
       - name: Install Chromium, Firefox and WebKit
-        run: npx playwright install --with-deps chromium firefox webkit
+        run: node "$RUNNER_TEMP/rc-uat-playwright/node_modules/playwright/cli.js" install --with-deps chromium firefox webkit
       - name: Build local UAT application
         run: npm run build
       - name: Real browser signup and responsive tests

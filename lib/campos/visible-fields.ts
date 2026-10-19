@@ -1,13 +1,5 @@
 import { COUNTRY_CODES } from "@/data/countries";
 
-export const DEMO_CAMPO_VISIBLE_IDS = new Set([
-  "20000000-0000-4000-8000-000000000001",
-  "20000000-0000-4000-8000-000000000004",
-  "0fa32c53-c447-4bf3-818a-83f4db63a384",
-]);
-
-const REAL_FIELDS_LIMIT = 3;
-
 export function normalizarCoordenada(
   value: number | string | null | undefined,
 ): number | null {
@@ -42,10 +34,9 @@ export function seleccionarCamposPublicos<T extends CampoVisible>(
     (campo) => !campo.country_code || (COUNTRY_CODES as readonly string[]).includes(campo.country_code),
   );
 
-  const demos = regionales.filter((campo) =>
-    DEMO_CAMPO_VISIBLE_IDS.has(campo.id) ||
-    (campo.country_code !== "AR" && esCampoDemo(campo)),
-  );
+  // Growth model: keep transparent DEMO records for every country while
+  // showing every real active listing. No hidden 3-listing commercial cap.
+  const demos = regionales.filter(esCampoDemo);
 
   const reales = regionales
     .filter((campo) => !esCampoDemo(campo))
@@ -53,8 +44,7 @@ export function seleccionarCamposPublicos<T extends CampoVisible>(
       const fechaA = a.created_at ? new Date(a.created_at).getTime() : 0;
       const fechaB = b.created_at ? new Date(b.created_at).getTime() : 0;
       return fechaB - fechaA;
-    })
-    .slice(0, REAL_FIELDS_LIMIT);
+    });
 
   return [...reales, ...demos];
 }

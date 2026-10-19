@@ -1,36 +1,35 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { Suspense, useEffect, useState } from "react";
 import type { User } from "@supabase/supabase-js";
 import BrandWordmark from "@/components/layout/BrandWordmark";
-import { COUNTRIES, COUNTRY_CODES, isCountryCode, resolveCountry, type CountryCode } from "@/data/countries";
+import { regionalText } from "@/lib/i18n/regional";
+import { selectRegionalCountry, useRegionalCountry } from "@/lib/i18n/useRegionalCountry";
+import { COUNTRIES, COUNTRY_CODES, type CountryCode } from "@/data/countries";
 
 function NavbarContent() {
   const [user, setUser] = useState<User | null>(null);
   const [noLeidos, setNoLeidos] = useState(0);
   const [menuAbierto, setMenuAbierto] = useState(false);
+  const [countrySelectReady, setCountrySelectReady] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
-  const [storedCountry, setActiveCountry] = useState<CountryCode>("AR");
-  const searchParams = useSearchParams();
-  const activeCountry = resolveCountry(searchParams.get("pais"), storedCountry);
+  const activeCountry = useRegionalCountry();
   const [supabase] = useState(createClient);
 
+  // Prevent a native pre-hydration country change from being ignored.
   useEffect(() => {
-    const stored = window.localStorage.getItem("rentocampo_country");
-    const resolved: CountryCode = isCountryCode(stored) ? stored : "AR";
-    const syncCountry = window.setTimeout(() => setActiveCountry(resolved), 0);
-    return () => window.clearTimeout(syncCountry);
-  }, [pathname]);
+    const id = window.setTimeout(() => setCountrySelectReady(true), 0);
+    return () => window.clearTimeout(id);
+  }, []);
 
   function cambiarPais(country: CountryCode) {
-    setActiveCountry(country);
-    window.localStorage.setItem("rentocampo_country", country);
-    document.cookie = `rentocampo_country=${country}; path=/; max-age=31536000; SameSite=Lax`;
-    router.push(`/campos/mapa?pais=${country}`);
+    if (country === activeCountry) return;
+    selectRegionalCountry(country);
+    // RSC content (lists, footer, map) reloads against the selected cookie and URL.
     router.refresh();
   }
 
@@ -157,13 +156,13 @@ function NavbarContent() {
           {/* Navegación principal compartida en todo el sitio */}
           <nav className="navbar-links" aria-label="Navegación principal">
             <Link href="/campos" className="nav-link">
-              Campos
+              {regionalText(activeCountry, "Campos", "Terras")}
             </Link>
             <Link href="/servicios-rurales" className="nav-link">
-              Servicios rurales
+              {regionalText(activeCountry, "Servicios rurales", "Serviços rurais")}
             </Link>
             <Link href="/#como-funciona" className="nav-link">
-              Cómo funciona
+              {regionalText(activeCountry, "Cómo funciona", "Como funciona")}
             </Link>
             
           </nav>
@@ -171,7 +170,7 @@ function NavbarContent() {
           {/* Acciones desktop */}
           <div className="navbar-actions navbar-desktop">
             <div className="navbar-country-switch" aria-label="Seleccionar país">
-              <select aria-label="Seleccionar país" value={activeCountry} onChange={(event) => cambiarPais(event.target.value as CountryCode)} style={{background:"#fff",color:"#111",borderRadius:"20px",padding:"7px 9px",fontWeight:700,cursor:"pointer"}}>
+              <select aria-label="Seleccionar país" disabled={!countrySelectReady} value={activeCountry} onChange={(event) => cambiarPais(event.target.value as CountryCode)} style={{background:"#fff",color:"#111",borderRadius:"20px",padding:"7px 9px",fontWeight:700,cursor:"pointer"}}>
                 {COUNTRY_CODES.map((code) => <option key={code} value={code}>{COUNTRIES[code].flag} {code}</option>)}
               </select>
             </div>
@@ -203,19 +202,19 @@ function NavbarContent() {
                   )}
                 </Link>
                 <Link href="/dashboard" className="btn-ghost">
-                  Mi cuenta
+                  {regionalText(activeCountry, "Mi cuenta", "Minha conta")}
                 </Link>
                 <button onClick={handleLogout} className="btn-ghost">
-                  Salir
+                  {regionalText(activeCountry, "Salir", "Sair")}
                 </button>
               </>
             ) : (
               <>
                 <Link href="/login" className="btn-ghost">
-                  Ingresar
+                  {regionalText(activeCountry, "Ingresar", "Entrar")}
                 </Link>
                 <Link href={`/register?pais=${activeCountry}&tipo=propietario`} className="btn-primary">
-                  Publicar campo
+                  {regionalText(activeCountry, "Publicar campo", "Anunciar terra")}
                 </Link>
               </>
             )}
@@ -224,11 +223,11 @@ function NavbarContent() {
           {/* Header mobile: país a la izquierda, menú de usuario al extremo derecho */}
           <div className="navbar-mobile-right">
             <div className="navbar-country-switch navbar-country-switch-mobile" aria-label="Seleccionar país">
-              <select aria-label="Seleccionar país" value={activeCountry} onChange={(event) => cambiarPais(event.target.value as CountryCode)} style={{background:"#fff",color:"#111",borderRadius:"20px",padding:"7px",fontWeight:700}}>
+              <select aria-label="Seleccionar país" disabled={!countrySelectReady} value={activeCountry} onChange={(event) => cambiarPais(event.target.value as CountryCode)} style={{background:"#fff",color:"#111",borderRadius:"20px",padding:"7px",fontWeight:700}}>
                 {COUNTRY_CODES.map((code) => <option key={code} value={code}>{COUNTRIES[code].flag} {code}</option>)}
               </select>
             </div>
-            <button type="button" className="navbar-mobile-account" aria-label="Mi cuenta y navegación" aria-expanded={menuAbierto} aria-controls="navbar-mobile-menu" onClick={() => setMenuAbierto((open) => !open)}>Mi cuenta</button>
+            <button type="button" className="navbar-mobile-account" aria-label="Mi cuenta y navegación" aria-expanded={menuAbierto} aria-controls="navbar-mobile-menu" onClick={() => setMenuAbierto((open) => !open)}>{regionalText(activeCountry, "Mi cuenta", "Minha conta")}</button>
             {user && (
               <Link
                 href="/mensajes"
@@ -279,13 +278,13 @@ function NavbarContent() {
               onClick={() => setMenuAbierto(false)}
             >
               <Link href="/campos" className="mobile-menu-link">
-                🌾 Campos
+                🌾 {regionalText(activeCountry, "Campos", "Terras")}
               </Link>
               <Link href="/servicios-rurales" className="mobile-menu-link">
-                🚜 Servicios rurales
+                🚜 {regionalText(activeCountry, "Servicios rurales", "Serviços rurais")}
               </Link>
               <Link href="/#como-funciona" className="mobile-menu-link">
-                ℹ️ Cómo funciona
+                ℹ️ {regionalText(activeCountry, "Cómo funciona", "Como funciona")}
               </Link>
               
 
@@ -294,7 +293,7 @@ function NavbarContent() {
               {user ? (
                 <>
                   <Link href="/dashboard" className="mobile-menu-link">
-                    👤 Mi cuenta
+                    👤 {regionalText(activeCountry, "Mi cuenta", "Minha conta")}
                   </Link>
                   <Link href="/mensajes" className="mobile-menu-link">
                     💬 Mensajes
@@ -306,7 +305,7 @@ function NavbarContent() {
                     ❤️ Favoritos
                   </Link>
                   <Link href="/perfil" className="mobile-menu-link">
-                    ⚙️ Mi perfil
+                    ⚙️ {regionalText(activeCountry, "Mi perfil", "Meu perfil")}
                   </Link>
 
                   <div className="mobile-menu-sep" />
@@ -315,16 +314,16 @@ function NavbarContent() {
                     onClick={handleLogout}
                     className="mobile-menu-link mobile-menu-logout"
                   >
-                    Cerrar sesión
+                    {regionalText(activeCountry, "Cerrar sesión", "Sair da conta")}
                   </button>
                 </>
               ) : (
                 <>
                   <Link href="/login" className="mobile-menu-link">
-                    Ingresar
+                    {regionalText(activeCountry, "Ingresar", "Entrar")}
                   </Link>
                   <Link href={`/register?pais=${activeCountry}&tipo=propietario`} className="mobile-menu-btn">
-                    Publicar campo gratis
+                    {regionalText(activeCountry, "Publicar campo gratis", "Anunciar gratuitamente")}
                   </Link>
                 </>
               )}

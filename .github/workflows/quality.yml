@@ -33,7 +33,7 @@ jobs:
         run: npm run lint
 
       - name: Test commercial metrics
-        run: node --test tests/commercial-filters.test.mjs
+        run: node --test tests/commercial-filters.test.mjs tests/regional-navigation.test.mjs tests/ptbr-integration.test.mjs
 
       - name: Build
         run: npm run build

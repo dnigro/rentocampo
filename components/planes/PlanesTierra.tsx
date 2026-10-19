@@ -4,6 +4,7 @@ import { useState } from "react";
 import { PLANES_TIERRA, planTierraRank, publicacionesLabel } from "@/data/planes-tierra";
 import { trackEvent } from "@/lib/analytics";
 import { COUNTRIES, type CountryCode } from "@/data/countries";
+import { regionalText } from "@/lib/i18n/regional";
 
 interface Props {
   planActualId: string;
@@ -31,6 +32,7 @@ export default function PlanesTierra({
   const [checkoutError, setCheckoutError] = useState("");
   const [checkoutNotice, setCheckoutNotice] = useState("");
   const paidPlansEnabled = countryCode === "AR";
+  const tt=(es:string,pt:string)=>regionalText(countryCode??"AR",es,pt);
   const countryLabel = countryCode ? COUNTRIES[countryCode].name : "tu país";
 
   async function iniciarCheckout(planId: string) {
@@ -93,20 +95,20 @@ export default function PlanesTierra({
     <section className="perfil-section planes-tierra-section">
       <div className="planes-tierra-heading">
         <div>
-          <p className="planes-tierra-kicker">Modelo comercial · Propietarios</p>
-          <h2 className="planes-tierra-title">Planes para publicar tierras</h2>
+          <p className="planes-tierra-kicker">{tt("Modelo comercial · Propietarios","Modelo comercial · Proprietários")}</p>
+          <h2 className="planes-tierra-title">{tt("Planes para publicar tierras","Planos para anunciar terras")}</h2>
         </div>
         <div className="planes-tierra-estado">
-          <span>Tu plan actual</span>
+          <span>{tt("Tu plan actual","Seu plano atual")}</span>
           <strong>{planActualNombre}</strong>
           {publicacionesLimite !== null && (
             <small>
-              {publicacionesRestantes} disponible{publicacionesRestantes === 1 ? "" : "s"} de {publicacionesLimite}
+              {publicacionesRestantes} {tt("disponible","disponível")}{publicacionesRestantes === 1 ? "" : tt("s","is")} {tt("de","de")} {publicacionesLimite}
             </small>
           )}
           {expiryLabel && (
             <small>
-              Vigente hasta el {expiryLabel}
+              {tt("Vigente hasta el","Válido até")} {expiryLabel}
             </small>
           )}
         </div>
@@ -125,9 +127,9 @@ export default function PlanesTierra({
 
       {!paidPlansEnabled && (
         <div className="planes-tierra-region-notice" role="status">
-          <strong>Estamos llegando a {countryLabel}</strong>
-          <p>La compra de paquetes de publicaciones todavía no está disponible en tu país. Estamos trabajando para habilitarla.</p>
-          <p>Mientras tanto, podés publicar tu primer campo gratis y utilizar los servicios rurales sin costo.</p>
+          <strong>{tt("Estamos llegando a","Estamos chegando ao")} {countryLabel}</strong>
+          <p>{tt("La compra de paquetes de publicaciones todavía no está disponible en tu país. Estamos trabajando para habilitarla.","A compra de pacotes de anúncios ainda não está disponível no Brasil. Estamos trabalhando para habilitá-la.")}</p>
+          <p>{tt("Mientras tanto, podés publicar tu primer campo gratis y utilizar los servicios rurales sin costo.","Enquanto isso, anuncie sua primeira terra gratuitamente e utilize os serviços rurais sem custo.")}</p>
         </div>
       )}
 
@@ -157,38 +159,38 @@ export default function PlanesTierra({
             >
               <div className="plan-tierra-card-top">
                 {plan.recomendado && (
-                  <span className="plan-tierra-badge">RECOMENDADO</span>
+                  <span className="plan-tierra-badge">{tt("RECOMENDADO","RECOMENDADO")}</span>
                 )}
                 {esActual && (
                   <span className="plan-tierra-badge plan-tierra-badge-actual">
-                    TU PLAN ACTUAL
+                    {tt("TU PLAN ACTUAL","SEU PLANO ATUAL")}
                   </span>
                 )}
-                <h3>{plan.nombre}</h3>
+                <h3>{tt(plan.nombre,plan.nombre)}</h3>
                 <p className="plan-tierra-profile">{plan.perfilIdeal}</p>
                 <p>{plan.bajada}</p>
               </div>
 
               <div className="plan-tierra-price">
                 {plan.precioUsdAnual === 0 ? (
-                  <strong>Gratis</strong>
+                  <strong>{tt("Gratis","Grátis")}</strong>
                 ) : !paidPlansEnabled ? (
-                  <strong className="plan-tierra-price-soon">Próximamente</strong>
+                  <strong className="plan-tierra-price-soon">{tt("Próximamente","Em breve")}</strong>
                 ) : (
                   <>
                     <strong>USD {plan.precioUsdAnual}</strong>
-                    <span>/ año</span>
+                    <span>{tt("/ año","/ ano")}</span>
                   </>
                 )}
               </div>
 
               <ul>
-                <li>{publicacionesLabel(plan)}</li>
-                <li>Vigencia de 12 meses</li>
+                <li>{countryCode==="BR"?(plan.publicaciones===null?"Anúncios ilimitados":`Até ${plan.publicaciones} anúncios`):publicacionesLabel(plan)}</li>
+                <li>{tt("Vigencia de 12 meses","Validade de 12 meses")}</li>
                 <li>
                   {plan.publicaciones === null
-                    ? "Sin límite de oportunidades"
-                    : "Cada nueva publicación consume 1 cupo"}
+                    ? tt("Sin límite de oportunidades","Oportunidades ilimitadas")
+                     : tt("Cada nueva publicación consume 1 cupo","Cada novo anúncio utiliza 1 vaga")}
                 </li>
               </ul>
 
@@ -204,14 +206,14 @@ export default function PlanesTierra({
                 }}
               >
                 {esActual
-                  ? "Plan actual"
+                  ? tt("Plan actual","Plano atual")
                   : esInferior
-                    ? "Incluido en tu plan"
+                    ? tt("Incluido en tu plan","Incluído no seu plano")
                     : !paidPlansEnabled
-                      ? "No disponible aún"
+                      ? tt("No disponible aún","Ainda indisponível")
                     : loadingPlan === plan.id
-                      ? "Abriendo Mercado Pago..."
-                      : "Elegir plan"}
+                      ? tt("Abriendo Mercado Pago...","Abrindo Mercado Pago...")
+                      : tt("Elegir plan","Escolher plano")}
               </button>
             </article>
           );
@@ -219,7 +221,7 @@ export default function PlanesTierra({
       </div>
 
       <div className="planes-tierra-note">
-        <strong>{paidPlansEnabled ? "Modelo comercial activo." : "Paquetes en preparación."}</strong> Los campos de demostración no
+        <strong>{paidPlansEnabled ? "Modelo comercial activo." : tt("Paquetes en preparación.","Pacotes em preparação.")}</strong> Los campos de demostración no
         consumen publicaciones. Tenés {publicacionesReales} campo{publicacionesReales === 1 ? "" : "s"} real{publicacionesReales === 1 ? "" : "es"} registrado{publicacionesReales === 1 ? "" : "s"}.
       </div>
     </section>

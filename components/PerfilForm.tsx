@@ -7,7 +7,8 @@ import { useState, useRef } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { type Profile, type RolPerfil, type ServicioRural } from "@/types";
 import { COUNTRIES, COUNTRY_CODES, getCountrySubdivisions, type CountryCode } from "@/data/countries";
-import { SERVICIOS_RURALES } from "@/data/servicios-rurales";
+import { SERVICIOS_RURALES, servicioLabel } from "@/data/servicios-rurales";
+import { regionalText } from "@/lib/i18n/regional";
 
 interface Props {
   profile: Partial<Profile> | null;
@@ -34,6 +35,7 @@ export default function PerfilForm({ profile, email }: Props) {
     localidad_servicio: profile?.localidad_servicio ?? "",
   });
 
+  const tt=(es:string,pt:string)=>regionalText(form.country_code,es,pt);
   const [avatarPreview, setAvatarPreview] = useState(profile?.avatar_url ?? "");
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
   const [servicePhotoPreview, setServicePhotoPreview] = useState(profile?.service_photo_url ?? "");
@@ -198,11 +200,11 @@ export default function PerfilForm({ profile, email }: Props) {
     setSuccessPass("");
 
     if (passwords.nueva.length < 6) {
-      setErrorPass("La contraseña debe tener al menos 6 caracteres.");
+      setErrorPass(tt("La contraseña debe tener al menos 6 caracteres.","A senha deve ter pelo menos 6 caracteres."));
       return;
     }
     if (passwords.nueva !== passwords.confirmar) {
-      setErrorPass("Las contraseñas no coinciden.");
+      setErrorPass(tt("Las contraseñas no coinciden.","As senhas não coincidem."));
       return;
     }
 
@@ -259,7 +261,7 @@ export default function PerfilForm({ profile, email }: Props) {
     <div className="perfil-layout">
       {/* Sección: Avatar */}
       <div className="perfil-section">
-        <h2 className="perfil-section-title">Foto de perfil</h2>
+        <h2 className="perfil-section-title">{tt("Foto de perfil","Foto de perfil")}</h2>
         <div className="avatar-editor">
           <div
             className="avatar-preview"
@@ -277,7 +279,7 @@ export default function PerfilForm({ profile, email }: Props) {
               <span className="avatar-initials">{iniciales}</span>
             )}
             <div className="avatar-overlay">
-              <span>Cambiar</span>
+              <span>{tt("Cambiar","Trocar")}</span>
             </div>
           </div>
           <div className="avatar-info">
@@ -315,7 +317,7 @@ export default function PerfilForm({ profile, email }: Props) {
 
       {/* Sección: Datos personales */}
       <form className="perfil-section" onSubmit={handleSavePerfil}>
-        <h2 className="perfil-section-title">Datos personales</h2>
+        <h2 className="perfil-section-title">{tt("Datos personales","Dados pessoais")}</h2>
 
         {error && <div className="form-error">{error}</div>}
         {successMsg && <div className="form-success">{successMsg}</div>}
@@ -328,11 +330,11 @@ export default function PerfilForm({ profile, email }: Props) {
             value={email}
             disabled
           />
-          <span className="form-hint">El email no se puede cambiar</span>
+          <span className="form-hint">{tt("El email no se puede cambiar","O e-mail não pode ser alterado")}</span>
         </div>
 
         <div className="form-field">
-          <label className="form-label">País</label>
+          <label className="form-label">{tt("País","País")}</label>
           <select
             name="country_code"
             className="form-input"
@@ -350,12 +352,12 @@ export default function PerfilForm({ profile, email }: Props) {
             {COUNTRY_CODES.map((code) => <option key={code} value={code}>{COUNTRIES[code].flag} {COUNTRIES[code].name}</option>)}
           </select>
           <span className="form-hint">
-            Define tu mercado principal y adapta campos, servicios y ubicaciones.
+            {tt("Define tu mercado principal y adapta campos, servicios y ubicaciones.","Defina seu mercado principal para adaptar terras, serviços e localizações.")}
           </span>
         </div>
 
         <div className="form-field">
-          <label className="form-label">Cómo querés usar RentoCampo</label>
+          <label className="form-label">{tt("Cómo querés usar RentoCampo","Como deseja usar a RentoCampo")}</label>
           <div className="perfil-role-options">
             <label className="perfil-role-option">
               <input
@@ -364,8 +366,8 @@ export default function PerfilForm({ profile, email }: Props) {
                 onChange={() => toggleRole("productor")}
               />
               <span>
-                <strong>🌱 Productor</strong>
-                <small>Buscar campos, guardar favoritos y consultar.</small>
+                <strong>🌱 {tt("Productor","Produtor")}</strong>
+                <small>{tt("Buscar campos, guardar favoritos y consultar.","Buscar terras, salvar favoritos e consultar.")}</small>
               </span>
             </label>
             <label className="perfil-role-option">
@@ -375,8 +377,8 @@ export default function PerfilForm({ profile, email }: Props) {
                 onChange={() => toggleRole("propietario")}
               />
               <span>
-                <strong>🏡 Propietario</strong>
-                <small>Publicar y administrar campos.</small>
+                <strong>🏡 {tt("Propietario","Proprietário")}</strong>
+                <small>{tt("Publicar y administrar campos.","Anunciar e gerenciar terras.")}</small>
               </span>
             </label>
             <label className="perfil-role-option">
@@ -386,19 +388,19 @@ export default function PerfilForm({ profile, email }: Props) {
                 onChange={() => toggleRole("prestador")}
               />
               <span>
-                <strong>⚙️ Servicios rurales</strong>
-                <small>Ofrecer trabajos, instalaciones y soluciones para el campo.</small>
+                <strong>⚙️ {tt("Servicios rurales","Serviços rurais")}</strong>
+                <small>{tt("Ofrecer trabajos, instalaciones y soluciones para el campo.","Oferecer serviços, instalações e soluções rurais.")}</small>
               </span>
             </label>
           </div>
-          <span className="form-hint">Podés elegir uno o varios perfiles.</span>
+          <span className="form-hint">{tt("Podés elegir uno o varios perfiles.","Você pode selecionar um ou mais perfis.")}</span>
         </div>
 
         {form.roles.includes("prestador") && (
           <div className="servicios-profile-box" id="mis-servicios-rurales">
             <div>
-              <h3>¿Qué servicios ofrecés?</h3>
-              <p>Elegí todos los que correspondan para que puedan encontrarte.</p>
+              <h3>{tt("¿Qué servicios ofrecés?","Quais serviços você oferece?")}</h3>
+              <p>{tt("Elegí todos los que correspondan para que puedan encontrarte.","Selecione as categorias necessárias para que encontrem você.")}</p>
             </div>
             <div className="servicios-options">
               {SERVICIOS_RURALES.map((servicio) => (
@@ -408,12 +410,12 @@ export default function PerfilForm({ profile, email }: Props) {
                     checked={form.servicios_rurales.includes(servicio.value)}
                     onChange={() => toggleServicio(servicio.value)}
                   />
-                  <span>{servicio.label}</span>
+                  <span>{servicioLabel(servicio.value,form.country_code)}</span>
                 </label>
               ))}
             </div>
             <div className="form-field">
-              <label className="form-label">Foto de tus servicios</label>
+              <label className="form-label">{tt("Foto de tus servicios","Foto dos seus serviços")}</label>
               <div className="servicio-foto-editor">
                 {servicePhotoPreview ? (
                   <Image
@@ -425,7 +427,7 @@ export default function PerfilForm({ profile, email }: Props) {
                   />
                 ) : (
                   <div className="servicio-foto-placeholder">
-                    📷 Subí una foto que represente tu trabajo
+                    📷 {tt("Subí una foto que represente tu trabajo","Envie uma foto que represente seu trabalho")}
                   </div>
                 )}
                 <button
@@ -433,14 +435,14 @@ export default function PerfilForm({ profile, email }: Props) {
                   className="btn-secondary-lg"
                   onClick={() => servicePhotoInputRef.current?.click()}
                 >
-                  {servicePhotoPreview ? "Cambiar foto" : "Subir foto"}
+                  {servicePhotoPreview ? tt("Cambiar foto","Trocar foto") : tt("Subir foto","Enviar foto")}
                 </button>
                 {servicePhotoPreview && (
                   <button type="button" className="btn-secondary-lg" onClick={() => {
                     setServicePhotoPreview("");
                     setServicePhotoFile(null);
                     setRemoveServicePhoto(true);
-                  }}>Eliminar foto</button>
+                  }}>{tt("Eliminar foto","Excluir foto")}</button>
                 )}
                 <input
                   ref={servicePhotoInputRef}
@@ -451,20 +453,20 @@ export default function PerfilForm({ profile, email }: Props) {
                 />
               </div>
               <span className="form-hint">
-                Usá una imagen real y acorde al servicio que ofrecés.
+                {tt("Usá una imagen real y acorde al servicio que ofrecés.","Use uma imagem real que represente o serviço que oferece.")}
               </span>
             </div>
 
             <div className="form-field">
               <label className="form-label" htmlFor="zona_servicio">
-                Zona donde trabajás
+                {tt("Zona donde trabajás","Área onde você atende")}
               </label>
               <input
                 id="zona_servicio"
                 name="zona_servicio"
                 type="text"
                 className="form-input"
-                placeholder="Ej: sur de Córdoba y norte de La Pampa"
+                placeholder={tt("Ej: sur de Córdoba y norte de La Pampa","Ex.: interior de São Paulo e região")}
                 value={form.zona_servicio}
                 onChange={handleChange}
               />
@@ -476,14 +478,14 @@ export default function PerfilForm({ profile, email }: Props) {
                 </label>
                 <select id="provincia_servicio" name="provincia_servicio" className="form-input" value={form.provincia_servicio} onChange={handleChange}>
                   <option value="">
-                    {`Elegí ${COUNTRIES[form.country_code].subdivisionLabel.toLowerCase()}`}
+                    {tt(`Elegí ${COUNTRIES[form.country_code].subdivisionLabel.toLowerCase()}`,`Selecione ${COUNTRIES[form.country_code].subdivisionLabel.toLowerCase()}`)}
                   </option>
                   {getCountrySubdivisions(form.country_code).map((provincia) => <option key={provincia} value={provincia}>{provincia}</option>)}
                 </select>
               </div>
               <div className="form-field">
-                <label className="form-label" htmlFor="localidad_servicio">Localidad de referencia</label>
-                <input id="localidad_servicio" name="localidad_servicio" className="form-input" placeholder="Ej: Pergamino" value={form.localidad_servicio} onChange={handleChange} />
+                <label className="form-label" htmlFor="localidad_servicio">{tt("Localidad de referencia","Cidade de referência")}</label>
+                <input id="localidad_servicio" name="localidad_servicio" className="form-input" placeholder={tt("Ej: Pergamino","Ex.: Campinas")} value={form.localidad_servicio} onChange={handleChange} />
               </div>
             </div>
           </div>
@@ -491,7 +493,7 @@ export default function PerfilForm({ profile, email }: Props) {
 
         <div className="form-row">
           <div className="form-field">
-            <label className="form-label">Nombre completo</label>
+            <label className="form-label">{tt("Nombre completo","Nome completo")}</label>
             <input
               name="nombre"
               type="text"
@@ -502,12 +504,12 @@ export default function PerfilForm({ profile, email }: Props) {
             />
           </div>
           <div className="form-field">
-            <label className="form-label">Teléfono</label>
+            <label className="form-label">{tt("Teléfono","Telefone")}</label>
             <input
               name="telefono"
               type="tel"
               className="form-input"
-              placeholder="Ej: +54 9 11 1234-5678"
+              placeholder={tt("Ej: +54 9 11 1234-5678","Ex.: +55 11 91234-5678")}
               value={form.telefono}
               onChange={handleChange}
             />
@@ -517,15 +519,15 @@ export default function PerfilForm({ profile, email }: Props) {
         <div className="form-field">
           <label className="form-label">
             {form.roles.includes("prestador")
-              ? "Sobre vos / tus servicios"
+              ? tt("Sobre vos / tus servicios","Sobre você / seus serviços")
               : form.roles.includes("propietario")
-              ? "Sobre vos / tu empresa"
-              : "Sobre vos / tu actividad"}
+              ? tt("Sobre vos / tu empresa","Sobre você / sua empresa")
+              : tt("Sobre vos / tu actividad","Sobre você / sua atividade")}
           </label>
           <textarea
             name="bio"
             className="form-input form-textarea"
-            placeholder="Contá brevemente quién sos y tu experiencia..."
+            placeholder={tt("Contá brevemente quién sos y tu experiencia...","Conte brevemente sobre você e sua experiência...")}
             value={form.bio}
             onChange={handleChange}
             rows={3}
@@ -534,25 +536,25 @@ export default function PerfilForm({ profile, email }: Props) {
 
         <div className="form-actions">
           <button type="submit" className="btn-primary-lg" disabled={saving}>
-            {saving ? "Guardando..." : "Guardar cambios"}
+            {saving ? tt("Guardando...","Salvando...") : tt("Guardar cambios","Salvar alterações")}
           </button>
         </div>
       </form>
 
       {/* Sección: Cambiar contraseña */}
       <form className="perfil-section" onSubmit={handleCambiarPassword}>
-        <h2 className="perfil-section-title">Cambiar contraseña</h2>
+        <h2 className="perfil-section-title">{tt("Cambiar contraseña","Alterar senha")}</h2>
 
         {errorPass && <div className="form-error">{errorPass}</div>}
         {successPass && <div className="form-success">{successPass}</div>}
 
         <div className="form-row">
           <div className="form-field">
-            <label className="form-label">Nueva contraseña</label>
+            <label className="form-label">{tt("Nueva contraseña","Nova senha")}</label>
             <input
               type="password"
               className="form-input"
-              placeholder="Mínimo 6 caracteres"
+              placeholder={tt("Mínimo 6 caracteres","Mínimo de 6 caracteres")}
               value={passwords.nueva}
               onChange={(e) =>
                 setPasswords((p) => ({ ...p, nueva: e.target.value }))
@@ -561,11 +563,11 @@ export default function PerfilForm({ profile, email }: Props) {
             />
           </div>
           <div className="form-field">
-            <label className="form-label">Confirmar contraseña</label>
+            <label className="form-label">{tt("Confirmar contraseña","Confirmar senha")}</label>
             <input
               type="password"
               className="form-input"
-              placeholder="Repetí la contraseña"
+              placeholder={tt("Repetí la contraseña","Repita a senha")}
               value={passwords.confirmar}
               onChange={(e) =>
                 setPasswords((p) => ({ ...p, confirmar: e.target.value }))
@@ -581,21 +583,20 @@ export default function PerfilForm({ profile, email }: Props) {
             className="btn-secondary-lg"
             disabled={savingPass}
           >
-            {savingPass ? "Cambiando..." : "Cambiar contraseña"}
+            {savingPass ? tt("Cambiando...","Alterando...") : tt("Cambiar contraseña","Alterar senha")}
           </button>
         </div>
       </form>
 
       <section className="perfil-section perfil-danger-zone">
-        <h2 className="perfil-section-title">Eliminar cuenta</h2>
+        <h2 className="perfil-section-title">{tt("Eliminar cuenta","Excluir conta")}</h2>
         <p className="perfil-danger-text">
-          Esta acción elimina tu perfil, publicaciones, fotos, favoritos y
-          mensajes. No se puede deshacer.
+          {tt("Esta acción elimina tu perfil, publicaciones, fotos, favoritos y mensajes. No se puede deshacer.","Esta ação exclui seu perfil, anúncios, fotos, favoritos e mensagens. Não pode ser desfeita.")}
         </p>
         {deleteError && <div className="form-error">{deleteError}</div>}
         <div className="form-field">
           <label className="form-label" htmlFor="delete-confirmation">
-            Para confirmar, escribí <strong>ELIMINAR</strong>
+            {tt("Para confirmar, escribí","Para confirmar, digite")} <strong>ELIMINAR</strong>
           </label>
           <input
             id="delete-confirmation"
@@ -612,7 +613,7 @@ export default function PerfilForm({ profile, email }: Props) {
             onClick={handleEliminarCuenta}
             disabled={deleting || deleteConfirm !== "ELIMINAR"}
           >
-            {deleting ? "Eliminando cuenta..." : "Eliminar mi cuenta"}
+            {deleting ? tt("Eliminando cuenta...","Excluindo conta...") : tt("Eliminar mi cuenta","Excluir minha conta")}
           </button>
         </div>
       </section>

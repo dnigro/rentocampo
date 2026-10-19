@@ -3,8 +3,10 @@
 import { useState } from "react";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
+import { useTranslations } from "@/lib/i18n/useTranslations";
 
 export default function LoginPage() {
+  const {t} = useTranslations();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -20,7 +22,7 @@ export default function LoginPage() {
     const { error } = await supabase.auth.signInWithPassword({ email, password });
 
     if (error) {
-      setError(error.message === "Invalid login credentials" ? "Email o contraseña incorrectos." : error.message);
+      setError(error.message === "Invalid login credentials" ? t("auth.invalidCredentials") : error.message);
       setLoading(false);
       return;
     }
@@ -34,24 +36,24 @@ export default function LoginPage() {
     <div className="auth-page">
       <div className="auth-card">
         <div className="auth-header">
-          <h1 className="auth-title">Bienvenido a RentoCampo</h1>
+          <h1 className="auth-title">{t("auth.welcome")}</h1>
           <p className="auth-subtitle">
-            Ingresá para publicar, buscar campos y conectar oportunidades en la red federal.
+            {t("auth.welcomeSubtitle")}
           </p>
         </div>
 
         <form className="auth-form" onSubmit={handleSubmit}>
           {error && <div className="auth-error">{error}</div>}
           <div className="form-field">
-            <label className="form-label" htmlFor="email">Email</label>
+            <label className="form-label" htmlFor="email">{t("auth.email")}</label>
             <input id="email" type="email" className="form-input" placeholder="tu@email.com"
               value={email} onChange={(e) => setEmail(e.target.value)} required autoComplete="email" />
           </div>
 
           <div className="form-field">
             <div className="form-label-row">
-              <label className="form-label" htmlFor="password">Contraseña</label>
-              <Link href="/recuperar-contrasena" className="form-label-link">¿Olvidaste tu contraseña?</Link>
+              <label className="form-label" htmlFor="password">{t("auth.password")}</label>
+              <Link href="/recuperar-contrasena" className="form-label-link">{t("auth.forgot")}</Link>
             </div>
             <div className="password-input-wrapper">
               <input id="password" type={showPassword ? "text" : "password"} className="form-input"
@@ -59,7 +61,7 @@ export default function LoginPage() {
                 required autoComplete="current-password" />
               <button type="button" className="password-toggle"
                 onClick={() => setShowPassword((visible) => !visible)}
-                aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+                aria-label={showPassword ? t("auth.hidePassword") : t("auth.showPassword")}
                 aria-pressed={showPassword}>
                 {showPassword ? (
                   <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -76,12 +78,12 @@ export default function LoginPage() {
           </div>
 
           <button type="submit" className="btn-submit" disabled={loading}>
-            {loading ? "Ingresando..." : "Ingresar"}
+            {loading ? t("auth.signingIn") : t("auth.signIn")}
           </button>
         </form>
 
         <div className="auth-footer">
-          ¿No tenés cuenta? <Link href="/register">Registrate gratis</Link>
+          {t("auth.noAccount")} <Link href="/register">{t("auth.signUpFree")}</Link>
         </div>
       </div>
     </div>

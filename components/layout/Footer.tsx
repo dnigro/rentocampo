@@ -1,12 +1,15 @@
+"use client";
+
 import RegionalLink from "@/components/layout/RegionalLink";
-import { cookies } from "next/headers";
-import { resolveCountry } from "@/data/countries";
 import Link from "next/link";
 import "@/styles/footer.css";
 import BrandWordmark from "@/components/layout/BrandWordmark";
+import { regionalText } from "@/lib/i18n/regional";
+import { useRegionalCountry } from "@/lib/i18n/useRegionalCountry";
 
-export default async function Footer() {
-  const country = resolveCountry((await cookies()).get("rentocampo_country")?.value);
+export default function Footer() {
+  const country = useRegionalCountry();
+  const t = (es: string, pt: string) => regionalText(country, es, pt);
   return (
     <footer className="footer">
       <div className="footer-inner">
@@ -15,57 +18,56 @@ export default async function Footer() {
             <BrandWordmark className="brand-wordmark-footer" />
           </Link>
           <p className="footer-desc">
-            Tierra productiva, productores y servicios rurales conectados en
-            toda la región.
+            {t("Tierra productiva, productores y servicios rurales conectados en toda la región.", "Terras produtivas, produtores e serviços rurais conectados em toda a região.")}
           </p>
         </div>
 
         <div className="footer-col">
-          <h4 className="footer-col-title">Productores</h4>
+          <h4 className="footer-col-title">{t("Productores", "Produtores")}</h4>
           <nav className="footer-nav">
             <Link href="/alquiler-de-campos" className="footer-link">
-              Alquiler de campos
+              {t("Alquiler de campos", "Arrendamento rural")}
             </Link>
             <Link href="/campos/mapa" className="footer-link">
               Ver mapa
             </Link>
             <RegionalLink href="/register?tipo=productor" fallbackCountry={country} className="footer-link">
-              Cómo alquilar
+              {t("Cómo alquilar", "Como arrendar")}
             </RegionalLink>
           </nav>
         </div>
 
         <div className="footer-col">
-          <h4 className="footer-col-title">Propietarios</h4>
+          <h4 className="footer-col-title">{t("Propietarios", "Proprietários")}</h4>
           <nav className="footer-nav">
             <RegionalLink href="/register?tipo=propietario" fallbackCountry={country} className="footer-link">
-              Publicar un campo
+              {t("Publicar un campo", "Anunciar terra")}
             </RegionalLink>
             <Link href="/mis-campos" className="footer-link">
-              Panel del propietario
+              {t("Panel del propietario", "Painel do proprietário")}
             </Link>
             <RegionalLink href="/register?tipo=propietario" fallbackCountry={country} className="footer-link">
-              Cómo publicar
+              {t("Cómo publicar", "Como anunciar")}
             </RegionalLink>
           </nav>
         </div>
 
         <div className="footer-col">
-          <h4 className="footer-col-title">Servicios rurales</h4>
+          <h4 className="footer-col-title">{t("Servicios rurales", "Serviços rurais")}</h4>
           <nav className="footer-nav">
             <Link href="/servicios-rurales" className="footer-link">
-              Buscar servicios
+              {t("Buscar servicios", "Buscar serviços")}
             </Link>
             <Link href="/campos/mapa?vista=servicios" className="footer-link">
-              Ver mapa de servicios
+              {t("Ver mapa de servicios", "Ver mapa de serviços")}
             </Link>
             <RegionalLink href="/register?tipo=prestador" fallbackCountry={country} className="footer-link">
-              Ofrecer mis servicios
+              {t("Ofrecer mis servicios", "Oferecer meus serviços")}
             </RegionalLink>
             <a href="mailto:hola@rentocampo.com" className="footer-link">
               hola@rentocampo.com
             </a>
-            <span className="footer-link">Buenos Aires, Argentina</span>
+            <span className="footer-link">{t("Red regional de servicios rurales", "Rede regional de serviços rurais")}</span>
           </nav>
           <div className="footer-socials" aria-label="Redes sociales">
             <a
@@ -118,12 +120,11 @@ export default async function Footer() {
 
       <div className="footer-bottom">
         <span>
-          © {new Date().getFullYear()} RentoCampo. Todos los derechos
-          reservados.
+          © {new Date().getFullYear()} RentoCampo. {t("Todos los derechos reservados.", "Todos os direitos reservados.")}
         </span>
         <nav className="footer-bottom-links" aria-label="Información legal">
           <Link href="/terminos-y-condiciones" className="footer-bottom-link">
-            Términos y condiciones
+            {t("Términos y condiciones", "Termos e condições")}
           </Link>
         </nav>
       </div>

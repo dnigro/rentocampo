@@ -1,23 +1,22 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
-import { createAdminClient } from "@/lib/supabase/admin";
 import { sendDirectMessageNotification } from "@/lib/send-message-notification";
 import { isMissingMensajesDirectosLeido } from "@/lib/supabase/mensajes-directos";
 
 const UUID_PATTERN =
   /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
-async function getAuthenticatedUser() {
+async function getAuthenticatedContext() {
   const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
-  return user;
+  return { user, supabase };
 }
 
 export async function GET(request: Request) {
-  const user = await getAuthenticatedUser();
+  const { user, supabase } = await getAuthenticatedContext();
   if (!user) {
     return NextResponse.json({ error: "No autenticado" }, { status: 401 });
   }
@@ -31,7 +30,8 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: "Interlocutor inválido" }, { status: 400 });
   }
 
-  const admin = createAdminClient();
+  // Authenticated client applies participant RLS; no service-role key needed.
+  const admin = supabase;
   const { data: mensajes, error } = await admin
     .from("mensajes_directos")
     .select("id, contenido, created_at, remitente_id")
@@ -66,7 +66,7 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
-  const user = await getAuthenticatedUser();
+  const { user, supabase } = await getAuthenticatedContext();
   if (!user) {
     return NextResponse.json({ error: "No autenticado" }, { status: 401 });
   }
@@ -88,7 +88,7 @@ export async function POST(request: Request) {
     );
   }
 
-  const admin = createAdminClient();
+  const admin = supabase;
   const { data: destinatario } = await admin
     .from("profiles")
     .select("id")

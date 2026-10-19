@@ -1,6 +1,7 @@
 import { createClient as createAdminClient } from "@supabase/supabase-js";
 import { PLANES_TIERRA, planTierraRank, type PlanTierraId } from "@/data/planes-tierra";
 import { notifyPlanQuotaExhausted } from "@/lib/billing/plan-notification-service";
+import { FREE_PUBLICATIONS_ENABLED } from "@/lib/commercial/free-publications";
 
 export interface LandQuotaStatus {
   planId: PlanTierraId;
@@ -31,6 +32,15 @@ function getAdminClient() {
 export async function getLandQuotaStatus(
   userId: string,
 ): Promise<LandQuotaStatus> {
+  if (FREE_PUBLICATIONS_ENABLED) {
+    // No entitlement/usage database read in free mode; previous purchases and
+    // publication-event history are preserved untouched for future decisions.
+    return {
+      planId: "inicial", planName: "Gratis", purchaseId: null,
+      limit: null, used: 0, remaining: null, unlimited: true,
+      canPublish: true, expiresAt: null, purchaseStatus: null,
+    };
+  }
   const admin = getAdminClient();
   const now = new Date().toISOString();
 
@@ -122,6 +132,10 @@ export async function consumeLandPublicationQuota(args: {
   userId: string;
   campoId: string;
 }) {
+  if (FREE_PUBLICATIONS_ENABLED) {
+    // No billing event or quota is consumed for free publications.
+    return { ok: true as const, alreadyConsumed: false as const };
+  }
   const admin = getAdminClient();
 
   const { data: existing } = await admin

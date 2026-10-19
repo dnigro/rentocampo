@@ -3,7 +3,8 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { COUNTRIES, COUNTRY_CODES, getCountrySubdivisions, type CountryCode } from "@/data/countries";
-import { SERVICIOS_RURALES } from "@/data/servicios-rurales";
+import { SERVICIOS_RURALES, servicioLabel } from "@/data/servicios-rurales";
+import { useTranslations } from "@/lib/i18n/useTranslations";
 
 interface Props {
   paisInicial?: CountryCode;
@@ -16,6 +17,7 @@ export default function ServiciosFiltros({
   provinciaInicial = "",
   servicioInicial = "",
 }: Props) {
+  const {t,country} = useTranslations();
   const router = useRouter();
   const [pais, setPais] = useState<CountryCode>(paisInicial);
   const [provincia, setProvincia] = useState(provinciaInicial);
@@ -42,16 +44,16 @@ export default function ServiciosFiltros({
     <div>
       <div className="filtros-panel">
         <div className="filtros-header">
-          <span className="filtros-title">Filtros</span>
+          <span className="filtros-title">{t("filters.title")}</span>
           {hayFiltros && (
             <button type="button" className="filtros-limpiar" onClick={limpiar}>
-              Limpiar
+              {t("filters.clear")}
             </button>
           )}
         </div>
 
         <div className="listing-filters-grid">
-          <div className="filtro-grupo"><label className="filtro-label" htmlFor="servicios-pais">País</label><select id="servicios-pais" className="filtro-input" value={pais} onChange={(e) => { setPais(e.target.value as CountryCode); setProvincia(""); }}>{COUNTRY_CODES.map((code) => <option key={code} value={code}>{COUNTRIES[code].name}</option>)}</select></div>
+          <div className="filtro-grupo"><label className="filtro-label" htmlFor="servicios-pais">{t("filters.country")}</label><select id="servicios-pais" className="filtro-input" value={pais} onChange={(e) => { setPais(e.target.value as CountryCode); setProvincia(""); }}>{COUNTRY_CODES.map((code) => <option key={code} value={code}>{COUNTRIES[code].name}</option>)}</select></div>
           <div className="filtro-grupo">
             <label className="filtro-label" htmlFor="servicios-provincia">
               {COUNTRIES[pais].subdivisionLabel}
@@ -62,7 +64,7 @@ export default function ServiciosFiltros({
               value={provincia}
               onChange={(e) => setProvincia(e.target.value)}
             >
-              <option value="">Todas</option>
+              <option value="">{t("filters.allFemale")}</option>
               {getCountrySubdivisions(pais).map((item) => (
                 <option key={item} value={item}>{item}</option>
               ))}
@@ -71,7 +73,7 @@ export default function ServiciosFiltros({
 
           <div className="filtro-grupo">
             <label className="filtro-label" htmlFor="servicios-rubro">
-              Rubro
+              {t("filters.category")}
             </label>
             <select
               id="servicios-rubro"
@@ -79,9 +81,9 @@ export default function ServiciosFiltros({
               value={servicio}
               onChange={(e) => setServicio(e.target.value)}
             >
-              <option value="">Todos los rubros</option>
+              <option value="">{t("filters.allCategories")}</option>
               {SERVICIOS_RURALES.filter((item) => item.value !== "otro").map((item) => (
-                <option key={item.value} value={item.value}>{item.label}</option>
+                <option key={item.value} value={item.value}>{servicioLabel(item.value,country)}</option>
               ))}
             </select>
           </div>
@@ -91,7 +93,7 @@ export default function ServiciosFiltros({
             className="listing-button listing-button-full"
             onClick={aplicar}
           >
-            Aplicar filtros
+            {t("filters.apply")}
           </button>
         </div>
       </div>

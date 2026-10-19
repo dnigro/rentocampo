@@ -9,6 +9,8 @@ import { FileText, Images, MapPinned, Sprout, WalletCards } from "lucide-react";
 import { COUNTRIES, COUNTRY_CODES, getCountrySubdivisions, type CountryCode } from "@/data/countries";
 import type { CampoFormData } from "@/types";
 import { trackEvent } from "@/lib/analytics";
+import { regionalText } from "@/lib/i18n/regional";
+import { FREE_PUBLICATIONS_ENABLED } from "@/lib/commercial/free-publications";
 import GeocoderInput, {
   type LugarSeleccionado,
 } from "@/components/campos/GeocoderInput";
@@ -67,7 +69,7 @@ export default function CampoForm({
     ambiente: "",
     operacion: "alquiler",
     precio: undefined,
-    moneda: "USD",
+    moneda: initialCountry === "BR" ? "BRL" : "USD",
     disponibilidad: "a_convenir",
     rendimiento_estimado: "",
     mejoras: "No",
@@ -79,6 +81,7 @@ export default function CampoForm({
   );
   const countryCode: CountryCode = form.country_code ?? "AR";
   const country = COUNTRIES[countryCode];
+  const tt=(es:string,pt:string)=>regionalText(countryCode,es,pt);
   const subdivisiones =
     getCountrySubdivisions(countryCode);
 
@@ -113,7 +116,7 @@ export default function CampoForm({
     const files = Array.from(e.target.files ?? []);
     if (!files.length) return;
     if (fotos.length + files.length > 8) {
-      setError("Máximo 8 fotos por campo.");
+      setError(tt("Máximo 8 fotos por campo.", "Máximo de 8 fotos por anúncio."));
       return;
     }
     setUploading(true);
@@ -149,7 +152,7 @@ export default function CampoForm({
       const response = await fetch("/api/campos/fotos", { method: "POST", body });
       const result = await response.json();
       if (!response.ok || !result.url || !result.id) {
-        throw new Error(result.error ?? "No se pudo subir la foto del campo");
+        throw new Error(result.error ?? tt("No se pudo subir la foto del campo", "Não foi possível enviar a foto da terra"));
       }
       subidas.push({ id: result.id, orden: foto.orden });
     }
@@ -166,7 +169,7 @@ export default function CampoForm({
 
     if (!form.titulo || !form.ubicacion || !form.provincia || !form.hectareas || !form.aptitud) {
       setError(
-        `Completá los campos obligatorios: título, ubicación, ${country.subdivisionLabel.toLowerCase()}, hectáreas y aptitud.`,
+        tt(`Completá los campos obligatorios: título, ubicación, ${country.subdivisionLabel.toLowerCase()}, hectáreas y aptitud.`, `Preencha os campos obrigatórios: título, localização, ${country.subdivisionLabel.toLowerCase()}, hectares e aptidão.`),
       );
       setSaving(false);
       return;
@@ -205,7 +208,7 @@ export default function CampoForm({
       const result = await response.json();
 
       if (!response.ok) {
-        if (result.code === "quota_exhausted") {
+        if (!FREE_PUBLICATIONS_ENABLED && result.code === "quota_exhausted") {
           throw new Error(
             "Ya utilizaste todas las publicaciones de tu plan. Volvé a Mis campos y elegí un plan superior para seguir publicando.",
           );
@@ -254,14 +257,14 @@ export default function CampoForm({
 
   return (
     <form className="campo-form" onSubmit={(e) => e.preventDefault()}>
-      <div className="campo-plan-status">
+      {!FREE_PUBLICATIONS_ENABLED && <div className="campo-plan-status">
         <div>
-          <span className="campo-plan-kicker">Tu plan</span>
+          <span className="campo-plan-kicker">{tt("Tu plan","Seu plano")}</span>
           <strong>{planNombre}</strong>
         </div>
         <div className="campo-plan-usage">
           {publicacionesLimite === null ? (
-            <span>Publicaciones ilimitadas</span>
+            <span>{tt("Publicaciones ilimitadas","Anúncios ilimitados")}</span>
           ) : (
             <>
               <span>
@@ -269,16 +272,15 @@ export default function CampoForm({
                 {publicacionesLimite === 1 ? "" : "es"} disponible
                 {publicacionesRestantes === 1 ? "" : "s"}
               </span>
-              <small>{publicacionesUsadas} utilizadas</small>
+              <small>{publicacionesUsadas} {tt("utilizadas","utilizadas")}</small>
             </>
           )}
         </div>
-      </div>
+      </div>}
 
-      {!puedePublicar && !campoId && (
+      {!FREE_PUBLICATIONS_ENABLED && !puedePublicar && !campoId && (
         <div className="campo-plan-alert">
-          Alcanzaste el límite de tu plan. Podés guardar un borrador, pero para
-          publicar una nueva tierra necesitás ampliar tu plan desde Mis campos.
+          {tt("Alcanzaste el límite de tu plan. Podés guardar un borrador, pero para publicar una nueva tierra necesitás ampliar tu plan desde Mis campos.","Você atingiu o limite do seu plano. Pode salvar um rascunho, mas para publicar uma nova terra será necessário ampliar seu plano.")}
         </div>
       )}
 
@@ -289,18 +291,18 @@ export default function CampoForm({
         <h2 className="form-section-title form-section-title-editorial">
           <span className="form-section-number">01</span>
           <span className="form-section-icon" aria-hidden="true"><FileText size={24} strokeWidth={1.8} /></span>
-          <span className="form-section-copy"><span>Información</span> <em>básica</em></span>
+          <span className="form-section-copy"><span>{tt("Información","Informações")}</span> <em>{tt("básica","básicas")}</em></span>
         </h2>
 
         <div className="form-field">
           <label className="form-label">
-            Título del campo <span className="required">*</span>
+            {tt("Título del campo","Título da propriedade")} <span className="required">*</span>
           </label>
           <input
             name="titulo"
             type="text"
             className="form-input"
-            placeholder="Ej: Campo agrícola en Marcos Juárez"
+            placeholder={tt("Ej: Campo agrícola en Marcos Juárez","Ex.: Fazenda agrícola em São Paulo")}
             value={form.titulo}
             onChange={handleChange}
             required
@@ -308,11 +310,11 @@ export default function CampoForm({
         </div>
 
         <div className="form-field">
-          <label className="form-label">Descripción</label>
+          <label className="form-label">{tt("Descripción","Descrição")}</label>
           <textarea
             name="descripcion"
             className="form-input form-textarea"
-            placeholder="Describí las características principales del campo, accesos, infraestructura..."
+            placeholder={tt("Describí las características principales del campo, accesos, infraestructura...","Descreva as características da propriedade, acessos, infraestrutura...")}
             value={form.descripcion ?? ""}
             onChange={handleChange}
             rows={4}
@@ -325,12 +327,12 @@ export default function CampoForm({
         <h2 className="form-section-title form-section-title-editorial">
           <span className="form-section-number">02</span>
           <span className="form-section-icon" aria-hidden="true"><MapPinned size={24} strokeWidth={1.8} /></span>
-          <span className="form-section-copy"><span>Ubicación</span> <em>del campo</em></span>
+          <span className="form-section-copy"><span>{tt("Ubicación","Localização")}</span> <em>{tt("del campo","da propriedade")}</em></span>
         </h2>
 
         <div className="form-field">
           <label className="form-label">
-            País <span className="required">*</span>
+            {tt("País","País")} <span className="required">*</span>
           </label>
           <select
             name="country_code"
@@ -347,7 +349,7 @@ export default function CampoForm({
                 ubicacion: "",
                 latitud: undefined,
                 longitud: undefined,
-                moneda: "USD",
+                moneda: nextCountry === "BR" ? "BRL" : "USD",
               }));
               setLugarGeocodificado("");
             }}
@@ -358,7 +360,7 @@ export default function CampoForm({
         </div>
 
         <div className="form-field">
-          <label className="form-label">Buscar ubicación en el mapa</label>
+          <label className="form-label">{tt("Buscar ubicación en el mapa","Buscar localização no mapa")}</label>
           <GeocoderInput
             countryCode={countryCode}
             valorInicial={lugarGeocodificado}
@@ -380,13 +382,12 @@ export default function CampoForm({
           />
           {typeof form.latitud === "number" && typeof form.longitud === "number" ? (
             <span className="geocoder-coords">
-              ✓ Ubicación seleccionada: {form.latitud.toFixed(4)},{" "}
+              ✓ {tt("Ubicación seleccionada:","Localização selecionada:")} {form.latitud.toFixed(4)},{" "}
               {form.longitud.toFixed(4)}
             </span>
           ) : (
             <span className="geocoder-hint">
-              Buscá la localidad o dirección más cercana al campo para que
-              aparezca en el mapa.
+              {tt("Buscá la localidad o dirección más cercana al campo para que aparezca en el mapa.","Busque a cidade ou endereço mais próximo da propriedade para exibi-la no mapa.")}
             </span>
           )}
         </div>
@@ -403,7 +404,7 @@ export default function CampoForm({
               onChange={handleChange}
               required
             >
-              <option value="">Seleccioná...</option>
+              <option value="">{tt("Seleccioná...","Selecione...")}</option>
               {subdivisiones.map((p) => (
                 <option key={p} value={p}>
                   {p}
@@ -413,13 +414,13 @@ export default function CampoForm({
           </div>
           <div className="form-field">
             <label className="form-label">
-              {countryCode === "UY" ? "Zona / Sección" : "Departamento / Partido"}
+              {countryCode === "BR" ? "Município / Região" : countryCode === "UY" ? "Zona / Sección" : "Departamento / Partido"}
             </label>
             <input
               name="departamento"
               type="text"
               className="form-input"
-              placeholder="Ej: Marcos Juárez"
+              placeholder={tt("Ej: Marcos Juárez","Ex.: Campinas")}
               value={form.departamento ?? ""}
               onChange={handleChange}
             />
@@ -427,12 +428,12 @@ export default function CampoForm({
         </div>
 
         <div className="form-field">
-          <label className="form-label">Localidad más cercana</label>
+          <label className="form-label">{tt("Localidad más cercana","Cidade mais próxima")}</label>
           <input
             name="localidad"
             type="text"
             className="form-input"
-            placeholder="Ej: Corral de Bustos"
+            placeholder={tt("Ej: Corral de Bustos","Ex.: Ribeirão Preto")}
             value={form.localidad ?? ""}
             onChange={handleChange}
           />
@@ -444,13 +445,13 @@ export default function CampoForm({
         <h2 className="form-section-title form-section-title-editorial">
           <span className="form-section-number">03</span>
           <span className="form-section-icon" aria-hidden="true"><Sprout size={24} strokeWidth={1.8} /></span>
-          <span className="form-section-copy"><span>Características</span> <em>productivas</em></span>
+          <span className="form-section-copy"><span>{tt("Características","Características")}</span> <em>{tt("productivas","produtivas")}</em></span>
         </h2>
 
         <div className="form-row">
           <div className="form-field">
             <label className="form-label">
-              Hectáreas <span className="required">*</span>
+              {tt("Hectáreas","Hectares")} <span className="required">*</span>
             </label>
             <input
               name="hectareas"
@@ -465,7 +466,7 @@ export default function CampoForm({
           </div>
           <div className="form-field">
             <label className="form-label">
-              Aptitud <span className="required">*</span>
+              {tt("Aptitud","Aptidão")} <span className="required">*</span>
             </label>
             <select
               name="aptitud"
@@ -475,7 +476,7 @@ export default function CampoForm({
             >
               {APTITUDES.map((a) => (
                 <option key={a.value} value={a.value}>
-                  {a.label}
+                  {countryCode==="BR"?({agricola:"Agrícola",ganadera:"Pecuária",mixta:"Mista",forestal:"Florestal",otro:"Outro"} as Record<string,string>)[a.value]??a.label:a.label}
                 </option>
               ))}
             </select>
@@ -484,18 +485,18 @@ export default function CampoForm({
 
         <div className="form-row">
           <div className="form-field">
-            <label className="form-label">Ambiente / Suelo</label>
+            <label className="form-label">{tt("Ambiente / Suelo","Ambiente / Solo")}</label>
             <input
               name="ambiente"
               type="text"
               className="form-input"
-              placeholder="Ej: Agrícola típico, suelos profundos"
+              placeholder={tt("Ej: Agrícola típico, suelos profundos","Ex.: Solo fértil e profundo")}
               value={form.ambiente ?? ""}
               onChange={handleChange}
             />
           </div>
           <div className="form-field">
-            <label className="form-label">Rendimiento estimado (qq/ha)</label>
+            <label className="form-label">{tt("Rendimiento estimado (qq/ha)","Produtividade estimada (qq/ha)")}</label>
             <input
               name="rendimiento_estimado"
               type="text"
@@ -518,8 +519,7 @@ export default function CampoForm({
             }
           />
           <label htmlFor="mejoras" className="form-check-label">
-            El campo tiene mejoras (galpones, corrales, silos, perforaciones,
-            etc.)
+            {tt("El campo tiene mejoras (galpones, corrales, silos, perforaciones, etc.)","A propriedade possui benfeitorias (galpões, currais, silos, poços etc.)")}
           </label>
         </div>
       </div>
@@ -529,36 +529,36 @@ export default function CampoForm({
         <h2 className="form-section-title form-section-title-editorial">
           <span className="form-section-number">04</span>
           <span className="form-section-icon" aria-hidden="true"><WalletCards size={24} strokeWidth={1.8} /></span>
-          <span className="form-section-copy"><span>Precio</span> <em>y disponibilidad</em></span>
+          <span className="form-section-copy"><span>{tt("Precio","Preço")}</span> <em>{tt("y disponibilidad","e disponibilidade")}</em></span>
         </h2>
 
         <div className="form-field">
           <label className="form-label">
-            Tipo de operación <span className="required">*</span>
+            {tt("Tipo de operación","Tipo de operação")} <span className="required">*</span>
           </label>
           <div className="rc-operation-select">
             <select
               name="operacion"
-              aria-label="Tipo de operación"
+              aria-label={tt("Tipo de operación","Tipo de operação")}
               className="form-input form-select"
             value={form.operacion}
             onChange={handleChange}
             required
           >
-            <option value="alquiler">Alquiler</option>
-            <option value="venta">Venta</option>
-            <option value="ambas">Alquiler y venta</option>
+            <option value="alquiler">{tt("Alquiler","Arrendamento")}</option>
+            <option value="venta">{tt("Venta","Venda")}</option>
+            <option value="ambas">{tt("Alquiler y venta","Arrendamento e venda")}</option>
             </select>
             <span className="rc-operation-chevron" aria-hidden="true" />
           </div>
           <span className="geocoder-hint">
-            RentoCampo está orientado principalmente al alquiler rural. Si también evaluás vender, podés indicarlo acá.
+            {tt("RentoCampo está orientado principalmente al alquiler rural. Si también evaluás vender, podés indicarlo acá.","A RentoCampo prioriza o arrendamento rural. Se também pretende vender, indique aqui.")}
           </span>
         </div>
 
         <div className="form-row">
           <div className="form-field form-field-price">
-            <label className="form-label">Precio total estimado</label>
+            <label className="form-label">{tt("Precio total estimado","Preço total estimado")}</label>
             <div className="input-with-prefix">
               <select
                 name="moneda"
@@ -573,6 +573,7 @@ export default function CampoForm({
                 {countryCode === "CL" && <option value="CLP">CLP</option>}
                 {countryCode === "BO" && <option value="BOB">BOB</option>}
                 {countryCode === "PE" && <option value="PEN">PEN</option>}
+                {countryCode === "BR" && <option value="BRL">BRL</option>}
               </select>
               <input
                 name="precio"
@@ -586,7 +587,7 @@ export default function CampoForm({
             </div>
           </div>
           <div className="form-field">
-            <label className="form-label">Disponibilidad</label>
+            <label className="form-label">{tt("Disponibilidad","Disponibilidade")}</label>
             <select
               name="disponibilidad"
               className="form-input form-select"
@@ -595,7 +596,7 @@ export default function CampoForm({
             >
               {DISPONIBILIDADES.map((d) => (
                 <option key={d.value} value={d.value}>
-                  {d.label}
+                  {countryCode==="BR"?({inmediata:"Imediata","campaña_próxima":"Próxima safra",a_convenir:"A combinar"} as Record<string,string>)[d.value]??d.label:d.label}
                 </option>
               ))}
             </select>
@@ -608,8 +609,8 @@ export default function CampoForm({
         <h2 className="form-section-title form-section-title-editorial">
           <span className="form-section-number">05</span>
           <span className="form-section-icon" aria-hidden="true"><Images size={24} strokeWidth={1.8} /></span>
-          <span className="form-section-copy"><span>Fotos</span> <em>del campo</em></span>
-          <span className="form-section-hint">(máx. 8)</span>
+          <span className="form-section-copy"><span>{tt("Fotos","Fotos")}</span> <em>{tt("del campo","da propriedade")}</em></span>
+          <span className="form-section-hint">{tt("(máx. 8)","(máx. 8)")}</span>
         </h2>
 
         <div className="fotos-grid">
@@ -626,11 +627,11 @@ export default function CampoForm({
                 type="button"
                 className="foto-remove"
                 onClick={() => removeFoto(i)}
-                title="Eliminar foto"
+                title={tt("Eliminar foto","Excluir foto")}
               >
                 ×
               </button>
-              {i === 0 && <span className="foto-principal">Principal</span>}
+              {i === 0 && <span className="foto-principal">{tt("Principal","Principal")}</span>}
             </div>
           ))}
           {fotos.length < 8 && (
@@ -642,7 +643,7 @@ export default function CampoForm({
             >
               <span className="foto-add-icon">+</span>
               <span className="foto-add-label">
-                {uploading ? "Subiendo..." : "Agregar foto"}
+                {uploading ? tt("Subiendo...","Enviando...") : tt("Agregar foto","Adicionar foto")}
               </span>
             </button>
           )}
@@ -666,19 +667,19 @@ export default function CampoForm({
           onClick={(e) => handleSubmit(e, "borrador")}
           disabled={saving}
         >
-          {saving ? "Guardando..." : "Guardar borrador"}
+          {saving ? tt("Guardando...","Salvando...") : tt("Guardar borrador","Salvar rascunho")}
         </button>
         <button
           type="button"
           className="btn-primary-lg"
           onClick={(e) => handleSubmit(e, "activo")}
-          disabled={saving || (!puedePublicar && !campoId)}
+          disabled={saving || (!FREE_PUBLICATIONS_ENABLED && !puedePublicar && !campoId)}
         >
           {saving
-            ? "Publicando..."
-            : !puedePublicar && !campoId
-              ? "Sin cupo disponible"
-              : "Publicar campo"}
+            ? tt("Publicando...","Publicando...")
+            : !FREE_PUBLICATIONS_ENABLED && !puedePublicar && !campoId
+              ? tt("Sin cupo disponible","Sem vagas disponíveis")
+              : tt("Publicar campo","Anunciar terra")}
         </button>
       </div>
     </form>

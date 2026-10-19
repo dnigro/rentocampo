@@ -4,7 +4,8 @@ import { COUNTRIES, resolveCountry } from "@/data/countries";
 import Link from "next/link";
 import Image from "next/image";
 import { createClient } from "@/lib/supabase/server";
-import { SERVICIOS_RURALES, SERVICIO_LABEL } from "@/data/servicios-rurales";
+import { SERVICIOS_RURALES, servicioLabel } from "@/data/servicios-rurales";
+import { regionalText } from "@/lib/i18n/regional";
 import type { ServicioRural } from "@/types";
 import ListingHeader from "@/components/listings/ListingHeader";
 import ListingCountrySelector from "@/components/listings/ListingCountrySelector";
@@ -39,7 +40,7 @@ type SearchParams = {
 export async function generateMetadata({ searchParams }: { searchParams: Promise<SearchParams> }): Promise<Metadata> {
   const params = await searchParams;
   const pais = resolveCountry(params.pais, (await cookies()).get("rentocampo_country")?.value);
-  const title = `Servicios rurales en ${COUNTRIES[pais].name} | RentoCampo`;
+  const title = `${pais === "BR" ? "Serviços rurais" : "Servicios rurales"} en ${COUNTRIES[pais].name} | RentoCampo`.replace("Serviços rurais en", "Serviços rurais no");
   // A single canonical for Argentina; other countries have explicit, stable URLs.
   // Faceted searches must not compete with the main landing in Google.
   const url = pais === "AR" ? `${SITE_URL}/servicios-rurales` : `${SITE_URL}/servicios-rurales?pais=${pais}`;
@@ -48,7 +49,7 @@ export async function generateMetadata({ searchParams }: { searchParams: Promise
   return {
     ...baseMetadata,
     title,
-    description: `Encontrá servicios rurales en ${COUNTRIES[pais].name} por especialidad y zona.`,
+    description: pais==="BR"?`Encontre serviços rurais no Brasil por categoria e região.`:`Encontrá servicios rurales en ${COUNTRIES[pais].name} por especialidad y zona.`,
     alternates: { canonical: url },
     robots: { index: !hasFilters && (pais === "AR" || hasExplicitCountry), follow: true },
     openGraph: { ...baseMetadata.openGraph, title, url, locale: COUNTRIES[pais].locale.replace("-", "_") },
@@ -101,6 +102,7 @@ export default async function ServiciosRuralesPage({
   const params = await searchParams;
   const saved = (await cookies()).get("rentocampo_country")?.value;
   const pais = resolveCountry(params.pais, saved);
+  const tt=(es:string,pt:string)=>regionalText(pais,es,pt);
   const provincia = params.provincia ?? "";
   const servicioValido = SERVICIOS_RURALES.some((item) => item.value === params.servicio)
     ? (params.servicio as ServicioRural)
@@ -160,6 +162,10 @@ export default async function ServiciosRuralesPage({
           "10000000-0000-4000-8000-000000000013",
           "10000000-0000-4000-8000-000000000014",
           "10000000-0000-4000-8000-000000000015",
+          "10000000-0000-4000-8000-000000000016",
+          "10000000-0000-4000-8000-000000000017",
+          "10000000-0000-4000-8000-000000000018",
+          "10000000-0000-4000-8000-000000000019",
         ].includes(item.id),
       )
       .map((item) => ({
@@ -175,7 +181,7 @@ export default async function ServiciosRuralesPage({
     "@graph": [
       {
         "@type": "CollectionPage",
-        name: `Servicios rurales en ${COUNTRIES[pais].name}`,
+        name: `${pais==="BR"?"Serviços rurais no":"Servicios rurales en"} ${COUNTRIES[pais].name}`,
         description:
           "Contratistas y prestadores de servicios rurales por especialidad y zona.",
         url: `${SITE_URL}/servicios-rurales`,
@@ -208,15 +214,15 @@ export default async function ServiciosRuralesPage({
       <section className="explorador-layout explorador-layout-results-first" aria-labelledby="servicios-disponibles-titulo">
         <ListingHeader
           id="servicios-disponibles-titulo"
-          title={`Servicios rurales en ${COUNTRIES[pais].name}`}
-          count={`${prestadores.length} prestador${prestadores.length !== 1 ? "es" : ""} encontrado${prestadores.length !== 1 ? "s" : ""}`}
+          title={`${tt("Servicios rurales en", "Serviços rurais no")} ${COUNTRIES[pais].name}`}
+          count={pais==="BR"?`${prestadores.length} prestador${prestadores.length !== 1?"es":""} encontrado${prestadores.length!==1?"s":""}`:`${prestadores.length} prestador${prestadores.length !== 1 ? "es" : ""} encontrado${prestadores.length !== 1 ? "s" : ""}`}
         />
 
       <nav className="explorador-switch" aria-label="Explorar otras publicaciones">
-          <Link href={`/campos?pais=${pais}`}>Ver campos →</Link>
+          <Link href={`/campos?pais=${pais}`}>{tt("Ver campos →", "Ver terras →")}</Link>
         </nav>
 
-        <div className="rc-listing-map-country"><Link href={`/campos/mapa?${mapParams.toString()}`} className="listing-button rc-map-before-listings">Ver en mapa →</Link><ListingCountrySelector country={pais} /></div>
+        <div className="rc-listing-map-country"><Link href={`/campos/mapa?${mapParams.toString()}`} className="listing-button rc-map-before-listings">{tt("Ver en mapa →", "Ver no mapa →")}</Link><ListingCountrySelector country={pais} /></div>
 
         <div className="explorador-main">
           {prestadores.length > 0 ? (
@@ -238,7 +244,7 @@ export default async function ServiciosRuralesPage({
 
                     <div className="prestador-card__top">
                       <span className="prestador-card__badge">
-                        {prestador.is_demo ? "DEMO" : "SERVICIO RURAL"}
+                        {prestador.is_demo ? "DEMO" : tt("SERVICIO RURAL","SERVIÇO RURAL")}
                       </span>
                       <span className="prestador-card__provincia">
                         {prestador.provincia_servicio}
@@ -254,14 +260,14 @@ export default async function ServiciosRuralesPage({
 
                     <div className="prestador-card__tags">
                       {servicios.slice(0, 4).map((item) => (
-                        <span key={item}>{SERVICIO_LABEL[item] ?? item}</span>
+                        <span key={item}>{servicioLabel(item,pais)}</span>
                       ))}
                       {servicios.length > 4 && <span>+{servicios.length - 4}</span>}
                     </div>
 
                     {prestador.zona_servicio && (
                       <p className="prestador-card__zona">
-                        <strong>Zona:</strong> {prestador.zona_servicio}
+                        <strong>{tt("Zona:", "Região:")}</strong> {prestador.zona_servicio}
                       </p>
                     )}
 
@@ -272,19 +278,19 @@ export default async function ServiciosRuralesPage({
                     <div className="prestador-card__actions">
                       {prestador.is_demo ? (
                         <Link href={`/servicios-rurales/${prestador.id}`}>
-                          Ver ficha DEMO →
+                          {tt("Ver ficha DEMO →", "Ver anúncio DEMO →")}
                         </Link>
                       ) : user?.id === prestador.id ? (
                         <span className="prestador-card__own">
-                          Este servicio es tuyo
+                          {tt("Este servicio es tuyo", "Este serviço é seu")}
                         </span>
                       ) : !user ? (
                         <Link href="/login?next=/servicios-rurales">
-                          Ingresá para consultar →
+                          {tt("Ingresá para consultar →", "Entre para consultar →")}
                         </Link>
                       ) : (
                         <Link href={prestador.publicacion_id ? `/servicios-rurales/${prestador.publicacion_id}` : `/servicios-rurales?prestador=${prestador.id}`}>
-                          Ver ficha →
+                          {tt("Ver ficha →", "Ver anúncio →")}
                         </Link>
                       )}
                     </div>
@@ -294,9 +300,9 @@ export default async function ServiciosRuralesPage({
             </div>
           ) : (
             <div className="servicios-empty">
-              <strong>No encontramos prestadores con estos filtros.</strong>
-              <p>Probá otra provincia o rubro, o limpiá los filtros.</p>
-              <Link href={`/servicios-rurales?pais=${pais}`}>Ver todos los servicios →</Link>
+              <strong>{tt("No encontramos prestadores con estos filtros.", "Não encontramos prestadores com esses filtros.")}</strong>
+              <p>{tt("Probá otra provincia o rubro, o limpiá los filtros.", "Tente outro estado ou categoria, ou limpe os filtros.")}</p>
+              <Link href={`/servicios-rurales?pais=${pais}`}>{tt("Ver todos los servicios →", "Ver todos os serviços →")}</Link>
             </div>
           )}
 
@@ -312,15 +318,15 @@ export default async function ServiciosRuralesPage({
 
       <section className="servicios-section servicios-bordered" aria-labelledby="como-titulo">
         <div className="servicios-heading">
-          <span>Simple y directo</span>
-          <h2 id="como-titulo">Conectate en tres pasos.</h2>
+          <span>{tt("Simple y directo", "Simples e direto")}</span>
+          <h2 id="como-titulo">{tt("Conectate en tres pasos.", "Conecte-se em três passos.")}</h2>
         </div>
         <div className="servicios-pasos">
-          {pasos.map(([numero, titulo, texto]) => (
+          {pasos.map(([numero, titulo, texto],index) => (
             <article key={numero}>
               <span>{numero}</span>
-              <h3>{titulo}</h3>
-              <p>{texto}</p>
+              <h3>{pais==="BR"?["Busque por serviço","Encontre prestadores","Entre em contato"][index]:titulo}</h3>
+              <p>{pais==="BR"?["Escolha o serviço de que sua terra precisa.","Filtre por estado e encontre profissionais em sua região.","Converse diretamente pela RentoCampo, sem intermediários."][index]:texto}</p>
             </article>
           ))}
         </div>
@@ -328,14 +334,14 @@ export default async function ServiciosRuralesPage({
 
       <section className="servicios-section servicios-bordered" aria-labelledby="faq-titulo">
         <div className="servicios-heading">
-          <span>Preguntas frecuentes</span>
-          <h2 id="faq-titulo">Todo claro desde el inicio.</h2>
+          <span>{tt("Preguntas frecuentes", "Perguntas frequentes")}</span>
+          <h2 id="faq-titulo">{tt("Todo claro desde el inicio.", "Tudo claro desde o início.")}</h2>
         </div>
         <div className="servicios-faq-list">
-          {preguntas.map((item) => (
+          {preguntas.map((item,index) => (
             <details key={item.pregunta}>
-              <summary>{item.pregunta}</summary>
-              <p>{item.respuesta}</p>
+              <summary>{pais==="BR"?["Buscar serviços rurais tem custo?","Que tipos de serviços posso encontrar?","Como anuncio os serviços que ofereço?"][index]:item.pregunta}</summary>
+              <p>{pais==="BR"?["Não. Cadastro, busca e contato com prestadores são gratuitos nesta etapa.","Encontre plantio, colheita, máquinas, transporte, cercas, veterinária, agronomia e outros serviços rurais.","Crie sua conta como prestador, escolha seus serviços e informe onde atende."][index]:item.respuesta}</p>
             </details>
           ))}
         </div>
@@ -343,14 +349,14 @@ export default async function ServiciosRuralesPage({
 
       <section className="servicios-cta">
         <div>
-          <span>¿Trabajás para el campo?</span>
-          <h2>Mostrá tus servicios en todo el país.</h2>
+          <span>{tt("¿Trabajás para el campo?", "Você trabalha para o campo?")}</span>
+          <h2>{tt("Mostrá tus servicios en todo el país.", "Anuncie seus serviços em todo o Brasil.")}</h2>
         </div>
         <Link
           href={ofrecerServiciosHref}
           className="servicios-btn servicios-btn-yellow"
         >
-          Crear perfil gratis →
+          {tt("Crear perfil gratis →", "Criar perfil grátis →")}
         </Link>
       </section>
     </div>

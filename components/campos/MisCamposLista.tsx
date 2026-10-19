@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import type { Campo } from "@/types";
+import { useTranslations } from "@/lib/i18n/useTranslations";
 
 interface Props {
   campos: (Campo & { fotos: { url: string; orden: number }[] })[];
@@ -18,6 +19,8 @@ const ESTADO_LABEL: Record<string, { label: string; class: string }> = {
 };
 
 export default function MisCamposLista({ campos }: Props) {
+  const {country}=useTranslations();
+  const tt=(es:string,pt:string)=>country==="BR"?pt:es;
   const [lista, setLista] = useState(campos);
   const supabase = createClient();
 
@@ -31,7 +34,7 @@ export default function MisCamposLista({ campos }: Props) {
 
   async function eliminarCampo(id: string, titulo: string) {
     const confirmar = window.confirm(
-      `¿Eliminar “${titulo}”? Esta acción no se puede deshacer y no recupera el cupo de publicación utilizado.`,
+      tt(`¿Eliminar “${titulo}”? Esta acción no se puede deshacer y no recupera el cupo de publicación utilizado.`,`Excluir “${titulo}”? Esta ação não pode ser desfeita e não devolve a vaga de anúncio utilizada.`),
     );
 
     if (!confirmar) return;
@@ -43,7 +46,7 @@ export default function MisCamposLista({ campos }: Props) {
     const result = await response.json().catch(() => null);
 
     if (!response.ok) {
-      window.alert(result?.error ?? "No se pudo eliminar el campo.");
+      window.alert(result?.error ?? tt("No se pudo eliminar el campo.","Não foi possível excluir a terra."));
       return;
     }
 
@@ -54,12 +57,12 @@ export default function MisCamposLista({ campos }: Props) {
     return (
       <div className="empty-state">
         <span className="empty-icon">🌾</span>
-        <p className="empty-title">No tenés campos publicados</p>
+        <p className="empty-title">{tt("No tenés campos publicados","Você não tem terras anunciadas")}</p>
         <p className="empty-desc">
-          Publicá tu primer campo y empezá a recibir consultas de productores.
+          {tt("Publicá tu primer campo y empezá a recibir consultas de productores.","Anuncie sua primeira terra e comece a receber consultas de produtores.")}
         </p>
         <Link href="/mis-campos/nuevo" className="btn-primary-lg">
-          Publicar mi primer campo
+          {tt("Publicar mi primer campo","Anunciar minha primeira terra")}
         </Link>
       </div>
     );
@@ -87,7 +90,7 @@ export default function MisCamposLista({ campos }: Props) {
                 <div className="campo-card-img-placeholder">🌿</div>
               )}
               <span className={`estado-badge ${estado.class}`}>
-                {estado.label}
+                {tt(estado.label,({Activo:"Ativo",Borrador:"Rascunho",Pausado:"Pausado",Arrendado:"Arrendado"} as Record<string,string>)[estado.label]??estado.label)}
               </span>
             </div>
 
@@ -99,14 +102,14 @@ export default function MisCamposLista({ campos }: Props) {
                   .join(", ")}
               </p>
               <div className="campo-card-datos">
-                <span>{campo.hectareas.toLocaleString("es-AR")} ha</span>
+                <span>{campo.hectareas.toLocaleString(country==="BR"?"pt-BR":"es-AR")} ha</span>
                 <span className="dot">·</span>
                 <span className="capitalize">{campo.aptitud}</span>
                 {campo.precio && (
                   <>
                     <span className="dot">·</span>
                     <span>
-                      {campo.moneda} {campo.precio.toLocaleString("es-AR")}
+                      {campo.moneda} {campo.precio.toLocaleString(country==="BR"?"pt-BR":"es-AR")}
                       total
                     </span>
                   </>
@@ -119,13 +122,13 @@ export default function MisCamposLista({ campos }: Props) {
                 href={`/mis-campos/${campo.id}/editar`}
                 className="btn-action"
               >
-                Editar
+                {tt("Editar","Editar")}
               </Link>
               <button
                 onClick={() => toggleEstado(campo.id, campo.status)}
                 className="btn-action"
               >
-                {campo.status === "activo" ? "Pausar" : "Activar"}
+                {campo.status === "activo" ? tt("Pausar","Pausar") : tt("Activar","Ativar")}
               </button>
               {campo.status === "activo" && (
                 <Link
@@ -133,7 +136,7 @@ export default function MisCamposLista({ campos }: Props) {
                   className="btn-action"
                   target="_blank"
                 >
-                  Ver
+                  {tt("Ver","Ver")}
                 </Link>
               )}
               <button
@@ -141,7 +144,7 @@ export default function MisCamposLista({ campos }: Props) {
                 onClick={() => eliminarCampo(campo.id, campo.titulo)}
                 className="btn-action btn-action-danger"
               >
-                Eliminar
+                {tt("Eliminar","Excluir")}
               </button>
             </div>
           </div>

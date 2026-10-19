@@ -1,0 +1,135 @@
+import { chromium } from "playwright";
+import { mkdirSync, writeFileSync } from "node:fs";
+import { spawn } from "node:child_process";
+
+const origin = "http://127.0.0.1:3000";
+const expectedUat = "https://wibqszhvuvpjycheaxzi.supabase.co";
+if (process.env.NEXT_PUBLIC_SUPABASE_URL !== expectedUat ||
+    !process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY?.startsWith("sb_publishable_") ||
+    process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.MERCADOPAGO_ACCESS_TOKEN ||
+    process.env.RESEND_API_KEY || process.env.VERCEL_ENV) {
+  throw new Error("Refusing test with production, payment, email or privileged credentials.");
+}
+const countries = [
+  {code:"AR",field:"044",service:"016",place:"Pergamino"},
+  {code:"UY",field:"045",service:"017",place:"Colonia"},
+  {code:"PY",field:"046",service:"018",place:"Itapúa"},
+  {code:"CL",field:"041",service:"013",place:"Ñuble"},
+  {code:"BO",field:"042",service:"014",place:"Santa Cruz"},
+  {code:"PE",field:"043",service:"015",place:"Junín"},
+  {code:"BR",field:"047",service:"019",place:"Ribeirão Preto"}
+];
+const fieldId = code => "20000000-0000-4000-8000-000000000" + code;
+const serviceId = code => "10000000-0000-4000-8000-000000000" + code;
+const reports = [];
+mkdirSync("test-results/seven-country", {recursive:true});
+const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+let server;
+async function check(name, callback, page) {
+  try { await callback(); reports.push({name, status:"PASS"}); console.log("PASS "+name); }
+  catch(e) {
+    reports.push({name,status:"FAIL",detail:String(e).slice(0,1500)});
+    console.error("FAIL "+name+" "+String(e).slice(0,500));
+    if (page && !page.isClosed()) await page.screenshot({path:"test-results/seven-country/failure-"+reports.length+".png",fullPage:true,timeout:4000}).catch(()=>{});
+  }
+}
+async function open(page,path,selector) {
+  const res=await page.goto(origin+path,{waitUntil:"domcontentloaded",timeout:25000});
+  if(res?.status()!==200)throw Error("HTTP "+res?.status()+" for "+path);
+  await page.locator(selector).first().waitFor({state:"visible",timeout:12000});
+}
+async function waitReady() {
+  for(let n=0;n<120;n++){
+    if(server.exitCode!==null)throw Error("Next server exited before ready");
+    try{const res=await fetch(origin+"/login",{signal:AbortSignal.timeout(1200)});if(res.status===200)return;}catch{}
+    await sleep(500);
+  }
+  throw Error("UAT server did not start");
+}
+async function run() {
+  server=spawn(process.execPath,["node_modules/next/dist/bin/next","start","--hostname","127.0.0.1","--port","3000"],{
+    env:{...process.env,NEXT_TELEMETRY_DISABLED:"1"},stdio:"ignore"
+  });
+  await waitReady();
+  const browser=await chromium.launch();
+  try {
+    for (const size of [{name:"desktop",width:1440,height:900},{name:"mobile",width:390,height:844}]) {
+      const context=await browser.newContext({viewport:size,locale:"es-AR"});
+      await context.route(/(googletagmanager|google-analytics|analytics.google)/,r=>r.abort());
+      try {
+        const page=await context.newPage();
+        await check(size.name+" country changes on first selection",async()=>{
+          await open(page,"/?pais=AR",".navbar");
+          const sel=size.name==="desktop"?page.locator(".navbar-desktop select"):page.locator(".navbar-mobile-right select");
+          await sel.selectOption("BR");
+          await page.waitForFunction(() => new URL(location.href).searchParams.get("pais")==="BR",null,{timeout:7500});
+          if(await sel.inputValue()!=="BR")throw Error("Double selection required");
+          const lang=await page.evaluate(()=>document.documentElement.lang);
+          if(lang!=="pt-BR")throw Error("Locale not switched: "+lang);
+          await page.getByText("GRÁTIS PARA O CAMPO.",{exact:false}).first().waitFor({state:"visible",timeout:8000});
+          const cookie=await context.cookies();if(!cookie.find(c=>c.name==="rentocampo_country"&&c.value==="BR"))throw Error("Country cookie not persisted");
+          await sel.selectOption("AR");
+          await page.waitForFunction(() => new URL(location.href).searchParams.get("pais")==="AR",null,{timeout:7500});
+          if(await sel.inputValue()!=="AR")throw Error("Could not switch back on first selection");
+        },page);
+        await check(size.name+" free home and no pack calls-to-action",async()=>{
+          await open(page,"/?pais=AR",".rc-faq");
+          const faq=(await page.locator(".rc-faq").innerText()).toLowerCase();
+          if(!faq.includes("100% gratis") || faq.includes("pack tierra productiva"))throw Error("Paid pack marketing visible");
+        },page);
+        for(const x of countries){
+          await context.addCookies([{name:"rentocampo_country",value:x.code,url:origin}]);
+          await check(size.name+" "+x.code+" field DEMO listing, photo and safe detail",async()=>{
+            await open(page,"/campos?pais="+x.code,".campo-card-pub");
+            const card=page.locator(".campo-card-pub").filter({has:page.locator('a[href="/campos/'+fieldId(x.field)+'"]')}).first();
+            await card.waitFor({state:"visible",timeout:9500});
+            if(!(await card.innerText()).includes("DEMO"))throw Error("No DEMO label on card");
+            const src=await card.locator("img").first().getAttribute("src");
+            if(!src?.includes("rentocampo-hero-campo-bn-1920x1080.webp"))throw Error("Wrong DEMO image "+src);
+            await open(page,"/campos/"+fieldId(x.field),".ficha-demo-notice");
+            const text=await page.locator(".ficha-demo-notice").innerText();
+            if(!text.includes("DEMO"))throw Error("Missing DEMO notice");
+            if(await page.locator(".btn-consultar").filter({hasText:/consultar campo|consultar terra/i}).count())throw Error("Commercial consultation enabled on DEMO");
+          },page);
+          await check(size.name+" "+x.code+" service DEMO listing, photo and detail",async()=>{
+            await open(page,"/servicios-rurales?pais="+x.code,'article.prestador-card[data-demo="true"]');
+            const card=page.locator('article.prestador-card[data-demo="true"]').filter({has:page.locator('a[href="/servicios-rurales/'+serviceId(x.service)+'"]')}).first();
+            await card.waitFor({state:"visible",timeout:9500});
+            const src=await card.locator("img").first().getAttribute("src");
+            if(!src?.includes("demo-servicio-veterinaria.jpg"))throw Error("Wrong service DEMO image: "+src);
+            await open(page,"/servicios-rurales/"+serviceId(x.service),".servicio-ficha");
+            if(!(await page.locator(".servicio-ficha").innerText()).match(/DEMO|demonstrativ|demostrativ/i))throw Error("Service DEMO disclaimer missing");
+          },page);
+          await check(size.name+" "+x.code+" map and Lite country views",async()=>{
+            await open(page,"/campos/mapa?pais="+x.code,".mapa-page");
+            await open(page,"/lite/campos","body");
+            if(!(await page.locator("body").innerText()).includes(x.place))throw Error("Lite fields miss DEMO");
+            await open(page,"/lite/servicios","body");
+            const content=await page.locator("body").innerText();
+            if(!content.includes(x.code==="BR"?"Ribeirão Preto":x.code==="PE"?"La Libertad":x.code==="CL"?"Maule":x.code==="BO"?"Santa Cruz":x.code==="PY"?"Itapúa":x.code==="UY"?"Colonia":"Pergamino"))throw Error("Lite services miss DEMO");
+          },page);
+        }
+        await check(size.name+" public login and recovery screens",async()=>{
+          await open(page,"/login?pais=BR","#password");
+          await open(page,"/recuperar-contrasena?pais=BR","#email");
+          await open(page,"/register?pais=BR","#country_code");
+          if(await page.locator("#country_code").inputValue()!=="BR")throw Error("BR signup not selected");
+        },page);
+        await context.close();
+      } catch (e) {await context.close();throw e;}
+    }
+    const response=await fetch(origin+"/api/billing/checkout",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({planId:"productiva"})});
+    await check("Direct paid checkout disabled across countries",async()=>{
+      const body=await response.json();
+      if(response.status!==403 || body.code!=="billing_paused")throw Error("Checkout remained available: "+response.status);
+    });
+  } finally { await browser.close(); }
+}
+try {await run();}
+finally {
+  server?.kill("SIGINT");
+  const status={candidate:process.env.UAT_CANDIDATE_SHA,scope:"isolated browser+public UAT data, no real signup or private role keys",checks:reports};
+  writeFileSync("test-results/seven-country/results.json",JSON.stringify(status,null,2));
+  console.log("UAT:",reports.filter(x=>x.status==="PASS").length,"pass,",reports.filter(x=>x.status==="FAIL").length,"fail");
+}
+if(reports.some(x=>x.status==="FAIL"))process.exitCode=1;

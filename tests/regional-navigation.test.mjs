@@ -1,15 +1,15 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { isCountryCode, resolveCountry, COUNTRIES } from '../data/countries.ts';
+import { isCountryCode, resolveCountry, COUNTRIES, getCountrySubdivisions } from '../data/countries.ts';
 import { campoFilterParams } from '../lib/campos/filter-params.ts';
 
-for (const country of ['AR', 'UY', 'PY', 'CL', 'BO', 'PE']) {
+for (const country of ['AR', 'UY', 'PY', 'CL', 'BO', 'PE', 'BR']) {
   test(`explicit ${country} overrides a different saved preference`, () => {
     assert.equal(resolveCountry(country, country === 'AR' ? 'PY' : 'AR'), country);
     assert.equal(isCountryCode(country), true);
   });
   test(`list/map round trip retains all ${country} filters`, () => {
-    const filters = {pais:country, provincia:country === 'UY' ? 'Artigas' : country === 'PY' ? 'Itapúa' : country === 'CL' ? 'Maule' : country === 'BO' ? 'Santa Cruz' : country === 'PE' ? 'Junín' : 'Santa Fe', operacion:'alquiler', aptitud:'ganadera', disponibilidad:'inmediata', hectareas_min:'10', hectareas_max:'200', precio_min:'1', precio_max:'1000'};
+    const filters = {pais:country, provincia:country === 'BR' ? 'São Paulo' : country === 'UY' ? 'Artigas' : country === 'PY' ? 'Itapúa' : country === 'CL' ? 'Maule' : country === 'BO' ? 'Santa Cruz' : country === 'PE' ? 'Junín' : 'Santa Fe', operacion:'alquiler', aptitud:'ganadera', disponibilidad:'inmediata', hectareas_min:'10', hectareas_max:'200', precio_min:'1', precio_max:'1000'};
     const map = campoFilterParams({...filters, page:'2', unknown:'discard'});
     assert.deepEqual(Object.fromEntries(map), filters);
     assert.deepEqual(Object.fromEntries(campoFilterParams(Object.fromEntries(map))), filters);
@@ -43,4 +43,36 @@ test('UAT preview removes inherited private/paid credentials while keeping publi
 });
 test('UAT preview cannot start against another database', () => {
  assert.throws(()=>enforceUatIsolation({VERCEL_ENV:'preview',VERCEL_GIT_COMMIT_REF:'feat/regional-six-countries-20261015',NEXT_PUBLIC_SUPABASE_URL:'https://other.invalid'}),/UAT isolation/);
+});
+
+
+test('Brazil exposes all 27 federative units and BRL/pt-BR configuration', () => {
+  const states = getCountrySubdivisions('BR');
+  assert.equal(states.length, 27);
+  assert.equal(new Set(states).size, 27);
+  assert.ok(states.includes('Distrito Federal'));
+  assert.ok(states.includes('São Paulo'));
+  assert.ok(states.includes('Mato Grosso'));
+  assert.equal(COUNTRIES.BR.locale, 'pt-BR');
+  assert.equal(COUNTRIES.BR.currency, 'BRL');
+  assert.equal(COUNTRIES.BR.subdivisionLabel, 'Estado');
+  assert.equal(resolveCountry(undefined, 'BR'), 'BR');
+});
+
+test('Brazil preview fails closed without isolated credentials', () => {
+  assert.throws(() => enforceUatIsolation({VERCEL_ENV:'preview', VERCEL_GIT_COMMIT_REF:'feat/brasil-foundation-20261019'}), /UAT isolation/);
+});
+
+test('Brazil UAT branch overrides an inherited production publishable key', () => {
+  const base = {
+    VERCEL_ENV: 'preview',
+    VERCEL_GIT_COMMIT_REF: 'feat/brasil-foundation-20261019',
+    NEXT_PUBLIC_SUPABASE_URL: 'https://production.supabase.co',
+    NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: 'sb_publishable_wrong',
+    UAT_SUPABASE_PUBLISHABLE_KEY: 'sb_publishable_uat_fixture',
+  };
+  assert.throws(() => enforceUatIsolation({ ...base, UAT_SUPABASE_PUBLISHABLE_KEY: undefined }), /branch-specific UAT credentials/);
+  enforceUatIsolation(base);
+  assert.equal(base.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY, 'sb_publishable_uat_fixture');
+  assert.equal(base.NEXT_PUBLIC_SUPABASE_URL, 'https://wibqszhvuvpjycheaxzi.supabase.co');
 });

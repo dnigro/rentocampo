@@ -7,8 +7,8 @@ import {
   type CommercialIdentity,
 } from "@/lib/analytics/commercial-filters";
 
-export const COUNTRY_CODES = ["AR", "UY", "PY", "CL", "BO", "PE"] as const;
-export type CountryCode = (typeof COUNTRY_CODES)[number];
+import { COUNTRY_CODES, type CountryCode } from "@/data/countries";
+export { COUNTRY_CODES, type CountryCode };
 
 type AuthIdentity = CommercialIdentity & { id: string };
 type ProfileRow = { id: string; country_code: string | null; created_at: string };

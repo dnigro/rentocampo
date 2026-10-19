@@ -7,6 +7,8 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 import { COUNTRIES, COUNTRY_CODES, type CountryCode } from "@/data/countries";
 import { trackEvent } from "@/lib/analytics";
+import { regionalText } from "@/lib/i18n/regional";
+import { translate } from "@/lib/i18n/messages";
 
 export default function RegisterForm({ initialCountry: paisInicial, initialRole: tipoInicial }: { initialCountry: CountryCode; initialRole: "propietario" | "productor" | "prestador" }) {
   const [form, setForm] = useState({
@@ -16,6 +18,8 @@ export default function RegisterForm({ initialCountry: paisInicial, initialRole:
     tipo: tipoInicial as "propietario" | "productor" | "prestador",
     country_code: paisInicial,
   });
+  const tt=(es:string,pt:string)=>regionalText(form.country_code,es,pt);
+  const t=(key: Parameters<typeof translate>[1])=>translate(form.country_code,key);
   const [error, setError] = useState("");
   const [accountExists, setAccountExists] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -47,14 +51,14 @@ export default function RegisterForm({ initialCountry: paisInicial, initialRole:
 
     if (form.password.length < 6) {
       trackEvent("registro_error", { motivo: "password_corta", rol: form.tipo, pais: form.country_code });
-      setError("La contraseña debe tener al menos 6 caracteres.");
+      setError(t("auth.passwordTooShort"));
       setLoading(false);
       return;
     }
 
     if (!acceptedTerms) {
       trackEvent("registro_error", { motivo: "terminos", rol: form.tipo, pais: form.country_code });
-      setError("Para crear tu cuenta, aceptá los términos y condiciones.");
+      setError(tt("Para crear tu cuenta, aceptá los términos y condiciones.", "Para criar sua conta, aceite os termos e condições."));
       setLoading(false);
       return;
     }
@@ -102,10 +106,10 @@ export default function RegisterForm({ initialCountry: paisInicial, initialRole:
       } else {
         setError(
           isEmailLimit
-            ? "Ahora no podemos enviar el correo de activación. Probá nuevamente más tarde."
+            ? tt("Ahora no podemos enviar el correo de activación. Probá nuevamente más tarde.", "Não foi possível enviar o e-mail de ativação agora. Tente novamente mais tarde.")
             : normalizedError.includes("password")
-              ? "La contraseña no cumple los requisitos mínimos."
-              : `No pudimos crear la cuenta: ${error.message}`,
+              ? tt("La contraseña no cumple los requisitos mínimos.", "A senha não atende aos requisitos mínimos.")
+              : tt(`No pudimos crear la cuenta: ${error.message}`, `Não foi possível criar a conta: ${error.message}`),
         );
       }
       setLoading(false);
@@ -148,16 +152,16 @@ export default function RegisterForm({ initialCountry: paisInicial, initialRole:
     <div className="auth-page auth-page-register">
       <div className="auth-card">
         <div className="auth-header">
-          <h1 className="auth-title">Crear cuenta</h1>
-          <p className="auth-subtitle">Empezá a usar RentoCampo gratis</p>
+          <h1 className="auth-title">{tt("Crear cuenta", "Criar conta")}</h1>
+          <p className="auth-subtitle">{tt("Empezá a usar RentoCampo gratis", "Comece a usar a RentoCampo gratuitamente")}</p>
         </div>
 
         <form className="auth-form" onSubmit={handleSubmit} onFocusCapture={handleFirstInteraction}>
           {accountExists && (
             <div className="auth-error" role="alert">
-              <strong>La cuenta ya está registrada.</strong>{" "}
-              <Link href="/login">Ingresá con tu contraseña</Link> o{" "}
-              <Link href="/recuperar-contrasena">recuperala acá</Link>.
+              <strong>{tt("La cuenta ya está registrada.", "Esta conta já está cadastrada.")}</strong>{" "}
+              <Link href="/login">{tt("Ingresá con tu contraseña", "Entre com sua senha")}</Link> {tt("o", "ou")}{" "}
+              <Link href="/recuperar-contrasena">{tt("recuperala acá", "recupere-a aqui")}</Link>.
             </div>
           )}
           {error && (
@@ -167,7 +171,7 @@ export default function RegisterForm({ initialCountry: paisInicial, initialRole:
           )}
 
           <div className="form-field">
-            <label className="form-label">Soy...</label>
+            <label className="form-label">{tt("Soy...", "Sou...")}</label>
             <div className="tipo-selector">
               <div className="tipo-option">
                 <input
@@ -180,9 +184,9 @@ export default function RegisterForm({ initialCountry: paisInicial, initialRole:
                 />
                 <label htmlFor="tipo-propietario" className="tipo-label">
                   <span className="tipo-emoji" aria-hidden="true"><LandPlot size={30} strokeWidth={1.8} /></span>
-                  <span className="tipo-nombre">Propietario</span>
+                  <span className="tipo-nombre">{tt("Propietario", "Proprietário")}</span>
                   <span className="tipo-desc">
-                    Tengo campo y quiero arrendar
+                    {tt("Tengo campo y quiero arrendar", "Tenho terra e quero arrendá-la")}
                   </span>
                 </label>
               </div>
@@ -197,8 +201,8 @@ export default function RegisterForm({ initialCountry: paisInicial, initialRole:
                 />
                 <label htmlFor="tipo-productor" className="tipo-label">
                   <span className="tipo-emoji" aria-hidden="true"><Sprout size={30} strokeWidth={1.8} /></span>
-                  <span className="tipo-nombre">Productor</span>
-                  <span className="tipo-desc">Busco tierra para producir</span>
+                  <span className="tipo-nombre">{tt("Productor", "Produtor")}</span>
+                  <span className="tipo-desc">{tt("Busco tierra para producir", "Procuro terra para produzir")}</span>
                 </label>
               </div>
               <div className="tipo-option">
@@ -212,9 +216,9 @@ export default function RegisterForm({ initialCountry: paisInicial, initialRole:
                 />
                 <label htmlFor="tipo-prestador" className="tipo-label">
                   <span className="tipo-emoji" aria-hidden="true"><Wrench size={30} strokeWidth={1.8} /></span>
-                  <span className="tipo-nombre">Servicios rurales</span>
+                  <span className="tipo-nombre">{tt("Servicios rurales", "Serviços rurais")}</span>
                   <span className="tipo-desc">
-                    Ofrezco servicios para el campo
+                    {tt("Ofrezco servicios para el campo", "Ofereço serviços para o campo")}
                   </span>
                 </label>
               </div>
@@ -225,7 +229,7 @@ export default function RegisterForm({ initialCountry: paisInicial, initialRole:
 
           <div className="form-field">
             <label className="form-label" htmlFor="country_code">
-              País
+              {t("filters.country")}
             </label>
             <select
               id="country_code"
@@ -238,13 +242,13 @@ export default function RegisterForm({ initialCountry: paisInicial, initialRole:
               {COUNTRY_CODES.map((code) => <option key={code} value={code}>{COUNTRIES[code].flag} {COUNTRIES[code].name}</option>)}
             </select>
             <span className="form-hint">
-              Usamos este dato para mostrarte campos, servicios y opciones de tu mercado.
+              {tt("Usamos este dato para mostrarte campos, servicios y opciones de tu mercado.", "Usamos este dado para mostrar terras, serviços e opções do seu mercado.")}
             </span>
           </div>
 
           <div className="form-field">
             <label className="form-label" htmlFor="nombre">
-              Nombre completo
+              {tt("Nombre completo", "Nome completo")}
             </label>
             <input
               id="nombre"
@@ -261,7 +265,7 @@ export default function RegisterForm({ initialCountry: paisInicial, initialRole:
 
           <div className="form-field">
             <label className="form-label" htmlFor="email">
-              Email
+              {t("auth.email")}
             </label>
             <input
               id="email"
@@ -278,14 +282,14 @@ export default function RegisterForm({ initialCountry: paisInicial, initialRole:
 
           <div className="form-field">
             <label className="form-label" htmlFor="password">
-              Contraseña
+              {t("auth.password")}
             </label>
             <input
               id="password"
               name="password"
               type="password"
               className="form-input"
-              placeholder="Mínimo 6 caracteres"
+              placeholder={t("auth.minSix")}
               value={form.password}
               onChange={handleChange}
               required
@@ -301,21 +305,21 @@ export default function RegisterForm({ initialCountry: paisInicial, initialRole:
               required
             />
             <span>
-              Leí y acepto los{" "}
+              {tt("Leí y acepto los", "Li e aceito os")}{" "}
               <Link href="/terminos-y-condiciones" target="_blank" rel="noopener noreferrer">
-                términos y condiciones
+                {tt("términos y condiciones", "termos e condições")}
               </Link>{" "}
-              de RentoCampo.
+              {tt("de RentoCampo.", "da RentoCampo.")}
             </span>
           </label>
 
           <button type="submit" className="btn-submit" disabled={loading}>
-            {loading ? "Creando cuenta..." : "Crear cuenta"}
+            {loading ? tt("Creando cuenta...", "Criando conta...") : tt("Crear cuenta", "Criar conta")}
           </button>
         </form>
 
         <div className="auth-footer">
-          ¿Ya tenés cuenta? <Link href="/login">Ingresá acá</Link>
+          {tt("¿Ya tenés cuenta?", "Já tem conta?")} <Link href="/login">{tt("Ingresá acá", "Entre aqui")}</Link>
         </div>
       </div>
     </div>

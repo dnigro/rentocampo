@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { useState } from "react";
+import { useTranslations } from "@/lib/i18n/useTranslations";
 
 interface Props {
   campoId: string;
@@ -15,6 +16,8 @@ export default function ConsultaButton({
   propietarioId,
   userId,
 }: Props) {
+  const {country}=useTranslations();
+  const tt=(es:string,pt:string)=>country==="BR"?pt:es;
   const router = useRouter();
   const supabase = createClient();
   const [loading, setLoading] = useState(false);
@@ -55,14 +58,14 @@ export default function ConsultaButton({
       body: JSON.stringify({
         campoId,
         destinatarioId: propietarioId,
-        contenido: "Hola, me interesa este campo. ¿Podemos hablar?",
+        contenido: tt("Hola, me interesa este campo. ¿Podemos hablar?","Olá, tenho interesse nesta propriedade rural. Podemos conversar?"),
       }),
     });
     const result = await response.json();
 
     if (!response.ok || !result.mensaje) {
       console.error("Error creando consulta:", result.error);
-      setError(result.error ?? "No pudimos enviar la consulta. Intentá nuevamente.");
+      setError(result.error ?? tt("No pudimos enviar la consulta. Intentá nuevamente.","Não foi possível enviar a consulta. Tente novamente."));
       setLoading(false);
       return;
     }
@@ -73,13 +76,13 @@ export default function ConsultaButton({
   }
 
   if (esPropietario) {
-    return <div className="consulta-propio">Esta es tu publicación</div>;
+    return <div className="consulta-propio">{tt("Esta es tu publicación","Este anúncio é seu")}</div>;
   }
 
   if (enviado) {
     return (
       <div className="consulta-enviado">
-        ✓ Consulta enviada — redirigiendo...
+        ✓ {tt("Consulta enviada — redirigiendo...","Consulta enviada — redirecionando...")}
       </div>
     );
   }
@@ -92,10 +95,10 @@ export default function ConsultaButton({
       disabled={loading}
     >
       {loading
-        ? "Enviando..."
+        ? tt("Enviando...","Enviando...")
         : userId
-          ? "Consultar campo"
-          : "Ingresá para consultar"}
+          ? tt("Consultar campo","Consultar terra")
+          : tt("Ingresá para consultar","Entre para consultar")}
     </button>
     {error && <p role="alert">{error}</p>}
     </>

@@ -5,6 +5,7 @@ import { SERVICIOS_RURALES } from "@/data/servicios-rurales";
 import { campoFilterParams } from "@/lib/campos/filter-params";
 import type { CamposSearchParams } from "@/components/campos/CamposListing";
 import { resolveCountry, type CountryCode } from "@/data/countries";
+import { regionalText } from "@/lib/i18n/regional";
 import type { ServicioRural } from "@/types";
 import type { Metadata } from "next";
 import { cookies } from "next/headers";
@@ -19,6 +20,10 @@ const DEMO_SERVICIO_VISIBLE_IDS = new Set<string>([
   "10000000-0000-4000-8000-000000000013",
   "10000000-0000-4000-8000-000000000014",
   "10000000-0000-4000-8000-000000000015",
+  "10000000-0000-4000-8000-000000000016", // AR
+  "10000000-0000-4000-8000-000000000017", // UY
+  "10000000-0000-4000-8000-000000000018", // PY
+  "10000000-0000-4000-8000-000000000019", // BR
 ]);
 
 export const metadata: Metadata = {
@@ -38,6 +43,7 @@ export default async function MapaPage({
   const { vista, servicio, pais } = params;
   const storedCountry = (await cookies()).get("rentocampo_country")?.value;
   const selectedCountry: CountryCode = resolveCountry(pais, storedCountry);
+  const tt=(es:string,pt:string)=>regionalText(selectedCountry,es,pt);
   const servicioInicial = SERVICIOS_RURALES.some(
     (item) => item.value === servicio,
   )
@@ -93,7 +99,7 @@ export default async function MapaPage({
     ...(publicacionesServicios ?? []).map((publicacion) => ({
       id: publicacion.propietario_id,
       publicacion_id: publicacion.id,
-      nombre: ownerMap.get(publicacion.propietario_id) ?? "Prestador rural",
+      nombre: ownerMap.get(publicacion.propietario_id) ?? tt("Prestador rural","Prestador rural"),
       country_code: publicacion.country_code as CountryCode,
       bio: undefined,
       avatar_url: undefined,
@@ -125,9 +131,9 @@ export default async function MapaPage({
 
   return (
     <div className="mapa-page">
-      <nav className="mapa-listas-nav" aria-label="Volver a los listados">
-        <Link href={`/campos?${listaCamposParams}`} className="mapa-lista-link">← Lista de campos</Link>
-        <Link href={`/servicios-rurales?${listaServiciosParams}`} className="mapa-lista-link">← Lista de servicios</Link>
+      <nav className="mapa-listas-nav" aria-label={tt("Volver a los listados","Voltar às listas")}>
+        <Link href={`/campos?${listaCamposParams}`} className="mapa-lista-link">← {tt("Lista de campos","Lista de terras")}</Link>
+        <Link href={`/servicios-rurales?${listaServiciosParams}`} className="mapa-lista-link">← {tt("Lista de servicios","Lista de serviços")}</Link>
       </nav>
       <CampoMapa
         campos={camposMapa}
