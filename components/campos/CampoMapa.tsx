@@ -317,6 +317,8 @@ export default function CampoMapa({
                 ? "https://www.openstreetmap.org/export/embed.html?bbox=-58.7%2C-35.2%2C-53.0%2C-30.0&layer=mapnik"
                 : countryCode === "PY"
                   ? "https://www.openstreetmap.org/export/embed.html?bbox=-62.7%2C-27.8%2C-54.2%2C-19.2&layer=mapnik"
+                  : countryCode === "BR"
+                  ? "https://www.openstreetmap.org/export/embed.html?bbox=-74.1%2C-34.0%2C-34.7%2C5.3&layer=mapnik"
                   : "https://www.openstreetmap.org/export/embed.html?bbox=-73.8%2C-55.3%2C-53.4%2C-21.4&layer=mapnik"
             }
             loading="lazy"
