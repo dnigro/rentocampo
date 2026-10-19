@@ -34,7 +34,7 @@ export default function LandingTriptychHero() {
 
       <nav className="triptychHero__actions" aria-label={t("Acciones principales", "Ações principais")}>
         <RegionalLink href="/register" className="triptychHero__button triptychHero__button--register">
-          <span>{t("REGISTRATE", "CADASTRE-SE")}</span><span aria-hidden="true">→</span>
+          <span>{t("REGISTRATE", "CADASTRE-SE")}</span>
         </RegionalLink>
       </nav>
       </div>
@@ -53,7 +53,7 @@ export default function LandingTriptychHero() {
           <span className="triptychHero__panelContent">
             <span className="triptychHero__panelTitle">{t("Campos", "Terras")}</span>
             <span className="triptychHero__panelText">{t("Venta, alquiler y oportunidades", "Venda, arrendamento e oportunidades")}</span>
-            <span className="triptychHero__panelCta">{t("VER CAMPOS", "VER TERRAS")} <span aria-hidden="true">→</span></span>
+            <span className="triptychHero__panelCta">{t("VER CAMPOS", "VER TERRAS")}</span>
           </span>
         </RegionalLink>
         <RegionalLink className="triptychHero__panel triptychHero__panel--producers" href="/register?tipo=productor">
@@ -68,7 +68,7 @@ export default function LandingTriptychHero() {
           <span className="triptychHero__panelContent">
             <span className="triptychHero__panelTitle">{t("Productores", "Produtores")}</span>
             <span className="triptychHero__panelText">{t("Conectá y hacé crecer tu producción", "Conecte-se e amplie sua produção")}</span>
-            <span className="triptychHero__panelCta">{t("SOY PRODUCTOR", "SOU PRODUTOR")} <span aria-hidden="true">→</span></span>
+            <span className="triptychHero__panelCta">{t("SOY PRODUCTOR", "SOU PRODUTOR")}</span>
           </span>
         </RegionalLink>
         <RegionalLink className="triptychHero__panel triptychHero__panel--services" href="/servicios-rurales">
@@ -83,7 +83,7 @@ export default function LandingTriptychHero() {
           <span className="triptychHero__panelContent">
             <span className="triptychHero__panelTitle">{t("Servicios rurales", "Serviços rurais")}</span>
             <span className="triptychHero__panelText">{t("Todo el apoyo que el campo necesita", "Todo o apoio de que o campo precisa")}</span>
-            <span className="triptychHero__panelCta">{t("VER SERVICIOS", "VER SERVIÇOS")} <span aria-hidden="true">→</span></span>
+            <span className="triptychHero__panelCta">{t("VER SERVICIOS", "VER SERVIÇOS")}</span>
           </span>
         </RegionalLink>
       </div>

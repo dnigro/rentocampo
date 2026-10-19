@@ -21,6 +21,18 @@ export function enforceUatIsolation(env: Record<string, string | undefined>) {
   // Vercel's Supabase integration can inject a production URL across all environments.
   // A branch-specific UAT key is required before overriding that inherited URL.
   // Never combine a production public key with the UAT endpoint.
+  // Brazil has an independent preview-scoped witness. Reject a shared
+  // production publishable key even if it has the same sb_publishable_ format.
+  // The witness is configured only for the Brazil Git preview in Vercel.
+  const brasilPreview = env.VERCEL_GIT_COMMIT_REF === "feat/brasil-foundation-20261019";
+  if (brasilPreview && (
+    !env.UAT_SUPABASE_PUBLISHABLE_KEY ||
+    env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY !== env.UAT_SUPABASE_PUBLISHABLE_KEY
+  )) {
+    delete env.SUPABASE_SERVICE_ROLE_KEY;
+    throw new Error("UAT isolation: Brazil preview public key does not match branch-specific UAT credentials.");
+  }
+
   const uatPublicKey = env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
   if (!uatPublicKey || !uatPublicKey.startsWith("sb_publishable_")) {
     delete env.SUPABASE_SERVICE_ROLE_KEY;

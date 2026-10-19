@@ -33,6 +33,8 @@ test("hero has named actions on all cards, with country retained", () => {
   assert.match(hero, /<RegionalLink className="triptychHero__panel triptychHero__panel--fields" href="\/campos">/);
   assert.match(hero, /<RegionalLink className="triptychHero__panel triptychHero__panel--services" href="\/servicios-rurales">/);
   assert.match(css, /\.triptychHero__panelCta/);
+  assert.ok(!hero.includes('aria-hidden="true">→</span>'), "Hero buttons must not show arrows");
+  assert.ok(!hero.includes("triptychHero__panelArrow"), "Legacy arrow-only labels must stay removed");
 });
 
 test("country selection preserves current route and regional state", () => {

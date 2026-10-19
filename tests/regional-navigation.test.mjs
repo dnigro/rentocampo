@@ -62,3 +62,18 @@ test('Brazil exposes all 27 federative units and BRL/pt-BR configuration', () =>
 test('Brazil preview fails closed without isolated credentials', () => {
   assert.throws(() => enforceUatIsolation({VERCEL_ENV:'preview', VERCEL_GIT_COMMIT_REF:'feat/brasil-foundation-20261019'}), /UAT isolation/);
 });
+
+test('Brazil UAT branch rejects an inherited public production key even with valid publishable format', () => {
+  const base = {
+    VERCEL_ENV: 'preview',
+    VERCEL_GIT_COMMIT_REF: 'feat/brasil-foundation-20261019',
+    NEXT_PUBLIC_SUPABASE_URL: 'https://wibqszhvuvpjycheaxzi.supabase.co',
+    NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: 'sb_publishable_wrong',
+    UAT_SUPABASE_PUBLISHABLE_KEY: 'sb_publishable_uat_fixture',
+  };
+  assert.throws(() => enforceUatIsolation({ ...base }), /Brazil preview public key/);
+  const valid = { ...base, NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: base.UAT_SUPABASE_PUBLISHABLE_KEY };
+  enforceUatIsolation(valid);
+  assert.equal(valid.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY, base.UAT_SUPABASE_PUBLISHABLE_KEY);
+  assert.equal(valid.NEXT_PUBLIC_SUPABASE_URL, 'https://wibqszhvuvpjycheaxzi.supabase.co');
+});
