@@ -27,11 +27,8 @@ export default function LiteHeader() {
 
   function changeCountry(next: CountryCode) {
     setMenuOpen(false);
+    if (next === country) return;
     selectRegionalCountry(next);
-    const destination = new URL(window.location.href);
-    destination.searchParams.set("pais", next);
-    ["provincia", "departamento", "region", "localidad"].forEach((key) => destination.searchParams.delete(key));
-    router.push(`${destination.pathname}${destination.search}${destination.hash}`);
     router.refresh();
   }
 

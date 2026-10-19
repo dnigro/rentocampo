@@ -38,9 +38,9 @@ test("hero has named actions on all cards, with country retained", () => {
 });
 
 test("country selection preserves current route and regional state", () => {
-  assert.match(navbar, /destination\.searchParams\.set\("pais", country\)/);
   assert.match(navbar, /selectRegionalCountry\(country\)/);
   assert.ok(!navbar.includes('router.push(`/campos/mapa?pais='));
+  assert.ok(!navbar.includes('router.push(`${destination.pathname}'));
 });
 
 test("Brazil defaults BRL and Brazilian local map fallback", () => {
@@ -69,4 +69,15 @@ test("registration CTA is centered and bold across desktop, tablet and mobile", 
   assert.match(css, /@media \(min-width: 901px\)\s*\{[\s\S]*?left:\s*clamp\(26px, 4vw, 74px\)/);
   assert.match(css, /@media \(max-width: 900px\)\s*\{[\s\S]*?width:\s*min\(100% - 24px, 720px\)/);
   assert.match(css, /@media \(max-width: 570px\)\s*\{[\s\S]*?width:\s*min\(100%, 320px\)/);
+});
+
+test("country switching is atomic on the first selection, including Lite", () => {
+  const hook = read("lib/i18n/useRegionalCountry.ts");
+  const lite = read("components/lite/LiteHeader.tsx");
+  const link = read("components/layout/RegionalLink.tsx");
+  assert.match(hook, /window\.history\.replaceState\(/);
+  assert.ok(hook.indexOf('window.history.replaceState(') < hook.indexOf('window.dispatchEvent(new Event(CHANGE_EVENT))'));
+  assert.match(lite, /selectRegionalCountry\(next\)/);
+  assert.ok(!lite.includes('router.push(`${destination.pathname}'));
+  assert.match(link, /rentocampo:country-change/);
 });

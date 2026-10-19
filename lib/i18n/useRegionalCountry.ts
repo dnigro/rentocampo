@@ -39,6 +39,18 @@ export function useRegionalCountry(): CountryCode {
 }
 
 export function selectRegionalCountry(country: CountryCode): void {
+  // Update the URL before notifying subscribers: the previous order
+  // read the stale ?pais value and reverted the first user selection.
+  const destination = new URL(window.location.href);
+  destination.searchParams.set("pais", country);
+  for (const filter of ["provincia", "departamento", "region", "localidad"]) {
+    destination.searchParams.delete(filter);
+  }
+  window.history.replaceState(
+    window.history.state,
+    "",
+    `${destination.pathname}${destination.search}${destination.hash}`,
+  );
   window.localStorage.setItem("rentocampo_country", country);
   document.cookie = `rentocampo_country=${country}; path=/; max-age=31536000; SameSite=Lax`;
   document.documentElement.lang = country === "BR" ? "pt-BR" : "es";

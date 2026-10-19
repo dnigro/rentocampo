@@ -20,11 +20,9 @@ function NavbarContent() {
   const [supabase] = useState(createClient);
 
   function cambiarPais(country: CountryCode) {
+    if (country === activeCountry) return;
     selectRegionalCountry(country);
-    const destination = new URL(window.location.href);
-    destination.searchParams.set("pais", country);
-    ["provincia", "departamento", "region", "localidad"].forEach((key) => destination.searchParams.delete(key));
-    router.push(`${destination.pathname}${destination.search}${destination.hash}`);
+    // RSC content (lists, footer, map) reloads against the selected cookie and URL.
     router.refresh();
   }
 
