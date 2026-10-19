@@ -909,3 +909,38 @@
  .rc-landing .rc-heroWorkflow__stepText {font-size:14px}
  .rc-landing .rc-heroWorkflow__cta {min-height:62px;font-size:22px;border-radius:25px}
 }
+
+
+/* Restore triptych: workflow lives inside wheat image, never a second hero. */
+.rc-landing .triptychHero__intro .rc-wheatSteps {
+ display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 10px;
+ width:100%;max-width:430px;margin:18px 0 0;color:#fff;
+}
+.rc-landing .rc-wheatSteps__item {display:flex;flex-wrap:wrap;align-content:start;align-items:center;gap:3px 7px;min-width:0}
+.rc-landing .rc-wheatSteps__number {display:grid;place-items:center;flex:none;width:26px;height:26px;border-radius:50%;background:#e7da79;color:#151515;font-size:15px;font-weight:900}
+.rc-landing .rc-wheatSteps__name {font-size:clamp(14px,1.15vw,19px);font-weight:900;color:#fff}
+.rc-landing .rc-wheatSteps__detail {display:block;flex-basis:100%;font-size:clamp(11px,.9vw,14px);font-weight:600;color:#fff;line-height:1.2}
+@media(min-width:901px){
+ .rc-landing .triptychHero__intro {display:flex;flex-direction:column;justify-content:flex-start;padding-top:clamp(22px,3vw,44px);padding-bottom:112px}
+ .rc-landing .triptychHero__title {font-size:clamp(37px,3.1vw,62px);line-height:1.02}
+ .rc-landing .triptychHero__title>strong {font-size:.68em}
+ .rc-landing .triptychHero__countries {font-size:12px}
+ .rc-landing .triptychHero__actions {bottom:5%;left:3%}
+}
+@media(max-width:900px){
+ .rc-landing .triptychHero__mobileHero .triptychHero__intro {
+   display:flex;flex-direction:column;align-items:flex-start;
+   min-height:0;padding:22px 20px 24px;
+   background:linear-gradient(180deg,rgba(15,28,13,.67),rgba(10,25,12,.86)),url("/image_trigo_pix.png") center/cover;
+   color:#fff;
+ }
+ .rc-landing .triptychHero__title {display:block;white-space:normal;font-size:clamp(29px,7vw,49px);line-height:1.05}
+ .rc-landing .triptychHero__title>span,.rc-landing .triptychHero__title>strong {display:block;color:#fff!important;white-space:normal}
+ .rc-landing .triptychHero__title>strong {font-size:.72em}
+ .rc-landing .triptychHero__countries {color:#fff!important}
+ .rc-landing .triptychHero__intro .rc-wheatSteps {margin-top:18px;gap:16px 10px}
+ .rc-landing .rc-wheatSteps__name {font-size:16px}
+ .rc-landing .rc-wheatSteps__detail {font-size:12px}
+ .rc-landing .triptychHero__panels {order:2}
+ .rc-landing .triptychHero__actions {order:3}
+}
