@@ -63,17 +63,16 @@ test('Brazil preview fails closed without isolated credentials', () => {
   assert.throws(() => enforceUatIsolation({VERCEL_ENV:'preview', VERCEL_GIT_COMMIT_REF:'feat/brasil-foundation-20261019'}), /UAT isolation/);
 });
 
-test('Brazil UAT branch rejects an inherited public production key even with valid publishable format', () => {
+test('Brazil UAT branch overrides an inherited production publishable key', () => {
   const base = {
     VERCEL_ENV: 'preview',
     VERCEL_GIT_COMMIT_REF: 'feat/brasil-foundation-20261019',
-    NEXT_PUBLIC_SUPABASE_URL: 'https://wibqszhvuvpjycheaxzi.supabase.co',
+    NEXT_PUBLIC_SUPABASE_URL: 'https://production.supabase.co',
     NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: 'sb_publishable_wrong',
     UAT_SUPABASE_PUBLISHABLE_KEY: 'sb_publishable_uat_fixture',
   };
-  assert.throws(() => enforceUatIsolation({ ...base }), /Brazil preview public key/);
-  const valid = { ...base, NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: base.UAT_SUPABASE_PUBLISHABLE_KEY };
-  enforceUatIsolation(valid);
-  assert.equal(valid.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY, base.UAT_SUPABASE_PUBLISHABLE_KEY);
-  assert.equal(valid.NEXT_PUBLIC_SUPABASE_URL, 'https://wibqszhvuvpjycheaxzi.supabase.co');
+  assert.throws(() => enforceUatIsolation({ ...base, UAT_SUPABASE_PUBLISHABLE_KEY: undefined }), /branch-specific UAT credentials/);
+  enforceUatIsolation(base);
+  assert.equal(base.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY, 'sb_publishable_uat_fixture');
+  assert.equal(base.NEXT_PUBLIC_SUPABASE_URL, 'https://wibqszhvuvpjycheaxzi.supabase.co');
 });

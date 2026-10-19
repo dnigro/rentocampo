@@ -26,3 +26,5 @@ PR #232 permanece en borrador. No autoriza merge a producción.
 - El preview de Brasil requiere variables Vercel de alcance exclusivo a la rama BR, incluidas NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY y el testigo UAT_SUPABASE_PUBLISHABLE_KEY.
 - Guard de build aborta si la clave pública heredada no coincide con la clave UAT exclusiva de la rama, aun cuando tenga formato correcto. No se ha configurado service-role UAT y el build la elimina si no pertenece al proyecto de pruebas.
 - No se cambian las variables del entorno de producción. Una cuenta de producción no puede usarse para ingresar en Supabase UAT: hace falta usuario de pruebas.
+
+- Ajuste de prioridad: para Brasil el guard usa directamente UAT_SUPABASE_PUBLISHABLE_KEY y reemplaza cualquier NEXT_PUBLIC_* heredada de producción, en lugar de confiar en la precedencia de variables.
