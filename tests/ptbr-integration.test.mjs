@@ -139,3 +139,12 @@ test("growth mode does not silently hide a fourth real field or local AR demo", 
   for(const suffix of ["016","017","018","019"])
     assert.ok(service.includes("10000000-0000-4000-8000-000000000"+suffix));
 });
+
+test("web and Lite country selectors cannot swallow first choice before hydration", () => {
+  const nav=read("components/layout/Navbar.tsx");
+  const lite=read("components/lite/LiteHeader.tsx");
+  assert.equal((nav.match(/disabled=\{!countrySelectReady\}/g)||[]).length, 2);
+  assert.match(lite,/disabled=\{!countrySelectReady\}/);
+  assert.match(nav,/setCountrySelectReady\(true\)/);
+  assert.match(lite,/setCountrySelectReady\(true\)/);
+});

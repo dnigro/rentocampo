@@ -14,8 +14,14 @@ export default function LiteHeader() {
   const router = useRouter();
   const country = useRegionalCountry();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [countrySelectReady, setCountrySelectReady] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const [supabase] = useState(createClient);
+
+  useEffect(() => {
+    const id = window.setTimeout(() => setCountrySelectReady(true), 0);
+    return () => window.clearTimeout(id);
+  }, []);
 
   useEffect(() => {
     void supabase.auth.getUser().then(({ data }) => setUser(data.user));
@@ -52,6 +58,7 @@ export default function LiteHeader() {
           className="lite-regional-country"
           aria-label="Seleccionar país"
           value={country}
+          disabled={!countrySelectReady}
           onChange={(event) => changeCountry(event.target.value as CountryCode)}
         >
           {COUNTRY_CODES.map((code) => (

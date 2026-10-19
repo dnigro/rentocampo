@@ -14,10 +14,17 @@ function NavbarContent() {
   const [user, setUser] = useState<User | null>(null);
   const [noLeidos, setNoLeidos] = useState(0);
   const [menuAbierto, setMenuAbierto] = useState(false);
+  const [countrySelectReady, setCountrySelectReady] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
   const activeCountry = useRegionalCountry();
   const [supabase] = useState(createClient);
+
+  // Prevent a native pre-hydration country change from being ignored.
+  useEffect(() => {
+    const id = window.setTimeout(() => setCountrySelectReady(true), 0);
+    return () => window.clearTimeout(id);
+  }, []);
 
   function cambiarPais(country: CountryCode) {
     if (country === activeCountry) return;
@@ -163,7 +170,7 @@ function NavbarContent() {
           {/* Acciones desktop */}
           <div className="navbar-actions navbar-desktop">
             <div className="navbar-country-switch" aria-label="Seleccionar país">
-              <select aria-label="Seleccionar país" value={activeCountry} onChange={(event) => cambiarPais(event.target.value as CountryCode)} style={{background:"#fff",color:"#111",borderRadius:"20px",padding:"7px 9px",fontWeight:700,cursor:"pointer"}}>
+              <select aria-label="Seleccionar país" disabled={!countrySelectReady} value={activeCountry} onChange={(event) => cambiarPais(event.target.value as CountryCode)} style={{background:"#fff",color:"#111",borderRadius:"20px",padding:"7px 9px",fontWeight:700,cursor:"pointer"}}>
                 {COUNTRY_CODES.map((code) => <option key={code} value={code}>{COUNTRIES[code].flag} {code}</option>)}
               </select>
             </div>
@@ -216,7 +223,7 @@ function NavbarContent() {
           {/* Header mobile: país a la izquierda, menú de usuario al extremo derecho */}
           <div className="navbar-mobile-right">
             <div className="navbar-country-switch navbar-country-switch-mobile" aria-label="Seleccionar país">
-              <select aria-label="Seleccionar país" value={activeCountry} onChange={(event) => cambiarPais(event.target.value as CountryCode)} style={{background:"#fff",color:"#111",borderRadius:"20px",padding:"7px",fontWeight:700}}>
+              <select aria-label="Seleccionar país" disabled={!countrySelectReady} value={activeCountry} onChange={(event) => cambiarPais(event.target.value as CountryCode)} style={{background:"#fff",color:"#111",borderRadius:"20px",padding:"7px",fontWeight:700}}>
                 {COUNTRY_CODES.map((code) => <option key={code} value={code}>{COUNTRIES[code].flag} {code}</option>)}
               </select>
             </div>
