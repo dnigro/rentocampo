@@ -234,3 +234,10 @@ test("Lite field and service search starts with a filter action ahead of the car
     assert.equal((page.match(new RegExp(`/lite/${segment}/filtrar`,"g"))||[]).length,1);
   }
 });
+
+test("service filters retain App Lite context instead of navigating back to the web",()=>{
+ const source=read("components/servicios/ServiciosFiltros.tsx");
+ assert.match(source,/pathname\.startsWith\("\/lite\/servicios\/filtrar"\)/);
+ assert.match(source,/router\.push\(query \? `\$\{destination\}/);
+ assert.match(source,/router\.push\(`\$\{destination\}\?pais=/);
+});

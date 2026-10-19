@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { COUNTRIES, COUNTRY_CODES, getCountrySubdivisions, type CountryCode } from "@/data/countries";
 import { SERVICIOS_RURALES, servicioLabel } from "@/data/servicios-rurales";
@@ -19,6 +19,8 @@ export default function ServiciosFiltros({
 }: Props) {
   const {t,country} = useTranslations();
   const router = useRouter();
+  const pathname = usePathname();
+  const destination = pathname.startsWith("/lite/servicios/filtrar") ? pathname : "/servicios-rurales";
   const [pais, setPais] = useState<CountryCode>(paisInicial);
   const [provincia, setProvincia] = useState(provinciaInicial);
   const [servicio, setServicio] = useState(servicioInicial);
@@ -29,13 +31,13 @@ export default function ServiciosFiltros({
     if (provincia) params.set("provincia", provincia);
     if (servicio) params.set("servicio", servicio);
     const query = params.toString();
-    router.push(query ? `/servicios-rurales?${query}` : "/servicios-rurales");
+    router.push(query ? `${destination}?${query}` : destination);
   }
 
   function limpiar() {
     setProvincia("");
     setServicio("");
-    router.push(`/servicios-rurales?pais=${pais}`);
+    router.push(`${destination}?pais=${pais}`);
   }
 
   const hayFiltros = Boolean(provincia || servicio);
