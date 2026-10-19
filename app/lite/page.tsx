@@ -16,7 +16,7 @@ export default async function LitePreview() {
   { title: t("Ver campos", "Ver terras"), subtitle: t("Encontrá tu próxima oportunidad", "Encontre sua próxima oportunidade"), href: "/lite/campos", icon: "↗", dark: true },
   { title: t("Ver servicios rurales", "Ver serviços rurais"), subtitle: t("Conectá con profesionales del campo", "Conecte-se com profissionais do campo"), href: "/lite/servicios", icon: "↗", dark: false },
  ];
- return <main style={{minHeight:"100dvh",background:"#f8f8f6",color:"#20201e",fontFamily:"Arial, Helvetica, sans-serif",maxWidth:520,margin:"auto",paddingBottom:95}}>
+ return <main className="lite-app" style={{minHeight:"100dvh",background:"#f8f8f6",color:"#20201e",fontFamily:"Arial, Helvetica, sans-serif",maxWidth:520,margin:"auto",paddingBottom:95}}>
   <LiteHeader/>
   <section style={{position:"relative",height:210,overflow:"hidden",background:"#252525"}}>
    <Image src={heroTambo} alt="Vacas y tambo de RentoCampo" fill priority sizes="(max-width: 520px) 100vw, 520px" style={{objectFit:"cover",objectPosition:"68% center",filter:"grayscale(1) contrast(1.1) brightness(.72)"}}/><div style={{position:"absolute",inset:0,background:"linear-gradient(90deg,rgba(0,0,0,.78) 0%,rgba(0,0,0,.55) 46%,rgba(0,0,0,.12) 100%)"}}/>
