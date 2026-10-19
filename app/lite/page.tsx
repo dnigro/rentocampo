@@ -1,6 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import LiteHeader from "@/components/lite/LiteHeader";
+import RuralExperienceWorkflow from "@/components/landing/RuralExperienceWorkflow";
+import "@/styles/hero-workflow-preview.css";
 import heroTambo from "@/public/rentocampo-hero-campo-bn-1920x1080.webp";
 import type { Metadata } from "next";
 import { cookies } from "next/headers";
@@ -21,6 +23,7 @@ export default async function LitePreview() {
    
    <div style={{position:"relative",padding:"37px 25px",color:"white"}}><span style={{fontSize:11,fontWeight:700,letterSpacing:2,color:"#e6d39a"}}>{t("#1 RED FEDERAL", "#1 REDE DO CAMPO")}</span><h1 style={{fontSize:35,lineHeight:1.08,letterSpacing:-1.8,margin:"14px 0"}}>{t("El campo,", "O campo,")}<br/>{t("más cerca.", "mais perto.")}</h1><p style={{fontSize:13,maxWidth:230,lineHeight:1.5}}>{t("Tierras y servicios rurales en un solo lugar.", "Terras e serviços rurais em um só lugar.")}</p></div>
   </section>
+  <div className="lite-experience"><RuralExperienceWorkflow country={country} /><Link className="lite-experience__register" href="/register">{t("REGISTRATE", "CADASTRE-SE")}</Link></div>
   <section style={{padding:"27px 20px 16px"}}><p style={{fontSize:11,letterSpacing:2,fontWeight:800,color:"#777",marginBottom:10}}>{t("EXPLORÁ RENTO CAMPO", "EXPLORE A RENTO CAMPO")}</p><h2 style={{fontSize:23,letterSpacing:-.7,margin:"0 0 19px"}}>{t("¿Qué necesitás hoy?", "Do que você precisa hoje?")}</h2>
   <div style={{display:"grid",gap:10}}>{links.map(item=><Link key={item.href} href={item.href} style={{background:item.dark?"#222":"#fff",color:item.dark?"#fff":"#222",border:item.dark?"none":"1px solid #e4e4e0",borderRadius:13,padding:"17px 18px",textDecoration:"none",display:"flex",justifyContent:"space-between",alignItems:"center"}}><span><strong style={{fontSize:18,letterSpacing:-.5}}>{item.title}</strong><small style={{display:"block",marginTop:7,opacity:.65,fontSize:12}}>{item.subtitle}</small></span><span style={{fontSize:25}}>{item.icon}</span></Link>)}</div>
   <Link href="/lite/perfil" style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginTop:12,padding:"18px 20px",background:"#eae8e2",color:"#222",borderRadius:16,textDecoration:"none",fontWeight:700}}>{t("Publicar y administrar", "Anunciar e administrar")} <span>↗</span></Link>
