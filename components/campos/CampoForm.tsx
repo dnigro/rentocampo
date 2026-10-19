@@ -495,7 +495,7 @@ export default function CampoForm({
             />
           </div>
           <div className="form-field">
-            <label className="form-label">{tt("Rendimiento estimado (qq/ha)","Produtividade estimada (sc/ha)")}</label>
+            <label className="form-label">{tt("Rendimiento estimado (qq/ha)","Produtividade estimada (qq/ha)")}</label>
             <input
               name="rendimiento_estimado"
               type="text"
