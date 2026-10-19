@@ -241,3 +241,22 @@ test("service filters retain App Lite context instead of navigating back to the 
  assert.match(source,/router\.push\(query \? `\$\{destination\}/);
  assert.match(source,/router\.push\(`\$\{destination\}\?pais=/);
 });
+
+test("regional productive zones replace clipped Argentina-only unverified demand", () => {
+ const fields=read("components/campos/CamposListing.tsx");
+ const panel=read("components/campos/DemandaZonasPanel.tsx");
+ const regions=read("data/regiones-productivas.ts");
+ const css=read("styles/explorador.css");
+ assert.match(fields, /<DemandaZonasPanel country=\{pais\}/);
+ assert.ok(!fields.includes('pais === "AR" && <DemandaZonasPanel'));
+ assert.ok(!panel.includes("Demanda activa"));
+ assert.ok(!panel.includes("Hay productores buscando tierra"));
+ for (const country of ["AR","UY","PY","CL","BO","PE","BR"]) {
+   assert.match(regions,new RegExp("  "+country+": \\["));
+ }
+ assert.match(panel,/\/register\?tipo=propietario&pais=\$\{country\}&zona=/);
+ assert.match(css,/\.rc-regions-showcase__grid/);
+ assert.match(css,/\.rc-regions-showcase \{/);
+ assert.match(css,/clip-path: none/);
+ assert.match(panel,/Não são indicadores de procura verificada/);
+});

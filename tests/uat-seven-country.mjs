@@ -148,6 +148,26 @@ async function run() {
             if(!preceding)throw Error("Lite filter CTA is after a card");
           }
         },page);
+        await check(size.name+" regional productive zones are visible, not clipped, and register locally",async()=>{
+          for (const x of countries) {
+            await context.addCookies([{name:"rentocampo_country",value:x.code,url:origin}]);
+            await open(page,"/campos?pais="+x.code,".rc-regions-showcase");
+            const zone=page.locator(".rc-regions-showcase");
+            const cards=zone.locator(".rc-regions-showcase__card");
+            if(await cards.count()!==4)throw Error(x.code+": missing regional cards");
+            const links=cards.locator("a.rc-regions-showcase__action");
+            if(await links.count()!==4)throw Error(x.code+": registration links missing");
+            for(const href of await links.evaluateAll(nodes=>nodes.map(n=>n.getAttribute("href")))){
+              const url=new URL(href,location.origin);
+              if(url.pathname!=="/register"||url.searchParams.get("pais")!==x.code||url.searchParams.get("tipo")!=="propietario"||!url.searchParams.get("zona"))throw Error(x.code+": wrong registration link "+href);
+            }
+            if(await zone.getByText(/demanda activa|hay productores buscando tierra/i).count())throw Error(x.code+": misleading demand statement");
+            const box=await zone.boundingBox();
+            const head=await zone.locator("h2").boundingBox();
+            if(!box||!head||head.x < box.x-2||head.x+head.width > box.x+box.width+2)throw Error(x.code+": heading overflow/clipped");
+          }
+          await page.screenshot({path:"test-results/seven-country/regions-"+size.name+".png",fullPage:true});
+        },page);
         await check(size.name+" free home and no pack calls-to-action",async()=>{
           await open(page,"/?pais=AR",".rc-faq");
           const faq=(await page.locator(".rc-faq").innerText()).toLowerCase();

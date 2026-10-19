@@ -152,15 +152,16 @@ export default async function CamposListing({ params, titulo, descripcion, soloA
             )}
           </section>
 
-          {pais === "AR" && <DemandaZonasPanel provincia={params.provincia} />}
         </div>
         </div>
+
+        <DemandaZonasPanel country={pais} provincia={params.provincia} />
 
         <section className="demanda-cta">
           <div>
             <p className="demanda-cta-kicker">{tt("Publicar es gratis", "Anunciar é grátis")}</p>
             <h2>{tt("¿Tenés un campo para publicar?", "Você tem uma terra para anunciar?")}</h2>
-            <p>{tt("Hay productores interesados. Hacelo visible y empezá a recibir consultas directas.", "Há produtores interessados. Anuncie e comece a receber contatos diretamente.")}</p>
+            <p>{tt("Sumá tu publicación a la red rural y contactá directamente a otros usuarios.", "Adicione seu anúncio à rede rural e entre em contato diretamente com outros usuários.")}</p>
           </div>
           <Link href={`/register?tipo=propietario&pais=${pais}`} className="demanda-cta-boton">
             {tt("Publicar mi campo gratis →","Anunciar minha terra gratuitamente →")}

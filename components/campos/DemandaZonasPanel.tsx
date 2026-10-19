@@ -1,68 +1,60 @@
 import Link from "next/link";
-import {
-  DEMANDA_DESTACADA_IDS,
-  DEMANDA_ZONAS,
-  type DemandaZona,
-} from "@/data/demanda-zonas";
+import { COUNTRIES, type CountryCode } from "@/data/countries";
+import { REGIONES_PRODUCTIVAS, REGIONES_EDITORIALES_ES } from "@/data/regiones-productivas";
 
 interface Props {
+  country: CountryCode;
   provincia?: string;
 }
 
-function zonasDestacadas(provincia?: string): DemandaZona[] {
-  const coincidencias = provincia
-    ? DEMANDA_ZONAS.filter((demanda) => demanda.provincia === provincia)
-    : [];
-
-  if (coincidencias.length > 0) return coincidencias.slice(0, 4);
-
-  return DEMANDA_DESTACADA_IDS.map((id) =>
-    DEMANDA_ZONAS.find((demanda) => demanda.id === id),
-  )
-    .filter((demanda): demanda is DemandaZona => Boolean(demanda))
-    .slice(0, 4);
-}
-
-export default function DemandaZonasPanel({ provincia }: Props) {
-  const zonas = zonasDestacadas(provincia);
+export default function DemandaZonasPanel({ country, provincia }: Props) {
+  const isBr = country === "BR";
+  const regiones = [...REGIONES_PRODUCTIVAS[country]].sort(
+    (a, b) => Number(b.subdivision === provincia) - Number(a.subdivision === provincia),
+  );
 
   return (
-    <aside className="demanda-zonas" aria-labelledby="demanda-zonas-titulo">
-      <p className="demanda-zonas-kicker">Demanda activa · Argentina</p>
-      <h2 id="demanda-zonas-titulo">Hay productores buscando tierra.</h2>
-      <p className="demanda-zonas-intro">
-        Conocé qué buscan y en qué zonas.
-      </p>
+    <section className="rc-regions-showcase" aria-labelledby="rc-regions-title">
+      <div className="rc-regions-showcase__head">
+        <div>
+          <p className="rc-regions-showcase__kicker">
+            {isBr ? "REGIÕES PRODUTIVAS" : "REGIONES PRODUCTIVAS"} · {COUNTRIES[country].name.toUpperCase()}
+          </p>
+          <h2 id="rc-regions-title">
+            {isBr ? "O CAMPO TEM MUITOS LUGARES. ENCONTRE O SEU." : "CADA REGIÓN TIENE SU OPORTUNIDAD."}
+          </h2>
+          <p className="rc-regions-showcase__description">
+            {isBr ? "Do interior paulista ao Cerrado e ao Sul. Mostre sua terra na rede rural."
+              : REGIONES_EDITORIALES_ES[country]}
+          </p>
+        </div>
+        <span className="rc-regions-showcase__flag" aria-label={COUNTRIES[country].name}>
+          {COUNTRIES[country].flag}
+        </span>
+      </div>
 
-      <div className="demanda-zonas-lista">
-        {zonas.map((demanda) => (
-          <article className="demanda-zona-card" key={demanda.id}>
-            <span className="demanda-zona-punto" aria-hidden="true" />
-            <div>
-              <h3>{demanda.zona}</h3>
-              <p>{demanda.provincia}</p>
-            </div>
+      <div className="rc-regions-showcase__grid">
+        {regiones.map((region) => (
+          <article className="rc-regions-showcase__card" key={region.zona}>
+            <span className="rc-regions-showcase__area">{region.subdivision}</span>
+            <h3>{region.zona}</h3>
+            <p>{region.actividad}</p>
             <Link
-              href={
-                "/register?tipo=propietario&zona=" +
-                encodeURIComponent(demanda.zona)
-              }
-              className="demanda-zona-cta"
-              aria-label={"Tengo un campo en " + demanda.zona}
+              href={`/register?tipo=propietario&pais=${country}&zona=${encodeURIComponent(region.zona)}`}
+              className="rc-regions-showcase__action"
+              aria-label={isBr ? `Cadastrar para anunciar em ${region.zona}` : `Registrarme para publicar en ${region.zona}`}
             >
-              →
+              {isBr ? "CADASTRAR PARA ANUNCIAR" : "REGISTRARME PARA PUBLICAR"}
+              <span aria-hidden="true"> ↗</span>
             </Link>
           </article>
         ))}
       </div>
-
-      <Link href="/campos/mapa" className="demanda-zonas-mapa">
-        Ver demanda por zona <span aria-hidden="true">→</span>
-      </Link>
-
-      <p className="demanda-zonas-aclaracion">
-        Señales orientativas de búsqueda. No representan campos publicados.
+      <p className="rc-regions-showcase__disclaimer">
+        {isBr
+          ? "Regiões produtivas de referência. Não são indicadores de procura verificada ou negócios garantidos."
+          : "Regiones productivas de referencia. No indican búsquedas verificadas ni operaciones garantizadas."}
       </p>
-    </aside>
+    </section>
   );
 }
