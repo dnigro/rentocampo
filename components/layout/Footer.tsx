@@ -1,13 +1,14 @@
+"use client";
+
 import RegionalLink from "@/components/layout/RegionalLink";
-import { cookies } from "next/headers";
-import { resolveCountry } from "@/data/countries";
 import Link from "next/link";
 import "@/styles/footer.css";
 import BrandWordmark from "@/components/layout/BrandWordmark";
 import { regionalText } from "@/lib/i18n/regional";
+import { useRegionalCountry } from "@/lib/i18n/useRegionalCountry";
 
-export default async function Footer() {
-  const country = resolveCountry((await cookies()).get("rentocampo_country")?.value);
+export default function Footer() {
+  const country = useRegionalCountry();
   const t = (es: string, pt: string) => regionalText(country, es, pt);
   return (
     <footer className="footer">
