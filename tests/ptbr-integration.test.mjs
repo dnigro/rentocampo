@@ -170,3 +170,12 @@ test("authenticated messaging uses RLS and blocks DEMO contact at API", () => {
  }
  assert.match(campo,/code:"demo_not_contactable"/);
 });
+
+test("UAT messaging exercises real field consultations, direct chat and DEMO blocking",()=>{
+ const content=read("tests/uat-browser.mjs");
+ assert.match(content,/async function messagingAndPermissions/);
+ assert.match(content,/demo_not_contactable/);
+ assert.match(content,/\/api\/mensajes\/directos/);
+ assert.match(content,/regionalMessageIds\.length/);
+ assert.match(content,/regionalDirectMessageIds\.length/);
+});

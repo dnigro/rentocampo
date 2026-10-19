@@ -281,7 +281,8 @@ async function recover(){
 }
 
 // Real authenticated regional writes, isolated to Supabase UAT and cleaned after the run.
-const regionalFieldIds=[],regionalServiceIds=[],regionalStoragePaths=[];
+const regionalFieldIds=[],regionalServiceIds=[],regionalStoragePaths=[],regionalMessageIds=[],regionalDirectMessageIds=[];
+const regionalActors=[];
 async function regionalAuthenticatedWrites(){
  const cases=[
   {country:"AR",provincia:"Buenos Aires",localidad:"Pergamino",lat:-33.8895,lng:-60.5736},
@@ -300,6 +301,7 @@ async function regionalAuthenticatedWrites(){
     user_metadata:{nombre:"UAT write "+x.country,tipo:"propietario",country_code:x.country}});
    if(created.error)throw Error("UAT actor creation: "+created.error.message);
    userIds.push(created.data.user.id);
+   regionalActors.push({ ...u, id:created.data.user.id, country:x.country });
    await profile(created.data.user.id,x.country,"propietario");
    const c=await context(browser,{width:390,height:844}),page=await c.newPage();
    try{
@@ -388,12 +390,84 @@ async function regionalAuthenticatedWrites(){
  }finally{await browser.close()}
 }
 
+
+async function messagingAndPermissions(){
+ const ar=regionalActors.find(x=>x.country==="AR"),uy=regionalActors.find(x=>x.country==="UY");
+ if(!ar||!uy||!regionalFieldIds.length)throw Error("Messaging UAT actor setup incomplete");
+ const browser=await chromium.launch();
+ const c=await context(browser,{width:390,height:844}),page=await c.newPage();
+ try {
+  await open(page,"/login","#password");
+  await page.locator("#email").fill(uy.email);
+  await page.locator("#password").fill(uy.password);
+  await page.getByRole("button",{name:"Ingresar",exact:true}).click();
+  await page.waitForURL(/\/dashboard(?:\?|$)/,{timeout:19000});
+  await check("AUTH RLS: field DEMO cannot receive a direct API consultation",async()=>{
+   const r=await page.evaluate(async owner=>{
+     const response=await fetch("/api/mensajes",{method:"POST",headers:{"Content-Type":"application/json"},
+       body:JSON.stringify({campoId:"20000000-0000-4000-8000-000000000044",destinatarioId:owner,contenido:"UAT DEMO blocked"})});
+     return {status:response.status,body:await response.json()};
+   },ar.id);
+   if(r.status!==403 || r.body.code!=="demo_not_contactable")throw Error(JSON.stringify(r));
+  },page);
+  await check("AUTH RLS: user cannot edit a different owner's field",async()=>{
+   const response=await page.evaluate(async campoId=>{
+     const r=await fetch("/api/campos/publicar",{method:"PATCH",headers:{"Content-Type":"application/json"},
+       body:JSON.stringify({campoId,estado:"activo",form:{titulo:"Unauthorized mutation"}})});
+     return {status:r.status,body:await r.json()};
+   },regionalFieldIds[0]);
+   if(response.status!==404)throw Error(JSON.stringify(response));
+  },page);
+  await check("AUTH RLS: real published field consultation creates a message",async()=>{
+   const response=await page.evaluate(async input=>{
+     const r=await fetch("/api/mensajes",{method:"POST",headers:{"Content-Type":"application/json"},
+       body:JSON.stringify(input)});
+     return {status:r.status,body:await r.json()};
+   },{campoId:regionalFieldIds[0],destinatarioId:ar.id,contenido:"UAT TEST field contact"});
+   if(response.status!==200||!response.body.mensaje?.id)throw Error(JSON.stringify(response));
+   regionalMessageIds.push(response.body.mensaje.id);
+   const {data,error}=await admin.from("mensajes").select("remitente_id,destinatario_id,campo_id").eq("id",response.body.mensaje.id).single();
+   if(error||data.remitente_id!==uy.id||data.destinatario_id!==ar.id)throw Error("Stored field message missing/wrong sender");
+  },page);
+  await check("AUTH RLS: direct service conversation persists in UAT",async()=>{
+   const response=await page.evaluate(async recipient=>{
+     const r=await fetch("/api/mensajes/directos",{method:"POST",headers:{"Content-Type":"application/json"},
+       body:JSON.stringify({destinatarioId:recipient,contenido:"UAT TEST direct service contact"})});
+     return {status:r.status,body:await r.json()};
+   },ar.id);
+   if(response.status!==200||!response.body.mensaje?.id)throw Error(JSON.stringify(response));
+   regionalDirectMessageIds.push(response.body.mensaje.id);
+   const {data,error}=await admin.from("mensajes_directos").select("remitente_id,destinatario_id").eq("id",response.body.mensaje.id).single();
+   if(error||data.remitente_id!==uy.id||data.destinatario_id!==ar.id)throw Error("Stored direct message missing/wrong sender");
+  },page);
+  await check("AUTH RLS: unread counts and direct thread load without admin key",async()=>{
+   const r=await page.evaluate(async target=>{
+     const [unread,thread]=await Promise.all([
+       fetch("/api/mensajes/no-leidos").then(async x=>({status:x.status,body:await x.json()})),
+       fetch("/api/mensajes/directos?interlocutorId="+target).then(async x=>({status:x.status,body:await x.json()}))
+     ]);
+     return {unread,thread};
+   },ar.id);
+   if(r.unread.status!==200||r.thread.status!==200)throw Error(JSON.stringify(r));
+   if(!r.thread.body.mensajes?.some(m=>regionalDirectMessageIds.includes(m.id)))throw Error("Direct message not visible to its sender");
+  },page);
+ } finally {await c.close();await browser.close();}
+}
+
 try{
  const r=await admin.auth.admin.listUsers({page:1,perPage:1});
  if(r.error)throw Error("UAT admin verification failed: "+r.error.message);
- await start();await regionalDemoSmoke();await matrix();await deepLinksAndLogins();await regionalAuthenticatedWrites();await register();await generatedConfirmationLink();await recover();
+ await start();await regionalDemoSmoke();await matrix();await deepLinksAndLogins();await regionalAuthenticatedWrites();await messagingAndPermissions();await register();await generatedConfirmationLink();await recover();
 }catch(error){results.push({name:"UAT setup",result:"FAIL",detail:String(error)});console.error(error)}
 finally{
+ if(regionalMessageIds.length){
+  const {error}=await admin.from("mensajes").delete().in("id",regionalMessageIds);
+  if(error)results.push({name:"UAT field messages cleanup",result:"FAIL",detail:error.message});
+ }
+ if(regionalDirectMessageIds.length){
+  const {error}=await admin.from("mensajes_directos").delete().in("id",regionalDirectMessageIds);
+  if(error)results.push({name:"UAT direct messages cleanup",result:"FAIL",detail:error.message});
+ }
  if(regionalServiceIds.length){
   const {error}=await admin.from("servicios_publicaciones").delete().in("id",regionalServiceIds);
   if(error)results.push({name:"UAT service cleanup",result:"FAIL",detail:error.message});
