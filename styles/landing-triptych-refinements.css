@@ -874,3 +874,38 @@
     margin-top: 9px;
   }
 }
+
+
+/* Hero workflow responsive 2026-10-19: layout aislado, sin posiciones absolutas. */
+.rc-landing .triptychHero:has(.rc-heroWorkflow) {
+  min-height:0; height:auto; display:block; overflow:visible;
+  background:#23351d; border:0;
+}
+.rc-landing .rc-heroWorkflow {
+  position:relative; isolation:isolate; overflow:hidden;
+  padding:clamp(30px,4vw,64px) clamp(20px,4vw,72px);
+  background:linear-gradient(180deg,rgba(25,38,12,.52),rgba(14,36,12,.88)),url("/image_trigo_pix.png") center/cover;
+  color:#fff;
+}
+.rc-landing .rc-heroWorkflow__title {font-size:clamp(35px,4.6vw,78px);line-height:1.03;letter-spacing:-.045em;font-weight:950;max-width:1100px;margin:0 0 18px;color:#fff}
+.rc-landing .rc-heroWorkflow__subtitle {font-size:clamp(18px,2.1vw,30px);line-height:1.35;color:#fff;max-width:1000px;margin:0 0 38px;font-weight:550}
+.rc-landing .rc-heroWorkflow__steps {display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(12px,2.4vw,38px);list-style:none;padding:0;margin:0 0 36px}
+.rc-landing .rc-heroWorkflow__step {min-width:0;text-align:center;position:relative;color:#fff}
+.rc-landing .rc-heroWorkflow__icon {width:clamp(76px,9vw,140px);height:clamp(76px,9vw,140px);border:2px solid rgba(255,255,255,.55);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 18px;position:relative;background:rgba(20,35,18,.24)}
+.rc-landing .rc-heroWorkflow__icon svg {width:52%;height:52%;stroke:#fff;stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.rc-landing .rc-heroWorkflow__number {position:absolute;top:-10px;left:-13px;display:grid;place-items:center;width:42px;height:42px;border-radius:50%;background:#e7da79;color:#171717;font-size:23px;font-weight:900}
+.rc-landing .rc-heroWorkflow__stepTitle {font-size:clamp(19px,2vw,28px);font-weight:900;line-height:1.1;margin:0 0 10px;color:#fff}
+.rc-landing .rc-heroWorkflow__stepText {font-size:clamp(14px,1.45vw,20px);line-height:1.3;margin:0;color:#fff}
+.rc-landing .rc-heroWorkflow__cta {display:flex;align-items:center;justify-content:center;min-height:76px;width:min(100%,1050px);margin:0 auto;border-radius:38px;background:#e7da79;color:#171717;font-size:clamp(22px,2.5vw,34px);font-weight:900;text-decoration:none}
+.rc-landing .rc-heroWorkflow__cta:hover {background:#d9c967}
+@media(max-width:700px) {
+ .rc-landing .rc-heroWorkflow {padding:28px 16px 30px;border-radius:0}
+ .rc-landing .rc-heroWorkflow__title {font-size:clamp(29px,8vw,46px);line-height:1.08;margin-bottom:12px;color:#fff!important;text-shadow:0 2px 8px rgba(0,0,0,.6)}
+ .rc-landing .rc-heroWorkflow__subtitle {font-size:clamp(16px,4vw,20px);margin-bottom:30px;color:#fff!important;text-shadow:0 1px 5px rgba(0,0,0,.6)}
+ .rc-landing .rc-heroWorkflow__steps {grid-template-columns:repeat(2,minmax(0,1fr));gap:30px 18px;margin-bottom:30px}
+ .rc-landing .rc-heroWorkflow__icon {width:88px;height:88px;margin-bottom:13px}
+ .rc-landing .rc-heroWorkflow__number {width:32px;height:32px;font-size:18px;top:-7px;left:-7px}
+ .rc-landing .rc-heroWorkflow__stepTitle {font-size:19px;margin-bottom:6px}
+ .rc-landing .rc-heroWorkflow__stepText {font-size:14px}
+ .rc-landing .rc-heroWorkflow__cta {min-height:62px;font-size:22px;border-radius:25px}
+}
