@@ -874,3 +874,33 @@
     margin-top: 9px;
   }
 }
+
+
+/* Scoped copy-only update. Keep original photo triptych, geometry, header and CTA. */
+.rc-landing .triptychHero__intro .rc-miniFlow {
+ display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+ gap:clamp(9px,1.2vw,17px) 8px;
+ width:100%;max-width:440px;margin-top:clamp(12px,1.5vw,22px);
+ color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.55);
+}
+.rc-landing .triptychHero__intro .rc-miniFlow__step {
+ display:flex;align-items:center;gap:8px;min-width:0;
+}
+.rc-landing .triptychHero__intro .rc-miniFlow__symbol {
+ display:grid;place-items:center;flex:0 0 auto;
+ width:clamp(27px,2.5vw,40px);height:clamp(27px,2.5vw,40px);
+ border:1.5px solid #e7da79;border-radius:50%;color:#e7da79;
+ font-size:clamp(19px,1.8vw,27px);font-weight:600;
+}
+.rc-landing .triptychHero__intro .rc-miniFlow__copy {display:flex;flex-direction:column;min-width:0;gap:2px}
+.rc-landing .triptychHero__intro .rc-miniFlow__copy strong {font-size:clamp(12px,1.05vw,17px);line-height:1.12;font-weight:850;color:#fff}
+.rc-landing .triptychHero__intro .rc-miniFlow__copy small {font-size:clamp(10px,.82vw,13px);line-height:1.18;color:#fff}
+@media (min-width:901px) {
+ .rc-landing .triptychHero__intro .rc-miniFlow {max-width:calc(100% - 5px)}
+}
+@media (max-width:900px) {
+ .rc-landing .triptychHero__intro .rc-miniFlow {margin-top:13px;max-width:100%;gap:13px 8px}
+ .rc-landing .triptychHero__intro .rc-miniFlow__symbol {width:32px;height:32px;font-size:22px}
+ .rc-landing .triptychHero__intro .rc-miniFlow__copy strong {font-size:14px}
+ .rc-landing .triptychHero__intro .rc-miniFlow__copy small {font-size:11px}
+}
