@@ -4,8 +4,15 @@ import { useState, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { useTranslations } from "@/lib/i18n/useTranslations";
+import { resolveCountry } from "@/data/countries";
+import { translate } from "@/lib/i18n/messages";
 import "@/styles/public.css";
 
+function recoveryExpiredText(): string {
+  const saved=document.cookie.split("; ").find((v)=>v.startsWith("rentocampo_country="))?.split("=")[1];
+  const query=new URLSearchParams(window.location.search).get("pais");
+  return translate(resolveCountry(query,saved), "auth.linkExpired");
+}
 export default function ResetPasswordPage() {
   const {t} = useTranslations();
   const [password, setPassword] = useState("");
@@ -23,7 +30,7 @@ export default function ResetPasswordPage() {
       const code = new URLSearchParams(window.location.search).get("code");
       if (code) {
         const { error } = await supabase.auth.exchangeCodeForSession(code);
-        if (error) setLinkError(t("auth.linkExpired"));
+        if (error) setLinkError(recoveryExpiredText());
       } else {
         const { data } = await supabase.auth.getSession();
         if (!data.session) setLinkError("El link de recuperación expiró o ya fue usado.");
