@@ -4,7 +4,8 @@
  * No envía telemetría ni inicializa SDKs: el adaptador Firebase/GA4
  * se implementará tras validar consentimiento, plataforma y privacidad.
  */
-export type MobileCountryCode = "AR" | "UY";
+import type { CountryCode } from "@/data/countries";
+export type MobileCountryCode = CountryCode;
 export type MobileListingType = "campo" | "servicio";
 
 export type MobileAnalyticsEvent =

@@ -67,7 +67,7 @@ export default function CampoForm({
     ambiente: "",
     operacion: "alquiler",
     precio: undefined,
-    moneda: "USD",
+    moneda: initialCountry === "BR" ? "BRL" : "USD",
     disponibilidad: "a_convenir",
     rendimiento_estimado: "",
     mejoras: "No",
@@ -573,6 +573,7 @@ export default function CampoForm({
                 {countryCode === "CL" && <option value="CLP">CLP</option>}
                 {countryCode === "BO" && <option value="BOB">BOB</option>}
                 {countryCode === "PE" && <option value="PEN">PEN</option>}
+                {countryCode === "BR" && <option value="BRL">BRL</option>}
               </select>
               <input
                 name="precio"

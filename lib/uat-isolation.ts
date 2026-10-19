@@ -1,4 +1,4 @@
-const UAT_BRANCHES = ["feat/regional-ar-uy-py-20261014", "feat/regional-six-countries-20261015"];
+const UAT_BRANCHES = ["feat/brasil-foundation-20261019", "feat/regional-ar-uy-py-20261014", "feat/regional-six-countries-20261015"];
 const UAT_REF = "wibqszhvuvpjycheaxzi";
 const UAT_URL = `https://${UAT_REF}.supabase.co`;
 
