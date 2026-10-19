@@ -1,0 +1,56 @@
+name: UAT Siete Países
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [feat/brasil-foundation-20261019]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: rentocampo-uat-seven-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  browser-seven-country:
+    runs-on: ubuntu-latest
+    timeout-minutes: 22
+    env:
+      NEXT_PUBLIC_SUPABASE_URL: https://wibqszhvuvpjycheaxzi.supabase.co
+      NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.UAT_SUPABASE_PUBLISHABLE_KEY }}
+      UAT_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.UAT_SUPABASE_PUBLISHABLE_KEY }}
+      NEXT_PUBLIC_APP_URL: http://127.0.0.1:3000
+      NEXT_TELEMETRY_DISABLED: "1"
+      UAT_CANDIDATE_SHA: ${{ github.sha }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - name: Assert isolated public UAT environment
+        run: |
+          test -n "$UAT_SUPABASE_PUBLISHABLE_KEY" || { echo "::error::Missing UAT public key"; exit 1; }
+          test "$NEXT_PUBLIC_SUPABASE_URL" = "https://wibqszhvuvpjycheaxzi.supabase.co" || exit 1
+          test -z "$SUPABASE_SERVICE_ROLE_KEY" || { echo "::error::No admin key allowed in this browser job"; exit 1; }
+          test -z "$MERCADOPAGO_ACCESS_TOKEN" || exit 1
+          test -z "$RESEND_API_KEY" || exit 1
+      - name: npm ci
+        run: npm ci
+      - name: Install isolated Chromium
+        run: |
+          npm install --no-save --package-lock=false --no-audit --no-fund playwright
+          npx playwright install --with-deps chromium
+      - name: Build isolated UAT Next.js
+        run: npm run build
+      - name: Seven-country browser regression
+        run: node tests/uat-seven-country.mjs
+      - name: Upload evidence and screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: uat-seven-country-${{ github.sha }}
+          path: test-results/seven-country/
+          if-no-files-found: warn
+          retention-days: 7
