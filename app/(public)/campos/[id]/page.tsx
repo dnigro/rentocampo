@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { COUNTRIES, resolveCountry } from "@/data/countries";
+import { regionalText } from "@/lib/i18n/regional";
 import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
@@ -22,7 +23,7 @@ type PageProps = { params: Promise<{ id: string }> };
 // Production keeps its existing privileged reader unchanged.
 const publicRegionalPreview = () =>
   process.env.VERCEL_ENV === "preview" &&
-  process.env.VERCEL_GIT_COMMIT_REF === "feat/regional-six-countries-20261015";
+  ["feat/regional-six-countries-20261015","feat/brasil-foundation-20261019"].includes(process.env.VERCEL_GIT_COMMIT_REF ?? "");
 
 export async function generateMetadata({
   params,
@@ -95,6 +96,9 @@ export default async function CampoFichaPage({ params }: PageProps) {
   ]);
 
   const campoConPropietario = { ...campo, propietario };
+  const countryCode = resolveCountry(campo.country_code);
+  const tt = (es:string, pt:string)=>regionalText(countryCode,es,pt);
+  const localizeAptitud=(key:string)=>countryCode==="BR"?({agricola:"Agrícola",ganadera:"Pecuária",mixta:"Mista",forestal:"Florestal",otro:"Outro"} as Record<string,string>)[key]??key:APTITUD_LABEL[key]??key;
 
   const {
     data: { user },
@@ -163,21 +167,18 @@ export default async function CampoFichaPage({ params }: PageProps) {
         {/* Columna principal */}
         <div className="ficha-main">
           <div className="ficha-tags">
-            <span className="aptitud-tag">
-              {APTITUD_LABEL[campoConPropietario.aptitud] ??
-                campoConPropietario.aptitud}
-            </span>
+            <span className="aptitud-tag">{localizeAptitud(campoConPropietario.aptitud)}</span>
             <span className="operacion-tag">
               {campoConPropietario.operacion === "venta"
-                ? "Venta"
+                ? tt("Venta","Venda")
                 : campoConPropietario.operacion === "ambas"
-                  ? "Alquiler + Venta"
-                  : "Alquiler"}
+                  ? tt("Alquiler + Venta","Arrendamento + Venda")
+                  : tt("Alquiler","Arrendamento")}
             </span>
             {campoConPropietario.mejoras === "Sí" && (
-              <span className="mejoras-tag">Con mejoras</span>
+              <span className="mejoras-tag">{tt("Con mejoras","Com benfeitorias")}</span>
             )}
-            <span className="disp-badge disp-a-convenir">{disponibilidad}</span>
+            <span className="disp-badge disp-a-convenir">{tt(disponibilidad,disponibilidad==="Disponible ahora"?"Disponível agora":disponibilidad==="Campaña próxima"?"Próxima safra":"A combinar")}</span>
           </div>
 
           <h1 className="ficha-titulo">{campoConPropietario.titulo}</h1>
@@ -197,16 +198,16 @@ export default async function CampoFichaPage({ params }: PageProps) {
           <div className="ficha-datos">
             <div className="dato-item">
               <span className="dato-valor">
-                {campoConPropietario.hectareas.toLocaleString("es-AR")}
+                {campoConPropietario.hectareas.toLocaleString(countryCode==="BR"?"pt-BR":"es-AR")}
               </span>
-              <span className="dato-label">Hectáreas</span>
+              <span className="dato-label">{tt("Hectáreas","Hectares")}</span>
             </div>
             <div className="dato-sep" />
             <div className="dato-item">
               <span className="dato-valor">
-                {APTITUD_LABEL[campoConPropietario.aptitud]}
+                {localizeAptitud(campoConPropietario.aptitud)}
               </span>
-              <span className="dato-label">Aptitud</span>
+              <span className="dato-label">{tt("Aptitud","Aptidão")}</span>
             </div>
             {campoConPropietario.rendimiento_estimado && (
               <>
@@ -215,23 +216,23 @@ export default async function CampoFichaPage({ params }: PageProps) {
                   <span className="dato-valor">
                     {campoConPropietario.rendimiento_estimado} qq/ha
                   </span>
-                  <span className="dato-label">Rend. estimado</span>
+                  <span className="dato-label">{tt("Rend. estimado","Produtividade est.")}</span>
                 </div>
               </>
             )}
             <div className="dato-sep" />
             <div className="dato-item">
               <span className="dato-valor">
-                {campoConPropietario.mejoras === "Sí" ? "Sí" : "No"}
+                {campoConPropietario.mejoras === "Sí" ? tt("Sí","Sim") : tt("No","Não")}
               </span>
-              <span className="dato-label">Mejoras</span>
+              <span className="dato-label">{tt("Mejoras","Benfeitorias")}</span>
             </div>
           </div>
 
           {/* Descripción */}
           {campoConPropietario.descripcion && (
             <div className="ficha-seccion">
-              <h2 className="ficha-seccion-titulo">Descripción</h2>
+              <h2 className="ficha-seccion-titulo">{tt("Descripción","Descrição")}</h2>
               <p className="ficha-descripcion">
                 {campoConPropietario.descripcion}
               </p>
@@ -241,7 +242,7 @@ export default async function CampoFichaPage({ params }: PageProps) {
           {/* Ambiente */}
           {campoConPropietario.ambiente && (
             <div className="ficha-seccion">
-              <h2 className="ficha-seccion-titulo">Ambiente y suelo</h2>
+              <h2 className="ficha-seccion-titulo">{tt("Ambiente y suelo","Ambiente e solo")}</h2>
               <p className="ficha-descripcion">
                 {campoConPropietario.ambiente}
               </p>
@@ -256,16 +257,16 @@ export default async function CampoFichaPage({ params }: PageProps) {
               <div className="ficha-precio">
                 <span className="precio-valor">
                   {campoConPropietario.moneda}{" "}
-                  {Number(campoConPropietario.precio).toLocaleString("es-AR")}
+                  {Number(campoConPropietario.precio).toLocaleString(countryCode==="BR"?"pt-BR":"es-AR")}
                 </span>
-                <span className="precio-unit">total estimado</span>
+                <span className="precio-unit">{tt("total estimado","total estimado")}</span>
                 <span className="precio-total">
-                  Total publicado: {campoConPropietario.moneda}{" "}
+                  {tt("Total publicado:","Total anunciado:")} {campoConPropietario.moneda}{" "}
                   {Number(campoConPropietario.precio).toLocaleString("es-AR")}
                 </span>
               </div>
             ) : (
-              <p className="precio-consultar">Precio a consultar</p>
+              <p className="precio-consultar">{tt("Precio a consultar","Preço sob consulta")}</p>
             )}
 
             <ConsultaButton
@@ -299,7 +300,7 @@ export default async function CampoFichaPage({ params }: PageProps) {
                 </span>
                 <span className="propietario-provincia">
                   {campoConPropietario.propietario.apellido ??
-                    "Propietario RentoCampo"}
+                    tt("Propietario RentoCampo","Proprietário RentoCampo")}
                 </span>
               </div>
             </div>

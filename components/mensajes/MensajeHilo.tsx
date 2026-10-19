@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { trackEvent } from "@/lib/analytics";
+import { useTranslations } from "@/lib/i18n/useTranslations";
 
 interface Mensaje {
   id: string;
@@ -27,6 +28,8 @@ export default function MensajeHilo({
   destinatarioId,
   mensajesIniciales,
 }: Props) {
+  const {country}=useTranslations();
+  const tt=(es:string,pt:string)=>country==="BR"?pt:es;
   const [mensajes, setMensajes] = useState<Mensaje[]>(mensajesIniciales);
   const [texto, setTexto] = useState("");
   const [enviando, setEnviando] = useState(false);
@@ -108,7 +111,7 @@ export default function MensajeHilo({
       if (!response.ok || !result.mensaje) {
         setTexto(contenido);
         console.error("Error enviando mensaje:", result.error);
-        setError(result.error ?? "No pudimos enviar el mensaje. Intentá nuevamente.");
+        setError(result.error ?? tt("No pudimos enviar el mensaje. Intentá nuevamente.","Não foi possível enviar a mensagem. Tente novamente."));
         return;
       }
 
@@ -118,7 +121,7 @@ export default function MensajeHilo({
     } catch (cause) {
       console.error("Error enviando mensaje:", cause);
       setTexto(contenido);
-      setError("No pudimos conectar para enviar el mensaje. Intentá nuevamente.");
+      setError(tt("No pudimos conectar para enviar el mensaje. Intentá nuevamente.","Não foi possível conectar para enviar a mensagem. Tente novamente."));
     } finally {
       setEnviando(false);
     }
@@ -129,12 +132,12 @@ export default function MensajeHilo({
     const hoy = new Date();
     const esHoy = d.toDateString() === hoy.toDateString();
     if (esHoy)
-      return d.toLocaleTimeString("es-AR", {
+      return d.toLocaleTimeString(country==="BR"?"pt-BR":"es-AR", {
         hour: "2-digit",
         minute: "2-digit",
       });
     return (
-      d.toLocaleDateString("es-AR", { day: "numeric", month: "short" }) +
+      d.toLocaleDateString(country==="BR"?"pt-BR":"es-AR", { day: "numeric", month: "short" }) +
       " " +
       d.toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit" })
     );
@@ -145,8 +148,8 @@ export default function MensajeHilo({
     const hoy = new Date();
     const ayer = new Date(hoy);
     ayer.setDate(ayer.getDate() - 1);
-    if (d.toDateString() === hoy.toDateString()) return "Hoy";
-    if (d.toDateString() === ayer.toDateString()) return "Ayer";
+    if (d.toDateString() === hoy.toDateString()) return tt("Hoy","Hoje");
+    if (d.toDateString() === ayer.toDateString()) return tt("Ayer","Ontem");
     return d.toLocaleDateString("es-AR", {
       weekday: "long",
       day: "numeric",
@@ -166,7 +169,7 @@ export default function MensajeHilo({
       <div className="hilo-mensajes">
         {mensajes.length === 0 && (
           <div className="hilo-vacio">
-            <p>No hay mensajes todavía. Iniciá la conversación.</p>
+            <p>{tt("No hay mensajes todavía. Iniciá la conversación.","Ainda não há mensagens. Inicie uma conversa.")}</p>
           </div>
         )}
 
@@ -220,7 +223,7 @@ export default function MensajeHilo({
         <input
           type="text"
           className="mensaje-input"
-          placeholder="Escribí un mensaje..."
+          placeholder={tt("Escribí un mensaje...","Digite uma mensagem...")}
           value={texto}
           onChange={(e) => setTexto(e.target.value)}
           disabled={enviando}
