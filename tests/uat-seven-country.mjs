@@ -177,8 +177,8 @@ async function run() {
                 await open(page,"/?pais="+country,".triptychHero__panelCta");
                 const layout=await page.evaluate(()=>{
                   const hero=document.querySelector(".triptychHero");
-                  const ctas=[...document.querySelectorAll(".triptychHero__panelCta")];
-                  const panels=[...document.querySelectorAll(".triptychHero__panel")];
+                  const ctas=[...document.querySelectorAll(".triptychHero__panelCta")].filter(el=>el.getBoundingClientRect().width>2);
+                  const panels=[...document.querySelectorAll(".triptychHero__panel")].filter(el=>el.getBoundingClientRect().width>2);
                   const register=document.querySelector(".triptychHero__button--register");
                   const section=document.querySelector(".rc-map-section");
                   const video=document.querySelector(".rc-map-section .rc-aerial-video");
