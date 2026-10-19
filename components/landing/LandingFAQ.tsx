@@ -33,14 +33,14 @@ export default function LandingFAQ() {
 
   if (country === "BR") {
     const items = [
-      ["Anunciar tem custo?", "Nesta fase de expansão, anúncios de terras, serviços rurais, cadastro e contato são 100% gratuitos, sem pacotes pagos nem limites comerciais de anúncios."],
+      ["Anunciar tem custo?", "Nesta fase de expansão, anúncios de terras, serviços rurais, cadastro e contato são 100% gratuitos, sem limites comerciais de anúncios."],
       ["Quem pode se cadastrar?", "Proprietários de terras, produtores e prestadores de serviços rurais."],
       ["A RentoCampo participa da negociação?", "Não. Arrendamento, compra, venda e prestação de serviços são negociados diretamente entre os usuários."],
       ["Como entram em contato comigo?", "Interessados podem enviar mensagens pelo anúncio e você responde pela plataforma."],
     ];
     return <section className="rc-faq" id="preguntas"><div className="rc-shell rc-faq-grid">
       <div className="rc-faq-promise"><p className="rc-kicker">Perguntas frequentes</p>
-        <h2><span>Toda a rede rural</span><span>sem pacotes</span><strong>100% grátis.</strong></h2></div>
+        <h2><span>Anuncie, busque</span><span>e conecte-se</span><strong>100% grátis.</strong></h2></div>
       <div className="rc-faq-content" ref={faqRef}>
         {items.map(([question, answer], i) => <div className="rc-question" key={question}>
           <button type="button" aria-expanded={open === i} onClick={(event) => toggleFaq(i, event.currentTarget)}>
@@ -56,7 +56,7 @@ export default function LandingFAQ() {
       <div className="rc-shell rc-faq-grid">
         <div className="rc-faq-promise">
           <p className="rc-kicker">Preguntas frecuentes</p>
-          <h2><span>Toda la red rural</span><span>sin packs</span><strong>100% gratis.</strong></h2>
+          <h2><span>Publicá, buscá</span><span>y conectá</span><strong>100% gratis.</strong></h2>
         </div>
 
         <div className="rc-faq-content" ref={faqRef}>
@@ -74,7 +74,7 @@ export default function LandingFAQ() {
                         <h3>PUBLICAR Y CONTACTAR ES <strong className="rc-faq-lifetime">100% GRATIS</strong></h3>
                         <p className="rc-faq-owner-free"><strong>PARA PROPIETARIOS, PRODUCTORES Y SERVICIOS RURALES</strong></p>
                         <p className="rc-faq-more-fields">
-                          Durante esta etapa de crecimiento regional no hay packs, pagos ni límites comerciales de publicaciones.
+                          Durante esta etapa de crecimiento regional, publicar y contactar es gratis, sin límites comerciales de publicaciones.
                           Los acuerdos entre usuarios se realizan de forma directa.
                         </p>
                       </div>
@@ -85,7 +85,7 @@ export default function LandingFAQ() {
                   {faq.type === "users" && <div className="rc-faq-users">
                     <p className="rc-faq-intro">Pueden registrarse tres tipos de usuarios:</p>
                     <div className="rc-faq-user"><FaqIcon>🚜</FaqIcon><div><h3>Productores</h3><p>Buscan campos para alquilar o producir.</p><mark className="rc-free-tag">Gratis durante esta etapa</mark></div></div>
-                    <div className="rc-faq-user"><FaqIcon>🌱</FaqIcon><div><h3>Propietarios de Tierras</h3><p>Publican sus campos principalmente para alquiler y, si lo necesitan, también para venta.</p><mark className="rc-owner-tag">Publicá tus campos gratis y sin packs.</mark></div></div>
+                    <div className="rc-faq-user"><FaqIcon>🌱</FaqIcon><div><h3>Propietarios de Tierras</h3><p>Publican sus campos principalmente para alquiler y, si lo necesitan, también para venta.</p><mark className="rc-owner-tag">Publicá tus campos gratis.</mark></div></div>
                     <div className="rc-faq-user"><FaqIcon>🔧</FaqIcon><div><h3>Proveedores de Servicios Rurales</h3><p>Publican sus servicios: siembra, cosecha, fletes, alambrados y otros trabajos rurales.</p><mark className="rc-free-tag">Gratis durante esta etapa</mark></div></div>
                   </div>}
 

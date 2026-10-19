@@ -179,3 +179,84 @@ test("UAT messaging exercises real field consultations, direct chat and DEMO blo
  assert.match(content,/regionalMessageIds\.length/);
  assert.match(content,/regionalDirectMessageIds\.length/);
 });
+
+test("new regional explorer toolbar is common to fields and services", () => {
+ const fields=read("components/campos/CamposListing.tsx");
+ const services=read("app/(public)/servicios-rurales/page.tsx");
+ const toolbar=read("components/listings/ListingExplorerToolbar.tsx");
+ const styles=read("styles/explorador.css");
+ for(const component of [fields,services]) {
+  assert.match(component,/<ListingExplorerToolbar/);
+  assert.ok(!component.includes('className="explorador-switch"'));
+  assert.ok(!component.includes('className="rc-listing-map-country"'));
+ }
+ assert.match(toolbar,/ListingCountrySelector/);
+ assert.match(styles,/\.rc-explorer-toolbar__related/);
+ assert.match(styles,/@media \(max-width: 700px\)/);
+});
+test("maps center on the selected country's predefined mapCenter", () => {
+ const map=read("components/campos/CampoMapa.tsx");
+ const page=read("app/(public)/campos/mapa/page.tsx");
+ const nav=read("components/layout/Navbar.tsx");
+ const selector=read("components/listings/ListingCountrySelector.tsx");
+ assert.ok(!map.includes("fitBounds("));
+ assert.match(map,/leafletMap\.setView\(country\.mapCenter, country\.mapZoom/);
+ assert.match(map,/data-country=\{countryCode\}/);
+ assert.match(page,/key=\{selectedCountry\}/);
+ assert.match(nav,/router\.replace\(/);
+ assert.match(selector,/router\.replace\(/);
+});
+test("FAQ message puts free search and connection first without packs", () => {
+ const faq=read("components/landing/LandingFAQ.tsx");
+ assert.match(faq,/<span>Publicá, buscá<\/span><span>y conectá<\/span>/);
+ assert.match(faq,/<span>Anuncie, busque<\/span><span>e conecte-se<\/span>/);
+ assert.ok(!faq.toLowerCase().includes("packs"));
+});
+
+test("public catalog filters sit beside results, with a mobile disclosure before listings", () => {
+  const fields=read("components/campos/CamposListing.tsx");
+  const services=read("app/(public)/servicios-rurales/page.tsx");
+  const wrapper=read("components/listings/ListingFiltersPanel.tsx");
+  const css=read("styles/explorador.css");
+  assert.ok(!fields.includes('className="seo-explore"'));
+  assert.ok(!fields.includes("Explorá campos por zona y aptitud"));
+  assert.match(fields,/ListingFiltersPanel/);
+  assert.match(services,/ListingFiltersPanel/);
+  assert.match(wrapper,/aria-expanded=\{expanded\}/);
+  assert.match(wrapper,/aria-controls=\{panelId\}/);
+  assert.match(css,/@media \(max-width: 920px\)/);
+  assert.match(css,/\.rc-explorer-filters__body\.is-open/);
+});
+test("Lite field and service search starts with a filter action ahead of the cards", () => {
+  for (const [path,segment] of [["app/lite/campos/page.tsx","campos"],["app/lite/servicios/page.tsx","servicios"]]) {
+    const page=read(path);
+    assert.ok(page.indexOf(`/lite/${segment}/filtrar?pais=`) < page.indexOf(`<Lite${segment==="campos"?"Campos":"Servicios"}Listado/>`));
+    assert.equal((page.match(new RegExp(`/lite/${segment}/filtrar`,"g"))||[]).length,1);
+  }
+});
+
+test("service filters retain App Lite context instead of navigating back to the web",()=>{
+ const source=read("components/servicios/ServiciosFiltros.tsx");
+ assert.match(source,/pathname\.startsWith\("\/lite\/servicios\/filtrar"\)/);
+ assert.match(source,/router\.push\(query \? `\$\{destination\}/);
+ assert.match(source,/router\.push\(`\$\{destination\}\?pais=/);
+});
+
+test("regional productive zones replace clipped Argentina-only unverified demand", () => {
+ const fields=read("components/campos/CamposListing.tsx");
+ const panel=read("components/campos/DemandaZonasPanel.tsx");
+ const regions=read("data/regiones-productivas.ts");
+ const css=read("styles/explorador.css");
+ assert.match(fields, /<DemandaZonasPanel country=\{pais\}/);
+ assert.ok(!fields.includes('pais === "AR" && <DemandaZonasPanel'));
+ assert.ok(!panel.includes("Demanda activa"));
+ assert.ok(!panel.includes("Hay productores buscando tierra"));
+ for (const country of ["AR","UY","PY","CL","BO","PE","BR"]) {
+   assert.match(regions,new RegExp("  "+country+": \\["));
+ }
+ assert.match(panel,/\/register\?tipo=propietario&pais=\$\{country\}&zona=/);
+ assert.match(css,/\.rc-regions-showcase__grid/);
+ assert.match(css,/\.rc-regions-showcase \{/);
+ assert.match(css,/clip-path: none/);
+ assert.match(panel,/Não são indicadores de procura verificada/);
+});

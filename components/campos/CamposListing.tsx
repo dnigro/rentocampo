@@ -1,12 +1,13 @@
-import { resolveCountry } from "@/data/countries";
+import { COUNTRIES, resolveCountry } from "@/data/countries";
 import { campoFilterParams } from "@/lib/campos/filter-params";
 import Link from "next/link";
 import { cookies } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
 import ListingHeader from "@/components/listings/ListingHeader";
-import ListingCountrySelector from "@/components/listings/ListingCountrySelector";
+import ListingExplorerToolbar from "@/components/listings/ListingExplorerToolbar";
 import CampoCard from "@/components/campos/CampoCard";
 import CampoFiltros from "@/components/campos/CampoFiltros";
+import ListingFiltersPanel from "@/components/listings/ListingFiltersPanel";
 import DemandaZonasPanel from "@/components/campos/DemandaZonasPanel";
 import { seleccionarCamposPublicos } from "@/lib/campos/visible-fields";
 import { regionalText } from "@/lib/i18n/regional";
@@ -80,24 +81,35 @@ export default async function CamposListing({ params, titulo, descripcion, soloA
   const campos = camposVisibles.slice(from, to);
   const totalPages = Math.ceil(count / PAGE_SIZE);
   const hayFiltros = Object.keys(params).some(
-    (key) => key !== "page" && params[key],
+    (key) => key !== "page" && key !== "pais" && params[key],
   );
 
   return (
     <div className="explorador-layout explorador-layout-results-first">
       <ListingHeader
         title={titulo ?? (hayFiltros ? tt("Resultados","Resultados") : tt("Campos disponibles","Terras disponíveis"))}
-        description={descripcion}
+        description={descripcion ?? tt(`Explorá campos para venta o alquiler en ${COUNTRIES[pais].name}. Contactá directamente a sus propietarios.`, `Explore terras para venda ou arrendamento no ${COUNTRIES[pais].name}. Fale diretamente com os proprietários.`)}
+        eyebrow={tt("CAMPOS Y OPORTUNIDADES", "TERRAS E OPORTUNIDADES")}
         count={pais==="BR"?`${count} terra${count!==1?"s":""} encontrada${count!==1?"s":""}`:`${count} campo${count !== 1 ? "s" : ""} encontrado${count !== 1 ? "s" : ""}`}
       />
 
-      <nav className="explorador-switch" aria-label="Explorar otras publicaciones">
-        <Link href={`/servicios-rurales?pais=${pais}`}>{tt("Ver servicios rurales →", "Ver serviços rurais →")}</Link>
-      </nav>
-
-      <div className="rc-listing-map-country"><Link href={`/campos/mapa?${mapParams}`} className="listing-button rc-map-before-listings">{tt("Ver en mapa →", "Ver no mapa →")}</Link><ListingCountrySelector country={pais} /></div>
+      <ListingExplorerToolbar
+        country={pais}
+        mapHref={`/campos/mapa?${mapParams}`}
+        mapLabel={tt("Ver en mapa", "Ver no mapa")}
+        relatedHref={`/servicios-rurales?pais=${pais}`}
+        relatedLabel={tt("Explorar servicios rurales", "Explorar serviços rurais")}
+        ariaLabel={tt("Explorar campos por país", "Explorar terras por país")}
+      />
 
       <main className="explorador-main">
+        <div className="rc-explorer-grid">
+          <ListingFiltersPanel
+            title={tt("Filtrar campos", "Filtrar terras")}
+            activeCount={["operacion", "provincia", "aptitud", "disponibilidad", "hectareas_min", "hectareas_max", "precio_min", "precio_max"].filter(key => Boolean(params[key])).length}
+          >
+            <CampoFiltros key={pais} filtrosActivos={{ ...params, pais }} />
+          </ListingFiltersPanel>
         <div className="explorador-contenido">
           <section className="explorador-resultados">
             {campos && campos.length > 0 ? (
@@ -138,36 +150,25 @@ export default async function CamposListing({ params, titulo, descripcion, soloA
                 <Link href={`/campos?pais=${pais}`} className="listing-button">{tt("Ver todos los campos", "Ver todas as terras")}</Link>
               </div>
             )}
-            <aside className="explorador-sidebar explorador-sidebar-bottom" aria-label="Filtrar campos">
-              <CampoFiltros filtrosActivos={{ ...params, pais }} />
-            </aside>
           </section>
 
-          {pais === "AR" && <DemandaZonasPanel provincia={params.provincia} />}
         </div>
+        </div>
+
+        <DemandaZonasPanel country={pais} provincia={params.provincia} />
 
         <section className="demanda-cta">
           <div>
             <p className="demanda-cta-kicker">{tt("Publicar es gratis", "Anunciar é grátis")}</p>
-            <h2>{tt("¿Tenés un campo en alguna de estas zonas?", "Você tem terras em alguma dessas regiões?")}</h2>
-            <p>{tt("Hay productores interesados. Hacelo visible y empezá a recibir consultas directas.", "Há produtores interessados. Anuncie e comece a receber contatos diretamente.")}</p>
+            <h2>{tt("¿Tenés un campo para publicar?", "Você tem uma terra para anunciar?")}</h2>
+            <p>{tt("Sumá tu publicación a la red rural y contactá directamente a otros usuarios.", "Adicione seu anúncio à rede rural e entre em contato diretamente com outros usuários.")}</p>
           </div>
           <Link href={`/register?tipo=propietario&pais=${pais}`} className="demanda-cta-boton">
             {tt("Publicar mi campo gratis →","Anunciar minha terra gratuitamente →")}
           </Link>
         </section>
 
-        {pais === "AR" && <nav className="seo-explore" aria-label="Explorar alquileres rurales">
-          <p className="seo-explore-title">Explorá campos por zona y aptitud</p>
-          <div className="seo-explore-links">
-            <Link href="/alquiler-de-campos/buenos-aires">Buenos Aires</Link>
-            <Link href="/alquiler-de-campos/santa-fe">Santa Fe</Link>
-            <Link href="/alquiler-de-campos/cordoba">Córdoba</Link>
-            <Link href="/alquiler-de-campos/agricolas">Agrícolas</Link>
-            <Link href="/alquiler-de-campos/ganaderos">Ganaderos</Link>
-            <Link href="/alquiler-de-campos/mixtos">Mixtos</Link>
-          </div>
-        </nav>}
+
       </main>
     </div>
   );

@@ -136,6 +136,7 @@ export default async function MapaPage({
         <Link href={`/servicios-rurales?${listaServiciosParams}`} className="mapa-lista-link">← {tt("Lista de servicios","Lista de serviços")}</Link>
       </nav>
       <CampoMapa
+        key={selectedCountry}
         campos={camposMapa}
         prestadores={prestadoresMapa}
         currentUserId={user?.id}

@@ -8,8 +8,9 @@ import { SERVICIOS_RURALES, servicioLabel } from "@/data/servicios-rurales";
 import { regionalText } from "@/lib/i18n/regional";
 import type { ServicioRural } from "@/types";
 import ListingHeader from "@/components/listings/ListingHeader";
-import ListingCountrySelector from "@/components/listings/ListingCountrySelector";
+import ListingExplorerToolbar from "@/components/listings/ListingExplorerToolbar";
 import ServiciosFiltros from "@/components/servicios/ServiciosFiltros";
+import ListingFiltersPanel from "@/components/listings/ListingFiltersPanel";
 import "@/styles/explorador.css";
 import "@/styles/servicios-rurales.css";
 
@@ -215,16 +216,34 @@ export default async function ServiciosRuralesPage({
         <ListingHeader
           id="servicios-disponibles-titulo"
           title={`${tt("Servicios rurales en", "Serviços rurais no")} ${COUNTRIES[pais].name}`}
+          description={tt(`Encontrá profesionales y servicios rurales en ${COUNTRIES[pais].name}. Contactalos directamente.`, `Encontre profissionais e serviços rurais no ${COUNTRIES[pais].name}. Entre em contato diretamente.`)}
+          eyebrow={tt("SERVICIOS PARA PRODUCIR", "SERVIÇOS PARA PRODUZIR")}
           count={pais==="BR"?`${prestadores.length} prestador${prestadores.length !== 1?"es":""} encontrado${prestadores.length!==1?"s":""}`:`${prestadores.length} prestador${prestadores.length !== 1 ? "es" : ""} encontrado${prestadores.length !== 1 ? "s" : ""}`}
         />
 
-      <nav className="explorador-switch" aria-label="Explorar otras publicaciones">
-          <Link href={`/campos?pais=${pais}`}>{tt("Ver campos →", "Ver terras →")}</Link>
-        </nav>
-
-        <div className="rc-listing-map-country"><Link href={`/campos/mapa?${mapParams.toString()}`} className="listing-button rc-map-before-listings">{tt("Ver en mapa →", "Ver no mapa →")}</Link><ListingCountrySelector country={pais} /></div>
+        <ListingExplorerToolbar
+          country={pais}
+          mapHref={`/campos/mapa?${mapParams.toString()}`}
+          mapLabel={tt("Ver en mapa", "Ver no mapa")}
+          relatedHref={`/campos?pais=${pais}`}
+          relatedLabel={tt("Explorar campos", "Explorar terras")}
+          ariaLabel={tt("Explorar servicios por país", "Explorar serviços por país")}
+        />
 
         <div className="explorador-main">
+          <div className="rc-explorer-grid">
+            <ListingFiltersPanel
+              title={tt("Filtrar servicios", "Filtrar serviços")}
+              activeCount={[provincia, servicioValido].filter(Boolean).length}
+            >
+              <ServiciosFiltros
+                key={pais}
+                paisInicial={pais}
+                provinciaInicial={provincia}
+                servicioInicial={servicioValido}
+              />
+            </ListingFiltersPanel>
+            <div className="rc-explorer-grid__results">
           {prestadores.length > 0 ? (
             <div className="servicios-prestadores-grid">
               {prestadores.map((prestador) => {
@@ -306,13 +325,8 @@ export default async function ServiciosRuralesPage({
             </div>
           )}
 
-          <aside className="explorador-sidebar explorador-sidebar-bottom" aria-label="Filtrar servicios rurales">
-            <ServiciosFiltros
-              paisInicial={pais}
-              provinciaInicial={provincia}
-              servicioInicial={servicioValido}
-            />
-          </aside>
+            </div>
+          </div>
         </div>
       </section>
 
