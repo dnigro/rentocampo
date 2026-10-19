@@ -260,3 +260,16 @@ test("regional productive zones replace clipped Argentina-only unverified demand
  assert.match(css,/clip-path: none/);
  assert.match(panel,/Não são indicadores de procura verificada/);
 });
+
+test("mobile triptych pills wrap safely and the video follows the registration CTA", () => {
+  const style=read("styles/landing-triptych-refinements.css");
+  const landing=read("components/landing/LandingPageContent.tsx");
+  const lite=read("app/lite/page.tsx");
+  assert.match(style,/\.triptychHero__panel \.triptychHero__panelCta \{[\s\S]*?white-space: normal/);
+  assert.match(style,/\.triptychHero__panel--producers \.triptychHero__panelCta/);
+  assert.match(style,/\.rc-map-section > \.rc-shell \{[\s\S]*?flex-direction: column/);
+  assert.match(style,/\.rc-map-section \.rc-aerial-video \{[\s\S]*?order: 0/);
+  assert.match(style,/\.rc-map-section \.rc-map-copy \{[\s\S]*?order: 1/);
+  assert.ok(landing.indexOf("<LandingTriptychHero") < landing.indexOf("<LandingMapa"));
+  assert.ok(!lite.includes("triptychHero"), "the independent Lite home needs no web triptych overrides");
+});

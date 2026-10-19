@@ -3,7 +3,7 @@ name: UAT Siete Países
 on:
   workflow_dispatch:
   push:
-    branches: [feat/brasil-foundation-20261019, fix/regional-listings-map-country-20261019]
+    branches: [feat/brasil-foundation-20261019, fix/regional-listings-map-country-20261019, fix/mobile-triptych-video-spacing-20261019]
 
 permissions:
   contents: read
