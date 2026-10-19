@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { FREE_PUBLICATIONS_ENABLED } from "@/lib/commercial/free-publications";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { PLANES_TIERRA } from "@/data/planes-tierra";
 import { getPlanExpiryStage } from "@/lib/billing/plan-expiry";
@@ -12,6 +13,10 @@ export async function GET(request: Request) {
   const secret = process.env.CRON_SECRET;
   if (!secret || request.headers.get("authorization") !== `Bearer ${secret}`) {
     return NextResponse.json({ error: "No autorizado" }, { status: 401 });
+  }
+  if (FREE_PUBLICATIONS_ENABLED) {
+    // Do not encourage paid renewals or expire entitlements during the free pilot.
+    return NextResponse.json({ ok: true, skipped: "free_publication_period" });
   }
 
   const admin = createAdminClient();

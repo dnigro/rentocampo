@@ -2,10 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import MisCamposLista from "@/components/campos/MisCamposLista";
-import PlanesTierra from "@/components/planes/PlanesTierra";
-import { getLandQuotaStatus } from "@/lib/billing/land-quota";
-import { getPlanExpiryDays } from "@/lib/billing/plan-expiry";
-import { isCountryCode, resolveCountry } from "@/data/countries";
+import { resolveCountry } from "@/data/countries";
 import { regionalText } from "@/lib/i18n/regional";
 import { cookies } from "next/headers";
 import "@/styles/perfil.css";
@@ -58,28 +55,12 @@ export default async function MisCamposPage() {
     .eq("propietario_id", user.id)
     .order("created_at", { ascending: false });
 
-  const publicacionesReales = (campos ?? []).filter(
-    (campo) => !campo.id.startsWith("20000000-"),
-  ).length;
-  const quota = await getLandQuotaStatus(user.id);
-  const expiryDate = quota.expiresAt ? new Date(quota.expiresAt) : null;
-  const expiryDays = quota.expiresAt
-    ? getPlanExpiryDays(quota.expiresAt)
-    : null;
-  const expiryLabel = expiryDate
-    ? new Intl.DateTimeFormat(country==="BR"?"pt-BR":"es-AR", {
-        day: "2-digit",
-        month: "2-digit",
-        year: "numeric",
-        timeZone: "America/Argentina/Buenos_Aires",
-      }).format(expiryDate)
-    : null;
 
   return (
     <div className="page-container">
       <div className="page-header">
         <div>
-          <h1 className="page-title">Mis campos</h1>
+          <h1 className="page-title">{tt("Mis campos", "Minhas terras")}</h1>
           <p className="page-subtitle">
             {campos?.length
               ? country==="BR"?`${campos.length} terra${campos.length!==1?"s":""} anunciada${campos.length!==1?"s":""}`:`${campos.length} campo${campos.length !== 1 ? "s" : ""} publicado${campos.length !== 1 ? "s" : ""}`
@@ -91,17 +72,10 @@ export default async function MisCamposPage() {
         </Link>
       </div>
 
-      <PlanesTierra
-        countryCode={isCountryCode(profile?.country_code) ? profile.country_code : null}
-        planActualId={quota.planId}
-        planActualNombre={quota.planName}
-        publicacionesUsadas={quota.used}
-        publicacionesReales={publicacionesReales}
-        publicacionesLimite={quota.limit}
-        publicacionesRestantes={quota.remaining}
-        expiryLabel={expiryLabel}
-        expiryDays={expiryDays}
-      />
+      <p className="page-subtitle" role="status">
+        {tt("Publicar campos y servicios es 100% gratis. Sin packs ni límites de publicaciones.",
+            "Anunciar terras e serviços é 100% grátis. Sem pacotes nem limites de anúncios.")}
+      </p>
       <MisCamposLista campos={campos ?? []} />
     </div>
   );

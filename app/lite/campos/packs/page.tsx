@@ -1,1 +1,6 @@
-import LiteWorkflowLayout from "@/components/lite/LiteWorkflowLayout";import Workflow from "@/app/(dashboard)/mis-campos/page";import {requireLiteUser} from "@/lib/lite/require-user";export default async function Page( ){await requireLiteUser();return <LiteWorkflowLayout><Workflow /></LiteWorkflowLayout>}
+import { redirect } from "next/navigation";
+
+/** Legacy pack URL: new purchases are disabled during free publishing. */
+export default function LegacyPackRoute() {
+  redirect("/lite/campos/mis-publicaciones");
+}

@@ -81,3 +81,24 @@ test("country switching is atomic on the first selection, including Lite", () =>
   assert.ok(!lite.includes('router.push(`${destination.pathname}'));
   assert.match(link, /rentocampo:country-change/);
 });
+
+test("free-growth mode hides paid packs and disables checkout and quota consumption", () => {
+  const flag = read("lib/commercial/free-publications.ts");
+  const quota = read("lib/billing/land-quota.ts");
+  const checkout = read("app/api/billing/checkout/route.ts");
+  const publish = read("app/api/campos/publicar/route.ts");
+  const fotos = read("app/api/campos/fotos/route.ts");
+  const listings = read("app/(dashboard)/mis-campos/page.tsx");
+  const liteFields = read("app/lite/campos/page.tsx");
+  const liteProfile = read("app/lite/perfil/page.tsx");
+  assert.match(flag, /FREE_PUBLICATIONS_ENABLED = true/);
+  assert.match(quota, /if \(FREE_PUBLICATIONS_ENABLED\)/);
+  assert.match(quota, /limit: null, used: 0, remaining: null, unlimited: true/);
+  assert.match(quota, /No billing event or quota is consumed/);
+  assert.match(checkout, /code: "billing_paused"/);
+  assert.match(publish, /return \{ user, admin: supabase \}/);
+  assert.match(fotos, /FREE_PUBLICATIONS_ENABLED \? supabase : createAdminClient/);
+  assert.ok(!listings.includes("<PlanesTierra"));
+  assert.ok(!liteFields.includes('href="/lite/campos/packs"'));
+  assert.ok(!liteProfile.includes('href="/lite/campos/packs"'));
+});

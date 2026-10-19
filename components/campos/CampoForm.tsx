@@ -10,6 +10,7 @@ import { COUNTRIES, COUNTRY_CODES, getCountrySubdivisions, type CountryCode } fr
 import type { CampoFormData } from "@/types";
 import { trackEvent } from "@/lib/analytics";
 import { regionalText } from "@/lib/i18n/regional";
+import { FREE_PUBLICATIONS_ENABLED } from "@/lib/commercial/free-publications";
 import GeocoderInput, {
   type LugarSeleccionado,
 } from "@/components/campos/GeocoderInput";
@@ -207,7 +208,7 @@ export default function CampoForm({
       const result = await response.json();
 
       if (!response.ok) {
-        if (result.code === "quota_exhausted") {
+        if (!FREE_PUBLICATIONS_ENABLED && result.code === "quota_exhausted") {
           throw new Error(
             "Ya utilizaste todas las publicaciones de tu plan. Volvé a Mis campos y elegí un plan superior para seguir publicando.",
           );
@@ -256,7 +257,7 @@ export default function CampoForm({
 
   return (
     <form className="campo-form" onSubmit={(e) => e.preventDefault()}>
-      <div className="campo-plan-status">
+      {!FREE_PUBLICATIONS_ENABLED && <div className="campo-plan-status">
         <div>
           <span className="campo-plan-kicker">{tt("Tu plan","Seu plano")}</span>
           <strong>{planNombre}</strong>
@@ -275,9 +276,9 @@ export default function CampoForm({
             </>
           )}
         </div>
-      </div>
+      </div>}
 
-      {!puedePublicar && !campoId && (
+      {!FREE_PUBLICATIONS_ENABLED && !puedePublicar && !campoId && (
         <div className="campo-plan-alert">
           {tt("Alcanzaste el límite de tu plan. Podés guardar un borrador, pero para publicar una nueva tierra necesitás ampliar tu plan desde Mis campos.","Você atingiu o limite do seu plano. Pode salvar um rascunho, mas para publicar uma nova terra será necessário ampliar seu plano.")}
         </div>
@@ -672,11 +673,11 @@ export default function CampoForm({
           type="button"
           className="btn-primary-lg"
           onClick={(e) => handleSubmit(e, "activo")}
-          disabled={saving || (!puedePublicar && !campoId)}
+          disabled={saving || (!FREE_PUBLICATIONS_ENABLED && !puedePublicar && !campoId)}
         >
           {saving
             ? tt("Publicando...","Publicando...")
-            : !puedePublicar && !campoId
+            : !FREE_PUBLICATIONS_ENABLED && !puedePublicar && !campoId
               ? tt("Sin cupo disponible","Sem vagas disponíveis")
               : tt("Publicar campo","Anunciar terra")}
         </button>

@@ -7,10 +7,18 @@ import {
   isPaidLandPlanId,
 } from "@/lib/billing/land-plans";
 import { getLandQuotaStatus } from "@/lib/billing/land-quota";
+import { FREE_PUBLICATIONS_ENABLED } from "@/lib/commercial/free-publications";
 import { planTierraRank } from "@/data/planes-tierra";
 import { getBnaUsdSellerRate, usdToArs } from "@/lib/billing/bna-rate";
 
 export async function POST(request: Request) {
+  if (FREE_PUBLICATIONS_ENABLED) {
+    // Prevent direct API checkout even when a stale bookmark still points here.
+    return NextResponse.json({
+      code: "billing_paused",
+      message: "RentoCampo es 100% gratuito durante esta etapa. No se están vendiendo packs.",
+    }, { status: 403 });
+  }
   const supabase = await createClient();
   const {
     data: { user },
