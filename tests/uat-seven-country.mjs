@@ -168,6 +168,56 @@ async function run() {
           }
           await page.screenshot({path:"test-results/seven-country/regions-"+size.name+".png",fullPage:true});
         },page);
+        if(size.name==="mobile") {
+          await check("mobile hero pills and video layout at 320, 390 and 430px",async()=>{
+            for(const country of ["AR","BR"]) {
+              await context.addCookies([{name:"rentocampo_country",value:country,url:origin}]);
+              for(const width of [320,390,430]){
+                await page.setViewportSize({width,height:844});
+                await open(page,"/?pais="+country,".triptychHero__panelCta");
+                const layout=await page.evaluate(()=>{
+                  const hero=document.querySelector(".triptychHero");
+                  const ctas=[...document.querySelectorAll(".triptychHero__panelCta")];
+                  const panels=[...document.querySelectorAll(".triptychHero__panel")];
+                  const register=document.querySelector(".triptychHero__button--register");
+                  const section=document.querySelector(".rc-map-section");
+                  const video=document.querySelector(".rc-map-section .rc-aerial-video");
+                  const copy=document.querySelector(".rc-map-section .rc-map-copy");
+                  return {
+                    count:ctas.length,
+                    ctas:ctas.map((el,index)=>{
+                      const box=el.getBoundingClientRect();
+                      const midY=box.y+box.height/2;
+                      const samples=[box.x+5,box.x+box.width/2,box.right-5].map(x=>{
+                        const node=document.elementFromPoint(x,midY);
+                        return node===panels[index]||panels[index]?.contains(node);
+                      });
+                      return {label:el.textContent?.trim(),overflow:el.scrollWidth>el.clientWidth+2,
+                        width:box.width,height:box.height,samples};
+                    }),
+                    registerBottom:register?.getBoundingClientRect().bottom,
+                    videoTop:video?.getBoundingClientRect().top,
+                    copyTop:copy?.getBoundingClientRect().top,
+                    videoBottom:video?.getBoundingClientRect().bottom,
+                    heroBottom:hero?.getBoundingClientRect().bottom,
+                    sectionTop:section?.getBoundingClientRect().top,
+                    horizontalOverflow:document.documentElement.scrollWidth>window.innerWidth+2
+                  };
+                });
+                if(layout.count!==3)throw Error("Expected three image CTAs: "+JSON.stringify(layout));
+                for(const cta of layout.ctas){
+                  if(cta.overflow||!cta.samples.every(Boolean))throw Error("Clipped CTA at "+country+"/"+width+": "+JSON.stringify(cta));
+                }
+                const gap=layout.videoTop-layout.registerBottom;
+                if(gap<0||gap>28)throw Error("Video must closely follow registration ("+country+"/"+width+"): "+gap);
+                if(layout.copyTop<layout.videoBottom-2)throw Error("Video is not above section copy");
+                if(layout.horizontalOverflow)throw Error("Horizontal overflow on "+width+"px");
+                await page.screenshot({path:"test-results/seven-country/hero-"+country+"-"+width+".png",fullPage:true});
+              }
+            }
+            await page.setViewportSize({width:390,height:844});
+          },page);
+        }
         await check(size.name+" free home and no pack calls-to-action",async()=>{
           await open(page,"/?pais=AR",".rc-faq");
           const faq=(await page.locator(".rc-faq").innerText()).toLowerCase();

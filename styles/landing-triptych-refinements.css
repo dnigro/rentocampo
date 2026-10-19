@@ -797,3 +797,80 @@
     font-size: 17px;
   }
 }
+
+/* Mobile hero refinement: 3 complete pills without clipped captions.
+   The three photos keep the approved angled triptych.
+   The video follows registration directly; desktop remains untouched. */
+@media (max-width: 900px) {
+  .rc-landing .triptychHero {
+    padding-bottom: 8px;
+  }
+  .rc-landing .triptychHero__panelContent,
+  .rc-landing .triptychHero__panel--services .triptychHero__panelContent {
+    bottom: clamp(26px, 7vw, 38px);
+  }
+  .rc-landing .triptychHero__panel .triptychHero__panelCta {
+    flex: 0 0 auto;
+    width: min(100%, clamp(68px, 22vw, 115px));
+    max-width: 100%;
+    min-height: 42px;
+    padding: 7px 5px;
+    margin: auto auto 0;
+    border-radius: 18px;
+    font-size: clamp(10px, 2.65vw, 12px);
+    font-weight: 900;
+    line-height: 1.13;
+    white-space: normal;
+    text-wrap: balance;
+    overflow-wrap: normal;
+    text-align: center;
+  }
+  .rc-landing .triptychHero__panel--producers .triptychHero__panelCta {
+    position: relative;
+    left: -10px;
+  }
+  .rc-landing .triptychHero__actions,
+  .rc-landing .triptychHero__mobileHero .triptychHero__actions {
+    margin-top: 10px;
+  }
+  /* Video first on mobile: no oversized editorial copy between the two CTAs. */
+  .rc-landing .rc-map-section > .rc-shell {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    width: 100%;
+    min-height: 0;
+  }
+  .rc-landing .rc-map-section .rc-aerial-video {
+    order: 0;
+    width: 100%;
+    height: clamp(194px, 56vw, 295px);
+    min-height: 0;
+    max-height: 295px;
+    border-radius: 0;
+  }
+  .rc-landing .rc-map-section .rc-map-copy {
+    order: 1;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 30px clamp(18px, 5vw, 30px) 38px;
+  }
+}
+@media (max-width: 570px) {
+  .rc-landing .triptychHero__panels {
+    margin-bottom: 0;
+  }
+  .rc-landing .triptychHero__panelContent,
+  .rc-landing .triptychHero__panel--services .triptychHero__panelContent {
+    bottom: 30px;
+  }
+  .rc-landing .triptychHero__panel .triptychHero__panelCta {
+    min-height: 40px;
+    max-width: clamp(68px, 23vw, 102px);
+    font-size: clamp(10px, 2.6vw, 12px);
+  }
+  .rc-landing .triptychHero__actions,
+  .rc-landing .triptychHero__mobileHero .triptychHero__actions {
+    margin-top: 9px;
+  }
+}
