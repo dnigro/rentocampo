@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { resolveCountry } from "@/data/countries";
+import { regionalText } from "@/lib/i18n/regional";
 import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
@@ -75,6 +76,7 @@ export default async function ServicioDetallePage({ params }: { params: Promise<
     : { data: null };
 
   const pais = resolveCountry(publicacion?.country_code, demo?.country_code);
+  const tt=(es:string,pt:string)=>regionalText(pais,es,pt);
   const esDemo = Boolean(demo);
   const rubros = (publicacion?.servicios_rurales ?? demo?.servicios_rurales ?? []) as ServicioRural[];
   const titulo = rubros.map((item) => SERVICIO_LABEL[item] ?? item).join(" · ");
@@ -119,7 +121,7 @@ export default async function ServicioDetallePage({ params }: { params: Promise<
       <div className="ficha-body">
         <main className="ficha-main">
           <div className="ficha-tags">
-            <span className="aptitud-tag">{esDemo ? "Servicio demo" : "Servicio rural"}</span>
+            <span className="aptitud-tag">{esDemo ? tt("Servicio demo","Serviço demo") : tt("Servicio rural","Serviço rural")}</span>
           </div>
           <h1 className="ficha-titulo">{titulo || nombre}</h1>
           <p className="ficha-ubicacion">📍 {[localidad, provincia].filter(Boolean).join(", ")}</p>
@@ -127,21 +129,21 @@ export default async function ServicioDetallePage({ params }: { params: Promise<
           <div className="ficha-datos">
             <div className="dato-item">
               <span className="dato-valor">{rubros.length}</span>
-              <span className="dato-label">{rubros.length === 1 ? "Actividad" : "Actividades"}</span>
+              <span className="dato-label">{rubros.length === 1 ? tt("Actividad","Atividade") : tt("Actividades","Atividades")}</span>
             </div>
             {zona && (
               <>
                 <div className="dato-sep" />
                 <div className="dato-item">
                   <span className="dato-valor">{zona}</span>
-                  <span className="dato-label">Zona de cobertura</span>
+                  <span className="dato-label">{tt("Zona de cobertura","Área de atendimento")}</span>
                 </div>
               </>
             )}
           </div>
           {descripcion && (
             <section className="ficha-seccion">
-              <h2 className="ficha-seccion-titulo">Descripción</h2>
+              <h2 className="ficha-seccion-titulo">{tt("Descripción","Descrição")}</h2>
               <p className="ficha-descripcion">{descripcion}</p>
             </section>
           )}
@@ -149,27 +151,27 @@ export default async function ServicioDetallePage({ params }: { params: Promise<
 
         <aside className="ficha-sidebar">
           <div className="ficha-precio-card">
-            <strong className="servicio-ficha-card-titulo">{esDemo ? "Publicación demostrativa" : "Consultar servicio"}</strong>
+            <strong className="servicio-ficha-card-titulo">{esDemo ? tt("Publicación demostrativa","Anúncio demonstrativo") : tt("Consultar servicio","Consultar serviço")}</strong>
             {esDemo ? (
               <>
-                <p className="ficha-descripcion">Este servicio es un ejemplo de RentoCampo. No representa una oferta comercial activa y no admite consultas.</p>
+                <p className="ficha-descripcion">{tt("Este servicio es un ejemplo de RentoCampo. No representa una oferta comercial activa y no admite consultas.","Este serviço é um exemplo da RentoCampo. Não é uma oferta comercial ativa e não recebe consultas.")}</p>
                 <Link href={user ? "/servicios-rurales" : `/login?next=/servicios-rurales/${id}`} className="servicio-ficha-cta">
                   {user ? "Ver servicios disponibles →" : "Ingresá para consultar →"}
                 </Link>
               </>
             ) : user?.id === publicacion?.propietario_id ? (
-              <Link href={`/mis-servicios-rurales/${publicacion?.id}/editar`} className="servicio-ficha-cta">Editar publicación</Link>
+              <Link href={`/mis-servicios-rurales/${publicacion?.id}/editar`} className="servicio-ficha-cta">{tt("Editar publicación","Editar anúncio")}</Link>
             ) : user ? (
-              <Link href={`/mensajes/direct/${publicacion?.propietario_id}`} className="servicio-ficha-cta">Consultar servicio →</Link>
+              <Link href={`/mensajes/direct/${publicacion?.propietario_id}`} className="servicio-ficha-cta">{tt("Consultar servicio →","Consultar serviço →")}</Link>
             ) : (
-              <Link href={`/login?next=/servicios-rurales/${id}`} className="servicio-ficha-cta">Ingresá para consultar →</Link>
+              <Link href={`/login?next=/servicios-rurales/${id}`} className="servicio-ficha-cta">{tt("Ingresá para consultar →","Entre para consultar →")}</Link>
             )}
           </div>
           <div className="ficha-propietario">
             <div className="propietario-avatar"><span>{nombre.charAt(0).toUpperCase()}</span></div>
             <div className="propietario-info">
               <span className="propietario-nombre">{nombre}</span>
-              <span className="propietario-provincia">{esDemo ? "Perfil demostrativo" : "Prestador RentoCampo"}</span>
+              <span className="propietario-provincia">{esDemo ? tt("Perfil demostrativo","Perfil demonstrativo") : tt("Prestador RentoCampo","Prestador RentoCampo")}</span>
             </div>
           </div>
         </aside>

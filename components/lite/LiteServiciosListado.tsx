@@ -4,6 +4,8 @@ import { cookies } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
 import { resolveCountry } from "@/data/countries";
 import { translate } from "@/lib/i18n/messages";
+import { servicioLabel } from "@/data/servicios-rurales";
+import type { ServicioRural } from "@/types";
 
 export default async function LiteServiciosListado() {
   const pais = resolveCountry(undefined, (await cookies()).get("rentocampo_country")?.value);
@@ -19,7 +21,7 @@ export default async function LiteServiciosListado() {
   return <section style={{display:"grid",gap:12,margin:"24px 0"}}>
     <h2 style={{fontSize:22}}>{t("services.available")} ({(data?.length??0)+(demos?.length??0)})</h2>
     {(data??[]).map(s=><Link key={s.id} href={`/lite/servicios/${s.id}`} style={{padding:18,borderRadius:15,background:"#fff",border:"1px solid #ddd",color:"#222",textDecoration:"none"}}>
-      <strong style={{fontSize:18}}>{s.servicios_rurales?.join(" · ")||t("services.service")}</strong>
+      <strong style={{fontSize:18}}>{s.servicios_rurales?.map((v: ServicioRural)=>servicioLabel(v,pais)).join(" · ")||t("services.service")}</strong>
       <p style={{color:"#666"}}>{[s.localidad,s.provincia].filter(Boolean).join(", ")}</p><span style={{float:"right"}}>{t("fields.viewDetails")}</span>
     </Link>)}
     {(demos??[]).map(s=><Link key={s.id} href={`/servicios-rurales/${s.id}`} style={{padding:18,borderRadius:15,background:"#fff",border:"1px solid #ddd",color:"#222",textDecoration:"none"}}>

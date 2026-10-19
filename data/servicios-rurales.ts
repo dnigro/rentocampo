@@ -23,6 +23,20 @@ export const SERVICIO_LABEL = Object.fromEntries(
   SERVICIOS_RURALES.map((servicio) => [servicio.value, servicio.label]),
 ) as Record<ServicioRural, string>;
 
+const SERVICIO_LABEL_BR: Record<ServicioRural,string> = {
+  cosecha: "Colheita", siembra: "Plantio", pulverizacion: "Pulverização",
+  fertilizacion: "Adubação", maquinaria: "Máquinas e operações",
+  transporte: "Transporte e logística", hoteleria_vacuna: "Confinamento bovino",
+  granja: "Granjas e produção animal", silos_almacenamiento: "Silos e armazenagem",
+  acondicionamiento_granos: "Beneficiamento de grãos", riego: "Irrigação e água",
+  alambrados: "Cercas e infraestrutura", veterinaria: "Veterinária e saúde animal",
+  agronomia: "Agronomia e consultoria", seguros_financiacion: "Seguros e financiamento",
+  otro: "Outro serviço rural",
+};
+export function servicioLabel(value: ServicioRural, country: string): string {
+  return country === "BR" ? SERVICIO_LABEL_BR[value] ?? value : SERVICIO_LABEL[value] ?? value;
+}
+
 export const CENTROS_PROVINCIA: Record<string, [number, number]> = {
   "Buenos Aires": [-36.3, -60.2], CABA: [-34.61, -58.38], Catamarca: [-28.47, -65.78],
   Chaco: [-26.8, -60.9], Chubut: [-43.7, -68.8], "Córdoba": [-32.1, -63.8],

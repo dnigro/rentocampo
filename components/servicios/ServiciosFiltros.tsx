@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { COUNTRIES, COUNTRY_CODES, getCountrySubdivisions, type CountryCode } from "@/data/countries";
-import { SERVICIOS_RURALES } from "@/data/servicios-rurales";
+import { SERVICIOS_RURALES, servicioLabel } from "@/data/servicios-rurales";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 
 interface Props {
@@ -17,7 +17,7 @@ export default function ServiciosFiltros({
   provinciaInicial = "",
   servicioInicial = "",
 }: Props) {
-  const {t} = useTranslations();
+  const {t,country} = useTranslations();
   const router = useRouter();
   const [pais, setPais] = useState<CountryCode>(paisInicial);
   const [provincia, setProvincia] = useState(provinciaInicial);
@@ -83,7 +83,7 @@ export default function ServiciosFiltros({
             >
               <option value="">{t("filters.allCategories")}</option>
               {SERVICIOS_RURALES.filter((item) => item.value !== "otro").map((item) => (
-                <option key={item.value} value={item.value}>{item.label}</option>
+                <option key={item.value} value={item.value}>{servicioLabel(item.value,country)}</option>
               ))}
             </select>
           </div>
