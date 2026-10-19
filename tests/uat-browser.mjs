@@ -134,7 +134,7 @@ async function regionalDemoSmoke(){
      await open(page,"/servicios-rurales?pais="+spec.pais,"article.prestador-card[data-demo=true]");
      const card=page.locator("article.prestador-card[data-demo=true]").first();
      if(!(await card.innerText()).includes("DEMO"))throw Error("Demo badge missing");
-     const href=await card.getByRole("link",{name:/ver ficha demo/i}).getAttribute("href");
+     const href=await card.getByRole("link",{name:/ver ficha demo|ver anúncio demo/i}).getAttribute("href");
      if(href!=="/servicios-rurales/"+spec.servicio)throw Error("Bad service detail URL "+href);
      const photo=await card.locator("img").first().getAttribute("src");
      if(!photo?.includes("demo-servicio-veterinaria.jpg"))throw Error("Wrong service photo "+photo);
