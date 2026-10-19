@@ -1,18 +1,224 @@
-/* Workflow de experiencia: exclusivamente en la cabecera de trigo móvil. */
-.rc-landing .triptychHero__journey { display:none; }
-@media (max-width:900px) {
- .rc-landing .triptychHero__mobileHero .triptychHero__intro {
-   background:linear-gradient(180deg,rgba(16,28,15,.49),rgba(12,26,13,.8)),url("/image_trigo_pix.png") center/cover no-repeat;
-   color:#fff;border-radius:18px;padding:22px 18px 24px;overflow:hidden;
- }
- .rc-landing .triptychHero__journey {display:block;margin-top:18px;color:#fff;}
- .rc-landing .triptychHero__journey h2 {font-size:clamp(21px,5vw,30px);font-weight:900;line-height:1.14;letter-spacing:-.035em;margin:0 0 9px;}
- .rc-landing .triptychHero__journey > p {font-size:clamp(12px,3.1vw,15px);line-height:1.4;margin:0 0 24px;color:#f5f2e5;}
- .rc-landing .triptychHero__journey ol {display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;padding:0;margin:0;list-style:none;}
- .rc-landing .triptychHero__journey li {position:relative;display:flex;flex-direction:column;align-items:center;gap:7px;min-width:0;text-align:center;}
- .rc-landing .triptychHero__journeyIcon {width:clamp(40px,11vw,56px);height:clamp(40px,11vw,56px);display:grid;place-items:center;border:1px solid rgba(235,223,153,.7);border-radius:50%;color:#f3e486;background:rgba(10,26,13,.22);}
- .rc-landing .triptychHero__journey li strong {font-size:clamp(11px,2.9vw,15px);line-height:1.15;color:#fff;}
- .rc-landing .triptychHero__journey li small {font-size:clamp(9px,2.35vw,12px);line-height:1.25;color:#f5f2e5;}
- .rc-landing .triptychHero__journeyArrow {position:absolute;right:-11px;top:15px;color:#f3e486;}
+/*
+ * Workflow aprobado · RentoCampo · AR/UY/PY/CL/BO/PE/BR
+ * Contraste mostaza real sobre trigo oscuro.
+ * Compartido por portada desktop, mobile web y App Lite.
+ * Sobrescribe al final de la cascada del tríptico sin modificar los paneles.
+ */
+.rc-landing .triptychHero,
+.lite-app .lite-experience {
+  --workflow-mustard: #f2cf4e;
+  --workflow-mustard-light: #ffe075;
+  --workflow-dark: #162315;
 }
-@media(max-width:360px) {.rc-landing .triptychHero__journey li small{font-size:9px}.rc-landing .triptychHero__journeyArrow{right:-9px}}
+.rc-landing .triptychHero__journey,
+.lite-app .triptychHero__journey {
+  display: block;
+  color: #fff;
+}
+.rc-landing .triptychHero__journey h2,
+.lite-app .triptychHero__journey h2 {
+  margin: 0 0 9px;
+  color: #fff;
+  font-size: clamp(22px, 2vw, 32px);
+  font-weight: 900;
+  line-height: 1.13;
+  letter-spacing: -.04em;
+  text-shadow: 0 2px 8px rgba(0,0,0,.38);
+  text-wrap: balance;
+}
+.rc-landing .triptychHero__journey > p,
+.lite-app .triptychHero__journey > p {
+  margin: 0 0 20px;
+  color: #fff8df;
+  font-size: clamp(12px,1vw,16px);
+  line-height: 1.45;
+  font-weight: 550;
+  text-shadow: 0 1px 5px rgba(0,0,0,.5);
+}
+.rc-landing .triptychHero__journey ol,
+.lite-app .triptychHero__journey ol {
+  display: grid;
+  grid-template-columns: repeat(4,minmax(0,1fr));
+  gap: 8px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.rc-landing .triptychHero__journey li,
+.lite-app .triptychHero__journey li {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 0;
+  gap: 7px;
+  text-align: center;
+}
+.rc-landing .triptychHero__journeyIcon,
+.lite-app .triptychHero__journeyIcon {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: clamp(41px,4.5vw,61px);
+  height: clamp(41px,4.5vw,61px);
+  border: 2px solid var(--workflow-mustard-light);
+  border-radius: 50%;
+  color: var(--workflow-mustard-light);
+  background: rgba(12,28,12,.46);
+  box-shadow: 0 0 0 2px rgba(21,30,19,.08);
+}
+.rc-landing .triptychHero__journey li strong,
+.lite-app .triptychHero__journey li strong {
+  color: var(--workflow-mustard-light);
+  font-size: clamp(11px,1vw,16px);
+  line-height: 1.16;
+  font-weight: 900;
+  text-shadow: 0 1px 5px rgba(0,0,0,.55);
+  overflow-wrap: anywhere;
+}
+.rc-landing .triptychHero__journey li small,
+.lite-app .triptychHero__journey li small {
+  color: #fff;
+  font-size: clamp(10px,.88vw,13px);
+  line-height: 1.35;
+  font-weight: 580;
+  overflow-wrap: anywhere;
+  text-shadow: 0 1px 5px rgba(0,0,0,.6);
+}
+.rc-landing .triptychHero__journeyArrow,
+.lite-app .triptychHero__journeyArrow {
+  position: absolute;
+  top: 19px;
+  right: -12px;
+  color: var(--workflow-mustard-light);
+  filter: drop-shadow(0 1px 3px rgba(0,0,0,.45));
+}
+
+/* Web escritorio: cuatro pasos integrados al panel de trigo.
+   Grilla 2 x 2 para no invadir las tres fotografías del tríptico. */
+@media (min-width:901px) {
+  .rc-landing .triptychHero__intro {
+    padding-top: clamp(32px,4.3vh,53px);
+    padding-bottom: 155px;
+    background:
+      linear-gradient(180deg,rgba(9,23,12,.78),rgba(13,31,14,.71) 50%,rgba(5,18,8,.88)),
+      url("/image_trigo_pix.png") center / cover no-repeat;
+  }
+  .rc-landing .triptychHero__countries {
+    color: var(--workflow-mustard-light);
+    text-shadow: 0 2px 6px rgba(0,0,0,.5);
+    font-size: clamp(11px,.8vw,13px);
+    margin-bottom: 14px;
+  }
+  .rc-landing .triptychHero__title {
+    font-size: clamp(30px,2.9vw,46px);
+    line-height: 1.06;
+    margin-bottom: 18px;
+  }
+  .rc-landing .triptychHero__title > span {color:#fff;text-shadow:0 2px 7px rgba(0,0,0,.4);}
+  .rc-landing .triptychHero__title > strong {
+    margin-top: 3px;
+    font-size: .82em;
+    color: var(--workflow-mustard-light);
+    text-shadow: 0 2px 8px rgba(0,0,0,.5);
+  }
+  .rc-landing .triptychHero__summary,
+  .rc-landing .triptychHero__detail {display:none;}
+  .rc-landing .triptychHero__journey {margin-top: 17px;max-width: 100%;}
+  .rc-landing .triptychHero__journey h2 {font-size:clamp(19px,1.8vw,29px);}
+  .rc-landing .triptychHero__journey > p {font-size:clamp(12px,1vw,15px);margin-bottom:15px;}
+  .rc-landing .triptychHero__journey ol {
+    grid-template-columns: repeat(2,minmax(0,1fr));
+    column-gap: 12px;
+    row-gap: 13px;
+  }
+  .rc-landing .triptychHero__journeyIcon {width:42px;height:42px;}
+  .rc-landing .triptychHero__journeyIcon svg {width:22px;height:22px;}
+  .rc-landing .triptychHero__journey li {gap:4px;}
+  .rc-landing .triptychHero__journey li strong {font-size:clamp(12px,1vw,15px);}
+  .rc-landing .triptychHero__journey li small {font-size:clamp(10px,.85vw,12px);}
+  .rc-landing .triptychHero__journeyArrow {display:none;}
+}
+
+/* Mobile web y WebView: alto contraste, sin superposición con el tríptico. */
+@media (max-width:900px) {
+  .rc-landing .triptychHero__mobileHero .triptychHero__intro {
+    background:
+      linear-gradient(180deg,rgba(11,25,12,.75) 0%,rgba(12,29,13,.60) 43%,rgba(8,22,10,.86) 100%),
+      url("/image_trigo_pix.png") center / cover no-repeat;
+    color:#fff;
+    border-radius:18px;
+    padding:22px 18px 27px;
+    overflow:hidden;
+  }
+  .rc-landing .triptychHero__countries {
+    color:var(--workflow-mustard-light) !important;
+    font-weight:900;
+    text-shadow:0 2px 5px rgba(0,0,0,.6);
+  }
+  .rc-landing .triptychHero__title > span {color:#fff;text-shadow:0 2px 6px rgba(0,0,0,.5);}
+  .rc-landing .triptychHero__title > strong {
+    color:var(--workflow-mustard-light) !important;
+    text-shadow:0 2px 7px rgba(0,0,0,.6);
+  }
+  .rc-landing .triptychHero__journey {margin-top:20px;}
+  .rc-landing .triptychHero__journey h2 {font-size:clamp(21px,5vw,30px);}
+  .rc-landing .triptychHero__journey > p {font-size:clamp(12px,3.15vw,15px);margin-bottom:23px;}
+  .rc-landing .triptychHero__journey ol {gap:5px;}
+  .rc-landing .triptychHero__journeyIcon {
+    width:clamp(40px,11vw,56px);height:clamp(40px,11vw,56px);
+  }
+  .rc-landing .triptychHero__journey li strong {font-size:clamp(11px,2.9vw,15px);}
+  .rc-landing .triptychHero__journey li small {font-size:clamp(9px,2.35vw,12px);}
+  .rc-landing .triptychHero__journeyArrow {top:17px;right:-10px;}
+  .rc-landing .triptychHero__button--register,
+  .rc-landing .triptychHero__button--register:link,
+  .rc-landing .triptychHero__button--register:visited {
+    background:#f2cf4e;border-color:#f2cf4e;color:#141414;
+  }
+}
+@media(max-width:360px) {
+  .rc-landing .triptychHero__journey li small {font-size:9px;}
+  .rc-landing .triptychHero__journeyArrow {right:-8px;}
+}
+
+/* App Lite utiliza la misma pieza sin reemplazar su hero del tambo. */
+.lite-app .lite-experience {
+  margin:14px 12px 4px;
+  padding:24px 18px 22px;
+  box-sizing:border-box;
+  border-radius:18px;
+  color:#fff;
+  background:
+    linear-gradient(180deg,rgba(11,25,12,.77),rgba(9,25,11,.83)),
+    url("/image_trigo_pix.png") center / cover no-repeat;
+}
+.lite-app .triptychHero__journey h2 {font-size:clamp(22px,5vw,29px);}
+.lite-app .triptychHero__journey > p {font-size:clamp(12px,3vw,15px);}
+.lite-app .triptychHero__journey ol {gap:5px;}
+.lite-app .triptychHero__journeyIcon {
+  width:clamp(40px,11vw,56px);height:clamp(40px,11vw,56px);
+}
+.lite-app .triptychHero__journey li strong {font-size:clamp(11px,2.9vw,14px);}
+.lite-app .triptychHero__journey li small {font-size:clamp(9px,2.35vw,12px);}
+.lite-app .triptychHero__journeyArrow {top:17px;right:-10px;}
+.lite-app .lite-experience__register {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin-top:26px;
+  width:100%;
+  min-height:58px;
+  border-radius:18px;
+  background:#f2cf4e;
+  color:#171717;
+  font-size:18px;
+  font-weight:900;
+  text-align:center;
+  text-decoration:none;
+}
+.lite-app .lite-experience__register:focus-visible {outline:3px solid white;outline-offset:3px;}
+@media(prefers-reduced-motion:reduce){
+  .rc-landing .triptychHero__journey *,
+  .lite-app .triptychHero__journey * {transition:none;}
+}
