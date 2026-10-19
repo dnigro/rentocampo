@@ -38,10 +38,12 @@ jobs:
           test -z "$RESEND_API_KEY" || exit 1
       - name: npm ci
         run: npm ci
-      - name: Install isolated Chromium
+      - name: Install Chromium without changing project dependencies
         run: |
-          npm install --no-save --package-lock=false --no-audit --no-fund playwright
-          npx playwright install --with-deps chromium
+          mkdir -p "$RUNNER_TEMP/rc-uat-playwright"
+          npm install --prefix "$RUNNER_TEMP/rc-uat-playwright" --no-save --no-audit --no-fund playwright@1.55.0
+          ln -s "$RUNNER_TEMP/rc-uat-playwright/node_modules/playwright" ./node_modules/playwright
+          node "$RUNNER_TEMP/rc-uat-playwright/node_modules/playwright/cli.js" install --with-deps chromium
       - name: Build isolated UAT Next.js
         run: npm run build
       - name: Seven-country browser regression
