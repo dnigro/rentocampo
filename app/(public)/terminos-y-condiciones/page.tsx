@@ -23,7 +23,7 @@ export default function TerminosYCondicionesPage() {
           Operador de la plataforma: <strong>RentoCampo S.A.S.</strong> · Contacto:{" "}
           <a href="mailto:hola@rentocampo.com">hola@rentocampo.com</a>
         </p>
-        <p className="terms-date">Versión propuesta: 19 de octubre de 2026 · Pendiente de revisión legal antes de producción</p>
+        <p className="terms-date">Versión del 19 de octubre de 2026</p>
       </header>
 
       <div className="terms-content">
