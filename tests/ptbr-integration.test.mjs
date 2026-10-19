@@ -212,3 +212,25 @@ test("FAQ message puts free search and connection first without packs", () => {
  assert.match(faq,/<span>Anuncie, busque<\/span><span>e conecte-se<\/span>/);
  assert.ok(!faq.toLowerCase().includes("packs"));
 });
+
+test("public catalog filters sit beside results, with a mobile disclosure before listings", () => {
+  const fields=read("components/campos/CamposListing.tsx");
+  const services=read("app/(public)/servicios-rurales/page.tsx");
+  const wrapper=read("components/listings/ListingFiltersPanel.tsx");
+  const css=read("styles/explorador.css");
+  assert.ok(!fields.includes('className="seo-explore"'));
+  assert.ok(!fields.includes("Explorá campos por zona y aptitud"));
+  assert.match(fields,/ListingFiltersPanel/);
+  assert.match(services,/ListingFiltersPanel/);
+  assert.match(wrapper,/aria-expanded=\{expanded\}/);
+  assert.match(wrapper,/aria-controls=\{panelId\}/);
+  assert.match(css,/@media \(max-width: 920px\)/);
+  assert.match(css,/\.rc-explorer-filters__body\.is-open/);
+});
+test("Lite field and service search starts with a filter action ahead of the cards", () => {
+  for (const [path,segment] of [["app/lite/campos/page.tsx","campos"],["app/lite/servicios/page.tsx","servicios"]]) {
+    const page=read(path);
+    assert.ok(page.indexOf(`/lite/${segment}/filtrar?pais=`) < page.indexOf(`<Lite${segment==="campos"?"Campos":"Servicios"}Listado/>`));
+    assert.equal((page.match(new RegExp(`/lite/${segment}/filtrar`,"g"))||[]).length,1);
+  }
+});

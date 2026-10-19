@@ -109,6 +109,46 @@ async function run() {
           }
           await page.screenshot({path:"test-results/seven-country/explorer-header-"+size.name+".png",fullPage:true});
         },page);
+        await check(size.name+" responsive filters precede both listing types",async()=>{
+          for(const path of ["/campos?pais=PY","/servicios-rurales?pais=PY"]){
+            await open(page,path,".rc-explorer-filters");
+            const filters=page.locator(".rc-explorer-filters");
+            const results=page.locator(".rc-explorer-grid");
+            const positions=await page.evaluate(()=>{
+              const filters=document.querySelector(".rc-explorer-filters");
+              const results=document.querySelector(".rc-explorer-grid__results, .explorador-contenido");
+              return {filters:filters?.getBoundingClientRect().top, results:results?.getBoundingClientRect().top};
+            });
+            if(positions.filters===undefined||positions.results===undefined)throw Error("Missing filter/results panels");
+            if(size.name==="mobile"){
+              const toggle=filters.locator(".rc-explorer-filters__toggle");
+              await toggle.waitFor({state:"visible"});
+              if(await toggle.getAttribute("aria-expanded")!=="false")throw Error("Filter drawer should initially be collapsed");
+              await toggle.click();
+              if(await toggle.getAttribute("aria-expanded")!=="true")throw Error("Filter drawer did not open");
+              await filters.locator(".filtros-panel").waitFor({state:"visible"});
+              await toggle.click();
+              if(await toggle.getAttribute("aria-expanded")!=="false")throw Error("Filter drawer did not close");
+            } else {
+              await filters.locator(".filtros-panel").waitFor({state:"visible"});
+              if(positions.filters>positions.results+80)throw Error("Desktop filters are still below results");
+            }
+          }
+        },page);
+        await check(size.name+" Lite offers filters before its cards",async()=>{
+          for(const kind of ["campos","servicios"]){
+            await open(page,"/lite/"+kind,"main");
+            const selector=page.locator('main a[href*="/lite/'+kind+'/filtrar?pais="]').first();
+            const visible=await selector.isVisible();
+            if(!visible)throw Error("Lite filters action not visible");
+            const preceding=await page.evaluate(kind=>{
+              const filter=document.querySelector('main a[href*="/lite/'+kind+'/filtrar?pais="]');
+              const card=document.querySelector('main .campo-card-pub, main .lite-campo-card, main article');
+              return !card||Boolean(filter&&(filter.compareDocumentPosition(card)&Node.DOCUMENT_POSITION_FOLLOWING));
+            },kind);
+            if(!preceding)throw Error("Lite filter CTA is after a card");
+          }
+        },page);
         await check(size.name+" free home and no pack calls-to-action",async()=>{
           await open(page,"/?pais=AR",".rc-faq");
           const faq=(await page.locator(".rc-faq").innerText()).toLowerCase();
