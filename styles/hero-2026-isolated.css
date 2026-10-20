@@ -122,3 +122,58 @@
  .rcHero26__panelCta{flex:0 0 auto;width:auto;max-width:51%;min-width:126px;min-height:39px;padding:9px 12px;font-size:clamp(10px,2.6vw,13px);}
  .rcHero26__shade{background:linear-gradient(90deg,rgba(0,0,0,.57),transparent 75%),linear-gradient(0deg,rgba(0,0,0,.55),transparent 85%);}
 }
+
+
+/* Reference mockup: compact inclined triptych, no clipped CTAs. */
+@media(min-width:901px){
+ .rcHero26{height:clamp(460px,59vh,630px);min-height:460px;}
+ .rcHero26__left{gap:10px;justify-content:center;padding-block:20px;}
+ .rcHero26__heading{font-size:clamp(22px,2.35vw,40px);}
+ .rcHero26__number{font-size:clamp(65px,7.3vw,112px);}
+ .rcHero26__free{font-size:clamp(26px,2.6vw,44px);}
+ .rcHero26__panelInner{bottom:13%;left:8%;right:8%;gap:10px;}
+ .rcHero26__panelCta{min-height:41px;max-width:170px;padding:8px 5px;}
+ .rcHero26__panelTitle{font-size:clamp(12px,1.25vw,20px);}
+}
+@media(max-width:900px){
+ .rcHero26__left{padding:20px 18px 18px;gap:10px;}
+ .rcHero26__heading{font-size:clamp(21px,5.3vw,35px);}
+ .rcHero26__number{font-size:clamp(58px,14vw,88px);}
+ .rcHero26__free{font-size:clamp(27px,6.5vw,42px);}
+ .rcHero26__countries{font-size:clamp(9px,2.5vw,13px);padding-bottom:6px;}
+ .rcHero26__register{min-height:48px;width:min(100%,330px);}
+ .rcHero26__right{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:0;width:100%;height:clamp(250px,71vw,375px);
+  overflow:hidden;padding:0 3px 0 0;
+ }
+ .rcHero26__panel,
+ .rcHero26__panel:first-child,
+ .rcHero26__panel:last-child{
+  display:block;position:relative;flex:none;
+  width:calc(100% + 13px);height:100%;min-height:0;
+  margin-left:-7px;transform:skewX(-5deg);
+  clip-path:none;border-left:1px solid rgba(255,255,255,.6);
+  border-bottom:0;overflow:hidden;
+ }
+ .rcHero26__panel:first-child{margin-left:-3px;}
+ .rcHero26__photo{
+  transform:skewX(5deg) scale(1.45);
+  object-fit:cover;object-position:center;
+ }
+ .rcHero26__panelInner{
+  position:absolute;inset:auto 5px 17px 5px;
+  display:flex;flex-direction:column;justify-content:flex-end;align-items:center;
+  transform:skewX(5deg);gap:9px;text-align:center;
+ }
+ .rcHero26__panelTitle{
+  max-width:100%;font-size:clamp(10px,2.5vw,15px);
+  line-height:1.08;overflow-wrap:anywhere;
+ }
+ .rcHero26__panelCta{
+  width:100%;min-width:0;max-width:100%;min-height:36px;
+  padding:8px 2px;font-size:clamp(8px,1.85vw,12px);
+  white-space:normal;line-height:1.1;
+ }
+ .rcHero26__shade{background:linear-gradient(180deg,transparent 35%,rgba(0,0,0,.75) 100%);}
+}
