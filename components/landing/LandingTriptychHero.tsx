@@ -20,7 +20,12 @@ export default function LandingTriptychHero() {
     <section className="triptychHero" id="hero" aria-labelledby="triptychHero-title">
       <div className="triptychHero__mobileHero">
       <div className="triptychHero__intro">
-        <p className="triptychHero__countries" aria-label="Argentina, Uruguay, Paraguay, Chile, Bolivia, Perú y Brasil">{["ar", "uy", "py", "cl", "bo", "pe", "br"].map((code) => <img key={code} className="triptychHero__flag" src={`/flags/${code}.svg`} alt={code.toUpperCase()} width="36" height="24" />)}</p>
+        <p className="triptychHero__countries" aria-label="Argentina, Uruguay, Paraguay, Chile, Bolivia, Perú y Brasil">
+          {["ar", "uy", "py", "cl", "bo", "pe", "br"].map((code) => (
+            // eslint-disable-next-line @next/next/no-img-element -- keep existing desktop flags unchanged
+            <img key={code} className="triptychHero__flag" src={`/flags/${code}.svg`} alt={code.toUpperCase()} width="36" height="24" />
+          ))}
+        </p>
         <p className="triptychHero__countriesMobile" aria-label="Argentina, Uruguay, Paraguay, Chile, Bolivia, Perú y Brasil">AR · UY · PY · CL · BO · PE · BR</p>
         <h1 className="triptychHero__title" id="triptychHero-title">
           <span>{t("#1 RED", "#1 REDE")}</span>
