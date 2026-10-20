@@ -206,10 +206,21 @@ test("maps center on the selected country's predefined mapCenter", () => {
  assert.match(nav,/router\.replace\(/);
  assert.match(selector,/router\.replace\(/);
 });
-test("FAQ message puts free search and connection first without packs", () => {
+test("free headline is in mobile hero while FAQ remains as a separate module", () => {
  const faq=read("components/landing/LandingFAQ.tsx");
- assert.match(faq,/<span>Publicá, buscá<\/span><span>y conectá<\/span>/);
- assert.match(faq,/<span>Anuncie, busque<\/span><span>e conecte-se<\/span>/);
+ const hero=read("components/landing/LandingTriptychHero.tsx");
+ const styles=read("styles/landing-triptych-refinements.css");
+ assert.ok(hero.includes('t("Publicá, buscá", "Anuncie, busque")'));
+ assert.ok(hero.includes('t("y conectá", "e conecte-se")'));
+ assert.ok(hero.includes('t("100% gratis.", "100% grátis.")'));
+ assert.ok(!faq.includes("<span>Publicá, buscá</span>"));
+ assert.ok(!faq.includes("<span>Anuncie, busque</span>"));
+ assert.ok(faq.includes("Preguntas frecuentes"));
+ assert.ok(faq.includes("Perguntas frequentes"));
+ assert.ok(faq.includes('id="preguntas"'));
+ assert.ok(faq.includes("rc-faq-content"));
+ assert.ok(faq.includes("¿Publicar tiene costo?"));
+ assert.ok(styles.includes(".triptychHero__howItWorksMobile h2 strong"));
  assert.ok(!faq.toLowerCase().includes("packs"));
 });
 
