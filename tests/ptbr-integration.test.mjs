@@ -206,10 +206,29 @@ test("maps center on the selected country's predefined mapCenter", () => {
  assert.match(nav,/router\.replace\(/);
  assert.match(selector,/router\.replace\(/);
 });
-test("FAQ message puts free search and connection first without packs", () => {
+test("approved mobile experience is isolated from desktop", () => {
  const faq=read("components/landing/LandingFAQ.tsx");
- assert.match(faq,/<span>Publicá, buscá<\/span><span>y conectá<\/span>/);
- assert.match(faq,/<span>Anuncie, busque<\/span><span>e conecte-se<\/span>/);
+ const hero=read("components/landing/LandingTriptychHero.tsx");
+ const styles=read("styles/landing-triptych-refinements.css");
+ assert.ok(hero.includes('t("Publicá, buscá", "Anuncie, busque")'));
+ assert.ok(hero.includes('t("y conectá", "e conecte-se")'));
+ assert.ok(hero.includes('t("100% gratis.", "100% grátis.")'));
+ assert.ok(hero.includes('className="triptychHero__countriesMobile"'));
+ assert.ok(hero.includes('className="triptychHero__countries"'));
+ assert.ok(hero.includes('/flags/'));
+ assert.ok(hero.includes('className="triptychHero__workflow"'));
+ assert.ok(faq.includes('className="rc-faq-promise__desktop"'));
+ assert.ok(faq.includes('className="rc-faq-promise__mobile"'));
+ assert.ok(faq.includes("<span>Publicá, buscá</span><span>y conectá</span>"));
+ assert.ok(faq.includes("<span>Anuncie, busque</span><span>e conecte-se</span>"));
+ assert.ok(faq.includes("Preguntas frecuentes"));
+ assert.ok(faq.includes("Perguntas frequentes"));
+ assert.ok(faq.includes('id="preguntas"'));
+ assert.ok(faq.includes("rc-faq-content"));
+ assert.ok(faq.includes("¿Publicar tiene costo?"));
+ assert.ok(styles.includes(".triptychHero__howItWorksMobile h2 .triptychHero__headlineEnd strong"));
+ assert.ok(styles.includes(".rc-faq-promise__desktop { display: none; }"));
+ assert.ok(styles.includes(".rc-faq-promise__mobile { display: block; }"));
  assert.ok(!faq.toLowerCase().includes("packs"));
 });
 
