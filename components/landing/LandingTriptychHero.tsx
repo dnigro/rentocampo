@@ -24,12 +24,14 @@ export default function LandingTriptychHero() {
           <span>{t("#1 RED", "#1 REDE")}</span>
           <strong>{t("GRATIS PARA EL CAMPO.", "GRÁTIS PARA O CAMPO.")}</strong>
         </h1>
-        <p className="triptychHero__summary">
-          {t("Campos, productores y servicios rurales en un solo lugar.", "Terras, produtores e serviços rurais em um só lugar.")}
-        </p>
-        <p className="triptychHero__detail">
-          {t("Explorá oportunidades con mapa, publicá tus campos gratis y conectá de forma directa.", "Explore oportunidades no mapa, anuncie suas terras gratuitamente e faça contato direto.")}
-        </p>
+        <p className="triptychHero__summary">{t("Encontrá oportunidades, publicá gratis y conectá de forma directa.", "Encontre oportunidades, anuncie grátis e conecte-se diretamente.")}</p>
+        <div className="rc-option6" aria-label={t("Explorá, publicá y conectá", "Explore, anuncie e conecte-se")}>
+          <div className="rc-option6__step"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3c-6 0-10 4-10 10 0 7 10 16 10 16s10-9 10-16C26 7 22 3 16 3zM16 9a4 4 0 1 0 0 8 4 4 0 0 0 0-8z"/></svg><strong>{t("Explorá","Explore")}</strong><small>{t("Campos y servicios.","Terras e serviços.")}</small></div>
+          <span className="rc-option6__arrow" aria-hidden="true">➜</span>
+          <div className="rc-option6__step"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M7 3h14l5 5v10M7 3v26h12M21 3v6h5M11 14h11M11 19h7M25 21v9M20 26h10"/></svg><strong>{t("Publicá","Anuncie")}</strong><small>{t("Tus campos gratis.","Suas terras grátis.")}</small></div>
+          <span className="rc-option6__arrow" aria-hidden="true">➜</span>
+          <div className="rc-option6__step"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M4 5h19a4 4 0 0 1 4 4v13a4 4 0 0 1-4 4H13l-7 5v-5H4a3 3 0 0 1-3-3V9a4 4 0 0 1 3-4z"/></svg><strong>{t("Conectá","Conecte-se")}</strong><small>{t("Sin intermediarios.","Sem intermediários.")}</small></div>
+        </div>
       </div>
 
       <nav className="triptychHero__actions" aria-label={t("Acciones principales", "Ações principais")}>
