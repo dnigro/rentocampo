@@ -38,9 +38,8 @@ export default function LandingTriptychHero() {
         {/* Explicación directa para móvil; los pasos gráficos de desktop se conservan. */}
         <div className="triptychHero__howItWorksMobile" aria-labelledby="triptychHero-howItWorks">
           <h2 id="triptychHero-howItWorks">
-            <span>{t("Publicá, buscá", "Anuncie, busque")}</span>
-            <span>{t("y conectá", "e conecte-se")}</span>
-            <strong>{t("100% gratis.", "100% grátis.")}</strong>
+            <span className="triptychHero__headlineStart">{t("Publicá, buscá", "Anuncie, busque")}</span>
+            <span className="triptychHero__headlineEnd">{t("y conectá", "e conecte-se")}{" "}<strong>{t("100% gratis.", "100% grátis.")}</strong></span>
           </h2>
         </div>
       </div>
