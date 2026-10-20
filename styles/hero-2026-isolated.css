@@ -30,3 +30,40 @@
  .rcHero26__photo{transform:skewX(5deg) scale(1.5);}
  .rcHero26__panelInner{transform:skewX(5deg);}
 }
+
+
+/* Final approved composition: grayscale wheat and country codes beside #1. */
+.rcHero26__left{
+ background:linear-gradient(90deg,rgba(10,10,10,.63),rgba(12,12,12,.43)),
+ url("/image_trigo_pix.png") center/cover no-repeat;
+ filter:none;
+ gap:16px;
+}
+.rcHero26__left::before{
+ content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+ background:linear-gradient(90deg,rgba(0,0,0,.25),rgba(0,0,0,.05));
+}
+.rcHero26__left::after{
+ content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+ backdrop-filter:grayscale(1);-webkit-backdrop-filter:grayscale(1);
+}
+.rcHero26__heading,.rcHero26__countries,.rcHero26__register{position:relative;z-index:1;}
+.rcHero26__countries{
+ position:relative;left:auto;right:auto;bottom:auto;transform:none;
+ margin:0 0 5px;padding:0 0 12px;border-bottom:3px solid #ffe17c;
+ text-align:left;font-size:clamp(11px,1vw,15px);letter-spacing:.07em;
+}
+.rcHero26__right{padding-bottom:0;}
+.rcHero26__panelInner{bottom:10%;gap:14px;}
+.rcHero26__register{min-width:min(290px,100%);}
+@media(max-width:900px){
+ .rcHero26__left{gap:15px;padding:28px 20px 26px;}
+ .rcHero26__countries{
+  position:relative;left:auto;right:auto;bottom:auto;
+  text-align:left;font-size:clamp(11px,2.9vw,14px);
+  letter-spacing:.015em;margin:0 0 2px;padding-bottom:9px;
+ }
+ .rcHero26__right{padding-bottom:0;height:clamp(280px,75vw,410px);}
+ .rcHero26__panelInner{bottom:13%;gap:10px;}
+ .rcHero26__register{margin-top:0;}
+}
