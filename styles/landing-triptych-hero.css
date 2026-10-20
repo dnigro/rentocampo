@@ -383,3 +383,11 @@
 .rc-landing .triptychHero__flowArrow { flex:1 1 20px; min-width:12px; max-width:44px; height:24px; stroke-width:2; }
 @media(max-width:900px) { .rc-landing .triptychHero__workflow { margin-top:18px; justify-content:flex-start; } .rc-landing .triptychHero__step { font-size:12px; } }
 @media(max-width:570px) { .rc-landing .triptychHero__workflow { gap:7px; } .rc-landing .triptychHero__step { font-size:10px; } .rc-landing .triptychHero__flag { font-size:21px; } }
+
+/* Corrección de contraste y banderas: hero desktop y móvil */
+.rc-landing .triptychHero__flag { display:block; width:clamp(28px,2.5vw,38px); height:auto; aspect-ratio:3/2; object-fit:cover; border-radius:2px; box-shadow:0 2px 5px rgba(0,0,0,.35); }
+.rc-landing .triptychHero__workflow { color:#ffe36b; gap:clamp(9px,1vw,16px); margin-top:28px; padding:12px 10px; border-radius:12px; background:rgba(12,31,12,.64); width:fit-content; max-width:100%; }
+.rc-landing .triptychHero__step { color:#ffe36b; text-shadow:0 1px 3px rgba(0,0,0,.8); font-size:clamp(11px,.9vw,14px); }
+.rc-landing .triptychHero__step svg { stroke-width:2.5; filter:drop-shadow(0 1px 2px rgba(0,0,0,.7)); }
+.rc-landing .triptychHero__flowArrow { color:#ffe36b; stroke-width:3; }
+@media(max-width:570px) { .rc-landing .triptychHero__flag { width:29px; } .rc-landing .triptychHero__workflow { padding:10px 7px; gap:6px; } }
