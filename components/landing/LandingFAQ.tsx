@@ -40,7 +40,8 @@ export default function LandingFAQ() {
     ];
     return <section className="rc-faq" id="preguntas"><div className="rc-shell rc-faq-grid">
       <div className="rc-faq-promise"><p className="rc-kicker">Perguntas frequentes</p>
-        <h2><span>Encontre respostas</span><span>às suas</span><strong>perguntas.</strong></h2></div>
+        <h2 className="rc-faq-promise__desktop"><span>Anuncie, busque</span><span>e conecte-se</span><strong>100% grátis.</strong></h2>
+        <h2 className="rc-faq-promise__mobile"><span>Encontre respostas</span><span>às suas</span><strong>perguntas.</strong></h2></div>
       <div className="rc-faq-content" ref={faqRef}>
         {items.map(([question, answer], i) => <div className="rc-question" key={question}>
           <button type="button" aria-expanded={open === i} onClick={(event) => toggleFaq(i, event.currentTarget)}>
@@ -56,7 +57,8 @@ export default function LandingFAQ() {
       <div className="rc-shell rc-faq-grid">
         <div className="rc-faq-promise">
           <p className="rc-kicker">Preguntas frecuentes</p>
-          <h2><span>Encontrá respuestas</span><span>a tus</span><strong>preguntas.</strong></h2>
+          <h2 className="rc-faq-promise__desktop"><span>Publicá, buscá</span><span>y conectá</span><strong>100% gratis.</strong></h2>
+          <h2 className="rc-faq-promise__mobile"><span>Encontrá respuestas</span><span>a tus</span><strong>preguntas.</strong></h2>
         </div>
 
         <div className="rc-faq-content" ref={faqRef}>
