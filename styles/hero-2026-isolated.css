@@ -1,1 +1,32 @@
 .rcHero26{--gold:#ffe17c;position:relative;display:grid;grid-template-columns:36% 64%;height:clamp(610px,76vh,780px);overflow:hidden;background:#1e2520;color:#fff;font-family:var(--font-dm-sans),Arial,sans-serif}.rcHero26 *{box-sizing:border-box}.rcHero26__left{position:relative;z-index:2;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:26px;padding:38px clamp(20px,3vw,62px);background:linear-gradient(115deg,#1a211d,#30362d)}.rcHero26__heading{display:flex;flex-direction:column;gap:3px;margin:0;font-family:var(--font-dm-sans),Arial,sans-serif;font-size:clamp(24px,2.65vw,47px);font-weight:900;line-height:1.09;letter-spacing:-.045em}.rcHero26__heading span{display:block}.rcHero26__number{font-size:clamp(78px,9vw,150px);color:var(--gold);line-height:.95}.rcHero26__free{color:var(--gold);font-size:clamp(27px,3vw,52px);margin-top:8px;white-space:nowrap}.rcHero26__register{display:inline-flex;justify-content:center;align-items:center;min-height:58px;padding:12px 32px;border-radius:999px;background:var(--gold);color:#111;text-decoration:none;font-size:clamp(15px,1.3vw,20px);font-weight:900;white-space:nowrap}.rcHero26__right{position:relative;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));height:100%;padding-bottom:66px;overflow:hidden}.rcHero26__panel{position:relative;display:block;min-width:0;height:100%;overflow:hidden;color:#fff;text-decoration:none;isolation:isolate}.rcHero26__photo{object-fit:cover;filter:grayscale(1) brightness(.79) contrast(1.1)}.rcHero26__shade{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,transparent 35%,rgba(0,0,0,.72) 100%)}.rcHero26__panelInner{position:absolute;z-index:2;bottom:14%;left:5%;right:5%;display:flex;flex-direction:column;align-items:center;gap:18px;text-align:center}.rcHero26__panelTitle{font-size:clamp(13px,1.6vw,25px);font-weight:900;line-height:1.1;text-transform:uppercase;text-shadow:0 2px 7px #111}.rcHero26__panelCta{display:inline-flex;justify-content:center;align-items:center;min-height:45px;width:100%;max-width:200px;padding:10px 6px;border-radius:999px;background:#f5f2ea;color:#151515;font-size:clamp(10px,.9vw,14px);font-weight:900;white-space:normal}.rcHero26__countries{position:absolute;z-index:4;bottom:20px;left:36%;right:0;margin:0;text-align:center;font-size:clamp(11px,1vw,16px);font-weight:800;letter-spacing:.08em;color:#fff;text-shadow:0 2px 6px #000;pointer-events:none}@media(max-width:900px){.rcHero26{display:flex;flex-direction:column;height:auto;min-height:0}.rcHero26__left{width:100%;gap:20px;padding:30px 20px 26px}.rcHero26__heading{font-size:clamp(24px,6vw,43px)}.rcHero26__number{font-size:clamp(72px,17vw,110px)}.rcHero26__free{font-size:clamp(30px,7vw,49px)}.rcHero26__register{width:min(100%,330px);min-height:58px}.rcHero26__right{height:clamp(300px,77vw,460px);flex:none;padding-bottom:56px;gap:2px}.rcHero26__panelInner{bottom:17px;left:3px;right:3px;gap:12px}.rcHero26__panelTitle{font-size:clamp(11px,2.8vw,18px);overflow-wrap:anywhere}.rcHero26__panelCta{min-height:40px;font-size:clamp(9px,2.15vw,13px);padding:8px 3px}.rcHero26__countries{left:0;right:0;bottom:17px;font-size:clamp(10px,2.7vw,14px);letter-spacing:.02em}}
+
+/* Approved editorial revision: wheat behind headline, muted grayscale, diagonal triptych. */
+.rcHero26__left{
+ background:linear-gradient(90deg,rgba(15,18,17,.78),rgba(17,20,19,.64)),
+ url("/image_trigo_pix.png") center center/cover no-repeat;
+}
+.rcHero26__right{overflow:hidden;gap:0;isolation:isolate;}
+.rcHero26__panel{
+ width:calc(100% + 46px);
+ margin-left:-23px;
+ transform:skewX(-7deg);
+ border-left:2px solid rgba(255,255,255,.55);
+}
+.rcHero26__panel:first-child{margin-left:-15px;}
+.rcHero26__panel:last-child{width:calc(100% + 60px);}
+.rcHero26__photo{
+ transform:skewX(7deg) scale(1.35);
+ filter:grayscale(1) brightness(.78) contrast(1.12);
+}
+.rcHero26__panelInner{transform:skewX(7deg);}
+.rcHero26__left{gap:25px;}
+.rcHero26__number,.rcHero26__free{color:var(--gold);}
+@media(max-width:900px){
+ .rcHero26__left{background:linear-gradient(90deg,rgba(15,18,17,.80),rgba(17,20,19,.64)),url("/image_trigo_pix.png") center/cover no-repeat;}
+ .rcHero26__right{gap:0;}
+ .rcHero26__panel{width:calc(100% + 24px);margin-left:-12px;transform:skewX(-5deg);border-left:1px solid rgba(255,255,255,.5);}
+ .rcHero26__panel:first-child{margin-left:-8px;}
+ .rcHero26__panel:last-child{width:calc(100% + 30px);}
+ .rcHero26__photo{transform:skewX(5deg) scale(1.5);}
+ .rcHero26__panelInner{transform:skewX(5deg);}
+}
