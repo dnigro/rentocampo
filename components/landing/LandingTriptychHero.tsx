@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import { UserRoundPlus, FilePlus2, Handshake, ArrowRight } from "lucide-react";
 import RegionalLink from "@/components/layout/RegionalLink";
 import fieldsPhoto from "@/public/image_eol_pix.png";
 import producersPhoto from "@/public/image_vaca_pix.png";
@@ -20,39 +19,17 @@ export default function LandingTriptychHero() {
     <section className="triptychHero" id="hero" aria-labelledby="triptychHero-title">
       <div className="triptychHero__mobileHero">
       <div className="triptychHero__intro">
-        <p className="triptychHero__countries" aria-label="Argentina, Uruguay, Paraguay, Chile, Bolivia, Perú y Brasil">
-          {["ar", "uy", "py", "cl", "bo", "pe", "br"].map((code) => (
-            // eslint-disable-next-line @next/next/no-img-element -- keep existing desktop flags unchanged
-            <img key={code} className="triptychHero__flag" src={`/flags/${code}.svg`} alt={code.toUpperCase()} width="36" height="24" />
-          ))}
-        </p>
-        <p className="triptychHero__countriesMobile" aria-label="Argentina, Uruguay, Paraguay, Chile, Bolivia, Perú y Brasil">AR · UY · PY · CL · BO · PE · BR</p>
         <h1 className="triptychHero__title" id="triptychHero-title">
-          <span>{t("#1 RED", "#1 REDE")}</span>
-          <strong>{t("GRATIS PARA EL CAMPO.", "GRÁTIS PARA O CAMPO.")}</strong>
+          <span className="triptychHero__number">#1</span>
+          <span>{t("PUBLICÁ, BUSCÁ", "ANUNCIE, BUSQUE")}</span>
+          <span>{t("Y CONECTÁ", "E CONECTE-SE")}</span>
+          <strong>{t("100% GRATIS.", "100% GRÁTIS.")}</strong>
         </h1>
-        <p className="triptychHero__summary">
-          {t("Campos, productores y servicios rurales en un solo lugar.", "Terras, produtores e serviços rurais em um só lugar.")}
-        </p>
-        <div className="triptychHero__workflow" aria-label={t("Cómo funciona en tres pasos", "Como funciona em três passos")}>
-          <div className="triptychHero__step"><UserRoundPlus aria-hidden="true" /><span className="triptychHero__stepNumber">01</span><strong>{t("REGISTRATE", "CADASTRE-SE")}</strong><small>{t("Creá tu perfil gratis y elegí cómo participar.", "Crie seu perfil grátis e escolha como participar.")}</small></div>
-          <ArrowRight className="triptychHero__flowArrow" aria-hidden="true" />
-          <div className="triptychHero__step"><FilePlus2 aria-hidden="true" /><span className="triptychHero__stepNumber">02</span><strong>{t("PUBLICÁ Y CHATEÁ", "PUBLIQUE E CONVERSE")}</strong><small>{t("Mostrá tu campo y conversá online.", "Anuncie suas terras e converse online.")}</small></div>
-          <ArrowRight className="triptychHero__flowArrow" aria-hidden="true" />
-          <div className="triptychHero__step"><Handshake aria-hidden="true" /><span className="triptychHero__stepNumber">03</span><strong>{t("CERRÁ UN ACUERDO", "FECHE UM ACORDO")}</strong><small>{t("Conectá con productores o contratistas.", "Conecte-se com produtores ou prestadores.")}</small></div>
-        </div>
-        {/* Explicación directa para móvil; los pasos gráficos de desktop se conservan. */}
-        <div className="triptychHero__howItWorksMobile" aria-labelledby="triptychHero-howItWorks">
-          <h2 id="triptychHero-howItWorks">
-            <span className="triptychHero__headlineStart">{t("Publicá, buscá", "Anuncie, busque")}</span>
-            <span className="triptychHero__headlineEnd">{t("y conectá", "e conecte-se")}{" "}<strong>{t("100% gratis.", "100% grátis.")}</strong></span>
-          </h2>
-        </div>
       </div>
 
       <nav className="triptychHero__actions" aria-label={t("Acciones principales", "Ações principais")}>
         <RegionalLink href="/register" className="triptychHero__button triptychHero__button--register">
-          <span>{t("REGISTRATE", "CADASTRE-SE")}</span>
+          <span>{t("REGISTRATE →", "CADASTRE-SE →")}</span>
         </RegionalLink>
       </nav>
       </div>
@@ -105,8 +82,7 @@ export default function LandingTriptychHero() {
           </span>
         </RegionalLink>
       </div>
-
-
+      <p className="triptychHero__regionalCodes">AR · UY · PY · CL · BO · PE · BR</p>
     </section>
   );
 }
