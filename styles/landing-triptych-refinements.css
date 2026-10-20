@@ -920,29 +920,33 @@
     text-shadow: 0 2px 7px rgba(0, 0, 0, .52);
   }
   .rc-landing .triptychHero__howItWorksMobile h2 {
-    margin: 0 0 10px;
-    color: #fff;
-    font-family: var(--font-dm-sans), sans-serif;
-    font-size: clamp(17px, 4.3vw, 23px);
-    font-weight: 950;
-    letter-spacing: -.018em;
-    line-height: 1.12;
-  }
-  .rc-landing .triptychHero__howItWorksMobile p {
     margin: 0;
     color: #fff;
     font-family: var(--font-dm-sans), sans-serif;
-    font-size: clamp(21px, 5.3vw, 29px);
-    font-weight: 900;
-    letter-spacing: -.025em;
-    line-height: 1.2;
-    text-wrap: pretty;
-    overflow-wrap: break-word;
+    font-size: clamp(27px, 7.5vw, 42px);
+    font-weight: 950;
+    letter-spacing: -.035em;
+    line-height: 1.07;
+    text-wrap: balance;
+  }
+  .rc-landing .triptychHero__howItWorksMobile h2 span,
+  .rc-landing .triptychHero__howItWorksMobile h2 strong {
+    display: block;
+    color: #fff;
+    font-weight: 950;
+    padding: 0;
+    margin: 0;
+    background: transparent;
+    line-height: 1.07;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, .6);
+  }
+  .rc-landing .triptychHero__howItWorksMobile h2 strong {
+    margin-top: 5px;
+    font-size: 1.17em;
   }
 }
 @media (max-width: 370px) {
-  .rc-landing .triptychHero__howItWorksMobile h2 { font-size: 16px; }
-  .rc-landing .triptychHero__howItWorksMobile p { font-size: 20px; }
+  .rc-landing .triptychHero__howItWorksMobile h2 { font-size: 25px; }
 }
 
 /* Países en abreviaturas, sin banderas. Legible sobre trigo en mobile y desktop. */
