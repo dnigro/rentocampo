@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { UserRoundPlus, FilePlus2, Handshake, ArrowRight } from "lucide-react";
+import { UserRoundPlus, FilePlus2, Handshake, ArrowRight, MapPinned } from "lucide-react";
 import RegionalLink from "@/components/layout/RegionalLink";
 import fieldsPhoto from "@/public/image_eol_pix.png";
 import producersPhoto from "@/public/image_vaca_pix.png";
@@ -34,6 +34,25 @@ export default function LandingTriptychHero() {
           <div className="triptychHero__step"><FilePlus2 aria-hidden="true" /><span className="triptychHero__stepNumber">02</span><strong>{t("PUBLICÁ Y CHATEÁ", "PUBLIQUE E CONVERSE")}</strong><small>{t("Mostrá tu campo y conversá online.", "Anuncie suas terras e converse online.")}</small></div>
           <ArrowRight className="triptychHero__flowArrow" aria-hidden="true" />
           <div className="triptychHero__step"><Handshake aria-hidden="true" /><span className="triptychHero__stepNumber">03</span><strong>{t("CERRÁ UN ACUERDO", "FECHE UM ACORDO")}</strong><small>{t("Conectá con productores o contratistas.", "Conecte-se com produtores ou prestadores.")}</small></div>
+        </div>
+        {/* Recorrido breve para móvil; el workflow completo se conserva en desktop. */}
+        <div className="triptychHero__workflowMobile" role="group" aria-label={t("Cómo funciona en tres pasos", "Como funciona em três passos")}>
+          <div className="triptychHero__workflowMobileStep">
+            <UserRoundPlus aria-hidden="true" />
+            <span className="triptychHero__workflowMobileNumber">01</span>
+            <strong>{t("REGISTRATE", "CADASTRE-SE")}</strong>
+          </div>
+          <div className="triptychHero__workflowMobileStep">
+            <MapPinned aria-hidden="true" />
+            <span className="triptychHero__workflowMobileNumber">02</span>
+            <strong>{t("EXPLORÁ O PUBLICÁ", "EXPLORE OU PUBLIQUE")}</strong>
+          </div>
+          <div className="triptychHero__workflowMobileStep">
+            <Handshake aria-hidden="true" />
+            <span className="triptychHero__workflowMobileNumber">03</span>
+            <strong>{t("CONECTÁ", "CONECTE-SE")}</strong>
+          </div>
+          <p className="triptychHero__workflowMobileTagline">{t("Simple, gratis y directo.", "Simples, grátis e direto.")}</p>
         </div>
       </div>
 
