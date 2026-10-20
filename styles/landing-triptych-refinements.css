@@ -894,3 +894,11 @@
     color: #fff;
   }
 }
+
+
+/* Desktop only: lower the registration CTA by roughly two text lines. */
+@media (min-width: 901px) {
+  .rc-landing .triptychHero__actions {
+    bottom: 5%;
+  }
+}
