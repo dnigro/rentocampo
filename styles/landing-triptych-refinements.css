@@ -874,3 +874,23 @@
     margin-top: 9px;
   }
 }
+
+
+/* Mobile wheat background only: retain flags, workflow, triptych and CTA geometry. */
+@media (max-width: 900px) {
+  .rc-landing .triptychHero__mobileHero .triptychHero__intro {
+    background-image: linear-gradient(180deg, rgba(29,42,16,.53), rgba(12,35,13,.83)), url("/image_trigo_pix.png");
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    border-radius: 16px;
+    overflow: hidden;
+    color: #fff;
+  }
+  .rc-landing .triptychHero__intro .triptychHero__title > span,
+  .rc-landing .triptychHero__intro .triptychHero__title > strong,
+  .rc-landing .triptychHero__intro .triptychHero__summary,
+  .rc-landing .triptychHero__intro .triptychHero__workflow {
+    color: #fff;
+  }
+}
