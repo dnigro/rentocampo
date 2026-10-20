@@ -923,30 +923,43 @@
     margin: 0;
     color: #fff;
     font-family: var(--font-dm-sans), sans-serif;
-    font-size: clamp(27px, 7.5vw, 42px);
-    font-weight: 950;
+    font-size: clamp(23px, 6.6vw, 35px);
+    font-weight: 600;
     letter-spacing: -.035em;
-    line-height: 1.07;
-    text-wrap: balance;
+    line-height: 1.13;
+    text-wrap: normal;
   }
-  .rc-landing .triptychHero__howItWorksMobile h2 span,
-  .rc-landing .triptychHero__howItWorksMobile h2 strong {
+  .rc-landing .triptychHero__howItWorksMobile h2 .triptychHero__headlineStart,
+  .rc-landing .triptychHero__howItWorksMobile h2 .triptychHero__headlineEnd {
     display: block;
     color: #fff;
-    font-weight: 950;
+    font-weight: 600;
     padding: 0;
     margin: 0;
     background: transparent;
-    line-height: 1.07;
+    line-height: 1.13;
     text-shadow: 0 2px 8px rgba(0, 0, 0, .6);
   }
-  .rc-landing .triptychHero__howItWorksMobile h2 strong {
-    margin-top: 5px;
-    font-size: 1.17em;
+  .rc-landing .triptychHero__howItWorksMobile h2 .triptychHero__headlineEnd {
+    white-space: nowrap;
+  }
+  .rc-landing .triptychHero__howItWorksMobile h2 .triptychHero__headlineEnd strong {
+    display: inline;
+    color: #fff;
+    background: transparent;
+    padding: 0;
+    margin: 0;
+    font-size: 1.15em;
+    font-weight: 900;
+    letter-spacing: -.045em;
+    line-height: inherit;
+    white-space: nowrap;
   }
 }
 @media (max-width: 370px) {
-  .rc-landing .triptychHero__howItWorksMobile h2 { font-size: 25px; }
+  .rc-landing .triptychHero__howItWorksMobile h2 { font-size: 21px; }
+  /* El portugués puede necesitar un salto sin recortar la frase. */
+  .rc-landing .triptychHero__howItWorksMobile h2 .triptychHero__headlineEnd { white-space: normal; }
 }
 
 /* Países en abreviaturas, sin banderas. Legible sobre trigo en mobile y desktop. */
