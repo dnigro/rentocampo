@@ -24,6 +24,7 @@ export default function LandingTriptychHero() {
     <span>{t("Y CONECTÁ","E CONECTE-SE")}</span>
     <span className="rcHero26__free">{t("100% GRATIS.","100% GRÁTIS.")}</span>
    </h1>
+   <p className="rcHero26__countries">AR · UY · PY · CL · BO · PE · BR</p>
    <RegionalLink href="/register" className="rcHero26__register">{t("REGISTRATE →","CADASTRE-SE →")}</RegionalLink>
   </div>
   <div className="rcHero26__right" aria-label={t("Explorá RentoCampo","Explore a RentoCampo")}>
@@ -33,6 +34,5 @@ export default function LandingTriptychHero() {
     <span className="rcHero26__panelInner"><span className="rcHero26__panelTitle">{p.title}</span><span className="rcHero26__panelCta">{p.cta}</span></span>
    </RegionalLink>)}
   </div>
-  <p className="rcHero26__countries">AR · UY · PY · CL · BO · PE · BR</p>
  </section>;
 }
