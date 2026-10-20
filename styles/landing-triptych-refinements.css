@@ -1097,3 +1097,49 @@
  }
  .rc-landing .triptychHero__regionalCodes {bottom:16px; font-size:clamp(10px,2.5vw,14px);letter-spacing:.04em;}
 }
+
+
+/* FIX hero preview: desktop full-bleed three photos, mobile compact stack. */
+@media (min-width:901px) {
+ .rc-landing .triptychHero {height:clamp(620px,76vh,790px);min-height:620px;}
+ .rc-landing .triptychHero__mobileHero {position:static;}
+ .rc-landing .triptychHero__intro {position:absolute;left:0;top:0;width:37%;height:100%;z-index:4;padding:clamp(55px,7vh,90px) 10px 140px clamp(26px,4vw,74px);}
+ .rc-landing .triptychHero__panels {inset:0 0 0 33%;width:auto;display:block;}
+ .rc-landing .triptychHero__panel--fields {left:0;width:40%;}
+ .rc-landing .triptychHero__panel--producers {left:31%;width:40%;}
+ .rc-landing .triptychHero__panel--services {left:61%;width:42%;}
+ .rc-landing .triptychHero__actions {position:absolute;z-index:9;left:clamp(26px,4vw,74px);bottom:15%;width:min(320px,calc(33% - 45px));margin:0;padding:0;}
+ .rc-landing .triptychHero__regionalCodes {left:67%;bottom:27px;}
+}
+@media (max-width:900px) {
+ .rc-landing .triptychHero {display:flex;flex-direction:column;height:auto;min-height:0;overflow:hidden;}
+ .rc-landing .triptychHero__mobileHero {display:contents;}
+ .rc-landing .triptychHero__intro {position:relative;order:0;min-height:0;height:auto;padding:28px 20px 16px;}
+ .rc-landing .triptychHero__title {font-size:clamp(25px,6.1vw,44px);}
+ .rc-landing .triptychHero__title > .triptychHero__number {font-size:clamp(66px,15vw,108px);color:#ffe17c;}
+ .rc-landing .triptychHero__title > strong {font-size:clamp(30px,7vw,52px);color:#ffe17c;}
+ .rc-landing .triptychHero__actions,
+ .rc-landing .triptychHero__mobileHero .triptychHero__actions {
+  position:relative;order:1;align-self:center;left:auto;bottom:auto;
+  width:calc(100% - 40px);max-width:380px;margin:10px auto 20px;padding:0;
+ }
+ .rc-landing .triptychHero__panels {
+  position:relative;order:2;inset:auto;display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));width:100%;height:clamp(265px,68vw,420px);
+  padding:0 8px 56px;gap:3px;box-sizing:border-box;
+ }
+ .rc-landing .triptychHero__panel,
+ .rc-landing .triptychHero__panel--fields,
+ .rc-landing .triptychHero__panel--producers,
+ .rc-landing .triptychHero__panel--services {
+  position:relative;top:auto;bottom:auto;left:auto;right:auto;
+  width:100%;height:100%;min-height:0;clip-path:none;border-radius:0;
+ }
+ .rc-landing .triptychHero__panelContent,
+ .rc-landing .triptychHero__panel--services .triptychHero__panelContent {
+  top:auto;bottom:16px;left:4px;right:4px;align-items:center;text-align:center;
+ }
+ .rc-landing .triptychHero__panelTitle {font-size:clamp(10px,2.65vw,18px);line-height:1.12;}
+ .rc-landing .triptychHero__panel .triptychHero__panelCta {font-size:clamp(9px,2vw,12px);padding:8px 3px;min-height:36px;white-space:normal;}
+ .rc-landing .triptychHero__regionalCodes {position:absolute;left:50%;bottom:17px;z-index:9;}
+}
