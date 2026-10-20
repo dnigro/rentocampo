@@ -19,16 +19,16 @@ export default function LandingTriptychHero() {
     <section className="triptychHero" id="hero" aria-labelledby="triptychHero-title">
       <div className="triptychHero__mobileHero">
       <div className="triptychHero__intro">
-        <p className="triptychHero__countries">AR · UY · PY · CL · BO · PE · BR</p>
+        <p className="triptychHero__countries" aria-label="Argentina, Uruguay, Paraguay, Chile, Bolivia, Perú y Brasil">🇦🇷 · 🇺🇾 · 🇵🇾 · 🇨🇱 · 🇧🇴 · 🇵🇪 · 🇧🇷</p>
         <h1 className="triptychHero__title" id="triptychHero-title">
           <span>{t("#1 RED", "#1 REDE")}</span>
           <strong>{t("GRATIS PARA EL CAMPO.", "GRÁTIS PARA O CAMPO.")}</strong>
         </h1>
         <p className="triptychHero__summary">
-          {t("Campos, productores y servicios rurales en un solo lugar.", "Terras, produtores e serviços rurais em um só lugar.")}
+          {t("El campo tiene un lugar para encontrarse.", "O campo tem um lugar para se conectar.")}
         </p>
         <p className="triptychHero__detail">
-          {t("Explorá oportunidades con mapa, publicá tus campos gratis y conectá de forma directa.", "Explore oportunidades no mapa, anuncie suas terras gratuitamente e faça contato direto.")}
+          {t("Explorá campos y servicios, publicá gratis y conectá sin intermediarios.", "Explore terras e serviços, anuncie grátis e conecte-se sem intermediários.")}
         </p>
       </div>
 
