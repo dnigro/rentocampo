@@ -985,3 +985,20 @@
   .rc-landing .rc-faq-promise__desktop { display: none; }
   .rc-landing .rc-faq-promise__mobile { display: block; }
 }
+
+
+/* Preview 2026-10-20: solo escritorio. Conserva la fotografía original y el
+   diseño móvil aprobado; sin banderas en la portada de escritorio. */
+@media (min-width: 901px) {
+  .rc-landing .triptychHero__countries { display: none; }
+  .rc-landing .triptychHero__actions {
+    justify-content: center;
+    bottom: 2%;
+  }
+  .rc-landing .triptychHero__button--register {
+    width: min(390px, 100%);
+    min-height: 84px;
+    font-size: clamp(20px, 1.55vw, 25px);
+    border-radius: 24px;
+  }
+}
