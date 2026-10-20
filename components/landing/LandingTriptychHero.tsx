@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { UserRoundPlus, FilePlus2, MessagesSquare, ArrowRight } from "lucide-react";
 import RegionalLink from "@/components/layout/RegionalLink";
 import fieldsPhoto from "@/public/image_eol_pix.png";
 import producersPhoto from "@/public/image_vaca_pix.png";
@@ -19,7 +20,7 @@ export default function LandingTriptychHero() {
     <section className="triptychHero" id="hero" aria-labelledby="triptychHero-title">
       <div className="triptychHero__mobileHero">
       <div className="triptychHero__intro">
-        <p className="triptychHero__countries">AR · UY · PY · CL · BO · PE · BR</p>
+        <p className="triptychHero__countries" aria-label="Argentina, Uruguay, Paraguay, Chile, Bolivia, Perú y Brasil">{["🇦🇷", "🇺🇾", "🇵🇾", "🇨🇱", "🇧🇴", "🇵🇪", "🇧🇷"].map((flag, i) => <span key={i} className="triptychHero__flag" aria-hidden="true">{flag}</span>)}</p>
         <h1 className="triptychHero__title" id="triptychHero-title">
           <span>{t("#1 RED", "#1 REDE")}</span>
           <strong>{t("GRATIS PARA EL CAMPO.", "GRÁTIS PARA O CAMPO.")}</strong>
@@ -27,9 +28,13 @@ export default function LandingTriptychHero() {
         <p className="triptychHero__summary">
           {t("Campos, productores y servicios rurales en un solo lugar.", "Terras, produtores e serviços rurais em um só lugar.")}
         </p>
-        <p className="triptychHero__detail">
-          {t("Explorá oportunidades con mapa, publicá tus campos gratis y conectá de forma directa.", "Explore oportunidades no mapa, anuncie suas terras gratuitamente e faça contato direto.")}
-        </p>
+        <div className="triptychHero__workflow" aria-label={t("Cómo funciona en tres pasos", "Como funciona em três passos")}>
+          <div className="triptychHero__step"><UserRoundPlus aria-hidden="true" /><span>{t("REGISTRATE", "CADASTRE-SE")}</span></div>
+          <ArrowRight className="triptychHero__flowArrow" aria-hidden="true" />
+          <div className="triptychHero__step"><FilePlus2 aria-hidden="true" /><span>{t("PUBLICÁ", "PUBLIQUE")}</span></div>
+          <ArrowRight className="triptychHero__flowArrow" aria-hidden="true" />
+          <div className="triptychHero__step"><MessagesSquare aria-hidden="true" /><span>{t("CONECTÁ", "CONECTE-SE")}</span></div>
+        </div>
       </div>
 
       <nav className="triptychHero__actions" aria-label={t("Acciones principales", "Ações principais")}>
