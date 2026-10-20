@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { UserRoundPlus, FilePlus2, Handshake, ArrowRight } from "lucide-react";
 import RegionalLink from "@/components/layout/RegionalLink";
 import fieldsPhoto from "@/public/image_eol_pix.png";
 import producersPhoto from "@/public/image_vaca_pix.png";
@@ -19,7 +20,7 @@ export default function LandingTriptychHero() {
     <section className="triptychHero" id="hero" aria-labelledby="triptychHero-title">
       <div className="triptychHero__mobileHero">
       <div className="triptychHero__intro">
-        <p className="triptychHero__countries">AR · UY · PY · CL · BO · PE · BR</p>
+        <p className="triptychHero__countries" aria-label="Argentina, Uruguay, Paraguay, Chile, Bolivia, Perú y Brasil">{["ar", "uy", "py", "cl", "bo", "pe", "br"].map((code) => <img key={code} className="triptychHero__flag" src={`/flags/${code}.svg`} alt={code.toUpperCase()} width="36" height="24" />)}</p>
         <h1 className="triptychHero__title" id="triptychHero-title">
           <span>{t("#1 RED", "#1 REDE")}</span>
           <strong>{t("GRATIS PARA EL CAMPO.", "GRÁTIS PARA O CAMPO.")}</strong>
@@ -27,9 +28,13 @@ export default function LandingTriptychHero() {
         <p className="triptychHero__summary">
           {t("Campos, productores y servicios rurales en un solo lugar.", "Terras, produtores e serviços rurais em um só lugar.")}
         </p>
-        <p className="triptychHero__detail">
-          {t("Explorá oportunidades con mapa, publicá tus campos gratis y conectá de forma directa.", "Explore oportunidades no mapa, anuncie suas terras gratuitamente e faça contato direto.")}
-        </p>
+        <div className="triptychHero__workflow" aria-label={t("Cómo funciona en tres pasos", "Como funciona em três passos")}>
+          <div className="triptychHero__step"><UserRoundPlus aria-hidden="true" /><span className="triptychHero__stepNumber">01</span><strong>{t("REGISTRATE", "CADASTRE-SE")}</strong><small>{t("Creá tu perfil gratis y elegí cómo participar.", "Crie seu perfil grátis e escolha como participar.")}</small></div>
+          <ArrowRight className="triptychHero__flowArrow" aria-hidden="true" />
+          <div className="triptychHero__step"><FilePlus2 aria-hidden="true" /><span className="triptychHero__stepNumber">02</span><strong>{t("PUBLICÁ Y CHATEÁ", "PUBLIQUE E CONVERSE")}</strong><small>{t("Mostrá tu campo y conversá online.", "Anuncie suas terras e converse online.")}</small></div>
+          <ArrowRight className="triptychHero__flowArrow" aria-hidden="true" />
+          <div className="triptychHero__step"><Handshake aria-hidden="true" /><span className="triptychHero__stepNumber">03</span><strong>{t("CERRÁ UN ACUERDO", "FECHE UM ACORDO")}</strong><small>{t("Conectá con productores o contratistas.", "Conecte-se com produtores ou prestadores.")}</small></div>
+        </div>
       </div>
 
       <nav className="triptychHero__actions" aria-label={t("Acciones principales", "Ações principais")}>
