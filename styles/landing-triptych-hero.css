@@ -373,3 +373,13 @@
   .rc-landing .triptychHero__photo,
   .rc-landing .triptychHero__panelArrow { transition: none !important; }
 }
+
+/* Banderas y recorrido de tres pasos — alcance exclusivo del hero */
+.rc-landing .triptychHero__countries { display:flex; flex-wrap:wrap; align-items:center; gap:clamp(5px,.7vw,12px); letter-spacing:normal; }
+.rc-landing .triptychHero__flag { font-size:clamp(19px,1.7vw,28px); line-height:1.2; filter:saturate(.85); }
+.rc-landing .triptychHero__workflow { display:flex; align-items:center; gap:clamp(5px,.7vw,12px); margin-top:24px; max-width:100%; color:#c6a631; }
+.rc-landing .triptychHero__step { display:flex; flex-direction:column; align-items:center; gap:6px; min-width:0; text-align:center; font-size:clamp(10px,.85vw,13px); font-weight:900; color:#b49a32; }
+.rc-landing .triptychHero__step svg { width:clamp(25px,2.6vw,39px); height:clamp(25px,2.6vw,39px); stroke-width:1.8; }
+.rc-landing .triptychHero__flowArrow { flex:1 1 20px; min-width:12px; max-width:44px; height:24px; stroke-width:2; }
+@media(max-width:900px) { .rc-landing .triptychHero__workflow { margin-top:18px; justify-content:flex-start; } .rc-landing .triptychHero__step { font-size:12px; } }
+@media(max-width:570px) { .rc-landing .triptychHero__workflow { gap:7px; } .rc-landing .triptychHero__step { font-size:10px; } .rc-landing .triptychHero__flag { font-size:21px; } }
