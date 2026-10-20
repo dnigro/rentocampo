@@ -28,25 +28,29 @@
  .rcHero26__photo{transform:skewX(5deg) scale(1.25)}
  .rcHero26__panelInner{transform:skewX(5deg);left:20px;right:20px}
  .rcHero26__panelCta{width:min(100%,150px)}
+ /* Show the full tractor in the services panel without changing other images. */
+ .rcHero26__panel:last-child .rcHero26__photo{transform:skewX(5deg) scale(1.07);object-position:64% 70%}
 }
 @media(max-width:900px){
  .rcHero26{display:flex;flex-direction:column;height:auto;min-height:0}
- .rcHero26__left{flex:none;gap:10px;padding:22px 18px 18px;margin:0;clip-path:none;min-height:0}
+ .rcHero26__left{flex:none;gap:10px;padding:22px 18px 18px;margin:0;clip-path:none}
  .rcHero26__heading{font-size:clamp(22px,5.5vw,37px)}
  .rcHero26__number{font-size:clamp(66px,15vw,104px)}
  .rcHero26__free{font-size:clamp(29px,6.9vw,46px)}
  .rcHero26__countries{font-size:clamp(10px,2.6vw,14px);padding-bottom:7px}
  .rcHero26__register{min-height:50px;width:min(100%,330px);font-size:16px}
- /* Three full-width landscape cards as in the approved phone mockup. */
- .rcHero26__right{display:flex;flex-direction:column;gap:3px;height:auto;min-height:0;overflow:hidden}
+ /* Mobile: one compact three-column diagonal triptych, not stacked cards. */
+ .rcHero26__right{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;height:clamp(245px,68vw,380px);min-height:0;overflow:hidden}
  .rcHero26__panel,.rcHero26__panel:first-child,.rcHero26__panel:last-child{
-  display:block;flex:none;position:relative;width:100%;height:clamp(126px,34vw,185px);
-  margin:0;transform:none;border:0;border-bottom:1px solid rgba(255,255,255,.6);
+  position:relative;display:block;min-width:0;height:100%;width:calc(100% + 12px);
+  margin-left:-6px;transform:skewX(-4deg);border:0;border-left:1px solid rgba(255,255,255,.6);
  }
- .rcHero26__panel:before{content:"";position:absolute;z-index:3;left:0;top:0;bottom:0;width:clamp(10px,5vw,24px);background:#171717;clip-path:polygon(0 0,100% 0,0 100%);pointer-events:none}
- .rcHero26__photo{transform:none;object-fit:cover;object-position:center 48%}
- .rcHero26__shade{background:linear-gradient(0deg,rgba(0,0,0,.7),transparent 85%)}
- .rcHero26__panelInner{position:absolute;left:22px;right:18px;bottom:14px;transform:none;display:flex;flex-direction:row;justify-content:space-between;align-items:center;gap:12px;text-align:left}
- .rcHero26__panelTitle{font-size:clamp(14px,3.7vw,19px);line-height:1.12;max-width:48%;overflow-wrap:anywhere}
- .rcHero26__panelCta{width:auto;min-width:130px;max-width:52%;min-height:40px;padding:8px 14px;font-size:clamp(10px,2.55vw,13px);white-space:normal}
+ .rcHero26__panel:first-child{margin-left:-3px}
+ .rcHero26__panel:last-child{width:calc(100% + 18px)}
+ .rcHero26__photo{transform:skewX(4deg) scale(1.24);object-fit:cover;object-position:center}
+ .rcHero26__panel:last-child .rcHero26__photo{transform:skewX(4deg) scale(1.05);object-position:65% 65%}
+ .rcHero26__shade{background:linear-gradient(180deg,transparent 30%,rgba(0,0,0,.8) 100%)}
+ .rcHero26__panelInner{position:absolute;left:9px;right:9px;bottom:15px;transform:skewX(4deg);display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:9px;text-align:center}
+ .rcHero26__panelTitle{font-size:clamp(10px,2.35vw,15px);line-height:1.1;max-width:100%;overflow-wrap:anywhere}
+ .rcHero26__panelCta{width:100%;max-width:112px;min-width:0;min-height:36px;padding:7px 3px;font-size:clamp(8px,1.85vw,12px);line-height:1.1;white-space:normal}
 }
