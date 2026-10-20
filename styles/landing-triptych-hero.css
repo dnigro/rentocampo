@@ -400,3 +400,15 @@
 .rc-landing .triptychHero__step small { color:#f1eee2; font-size:clamp(10px,.78vw,12px); font-weight:500; line-height:1.35; }
 .rc-landing .triptychHero__flowArrow { align-self:center; flex:0 0 18px; }
 @media(max-width:570px) { .rc-landing .triptychHero__workflow { width:100%; padding:12px 7px; gap:5px; } .rc-landing .triptychHero__step strong { font-size:10px; } .rc-landing .triptychHero__step small { font-size:10px; } .rc-landing .triptychHero__flowArrow { flex-basis:12px; } }
+
+/* Separación visual entre workflow y CTA en escritorio */
+@media (min-width:901px) {
+  .rc-landing .triptychHero__intro { padding-bottom:190px; }
+  .rc-landing .triptychHero__workflow { margin-bottom:38px; }
+  .rc-landing .triptychHero__actions { bottom:clamp(22px,3.5vh,36px); }
+}
+@media (max-width:900px) {
+  .rc-landing .triptychHero__mobileHero { display:flex; flex-direction:column; }
+  .rc-landing .triptychHero__workflow { margin-bottom:20px; }
+  .rc-landing .triptychHero__actions { margin-top:8px; }
+}
