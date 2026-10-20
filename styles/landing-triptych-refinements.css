@@ -874,3 +874,10 @@
     margin-top: 9px;
   }
 }
+
+
+/* Solo jerarquía del mensaje y banderas; sin cambios al tríptico. */
+.rc-landing .triptychHero__countries{font-family:system-ui,sans-serif;letter-spacing:.08em;white-space:nowrap;font-size:clamp(12px,1vw,18px);line-height:1.35}
+.rc-landing .triptychHero__summary{font-size:clamp(19px,1.65vw,29px);line-height:1.14;font-weight:850;max-width:390px;text-wrap:balance;color:#fff}
+.rc-landing .triptychHero__detail{font-size:clamp(13px,1.03vw,17px);line-height:1.32;font-weight:650;max-width:390px;color:#fff}
+@media(max-width:900px){.rc-landing .triptychHero__countries{font-size:clamp(12px,3.2vw,16px)}.rc-landing .triptychHero__summary{font-size:clamp(20px,5vw,26px);max-width:100%}.rc-landing .triptychHero__detail{font-size:clamp(14px,3.5vw,17px);max-width:100%}}
