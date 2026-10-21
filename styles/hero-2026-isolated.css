@@ -1,0 +1,56 @@
+
+/* RentoCampo hero: single source of truth, desktop and mobile. */
+.rcHero26{--gold:#ffe17c;position:relative;display:grid;grid-template-columns:37% 63%;height:clamp(480px,61vh,640px);overflow:hidden;background:#161616;color:#fff;font-family:Arial,sans-serif}
+.rcHero26 *{box-sizing:border-box}
+.rcHero26__left{position:relative;z-index:2;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:15px;padding:28px clamp(22px,3.5vw,62px);background:#252525;isolation:isolate}
+.rcHero26__left:before{content:"";position:absolute;inset:0;z-index:-2;background:linear-gradient(90deg,rgba(0,0,0,.57),rgba(0,0,0,.36)),url("/image_trigo_pix.png") center/cover no-repeat;filter:grayscale(1)}
+.rcHero26__left:after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(0deg,rgba(0,0,0,.32),transparent 70%)}
+.rcHero26__heading{display:flex;flex-direction:column;gap:3px;margin:0;font-size:clamp(23px,2.5vw,42px);line-height:1.06;font-weight:900;letter-spacing:-.035em}
+.rcHero26__heading span{display:block}
+.rcHero26__number{font-size:clamp(72px,7.6vw,125px);line-height:.94;color:var(--gold)}
+.rcHero26__free{font-size:clamp(27px,2.8vw,46px);color:var(--gold);margin-top:6px;white-space:nowrap}
+.rcHero26__countries{position:relative;left:auto;right:auto;bottom:auto;transform:none;margin:0;padding:0 0 9px;border-bottom:3px solid var(--gold);font-size:clamp(10px,1vw,15px);font-weight:800;letter-spacing:.045em;color:#fff;text-align:left}
+.rcHero26__register{display:inline-flex;align-items:center;justify-content:center;min-height:54px;width:min(310px,100%);padding:10px 18px;border-radius:999px;background:var(--gold);color:#111;text-decoration:none;font-size:clamp(15px,1.25vw,19px);font-weight:900}
+.rcHero26__right{position:relative;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));height:100%;min-width:0;overflow:hidden}
+.rcHero26__panel{position:relative;display:block;min-width:0;height:100%;color:#fff;text-decoration:none;overflow:hidden;isolation:isolate}
+.rcHero26__photo{object-fit:cover;object-position:center;filter:grayscale(1) brightness(.82) contrast(1.08)}
+.rcHero26__shade{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,transparent 35%,rgba(0,0,0,.72) 100%)}
+.rcHero26__panelInner{position:absolute;z-index:2;left:10px;right:10px;bottom:13%;display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center}
+.rcHero26__panelTitle{font-size:clamp(12px,1.35vw,21px);font-weight:900;line-height:1.1;text-transform:uppercase;text-shadow:0 2px 7px #111}
+.rcHero26__panelCta{display:flex;justify-content:center;align-items:center;min-height:43px;width:min(100%,160px);padding:9px 8px;border-radius:999px;background:#f5f2ea;color:#111;font-size:clamp(10px,.9vw,14px);font-weight:900;line-height:1.15}
+@media(min-width:901px){
+ .rcHero26{grid-template-columns:35% 65%}
+ .rcHero26__left{margin-right:-32px;padding-right:44px;clip-path:polygon(0 0,100% 0,calc(100% - 42px) 100%,0 100%)}
+ .rcHero26__right{padding-left:0;margin-left:-2px}
+ .rcHero26__panel{width:calc(100% + 24px);margin-left:-12px;transform:skewX(-5deg);border-left:1px solid rgba(255,255,255,.55)}
+ .rcHero26__panel:first-child{margin-left:-6px}
+ .rcHero26__panel:last-child{width:calc(100% + 34px)}
+ .rcHero26__photo{transform:skewX(5deg) scale(1.25)}
+ .rcHero26__panelInner{transform:skewX(5deg);left:20px;right:20px}
+ .rcHero26__panelCta{width:min(100%,150px)}
+ /* Show the full tractor in the services panel without changing other images. */
+ .rcHero26__panel:last-child .rcHero26__photo{transform:skewX(5deg) scale(1.07);object-position:64% 70%}
+}
+@media(max-width:900px){
+ .rcHero26{display:flex;flex-direction:column;height:auto;min-height:0}
+ .rcHero26__left{flex:none;gap:10px;padding:22px 18px 18px;margin:0;clip-path:none}
+ .rcHero26__heading{font-size:clamp(22px,5.5vw,37px)}
+ .rcHero26__number{font-size:clamp(66px,15vw,104px)}
+ .rcHero26__free{font-size:clamp(29px,6.9vw,46px)}
+ .rcHero26__countries{font-size:clamp(10px,2.6vw,14px);padding-bottom:7px}
+ .rcHero26__register{min-height:50px;width:min(100%,330px);font-size:16px}
+ /* Mobile: one compact three-column diagonal triptych, not stacked cards. */
+ .rcHero26__right{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;height:clamp(245px,68vw,380px);min-height:0;overflow:hidden}
+ .rcHero26__panel,.rcHero26__panel:first-child,.rcHero26__panel:last-child{
+  position:relative;display:block;min-width:0;height:100%;width:calc(100% + 12px);
+  margin-left:-6px;transform:skewX(-4deg);border:0;border-left:1px solid rgba(255,255,255,.6);
+ }
+ .rcHero26__panel:first-child{margin-left:-3px}
+ .rcHero26__panel:last-child{width:calc(100% + 18px)}
+ .rcHero26__photo{transform:skewX(4deg) scale(1.24);object-fit:cover;object-position:center}
+ .rcHero26__panel:last-child .rcHero26__photo{transform:skewX(4deg) scale(1.05);object-position:65% 65%}
+ .rcHero26__shade{background:linear-gradient(180deg,transparent 30%,rgba(0,0,0,.8) 100%)}
+ .rcHero26__panelInner{position:absolute;left:9px;right:9px;bottom:15px;transform:skewX(4deg);display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:9px;text-align:center}
+ .rcHero26__panelTitle{font-size:clamp(10px,2.35vw,15px);line-height:1.1;max-width:100%;overflow-wrap:anywhere}
+ .rcHero26__panelCta{width:100%;max-width:112px;min-width:0;min-height:36px;padding:7px 3px;font-size:clamp(8px,1.85vw,12px);line-height:1.1;white-space:normal}
+}

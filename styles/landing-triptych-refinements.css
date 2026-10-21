@@ -985,3 +985,161 @@
   .rc-landing .rc-faq-promise__desktop { display: none; }
   .rc-landing .rc-faq-promise__mobile { display: block; }
 }
+
+
+/* Preview 2026-10-20: solo escritorio. Conserva la fotografía original y el
+   diseño móvil aprobado; sin banderas en la portada de escritorio. */
+@media (min-width: 901px) {
+  .rc-landing .triptychHero__countries { display: none; }
+  .rc-landing .triptychHero__actions {
+    justify-content: center;
+    bottom: 2%;
+  }
+  .rc-landing .triptychHero__button--register {
+    width: min(390px, 100%);
+    min-height: 84px;
+    font-size: clamp(20px, 1.55vw, 25px);
+    border-radius: 24px;
+  }
+}
+
+
+/* Tríptico unificado: diseño aprobado, sin fondo trigo ni workflow. */
+.rc-landing .triptychHero { background:#222923; }
+.rc-landing .triptychHero__intro,
+.rc-landing .triptychHero__mobileHero .triptychHero__intro {
+  background:linear-gradient(110deg,#171d1b,#30352b) !important;
+  color:#fff; border-radius:0;
+}
+.rc-landing .triptychHero__title {
+  display:flex; flex-direction:column; align-items:flex-start;
+  max-width:100%; font-family:var(--font-dm-sans),sans-serif;
+  font-size:clamp(24px,2.75vw,47px); font-weight:950;
+  line-height:1.08; letter-spacing:-.045em;
+}
+.rc-landing .triptychHero__title > span { color:#fff; white-space:normal; }
+.rc-landing .triptychHero__title > .triptychHero__number {
+  color:#ffe17c; font-size:clamp(76px,9vw,155px); line-height:.94;
+}
+.rc-landing .triptychHero__title > strong {
+  margin-top:12px; font-size:clamp(30px,3.15vw,56px);
+  color:#ffe17c; white-space:nowrap;
+}
+.rc-landing .triptychHero__summary,
+.rc-landing .triptychHero__workflow,
+.rc-landing .triptychHero__howItWorksMobile,
+.rc-landing .triptychHero__countries,
+.rc-landing .triptychHero__countriesMobile,
+.rc-landing .triptychHero__panelText { display:none !important; }
+.rc-landing .triptychHero__panel .triptychHero__photo {
+  filter:grayscale(1) brightness(.82) contrast(1.08);
+}
+.rc-landing .triptychHero__panelContent {
+  top:auto; bottom:14%; align-items:center; text-align:center;
+}
+.rc-landing .triptychHero__panel .triptychHero__panelCta {
+  border-radius:999px; background:#f5f2ea; color:#111;
+  padding:14px 18px; min-height:50px; font-size:clamp(11px,1vw,15px);
+  width:auto; max-width:100%; margin:12px auto 0;
+}
+.rc-landing .triptychHero__button--register,
+.rc-landing .triptychHero__button--register:link,
+.rc-landing .triptychHero__button--register:visited {
+  background:#ffe17c; color:#111; border-radius:999px;
+  min-height:58px; width:min(310px,100%); font-size:18px;
+}
+.rc-landing .triptychHero__regionalCodes {
+  position:absolute; z-index:8; bottom:14px; left:50%;
+  transform:translateX(-50%); width:max-content; max-width:95%;
+  color:#fff; font-weight:800; letter-spacing:.12em; font-size:clamp(10px,1vw,15px);
+  text-shadow:0 2px 8px #000; pointer-events:none;
+}
+@media(min-width:901px) {
+ .rc-landing .triptychHero__intro { width:38%; padding-top:clamp(55px,7vh,90px); }
+ .rc-landing .triptychHero__panels { inset:0 0 0 35%; }
+ .rc-landing .triptychHero__actions {
+   bottom:clamp(95px,14%,145px); left:clamp(26px,4vw,74px);
+   width:calc(35% - clamp(26px,4vw,74px)); justify-content:flex-start;
+ }
+}
+@media(max-width:900px) {
+ .rc-landing .triptychHero { overflow:hidden; background:#202522; }
+ .rc-landing .triptychHero__mobileHero { background:#202522; }
+ .rc-landing .triptychHero__mobileHero .triptychHero__intro {
+   padding:32px 22px 15px; width:100%; min-height:0;
+ }
+ .rc-landing .triptychHero__title { font-size:clamp(25px,6.2vw,46px); }
+ .rc-landing .triptychHero__title > .triptychHero__number {font-size:clamp(72px,17vw,120px);}
+ .rc-landing .triptychHero__title > strong {font-size:clamp(31px,7.5vw,55px);white-space:normal;}
+ .rc-landing .triptychHero__actions,
+ .rc-landing .triptychHero__mobileHero .triptychHero__actions {
+   width:calc(100% - 44px); margin:14px auto 26px; justify-content:flex-start;
+ }
+ .rc-landing .triptychHero__button--register {width:min(310px,100%);min-height:58px;}
+ .rc-landing .triptychHero__panels {
+   display:grid; grid-template-columns:repeat(3,minmax(0,1fr));
+   gap:0; padding:0 0 62px; height:clamp(290px,75vw,440px);
+   background:#202522; overflow:hidden;
+ }
+ .rc-landing .triptychHero__panel,
+ .rc-landing .triptychHero__panel--services {
+   position:relative; inset:auto; width:100%; height:100%; min-height:0;
+   border-radius:0; clip-path:none;
+ }
+ .rc-landing .triptychHero__panelContent,
+ .rc-landing .triptychHero__panel--services .triptychHero__panelContent {
+   top:auto; bottom:20px; left:5px; right:5px; gap:7px;
+ }
+ .rc-landing .triptychHero__panelTitle {font-size:clamp(11px,2.8vw,19px);overflow-wrap:anywhere;}
+ .rc-landing .triptychHero__panel .triptychHero__panelCta {
+   position:static; transform:none; font-size:clamp(9px,2vw,13px);
+   padding:8px 5px; min-height:36px; max-width:100%; width:100%;
+ }
+ .rc-landing .triptychHero__regionalCodes {bottom:16px; font-size:clamp(10px,2.5vw,14px);letter-spacing:.04em;}
+}
+
+
+/* FIX hero preview: desktop full-bleed three photos, mobile compact stack. */
+@media (min-width:901px) {
+ .rc-landing .triptychHero {height:clamp(620px,76vh,790px);min-height:620px;}
+ .rc-landing .triptychHero__mobileHero {position:static;}
+ .rc-landing .triptychHero__intro {position:absolute;left:0;top:0;width:37%;height:100%;z-index:4;padding:clamp(55px,7vh,90px) 10px 140px clamp(26px,4vw,74px);}
+ .rc-landing .triptychHero__panels {inset:0 0 0 33%;width:auto;display:block;}
+ .rc-landing .triptychHero__panel--fields {left:0;width:40%;}
+ .rc-landing .triptychHero__panel--producers {left:31%;width:40%;}
+ .rc-landing .triptychHero__panel--services {left:61%;width:42%;}
+ .rc-landing .triptychHero__actions {position:absolute;z-index:9;left:clamp(26px,4vw,74px);bottom:15%;width:min(320px,calc(33% - 45px));margin:0;padding:0;}
+ .rc-landing .triptychHero__regionalCodes {left:67%;bottom:27px;}
+}
+@media (max-width:900px) {
+ .rc-landing .triptychHero {display:flex;flex-direction:column;height:auto;min-height:0;overflow:hidden;}
+ .rc-landing .triptychHero__mobileHero {display:contents;}
+ .rc-landing .triptychHero__intro {position:relative;order:0;min-height:0;height:auto;padding:28px 20px 16px;}
+ .rc-landing .triptychHero__title {font-size:clamp(25px,6.1vw,44px);}
+ .rc-landing .triptychHero__title > .triptychHero__number {font-size:clamp(66px,15vw,108px);color:#ffe17c;}
+ .rc-landing .triptychHero__title > strong {font-size:clamp(30px,7vw,52px);color:#ffe17c;}
+ .rc-landing .triptychHero__actions,
+ .rc-landing .triptychHero__mobileHero .triptychHero__actions {
+  position:relative;order:1;align-self:center;left:auto;bottom:auto;
+  width:calc(100% - 40px);max-width:380px;margin:10px auto 20px;padding:0;
+ }
+ .rc-landing .triptychHero__panels {
+  position:relative;order:2;inset:auto;display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));width:100%;height:clamp(265px,68vw,420px);
+  padding:0 8px 56px;gap:3px;box-sizing:border-box;
+ }
+ .rc-landing .triptychHero__panel,
+ .rc-landing .triptychHero__panel--fields,
+ .rc-landing .triptychHero__panel--producers,
+ .rc-landing .triptychHero__panel--services {
+  position:relative;top:auto;bottom:auto;left:auto;right:auto;
+  width:100%;height:100%;min-height:0;clip-path:none;border-radius:0;
+ }
+ .rc-landing .triptychHero__panelContent,
+ .rc-landing .triptychHero__panel--services .triptychHero__panelContent {
+  top:auto;bottom:16px;left:4px;right:4px;align-items:center;text-align:center;
+ }
+ .rc-landing .triptychHero__panelTitle {font-size:clamp(10px,2.65vw,18px);line-height:1.12;}
+ .rc-landing .triptychHero__panel .triptychHero__panelCta {font-size:clamp(9px,2vw,12px);padding:8px 3px;min-height:36px;white-space:normal;}
+ .rc-landing .triptychHero__regionalCodes {position:absolute;left:50%;bottom:17px;z-index:9;}
+}
