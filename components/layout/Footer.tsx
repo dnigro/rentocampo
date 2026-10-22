@@ -64,6 +64,9 @@ export default function Footer() {
             <RegionalLink href="/register?tipo=prestador" fallbackCountry={country} className="footer-link">
               {t("Ofrecer mis servicios", "Oferecer meus serviços")}
             </RegionalLink>
+            <Link href="/alianzas" className="footer-link">
+              {t("Alianzas rurales", "Parcerias rurais")}
+            </Link>
             <a href="mailto:hola@rentocampo.com" className="footer-link">
               hola@rentocampo.com
             </a>
