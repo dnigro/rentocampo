@@ -24,6 +24,13 @@ export default async function AlianzasPage() {
   const country = resolveCountry((await cookies()).get("rentocampo_country")?.value);
   const pt = country === "BR";
   const t = (es: string, br: string) => (pt ? br : es);
+  const shareTarget = `https://rentocampo.com/alianzas?utm_source=whatsapp&utm_medium=referral&utm_campaign=alianzas_organicas_2026&pais=${country}`;
+  const shareText = pt
+    ? "Conheça o RentoCampo: anuncie propriedades e serviços rurais gratuitamente nesta etapa. "
+    : "Conocé RentoCampo: publicá campos y servicios rurales gratis en esta etapa. ";
+  const whatsappShareHref = `https://wa.me/?text=${encodeURIComponent(shareText + shareTarget)}`;
+  const facebookShareHref = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent("https://rentocampo.com/alianzas")}`;
+
   const links = [
     {
       key: "01",
@@ -90,6 +97,23 @@ export default async function AlianzasPage() {
                   "O RentoCampo reúne anúncios de proprietários e prestadores rurais para que os produtores encontrem opções por região. Sua organização pode compartilhar essa oportunidade sem gerenciar cadastros ou anúncios.",
                 )}
               </p>
+            </div>
+            <div className="rc-partners-share" aria-label={t("Compartir la invitación", "Compartilhar o convite")}>
+              <div>
+                <h3>{t("¿Querés acercar RentoCampo a tu comunidad?", "Quer compartilhar o RentoCampo com a sua comunidade?")}</h3>
+                <p>{t(
+                  "Compartí esta página desde tus canales. Cada institución y cada asociado decide si participa.",
+                  "Compartilhe esta página pelos seus canais. Cada entidade e cada associado decide se deseja participar.",
+                )}</p>
+              </div>
+              <div className="rc-partners-share-actions">
+                <a href={whatsappShareHref} target="_blank" rel="noopener noreferrer" className="rc-partners-btn rc-partners-btn-dark">
+                  {t("Compartir por WhatsApp", "Compartilhar no WhatsApp")}
+                </a>
+                <a href={facebookShareHref} target="_blank" rel="noopener noreferrer" className="rc-partners-btn rc-partners-btn-outline">
+                  {t("Compartir en Facebook", "Compartilhar no Facebook")}
+                </a>
+              </div>
             </div>
             <div className="rc-partners-grid">
               {links.map((step) => (
