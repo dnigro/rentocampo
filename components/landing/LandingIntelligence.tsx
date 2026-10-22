@@ -7,7 +7,7 @@ export default function LandingIntelligence() {
   <div className="rci-grid">
    <div className="rci-intro">
     <span className="rci-kicker">PRÓXIMAMENTE</span>
-    <h2 id="rci-title">RentoCampo<br/>Intelligence</h2>
+    <h2 id="rci-title">RentoCampo</h2>
     <p className="rci-lead">Información que transforma el valor del campo.</p>
     <div className="rci-benefits">
      <p><span>▥</span><strong>Información para decidir</strong><small>Clima, suelo, territorio y demanda.</small></p>
@@ -37,8 +37,8 @@ export default function LandingIntelligence() {
   .rci{background:#111719;color:#f0f0ef;padding:26px clamp(18px,2.5vw,48px);font-family:inherit}
   .rci-grid{display:grid;grid-template-columns:.85fr 1fr 1fr;gap:20px;max-width:1700px;margin:auto}
   .rci-intro{padding:42px 12px 20px 8px}
-  .rci-kicker{font-size:12px;letter-spacing:.27em;color:#b9ad91}
-  .rci-intro h2{font-weight:800;font-size:clamp(33px,3.5vw,62px);line-height:1.04;letter-spacing:-.045em;margin:26px 0 20px}
+  .rci-kicker{display:block;font-size:clamp(28px,2.65vw,46px);font-weight:800;line-height:1.12;letter-spacing:.035em;color:#d4b16e;white-space:nowrap}
+  .rci-intro h2{font-weight:400;font-size:clamp(30px,3vw,50px);line-height:1.12;letter-spacing:-.035em;margin:12px 0 20px;white-space:nowrap}
   .rci-lead{font-size:clamp(18px,1.65vw,26px);line-height:1.4;color:#c5c5c5;max-width:370px}
   .rci-benefits{margin-top:36px;display:grid;gap:22px}
   .rci-benefits p{display:grid;grid-template-columns:44px 1fr;gap:2px 14px;margin:0}
@@ -68,7 +68,7 @@ export default function LandingIntelligence() {
   .rci-card li{font-size:15px;color:#d2d2d2;line-height:1.35;display:flex;gap:12px}.rci-card li:before{content:"✓";color:#c4b08b;font-weight:700}
   .rci-coming{display:inline-block;border:1px solid #8e8168;border-radius:30px;color:#d0c0a1;font-size:11px;letter-spacing:.16em;padding:11px 17px}
   @media(max-width:1050px){.rci-grid{grid-template-columns:1fr 1fr}.rci-intro{grid-column:1/-1;padding:12px}.rci-benefits{grid-template-columns:repeat(3,1fr);gap:12px;margin-top:20px}}
-  @media(max-width:650px){.rci{padding:20px 14px}.rci-grid{display:grid;grid-template-columns:1fr;gap:16px}.rci-intro{grid-column:auto}.rci-intro h2{font-size:40px;margin:14px 0}.rci-lead{font-size:19px}.rci-benefits{grid-template-columns:1fr;gap:12px}.rci-benefits p>span{font-size:22px}.rci-visual{height:auto;aspect-ratio:2.05 / 1}.rci-card-body{padding:20px}.rci-heading h3{font-size:25px}.rci-card li{font-size:14px}}
+  @media(max-width:650px){.rci{padding:20px 14px}.rci-grid{display:grid;grid-template-columns:1fr;gap:16px}.rci-intro{grid-column:auto}.rci-intro h2{font-size:clamp(29px,8vw,42px);margin:10px 0}.rci-kicker{font-size:clamp(25px,7vw,40px);letter-spacing:.02em}.rci-lead{font-size:19px}.rci-benefits{grid-template-columns:1fr;gap:12px}.rci-benefits p>span{font-size:22px}.rci-visual{height:auto;aspect-ratio:2.05 / 1}.rci-card-body{padding:20px}.rci-heading h3{font-size:25px}.rci-card li{font-size:14px}}
   `}</style>
  </section>;
 }
