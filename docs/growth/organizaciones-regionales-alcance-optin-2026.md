@@ -17,6 +17,17 @@
 - Las dos contienen texto por idioma, enlace de baja y placeholder de dirección postal; no enviarlas hasta tener opt-in verificable y completar datos legales. Segmento ES para AR, UY, PY, CL, BO y PE. Segmento BR para Brasil.
 - No considerar estos números como socios, destinatarios contactados ni registros generados.
 
+## Expansión del directorio de prospección (actualización 22/10/2026)
+
+- Directorio nuevo, separado de Resend: [`directorio-rural-regional-prospectos-2026.csv`](./directorio-rural-regional-prospectos-2026.csv).
+- **194 puntos de entrada**: AR 20, UY 22, PY 39, CL 60, BO 20, PE 4 y BR 29. No son 194 correos ni 194 convenios; incluye federaciones, asociaciones y sus nodos territoriales.
+- Datos por fila: país, entidad/unidad, red madre, rubro, prioridad inicial, fuente pública, estado, verificación de consentimiento, condición de contacto y alianza.
+- Todos comienzan `identificada_en_directorio`, `email_consentido=NO`, `contactada=NO`. No es un rechazo: significa **consentimiento no documentado**.
+- Brasil contiene 27 nodos estatales de CNA señalados como `federação estadual` para identificar jurisdicción; los nombres formales y sus canales deben verificarse individualmente.
+- La expansión prioriza fuentes de CRA (AR), CAF (UY), UGP y ARP (PY), SNA (CL), CAO (BO), CONVEAGRO/AGAP (PE) y CNA (BR). Un directorio de miembros prueba pertenencia publicada, **no** aptitud para envíos comerciales.
+- En `/alianzas` (PR #247) también se incorporaron enlaces de **compartir voluntariamente** por WhatsApp y Facebook. Esto abre una vía de alcance orgánico sin envíos salientes a desconocidos.
+- Vercel Preview por validar; cambios aún fuera de PROD. Mantener borradores de Resend en estado **draft**, sin cargar la base.
+
 ## Prospectos institucionales / multiplicadores a investigar
 **Estado por defecto de todas las filas: identificada; no contactada; sin permiso para correo Resend.**
 
