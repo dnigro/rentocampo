@@ -2,6 +2,7 @@ import LandingTriptychHero from "@/components/landing/LandingTriptychHero";
 import LandingComo from "@/components/landing/LandingComo";
 import LandingMapa from "@/components/landing/LandingMapa";
 import LandingFAQ from "@/components/landing/LandingFAQ";
+import LandingIntelligence from "@/components/landing/LandingIntelligence";
 
 export default function LandingPageContent() {
   return (
@@ -10,6 +11,7 @@ export default function LandingPageContent() {
       <LandingMapa />
       <LandingComo />
       <LandingFAQ />
+      <LandingIntelligence />
     </main>
   );
 }
