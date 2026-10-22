@@ -28,7 +28,7 @@ export default function LandingIntelligence() {
    </article>
    <article className="rci-card">
     <div className="rci-visual rci-geo">
-     <div className="rci-background rci-background-geo" role="img" aria-label="Vista cartográfica aérea de parcelas rurales en tonos grises"/>
+     <div className="rci-background rci-background-geo" role="img" aria-label="Vista aérea de parcelas agrícolas y caminos rurales en tonos grises"/>
      <div className="rci-zones"/><div className="rci-geo-outline"/><div className="rci-map-thumbs"><span>Vista satelital</span><span>Límites y superficies</span><span>Zonas productivas</span></div>
      <span className="rci-geo-pin">⌖</span><div className="rci-geo-panel"><strong>Análisis de zonas</strong><small>🟠 Alta demanda · 43%</small><small>🟡 Demanda media · 37%</small><small>⚪ Baja demanda · 20%</small></div>
     </div>
@@ -51,7 +51,7 @@ export default function LandingIntelligence() {
   .rci-benefits strong{font-size:17px}.rci-benefits small{color:#bcbcbc;font-size:14px;line-height:1.5}
   .rci-card{border:1px solid #404243;border-radius:18px;background:#151b1d;overflow:hidden;min-width:0}
   .rci-visual{height:235px;position:relative;overflow:hidden;background:#424743}
-  .rci-background{position:absolute;inset:0;background-size:cover;background-position:center;filter:grayscale(1) brightness(.8) contrast(1.05)}.rci-background-agro{background-position:50% 50%;background-image:url("/image_eol_pix.png")}.rci-background-geo{background-position:50% 45%;background-image:url("/image_vaca_pix.png");filter:grayscale(1) brightness(.8) contrast(1.05)}
+  .rci-background{position:absolute;inset:0;background-size:cover;background-position:center;filter:grayscale(1) brightness(.8) contrast(1.05)}.rci-background-agro{background-position:50% 50%;background-image:url("/image_eol_pix.png")}.rci-background-geo{background-position:50% 45%;background-image:url("/intelligence-geofields-aerial.svg");filter:grayscale(1) brightness(.8) contrast(1.05)}
   .rci-weather-panel,.rci-geo-panel{position:absolute;top:15px;left:15px;background:#1b1e1edb;border:1px solid #7777;border-radius:8px;padding:12px;display:grid;gap:6px;font-size:12px}
   .rci-weather-panel strong{font-size:28px}.rci-weather-panel small,.rci-geo-panel small{color:#bcbcbc;font-size:11px}
   .rci-field-outline{position:absolute;left:41%;top:18%;width:44%;height:56%;border:2px solid #dedede9c;background:#d1d1d124;transform:rotate(13deg) skew(-9deg)}
