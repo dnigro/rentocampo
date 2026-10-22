@@ -51,7 +51,7 @@ export default function LandingIntelligence() {
   .rci-benefits strong{font-size:17px}.rci-benefits small{color:#bcbcbc;font-size:14px;line-height:1.5}
   .rci-card{border:1px solid #404243;border-radius:18px;background:#151b1d;overflow:hidden;min-width:0}
   .rci-visual{height:235px;position:relative;overflow:hidden;background:#424743}
-  .rci-background{position:absolute;inset:0;background-size:cover;background-position:center;filter:grayscale(1) brightness(.72) contrast(1.12)}.rci-background-agro{background-position:50% 50%;background-image:url("/rentocampo-hero-campo-bn-1920x1080.webp")}.rci-background-geo{background-position:50% 45%;background-image:url("/image_eol_pix.png");filter:grayscale(1) brightness(.48) contrast(1.14)}
+  .rci-background{position:absolute;inset:0;background-size:cover;background-position:center;filter:grayscale(1) brightness(.72) contrast(1.12)}.rci-background-agro{background-position:50% 50%;background-image:url("/intelligence-clima-gris.svg")}.rci-background-geo{background-position:50% 45%;background-image:url("/intelligence-campo-gris.svg");filter:grayscale(1) brightness(.7) contrast(1.1)}
   .rci-weather-panel,.rci-geo-panel{position:absolute;top:15px;left:15px;background:#1b1e1edb;border:1px solid #7777;border-radius:8px;padding:12px;display:grid;gap:6px;font-size:12px}
   .rci-weather-panel strong{font-size:28px}.rci-weather-panel small,.rci-geo-panel small{color:#bcbcbc;font-size:11px}
   .rci-field-outline{position:absolute;left:41%;top:18%;width:44%;height:56%;border:2px solid #dedede9c;background:#d1d1d124;transform:rotate(13deg) skew(-9deg)}
