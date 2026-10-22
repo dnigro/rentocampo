@@ -24,7 +24,7 @@ Referencia de metodología: https://predictablerevenue.com/methodology/ ; https:
 Publicar páginas locales de SEO solo con contenido genuino, fichas reales y utilidad; prohibido crear landing pages geográficas vacías o masivas.
 
 ## 3. Línea de base confirmada por consulta agregada a Supabase PROD
-Corte inicial 21/10/2026. Controles: perfiles con usuario de autenticación y correo confirmado, excluyendo `dantednigro@gmail.com` y `dantenigro@gmail.com`; campos cuyo ID no empieza `20000000-` ni título contiene `DEMO`, asociados a esos perfiles.
+Corte inicial 21/10/2026. Controles: perfiles con usuario de autenticación y correo confirmado, excluyendo las cuentas internas de prueba según configuración privada (sin publicar identificadores personales en este repositorio); campos cuyo ID no empieza `20000000-` ni título contiene `DEMO`, asociados a esos perfiles.
 - Perfiles registrados y confirmados no excluidos: **5**.
 - Nuevos perfiles no excluidos últimos 7 días: **1**.
 - Campos reales activos: **3**.
