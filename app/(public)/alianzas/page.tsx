@@ -1,10 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { cookies } from "next/headers";
-import Navbar from "@/components/layout/Navbar";
-import Footer from "@/components/layout/Footer";
 import { resolveCountry } from "@/data/countries";
-import "@/styles/public.css";
 import "./styles.css";
 
 export const metadata: Metadata = {
@@ -54,9 +51,7 @@ export default async function AlianzasPage() {
     },
   ];
   return (
-    <>
-      <Navbar />
-      <main className="rc-partners">
+    <div className="rc-partners">
         <section className="rc-partners-hero">
           <div className="rc-partners-container">
             <p className="rc-partners-eyebrow">{t("RENTOCAMPO · ALIANZAS RURALES", "RENTOCAMPO · PARCERIAS RURAIS")}</p>
@@ -139,8 +134,6 @@ export default async function AlianzasPage() {
             </div>
           </div>
         </section>
-      </main>
-      <Footer />
-    </>
+    </div>
   );
 }
