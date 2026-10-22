@@ -1,5 +1,3 @@
-import Image from "next/image";
-import fieldPhoto from "@/public/image_eol_pix.png";
 
 const agro=["Obtención de datos históricos del clima por zona","Pronóstico por campo y zona","Riesgo de heladas y precipitaciones","Humedad y temperatura del suelo","Ventanas de siembra y cosecha"];
 const geo=["Visualización de campos y región","Zonas de alta demanda productiva","Información de suelos y aptitud","Accesos, infraestructura y servicios"];
@@ -19,7 +17,7 @@ export default function LandingIntelligence() {
    </div>
    <article className="rci-card">
     <div className="rci-visual rci-weather">
-     <Image src={fieldPhoto} alt="Vista rural ilustrativa para información agroclimática" fill sizes="(max-width:700px) 100vw, 35vw"/>
+     <div className="rci-background rci-background-agro" role="img" aria-label="Paisaje agrícola de cultivo en tonos grises"/>
      <div className="rci-weather-panel"><span>Clima actual</span><strong>☁ 23.7°</strong><small>Vista ilustrativa</small></div>
      <div className="rci-metric"><small>Histórico de lluvias</small><strong>625 mm</strong><span>▂▅▃▇▅</span></div><div className="rci-wind"><small>Velocidad del viento</small><strong>18 km/h</strong></div>
      <div className="rci-forecast"><span>☀ Hoy<br/>26°</span><span>☁ Mar<br/>27°</span><span>☀ Mié<br/>28°</span><span>☂ Jue<br/>24°</span><span>☁ Vie<br/>23°</span></div>
@@ -30,7 +28,7 @@ export default function LandingIntelligence() {
    </article>
    <article className="rci-card">
     <div className="rci-visual rci-geo">
-     <Image src={fieldPhoto} alt="Vista rural ilustrativa de mapas y oportunidades territoriales" fill sizes="(max-width:700px) 100vw, 35vw"/>
+     <div className="rci-background rci-background-geo" role="img" aria-label="Vista cartográfica aérea de parcelas rurales en tonos grises"/>
      <div className="rci-zones"/><div className="rci-geo-outline"/>
      <span className="rci-geo-pin">⌖</span><div className="rci-geo-panel"><strong>Análisis de zonas</strong><small>🟠 Alta demanda · 43%</small><small>🟡 Demanda media · 37%</small><small>⚪ Baja demanda · 20%</small></div>
     </div>
@@ -53,7 +51,7 @@ export default function LandingIntelligence() {
   .rci-benefits strong{font-size:17px}.rci-benefits small{color:#bcbcbc;font-size:14px;line-height:1.5}
   .rci-card{border:1px solid #404243;border-radius:18px;background:#151b1d;overflow:hidden;min-width:0}
   .rci-visual{height:235px;position:relative;overflow:hidden;background:#424743}
-  .rci-visual img{object-fit:cover;filter:grayscale(1) brightness(.48) contrast(1.13)}
+  .rci-background{position:absolute;inset:0;background-size:cover;background-position:center;filter:grayscale(1) brightness(.72) contrast(1.12)}.rci-background-agro{background-image:url("/intelligence-agro-landscape.svg")}.rci-background-geo{background-image:url("/intelligence-geo-aerial.svg")}
   .rci-weather-panel,.rci-geo-panel{position:absolute;top:15px;left:15px;background:#1b1e1edb;border:1px solid #7777;border-radius:8px;padding:12px;display:grid;gap:6px;font-size:12px}
   .rci-weather-panel strong{font-size:28px}.rci-weather-panel small,.rci-geo-panel small{color:#bcbcbc;font-size:11px}
   .rci-field-outline{position:absolute;left:41%;top:18%;width:44%;height:56%;border:2px solid #dedede9c;background:#d1d1d124;transform:rotate(13deg) skew(-9deg)}
