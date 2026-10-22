@@ -7,11 +7,11 @@ import "./styles.css";
 export const metadata: Metadata = {
   title: "Alianzas rurales gratuitas | RentoCampo",
   description:
-    "Cooperativas, cámaras, asociaciones y redes rurales: sumá a tus asociados a RentoCampo y ayudalos a publicar campos y servicios de forma gratuita.",
+    "Invitá a tus asociados a publicar campos y servicios rurales gratis. Una propuesta de colaboración para cooperativas, cámaras y organizaciones del campo.",
   alternates: { canonical: "https://rentocampo.com/alianzas" },
   openGraph: {
     title: "Alianzas rurales | RentoCampo",
-    description: "Conectemos cooperativas, contratistas, productores y propietarios sin costo en esta etapa de crecimiento.",
+    description: "Más visibilidad para tus asociados: campos, servicios rurales y contacto directo, sin costo de publicación en esta etapa.",
     url: "https://rentocampo.com/alianzas",
     type: "website",
     locale: "es_AR",
@@ -27,26 +27,26 @@ export default async function AlianzasPage() {
   const links = [
     {
       key: "01",
-      title: t("Presentá la oportunidad", "Apresente a oportunidade"),
+      title: t("Compartí la invitación", "Compartilhe o convite"),
       text: t(
-        "Una cooperativa, cámara o entidad comparte la invitación de RentoCampo solo con quien quiera conocerla.",
-        "Uma cooperativa, câmara ou entidade compartilha o convite do RentoCampo apenas com quem tiver interesse.",
+        "Compartí RentoCampo en tus canales institucionales para que tus asociados conozcan esta herramienta.",
+        "Compartilhe o RentoCampo pelos canais da sua organização para que os associados conheçam a plataforma.",
       ),
     },
     {
       key: "02",
-      title: t("Cada asociado decide", "Cada associado decide"),
+      title: t("Tus asociados publican gratis", "Seus associados anunciam grátis"),
       text: t(
-        "Propietarios y prestadores se registran y publican por cuenta propia; no necesitamos padrones ni contactos de terceros.",
-        "Proprietários e prestadores se cadastram e publicam por conta própria; não precisamos de listas ou contatos de terceiros.",
+        "Cada propietario o prestador crea su perfil y publica su campo o servicio sin costo durante esta etapa.",
+        "Cada proprietário ou prestador cria seu perfil e anuncia a propriedade ou serviço gratuitamente nesta etapa.",
       ),
     },
     {
       key: "03",
-      title: t("Medimos oportunidades reales", "Medimos oportunidades reais"),
+      title: t("El contacto es directo", "O contato é direto"),
       text: t(
-        "Evaluamos publicaciones activas y contactos generados, no solo cantidad de vistas o seguidores.",
-        "Avaliamos anúncios ativos e contatos gerados, não apenas visualizações ou seguidores.",
+        "Los interesados pueden encontrar las publicaciones por zona y consultar directamente al anunciante.",
+        "Os interessados podem encontrar anúncios por região e entrar em contato diretamente com quem publicou.",
       ),
     },
   ];
@@ -55,11 +55,11 @@ export default async function AlianzasPage() {
         <section className="rc-partners-hero">
           <div className="rc-partners-container">
             <p className="rc-partners-eyebrow">{t("RENTOCAMPO · ALIANZAS RURALES", "RENTOCAMPO · PARCERIAS RURAIS")}</p>
-            <h1>{t("El campo crece cuando nos conectamos.", "O campo cresce quando nos conectamos.")}</h1>
+            <h1>{t("Más oportunidades para tus asociados. Más conexiones para el campo.", "Mais oportunidades para seus associados. Mais conexões para o campo.")}</h1>
             <p className="rc-partners-subtitle">
               {t(
-                "Invitamos a cooperativas, sociedades rurales, cámaras de contratistas y organizaciones del interior a acercar oportunidades a sus comunidades. Sin pauta ni convenios comerciales obligatorios.",
-                "Convidamos cooperativas, entidades rurais, associações de prestadores e organizações do interior a levar oportunidades às suas comunidades. Sem anúncios pagos ou acordos comerciais obrigatórios.",
+                "Si representás una cooperativa, cámara o entidad rural, invitá a tu comunidad a publicar campos y servicios en RentoCampo. La participación y el contacto son gratuitos en esta etapa.",
+                "Se você representa uma cooperativa, associação ou entidade rural, convide sua comunidade para anunciar propriedades e serviços no RentoCampo. Participar e entrar em contato é gratuito nesta etapa.",
               )}
             </p>
             <div className="rc-partners-actions">
@@ -72,8 +72,8 @@ export default async function AlianzasPage() {
             </div>
             <p className="rc-partners-note">
               {t(
-                "Escribinos desde tu institución a hola@rentocampo.com. Respondemos a consultas recibidas voluntariamente.",
-                "Escreva em nome da sua organização para hola@rentocampo.com. Respondemos a consultas enviadas voluntariamente.",
+                "¿Representás una entidad rural? Escribinos a hola@rentocampo.com.",
+                "Representa uma entidade rural? Escreva para hola@rentocampo.com.",
               )}
             </p>
           </div>
@@ -82,12 +82,12 @@ export default async function AlianzasPage() {
         <section className="rc-partners-content">
           <div className="rc-partners-container">
             <div className="rc-partners-intro">
-              <p className="rc-partners-eyebrow">{t("UNA PRUEBA SIMPLE Y FEDERAL", "UM PILOTO SIMPLES E REGIONAL")}</p>
-              <h2>{t("Primero oportunidades reales. Después, escala.", "Primeiro oportunidades reais. Depois, escala.")}</h2>
+              <p className="rc-partners-eyebrow">{t("UNA PROPUESTA PARA TU COMUNIDAD", "UMA PROPOSTA PARA SUA COMUNIDADE")}</p>
+              <h2>{t("Ayudá a que el trabajo de tus asociados se vea.", "Dê mais visibilidade ao trabalho dos seus associados.")}</h2>
               <p>
                 {t(
-                  "Buscamos sumar prestadores y campos reales por zona para que los productores tengan a quién consultar. Cada organización conserva su independencia; esta invitación no implica patrocinio ni vínculo formal.",
-                  "Queremos reunir prestadores e propriedades reais por região para que os produtores encontrem oportunidades. Cada organização mantém sua independência; este convite não implica patrocínio ou vínculo formal.",
+                  "RentoCampo reúne publicaciones de propietarios y prestadores rurales para que los productores encuentren opciones por zona. Tu organización puede compartir esta oportunidad sin administrar registros ni publicaciones.",
+                  "O RentoCampo reúne anúncios de proprietários e prestadores rurais para que os produtores encontrem opções por região. Sua organização pode compartilhar essa oportunidade sem gerenciar cadastros ou anúncios.",
                 )}
               </p>
             </div>
@@ -106,8 +106,8 @@ export default async function AlianzasPage() {
                 <h2>{t("Participar es gratis.", "Participar é gratuito.")}</h2>
                 <p>
                   {t(
-                    "En la etapa actual, registrarse, publicar campos o servicios rurales y contactar directamente no tiene costo. No pedimos a las instituciones que compartan datos personales de sus asociados.",
-                    "Nesta etapa, cadastrar-se, anunciar propriedades ou serviços rurais e entrar em contato diretamente não tem custo. Não pedimos às instituições dados pessoais de seus associados.",
+                    "Registrarse, publicar campos o servicios rurales y contactar directamente es gratis en esta etapa. Cada persona participa por decisión propia.",
+                    "Cadastrar-se, anunciar propriedades ou serviços rurais e entrar em contato diretamente é grátis nesta etapa. Cada pessoa decide se quer participar.",
                   )}
                 </p>
                 <Link className="rc-partners-btn rc-partners-btn-dark" href={pt ? "/register?tipo=prestador&pais=BR" : "/register?tipo=prestador"}>
@@ -119,15 +119,15 @@ export default async function AlianzasPage() {
                 <h3>{t("¿Representás una organización?", "Representa uma organização?")}</h3>
                 <p>
                   {t(
-                    "Contanos qué región o actividad representás. Podemos evaluar una difusión voluntaria y acotada, sin acceso a tus padrones de socios.",
-                    "Conte qual região ou atividade sua organização representa. Podemos avaliar uma divulgação voluntária e limitada, sem acesso a listas de associados.",
+                    "Contanos qué región o actividad representás. Podemos facilitarte una invitación breve para compartir con tus asociados, sin pedirte bases de datos ni información personal.",
+                    "Conte qual região ou atividade sua organização representa. Podemos preparar um convite breve para seus associados, sem solicitar listas ou dados pessoais.",
                   )}
                 </p>
                 <a className="rc-partners-mail" href={propuestaMail}>hola@rentocampo.com</a>
                 <p className="rc-partners-small">
                   {t(
-                    "No existe convenio ni aval institucional hasta que ambas partes lo acuerden.",
-                    "Não existe acordo nem apoio institucional até que ambas as partes concordem.",
+                    "La difusión es voluntaria y no requiere exclusividad ni convenio comercial.",
+                    "A divulgação é voluntária e não exige exclusividade nem acordo comercial.",
                   )}
                 </p>
               </div>
