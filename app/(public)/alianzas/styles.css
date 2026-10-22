@@ -155,3 +155,20 @@
   .rc-partners-btn { transition: none; }
   .rc-partners-btn:hover { transform: none; }
 }
+
+
+.rc-partners-share {
+  margin-top: 32px;
+  padding: 26px 28px;
+  border: 1px solid #cdd6cd;
+  border-radius: 18px;
+  background: #e5e9e3;
+}
+.rc-partners-share h3 { font-size: 1.24rem; }
+.rc-partners-share p { margin: 8px 0 0; color: #4f5852; }
+.rc-partners-share-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+.rc-partners-btn-outline { color: #1e3024; border: 1px solid #788e7c; }
+@media (max-width: 720px) {
+  .rc-partners-share { padding: 22px 18px; }
+  .rc-partners-share-actions { flex-direction: column; }
+}
