@@ -143,7 +143,7 @@
 .rc-partners-small { font-size: .82rem; }
 
 @media (max-width: 720px) {
-  .rc-partners-container { width: min(100% - 32px, 620px); }
+  .rc-partners-container { width: min(calc(100% - 32px), 620px); }
   .rc-partners-hero { padding: 70px 0 65px; }
   .rc-partners-grid, .rc-partners-split { grid-template-columns: 1fr; }
   .rc-partners-actions { flex-direction: column; align-items: stretch; }
