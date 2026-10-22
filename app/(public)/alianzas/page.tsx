@@ -18,18 +18,24 @@ export const metadata: Metadata = {
   },
 };
 
-const propuestaMail = "mailto:hola@rentocampo.com?subject=Propuesta%20de%20alianza%20rural%20-%20RentoCampo";
-
-export default async function AlianzasPage() {
-  const country = resolveCountry((await cookies()).get("rentocampo_country")?.value);
+export default async function AlianzasPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ pais?: string }>;
+}) {
+  const params = await searchParams;
+  const country = resolveCountry(params.pais, (await cookies()).get("rentocampo_country")?.value);
   const pt = country === "BR";
   const t = (es: string, br: string) => (pt ? br : es);
+  const propuestaMail = pt
+    ? "mailto:hola@rentocampo.com?subject=Proposta%20de%20parceria%20rural%20-%20RentoCampo"
+    : "mailto:hola@rentocampo.com?subject=Propuesta%20de%20alianza%20rural%20-%20RentoCampo";
   const shareTarget = `https://rentocampo.com/alianzas?utm_source=whatsapp&utm_medium=referral&utm_campaign=alianzas_organicas_2026&pais=${country}`;
   const shareText = pt
     ? "Conheça o RentoCampo: anuncie propriedades e serviços rurais gratuitamente nesta etapa. "
     : "Conocé RentoCampo: publicá campos y servicios rurales gratis en esta etapa. ";
   const whatsappShareHref = `https://wa.me/?text=${encodeURIComponent(shareText + shareTarget)}`;
-  const facebookShareHref = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent("https://rentocampo.com/alianzas")}`;
+  const facebookShareHref = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent("https://rentocampo.com/alianzas?pais=" + country)}`;
 
   const links = [
     {
