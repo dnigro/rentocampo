@@ -201,16 +201,17 @@ test("new regional explorer toolbar is common to fields and services", () => {
  assert.match(styles,/\.rc-explorer-toolbar__related/);
  assert.match(styles,/@media \(max-width: 700px\)/);
 });
-test("maps center on the selected country's predefined mapCenter", () => {
+test("map displays new-country field markers and refreshes on country change", () => {
  const map=read("components/campos/CampoMapa.tsx");
  const page=read("app/(public)/campos/mapa/page.tsx");
  const nav=read("components/layout/Navbar.tsx");
  const selector=read("components/listings/ListingCountrySelector.tsx");
- assert.ok(!map.includes("fitBounds("));
  assert.match(map,/leafletMap\.setView\(\[\.\.\.country\.mapCenter\] as \[number, number\], country\.mapZoom/);
+ assert.match(map,/leafletMap\.fitBounds\(L\.latLngBounds/);
+ assert.match(map,/zonePoints\.length && fieldPoints\.length/);
  assert.match(map,/data-country=\{countryCode\}/);
  assert.match(page,/key=\{selectedCountry\}/);
- assert.match(nav,/router\.replace\(/);
+ assert.match(nav,/router\.refresh\(\)/);
  assert.match(selector,/router\.replace\(/);
 });
 test("approved responsive hero and FAQ experience remain present", () => {

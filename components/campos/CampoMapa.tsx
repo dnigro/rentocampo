@@ -143,13 +143,34 @@ export default function CampoMapa({
         }).addTo(leafletMap);
         L.control.zoom({ position: "topright" }).addTo(leafletMap);
 
-        const camposGroup = L.layerGroup().addTo(leafletMap);
         const demandaGroup = L.layerGroup().addTo(leafletMap);
+        const camposGroup = L.layerGroup().addTo(leafletMap);
         const serviciosGroup = L.layerGroup();
         camposLayer.current = camposGroup;
         demandaLayer.current = demandaGroup;
         serviciosLayer.current = serviciosGroup;
 
+
+        ZONAS_PRODUCTIVAS_LATAM.filter((z) => z.country_code === countryCode).forEach((demanda) => {
+          const position: [number, number] = [
+            demanda.latitud,
+            demanda.longitud,
+          ];
+          L.circleMarker(position, {
+            radius: 9,
+            color: "#6d561f",
+            weight: 2,
+            dashArray: "3 3",
+            fillColor: "#f4c542",
+            fillOpacity: 0.95,
+          })
+            .addTo(demandaGroup)
+            .bindTooltip(`Zona productiva (no es un campo): ${demanda.zona}`)
+            .on("click", () => {
+              setSelectedCampo(null);
+              setSelectedDemanda(demanda);
+            });
+        });
 
         camposConCoordenadas.forEach((campo, index) => {
           const lat = normalizarCoordenada(campo.latitud);
@@ -181,27 +202,6 @@ export default function CampoMapa({
             .on("click", () => {
               setSelectedDemanda(null);
               setSelectedCampo(campo);
-            });
-        });
-
-        ZONAS_PRODUCTIVAS_LATAM.filter((z) => z.country_code === countryCode).forEach((demanda) => {
-          const position: [number, number] = [
-            demanda.latitud,
-            demanda.longitud,
-          ];
-          L.circleMarker(position, {
-            radius: 9,
-            color: "#6d561f",
-            weight: 2,
-            dashArray: "3 3",
-            fillColor: "#f4c542",
-            fillOpacity: 0.95,
-          })
-            .addTo(demandaGroup)
-            .bindTooltip(`Zona productiva (no es un campo): ${demanda.zona}`)
-            .on("click", () => {
-              setSelectedCampo(null);
-              setSelectedDemanda(demanda);
             });
         });
 
@@ -240,7 +240,24 @@ export default function CampoMapa({
 
         // The country selection owns the viewport, not whichever pins were
         // rendered first. Keep the country's mapCenter/mapZoom authoritative.
-        leafletMap.setView([...country.mapCenter] as [number, number], country.mapZoom, { animate: false });
+        // New-market DEMO fields share coordinates with editorial region references.
+        // Fit all active fields and editorial zones into view, especially on narrow screens.
+        const zonePoints = ZONAS_PRODUCTIVAS_LATAM
+          .filter((zone) => zone.country_code === countryCode)
+          .map((zone) => L.latLng(zone.latitud, zone.longitud));
+        const fieldPoints = camposConCoordenadas.flatMap((campo) => {
+          const lat = normalizarCoordenada(campo.latitud);
+          const lng = normalizarCoordenada(campo.longitud);
+          return lat !== null && lng !== null && Math.abs(lat) <= 90 && Math.abs(lng) <= 180
+            ? [L.latLng(lat, lng)] : [];
+        });
+        if (zonePoints.length && fieldPoints.length) {
+          leafletMap.fitBounds(L.latLngBounds([...fieldPoints, ...zonePoints]), {
+            padding: [38, 38], maxZoom: country.mapZoom, animate: false,
+          });
+        } else {
+          leafletMap.setView([...country.mapCenter] as [number, number], country.mapZoom, { animate: false });
+        }
 
       })
       .catch(() => {
@@ -261,7 +278,7 @@ export default function CampoMapa({
     const leafletMap = map.current;
     if (!leafletMap) return;
     const tierraVisible = vista === "tierra";
-    [camposLayer.current, demandaLayer.current].forEach((layer) => {
+    [demandaLayer.current, camposLayer.current].forEach((layer) => {
       if (!layer) return;
       if (tierraVisible && !leafletMap.hasLayer(layer)) layer.addTo(leafletMap);
       if (!tierraVisible && leafletMap.hasLayer(layer))

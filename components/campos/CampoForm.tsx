@@ -6,7 +6,7 @@ import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { FileText, Images, MapPinned, Sprout, WalletCards } from "lucide-react";
-import { COUNTRIES, COUNTRY_CODES, getCountrySubdivisions, type CountryCode } from "@/data/countries";
+import { COUNTRIES, COUNTRY_CODES_ALPHABETICAL, getCountrySubdivisions, type CountryCode } from "@/data/countries";
 import type { CampoFormData, MonedaCampo } from "@/types";
 import { trackEvent } from "@/lib/analytics";
 import { regionalText } from "@/lib/i18n/regional";
@@ -355,7 +355,7 @@ export default function CampoForm({
             }}
             required
           >
-            {COUNTRY_CODES.map((code) => <option key={code} value={code}>{COUNTRIES[code].flag} {COUNTRIES[code].name}</option>)}
+            {COUNTRY_CODES_ALPHABETICAL.map((code) => <option key={code} value={code}>{COUNTRIES[code].name}</option>)}
           </select>
         </div>
 
