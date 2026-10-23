@@ -1,9 +1,10 @@
+import { demoServiceRegisterHref } from "@/data/visible-demo-services";
 import type { Metadata } from "next";
 import { resolveCountry } from "@/data/countries";
 import { regionalText } from "@/lib/i18n/regional";
 import Link from "next/link";
 import Image from "next/image";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { SERVICIO_LABEL } from "@/data/servicios-rurales";
 import type { ServicioRural } from "@/types";
@@ -86,6 +87,10 @@ export default async function ServicioDetallePage({ params }: { params: Promise<
   const zona = publicacion?.zona ?? demo?.zona_servicio;
   const descripcion = publicacion?.detalle ?? demo?.bio;
   const foto = publicacion?.foto_url || demo?.imagen_url || "/demo-servicio-veterinaria.jpg";
+
+  // Legacy/bookmarked demo detail URLs should also lead to registration,
+  // even when a session is already active: demos are not contactable services.
+  if (esDemo) redirect(demoServiceRegisterHref(pais));
 
   const serviceJsonLd = !esDemo ? {
     "@context": "https://schema.org",

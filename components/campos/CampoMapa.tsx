@@ -1,5 +1,7 @@
 "use client";
 
+import { demoServiceRegisterHref } from "@/data/visible-demo-services";
+
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { LayerGroup, Map as LeafletMap } from "leaflet";
 import Link from "next/link";
@@ -556,10 +558,14 @@ export default function CampoMapa({
             </p>
           )}
           <Link
-            href={`/servicios-rurales/${selectedServicio.publicacion_id ?? selectedServicio.id}?from=mapa`}
+            href={selectedServicio.is_demo
+              ? demoServiceRegisterHref(countryCode)
+              : `/servicios-rurales/${selectedServicio.publicacion_id ?? selectedServicio.id}?from=mapa`}
             className="mapa-panel-btn mapa-panel-btn-servicio"
           >
-            {tt("Ver servicio →","Ver serviço →")}
+            {selectedServicio.is_demo
+              ? tt("Registrate gratis →", "Cadastre-se grátis →")
+              : tt("Ver servicio →","Ver serviço →")}
           </Link>
         </div>
       )}

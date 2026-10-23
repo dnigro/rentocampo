@@ -1,3 +1,4 @@
+import type { CountryCode } from "./countries.ts";
 import { EXPANSION_COUNTRY_CODES } from "./latam-expansion.ts";
 
 /** Allow only approved, clearly labelled DEMO fixtures, never an arbitrary fake service. */
@@ -8,4 +9,9 @@ export const DEMO_SERVICIO_VISIBLE_IDS = new Set<string>([
 
 export function esServicioDemoVisible(id: string): boolean {
   return DEMO_SERVICIO_VISIBLE_IDS.has(id);
+}
+
+/** All DEMO service CTAs are acquisition examples, never contactable offers. */
+export function demoServiceRegisterHref(country: CountryCode): string {
+  return `/register?tipo=prestador&pais=${country}`;
 }
