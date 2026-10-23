@@ -68,7 +68,7 @@ test("registration CTA is prominent on desktop and mobile", () => {
   assert.match(hero, /className="rcHero26__register"/);
   assert.match(styles, /\.rcHero26__register\{[^}]*font-weight:900/s);
   assert.match(styles, /@media\(max-width:900px\)/);
-  assert.match(styles, /@media\(max-width:570px\)/);
+  assert.match(styles, /@media\(min-width:901px\)/);
 });
 
 test("country switching is atomic on the first selection, including Lite", () => {
