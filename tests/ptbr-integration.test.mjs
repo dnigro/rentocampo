@@ -200,7 +200,7 @@ test("maps center on the selected country's predefined mapCenter", () => {
  const nav=read("components/layout/Navbar.tsx");
  const selector=read("components/listings/ListingCountrySelector.tsx");
  assert.ok(!map.includes("fitBounds("));
- assert.match(map,/leafletMap\.setView\(country\.mapCenter, country\.mapZoom/);
+ assert.match(map,/leafletMap\.setView\(\[\.\.\.country\.mapCenter\] as \[number, number\], country\.mapZoom/);
  assert.match(map,/data-country=\{countryCode\}/);
  assert.match(page,/key=\{selectedCountry\}/);
  assert.match(nav,/router\.replace\(/);
