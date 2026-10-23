@@ -1,3 +1,4 @@
+import { demoServiceRegisterHref } from "@/data/visible-demo-services";
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -556,10 +557,14 @@ export default function CampoMapa({
             </p>
           )}
           <Link
-            href={`/servicios-rurales/${selectedServicio.publicacion_id ?? selectedServicio.id}?from=mapa`}
+            href={selectedServicio.is_demo
+              ? demoServiceRegisterHref(countryCode)
+              : `/servicios-rurales/${selectedServicio.publicacion_id ?? selectedServicio.id}?from=mapa`}
             className="mapa-panel-btn mapa-panel-btn-servicio"
           >
-            {tt("Ver servicio →","Ver serviço →")}
+            {selectedServicio.is_demo
+              ? tt("Registrate gratis →", "Cadastre-se grátis →")
+              : tt("Ver servicio →","Ver serviço →")}
           </Link>
         </div>
       )}

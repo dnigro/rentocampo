@@ -221,3 +221,18 @@ test('a country change reloads the matching map after updating URL and cookie', 
  assert.match(serverPage,/key=\{selectedCountry\}/);
  assert.match(serverPage,/\.eq\("country_code", selectedCountry\)/);
 });
+
+test('DEMO service cards and map CTA lead to registration regardless of auth session', async () => {
+  const { demoServiceRegisterHref } = await import('../data/visible-demo-services.ts');
+  const list=readFileSync(new URL('../app/(public)/servicios-rurales/page.tsx',import.meta.url),'utf8');
+  const lite=readFileSync(new URL('../components/lite/LiteServiciosListado.tsx',import.meta.url),'utf8');
+  const map=readFileSync(new URL('../components/campos/CampoMapa.tsx',import.meta.url),'utf8');
+  const detail=readFileSync(new URL('../app/(public)/servicios-rurales/[id]/page.tsx',import.meta.url),'utf8');
+  for(const code of COUNTRY_CODES) assert.equal(demoServiceRegisterHref(code), `/register?tipo=prestador&pais=${code}`);
+  assert.match(list,/prestador\.is_demo \? \([\s\S]*?href=\{demoServiceRegisterHref\(pais\)\}/);
+  assert.match(list,/Registrate gratis →/);
+  assert.match(lite,/href=\{demoServiceRegisterHref\(pais\)\}/);
+  assert.match(map,/selectedServicio\.is_demo[\s\S]*?demoServiceRegisterHref\(countryCode\)/);
+  assert.match(detail,/if \(esDemo\) redirect\(demoServiceRegisterHref\(pais\)\)/);
+  assert.match(list,/publicacion_id \? `\/servicios-rurales/); // real services remain unchanged
+});

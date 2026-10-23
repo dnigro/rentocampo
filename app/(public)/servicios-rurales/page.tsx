@@ -1,4 +1,4 @@
-import { esServicioDemoVisible } from "@/data/visible-demo-services";
+import { demoServiceRegisterHref, esServicioDemoVisible } from "@/data/visible-demo-services";
 import type { Metadata } from "next";
 import { cookies } from "next/headers";
 import { COUNTRIES, resolveCountry } from "@/data/countries";
@@ -283,8 +283,8 @@ export default async function ServiciosRuralesPage({
 
                     <div className="prestador-card__actions">
                       {prestador.is_demo ? (
-                        <Link href={`/servicios-rurales/${prestador.id}`}>
-                          {tt("Ver ficha DEMO →", "Ver anúncio DEMO →")}
+                        <Link href={demoServiceRegisterHref(pais)}>
+                          {tt("Registrate gratis →", "Cadastre-se grátis →")}
                         </Link>
                       ) : user?.id === prestador.id ? (
                         <span className="prestador-card__own">
