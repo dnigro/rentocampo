@@ -1,6 +1,7 @@
 import test from 'node:test';
+import { readFileSync } from 'node:fs';
 import assert from 'node:assert/strict';
-import { isCountryCode, resolveCountry, COUNTRIES, getCountrySubdivisions } from '../data/countries.ts';
+import { isCountryCode, resolveCountry, COUNTRIES, COUNTRY_CODES, getCountrySubdivisions } from '../data/countries.ts';
 import { campoFilterParams } from '../lib/campos/filter-params.ts';
 
 for (const country of ['AR', 'UY', 'PY', 'CL', 'BO', 'PE', 'BR']) {
