@@ -1,4 +1,4 @@
-import { EXPANSION_COUNTRY_CODES } from "@/data/latam-expansion";
+import { EXPANSION_COUNTRY_CODES } from "./latam-expansion.ts";
 
 /** Allow only approved, clearly labelled DEMO fixtures, never an arbitrary fake service. */
 export const DEMO_SERVICIO_VISIBLE_IDS = new Set<string>([

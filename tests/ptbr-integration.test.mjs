@@ -1,3 +1,4 @@
+import { DEMO_SERVICIO_VISIBLE_IDS } from "../data/visible-demo-services.ts";
 import { readFileSync } from "node:fs";
 import { test } from "node:test";
 import assert from "node:assert/strict";
@@ -136,8 +137,9 @@ test("growth mode does not silently hide a fourth real field or local AR demo", 
   assert.ok(!visible.includes("REAL_FIELDS_LIMIT"));
   assert.ok(!visible.includes("DEMO_CAMPO_VISIBLE_IDS"));
   const service=read("app/(public)/servicios-rurales/page.tsx");
+  assert.match(service,/esServicioDemoVisible\(item\.id\)/);
   for(const suffix of ["016","017","018","019"])
-    assert.ok(service.includes("10000000-0000-4000-8000-000000000"+suffix));
+    assert.ok(DEMO_SERVICIO_VISIBLE_IDS.has("10000000-0000-4000-8000-000000000"+suffix));
 });
 
 test("web and Lite country selectors cannot swallow first choice before hydration", () => {
@@ -152,10 +154,15 @@ test("web and Lite country selectors cannot swallow first choice before hydratio
 test("the map and listing both show seven-country service demos", () => {
  const map=read("app/(public)/campos/mapa/page.tsx");
  const services=read("app/(public)/servicios-rurales/page.tsx");
+ assert.match(map,/esServicioDemoVisible\(String\(prestador\.id\)\)/);
+ assert.match(services,/esServicioDemoVisible\(item\.id\)/);
  for(const n of ["013","014","015","016","017","018","019"]){
   const id="10000000-0000-4000-8000-000000000"+n;
-  assert.ok(map.includes(id),`missing map service demo ${n}`);
-  assert.ok(services.includes(id),`missing listing service demo ${n}`);
+  assert.ok(DEMO_SERVICIO_VISIBLE_IDS.has(id),`missing approved service demo ${n}`);
+ }
+ for(let n=101;n<=111;n++){
+  const id="10000000-0000-4000-8000-"+String(n).padStart(12,"0");
+  assert.ok(DEMO_SERVICIO_VISIBLE_IDS.has(id),`missing LATAM18 service demo ${n}`);
  }
 });
 
