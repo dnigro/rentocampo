@@ -190,12 +190,12 @@ export default function CampoMapa({
             demanda.longitud,
           ];
           L.circleMarker(position, {
-            radius: 6,
-            color: "#515b57",
+            radius: 9,
+            color: "#6d561f",
             weight: 2,
             dashArray: "3 3",
-            fillColor: "#b3b7b0",
-            fillOpacity: 0.55,
+            fillColor: "#f4c542",
+            fillOpacity: 0.95,
           })
             .addTo(demandaGroup)
             .bindTooltip(`Zona productiva (no es un campo): ${demanda.zona}`)
@@ -375,14 +375,7 @@ export default function CampoMapa({
               <span className="mapa-filtro-punto mapa-filtro-punto-servicio" />
               {tt("Servicios ofrecidos","Serviços oferecidos")}
             </div>
-          )}
-
-          {vista === "tierra" && ZONAS_PRODUCTIVAS_LATAM.some((z) => z.country_code === countryCode) && (
-            <p className="mapa-filtros-titulo" style={{ fontSize: 12, opacity: 0.75 }}>
-              4 zonas productivas de referencia · no son campos DEMO ni demanda verificada
-            </p>
-          )}
-          <div className="mapa-contador">
+          )}          <div className="mapa-contador">
             {vista === "tierra" ? (
               <>
                 <strong>{camposConCoordenadas.length}</strong> {tt("campos en","terras em")}{" "}

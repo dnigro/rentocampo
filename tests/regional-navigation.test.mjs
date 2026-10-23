@@ -152,6 +152,9 @@ test('LATAM18 demo services are visible by explicit ID in both public service vi
 test('four regional zone markers are not mislabeled as field DEMOs', () => {
  const map=readFileSync(new URL('../components/campos/CampoMapa.tsx',import.meta.url),'utf8');
  assert.match(map,/Zona productiva · referencia/);
- assert.match(map,/no son campos DEMO/);
+ assert.ok(!map.includes("4 zonas productivas de referencia · no son campos DEMO ni demanda verificada"));
+ assert.match(map,/fillColor: "#f4c542"/);
  assert.match(map,/Zona productiva \(no es un campo\)/);
 });
+
+test('approved V2 teaser is restored below FAQ with original images',()=>{ const home=readFileSync(new URL('../components/landing/LandingPageContent.tsx',import.meta.url),'utf8'); const v2=readFileSync(new URL('../components/landing/LandingIntelligence.tsx',import.meta.url),'utf8'); assert.ok(home.indexOf('<LandingFAQ />')<home.indexOf('<LandingIntelligence />')); for(const s of ['PRÓXIMAMENTE','AgroClimate','GeoMarket','/intelligence-agro-approved.webp','/intelligence-geo-approved.webp']) assert.ok(v2.includes(s)); });
