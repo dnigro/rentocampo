@@ -136,3 +136,15 @@ test('LATAM18 map zoning catalog has four valid geolocated references per new co
   }
   assert.equal(points.length,44);
 });
+
+// Every new country's UAT fixture must be discoverable on map and service listing.
+test('LATAM18 demo services are visible by explicit ID in both public service views', async () => {
+  const map=readFileSync(new URL('../app/(public)/campos/mapa/page.tsx',import.meta.url),'utf8');
+  const list=readFileSync(new URL('../app/(public)/servicios-rurales/page.tsx',import.meta.url),'utf8');
+  const ids=readFileSync(new URL('../data/visible-demo-services.ts',import.meta.url),'utf8');
+  assert.match(map,/esServicioDemoVisible\(String\(prestador\.id\)\)/);
+  assert.match(list,/esServicioDemoVisible\(item\.id\)/);
+  assert.match(ids,/EXPANSION_COUNTRY_CODES\.map/);
+  assert.match(ids,/101 \+ index/);
+  assert.ok(!ids.includes('startsWith(id)'));
+});

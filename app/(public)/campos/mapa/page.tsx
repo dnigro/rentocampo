@@ -11,20 +11,7 @@ import type { Metadata } from "next";
 import { cookies } from "next/headers";
 import "@/styles/mapa.css";
 import { seleccionarCamposPublicos } from "@/lib/campos/visible-fields";
-
-const DEMO_SERVICIO_VISIBLE_IDS = new Set<string>([
-  "10000000-0000-4000-8000-000000000005",
-  "10000000-0000-4000-8000-000000000010",
-  "10000000-0000-4000-8000-000000000011",
-  "10000000-0000-4000-8000-000000000012",
-  "10000000-0000-4000-8000-000000000013",
-  "10000000-0000-4000-8000-000000000014",
-  "10000000-0000-4000-8000-000000000015",
-  "10000000-0000-4000-8000-000000000016", // AR
-  "10000000-0000-4000-8000-000000000017", // UY
-  "10000000-0000-4000-8000-000000000018", // PY
-  "10000000-0000-4000-8000-000000000019", // BR
-]);
+import { esServicioDemoVisible } from "@/data/visible-demo-services";
 
 export const metadata: Metadata = {
   title: "Mapa de campos y servicios rurales | RentoCampo",
@@ -113,7 +100,7 @@ export default async function MapaPage({
       is_demo: false,
     })),
     ...(serviciosDemo ?? [])
-      .filter((prestador) => DEMO_SERVICIO_VISIBLE_IDS.has(String(prestador.id)))
+      .filter((prestador) => esServicioDemoVisible(String(prestador.id)))
       .map((prestador) => ({
         ...prestador,
         avatar_url: undefined,

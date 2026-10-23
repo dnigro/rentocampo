@@ -1,3 +1,4 @@
+import { esServicioDemoVisible } from "@/data/visible-demo-services";
 import type { Metadata } from "next";
 import { cookies } from "next/headers";
 import { COUNTRIES, resolveCountry } from "@/data/countries";
@@ -154,21 +155,7 @@ export default async function ServiciosRuralesPage({
   const prestadores: Prestador[] = [
     ...publicacionesPrestadores,
     ...(demos ?? [])
-      .filter((item) =>
-        [
-          "10000000-0000-4000-8000-000000000005",
-          "10000000-0000-4000-8000-000000000010",
-          "10000000-0000-4000-8000-000000000011",
-          "10000000-0000-4000-8000-000000000012",
-          "10000000-0000-4000-8000-000000000013",
-          "10000000-0000-4000-8000-000000000014",
-          "10000000-0000-4000-8000-000000000015",
-          "10000000-0000-4000-8000-000000000016",
-          "10000000-0000-4000-8000-000000000017",
-          "10000000-0000-4000-8000-000000000018",
-          "10000000-0000-4000-8000-000000000019",
-        ].includes(item.id),
-      )
+      .filter((item) => esServicioDemoVisible(item.id))
       .map((item) => ({
         ...item,
         avatar_url: null,
