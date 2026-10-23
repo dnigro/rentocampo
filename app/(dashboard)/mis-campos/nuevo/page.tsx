@@ -6,8 +6,8 @@ import { regionalText } from "@/lib/i18n/regional";
 import "@/styles/campos.css";
 import "@/styles/campo-location-improvements.css";
 
-export default async function NuevoCampoPage({ searchParams }: { searchParams: Promise<{pais?:string;zona?:string}> }) {
-  const search = await searchParams;
+export default async function NuevoCampoPage({ searchParams }: { searchParams?: Promise<{pais?:string;zona?:string}> }) {
+  const search = searchParams ? await searchParams : {};
   const supabase = await createClient();
   const {
     data: { user },

@@ -6,8 +6,8 @@ import { resolveCountry } from "@/data/countries";
 import "@/styles/perfil.css";
 import "@/styles/campos.css";
 
-export default async function NuevoServicioRuralPage({ searchParams }: { searchParams: Promise<{pais?:string;zona?:string}> }) {
-  const search = await searchParams;
+export default async function NuevoServicioRuralPage({ searchParams }: { searchParams?: Promise<{pais?:string;zona?:string}> }) {
+  const search = searchParams ? await searchParams : {};
   const supabase = await createClient();
   const {
     data: { user },
