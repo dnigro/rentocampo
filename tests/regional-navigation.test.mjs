@@ -1,7 +1,7 @@
 import test from 'node:test';
 import { readFileSync } from 'node:fs';
 import assert from 'node:assert/strict';
-import { isCountryCode, resolveCountry, COUNTRIES, COUNTRY_CODES, getCountrySubdivisions } from '../data/countries.ts';
+import { isCountryCode, resolveCountry, COUNTRIES, COUNTRY_CODES, COUNTRY_CODES_ALPHABETICAL, getCountrySubdivisions } from '../data/countries.ts';
 import { campoFilterParams } from '../lib/campos/filter-params.ts';
 
 for (const country of ['AR', 'UY', 'PY', 'CL', 'BO', 'PE', 'BR']) {
@@ -180,4 +180,26 @@ test('V2 original image composition is fully visible and footer is legible', () 
  assert.ok(v2.includes('/intelligence-agro-approved.webp'));
  assert.ok(v2.includes('/intelligence-geo-approved.webp'));
  assert.ok(!v2.includes('aspect-ratio:2.85 / 1'));
+});
+
+test('country selector shows 18 unique markets in Spanish alphabetical order', () => {
+ const names=COUNTRY_CODES_ALPHABETICAL.map(code => COUNTRIES[code].name);
+ assert.equal(names.length,18);
+ assert.equal(new Set(names).size,18);
+ assert.deepEqual(names,[...names].sort((a,b)=>a.localeCompare(b,"es",{sensitivity:"base"})));
+ assert.equal(names[0],"Argentina");
+ assert.equal(names.at(-1),"Venezuela");
+ const nav=readFileSync(new URL('../components/layout/Navbar.tsx',import.meta.url),'utf8');
+ assert.equal((nav.match(/COUNTRY_CODES_ALPHABETICAL\.map\(/g)||[]).length,2);
+ assert.ok(!nav.includes('{COUNTRIES[code].flag} {code}'));
+ assert.ok(nav.includes('router.refresh()'));
+});
+test('new-country green available field pins paint above yellow editorial pins', () => {
+ const source=readFileSync(new URL('../components/campos/CampoMapa.tsx',import.meta.url),'utf8');
+ assert.ok(source.indexOf('ZONAS_PRODUCTIVAS_LATAM.filter(')<source.indexOf('camposConCoordenadas.forEach('));
+ assert.match(source,/fillColor: "#2d6a2d"/);
+ assert.match(source,/fillColor: "#f4c542"/);
+ assert.match(source,/\[demandaLayer.current, camposLayer.current\]/);
+ assert.match(source,/leafletMap\.fitBounds\(L\.latLngBounds/);
+ assert.match(source,/fieldPoints\.length/);
 });

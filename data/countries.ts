@@ -56,6 +56,11 @@ export const COUNTRIES = {
   ...EXPANSION_COUNTRIES,
 };
 
+/** Presentation order; canonical COUNTRY_CODES retains its stable identifiers. */
+export const COUNTRY_CODES_ALPHABETICAL: readonly CountryCode[] = [...COUNTRY_CODES].sort(
+  (a, b) => COUNTRIES[a].name.localeCompare(COUNTRIES[b].name, "es", { sensitivity: "base" }),
+);
+
 export const DEPARTAMENTOS_UY = [
   "Artigas",
   "Canelones",
