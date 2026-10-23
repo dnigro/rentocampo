@@ -6,7 +6,7 @@ const read = (path) => readFileSync(new URL(`../${path}`, import.meta.url), "utf
 const dictionary = read("lib/i18n/messages.ts");
 const navbar = read("components/layout/Navbar.tsx");
 const hero = read("components/landing/LandingTriptychHero.tsx");
-const css = read("styles/landing-triptych-refinements.css");
+
 const fieldForm = read("components/campos/CampoForm.tsx");
 const serviceForm = read("components/servicios/ServicioRuralForm.tsx");
 const plans = read("components/planes/PlanesTierra.tsx");
