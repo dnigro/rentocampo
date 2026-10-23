@@ -1,5 +1,6 @@
-import { demoServiceRegisterHref } from "@/data/visible-demo-services";
 "use client";
+
+import { demoServiceRegisterHref } from "@/data/visible-demo-services";
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { LayerGroup, Map as LeafletMap } from "leaflet";
