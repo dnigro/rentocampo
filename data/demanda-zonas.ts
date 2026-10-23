@@ -1,5 +1,7 @@
+import { EXPANSION_COUNTRY_CODES, EXPANSION_REGIONS } from "@/data/latam-expansion";
 export interface DemandaZona {
   id: string;
+  country_code?: string;
   zona: string;
   provincia: string;
   latitud: number;
@@ -36,3 +38,10 @@ export const DEMANDA_DESTACADA_IDS = [
   "venado-tuerto",
   "general-pico",
 ] as const;
+
+/** Editorial reference locations, NOT commercial demand or verified searches. */
+export const ZONAS_PRODUCTIVAS_LATAM: DemandaZona[] = EXPANSION_COUNTRY_CODES.flatMap(code =>
+  EXPANSION_REGIONS[code].map(r => ({ id: code.toLowerCase() + "-" + r.zona.toLowerCase().replace(/[^a-z0-9]+/g,"-"), country_code: code,
+    zona: r.zona, provincia: r.subdivision, latitud: r.latitud, longitud: r.longitud,
+    descripcion: r.actividad + ". Región productiva editorial; sin demanda comercial verificada." })),
+);

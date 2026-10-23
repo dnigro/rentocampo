@@ -2,13 +2,9 @@ import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { INTERNAL_TEST_EMAILS } from "@/lib/analytics/commercial-filters";
 import { getCommercialStats } from "@/lib/analytics/commercial-stats";
+import { COUNTRIES, isCountryCode } from "@/data/countries";
 
 export const dynamic = "force-dynamic";
-
-const LABELS: Record<string, string> = {
-  AR: "Argentina", UY: "Uruguay", PY: "Paraguay",
-  CL: "Chile", BO: "Bolivia", PE: "Perú",
-};
 
 function Metric({ label, value, description }: { label: string; value: number; description: string }) {
   return (
@@ -64,7 +60,7 @@ export default async function GerencialPage() {
             <tbody>
               {report.countries.map((c) => (
                 <tr key={c.country} className="border-t border-zinc-100">
-                  <td className="px-5 py-4 font-medium">{LABELS[c.country]} <span className="text-xs text-zinc-400">{c.country}</span></td>
+                  <td className="px-5 py-4 font-medium">{isCountryCode(c.country) ? COUNTRIES[c.country].name : c.country} <span className="text-xs text-zinc-400">{c.country}</span></td>
                   <td className="px-3 py-4 text-right tabular-nums">{c.registrations}</td>
                   <td className="px-3 py-4 text-right tabular-nums">{c.activeLands}</td>
                   <td className="px-3 py-4 text-right tabular-nums">{c.activeServices}</td>

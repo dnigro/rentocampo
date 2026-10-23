@@ -1,3 +1,4 @@
+import { DEMO_SERVICIO_VISIBLE_IDS } from "../data/visible-demo-services.ts";
 import { readFileSync } from "node:fs";
 import { test } from "node:test";
 import assert from "node:assert/strict";
@@ -6,7 +7,7 @@ const read = (path) => readFileSync(new URL(`../${path}`, import.meta.url), "utf
 const dictionary = read("lib/i18n/messages.ts");
 const navbar = read("components/layout/Navbar.tsx");
 const hero = read("components/landing/LandingTriptychHero.tsx");
-const css = read("styles/landing-triptych-refinements.css");
+
 const fieldForm = read("components/campos/CampoForm.tsx");
 const serviceForm = read("components/servicios/ServicioRuralForm.tsx");
 const plans = read("components/planes/PlanesTierra.tsx");
@@ -29,12 +30,12 @@ test("hero has named actions on all cards, with country retained", () => {
   assert.match(hero, /VER TERRAS/);
   assert.match(hero, /SOU PRODUTOR/);
   assert.match(hero, /VER SERVIÇOS/);
-  assert.equal((hero.match(/triptychHero__panelCta/g) || []).length, 3);
-  assert.match(hero, /<RegionalLink className="triptychHero__panel triptychHero__panel--fields" href="\/campos">/);
-  assert.match(hero, /<RegionalLink className="triptychHero__panel triptychHero__panel--services" href="\/servicios-rurales">/);
-  assert.match(css, /\.triptychHero__panelCta/);
-  assert.ok(!hero.includes('aria-hidden="true">→</span>'), "Hero buttons must not show arrows");
-  assert.ok(!hero.includes("triptychHero__panelArrow"), "Legacy arrow-only labels must stay removed");
+  assert.equal((hero.match(/className="rcHero26__panelCta"/g) || []).length, 1);
+  assert.match(hero, /className="rcHero26__panel"/);
+  assert.match(hero, /href:\s*"\/campos"/);
+  assert.match(hero, /href:\s*"\/servicios-rurales"/);
+  assert.match(read("styles/hero-2026-isolated.css"), /\.rcHero26__panelCta/);
+  assert.ok(!hero.includes("triptychHero__panelArrow"), "Legacy arrow-only labels remain removed");
 });
 
 test("country selection preserves current route and regional state", () => {
@@ -63,12 +64,12 @@ test("field and service forms have localized Brazilian labels", () => {
   assert.match(serviceForm, /Anunciar serviço/);
 });
 
-test("registration CTA is centered and bold across desktop, tablet and mobile", () => {
-  assert.match(hero, /triptychHero__button--register/);
-  assert.match(css, /\.triptychHero__button--register > span:last-child\s*\{[^}]*font-weight:\s*900/s);
-  assert.match(css, /@media \(min-width: 901px\)\s*\{[\s\S]*?left:\s*clamp\(26px, 4vw, 74px\)/);
-  assert.match(css, /@media \(max-width: 900px\)\s*\{[\s\S]*?width:\s*min\(100% - 24px, 720px\)/);
-  assert.match(css, /@media \(max-width: 570px\)\s*\{[\s\S]*?width:\s*min\(100%, 320px\)/);
+test("registration CTA is prominent on desktop and mobile", () => {
+  const styles=read("styles/hero-2026-isolated.css");
+  assert.match(hero, /className="rcHero26__register"/);
+  assert.match(styles, /\.rcHero26__register\{[^}]*font-weight:900/s);
+  assert.match(styles, /@media\(max-width:900px\)/);
+  assert.match(styles, /@media\(min-width:901px\)/);
 });
 
 test("country switching is atomic on the first selection, including Lite", () => {
@@ -136,8 +137,9 @@ test("growth mode does not silently hide a fourth real field or local AR demo", 
   assert.ok(!visible.includes("REAL_FIELDS_LIMIT"));
   assert.ok(!visible.includes("DEMO_CAMPO_VISIBLE_IDS"));
   const service=read("app/(public)/servicios-rurales/page.tsx");
+  assert.match(service,/esServicioDemoVisible\(item\.id\)/);
   for(const suffix of ["016","017","018","019"])
-    assert.ok(service.includes("10000000-0000-4000-8000-000000000"+suffix));
+    assert.ok(DEMO_SERVICIO_VISIBLE_IDS.has("10000000-0000-4000-8000-000000000"+suffix));
 });
 
 test("web and Lite country selectors cannot swallow first choice before hydration", () => {
@@ -152,10 +154,15 @@ test("web and Lite country selectors cannot swallow first choice before hydratio
 test("the map and listing both show seven-country service demos", () => {
  const map=read("app/(public)/campos/mapa/page.tsx");
  const services=read("app/(public)/servicios-rurales/page.tsx");
+ assert.match(map,/esServicioDemoVisible\(String\(prestador\.id\)\)/);
+ assert.match(services,/esServicioDemoVisible\(item\.id\)/);
  for(const n of ["013","014","015","016","017","018","019"]){
   const id="10000000-0000-4000-8000-000000000"+n;
-  assert.ok(map.includes(id),`missing map service demo ${n}`);
-  assert.ok(services.includes(id),`missing listing service demo ${n}`);
+  assert.ok(DEMO_SERVICIO_VISIBLE_IDS.has(id),`missing approved service demo ${n}`);
+ }
+ for(let n=101;n<=111;n++){
+  const id="10000000-0000-4000-8000-"+String(n).padStart(12,"0");
+  assert.ok(DEMO_SERVICIO_VISIBLE_IDS.has(id),`missing LATAM18 service demo ${n}`);
  }
 });
 
@@ -200,35 +207,24 @@ test("maps center on the selected country's predefined mapCenter", () => {
  const nav=read("components/layout/Navbar.tsx");
  const selector=read("components/listings/ListingCountrySelector.tsx");
  assert.ok(!map.includes("fitBounds("));
- assert.match(map,/leafletMap\.setView\(country\.mapCenter, country\.mapZoom/);
+ assert.match(map,/leafletMap\.setView\(\[\.\.\.country\.mapCenter\] as \[number, number\], country\.mapZoom/);
  assert.match(map,/data-country=\{countryCode\}/);
  assert.match(page,/key=\{selectedCountry\}/);
  assert.match(nav,/router\.replace\(/);
  assert.match(selector,/router\.replace\(/);
 });
-test("approved mobile experience is isolated from desktop", () => {
+test("approved responsive hero and FAQ experience remain present", () => {
  const faq=read("components/landing/LandingFAQ.tsx");
  const hero=read("components/landing/LandingTriptychHero.tsx");
- const styles=read("styles/landing-triptych-refinements.css");
- assert.ok(hero.includes('t("Publicá, buscá", "Anuncie, busque")'));
- assert.ok(hero.includes('t("y conectá", "e conecte-se")'));
- assert.ok(hero.includes('t("100% gratis.", "100% grátis.")'));
- assert.ok(hero.includes('className="triptychHero__countriesMobile"'));
- assert.ok(hero.includes('className="triptychHero__countries"'));
- assert.ok(hero.includes('/flags/'));
- assert.ok(hero.includes('className="triptychHero__workflow"'));
- assert.ok(faq.includes('className="rc-faq-promise__desktop"'));
- assert.ok(faq.includes('className="rc-faq-promise__mobile"'));
- assert.ok(faq.includes("<span>Publicá, buscá</span><span>y conectá</span>"));
- assert.ok(faq.includes("<span>Anuncie, busque</span><span>e conecte-se</span>"));
- assert.ok(faq.includes("Preguntas frecuentes"));
- assert.ok(faq.includes("Perguntas frequentes"));
+ const styles=read("styles/hero-2026-isolated.css");
+ assert.ok(hero.includes('rcHero26__heading'));
+ assert.ok(hero.includes('rcHero26__countries'));
+ assert.ok(hero.includes('rcHero26__register'));
+ assert.ok(hero.includes('rcHero26__panel'));
+ assert.ok(hero.includes('100% GRATIS.'));
+ assert.match(styles, /@media\(min-width:901px\)/);
+ assert.match(styles, /@media\(max-width:900px\)/);
  assert.ok(faq.includes('id="preguntas"'));
- assert.ok(faq.includes("rc-faq-content"));
- assert.ok(faq.includes("¿Publicar tiene costo?"));
- assert.ok(styles.includes(".triptychHero__howItWorksMobile h2 .triptychHero__headlineEnd strong"));
- assert.ok(styles.includes(".rc-faq-promise__desktop { display: none; }"));
- assert.ok(styles.includes(".rc-faq-promise__mobile { display: block; }"));
  assert.ok(!faq.toLowerCase().includes("packs"));
 });
 

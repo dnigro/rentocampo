@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import type { LayerGroup, Map as LeafletMap } from "leaflet";
 import Link from "next/link";
 import Image from "next/image";
-import { DEMANDA_ZONAS, type DemandaZona } from "@/data/demanda-zonas";
+import { ZONAS_PRODUCTIVAS_LATAM, type DemandaZona } from "@/data/demanda-zonas";
 import {
   CENTROS_PROVINCIA,
   servicioLabel,
@@ -131,7 +131,7 @@ export default function CampoMapa({
 
         const country = COUNTRIES[countryCode];
         const leafletMap = L.map(mapContainer.current).setView(
-          country.mapCenter,
+          [...country.mapCenter] as [number, number],
           country.mapZoom,
         );
         map.current = leafletMap;
@@ -184,21 +184,21 @@ export default function CampoMapa({
             });
         });
 
-        if (false) DEMANDA_ZONAS.forEach((demanda) => {
+        ZONAS_PRODUCTIVAS_LATAM.filter((z) => z.country_code === countryCode).forEach((demanda) => {
           const position: [number, number] = [
             demanda.latitud,
             demanda.longitud,
           ];
           L.circleMarker(position, {
-            radius: 11,
-            color: "#1a3a1a",
+            radius: 6,
+            color: "#515b57",
             weight: 2,
-            dashArray: "4 3",
-            fillColor: "#f4c542",
-            fillOpacity: 0.82,
+            dashArray: "3 3",
+            fillColor: "#b3b7b0",
+            fillOpacity: 0.55,
           })
             .addTo(demandaGroup)
-            .bindTooltip(`Demanda en ${demanda.zona}`)
+            .bindTooltip(`Zona productiva (no es un campo): ${demanda.zona}`)
             .on("click", () => {
               setSelectedCampo(null);
               setSelectedDemanda(demanda);
@@ -240,7 +240,7 @@ export default function CampoMapa({
 
         // The country selection owns the viewport, not whichever pins were
         // rendered first. Keep the country's mapCenter/mapZoom authoritative.
-        leafletMap.setView(country.mapCenter, country.mapZoom, { animate: false });
+        leafletMap.setView([...country.mapCenter] as [number, number], country.mapZoom, { animate: false });
 
       })
       .catch(() => {
@@ -313,7 +313,7 @@ export default function CampoMapa({
                   ? "https://www.openstreetmap.org/export/embed.html?bbox=-62.7%2C-27.8%2C-54.2%2C-19.2&layer=mapnik"
                   : countryCode === "BR"
                   ? "https://www.openstreetmap.org/export/embed.html?bbox=-74.1%2C-34.0%2C-34.7%2C5.3&layer=mapnik"
-                  : "https://www.openstreetmap.org/export/embed.html?bbox=-73.8%2C-55.3%2C-53.4%2C-21.4&layer=mapnik"
+                  : (() => { const [lat, lon] = COUNTRIES[countryCode].mapCenter; const dLat = countryCode === "AR" ? 16 : 4; const dLon = countryCode === "AR" ? 10 : 5; return "https://www.openstreetmap.org/export/embed.html?bbox=" + encodeURIComponent([lon-dLon,lat-dLat,lon+dLon,lat+dLat].join(",")) + "&layer=mapnik"; })()
             }
             loading="lazy"
           />
@@ -377,6 +377,11 @@ export default function CampoMapa({
             </div>
           )}
 
+          {vista === "tierra" && ZONAS_PRODUCTIVAS_LATAM.some((z) => z.country_code === countryCode) && (
+            <p className="mapa-filtros-titulo" style={{ fontSize: 12, opacity: 0.75 }}>
+              4 zonas productivas de referencia · no son campos DEMO ni demanda verificada
+            </p>
+          )}
           <div className="mapa-contador">
             {vista === "tierra" ? (
               <>
@@ -473,22 +478,22 @@ export default function CampoMapa({
           <button
             className="mapa-panel-close"
             onClick={() => setSelectedDemanda(null)}
-            aria-label={tt("Cerrar detalle de la demanda","Fechar detalhes da demanda")}
+            aria-label={tt("Cerrar detalle de la zona productiva","Fechar detalhes da zona produtiva")}
           >
             ×
           </button>
           <p className="mapa-panel-aptitud mapa-panel-aptitud-demanda">
-            Demanda por zona
+            Zona productiva · referencia (no es un campo)
           </p>
           <h3 className="mapa-panel-titulo">
-            {tt("Productores buscan campos en","Produtores procuram terras em")} {selectedDemanda.zona}
+            {tt("Región productiva de referencia:","Região produtiva de referência:")} {selectedDemanda.zona}
           </h3>
           <p className="mapa-panel-ubicacion">{selectedDemanda.provincia}</p>
           <p className="mapa-panel-descripcion">
             {selectedDemanda.descripcion}
           </p>
           <p className="mapa-panel-aclaracion">
-            {tt("Marcador institucional de RentoCampo. No representa un campo publicado.","Marcador institucional da RentoCampo. Não representa um anúncio de terra.")}
+            {tt("Referencia editorial, no representa demanda verificada ni un campo publicado.","Referência editorial, não representa demanda verificada nem anúncio.")}
           </p>
           <Link
             href={`/register?tipo=propietario&pais=${countryCode}&zona=${encodeURIComponent(selectedDemanda.zona)}`}
