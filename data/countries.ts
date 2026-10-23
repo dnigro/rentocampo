@@ -1,4 +1,4 @@
-import { EXPANSION_COUNTRIES, EXPANSION_COUNTRY_CODES, EXPANSION_SUBDIVISIONS } from "@/data/latam-expansion";
+import { EXPANSION_COUNTRIES, EXPANSION_COUNTRY_CODES, EXPANSION_SUBDIVISIONS } from "./latam-expansion";
 export const COUNTRY_CODES = ["AR", "UY", "PY", "CL", "BO", "PE", "BR", ...EXPANSION_COUNTRY_CODES] as const;
 export type CountryCode = (typeof COUNTRY_CODES)[number];
 

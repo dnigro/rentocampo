@@ -69,7 +69,7 @@ export default function CampoForm({
     ambiente: "",
     operacion: "alquiler",
     precio: undefined,
-    moneda: initialCountry === "AR" ? "USD" : COUNTRIES[initialCountry].currency,
+    moneda: initialCountry === "BR" ? "BRL" : initialCountry === "AR" ? "USD" : COUNTRIES[initialCountry].currency,
     disponibilidad: "a_convenir",
     rendimiento_estimado: "",
     mejoras: "No",
@@ -349,7 +349,7 @@ export default function CampoForm({
                 ubicacion: "",
                 latitud: undefined,
                 longitud: undefined,
-                moneda: nextCountry === "AR" ? "USD" : COUNTRIES[nextCountry].currency,
+                moneda: nextCountry === "BR" ? "BRL" : nextCountry === "AR" ? "USD" : COUNTRIES[nextCountry].currency,
               }));
               setLugarGeocodificado("");
             }}
