@@ -6,7 +6,8 @@ import { regionalText } from "@/lib/i18n/regional";
 import "@/styles/campos.css";
 import "@/styles/campo-location-improvements.css";
 
-export default async function NuevoCampoPage() {
+export default async function NuevoCampoPage({ searchParams }: { searchParams?: Promise<{pais?:string;zona?:string}> }) {
+  const search = searchParams ? await searchParams : {};
   const supabase = await createClient();
   const {
     data: { user },
@@ -18,7 +19,7 @@ export default async function NuevoCampoPage() {
     .select("country_code")
     .eq("id", user.id)
     .single();
-  const initialCountry = resolveCountry(profile?.country_code);
+  const initialCountry = resolveCountry(search.pais, profile?.country_code);
   const tt=(es:string,pt:string)=>regionalText(initialCountry,es,pt);
 
   return (
@@ -31,6 +32,7 @@ export default async function NuevoCampoPage() {
           </p>
         </div>
       </div>
+      {search.zona && <p className="page-subtitle">Zona de referencia: {search.zona}. Seleccioná la ubicación real del campo en el mapa antes de publicar.</p>}
       <CampoForm initialCountry={initialCountry} />
     </div>
   );

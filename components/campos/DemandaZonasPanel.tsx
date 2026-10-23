@@ -1,13 +1,16 @@
 import Link from "next/link";
 import { COUNTRIES, type CountryCode } from "@/data/countries";
+import { regionalPublicationHref, regionalPublicationLabel, type PublicationKind } from "@/lib/publicacion-regional";
 import { REGIONES_PRODUCTIVAS, REGIONES_EDITORIALES_ES } from "@/data/regiones-productivas";
 
 interface Props {
   country: CountryCode;
   provincia?: string;
+  authenticated: boolean;
+  kind?: PublicationKind;
 }
 
-export default function DemandaZonasPanel({ country, provincia }: Props) {
+export default function DemandaZonasPanel({ country, provincia, authenticated, kind = "campo" }: Props) {
   const isBr = country === "BR";
   const regiones = [...REGIONES_PRODUCTIVAS[country]].sort(
     (a, b) => Number(b.subdivision === provincia) - Number(a.subdivision === provincia),
@@ -18,14 +21,15 @@ export default function DemandaZonasPanel({ country, provincia }: Props) {
       <div className="rc-regions-showcase__head">
         <div>
           <p className="rc-regions-showcase__kicker">
-            {isBr ? "REGIÕES PRODUTIVAS" : "REGIONES PRODUCTIVAS"} · {COUNTRIES[country].name.toUpperCase()}
+            {kind === "servicio" ? (isBr ? "SERVIÇOS RURAIS · REGIÕES PRODUTIVAS" : "SERVICIOS RURALES · REGIONES PRODUCTIVAS") : (isBr ? "REGIÕES PRODUTIVAS" : "REGIONES PRODUCTIVAS")} · {COUNTRIES[country].name.toUpperCase()}
           </p>
           <h2 id="rc-regions-title">
             {isBr ? "O CAMPO TEM MUITOS LUGARES. ENCONTRE O SEU." : "CADA REGIÓN TIENE SU OPORTUNIDAD."}
           </h2>
           <p className="rc-regions-showcase__description">
-            {isBr ? "Do interior paulista ao Cerrado e ao Sul. Mostre sua terra na rede rural."
-              : REGIONES_EDITORIALES_ES[country]}
+            {kind === "servicio"
+              ? (isBr ? "Apresente seus serviços rurais nas principais regiões produtivas." : "Mostrá tus servicios rurales en las zonas productivas de cada país.")
+              : (isBr ? "Do interior paulista ao Cerrado e ao Sul. Mostre sua terra na rede rural." : REGIONES_EDITORIALES_ES[country])}
           </p>
         </div>
         <span className="rc-regions-showcase__flag" aria-label={COUNTRIES[country].name}>
@@ -40,11 +44,11 @@ export default function DemandaZonasPanel({ country, provincia }: Props) {
             <h3>{region.zona}</h3>
             <p>{region.actividad}</p>
             <Link
-              href={`/register?tipo=propietario&pais=${country}&zona=${encodeURIComponent(region.zona)}`}
+              href={regionalPublicationHref({ country, kind, authenticated, zona: region.zona })}
               className="rc-regions-showcase__action"
-              aria-label={isBr ? `Cadastrar para anunciar em ${region.zona}` : `Registrarme para publicar en ${region.zona}`}
+              aria-label={`${regionalPublicationLabel({ country, kind, authenticated })} · ${region.zona}`}
             >
-              {isBr ? "CADASTRAR PARA ANUNCIAR" : "REGISTRARME PARA PUBLICAR"}
+              {regionalPublicationLabel({ country, kind, authenticated })}
               <span aria-hidden="true"> ↗</span>
             </Link>
           </article>

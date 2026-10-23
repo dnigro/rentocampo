@@ -270,7 +270,7 @@ test("regional productive zones replace clipped Argentina-only unverified demand
  for (const country of ["AR","UY","PY","CL","BO","PE","BR"]) {
    assert.match(regions,new RegExp("  "+country+": \\["));
  }
- assert.match(panel,/\/register\?tipo=propietario&pais=\$\{country\}&zona=/);
+ assert.match(panel,/regionalPublicationHref\(\{ country, kind, authenticated, zona: region\.zona \}\)/);
  assert.match(css,/\.rc-regions-showcase__grid/);
  assert.match(css,/\.rc-regions-showcase \{/);
  assert.match(css,/clip-path: none/);

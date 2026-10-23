@@ -11,6 +11,7 @@ import ListingFiltersPanel from "@/components/listings/ListingFiltersPanel";
 import DemandaZonasPanel from "@/components/campos/DemandaZonasPanel";
 import { seleccionarCamposPublicos } from "@/lib/campos/visible-fields";
 import { regionalText } from "@/lib/i18n/regional";
+import { regionalPublicationHref, regionalPublicationLabel } from "@/lib/publicacion-regional";
 
 export interface CamposSearchParams {
   [key: string]: string | undefined;
@@ -155,7 +156,7 @@ export default async function CamposListing({ params, titulo, descripcion, soloA
         </div>
         </div>
 
-        <DemandaZonasPanel country={pais} provincia={params.provincia} />
+        <DemandaZonasPanel country={pais} provincia={params.provincia} authenticated={Boolean(user)} kind="campo" />
 
         <section className="demanda-cta">
           <div>
@@ -163,8 +164,8 @@ export default async function CamposListing({ params, titulo, descripcion, soloA
             <h2>{tt("¿Tenés un campo para publicar?", "Você tem uma terra para anunciar?")}</h2>
             <p>{tt("Sumá tu publicación a la red rural y contactá directamente a otros usuarios.", "Adicione seu anúncio à rede rural e entre em contato diretamente com outros usuários.")}</p>
           </div>
-          <Link href={`/register?tipo=propietario&pais=${pais}`} className="demanda-cta-boton">
-            {tt("Publicar mi campo gratis →","Anunciar minha terra gratuitamente →")}
+          <Link href={regionalPublicationHref({ country: pais, kind: "campo", authenticated: Boolean(user) })} className="demanda-cta-boton">
+            {regionalPublicationLabel({ country: pais, kind: "campo", authenticated: Boolean(user) })} →
           </Link>
         </section>
 

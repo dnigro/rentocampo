@@ -90,7 +90,7 @@ export default async function ServicioDetallePage({ params }: { params: Promise<
 
   // Legacy/bookmarked demo detail URLs should also lead to registration,
   // even when a session is already active: demos are not contactable services.
-  if (esDemo) redirect(demoServiceRegisterHref(pais));
+  if (esDemo) redirect(demoServiceRegisterHref(pais, Boolean(user)));
 
   const serviceJsonLd = !esDemo ? {
     "@context": "https://schema.org",

@@ -222,17 +222,46 @@ test('a country change reloads the matching map after updating URL and cookie', 
  assert.match(serverPage,/\.eq\("country_code", selectedCountry\)/);
 });
 
-test('DEMO service cards and map CTA lead to registration regardless of auth session', async () => {
-  const { demoServiceRegisterHref } = await import('../data/visible-demo-services.ts');
-  const list=readFileSync(new URL('../app/(public)/servicios-rurales/page.tsx',import.meta.url),'utf8');
-  const lite=readFileSync(new URL('../components/lite/LiteServiciosListado.tsx',import.meta.url),'utf8');
-  const map=readFileSync(new URL('../components/campos/CampoMapa.tsx',import.meta.url),'utf8');
-  const detail=readFileSync(new URL('../app/(public)/servicios-rurales/[id]/page.tsx',import.meta.url),'utf8');
-  for(const code of COUNTRY_CODES) assert.equal(demoServiceRegisterHref(code), `/register?tipo=prestador&pais=${code}`);
-  assert.match(list,/prestador\.is_demo \? \([\s\S]*?href=\{demoServiceRegisterHref\(pais\)\}/);
-  assert.match(list,/Registrate gratis →/);
-  assert.match(lite,/href=\{demoServiceRegisterHref\(pais\)\}/);
-  assert.match(map,/selectedServicio\.is_demo[\s\S]*?demoServiceRegisterHref\(countryCode\)/);
-  assert.match(detail,/if \(esDemo\) redirect\(demoServiceRegisterHref\(pais\)\)/);
-  assert.match(list,/publicacion_id \? `\/servicios-rurales/); // real services remain unchanged
+
+test('single regional publication CTA contract covers all 18 countries, service and field, anonymous and logged', async () => {
+ const { regionalPublicationHref, regionalPublicationLabel } = await import('../lib/publicacion-regional.ts');
+ const { demoServiceRegisterHref } = await import('../data/visible-demo-services.ts');
+ for (const country of COUNTRY_CODES) for (const kind of ['campo','servicio']) {
+   const logged=regionalPublicationHref({country,kind,authenticated:true,zona:'Río Cuarto'});
+   const anonymous=regionalPublicationHref({country,kind,authenticated:false,zona:'Río Cuarto'});
+   assert.ok(logged.startsWith(kind==='campo'?'/mis-campos/nuevo?':'/mis-servicios-rurales/nuevo?'));
+   assert.equal(new URLSearchParams(logged.split('?')[1]).get('pais'),country);
+   assert.equal(new URLSearchParams(logged.split('?')[1]).get('zona'),'Río Cuarto');
+   assert.equal(new URLSearchParams(anonymous.split('?')[1]).get('next'),logged);
+   assert.ok(regionalPublicationLabel({country,kind,authenticated:true}).includes(country==='BR'?'ANUNCIAR':'PUBLICAR'));
+   assert.ok(regionalPublicationLabel({country,kind,authenticated:false}).includes(country==='BR'?'ENTRAR':'INICIAR SESIÓN'));
+ }
+ assert.equal(demoServiceRegisterHref('CO'),'/login?next='+encodeURIComponent('/mis-servicios-rurales/nuevo?pais=CO'));
+ assert.equal(demoServiceRegisterHref('CO',true),'/mis-servicios-rurales/nuevo?pais=CO');
+});
+test('regional productive zone panel appears in both listing categories and uses auth-aware routing',()=>{
+ const panel=readFileSync(new URL('../components/campos/DemandaZonasPanel.tsx',import.meta.url),'utf8');
+ const campos=readFileSync(new URL('../components/campos/CamposListing.tsx',import.meta.url),'utf8');
+ const servicios=readFileSync(new URL('../app/(public)/servicios-rurales/page.tsx',import.meta.url),'utf8');
+ const fichaCampo=readFileSync(new URL('../app/(public)/campos/[id]/page.tsx',import.meta.url),'utf8');
+ const fichaServicio=readFileSync(new URL('../app/(public)/servicios-rurales/[id]/page.tsx',import.meta.url),'utf8');
+ const lite=readFileSync(new URL('../components/lite/LiteServiciosListado.tsx',import.meta.url),'utf8');
+ const map=readFileSync(new URL('../components/campos/CampoMapa.tsx',import.meta.url),'utf8');
+ assert.match(panel,/REGIONES_PRODUCTIVAS\[country\]/);
+ assert.match(panel,/regionalPublicationHref\(\{ country, kind, authenticated, zona: region.zona \}\)/);
+ assert.match(campos,/DemandaZonasPanel country=\{pais\}[\s\S]*?authenticated=\{Boolean\(user\)\} kind="campo"/);
+ assert.match(servicios,/DemandaZonasPanel country=\{pais\}[\s\S]*?authenticated=\{Boolean\(user\)\} kind="servicio"/);
+ assert.match(fichaCampo,/regionalPublicationHref\(\{ country: countryCode, kind: "campo", authenticated: Boolean\(user\)/);
+ assert.match(fichaServicio,/demoServiceRegisterHref\(pais, Boolean\(user\)\)/);
+ assert.match(lite,/demoServiceRegisterHref\(pais, Boolean\(user\)\)/);
+ assert.match(map,/demoServiceRegisterHref\(countryCode, Boolean\(resolvedUserId\)\)/);
+});
+test('publish screens honor country and the selected regional zone after sign-in',()=>{
+ const campo=readFileSync(new URL('../app/(dashboard)/mis-campos/nuevo/page.tsx',import.meta.url),'utf8');
+ const servicio=readFileSync(new URL('../app/(dashboard)/mis-servicios-rurales/nuevo/page.tsx',import.meta.url),'utf8');
+ const serviceForm=readFileSync(new URL('../components/servicios/ServicioRuralForm.tsx',import.meta.url),'utf8');
+ assert.match(campo,/resolveCountry\(search.pais, profile\?\.country_code\)/);
+ assert.match(campo,/Zona de referencia:/);
+ assert.match(servicio,/initialZona=\{search.zona\}/);
+ assert.match(serviceForm,/initialZona \?\? profile\?\.zona_servicio/);
 });

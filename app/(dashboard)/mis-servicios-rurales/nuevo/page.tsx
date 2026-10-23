@@ -2,10 +2,12 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import ServicioRuralForm from "@/components/servicios/ServicioRuralForm";
+import { resolveCountry } from "@/data/countries";
 import "@/styles/perfil.css";
 import "@/styles/campos.css";
 
-export default async function NuevoServicioRuralPage() {
+export default async function NuevoServicioRuralPage({ searchParams }: { searchParams?: Promise<{pais?:string;zona?:string}> }) {
+  const search = searchParams ? await searchParams : {};
   const supabase = await createClient();
   const {
     data: { user },
@@ -33,7 +35,7 @@ export default async function NuevoServicioRuralPage() {
         </div>
       </div>
 
-      <ServicioRuralForm profile={profile} />
+      <ServicioRuralForm profile={profile} initialCountry={resolveCountry(search.pais, profile?.country_code)} initialZona={search.zona} />
     </div>
   );
 }
