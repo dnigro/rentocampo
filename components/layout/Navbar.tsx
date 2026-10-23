@@ -8,7 +8,7 @@ import type { User } from "@supabase/supabase-js";
 import BrandWordmark from "@/components/layout/BrandWordmark";
 import { regionalText } from "@/lib/i18n/regional";
 import { selectRegionalCountry, useRegionalCountry } from "@/lib/i18n/useRegionalCountry";
-import { COUNTRIES, COUNTRY_CODES_ALPHABETICAL, type CountryCode } from "@/data/countries";
+import { COUNTRY_CODES_ALPHABETICAL, type CountryCode } from "@/data/countries";
 
 function NavbarContent() {
   const [user, setUser] = useState<User | null>(null);
@@ -27,11 +27,11 @@ function NavbarContent() {
   }, []);
 
   function cambiarPais(country: CountryCode) {
-    if (country === activeCountry) return;
+    // A full navigation is required here: a router.refresh() after changing
+    // history via replaceState can leave the header on one country while the
+    // server-rendered map still belongs to the previous country.
     selectRegionalCountry(country);
-    // The URL and cookie were already updated by selectRegionalCountry.
-    // Refresh server components so the map and its country-specific pins really switch.
-    router.refresh();
+    window.location.reload();
   }
 
   useEffect(() => {
@@ -170,9 +170,10 @@ function NavbarContent() {
 
           {/* Acciones desktop */}
           <div className="navbar-actions navbar-desktop">
-            <div className="navbar-country-switch" aria-label="Seleccionar país">
-              <select aria-label="Seleccionar país" disabled={!countrySelectReady} value={activeCountry} onChange={(event) => cambiarPais(event.target.value as CountryCode)} style={{background:"#fff",color:"#111",borderRadius:"20px",padding:"7px 9px",fontWeight:700,cursor:"pointer",maxWidth:"174px"}}>
-                {COUNTRY_CODES_ALPHABETICAL.map((code) => <option key={code} value={code}>{COUNTRIES[code].name}</option>)}
+            <div className="navbar-country-switch" aria-label="Seleccionar país" style={{ background: "transparent", border: 0, padding: 0, gap: 8 }}>
+              <label htmlFor="navbar-pais-desktop" style={{ color: "#fff", fontSize: 12, fontWeight: 850, letterSpacing: ".05em", whiteSpace: "nowrap" }}>PAÍS</label>
+              <select id="navbar-pais-desktop" aria-label="Seleccionar país" disabled={!countrySelectReady} value={activeCountry} onChange={(event) => cambiarPais(event.target.value as CountryCode)} style={{ background: "#fff", color: "#111", borderRadius: "20px", padding: "7px 9px", fontWeight: 700, cursor: "pointer", minWidth: 67 }}>
+                {COUNTRY_CODES_ALPHABETICAL.map((code) => <option key={code} value={code}>{code}</option>)}
               </select>
             </div>
             {user ? (
@@ -223,9 +224,10 @@ function NavbarContent() {
 
           {/* Header mobile: país a la izquierda, menú de usuario al extremo derecho */}
           <div className="navbar-mobile-right">
-            <div className="navbar-country-switch navbar-country-switch-mobile" aria-label="Seleccionar país">
-              <select aria-label="Seleccionar país" disabled={!countrySelectReady} value={activeCountry} onChange={(event) => cambiarPais(event.target.value as CountryCode)} style={{background:"#fff",color:"#111",borderRadius:"20px",padding:"7px",fontWeight:700,maxWidth:"145px"}}>
-                {COUNTRY_CODES_ALPHABETICAL.map((code) => <option key={code} value={code}>{COUNTRIES[code].name}</option>)}
+            <div className="navbar-country-switch navbar-country-switch-mobile" aria-label="Seleccionar país" style={{ gap: 6 }}>
+              <label htmlFor="navbar-pais-mobile" style={{ color: "#fff", fontSize: 11, fontWeight: 850, letterSpacing: ".04em", whiteSpace: "nowrap" }}>PAÍS</label>
+              <select id="navbar-pais-mobile" aria-label="Seleccionar país" disabled={!countrySelectReady} value={activeCountry} onChange={(event) => cambiarPais(event.target.value as CountryCode)} style={{ background: "#fff", color: "#111", borderRadius: "20px", padding: "7px", fontWeight: 700, minWidth: 64 }}>
+                {COUNTRY_CODES_ALPHABETICAL.map((code) => <option key={code} value={code}>{code}</option>)}
               </select>
             </div>
             <button type="button" className="navbar-mobile-account" aria-label="Mi cuenta y navegación" aria-expanded={menuAbierto} aria-controls="navbar-mobile-menu" onClick={() => setMenuAbierto((open) => !open)}>{regionalText(activeCountry, "Mi cuenta", "Minha conta")}</button>

@@ -192,7 +192,11 @@ test('country selector shows 18 unique markets in Spanish alphabetical order', (
  const nav=readFileSync(new URL('../components/layout/Navbar.tsx',import.meta.url),'utf8');
  assert.equal((nav.match(/COUNTRY_CODES_ALPHABETICAL\.map\(/g)||[]).length,2);
  assert.ok(!nav.includes('{COUNTRIES[code].flag} {code}'));
- assert.ok(nav.includes('router.refresh()'));
+ assert.match(nav,/selectRegionalCountry\(country\);\s*window\.location\.reload\(\)/);
+ assert.match(nav,/htmlFor="navbar-pais-desktop"/);
+ assert.match(nav,/htmlFor="navbar-pais-mobile"/);
+ assert.equal((nav.match(/>PAÍS<\/label>/g)||[]).length,2);
+ assert.equal((nav.match(/\{code\}<\/option>/g)||[]).length,2);
 });
 test('new-country green available field pins paint above yellow editorial pins', () => {
  const source=readFileSync(new URL('../components/campos/CampoMapa.tsx',import.meta.url),'utf8');
@@ -202,4 +206,18 @@ test('new-country green available field pins paint above yellow editorial pins',
  assert.match(source,/\[demandaLayer.current, camposLayer.current\]/);
  assert.match(source,/leafletMap\.fitBounds\(L\.latLngBounds/);
  assert.match(source,/fieldPoints\.length/);
+});
+
+test('a country change reloads the matching map after updating URL and cookie', () => {
+ const nav=readFileSync(new URL('../components/layout/Navbar.tsx',import.meta.url),'utf8');
+ const lite=readFileSync(new URL('../components/lite/LiteHeader.tsx',import.meta.url),'utf8');
+ const regional=readFileSync(new URL('../lib/i18n/useRegionalCountry.ts',import.meta.url),'utf8');
+ const serverPage=readFileSync(new URL('../app/(public)/campos/mapa/page.tsx',import.meta.url),'utf8');
+ assert.match(nav,/selectRegionalCountry\(country\);\s*window\.location\.reload\(\)/);
+ assert.match(lite,/selectRegionalCountry\(next\);[\s\S]*?window\.location\.reload\(\)/);
+ assert.match(regional,/destination\.searchParams\.set\("pais", country\)/);
+ assert.match(regional,/rentocampo_country=\$\{country\}/);
+ assert.match(serverPage,/resolveCountry\(pais, storedCountry\)/);
+ assert.match(serverPage,/key=\{selectedCountry\}/);
+ assert.match(serverPage,/\.eq\("country_code", selectedCountry\)/);
 });
