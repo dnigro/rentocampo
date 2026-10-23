@@ -64,3 +64,7 @@
 /* LATAM18: keep every ISO country code legible on desktop and mobile without clipping. */
 .rcHero26__countries span{display:block;white-space:normal;line-height:1.35;overflow-wrap:anywhere}
 @media(max-width:900px){.rcHero26__countries{font-size:clamp(11px,2.6vw,14px);letter-spacing:.025em;max-width:100%}}
+
+/* CTA editorial: sustituye las siglas por SUMATE en el amarillo del hero. */
+.rcHero26__countries{color:var(--gold);font-size:clamp(21px,2.4vw,34px);font-weight:900;letter-spacing:.07em;text-transform:uppercase;line-height:1.1}
+@media(max-width:900px){.rcHero26__countries{font-size:clamp(23px,6vw,32px);letter-spacing:.06em}}
