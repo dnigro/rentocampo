@@ -7,6 +7,7 @@ import servicesPhoto from "@/public/image_truck_pix.png";
 import { regionalText } from "@/lib/i18n/regional";
 import { useRegionalCountry } from "@/lib/i18n/useRegionalCountry";
 import "@/styles/hero-2026-isolated.css";
+import { COUNTRY_CODES } from "@/data/countries";
 
 export default function LandingTriptychHero() {
  const country=useRegionalCountry();
@@ -24,7 +25,7 @@ export default function LandingTriptychHero() {
     <span>{t("Y CONECTÁ","E CONECTE-SE")}</span>
     <span className="rcHero26__free">{t("100% GRATIS.","100% GRÁTIS.")}</span>
    </h1>
-   <p className="rcHero26__countries">AR · UY · PY · CL · BO · PE · BR</p>
+   <p className="rcHero26__countries" aria-label="Países de RentoCampo"><span>{COUNTRY_CODES.slice(0,9).join(" · ")}</span><span>{COUNTRY_CODES.slice(9).join(" · ")}</span></p>
    <RegionalLink href="/register" className="rcHero26__register">{t("REGISTRATE →","CADASTRE-SE →")}</RegionalLink>
   </div>
   <div className="rcHero26__right" aria-label={t("Explorá RentoCampo","Explore a RentoCampo")}>

@@ -9,7 +9,7 @@
 .rcHero26__heading span{display:block}
 .rcHero26__number{font-size:clamp(72px,7.6vw,125px);line-height:.94;color:var(--gold)}
 .rcHero26__free{font-size:clamp(27px,2.8vw,46px);color:var(--gold);margin-top:6px;white-space:nowrap}
-.rcHero26__countries{position:relative;left:auto;right:auto;bottom:auto;transform:none;margin:0;padding:0 0 9px;border-bottom:3px solid var(--gold);font-size:clamp(10px,1vw,15px);font-weight:800;letter-spacing:.045em;color:#fff;text-align:left}
+.rcHero26__countries{position:relative;left:auto;right:auto;bottom:auto;transform:none;margin:0;padding:0 0 9px;border-bottom:3px solid var(--gold);display:flex;flex-direction:column;gap:3px;max-width:100%;font-size:clamp(10px,1vw,15px);font-weight:800;letter-spacing:.045em;color:#fff;text-align:left}
 .rcHero26__register{display:inline-flex;align-items:center;justify-content:center;min-height:54px;width:min(310px,100%);padding:10px 18px;border-radius:999px;background:var(--gold);color:#111;text-decoration:none;font-size:clamp(15px,1.25vw,19px);font-weight:900}
 .rcHero26__right{position:relative;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));height:100%;min-width:0;overflow:hidden}
 .rcHero26__panel{position:relative;display:block;min-width:0;height:100%;color:#fff;text-decoration:none;overflow:hidden;isolation:isolate}
@@ -60,3 +60,7 @@
 .rcHero26__heading{align-items:center;text-align:center}
 .rcHero26__countries{text-align:center}
 @media(min-width:901px){.rcHero26__left{padding-right:clamp(22px,3.5vw,62px)}}
+
+/* LATAM18: keep every ISO country code legible on desktop and mobile without clipping. */
+.rcHero26__countries span{display:block;white-space:normal;line-height:1.35;overflow-wrap:anywhere}
+@media(max-width:900px){.rcHero26__countries{font-size:clamp(11px,2.6vw,14px);letter-spacing:.025em;max-width:100%}}

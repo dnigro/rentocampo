@@ -19,7 +19,7 @@ WITH owner AS (SELECT propietario_id AS id FROM public.campos WHERE id='20000000
 ('20000000-0000-4000-8000-000000000111'::uuid,'DO','La Vega','La Vega',19.22,-70.53)
 )
 INSERT INTO public.campos(id,propietario_id,country_code,titulo,descripcion,ubicacion,provincia,departamento,localidad,latitud,longitud,hectareas,aptitud,operacion,moneda,disponibilidad,mejoras,status)
-SELECT f.id,o.id,f.pais,'DEMO · Campo productivo en '||f.localidad,'PUBLICACIÓN DEMO · Ejemplo visual de RentoCampo. No es una oferta real ni admite consultas.',f.localidad||', '||f.provincia,f.provincia,f.provincia,f.localidad,f.latitud,f.longitud,240,'mixta','alquiler',CASE WHEN f.pais='MX' THEN 'MXN' ELSE 'USD' END,'a_convenir','No','activo'::campo_status
+SELECT f.id,o.id,f.pais,'DEMO · Campo productivo en '||f.localidad,'PUBLICACIÓN DEMO · Ejemplo visual de RentoCampo. No es una oferta real ni admite consultas.',f.localidad||', '||f.provincia,f.provincia,f.provincia,f.localidad,f.latitud,f.longitud,240,'mixta','alquiler',CASE WHEN f.pais='MX' THEN 'MXN' WHEN f.pais='GT' THEN 'GTQ' WHEN f.pais='SV' THEN 'USD' WHEN f.pais='HN' THEN 'HNL' WHEN f.pais='NI' THEN 'NIO' WHEN f.pais='CR' THEN 'CRC' WHEN f.pais='PA' THEN 'PAB' WHEN f.pais='CO' THEN 'COP' WHEN f.pais='EC' THEN 'USD' WHEN f.pais='VE' THEN 'VES' WHEN f.pais='DO' THEN 'DOP' ELSE 'USD' END,'a_convenir','No','activo'::campo_status
 FROM fixtures f CROSS JOIN owner o ON CONFLICT (id) DO NOTHING;
 INSERT INTO public.campos_fotos(campo_id,propietario_id,url,orden,storage_path)
 SELECT c.id,c.propietario_id,'/rentocampo-hero-campo-bn-1920x1080.webp',0,c.propietario_id::text||'/latam-demo-hero-bn.webp'

@@ -105,3 +105,33 @@ test('LATAM preview fails closed without dedicated UAT credentials', () => {
   assert.equal(env.NEXT_PUBLIC_SUPABASE_URL, 'https://wibqszhvuvpjycheaxzi.supabase.co');
   assert.equal(env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY, 'sb_publishable_uat_fixture');
 });
+
+// The homepage must be derived from the same ISO catalog as selectors and filters.
+test('LATAM18 homepage displays both lines of ISO country abbreviations', () => {
+  const hero=readFileSync(new URL('../components/landing/LandingTriptychHero.tsx', import.meta.url),'utf8');
+  const css=readFileSync(new URL('../styles/hero-2026-isolated.css', import.meta.url),'utf8');
+  assert.equal(COUNTRY_CODES.length,18);
+  assert.match(hero,/COUNTRY_CODES\.slice\(0,9\)\.join/);
+  assert.match(hero,/COUNTRY_CODES\.slice\(9\)\.join/);
+  assert.ok(!hero.includes('AR · UY · PY · CL · BO · PE · BR</p>'));
+  assert.match(css,/\.rcHero26__countries span/);
+});
+test('LATAM18 map zoning catalog has four valid geolocated references per new country', async () => {
+  const { EXPANSION_COUNTRY_CODES, EXPANSION_REGIONS, EXPANSION_SUBDIVISIONS, EXPANSION_COUNTRIES }=await import('../data/latam-expansion.ts');
+  const map=readFileSync(new URL('../components/campos/CampoMapa.tsx', import.meta.url),'utf8');
+  assert.match(map,/ZONAS_PRODUCTIVAS_LATAM\.filter\(/);
+  assert.match(map,/Región productiva de referencia/);
+  assert.equal(EXPANSION_COUNTRY_CODES.length,11);
+  const points=[];
+  for(const code of EXPANSION_COUNTRY_CODES){
+    assert.equal(EXPANSION_COUNTRIES[code].currency,COUNTRIES[code].currency);
+    assert.equal(EXPANSION_REGIONS[code].length,4);
+    for(const z of EXPANSION_REGIONS[code]){
+      assert.ok(EXPANSION_SUBDIVISIONS[code].includes(z.subdivision),code+':'+z.subdivision);
+      assert.ok(z.latitud>=-90&&z.latitud<=90);
+      assert.ok(z.longitud>=-180&&z.longitud<=180);
+      points.push(z);
+    }
+  }
+  assert.equal(points.length,44);
+});
