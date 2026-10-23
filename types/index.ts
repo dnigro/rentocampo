@@ -39,7 +39,7 @@ export type DisponibilidadCampo =
   | "a_convenir";
 
 export type OperacionCampo = "alquiler" | "venta" | "ambas";
-export type MonedaCampo = "USD" | "ARS" | "UYU" | "PYG" | "CLP" | "BOB" | "PEN" | "BRL";
+export type MonedaCampo = "USD" | "ARS" | "UYU" | "PYG" | "CLP" | "BOB" | "PEN" | "BRL" | "MXN" | "GTQ" | "HNL" | "NIO" | "CRC" | "PAB" | "COP" | "VES" | "DOP";
 export type { CountryCode } from "@/data/countries";
 import type { CountryCode } from "@/data/countries";
 

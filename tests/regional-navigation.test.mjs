@@ -76,3 +76,32 @@ test('Brazil UAT branch overrides an inherited production publishable key', () =
   assert.equal(base.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY, 'sb_publishable_uat_fixture');
   assert.equal(base.NEXT_PUBLIC_SUPABASE_URL, 'https://wibqszhvuvpjycheaxzi.supabase.co');
 });
+
+for (const code of ['MX','GT','SV','HN','NI','CR','PA','CO','EC','VE','DO']) {
+  test('LATAM '+code+' routing, subdivisions and country map', () => {
+    assert.equal(isCountryCode(code), true);
+    assert.equal(resolveCountry(code, 'AR'), code);
+    assert.ok(getCountrySubdivisions(code).length >= 7);
+    assert.equal(new Set(getCountrySubdivisions(code)).size, getCountrySubdivisions(code).length);
+    assert.equal(COUNTRIES[code].mapCenter.length, 2);
+    const params=campoFilterParams({pais:code, operacion:'alquiler', provincia:getCountrySubdivisions(code)[0]});
+    assert.equal(params.get('pais'), code);
+    assert.equal(params.get('provincia'), getCountrySubdivisions(code)[0]);
+  });
+}
+test('Mexico pilot: all 32 states, localization and currency', () => {
+  assert.equal(getCountrySubdivisions('MX').length, 32);
+  assert.ok(getCountrySubdivisions('MX').includes('Sinaloa'));
+  assert.ok(getCountrySubdivisions('MX').includes('Ciudad de México'));
+  assert.equal(COUNTRIES.MX.locale, 'es-MX');
+  assert.equal(COUNTRIES.MX.currency, 'MXN');
+});
+test('LATAM preview fails closed without dedicated UAT credentials', () => {
+  assert.throws(() => enforceUatIsolation({VERCEL_ENV:'preview', VERCEL_GIT_COMMIT_REF:'feat/latam18-mx-uat-20261023',
+    NEXT_PUBLIC_SUPABASE_URL:'https://production.invalid', NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY:'sb_publishable_prod'}), /UAT isolation/);
+  const env={VERCEL_ENV:'preview',VERCEL_GIT_COMMIT_REF:'feat/latam18-mx-uat-20261023', NEXT_PUBLIC_SUPABASE_URL:'https://production.invalid',
+    NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY:'sb_publishable_prod',UAT_SUPABASE_PUBLISHABLE_KEY:'sb_publishable_uat_fixture'};
+  enforceUatIsolation(env);
+  assert.equal(env.NEXT_PUBLIC_SUPABASE_URL, 'https://wibqszhvuvpjycheaxzi.supabase.co');
+  assert.equal(env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY, 'sb_publishable_uat_fixture');
+});

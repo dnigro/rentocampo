@@ -69,7 +69,7 @@ export default function CampoForm({
     ambiente: "",
     operacion: "alquiler",
     precio: undefined,
-    moneda: initialCountry === "BR" ? "BRL" : "USD",
+    moneda: initialCountry === "AR" ? "USD" : COUNTRIES[initialCountry].currency,
     disponibilidad: "a_convenir",
     rendimiento_estimado: "",
     mejoras: "No",
@@ -349,7 +349,7 @@ export default function CampoForm({
                 ubicacion: "",
                 latitud: undefined,
                 longitud: undefined,
-                moneda: nextCountry === "BR" ? "BRL" : "USD",
+                moneda: nextCountry === "AR" ? "USD" : COUNTRIES[nextCountry].currency,
               }));
               setLugarGeocodificado("");
             }}
@@ -574,6 +574,7 @@ export default function CampoForm({
                 {countryCode === "BO" && <option value="BOB">BOB</option>}
                 {countryCode === "PE" && <option value="PEN">PEN</option>}
                 {countryCode === "BR" && <option value="BRL">BRL</option>}
+                {!["AR","UY","PY","CL","BO","PE","BR"].includes(countryCode) && COUNTRIES[countryCode].currency !== "USD" && <option value={COUNTRIES[countryCode].currency}>{COUNTRIES[countryCode].currency}</option>}
               </select>
               <input
                 name="precio"

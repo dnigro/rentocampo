@@ -1,4 +1,5 @@
-export const COUNTRY_CODES = ["AR", "UY", "PY", "CL", "BO", "PE", "BR"] as const;
+import { EXPANSION_COUNTRIES, EXPANSION_COUNTRY_CODES, EXPANSION_SUBDIVISIONS } from "@/data/latam-expansion";
+export const COUNTRY_CODES = ["AR", "UY", "PY", "CL", "BO", "PE", "BR", ...EXPANSION_COUNTRY_CODES] as const;
 export type CountryCode = (typeof COUNTRY_CODES)[number];
 
 export const COUNTRIES = {
@@ -52,6 +53,7 @@ export const COUNTRIES = {
     mapCenter: [-32.8, -56.0] as [number, number],
     mapZoom: 6.2,
   },
+  ...EXPANSION_COUNTRIES,
 };
 
 export const DEPARTAMENTOS_UY = [
@@ -93,6 +95,7 @@ export const ESTADOS_BR = [
 ] as const;
 
 export function getCountrySubdivisions(code: CountryCode): readonly string[] {
+  if (code in EXPANSION_SUBDIVISIONS) return EXPANSION_SUBDIVISIONS[code as keyof typeof EXPANSION_SUBDIVISIONS];
   switch (code) {
     case "BR": return ESTADOS_BR;
     case "UY": return DEPARTAMENTOS_UY;

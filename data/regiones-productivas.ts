@@ -1,3 +1,4 @@
+import { EXPANSION_COUNTRY_CODES, EXPANSION_REGIONS } from "@/data/latam-expansion";
 import type { CountryCode } from "@/data/countries";
 
 /**
@@ -9,6 +10,8 @@ export interface RegionProductiva {
   subdivision: string;
   actividad: string;
 }
+
+const LATAM_REGIONS = Object.fromEntries(EXPANSION_COUNTRY_CODES.map(code => [code, EXPANSION_REGIONS[code].map(r => ({ zona: r.zona, subdivision: r.subdivision, actividad: r.actividad }))])) as Record<(typeof EXPANSION_COUNTRY_CODES)[number], readonly RegionProductiva[]>;
 
 export const REGIONES_PRODUCTIVAS: Record<CountryCode, readonly RegionProductiva[]> = {
   AR: [
@@ -53,6 +56,7 @@ export const REGIONES_PRODUCTIVAS: Record<CountryCode, readonly RegionProductiva
     { zona: "Londrina", subdivision: "Paraná", actividad: "Soja e milho" },
     { zona: "Passo Fundo", subdivision: "Rio Grande do Sul", actividad: "Grãos e pecuária" },
   ],
+  ...LATAM_REGIONS,
 };
 
 export const REGIONES_EDITORIALES_ES: Record<CountryCode, string> = {
@@ -63,4 +67,5 @@ export const REGIONES_EDITORIALES_ES: Record<CountryCode, string> = {
   BO: "Valles, llanos y territorios de producción rural.",
   PE: "Costa, sierra y selva: distintas formas de producir.",
   BR: "Do interior paulista ao Cerrado e ao Sul.",
+  ...Object.fromEntries(EXPANSION_COUNTRY_CODES.map(code => [code, "Regiones productivas de referencia para conectar campos y servicios rurales."])) as Record<(typeof EXPANSION_COUNTRY_CODES)[number], string>,
 };
