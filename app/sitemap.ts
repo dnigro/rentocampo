@@ -56,7 +56,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     (campo) => campo.country_code === "AR" && (campo.operacion === "alquiler" || campo.operacion === "ambas"),
   );
   // Unlike illustrative demo profiles, these are published real services.
-  const serviciosReales = (servicios ?? []).filter((servicio) => Boolean(servicio.id));
+  const serviciosReales = (servicios ?? []).filter(
+    (servicio) => Boolean(servicio.id) && !servicio.id.startsWith("20000000-"),
+  );
+  const paisesConCampos = [...new Set(
+    camposReales.map((campo) => campo.country_code).filter((pais) => pais && pais !== "AR"),
+  )];
   const paisesConServicios = [...new Set(
     serviciosReales.map((servicio) => servicio.country_code).filter((pais) => pais && pais !== "AR"),
   )];
@@ -81,6 +86,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   return [
     ...staticRoutes,
+    ...paisesConCampos.map((pais) => ({
+      url: `${SITE_URL}/campos?pais=${pais}`,
+      changeFrequency: "daily" as const,
+      priority: 0.8,
+    })),
     ...provincias.map((provincia) => ({
       url: `${SITE_URL}/alquiler-de-campos/${slugify(provincia)}`,
       lastModified: ultimaActualizacion(
