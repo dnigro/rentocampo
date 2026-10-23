@@ -148,3 +148,10 @@ test('LATAM18 demo services are visible by explicit ID in both public service vi
   assert.match(ids,/101 \+ index/);
   assert.ok(!ids.includes('startsWith(id)'));
 });
+
+test('four regional zone markers are not mislabeled as field DEMOs', () => {
+ const map=readFileSync(new URL('../components/campos/CampoMapa.tsx',import.meta.url),'utf8');
+ assert.match(map,/Zona productiva · referencia/);
+ assert.match(map,/no son campos DEMO/);
+ assert.match(map,/Zona productiva \(no es un campo\)/);
+});

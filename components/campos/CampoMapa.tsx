@@ -190,15 +190,15 @@ export default function CampoMapa({
             demanda.longitud,
           ];
           L.circleMarker(position, {
-            radius: 11,
-            color: "#1a3a1a",
+            radius: 6,
+            color: "#515b57",
             weight: 2,
-            dashArray: "4 3",
-            fillColor: "#f4c542",
-            fillOpacity: 0.82,
+            dashArray: "3 3",
+            fillColor: "#b3b7b0",
+            fillOpacity: 0.55,
           })
             .addTo(demandaGroup)
-            .bindTooltip(`Región productiva de referencia: ${demanda.zona}`)
+            .bindTooltip(`Zona productiva (no es un campo): ${demanda.zona}`)
             .on("click", () => {
               setSelectedCampo(null);
               setSelectedDemanda(demanda);
@@ -377,6 +377,11 @@ export default function CampoMapa({
             </div>
           )}
 
+          {vista === "tierra" && ZONAS_PRODUCTIVAS_LATAM.some((z) => z.country_code === countryCode) && (
+            <p className="mapa-filtros-titulo" style={{ fontSize: 12, opacity: 0.75 }}>
+              4 zonas productivas de referencia · no son campos DEMO ni demanda verificada
+            </p>
+          )}
           <div className="mapa-contador">
             {vista === "tierra" ? (
               <>
@@ -473,12 +478,12 @@ export default function CampoMapa({
           <button
             className="mapa-panel-close"
             onClick={() => setSelectedDemanda(null)}
-            aria-label={tt("Cerrar detalle de la demanda","Fechar detalhes da demanda")}
+            aria-label={tt("Cerrar detalle de la zona productiva","Fechar detalhes da zona produtiva")}
           >
             ×
           </button>
           <p className="mapa-panel-aptitud mapa-panel-aptitud-demanda">
-            Demanda por zona
+            Zona productiva · referencia (no es un campo)
           </p>
           <h3 className="mapa-panel-titulo">
             {tt("Región productiva de referencia:","Região produtiva de referência:")} {selectedDemanda.zona}
