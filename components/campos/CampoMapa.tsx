@@ -131,7 +131,7 @@ export default function CampoMapa({
 
         const country = COUNTRIES[countryCode];
         const leafletMap = L.map(mapContainer.current).setView(
-          country.mapCenter,
+          [...country.mapCenter] as [number, number],
           country.mapZoom,
         );
         map.current = leafletMap;
@@ -240,7 +240,7 @@ export default function CampoMapa({
 
         // The country selection owns the viewport, not whichever pins were
         // rendered first. Keep the country's mapCenter/mapZoom authoritative.
-        leafletMap.setView(country.mapCenter, country.mapZoom, { animate: false });
+        leafletMap.setView([...country.mapCenter] as [number, number], country.mapZoom, { animate: false });
 
       })
       .catch(() => {

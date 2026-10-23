@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { FileText, Images, MapPinned, Sprout, WalletCards } from "lucide-react";
 import { COUNTRIES, COUNTRY_CODES, getCountrySubdivisions, type CountryCode } from "@/data/countries";
-import type { CampoFormData } from "@/types";
+import type { CampoFormData, MonedaCampo } from "@/types";
 import { trackEvent } from "@/lib/analytics";
 import { regionalText } from "@/lib/i18n/regional";
 import { FREE_PUBLICATIONS_ENABLED } from "@/lib/commercial/free-publications";
@@ -69,7 +69,7 @@ export default function CampoForm({
     ambiente: "",
     operacion: "alquiler",
     precio: undefined,
-    moneda: initialCountry === "BR" ? "BRL" : initialCountry === "AR" ? "USD" : COUNTRIES[initialCountry].currency,
+    moneda: initialCountry === "BR" ? "BRL" : initialCountry === "AR" ? "USD" : COUNTRIES[initialCountry].currency as MonedaCampo,
     disponibilidad: "a_convenir",
     rendimiento_estimado: "",
     mejoras: "No",
@@ -349,7 +349,7 @@ export default function CampoForm({
                 ubicacion: "",
                 latitud: undefined,
                 longitud: undefined,
-                moneda: nextCountry === "BR" ? "BRL" : nextCountry === "AR" ? "USD" : COUNTRIES[nextCountry].currency,
+                moneda: nextCountry === "BR" ? "BRL" : nextCountry === "AR" ? "USD" : COUNTRIES[nextCountry].currency as MonedaCampo,
               }));
               setLugarGeocodificado("");
             }}

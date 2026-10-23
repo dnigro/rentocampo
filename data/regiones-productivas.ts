@@ -11,7 +11,7 @@ export interface RegionProductiva {
   actividad: string;
 }
 
-const LATAM_REGIONS = Object.fromEntries(EXPANSION_COUNTRY_CODES.map(code => [code, EXPANSION_REGIONS[code].map(r => ({ zona: r.zona, subdivision: r.subdivision, actividad: r.actividad }))])) as Record<(typeof EXPANSION_COUNTRY_CODES)[number], readonly RegionProductiva[]>;
+const LATAM_REGIONS = Object.fromEntries(EXPANSION_COUNTRY_CODES.map(code => [code, EXPANSION_REGIONS[code].map(r => ({ zona: r.zona, subdivision: r.subdivision, actividad: r.actividad }))])) as unknown as Record<(typeof EXPANSION_COUNTRY_CODES)[number], readonly RegionProductiva[]>;
 
 export const REGIONES_PRODUCTIVAS: Record<CountryCode, readonly RegionProductiva[]> = {
   AR: [
