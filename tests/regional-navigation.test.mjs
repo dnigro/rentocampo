@@ -108,15 +108,16 @@ test('LATAM preview fails closed without dedicated UAT credentials', () => {
 });
 
 // The homepage must be derived from the same ISO catalog as selectors and filters.
-test('LATAM18 homepage displays both lines of ISO country abbreviations', () => {
+test('hero shows SUMATE in gold instead of all country abbreviations', () => {
   const hero=readFileSync(new URL('../components/landing/LandingTriptychHero.tsx', import.meta.url),'utf8');
   const css=readFileSync(new URL('../styles/hero-2026-isolated.css', import.meta.url),'utf8');
   assert.equal(COUNTRY_CODES.length,18);
-  assert.match(hero,/COUNTRY_CODES\.slice\(0,9\)\.join/);
-  assert.match(hero,/COUNTRY_CODES\.slice\(9\)\.join/);
-  assert.ok(!hero.includes('AR · UY · PY · CL · BO · PE · BR</p>'));
-  assert.match(css,/\.rcHero26__countries span/);
+  assert.match(hero, /aria-label="Sumate a RentoCampo">SUMATE/);
+  assert.ok(!hero.includes('COUNTRY_CODES.slice('));
+  assert.match(css, /\.rcHero26__countries\{color:var\(--gold\)/);
+  assert.match(hero, /className="rcHero26__register"/);
 });
+
 test('LATAM18 map zoning catalog has four valid geolocated references per new country', async () => {
   const { EXPANSION_COUNTRY_CODES, EXPANSION_REGIONS, EXPANSION_SUBDIVISIONS, EXPANSION_COUNTRIES }=await import('../data/latam-expansion.ts');
   const map=readFileSync(new URL('../components/campos/CampoMapa.tsx', import.meta.url),'utf8');
