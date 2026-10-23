@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import type { User } from "@supabase/supabase-js";
 import { createClient } from "@/lib/supabase/client";
-import { COUNTRIES, COUNTRY_CODES_ALPHABETICAL, type CountryCode } from "@/data/countries";
+import { COUNTRY_CODES_ALPHABETICAL, type CountryCode } from "@/data/countries";
 import { regionalText } from "@/lib/i18n/regional";
 import { selectRegionalCountry, useRegionalCountry } from "@/lib/i18n/useRegionalCountry";
 
@@ -33,9 +33,9 @@ export default function LiteHeader() {
 
   function changeCountry(next: CountryCode) {
     setMenuOpen(false);
-    if (next === country) return;
     selectRegionalCountry(next);
-    router.refresh();
+    // Load the server-rendered country content and its corresponding map.
+    window.location.reload();
   }
 
   async function logout() {
@@ -54,7 +54,9 @@ export default function LiteHeader() {
       </Link>
 
       <div className="lite-regional-controls">
+        <label className="lite-regional-country-label" htmlFor="lite-regional-pais">PAÍS</label>
         <select
+          id="lite-regional-pais"
           className="lite-regional-country"
           aria-label="Seleccionar país"
           value={country}
@@ -62,9 +64,7 @@ export default function LiteHeader() {
           onChange={(event) => changeCountry(event.target.value as CountryCode)}
         >
           {COUNTRY_CODES_ALPHABETICAL.map((code) => (
-            <option value={code} key={code}>
-              {COUNTRIES[code].name}
-            </option>
+            <option value={code} key={code}>{code}</option>
           ))}
         </select>
         <button
