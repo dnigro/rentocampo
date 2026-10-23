@@ -1,4 +1,5 @@
 import type { CountryCode } from "./countries.ts";
+import { regionalPublicationHref } from "../lib/publicacion-regional.ts";
 import { EXPANSION_COUNTRY_CODES } from "./latam-expansion.ts";
 
 /** Allow only approved, clearly labelled DEMO fixtures, never an arbitrary fake service. */
@@ -12,6 +13,6 @@ export function esServicioDemoVisible(id: string): boolean {
 }
 
 /** All DEMO service CTAs are acquisition examples, never contactable offers. */
-export function demoServiceRegisterHref(country: CountryCode): string {
-  return `/register?tipo=prestador&pais=${country}`;
+export function demoServiceRegisterHref(country: CountryCode, authenticated = false): string {
+  return regionalPublicationHref({ country, kind: "servicio", authenticated });
 }

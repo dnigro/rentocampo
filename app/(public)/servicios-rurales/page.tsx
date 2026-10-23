@@ -12,6 +12,8 @@ import ListingHeader from "@/components/listings/ListingHeader";
 import ListingExplorerToolbar from "@/components/listings/ListingExplorerToolbar";
 import ServiciosFiltros from "@/components/servicios/ServiciosFiltros";
 import ListingFiltersPanel from "@/components/listings/ListingFiltersPanel";
+import DemandaZonasPanel from "@/components/campos/DemandaZonasPanel";
+import { regionalPublicationHref, regionalPublicationLabel } from "@/lib/publicacion-regional";
 import "@/styles/explorador.css";
 import "@/styles/servicios-rurales.css";
 
@@ -114,9 +116,7 @@ export default async function ServiciosRuralesPage({
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  const ofrecerServiciosHref = user
-    ? "/mis-servicios-rurales/nuevo"
-    : `/register?tipo=prestador&pais=${pais}`;
+  const ofrecerServiciosHref = regionalPublicationHref({ country: pais, kind: "servicio", authenticated: Boolean(user) });
 
   let demosQuery = supabase
     .from("demo_servicios_rurales")
@@ -283,8 +283,8 @@ export default async function ServiciosRuralesPage({
 
                     <div className="prestador-card__actions">
                       {prestador.is_demo ? (
-                        <Link href={demoServiceRegisterHref(pais)}>
-                          {tt("Registrate gratis →", "Cadastre-se grátis →")}
+                        <Link href={demoServiceRegisterHref(pais, Boolean(user))}>
+                          {regionalPublicationLabel({ country: pais, kind: "servicio", authenticated: Boolean(user) })} →
                         </Link>
                       ) : user?.id === prestador.id ? (
                         <span className="prestador-card__own">
@@ -348,6 +348,8 @@ export default async function ServiciosRuralesPage({
         </div>
       </section>
 
+      <DemandaZonasPanel country={pais} provincia={provincia} authenticated={Boolean(user)} kind="servicio" />
+
       <section className="servicios-cta">
         <div>
           <span>{tt("¿Trabajás para el campo?", "Você trabalha para o campo?")}</span>
@@ -357,7 +359,7 @@ export default async function ServiciosRuralesPage({
           href={ofrecerServiciosHref}
           className="servicios-btn servicios-btn-yellow"
         >
-          {tt("Crear perfil gratis →", "Criar perfil grátis →")}
+          {regionalPublicationLabel({ country: pais, kind: "servicio", authenticated: Boolean(user) })} →
         </Link>
       </section>
     </div>

@@ -4,6 +4,7 @@ import type { Campo } from "@/types";
 import FavoritoBtn from "@/components/campos/FavoritoBtn";
 import { regionalText } from "@/lib/i18n/regional";
 import { resolveCountry } from "@/data/countries";
+import { regionalPublicationHref } from "@/lib/publicacion-regional";
 
 interface Props {
   campo: Campo & { fotos: { url: string; orden: number }[] };
@@ -28,13 +29,14 @@ export default function CampoCard({ campo, userId }: Props) {
   const country=resolveCountry(campo.country_code);
   const isDemo=campo.id.startsWith("20000000-") || /\bDEMO\b/i.test(campo.titulo ?? "");
   const tt=(es:string,pt:string)=>regionalText(country,es,pt);
+  const demoHref = regionalPublicationHref({ country, kind: "campo", authenticated: Boolean(userId), zona: campo.localidad || undefined });
   const foto = campo.fotos?.sort((a, b) => a.orden - b.orden)[0] ?? (campo.id.startsWith("20000000-") ? { url: "/rentocampo-hero-campo-bn-1920x1080.webp", orden: 0 } : undefined);
   const disponibilidad = tt(getDisponibilidad(campo),!campo.disponibilidad_desde?"A combinar":new Date(campo.disponibilidad_desde)<=new Date()?"Disponível agora":"Próxima safra");
 
   return (
     <div className="campo-card-pub">
       {/* Imagen */}
-      <Link href={`/campos/${campo.id}`} className="campo-card-pub-img-link">
+      <Link href={isDemo ? demoHref : `/campos/${campo.id}`} className="campo-card-pub-img-link">
         <div className="campo-card-pub-img">
           {foto ? (
             <Image
@@ -68,7 +70,7 @@ export default function CampoCard({ campo, userId }: Props) {
         </div>
 
         <Link
-          href={`/campos/${campo.id}`}
+          href={isDemo ? demoHref : `/campos/${campo.id}`}
           className="campo-card-pub-titulo-link"
         >
           <h3 className="campo-card-pub-titulo">{campo.titulo}</h3>

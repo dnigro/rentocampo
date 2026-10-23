@@ -2,6 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { COUNTRIES, resolveCountry } from "@/data/countries";
 import { regionalText } from "@/lib/i18n/regional";
+import { regionalPublicationHref, regionalPublicationLabel } from "@/lib/publicacion-regional";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -280,8 +281,8 @@ export default async function CampoFichaPage({ params }: PageProps) {
                   "Ficha demostrativa. No representa una oferta real y no permite consultas.",
                   "Anúncio demonstrativo. Não representa uma oferta real e não permite consultas."
                 )}</p>
-                <Link href={`/campos?pais=${countryCode}`} className="btn-consultar">
-                  {tt("Explorar campos disponibles", "Explorar terras disponíveis")}
+                <Link href={regionalPublicationHref({ country: countryCode, kind: "campo", authenticated: Boolean(user), zona: campoConPropietario.localidad || undefined })} className="btn-consultar">
+                  {regionalPublicationLabel({ country: countryCode, kind: "campo", authenticated: Boolean(user) })} →
                 </Link>
               </div>
             ) : (

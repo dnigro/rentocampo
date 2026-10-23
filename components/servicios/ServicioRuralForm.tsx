@@ -27,9 +27,11 @@ interface ServicioInicial {
 interface Props {
   profile: Partial<Profile> | null;
   publicacion?: ServicioInicial | null;
+  initialCountry?: CountryCode;
+  initialZona?: string;
 }
 
-export default function ServicioRuralForm({ profile, publicacion }: Props) {
+export default function ServicioRuralForm({ profile, publicacion, initialCountry, initialZona }: Props) {
   const router = useRouter();
   const [supabase] = useState(createClient);
   const photoInputRef = useRef<HTMLInputElement>(null);
@@ -37,10 +39,10 @@ export default function ServicioRuralForm({ profile, publicacion }: Props) {
   const [servicios, setServicios] = useState<ServicioRural[]>(
     publicacion?.servicios_rurales ?? profile?.servicios_rurales ?? [],
   );
-  const [country, setCountry] = useState<CountryCode>(resolveCountry(publicacion?.country_code, profile?.country_code));
+  const [country, setCountry] = useState<CountryCode>(resolveCountry(publicacion?.country_code ?? initialCountry, profile?.country_code));
   const subdivisions = getCountrySubdivisions(country);
   const tt=(es:string,pt:string)=>regionalText(country,es,pt);
-  const [zona, setZona] = useState(publicacion?.zona ?? profile?.zona_servicio ?? "");
+  const [zona, setZona] = useState(publicacion?.zona ?? initialZona ?? profile?.zona_servicio ?? "");
   const [provincia, setProvincia] = useState(publicacion?.provincia ?? profile?.provincia_servicio ?? "");
   const [localidad, setLocalidad] = useState(publicacion?.localidad ?? profile?.localidad_servicio ?? "");
   const [ubicacion, setUbicacion] = useState([publicacion?.localidad, publicacion?.provincia].filter(Boolean).join(", "));

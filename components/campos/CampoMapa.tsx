@@ -1,6 +1,7 @@
 "use client";
 
 import { demoServiceRegisterHref } from "@/data/visible-demo-services";
+import { regionalPublicationHref, regionalPublicationLabel } from "@/lib/publicacion-regional";
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { LayerGroup, Map as LeafletMap } from "leaflet";
@@ -413,14 +414,14 @@ export default function CampoMapa({
           >
             {vista === "tierra" ? (
               <Link
-                href={`/register?tipo=propietario&pais=${countryCode}`}
+                href={regionalPublicationHref({ country: countryCode, kind: "campo", authenticated: Boolean(resolvedUserId) })}
                 className="mapa-publicar-btn mapa-publicar-btn-principal"
               >
                 {tt("Publicar un campo →","Anunciar terra →")}
               </Link>
             ) : (
               <Link
-                href={resolvedUserId ? "/mis-servicios-rurales/nuevo" : `/register?tipo=prestador&pais=${countryCode}`}
+                href={regionalPublicationHref({ country: countryCode, kind: "servicio", authenticated: Boolean(resolvedUserId) })}
                 className="mapa-publicar-btn mapa-publicar-btn-principal mapa-publicar-btn-principal-servicio"
               >
                 {tt("Publicar mis servicios →","Anunciar meus serviços →")}
@@ -479,8 +480,8 @@ export default function CampoMapa({
               </span>
             )}
           </div>
-          <Link href={`/campos/${selectedCampo.id}`} className="mapa-panel-btn">
-            {tt("Ver campo →","Ver terra →")}
+          <Link href={(selectedCampo.id.startsWith("20000000-") || /\bDEMO\b/i.test(selectedCampo.titulo)) ? regionalPublicationHref({ country: countryCode, kind: "campo", authenticated: Boolean(resolvedUserId), zona: selectedCampo.localidad || undefined }) : `/campos/${selectedCampo.id}`} className="mapa-panel-btn">
+            {(selectedCampo.id.startsWith("20000000-") || /\bDEMO\b/i.test(selectedCampo.titulo)) ? regionalPublicationLabel({ country: countryCode, kind: "campo", authenticated: Boolean(resolvedUserId) }) + " →" : tt("Ver campo →","Ver terra →")}
           </Link>
         </div>
       )}
@@ -508,7 +509,7 @@ export default function CampoMapa({
             {tt("Referencia editorial, no representa demanda verificada ni un campo publicado.","Referência editorial, não representa demanda verificada nem anúncio.")}
           </p>
           <Link
-            href={`/register?tipo=propietario&pais=${countryCode}&zona=${encodeURIComponent(selectedDemanda.zona)}`}
+            href={regionalPublicationHref({ country: countryCode, kind: "campo", authenticated: Boolean(resolvedUserId), zona: selectedDemanda.zona })}
             className="mapa-panel-btn mapa-panel-btn-demanda"
           >
             {tt("Publicar campo en esta zona","Anunciar terra nesta região")}
@@ -559,12 +560,12 @@ export default function CampoMapa({
           )}
           <Link
             href={selectedServicio.is_demo
-              ? demoServiceRegisterHref(countryCode)
+              ? demoServiceRegisterHref(countryCode, Boolean(resolvedUserId))
               : `/servicios-rurales/${selectedServicio.publicacion_id ?? selectedServicio.id}?from=mapa`}
             className="mapa-panel-btn mapa-panel-btn-servicio"
           >
             {selectedServicio.is_demo
-              ? tt("Registrate gratis →", "Cadastre-se grátis →")
+              ? regionalPublicationLabel({ country: countryCode, kind: "servicio", authenticated: Boolean(resolvedUserId) }) + " →"
               : tt("Ver servicio →","Ver serviço →")}
           </Link>
         </div>
