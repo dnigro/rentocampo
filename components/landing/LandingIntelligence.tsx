@@ -1,7 +1,4 @@
 
-const agro=["Obtención de datos históricos del clima por zona","Pronóstico por campo y zona","Riesgo de heladas y precipitaciones","Humedad y temperatura del suelo","Ventanas de siembra y cosecha"];
-const geo=["Visualización de campos y región","Zonas de alta demanda productiva","Información de suelos y aptitud","Accesos, infraestructura y servicios"];
-
 export default function LandingIntelligence() {
  return <section className="rci" aria-labelledby="rci-title">
   <div className="rci-grid">
@@ -19,16 +16,16 @@ export default function LandingIntelligence() {
     <div className="rci-visual rci-weather">
      <div className="rci-background rci-background-agro" role="img" aria-label="Paisaje agrícola de cultivo en tonos grises"/>
     </div>
-    <div className="rci-card-body"><div className="rci-heading"><span className="rci-symbol">☁</span><div><h3>AgroClimate</h3><p>Clima, pronósticos y datos históricos del clima por zona para cada campo.</p></div></div>
-     <ul>{agro.map(x=><li key={x}>{x}</li>)}</ul><span className="rci-coming">PRÓXIMAMENTE</span>
+    <div className="rci-card-body"><div className="rci-heading"><span className="rci-symbol">☁</span><div><h3>AgroClimate</h3><p>Datos históricos del clima y pronósticos por campo y zona, con alertas de heladas y precipitaciones, humedad y temperatura del suelo y ventanas de siembra y cosecha. Más información para planificar la producción.</p></div></div>
+     <span className="rci-coming">PRÓXIMAMENTE</span>
     </div>
    </article>
    <article className="rci-card">
     <div className="rci-visual rci-geo">
      <div className="rci-background rci-background-geo" role="img" aria-label="Vista aérea de parcelas agrícolas y caminos rurales en tonos grises"/>
     </div>
-    <div className="rci-card-body"><div className="rci-heading"><span className="rci-symbol">▱</span><div><h3>GeoMarket</h3><p>Mapas, planos, información territorial y zonas de demanda.</p></div></div>
-     <ul>{geo.map(x=><li key={x}>{x}</li>)}</ul><span className="rci-coming">PRÓXIMAMENTE</span>
+    <div className="rci-card-body"><div className="rci-heading"><span className="rci-symbol">▱</span><div><h3>GeoMarket</h3><p>Mapas y planos para explorar campos y regiones, conocer suelos y aptitud productiva, identificar zonas de interés y evaluar accesos, infraestructura y servicios rurales cercanos.</p></div></div>
+     <span className="rci-coming">PRÓXIMAMENTE</span>
     </div>
    </article>
   </div>
@@ -44,8 +41,8 @@ export default function LandingIntelligence() {
   .rci-benefits p{display:grid;grid-template-columns:44px 1fr;gap:2px 14px;margin:0}
   .rci-benefits p>span{grid-row:span 2;font-size:29px;color:#b8a67f}
   .rci-benefits strong{font-size:17px}.rci-benefits small{color:#bcbcbc;font-size:14px;line-height:1.5}
-  .rci-card{border:1px solid #404243;border-radius:18px;background:#151b1d;overflow:hidden;min-width:0}
-  .rci-visual{aspect-ratio:2.05 / 1;height:auto;position:relative;overflow:hidden;background:#424743}
+  .rci-card{border:1px solid #404243;border-radius:18px;background:#151b1d;overflow:hidden;min-width:0;align-self:start}
+  .rci-visual{aspect-ratio:2.85 / 1;height:auto;position:relative;overflow:hidden;background:#424743}
   .rci-background{position:absolute;inset:0;background-size:cover;background-position:center;filter:grayscale(1) brightness(.8) contrast(1.05)}.rci-background-agro{background-image:url("/intelligence-agro-approved.webp");background-position:center;filter:none}.rci-background-geo{background-image:url("/intelligence-geo-approved.webp");background-position:center;filter:none}
   .rci-weather-panel,.rci-geo-panel{position:absolute;top:15px;left:15px;background:#1b1e1edb;border:1px solid #7777;border-radius:8px;padding:12px;display:grid;gap:6px;font-size:12px}
   .rci-weather-panel strong{font-size:28px}.rci-weather-panel small,.rci-geo-panel small{color:#bcbcbc;font-size:11px}
@@ -61,14 +58,14 @@ export default function LandingIntelligence() {
   .rci-geo .rci-geo-pin{left:52%;top:42%;color:#e0bd79}
   .rci-footer{max-width:1700px;margin:20px auto 0;padding-top:17px;border-top:1px solid #333;display:flex;justify-content:space-between;gap:18px;color:#bcbcbc;font-size:11px;letter-spacing:.2em}
   @media(max-width:650px){.rci-footer{flex-direction:column;letter-spacing:.08em}.rci-metric,.rci-wind{padding:6px;font-size:12px}.rci-metric strong,.rci-wind strong{font-size:14px}}
-  .rci-card-body{padding:24px 24px 28px}
-  .rci-heading{display:flex;gap:17px;align-items:flex-start}.rci-symbol{font-size:40px;color:#bca77e;line-height:1}
-  .rci-heading h3{font-weight:800;font-size:clamp(23px,2vw,33px);margin:0 0 6px}.rci-heading p{color:#c6c6c6;line-height:1.4;font-size:16px;margin:0}
+  .rci-card-body{padding:20px 22px 22px}
+  .rci-heading{display:flex;gap:14px;align-items:flex-start}.rci-symbol{font-size:40px;color:#bca77e;line-height:1}
+  .rci-heading h3{font-weight:800;font-size:clamp(23px,2vw,33px);margin:0 0 8px}.rci-heading p{color:#c6c6c6;line-height:1.5;font-size:15px;margin:0}
   .rci-card ul{list-style:none;padding:0;margin:24px 0;display:grid;gap:10px}
   .rci-card li{font-size:15px;color:#d2d2d2;line-height:1.35;display:flex;gap:12px}.rci-card li:before{content:"✓";color:#c4b08b;font-weight:700}
-  .rci-coming{display:inline-block;border:1px solid #8e8168;border-radius:30px;color:#d0c0a1;font-size:11px;letter-spacing:.16em;padding:11px 17px}
+  .rci-coming{display:inline-block;margin-top:17px;border:1px solid #8e8168;border-radius:30px;color:#d0c0a1;font-size:11px;letter-spacing:.16em;padding:11px 17px}
   @media(max-width:1050px){.rci-grid{grid-template-columns:1fr 1fr}.rci-intro{grid-column:1/-1;padding:12px}.rci-benefits{grid-template-columns:repeat(3,1fr);gap:12px;margin-top:20px}}
-  @media(max-width:650px){.rci{padding:20px 14px}.rci-grid{display:grid;grid-template-columns:1fr;gap:16px}.rci-intro{grid-column:auto}.rci-intro h2{font-size:clamp(29px,8vw,42px);margin:10px 0}.rci-kicker{font-size:clamp(25px,7vw,40px);letter-spacing:.02em}.rci-lead{font-size:19px}.rci-benefits{grid-template-columns:1fr;gap:12px}.rci-benefits p>span{font-size:22px}.rci-visual{height:auto;aspect-ratio:2.05 / 1}.rci-card-body{padding:20px}.rci-heading h3{font-size:25px}.rci-card li{font-size:14px}}
+  @media(max-width:650px){.rci{padding:20px 14px}.rci-grid{display:grid;grid-template-columns:1fr;gap:16px}.rci-intro{grid-column:auto}.rci-intro h2{font-size:clamp(29px,8vw,42px);margin:10px 0}.rci-kicker{font-size:clamp(25px,7vw,40px);letter-spacing:.02em}.rci-lead{font-size:19px}.rci-benefits{grid-template-columns:1fr;gap:12px}.rci-benefits p>span{font-size:22px}.rci-visual{height:auto;aspect-ratio:2.65 / 1}.rci-card-body{padding:18px}.rci-heading h3{font-size:25px}.rci-heading p{font-size:14px;line-height:1.5}}
   `}</style>
  </section>;
 }

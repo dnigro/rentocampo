@@ -159,3 +159,15 @@ test('four regional zone markers are not mislabeled as field DEMOs', () => {
 });
 
 test('approved V2 teaser is restored below FAQ with original images',()=>{ const home=readFileSync(new URL('../components/landing/LandingPageContent.tsx',import.meta.url),'utf8'); const v2=readFileSync(new URL('../components/landing/LandingIntelligence.tsx',import.meta.url),'utf8'); assert.ok(home.indexOf('<LandingFAQ />')<home.indexOf('<LandingIntelligence />')); for(const s of ['PRÓXIMAMENTE','AgroClimate','GeoMarket','/intelligence-agro-approved.webp','/intelligence-geo-approved.webp']) assert.ok(v2.includes(s)); });
+
+test('V2 evolution cards use a compact image crop and prose instead of bullet lists', () => {
+  const v2=readFileSync(new URL('../components/landing/LandingIntelligence.tsx',import.meta.url),'utf8');
+  assert.match(v2,/aspect-ratio:2\.85 \/ 1/);
+  assert.match(v2,/aspect-ratio:2\.65 \/ 1/);
+  assert.ok(!v2.includes('<ul>') && !v2.includes('<li '));
+  for(const term of ['AgroClimate','GeoMarket','pronósticos por campo y zona','alertas de heladas','aptitud productiva','PRÓXIMAMENTE']) {
+    assert.ok(v2.includes(term), 'missing V2 card benefit: '+term);
+  }
+  assert.ok(v2.includes('/intelligence-agro-approved.webp'));
+  assert.ok(v2.includes('/intelligence-geo-approved.webp'));
+});
