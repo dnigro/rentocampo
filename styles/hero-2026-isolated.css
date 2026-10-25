@@ -17,7 +17,7 @@
 .rcHero26__shade{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,transparent 35%,rgba(0,0,0,.72) 100%)}
 .rcHero26__panelInner{position:absolute;z-index:2;left:10px;right:10px;bottom:13%;display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center}
 .rcHero26__panelTitle{font-size:clamp(12px,1.35vw,21px);font-weight:900;line-height:1.1;text-transform:uppercase;text-shadow:0 2px 7px #111}
-.rcHero26__panelCta{display:flex;justify-content:center;align-items:center;min-height:43px;width:min(100%,160px);padding:9px 8px;border-radius:999px;background:#f5f2ea;color:#111;font-size:clamp(10px,.9vw,14px);font-weight:900;line-height:1.15}
+.rcHero26__panelCta{display:flex;justify-content:center;align-items:center;min-height:54px;width:min(100%,190px);padding:11px 10px;border-radius:999px;background:#f5f2ea;color:#111;font-size:clamp(13px,1.1vw,16px);font-weight:900;line-height:1.2;text-align:center}
 @media(min-width:901px){
  .rcHero26{grid-template-columns:35% 65%}
  .rcHero26__left{margin-right:-32px;padding-right:44px;clip-path:polygon(0 0,100% 0,calc(100% - 42px) 100%,0 100%)}
@@ -27,7 +27,7 @@
  .rcHero26__panel:last-child{width:calc(100% + 34px)}
  .rcHero26__photo{transform:skewX(5deg) scale(1.25)}
  .rcHero26__panelInner{transform:skewX(5deg);left:20px;right:20px}
- .rcHero26__panelCta{width:min(100%,150px)}
+ .rcHero26__panelCta{width:min(100%,185px)}
  /* Show the full tractor in the services panel without changing other images. */
  .rcHero26__panel:last-child .rcHero26__photo{transform:skewX(5deg) scale(1.07);object-position:64% 70%}
 }
@@ -40,7 +40,7 @@
  .rcHero26__countries{font-size:clamp(10px,2.6vw,14px);padding-bottom:7px}
  .rcHero26__register{min-height:50px;width:min(100%,330px);font-size:16px}
  /* Mobile: one compact three-column diagonal triptych, not stacked cards. */
- .rcHero26__right{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;height:clamp(245px,68vw,380px);min-height:0;overflow:hidden}
+ .rcHero26__right{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;height:clamp(310px,80vw,420px);min-height:0;overflow:hidden}
  .rcHero26__panel,.rcHero26__panel:first-child,.rcHero26__panel:last-child{
   position:relative;display:block;min-width:0;height:100%;width:calc(100% + 12px);
   margin-left:-6px;transform:skewX(-4deg);border:0;border-left:1px solid rgba(255,255,255,.6);
@@ -50,9 +50,9 @@
  .rcHero26__photo{transform:skewX(4deg) scale(1.24);object-fit:cover;object-position:center}
  .rcHero26__panel:last-child .rcHero26__photo{transform:skewX(4deg) scale(1.05);object-position:65% 65%}
  .rcHero26__shade{background:linear-gradient(180deg,transparent 30%,rgba(0,0,0,.8) 100%)}
- .rcHero26__panelInner{position:absolute;left:9px;right:9px;bottom:15px;transform:skewX(4deg);display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:9px;text-align:center}
- .rcHero26__panelTitle{font-size:clamp(10px,2.35vw,15px);line-height:1.1;max-width:100%;overflow-wrap:anywhere}
- .rcHero26__panelCta{width:100%;max-width:112px;min-width:0;min-height:36px;padding:7px 3px;font-size:clamp(8px,1.85vw,12px);line-height:1.1;white-space:normal}
+ .rcHero26__panelInner{position:absolute;left:9px;right:9px;bottom:20px;transform:skewX(4deg);display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:12px;text-align:center}
+ .rcHero26__panelTitle{font-size:clamp(12px,2.7vw,17px);line-height:1.15;max-width:100%;overflow-wrap:break-word}
+ .rcHero26__panelCta{width:100%;max-width:180px;min-width:0;min-height:60px;padding:10px 7px;font-size:clamp(13px,2.5vw,15px);line-height:1.2;white-space:normal}
 }
 
 /* Align hero copy and registration CTA as one centered group. */
@@ -68,3 +68,29 @@
 /* CTA editorial: sustituye las siglas por SUMATE en el amarillo del hero. */
 .rcHero26__countries{color:var(--gold);font-size:clamp(21px,2.4vw,34px);font-weight:900;letter-spacing:.07em;text-transform:uppercase;line-height:1.1}
 @media(max-width:900px){.rcHero26__countries{font-size:clamp(23px,6vw,32px);letter-spacing:.06em}}
+
+
+/* On phones, three full-width photo links replace tiny three-column controls.
+   Each label remains in view and each pill meets a comfortable touch height. */
+@media(max-width:520px){
+ .rcHero26__right{grid-template-columns:1fr;gap:5px;height:auto;min-height:0;overflow:visible}
+ .rcHero26__panel,.rcHero26__panel:first-child,.rcHero26__panel:last-child{
+  width:100%;height:180px;min-height:180px;margin:0;transform:none;border:0
+ }
+ .rcHero26__photo,.rcHero26__panel:last-child .rcHero26__photo{
+  transform:none;object-fit:cover;object-position:center 55%
+ }
+ .rcHero26__shade{background:linear-gradient(90deg,rgba(0,0,0,.82),rgba(0,0,0,.46) 56%,rgba(0,0,0,.22))}
+ .rcHero26__panelInner{
+  inset:auto 0 0;transform:none;display:flex;flex-direction:row;
+  align-items:center;justify-content:space-between;gap:12px;padding:18px 18px;text-align:left
+ }
+ .rcHero26__panelTitle{flex:1 1 auto;font-size:clamp(17px,4.3vw,21px);line-height:1.12;max-width:none;overflow-wrap:normal}
+ .rcHero26__panelCta{flex:0 0 auto;width:min(49%,192px);max-width:none;min-height:60px;padding:10px 13px;font-size:clamp(14px,3.8vw,16px)}
+}
+@media(max-width:360px){
+ .rcHero26__panel,.rcHero26__panel:first-child,.rcHero26__panel:last-child{height:200px;min-height:200px}
+ .rcHero26__panelInner{flex-direction:column;align-items:stretch;gap:10px;padding:16px 18px}
+ .rcHero26__panelCta{width:100%;min-height:58px}
+}
+.rcHero26__panel:focus-visible{outline:3px solid var(--gold);outline-offset:-4px}
