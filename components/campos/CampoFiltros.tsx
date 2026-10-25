@@ -99,7 +99,7 @@ export default function CampoFiltros({ filtrosActivos }: Props) {
               className={`filtro-chip ${filtros.aptitud === a.value ? "active" : ""}`}
               onClick={() => setFiltros((p) => ({ ...p, aptitud: a.value }))}
             >
-              {country==="BR"?({agricola:t("filters.agricultural"),ganadera:t("filters.livestock"),mixta:t("filters.mixed"),forestal:t("filters.forestry"),otro:t("filters.other")} as Record<string,string>)[a.value]??t("filters.allFemale"):a.label}
+              {(country==="BR"||country==="US")?({agricola:t("filters.agricultural"),ganadera:t("filters.livestock"),mixta:t("filters.mixed"),forestal:t("filters.forestry"),otro:t("filters.other")} as Record<string,string>)[a.value]??t("filters.allFemale"):a.label}
             </button>
           ))}
         </div>
@@ -116,7 +116,7 @@ export default function CampoFiltros({ filtrosActivos }: Props) {
         >
           {DISPONIBILIDADES.map((d) => (
             <option key={d.value} value={d.value}>
-              {country==="BR"?({inmediata:t("filters.immediate"),"campaña_próxima":t("filters.nextSeason"),a_convenir:t("filters.negotiable")} as Record<string,string>)[d.value]??t("filters.any"):d.label}
+              {(country==="BR"||country==="US")?({inmediata:t("filters.immediate"),"campaña_próxima":t("filters.nextSeason"),a_convenir:t("filters.negotiable")} as Record<string,string>)[d.value]??t("filters.any"):d.label}
             </option>
           ))}
         </select>

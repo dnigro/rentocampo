@@ -453,7 +453,7 @@ export default function CampoMapa({
           <div className="mapa-campo-tags">
             <span className="mapa-panel-aptitud">
               {(selectedCampo.id.startsWith("20000000-") || selectedCampo.titulo.toUpperCase().includes("DEMO")) ? tt("PUBLICACIÓN DEMO · ","ANÚNCIO DEMO · ") : ""}
-              {countryCode==="BR"?({agricola:"Agrícola",ganadera:"Pecuária",mixta:"Mista",forestal:"Florestal",otro:"Outro"} as Record<string,string>)[selectedCampo.aptitud]??selectedCampo.aptitud:APTITUD_LABEL[selectedCampo.aptitud]??selectedCampo.aptitud}
+              {countryCode==="BR"?({agricola:"Agrícola",ganadera:"Pecuária",mixta:"Mista",forestal:"Florestal",otro:"Outro"} as Record<string,string>)[selectedCampo.aptitud]??selectedCampo.aptitud:countryCode==="US"?regionalText(countryCode,APTITUD_LABEL[selectedCampo.aptitud]??selectedCampo.aptitud,APTITUD_LABEL[selectedCampo.aptitud]??selectedCampo.aptitud):APTITUD_LABEL[selectedCampo.aptitud]??selectedCampo.aptitud}
             </span>
             {selectedCampo.operacion && (
               <span className="operacion-tag">

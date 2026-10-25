@@ -44,7 +44,7 @@ type SearchParams = {
 export async function generateMetadata({ searchParams }: { searchParams: Promise<SearchParams> }): Promise<Metadata> {
   const params = await searchParams;
   const pais = resolveCountry(params.pais, (await cookies()).get("rentocampo_country")?.value);
-  const title = `${pais === "BR" ? "Serviços rurais" : "Servicios rurales"} en ${COUNTRIES[pais].name} | RentoCampo`.replace("Serviços rurais en", "Serviços rurais no");
+  const title = pais === "US" ? "Rural Services in the United States | RentoCampo" : `${pais === "BR" ? "Serviços rurais" : "Servicios rurales"} en ${COUNTRIES[pais].name} | RentoCampo`.replace("Serviços rurais en", "Serviços rurais no");
   // A single canonical for Argentina; other countries have explicit, stable URLs.
   // Faceted searches must not compete with the main landing in Google.
   const url = pais === "AR" ? `${SITE_URL}/servicios-rurales` : `${SITE_URL}/servicios-rurales?pais=${pais}`;
@@ -53,7 +53,7 @@ export async function generateMetadata({ searchParams }: { searchParams: Promise
   return {
     ...baseMetadata,
     title,
-    description: pais==="BR"?`Encontre serviços rurais no Brasil por categoria e região.`:`Encontrá servicios rurales en ${COUNTRIES[pais].name} por especialidad y zona.`,
+    description: pais==="US"?"Find rural contractors and service providers across the United States by specialty and state.":pais==="BR"?`Encontre serviços rurais no Brasil por categoria e região.`:`Encontrá servicios rurales en ${COUNTRIES[pais].name} por especialidad y zona.`,
     alternates: { canonical: url },
     robots: { index: !hasFilters && (pais === "AR" || hasExplicitCountry), follow: true },
     openGraph: { ...baseMetadata.openGraph, title, url, locale: COUNTRIES[pais].locale.replace("-", "_") },

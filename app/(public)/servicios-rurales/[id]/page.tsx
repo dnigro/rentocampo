@@ -6,7 +6,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { notFound, redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { SERVICIO_LABEL } from "@/data/servicios-rurales";
+import { servicioLabel } from "@/data/servicios-rurales";
 import type { ServicioRural } from "@/types";
 import "@/styles/servicios-rurales.css";
 import "@/styles/campos.css";
@@ -36,7 +36,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   }
 
   const rubros = ((publicacion.servicios_rurales ?? []) as ServicioRural[])
-    .map((item) => SERVICIO_LABEL[item] ?? item);
+    .map((item) => servicioLabel(item, resolveCountry(publicacion.country_code)));
   const actividad = rubros.slice(0, 2).join(" y ") || "Servicios rurales";
   const ubicacion = [publicacion.localidad, publicacion.provincia].filter(Boolean).join(", ");
   const title = `${actividad}${ubicacion ? ` en ${ubicacion}` : ""} | RentoCampo`;
@@ -80,7 +80,7 @@ export default async function ServicioDetallePage({ params }: { params: Promise<
   const tt=(es:string,pt:string)=>regionalText(pais,es,pt);
   const esDemo = Boolean(demo);
   const rubros = (publicacion?.servicios_rurales ?? demo?.servicios_rurales ?? []) as ServicioRural[];
-  const titulo = rubros.map((item) => SERVICIO_LABEL[item] ?? item).join(" · ");
+  const titulo = rubros.map((item) => servicioLabel(item, pais)).join(" · ");
   const nombre = perfil?.nombre ?? demo?.nombre ?? "Prestador rural";
   const provincia = publicacion?.provincia ?? demo?.provincia_servicio;
   const localidad = publicacion?.localidad ?? demo?.localidad_servicio;

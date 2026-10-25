@@ -208,7 +208,7 @@ test('country selector shows 19 unique markets in Spanish alphabetical order', (
  assert.match(nav,/selectRegionalCountry\(country\);\s*window\.location\.reload\(\)/);
  assert.match(nav,/htmlFor="navbar-pais-desktop"/);
  assert.match(nav,/htmlFor="navbar-pais-mobile"/);
- assert.equal((nav.match(/>PAÍS<\/label>/g)||[]).length,2);
+ assert.equal((nav.match(/regionalText\(activeCountry, "PAÍS", "PAÍS"\)/g)||[]).length,2);
  assert.equal((nav.match(/\{COUNTRIES\[code\]\.flag\} \{code\}<\/option>/g)||[]).length,2);
 });
 test('new-country green available field pins paint above yellow editorial pins', () => {
@@ -310,4 +310,22 @@ test('US preview fails closed rather than inheriting production credentials',()=
  enforceUatIsolation(env);
  assert.equal(env.NEXT_PUBLIC_SUPABASE_URL,'https://wibqszhvuvpjycheaxzi.supabase.co');
  assert.equal(env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY,'sb_publishable_uat_fixture');
+});
+
+// Guard against regression to partial Spanish copy when the United States is selected.
+test('United States English copy is shared by public landing, listings and publication forms', () => {
+ const copy = readFileSync(new URL('../lib/i18n/enUS-copy.ts',import.meta.url),'utf8');
+ const regional = readFileSync(new URL('../lib/i18n/regional.ts',import.meta.url),'utf8');
+ const listing = readFileSync(new URL('../app/(public)/servicios-rurales/page.tsx',import.meta.url),'utf8');
+ const forms = readFileSync(new URL('../components/campos/CampoForm.tsx',import.meta.url),'utf8');
+ const faq = readFileSync(new URL('../components/landing/LandingFAQ.tsx',import.meta.url),'utf8');
+ const countries = readFileSync(new URL('../data/countries.ts',import.meta.url),'utf8');
+ for (const sentence of ['PRODUCTIVE LAND ACROSS THE REGION','No service providers match these filters.','VIEW MAP','Select country']) {
+  assert.ok(copy.includes(sentence),sentence);
+ }
+ assert.match(regional,/enUSCopy\[spanish\]/);
+ assert.match(listing,/pais === "US" \? "Rural Services in the United States/);
+ assert.match(forms,/countryCode==="US"\?regionalText\(countryCode,a\.label,a\.label\)/);
+ assert.match(faq,/country === "BR" \|\| country === "US"/);
+ assert.match(countries,/Intl\.DisplayNames\(\["en-US"\]/);
 });

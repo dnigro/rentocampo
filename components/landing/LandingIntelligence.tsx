@@ -19,7 +19,7 @@ export default function LandingIntelligence() {
    </div>
    <article className="rci-card">
     <div className="rci-visual rci-weather">
-     <div className="rci-background rci-background-agro" role="img" aria-label="Paisaje agrícola de cultivo en tonos grises"/>
+     <div className="rci-background rci-background-agro" role="img" aria-label={t("Paisaje agrícola de cultivo en tonos grises","Grayscale farmland landscape")}/>
     </div>
     <div className="rci-card-body"><div className="rci-heading"><span className="rci-symbol">☁</span><div><h3>AgroClimate</h3><p>{t("Datos históricos del clima y pronósticos por campo y zona, con alertas de heladas y precipitaciones, humedad y temperatura del suelo y ventanas de siembra y cosecha. Más información para planificar la producción.","Historical weather and forecasts by farm and area, including frost and rainfall alerts, soil moisture and temperature, and planting and harvest windows.")}</p></div></div>
      <span className="rci-coming">{t("PRÓXIMAMENTE","COMING SOON")}</span>
@@ -27,7 +27,7 @@ export default function LandingIntelligence() {
    </article>
    <article className="rci-card">
     <div className="rci-visual rci-geo">
-     <div className="rci-background rci-background-geo" role="img" aria-label="Vista aérea de parcelas agrícolas y caminos rurales en tonos grises"/>
+     <div className="rci-background rci-background-geo" role="img" aria-label={t("Vista aérea de parcelas agrícolas y caminos rurales en tonos grises","Grayscale aerial farmland and country roads")}/>
     </div>
     <div className="rci-card-body"><div className="rci-heading"><span className="rci-symbol">▱</span><div><h3>GeoMarket</h3><p>{t("Mapas y planos para explorar campos y regiones, conocer suelos y aptitud productiva, identificar zonas de interés y evaluar accesos, infraestructura y servicios rurales cercanos.","Maps to explore farmland and regions, understand soil and agricultural suitability, identify promising areas, and evaluate access, infrastructure, and nearby services.")}</p></div></div>
      <span className="rci-coming">{t("PRÓXIMAMENTE","COMING SOON")}</span>

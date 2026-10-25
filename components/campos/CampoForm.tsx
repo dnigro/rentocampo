@@ -476,7 +476,7 @@ export default function CampoForm({
             >
               {APTITUDES.map((a) => (
                 <option key={a.value} value={a.value}>
-                  {countryCode==="BR"?({agricola:"Agrícola",ganadera:"Pecuária",mixta:"Mista",forestal:"Florestal",otro:"Outro"} as Record<string,string>)[a.value]??a.label:a.label}
+                  {countryCode==="BR"?({agricola:"Agrícola",ganadera:"Pecuária",mixta:"Mista",forestal:"Florestal",otro:"Outro"} as Record<string,string>)[a.value]??a.label:countryCode==="US"?regionalText(countryCode,a.label,a.label):a.label}
                 </option>
               ))}
             </select>
@@ -580,7 +580,7 @@ export default function CampoForm({
                 name="precio"
                 type="number"
                 className="form-input input-after-prefix"
-                placeholder="Ej: 320"
+                placeholder={tt("Ej: 320","Ex.: 320")}
                 value={form.precio ?? ""}
                 onChange={handleChange}
                 min={0}
@@ -597,7 +597,7 @@ export default function CampoForm({
             >
               {DISPONIBILIDADES.map((d) => (
                 <option key={d.value} value={d.value}>
-                  {countryCode==="BR"?({inmediata:"Imediata","campaña_próxima":"Próxima safra",a_convenir:"A combinar"} as Record<string,string>)[d.value]??d.label:d.label}
+                  {countryCode==="BR"?({inmediata:"Imediata","campaña_próxima":"Próxima safra",a_convenir:"A combinar"} as Record<string,string>)[d.value]??d.label:countryCode==="US"?regionalText(countryCode,d.label,d.label):d.label}
                 </option>
               ))}
             </select>
