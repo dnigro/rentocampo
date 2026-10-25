@@ -177,7 +177,7 @@ function NavbarContent() {
                 <button type="button" aria-label="Seleccionar país" aria-haspopup="listbox" aria-expanded={countryMenuOpen} disabled={!countrySelectReady} onClick={() => setCountryMenuOpen((open) => !open)} style={{ display: "flex", alignItems: "center", gap: 6, background: "#fff", color: "#111", border: 0, borderRadius: 20, padding: "9px 12px", fontWeight: 700, cursor: "pointer" }}>
                   {/* SVG flags render reliably on Windows, unlike emoji in native selects. */}
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={`https://flagcdn.com/24x18/${activeCountry.toLowerCase()}.png`} alt="" width={24} height={18} style={{ objectFit: "cover" }} />
+                  <img src={`/flags/${activeCountry.toLowerCase()}.svg`} alt="" width={24} height={18} style={{ objectFit: "cover" }} />
                   {activeCountry} <span aria-hidden="true">⌄</span>
                 </button>
                 {countryMenuOpen && (
@@ -187,7 +187,7 @@ function NavbarContent() {
                       {COUNTRY_CODES_ALPHABETICAL.map((code) => (
                         <button key={code} type="button" role="option" aria-selected={activeCountry === code} onClick={() => { setCountryMenuOpen(false); cambiarPais(code); }} style={{ display: "flex", alignItems: "center", gap: 10, width: "100%", padding: "9px 12px", background: activeCountry === code ? "#e5edf9" : "#fff", color: "#111", border: 0, textAlign: "left", cursor: "pointer", fontWeight: activeCountry === code ? 700 : 500 }}>
                           {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img src={`https://flagcdn.com/24x18/${code.toLowerCase()}.png`} alt="" width={24} height={18} style={{ objectFit: "cover" }} />
+                          <img src={`/flags/${code.toLowerCase()}.svg`} alt="" width={24} height={18} style={{ objectFit: "cover" }} />
                           {code} · {COUNTRIES[code].name}
                         </button>
                       ))}
