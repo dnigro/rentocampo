@@ -1,4 +1,5 @@
 import type { CountryCode } from "@/data/countries";
+import { enUSCopy } from "@/lib/i18n/enUS-copy";
 
 /** Common UI copy used by the legacy two-language components. */
 const enCommon: Record<string, string> = {
@@ -33,6 +34,6 @@ const enCommon: Record<string, string> = {
 /** Optional explicit English translation takes priority over the shared copy catalog. */
 export function regionalText(country: CountryCode, spanish: string, portuguese: string, english?: string): string {
   if (country === "BR") return portuguese;
-  if (country === "US") return english ?? enCommon[spanish] ?? spanish;
+  if (country === "US") return english ?? enUSCopy[spanish] ?? enCommon[spanish] ?? spanish;
   return spanish;
 }

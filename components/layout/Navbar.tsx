@@ -171,7 +171,7 @@ function NavbarContent() {
           {/* Acciones desktop */}
           <div className="navbar-actions navbar-desktop">
             <div className="navbar-country-switch" aria-label="Seleccionar país" style={{ background: "transparent", border: 0, padding: 0, gap: 8 }}>
-              <label htmlFor="navbar-pais-desktop" style={{ color: "#fff", fontSize: 12, fontWeight: 850, letterSpacing: ".05em", whiteSpace: "nowrap" }}>PAÍS</label>
+              <label htmlFor="navbar-pais-desktop" style={{ color: "#fff", fontSize: 12, fontWeight: 850, letterSpacing: ".05em", whiteSpace: "nowrap" }}>{regionalText(activeCountry, "PAÍS", "PAÍS")}</label>
               <select id="navbar-pais-desktop" aria-label="Seleccionar país" disabled={!countrySelectReady} value={activeCountry} onChange={(event) => cambiarPais(event.target.value as CountryCode)} style={{ background: "#fff", color: "#111", borderRadius: "20px", padding: "7px 9px", fontWeight: 700, cursor: "pointer", minWidth: 88 }}>
                 {COUNTRY_CODES_ALPHABETICAL.map((code) => <option key={code} value={code}>{COUNTRIES[code].flag} {code}</option>)}
               </select>

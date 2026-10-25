@@ -1,35 +1,40 @@
+"use client";
+import { regionalText } from "@/lib/i18n/regional";
+import { useRegionalCountry } from "@/lib/i18n/useRegionalCountry";
 
 export default function LandingIntelligence() {
+ const country = useRegionalCountry();
+ const t = (es: string, en: string) => country === "US" ? en : regionalText(country, es, es);
  return <section className="rci" aria-labelledby="rci-title">
   <div className="rci-grid">
    <div className="rci-intro">
-    <span className="rci-kicker">PRÓXIMAMENTE</span>
+    <span className="rci-kicker">{t("PRÓXIMAMENTE","COMING SOON")}</span>
     <h2 id="rci-title">RentoCampo</h2>
-    <p className="rci-lead">Información que transforma el valor del campo.</p>
+    <p className="rci-lead">{t("Información que transforma el valor del campo.","Insights that unlock the value of your farmland.")}</p>
     <div className="rci-benefits">
-     <p><span>▥</span><strong>Información para decidir</strong><small>Clima, suelo, territorio y demanda.</small></p>
-     <p><span>♧</span><strong>Decisiones más claras</strong><small>Para productores, propietarios y servicios rurales.</small></p>
-     <p><span>◎</span><strong>Más oportunidades</strong><small>En un solo lugar.</small></p>
+     <p><span>▥</span><strong>{t("Información para decidir","Information for better decisions")}</strong><small>{t("Clima, suelo, territorio y demanda.","Climate, soil, land, and demand.")}</small></p>
+     <p><span>♧</span><strong>{t("Decisiones más claras","Make informed decisions")}</strong><small>{t("Para productores, propietarios y servicios rurales.","For farmers, landowners, and rural service providers.")}</small></p>
+     <p><span>◎</span><strong>{t("Más oportunidades","More opportunities")}</strong><small>{t("En un solo lugar.","All in one place.")}</small></p>
     </div>
    </div>
    <article className="rci-card">
     <div className="rci-visual rci-weather">
      <div className="rci-background rci-background-agro" role="img" aria-label="Paisaje agrícola de cultivo en tonos grises"/>
     </div>
-    <div className="rci-card-body"><div className="rci-heading"><span className="rci-symbol">☁</span><div><h3>AgroClimate</h3><p>Datos históricos del clima y pronósticos por campo y zona, con alertas de heladas y precipitaciones, humedad y temperatura del suelo y ventanas de siembra y cosecha. Más información para planificar la producción.</p></div></div>
-     <span className="rci-coming">PRÓXIMAMENTE</span>
+    <div className="rci-card-body"><div className="rci-heading"><span className="rci-symbol">☁</span><div><h3>AgroClimate</h3><p>{t("Datos históricos del clima y pronósticos por campo y zona, con alertas de heladas y precipitaciones, humedad y temperatura del suelo y ventanas de siembra y cosecha. Más información para planificar la producción.","Historical weather and forecasts by farm and area, including frost and rainfall alerts, soil moisture and temperature, and planting and harvest windows.")}</p></div></div>
+     <span className="rci-coming">{t("PRÓXIMAMENTE","COMING SOON")}</span>
     </div>
    </article>
    <article className="rci-card">
     <div className="rci-visual rci-geo">
      <div className="rci-background rci-background-geo" role="img" aria-label="Vista aérea de parcelas agrícolas y caminos rurales en tonos grises"/>
     </div>
-    <div className="rci-card-body"><div className="rci-heading"><span className="rci-symbol">▱</span><div><h3>GeoMarket</h3><p>Mapas y planos para explorar campos y regiones, conocer suelos y aptitud productiva, identificar zonas de interés y evaluar accesos, infraestructura y servicios rurales cercanos.</p></div></div>
-     <span className="rci-coming">PRÓXIMAMENTE</span>
+    <div className="rci-card-body"><div className="rci-heading"><span className="rci-symbol">▱</span><div><h3>GeoMarket</h3><p>{t("Mapas y planos para explorar campos y regiones, conocer suelos y aptitud productiva, identificar zonas de interés y evaluar accesos, infraestructura y servicios rurales cercanos.","Maps to explore farmland and regions, understand soil and agricultural suitability, identify promising areas, and evaluate access, infrastructure, and nearby services.")}</p></div></div>
+     <span className="rci-coming">{t("PRÓXIMAMENTE","COMING SOON")}</span>
     </div>
    </article>
   </div>
-  <div className="rci-footer"><span>LA MISMA RED, MÁS HERRAMIENTAS PARA EL CAMPO.</span><span>TECNOLOGÍA AVANZADA. DECISIONES SIMPLES. →</span></div>
+  <div className="rci-footer"><span>{t("LA MISMA RED, MÁS HERRAMIENTAS PARA EL CAMPO.","ONE NETWORK. MORE TOOLS FOR AGRICULTURE.")}</span><span>{t("TECNOLOGÍA AVANZADA. DECISIONES SIMPLES. →","ADVANCED TECHNOLOGY. SIMPLER DECISIONS. →")}</span></div>
   <style>{`
   .rci{background:#111719;color:#f0f0ef;padding:26px clamp(18px,2.5vw,48px);font-family:inherit}
   .rci-grid{display:grid;grid-template-columns:.85fr 1fr 1fr;gap:20px;max-width:1700px;margin:auto}

@@ -89,9 +89,9 @@ export default async function CamposListing({ params, titulo, descripcion, soloA
     <div className="explorador-layout explorador-layout-results-first">
       <ListingHeader
         title={titulo ?? (hayFiltros ? tt("Resultados","Resultados") : tt("Campos disponibles","Terras disponíveis"))}
-        description={descripcion ?? tt(`Explorá campos para venta o alquiler en ${COUNTRIES[pais].name}. Contactá directamente a sus propietarios.`, `Explore terras para venda ou arrendamento no ${COUNTRIES[pais].name}. Fale diretamente com os proprietários.`)}
+        description={descripcion ?? (pais === "US" ? "Explore farmland for sale or rent in the United States. Connect directly with landowners." : tt(`Explorá campos para venta o alquiler en ${COUNTRIES[pais].name}. Contactá directamente a sus propietarios.`, `Explore terras para venda ou arrendamento no ${COUNTRIES[pais].name}. Fale diretamente com os proprietários.`))}
         eyebrow={tt("CAMPOS Y OPORTUNIDADES", "TERRAS E OPORTUNIDADES")}
-        count={pais==="BR"?`${count} terra${count!==1?"s":""} encontrada${count!==1?"s":""}`:`${count} campo${count !== 1 ? "s" : ""} encontrado${count !== 1 ? "s" : ""}`}
+        count={pais==="US"?`${count} listing${count === 1 ? "" : "s"} found`:pais==="BR"?`${count} terra${count!==1?"s":""} encontrada${count!==1?"s":""}`:`${count} campo${count !== 1 ? "s" : ""} encontrado${count !== 1 ? "s" : ""}`}
       />
 
       <ListingExplorerToolbar

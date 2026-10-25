@@ -48,6 +48,11 @@ export default function LandingComo() {
     ["Anuncie e converse online", "Apresente sua terra e converse diretamente pela plataforma."],
     ["Feche um acordo", "Negocie diretamente com o interessado."],
   ];
+  const stepsUS = [
+    ["Sign up for free", "Create your profile and choose how to participate."],
+    ["List and chat online", "Showcase your land and connect directly through the platform."],
+    ["Reach an agreement", "Discuss terms directly with interested farmers or service providers."],
+  ];
   return (
     <section className="rc-how rc-process" id="como-funciona">
       <div className="rc-shell">
@@ -66,8 +71,8 @@ export default function LandingComo() {
                 <span className="rc-process-num">{step.num}</span>
                 <span className="rc-process-icon">{step.icon}</span>
               </div>
-              <h3>{country === "BR" ? stepsBR[index][0] : step.title}</h3>
-              <p>{country === "BR" ? stepsBR[index][1] : step.description}</p>
+              <h3>{country === "BR" ? stepsBR[index][0] : country === "US" ? stepsUS[index][0] : step.title}</h3>
+              <p>{country === "BR" ? stepsBR[index][1] : country === "US" ? stepsUS[index][1] : step.description}</p>
             </article>
           ))}
         </div>
