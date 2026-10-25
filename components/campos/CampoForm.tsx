@@ -6,7 +6,7 @@ import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { FileText, Images, MapPinned, Sprout, WalletCards } from "lucide-react";
-import { COUNTRIES, COUNTRY_CODES_ALPHABETICAL, getCountrySubdivisions, type CountryCode } from "@/data/countries";
+import { displayCountryName, COUNTRIES, COUNTRY_CODES_ALPHABETICAL, getCountrySubdivisions, type CountryCode } from "@/data/countries";
 import type { CampoFormData, MonedaCampo } from "@/types";
 import { trackEvent } from "@/lib/analytics";
 import { regionalText } from "@/lib/i18n/regional";
@@ -355,7 +355,7 @@ export default function CampoForm({
             }}
             required
           >
-            {COUNTRY_CODES_ALPHABETICAL.map((code) => <option key={code} value={code}>{COUNTRIES[code].flag} {COUNTRIES[code].name}</option>)}
+            {COUNTRY_CODES_ALPHABETICAL.map((code) => <option key={code} value={code}>{COUNTRIES[code].flag} {displayCountryName(code, countryCode)}</option>)}
           </select>
         </div>
 
@@ -457,7 +457,7 @@ export default function CampoForm({
               name="hectareas"
               type="number"
               className="form-input"
-              placeholder="Ej: 240"
+              placeholder={tt("Ej: 240", "Ex.: 240")}
               value={form.hectareas || ""}
               onChange={handleChange}
               min={1}
@@ -501,7 +501,7 @@ export default function CampoForm({
               name="rendimiento_estimado"
               type="text"
               className="form-input"
-              placeholder="Ej: 35"
+              placeholder={tt("Ej: 35", "Ex.: 35")}
               value={form.rendimiento_estimado ?? ""}
               onChange={handleChange}
             />

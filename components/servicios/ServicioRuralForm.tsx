@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { COUNTRIES, COUNTRY_CODES_ALPHABETICAL, getCountrySubdivisions, resolveCountry, type CountryCode } from "@/data/countries";
+import { displayCountryName, COUNTRIES, COUNTRY_CODES_ALPHABETICAL, getCountrySubdivisions, resolveCountry, type CountryCode } from "@/data/countries";
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 import { FileText, Images, MapPinned } from "lucide-react";
@@ -246,7 +246,7 @@ export default function ServicioRuralForm({ profile, publicacion, initialCountry
           setProvincia(""); setLocalidad(""); setUbicacion(""); setZona("");
           setLatitud(undefined); setLongitud(undefined);
         }}>
-          {COUNTRY_CODES_ALPHABETICAL.map((code) => <option key={code} value={code}>{COUNTRIES[code].flag} {COUNTRIES[code].name}</option>)}
+          {COUNTRY_CODES_ALPHABETICAL.map((code) => <option key={code} value={code}>{COUNTRIES[code].flag} {displayCountryName(code, country)}</option>)}
         </select>
       </div>
       <div className="form-field">

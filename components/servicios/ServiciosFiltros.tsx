@@ -2,7 +2,7 @@
 
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
-import { COUNTRIES, COUNTRY_CODES_ALPHABETICAL, getCountrySubdivisions, type CountryCode } from "@/data/countries";
+import { displayCountryName, COUNTRIES, COUNTRY_CODES_ALPHABETICAL, getCountrySubdivisions, type CountryCode } from "@/data/countries";
 import { SERVICIOS_RURALES, servicioLabel } from "@/data/servicios-rurales";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 
@@ -55,7 +55,7 @@ export default function ServiciosFiltros({
         </div>
 
         <div className="listing-filters-grid">
-          <div className="filtro-grupo"><label className="filtro-label" htmlFor="servicios-pais">{t("filters.country")}</label><select id="servicios-pais" className="filtro-input" value={pais} onChange={(e) => { setPais(e.target.value as CountryCode); setProvincia(""); }}>{COUNTRY_CODES_ALPHABETICAL.map((code) => <option key={code} value={code}>{COUNTRIES[code].flag} {COUNTRIES[code].name}</option>)}</select></div>
+          <div className="filtro-grupo"><label className="filtro-label" htmlFor="servicios-pais">{t("filters.country")}</label><select id="servicios-pais" className="filtro-input" value={pais} onChange={(e) => { setPais(e.target.value as CountryCode); setProvincia(""); }}>{COUNTRY_CODES_ALPHABETICAL.map((code) => <option key={code} value={code}>{COUNTRIES[code].flag} {displayCountryName(code, pais)}</option>)}</select></div>
           <div className="filtro-grupo">
             <label className="filtro-label" htmlFor="servicios-provincia">
               {COUNTRIES[pais].subdivisionLabel}

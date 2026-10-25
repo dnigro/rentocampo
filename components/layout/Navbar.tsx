@@ -299,7 +299,7 @@ function NavbarContent() {
                     👤 {regionalText(activeCountry, "Mi cuenta", "Minha conta")}
                   </Link>
                   <Link href="/mensajes" className="mobile-menu-link">
-                    💬 Mensajes
+                    💬 {regionalText(activeCountry, "Mensajes", "Mensagens")}
                     {noLeidos > 0 && (
                       <span className="mobile-badge">{noLeidos}</span>
                     )}

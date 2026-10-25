@@ -171,6 +171,14 @@ export function getCountrySubdivisions(code: CountryCode): readonly string[] {
     default: return ["Buenos Aires", "CABA", "Catamarca", "Chaco", "Chubut", "Córdoba", "Corrientes", "Entre Ríos", "Formosa", "Jujuy", "La Pampa", "La Rioja", "Mendoza", "Misiones", "Neuquén", "Río Negro", "Salta", "San Juan", "San Luis", "Santa Cruz", "Santa Fe", "Santiago del Estero", "Tierra del Fuego", "Tucumán"];
   }
 }
+/** Localized display names for the country selector, independent of stored ISO codes. */
+export function displayCountryName(code: CountryCode, viewer: CountryCode): string {
+  if (viewer === "US") {
+    return new Intl.DisplayNames(["en-US"], { type: "region" }).of(code) ?? COUNTRIES[code].name;
+  }
+  return COUNTRIES[code].name;
+}
+
 export function isCountryCode(value: unknown): value is CountryCode {
   return typeof value === "string" && (COUNTRY_CODES as readonly string[]).includes(value);
 }
