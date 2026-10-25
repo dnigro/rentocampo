@@ -19,7 +19,6 @@ export default function LandingTriptychHero() {
  return <section className="rcHero26" id="hero" aria-labelledby="rcHero26-title">
   <div className="rcHero26__left">
    <h1 className="rcHero26__heading" id="rcHero26-title">
-    <span className="rcHero26__number">#1</span>
     <span className="rcHero26__chooseCountry">{t("SELECCIONÁ TU PAÍS","SELECIONE SEU PAÍS")}</span>
    </h1>
    <ol className="rcHero26__steps" aria-label={t("Cómo funciona RentoCampo","Como funciona a RentoCampo")}>

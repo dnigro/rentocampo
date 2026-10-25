@@ -103,15 +103,19 @@
 .rcHero26__chooseCountry{font-size:clamp(18px,1.85vw,27px);line-height:1.12;letter-spacing:-.045em;white-space:nowrap;max-width:100%}
 @media(max-width:900px){.rcHero26__chooseCountry{font-size:clamp(18px,5.2vw,28px)}}
 
-/* Cuatro beneficios rápidos debajo del selector de país, en una grilla compacta. */
-.rcHero26__steps{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px 9px;width:min(100%,390px);margin:0;padding:0;list-style:none;text-align:left}
-.rcHero26__steps li{display:flex;align-items:center;gap:5px;min-height:29px;padding:6px 7px;border:1px solid rgba(255,255,255,.25);border-radius:7px;background:rgba(0,0,0,.24);color:#f7f5f0;font-size:clamp(10px,1vw,12px);font-weight:800;line-height:1.2;letter-spacing:-.01em}
-.rcHero26__stepNumber{display:inline-flex;align-items:center;justify-content:center;flex:none;width:22px;height:22px;border:1px solid rgba(255,225,124,.8);border-radius:50%;color:var(--gold);background:rgba(255,225,124,.08);font-size:13px;font-weight:900;line-height:1}
-@media(min-width:901px){.rcHero26__steps{width:min(100%,405px);gap:9px 11px}.rcHero26__steps li{gap:8px;min-height:40px;padding:7px 9px;font-size:clamp(10px,.95vw,13px)}.rcHero26__stepNumber{width:26px;height:26px;font-size:15px}}
-@media(max-width:900px){.rcHero26__stepNumber{width:21px;height:21px;font-size:13px}}
-@media(max-width:360px){.rcHero26__stepNumber{width:19px;height:19px;font-size:12px}}
-@media(max-width:900px){.rcHero26__steps{gap:6px 8px;width:min(100%,365px)}.rcHero26__steps li{font-size:clamp(10px,2.6vw,12px);padding:6px 6px}}
-@media(max-width:360px){.rcHero26__steps li{gap:4px;padding:5px;font-size:10px}}
+
+/* Secuencia editorial 1 -> 2 -> 3 -> 4: flechas visibles en desktop, móvil y Brasil. */
+.rcHero26__steps{display:grid;grid-template-columns:minmax(0,1fr);gap:17px;width:min(100%,340px);margin:0;padding:0;list-style:none;text-align:left}
+.rcHero26__steps li{position:relative;display:flex;align-items:center;gap:10px;min-height:38px;padding:6px 12px;border:1px solid rgba(255,255,255,.27);border-radius:9px;background:rgba(0,0,0,.25);color:#f7f5f0;font-size:clamp(11px,1.05vw,14px);font-weight:800;line-height:1.2;letter-spacing:-.01em}
+.rcHero26__stepNumber{display:inline-flex;align-items:center;justify-content:center;flex:none;width:26px;height:26px;border:1px solid rgba(255,225,124,.85);border-radius:50%;color:var(--gold);background:rgba(255,225,124,.08);font-size:15px;font-weight:900;line-height:1}
+.rcHero26__steps li:not(:last-child):after{content:"↓";position:absolute;left:50%;bottom:-18px;transform:translateX(-50%);color:var(--gold);font-size:17px;font-weight:900;line-height:17px}
+@media(max-width:900px){
+ .rcHero26__steps{gap:16px;width:min(100%,340px)}
+ .rcHero26__steps li{min-height:36px;padding:6px 10px;font-size:clamp(11px,3vw,13px)}
+ .rcHero26__stepNumber{width:24px;height:24px;font-size:14px}
+ .rcHero26__steps li:not(:last-child):after{bottom:-17px}
+}
+@media(max-width:360px){.rcHero26__steps{gap:15px}.rcHero26__steps li{min-height:34px;padding:5px 9px;font-size:11px}.rcHero26__stepNumber{width:22px;height:22px;font-size:13px}.rcHero26__steps li:not(:last-child):after{bottom:-16px}}
 
 /* Cierre de portada: promesa + invitación, un solo renglón subrayado. */
 .rcHero26__freeLine{display:inline-flex;align-items:baseline;justify-content:center;gap:clamp(5px,.75vw,10px);max-width:100%;width:max-content;margin:0;padding:0 0 3px;border-bottom:3px solid var(--gold);color:var(--gold);white-space:nowrap;line-height:1.1}

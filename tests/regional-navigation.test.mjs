@@ -114,6 +114,10 @@ test('hero shows 100% GRATIS, SUMATE as one bold underlined line', () => {
   const lite=readFileSync(new URL('../app/lite/page.tsx', import.meta.url),'utf8');
   assert.equal(COUNTRY_CODES.length,18);
   assert.match(hero, /className="rcHero26__freeLine"/);
+  assert.ok(!hero.includes('rcHero26__number'));
+  assert.match(css, /rcHero26__steps li:not\(:last-child\):after/);
+  assert.ok(!lite.includes('#1 RED FEDERAL'));
+  assert.match(lite, /index<steps.length-1/);
   assert.match(hero, /t\("100% GRATIS,","100% GRÁTIS,"\)/);
   assert.match(hero, /t\("SUMATE","JUNTE-SE"\)/);
   assert.ok(!hero.includes('COUNTRY_CODES.slice('));
