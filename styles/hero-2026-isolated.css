@@ -98,3 +98,7 @@
  .rcHero26__panelCta{margin-inline:auto;transform:translateX(8px)}
 }
 .rcHero26__panel:focus-visible{outline:3px solid var(--gold);outline-offset:-4px}
+
+/* A single compact line reduces hero height without affecting the triptych. */
+.rcHero26__chooseCountry{font-size:clamp(18px,2.3vw,31px);line-height:1.12;letter-spacing:-.045em;white-space:nowrap}
+@media(max-width:900px){.rcHero26__chooseCountry{font-size:clamp(18px,5.2vw,28px)}}
