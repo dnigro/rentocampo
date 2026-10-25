@@ -29,7 +29,7 @@ export default function LandingTriptychHero() {
   </div>
   <div className="rcHero26__right" aria-label={t("Explorá RentoCampo","Explore a RentoCampo")}>
    {panels.map(p=><RegionalLink key={p.href} href={p.href} className="rcHero26__panel">
-    <Image src={p.image} alt="" fill priority={p.href==="/campos"} sizes="(max-width:900px) 33vw, 22vw" className="rcHero26__photo"/>
+    <Image src={p.image} alt="" fill priority={p.href==="/campos"} sizes="(max-width:520px) 100vw, (max-width:900px) 33vw, 22vw" className="rcHero26__photo"/>
     <span className="rcHero26__shade" aria-hidden="true"/>
     <span className="rcHero26__panelInner"><span className="rcHero26__panelTitle">{p.title}</span><span className="rcHero26__panelCta">{p.cta}</span></span>
    </RegionalLink>)}
