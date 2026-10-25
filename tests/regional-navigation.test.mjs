@@ -218,7 +218,7 @@ test('new-country green available field pins paint above yellow editorial pins',
  assert.match(source,/fillColor: "#f4c542"/);
  assert.match(source,/\[demandaLayer.current, camposLayer.current\]/);
  assert.match(source,/leafletMap\.fitBounds\(L\.latLngBounds/);
- assert.match(source,/fieldPoints\.length/);
+ assert.match(source,/visiblePoints\.length/);
 });
 
 test('a country change reloads the matching map after updating URL and cookie', () => {
