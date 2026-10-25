@@ -208,7 +208,7 @@ test("map displays new-country field markers and refreshes on country change", (
  const selector=read("components/listings/ListingCountrySelector.tsx");
  assert.match(map,/leafletMap\.setView\(\[\.\.\.country\.mapCenter\] as \[number, number\], country\.mapZoom/);
  assert.match(map,/leafletMap\.fitBounds\(L\.latLngBounds/);
- assert.match(map,/zonePoints\.length && fieldPoints\.length/);
+ assert.match(map,/visiblePoints = vista === "servicios" \? servicePoints : \[\.\.\.fieldPoints, \.\.\.zonePoints\]/);
  assert.match(map,/data-country=\{countryCode\}/);
  assert.match(page,/key=\{selectedCountry\}/);
  assert.match(nav,/router\.refresh\(\)/);
