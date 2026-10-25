@@ -108,13 +108,19 @@ test('LATAM preview fails closed without dedicated UAT credentials', () => {
 });
 
 // The homepage must be derived from the same ISO catalog as selectors and filters.
-test('hero shows SUMATE in gold instead of all country abbreviations', () => {
+test('hero shows 100% GRATIS, SUMATE as one bold underlined line', () => {
   const hero=readFileSync(new URL('../components/landing/LandingTriptychHero.tsx', import.meta.url),'utf8');
   const css=readFileSync(new URL('../styles/hero-2026-isolated.css', import.meta.url),'utf8');
+  const lite=readFileSync(new URL('../app/lite/page.tsx', import.meta.url),'utf8');
   assert.equal(COUNTRY_CODES.length,18);
-  assert.match(hero, /aria-label="Sumate a RentoCampo">SUMATE/);
+  assert.match(hero, /className="rcHero26__freeLine"/);
+  assert.match(hero, /t\("100% GRATIS,","100% GRÁTIS,"\)/);
+  assert.match(hero, /t\("SUMATE","JUNTE-SE"\)/);
   assert.ok(!hero.includes('COUNTRY_CODES.slice('));
-  assert.match(css, /\.rcHero26__countries\{color:var\(--gold\)/);
+  assert.match(css, /\.rcHero26__freeLine\{[^}]*border-bottom:3px solid var\(--gold\)/);
+  assert.match(css, /\.rcHero26__sumate\{font-size:clamp\(/);
+  assert.match(lite, /t\("100% GRATIS,", "100% GRÁTIS,"\)/);
+  assert.match(lite, /t\("SUMATE", "JUNTE-SE"\)/);
   assert.match(hero, /className="rcHero26__register"/);
 });
 
