@@ -168,7 +168,7 @@ export default function CampoMapa({
             fillOpacity: 0.95,
           })
             .addTo(demandaGroup)
-            .bindTooltip(`Zona productiva (no es un campo): ${demanda.zona}`)
+            .bindTooltip(`${tt("Zona productiva (no es un campo):", "Região produtiva (não é uma terra):")} ${demanda.zona}`)
             .on("click", () => {
               setSelectedCampo(null);
               setSelectedDemanda(demanda);
@@ -201,7 +201,7 @@ export default function CampoMapa({
             fillOpacity: 1,
           })
             .addTo(camposGroup)
-            .bindTooltip(esDemo ? "Campo de demostración" : "Campo disponible")
+            .bindTooltip(esDemo ? tt("Campo de demostración", "Terra de demonstração") : tt("Campo disponible", "Terra disponível"))
             .on("click", () => {
               setSelectedDemanda(null);
               setSelectedCampo(campo);
@@ -226,7 +226,7 @@ export default function CampoMapa({
           })
             .addTo(serviciosGroup)
             .bindTooltip(
-              `${prestador.nombre} · Servicios rurales${prestador.is_demo ? " · DEMO" : ""}`,
+              `${prestador.nombre} · ${tt("Servicios rurales", "Serviços rurais")}${prestador.is_demo ? " · DEMO" : ""}`,
             )
             .on("click", () => {
               setSelectedCampo(null);
@@ -254,8 +254,16 @@ export default function CampoMapa({
           return lat !== null && lng !== null && Math.abs(lat) <= 90 && Math.abs(lng) <= 180
             ? [L.latLng(lat, lng)] : [];
         });
-        if (zonePoints.length && fieldPoints.length) {
-          leafletMap.fitBounds(L.latLngBounds([...fieldPoints, ...zonePoints]), {
+        const servicePoints = prestadoresFiltrados.flatMap((prestador) => {
+          return Number.isFinite(prestador.latitud) && Number.isFinite(prestador.longitud)
+            ? [L.latLng(prestador.latitud as number, prestador.longitud as number)]
+            : [];
+        });
+        // Only fit visible pins: service mode must center its service DEMOs,
+        // whereas farmland mode includes real/sample fields and editorial zones.
+        const visiblePoints = vista === "servicios" ? servicePoints : [...fieldPoints, ...zonePoints];
+        if (visiblePoints.length > 0) {
+          leafletMap.fitBounds(L.latLngBounds(visiblePoints), {
             padding: [38, 38], maxZoom: country.mapZoom, animate: false,
           });
         } else {
@@ -496,7 +504,7 @@ export default function CampoMapa({
             ×
           </button>
           <p className="mapa-panel-aptitud mapa-panel-aptitud-demanda">
-            Zona productiva · referencia (no es un campo)
+            {tt("Zona productiva · referencia (no es un campo)", "Região produtiva · referência (não é uma terra)")}
           </p>
           <h3 className="mapa-panel-titulo">
             {tt("Región productiva de referencia:","Região produtiva de referência:")} {selectedDemanda.zona}

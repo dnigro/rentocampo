@@ -335,5 +335,9 @@ export const enUSCopy: Record<string, string> = {
   "Completá los datos de tu campo para que los productores puedan encontrarlo.": "Complete the details so farmers can find your land.",
   "Volver a los listados": "Back to listings",
   "Lista de campos": "Farmland listings",
-  "Lista de servicios": "Service listings"
+  "Lista de servicios": "Service listings",
+  "Campo de demostración": "Sample farmland (DEMO)",
+  "Campo disponible": "Available farmland",
+  "Zona productiva (no es un campo):": "Agricultural reference region (not a listing):",
+  "Zona productiva · referencia (no es un campo)": "AGRICULTURAL REFERENCE REGION · NOT A LISTING"
 };

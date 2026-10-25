@@ -329,3 +329,28 @@ test('United States English copy is shared by public landing, listings and publi
  assert.match(faq,/country === "BR" \|\| country === "US"/);
  assert.match(countries,/Intl\.DisplayNames\(\["en-US"\]/);
 });
+
+// US 19th-market demo content is explicit, geolocated and non-commercial.
+test('US demo markers: 4 editorial zones, 2 fixture fields, 2 whitelisted service IDs', async () => {
+  const { ZONAS_PRODUCTIVAS_US, ZONAS_PRODUCTIVAS_LATAM } = await import('../data/demanda-zonas.ts');
+  const { esServicioDemoVisible } = await import('../data/visible-demo-services.ts');
+  assert.equal(ZONAS_PRODUCTIVAS_US.length, 4);
+  assert.equal(ZONAS_PRODUCTIVAS_LATAM.filter(z => z.country_code === 'US').length, 4);
+  assert.deepEqual(new Set(ZONAS_PRODUCTIVAS_US.map(z => z.provincia)), new Set(['Iowa','Texas','California','Kansas']));
+  for (const zone of ZONAS_PRODUCTIVAS_US) {
+    assert.ok(Number.isFinite(zone.latitud) && zone.latitud >= 24 && zone.latitud <= 50);
+    assert.ok(Number.isFinite(zone.longitud) && zone.longitud <= -66 && zone.longitud >= -125);
+    assert.match(zone.descripcion,/not verified market demand/);
+  }
+  assert.equal(esServicioDemoVisible('10000000-0000-4000-8000-000000000301'), true);
+  assert.equal(esServicioDemoVisible('10000000-0000-4000-8000-000000000302'), true);
+  assert.equal(esServicioDemoVisible('10000000-0000-4000-8000-000000000999'), false);
+  const sql = readFileSync(new URL('../supabase/seeds/20261025_us19_demo_uat.sql',import.meta.url),'utf8');
+  assert.equal((sql.match(/20000000-0000-4000-8000-00000000030[12]/g)||[]).length >= 4, true);
+  assert.match(sql,/UAT ONLY/);
+  assert.match(sql,/ON CONFLICT \(id\) DO NOTHING/);
+  const map = readFileSync(new URL('../components/campos/CampoMapa.tsx',import.meta.url),'utf8');
+  assert.match(map,/visiblePoints = vista === "servicios" \? servicePoints : \[\.\.\.fieldPoints, \.\.\.zonePoints\]/);
+  assert.match(map,/leafletMap\.fitBounds\(L\.latLngBounds\(visiblePoints\)/);
+  assert.match(map,/tt\("Campo de demostración"/);
+});
