@@ -109,3 +109,17 @@
 .rcHero26__steps li:before{content:"✓";color:var(--gold);font-size:12px;font-weight:900;flex:none}
 @media(max-width:900px){.rcHero26__steps{gap:6px 8px;width:min(100%,365px)}.rcHero26__steps li{font-size:clamp(10px,2.6vw,12px);padding:6px 6px}}
 @media(max-width:360px){.rcHero26__steps li{gap:4px;padding:5px;font-size:10px}}
+
+/* Cierre de portada: promesa + invitación, un solo renglón subrayado. */
+.rcHero26__freeLine{display:inline-flex;align-items:baseline;justify-content:center;gap:clamp(5px,.75vw,10px);max-width:100%;width:max-content;margin:0;padding:0 0 3px;border-bottom:3px solid var(--gold);color:var(--gold);white-space:nowrap;line-height:1.1}
+.rcHero26__freeText{font-size:clamp(18px,2.15vw,31px);font-weight:900;letter-spacing:-.045em}
+.rcHero26__sumate{font-size:clamp(24px,2.9vw,42px);font-weight:900;letter-spacing:-.055em}
+@media(max-width:900px){
+ .rcHero26__freeText{font-size:clamp(18px,6.15vw,28px)}
+ .rcHero26__sumate{font-size:clamp(22px,7.45vw,35px)}
+ .rcHero26__freeLine{gap:clamp(4px,1.2vw,8px);border-bottom-width:2px}
+}
+@media(max-width:360px){
+ .rcHero26__freeText{font-size:clamp(17px,5.8vw,20px)}
+ .rcHero26__sumate{font-size:clamp(20px,7vw,25px)}
+}

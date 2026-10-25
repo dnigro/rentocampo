@@ -30,8 +30,7 @@ export default function LandingTriptychHero() {
      t("ACORDÁ LAS CONDICIONES","COMBINE AS CONDIÇÕES")
     ].map(step=><li key={step}>{step}</li>)}
    </ul>
-   <p className="rcHero26__free">{t("100% GRATIS.","100% GRÁTIS.")}</p>
-   <p className="rcHero26__countries" aria-label="Sumate a RentoCampo">SUMATE</p>
+   <p className="rcHero26__freeLine"><span className="rcHero26__freeText">{t("100% GRATIS,","100% GRÁTIS,")}</span><span className="rcHero26__sumate">{t("SUMATE","JUNTE-SE")}</span></p>
    <RegionalLink href="/register" className="rcHero26__register">{t("REGISTRATE →","CADASTRE-SE →")}</RegionalLink>
   </div>
   <div className="rcHero26__right" aria-label={t("Explorá RentoCampo","Explore a RentoCampo")}>
