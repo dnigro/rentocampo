@@ -305,5 +305,6 @@ export const enUSCopy: Record<string, string> = {
   "ELEGÍ TUS SERVICIOS": "CHOOSE YOUR SERVICES",
   "Subir fotos": "Upload photos",
   "Ingresar": "Sign in",
-  "Continuar": "Continue"
+  "Continuar": "Continue",
+  "Abrir reporte gerencial por país": "Open management report by country"
 };

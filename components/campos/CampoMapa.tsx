@@ -476,7 +476,7 @@ export default function CampoMapa({
             {selectedCampo.precio && (
               <span>
                 {selectedCampo.moneda}{" "}
-                {selectedCampo.precio.toLocaleString(COUNTRIES[selectedCampo.country_code ?? "AR"].locale)} total
+                {selectedCampo.precio.toLocaleString(COUNTRIES[selectedCampo.country_code ?? "AR"].locale)} {tt("total","total")}
               </span>
             )}
           </div>
