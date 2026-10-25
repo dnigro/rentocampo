@@ -12,6 +12,7 @@ interface Props {
 
 export default function DemandaZonasPanel({ country, provincia, authenticated, kind = "campo" }: Props) {
   const isBr = country === "BR";
+  const isUs = country === "US";
   const regiones = [...REGIONES_PRODUCTIVAS[country]].sort(
     (a, b) => Number(b.subdivision === provincia) - Number(a.subdivision === provincia),
   );
@@ -21,15 +22,15 @@ export default function DemandaZonasPanel({ country, provincia, authenticated, k
       <div className="rc-regions-showcase__head">
         <div>
           <p className="rc-regions-showcase__kicker">
-            {kind === "servicio" ? (isBr ? "SERVIÇOS RURAIS · REGIÕES PRODUTIVAS" : "SERVICIOS RURALES · REGIONES PRODUCTIVAS") : (isBr ? "REGIÕES PRODUTIVAS" : "REGIONES PRODUCTIVAS")} · {COUNTRIES[country].name.toUpperCase()}
+            {kind === "servicio" ? (isUs ? "RURAL SERVICES · PRODUCTIVE REGIONS" : isBr ? "SERVIÇOS RURAIS · REGIÕES PRODUTIVAS" : "SERVICIOS RURALES · REGIONES PRODUCTIVAS") : (isUs ? "PRODUCTIVE REGIONS" : isBr ? "REGIÕES PRODUTIVAS" : "REGIONES PRODUCTIVAS")} · {isUs ? "UNITED STATES" : COUNTRIES[country].name.toUpperCase()}
           </p>
           <h2 id="rc-regions-title">
-            {isBr ? "O CAMPO TEM MUITOS LUGARES. ENCONTRE O SEU." : "CADA REGIÓN TIENE SU OPORTUNIDAD."}
+            {isUs ? "EVERY REGION HAS AN OPPORTUNITY." : isBr ? "O CAMPO TEM MUITOS LUGARES. ENCONTRE O SEU." : "CADA REGIÓN TIENE SU OPORTUNIDAD."}
           </h2>
           <p className="rc-regions-showcase__description">
             {kind === "servicio"
-              ? (isBr ? "Apresente seus serviços rurais nas principais regiões produtivas." : "Mostrá tus servicios rurales en las zonas productivas de cada país.")
-              : (isBr ? "Do interior paulista ao Cerrado e ao Sul. Mostre sua terra na rede rural." : REGIONES_EDITORIALES_ES[country])}
+              ? (isUs ? "Showcase your rural services across productive regions." : isBr ? "Apresente seus serviços rurais nas principais regiões produtivas." : "Mostrá tus servicios rurales en las zonas productivas de cada país.")
+              : (isUs ? "Discover farming opportunities across the United States. Explore regions and connect with the rural community." : isBr ? "Do interior paulista ao Cerrado e ao Sul. Mostre sua terra na rede rural." : REGIONES_EDITORIALES_ES[country])}
           </p>
         </div>
         <span className="rc-regions-showcase__flag" aria-label={COUNTRIES[country].name}>
@@ -55,7 +56,7 @@ export default function DemandaZonasPanel({ country, provincia, authenticated, k
         ))}
       </div>
       <p className="rc-regions-showcase__disclaimer">
-        {isBr
+        {isUs ? "Illustrative agricultural regions. Not verified demand indicators or guaranteed transactions." : isBr
           ? "Regiões produtivas de referência. Não são indicadores de procura verificada ou negócios garantidos."
           : "Regiones productivas de referencia. No indican búsquedas verificadas ni operaciones garantizadas."}
       </p>

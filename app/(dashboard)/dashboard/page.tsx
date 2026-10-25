@@ -51,7 +51,7 @@ export default async function DashboardPage() {
 
       <div className="dashboard-cards">
         {canViewCommercialReport && (
-          <Link href="/gerencial" className="dash-card" aria-label="Abrir reporte gerencial por país">
+          <Link href="/gerencial" className="dash-card" aria-label={tt("Abrir reporte gerencial por país", "Abrir relatório gerencial por país")}>
             <span className="dash-card-icon">📊</span>
             <span className="dash-card-label">{tt("Reporte gerencial", "Relatório gerencial")}</span>
             <span className="dash-card-desc">{tt("Registros, campos y servicios reales por país", "Cadastros, terras e serviços reais por país")}</span>
@@ -73,12 +73,12 @@ export default async function DashboardPage() {
           <Link href="/mis-servicios-rurales" className="dash-card">
             <span className="dash-card-icon">⚙️</span>
             <span className="dash-card-label">{tt("Mis servicios rurales", "Meus serviços rurais")}</span>
-            <span className="dash-card-desc">Publicar y gestionar</span>
+            <span className="dash-card-desc">{tt("Publicar y gestionar", "Anunciar e gerenciar")}</span>
           </Link>
         )}
         <Link href="/favoritos" className="dash-card">
           <span className="dash-card-icon">❤️</span>
-          <span className="dash-card-label">Favoritos</span>
+          <span className="dash-card-label">{tt("Favoritos", "Favoritos")}</span>
           <span className="dash-card-desc">{tt("Campos guardados", "Terras salvas")}</span>
         </Link>
         <Link href="/mensajes" className="dash-card">

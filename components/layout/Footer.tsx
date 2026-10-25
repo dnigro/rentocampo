@@ -29,7 +29,7 @@ export default function Footer() {
               {t("Alquiler de campos", "Arrendamento rural")}
             </Link>
             <Link href="/campos/mapa" className="footer-link">
-              Ver mapa
+              {t("Ver mapa", "Ver mapa")}
             </Link>
             <RegionalLink href="/register?tipo=productor" fallbackCountry={country} className="footer-link">
               {t("Cómo alquilar", "Como arrendar")}

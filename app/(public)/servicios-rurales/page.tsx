@@ -44,7 +44,7 @@ type SearchParams = {
 export async function generateMetadata({ searchParams }: { searchParams: Promise<SearchParams> }): Promise<Metadata> {
   const params = await searchParams;
   const pais = resolveCountry(params.pais, (await cookies()).get("rentocampo_country")?.value);
-  const title = `${pais === "BR" ? "Serviços rurais" : "Servicios rurales"} en ${COUNTRIES[pais].name} | RentoCampo`.replace("Serviços rurais en", "Serviços rurais no");
+  const title = pais === "US" ? "Rural Services in the United States | RentoCampo" : `${pais === "BR" ? "Serviços rurais" : "Servicios rurales"} en ${COUNTRIES[pais].name} | RentoCampo`.replace("Serviços rurais en", "Serviços rurais no");
   // A single canonical for Argentina; other countries have explicit, stable URLs.
   // Faceted searches must not compete with the main landing in Google.
   const url = pais === "AR" ? `${SITE_URL}/servicios-rurales` : `${SITE_URL}/servicios-rurales?pais=${pais}`;
@@ -53,7 +53,7 @@ export async function generateMetadata({ searchParams }: { searchParams: Promise
   return {
     ...baseMetadata,
     title,
-    description: pais==="BR"?`Encontre serviços rurais no Brasil por categoria e região.`:`Encontrá servicios rurales en ${COUNTRIES[pais].name} por especialidad y zona.`,
+    description: pais==="US"?"Find rural contractors and service providers across the United States by specialty and state.":pais==="BR"?`Encontre serviços rurais no Brasil por categoria e região.`:`Encontrá servicios rurales en ${COUNTRIES[pais].name} por especialidad y zona.`,
     alternates: { canonical: url },
     robots: { index: !hasFilters && (pais === "AR" || hasExplicitCountry), follow: true },
     openGraph: { ...baseMetadata.openGraph, title, url, locale: COUNTRIES[pais].locale.replace("-", "_") },
@@ -202,10 +202,10 @@ export default async function ServiciosRuralesPage({
       <section className="explorador-layout explorador-layout-results-first" aria-labelledby="servicios-disponibles-titulo">
         <ListingHeader
           id="servicios-disponibles-titulo"
-          title={`${tt("Servicios rurales en", "Serviços rurais no")} ${COUNTRIES[pais].name}`}
-          description={tt(`Encontrá profesionales y servicios rurales en ${COUNTRIES[pais].name}. Contactalos directamente.`, `Encontre profissionais e serviços rurais no ${COUNTRIES[pais].name}. Entre em contato diretamente.`)}
+          title={`${tt("Servicios rurales en", "Serviços rurais no")} ${pais === "US" ? "United States" : COUNTRIES[pais].name}`}
+          description={pais === "US" ? "Find rural professionals and services throughout the United States. Contact providers directly." : tt(`Encontrá profesionales y servicios rurales en ${COUNTRIES[pais].name}. Contactalos directamente.`, `Encontre profissionais e serviços rurais no ${COUNTRIES[pais].name}. Entre em contato diretamente.`)}
           eyebrow={tt("SERVICIOS PARA PRODUCIR", "SERVIÇOS PARA PRODUZIR")}
-          count={pais==="BR"?`${prestadores.length} prestador${prestadores.length !== 1?"es":""} encontrado${prestadores.length!==1?"s":""}`:`${prestadores.length} prestador${prestadores.length !== 1 ? "es" : ""} encontrado${prestadores.length !== 1 ? "s" : ""}`}
+          count={pais==="US"?`${prestadores.length} provider${prestadores.length === 1 ? "" : "s"} found`:pais==="BR"?`${prestadores.length} prestador${prestadores.length !== 1?"es":""} encontrado${prestadores.length!==1?"s":""}`:`${prestadores.length} prestador${prestadores.length !== 1 ? "es" : ""} encontrado${prestadores.length !== 1 ? "s" : ""}`}
         />
 
         <ListingExplorerToolbar
@@ -326,8 +326,8 @@ export default async function ServiciosRuralesPage({
           {pasos.map(([numero, titulo, texto],index) => (
             <article key={numero}>
               <span>{numero}</span>
-              <h3>{pais==="BR"?["Busque por serviço","Encontre prestadores","Entre em contato"][index]:titulo}</h3>
-              <p>{pais==="BR"?["Escolha o serviço de que sua terra precisa.","Filtre por estado e encontre profissionais em sua região.","Converse diretamente pela RentoCampo, sem intermediários."][index]:texto}</p>
+              <h3>{pais==="US"?["Search by service","Find local providers","Connect directly"][index]:pais==="BR"?["Busque por serviço","Encontre prestadores","Entre em contato"][index]:titulo}</h3>
+              <p>{pais==="US"?["Choose the services your land or business needs.","Filter by state and discover rural professionals nearby.","Message providers directly on RentoCampo, without intermediaries."][index]:pais==="BR"?["Escolha o serviço de que sua terra precisa.","Filtre por estado e encontre profissionais em sua região.","Converse diretamente pela RentoCampo, sem intermediários."][index]:texto}</p>
             </article>
           ))}
         </div>
@@ -341,8 +341,8 @@ export default async function ServiciosRuralesPage({
         <div className="servicios-faq-list">
           {preguntas.map((item,index) => (
             <details key={item.pregunta}>
-              <summary>{pais==="BR"?["Buscar serviços rurais tem custo?","Que tipos de serviços posso encontrar?","Como anuncio os serviços que ofereço?"][index]:item.pregunta}</summary>
-              <p>{pais==="BR"?["Não. Cadastro, busca e contato com prestadores são gratuitos nesta etapa.","Encontre plantio, colheita, máquinas, transporte, cercas, veterinária, agronomia e outros serviços rurais.","Crie sua conta como prestador, escolha seus serviços e informe onde atende."][index]:item.respuesta}</p>
+              <summary>{pais==="US"?["Is searching for services free?","What services can I find?","How do I list my services?"][index]:pais==="BR"?["Buscar serviços rurais tem custo?","Que tipos de serviços posso encontrar?","Como anuncio os serviços que ofereço?"][index]:item.pregunta}</summary>
+              <p>{pais==="US"?["Yes. Registration, searching, and contacting providers are free during this stage.","Find planting, harvesting, equipment, transport, fencing, veterinary and other rural services.","Create an account as a provider, choose your services, and specify your service area."][index]:pais==="BR"?["Não. Cadastro, busca e contato com prestadores são gratuitos nesta etapa.","Encontre plantio, colheita, máquinas, transporte, cercas, veterinária, agronomia e outros serviços rurais.","Crie sua conta como prestador, escolha seus serviços e informe onde atende."][index]:item.respuesta}</p>
             </details>
           ))}
         </div>

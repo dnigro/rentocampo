@@ -5,7 +5,7 @@ import { LandPlot, Sprout, Wrench } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
-import { COUNTRIES, COUNTRY_CODES_ALPHABETICAL, type CountryCode } from "@/data/countries";
+import { displayCountryName, COUNTRIES, COUNTRY_CODES_ALPHABETICAL, type CountryCode } from "@/data/countries";
 import { trackEvent } from "@/lib/analytics";
 import { regionalText } from "@/lib/i18n/regional";
 import { translate } from "@/lib/i18n/messages";
@@ -239,7 +239,7 @@ export default function RegisterForm({ initialCountry: paisInicial, initialRole:
               onChange={handleChange}
               required
             >
-              {COUNTRY_CODES_ALPHABETICAL.map((code) => <option key={code} value={code}>{COUNTRIES[code].name}</option>)}
+              {COUNTRY_CODES_ALPHABETICAL.map((code) => <option key={code} value={code}>{COUNTRIES[code].flag} {displayCountryName(code, form.country_code)}</option>)}
             </select>
             <span className="form-hint">
               {tt("Usamos este dato para mostrarte campos, servicios y opciones de tu mercado.", "Usamos este dado para mostrar terras, serviços e opções do seu mercado.")}

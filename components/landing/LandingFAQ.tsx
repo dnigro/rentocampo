@@ -31,17 +31,22 @@ export default function LandingFAQ() {
     });
   };
 
-  if (country === "BR") {
-    const items = [
+  if (country === "BR" || country === "US") {
+    const items = country === "US" ? [
+      ["Is listing free?", "Yes. Registration, farmland and service listings, and direct messages are all free during this growth stage."],
+      ["Who can join?", "Landowners, farmers and rural service providers."],
+      ["Does RentoCampo negotiate on my behalf?", "No. Members negotiate rentals, sales and service agreements directly."],
+      ["How do people contact me?", "Interested members can send you a message through your listing."],
+    ] : [
       ["Anunciar tem custo?", "Nesta fase de expansão, anúncios de terras, serviços rurais, cadastro e contato são 100% gratuitos, sem limites comerciais de anúncios."],
       ["Quem pode se cadastrar?", "Proprietários de terras, produtores e prestadores de serviços rurais."],
       ["A RentoCampo participa da negociação?", "Não. Arrendamento, compra, venda e prestação de serviços são negociados diretamente entre os usuários."],
       ["Como entram em contato comigo?", "Interessados podem enviar mensagens pelo anúncio e você responde pela plataforma."],
     ];
     return <section className="rc-faq" id="preguntas"><div className="rc-shell rc-faq-grid">
-      <div className="rc-faq-promise"><p className="rc-kicker">Perguntas frequentes</p>
-        <h2 className="rc-faq-promise__desktop"><span>Anuncie, busque</span><span>e conecte-se</span><strong>100% grátis.</strong></h2>
-        <h2 className="rc-faq-promise__mobile"><span>Encontre respostas</span><span>às suas</span><strong>perguntas.</strong></h2></div>
+      <div className="rc-faq-promise"><p className="rc-kicker">{country === "US" ? "Frequently asked questions" : "Perguntas frequentes"}</p>
+        <h2 className="rc-faq-promise__desktop"><span>{country === "US" ? "List, explore" : "Anuncie, busque"}</span><span>{country === "US" ? "and connect" : "e conecte-se"}</span><strong>{country === "US" ? "100% free." : "100% grátis."}</strong></h2>
+        <h2 className="rc-faq-promise__mobile"><span>{country === "US" ? "Find answers" : "Encontre respostas"}</span><span>{country === "US" ? "to your" : "às suas"}</span><strong>{country === "US" ? "questions." : "perguntas."}</strong></h2></div>
       <div className="rc-faq-content" ref={faqRef}>
         {items.map(([question, answer], i) => <div className="rc-question" key={question}>
           <button type="button" aria-expanded={open === i} onClick={(event) => toggleFaq(i, event.currentTarget)}>

@@ -1,4 +1,4 @@
-const UAT_BRANCHES = ["feat/brasil-foundation-20261019", "feat/regional-ar-uy-py-20261014", "feat/regional-six-countries-20261015", "feat/latam18-mx-uat-20261023"];
+const UAT_BRANCHES = ["feat/brasil-foundation-20261019", "feat/regional-ar-uy-py-20261014", "feat/regional-six-countries-20261015", "feat/latam18-mx-uat-20261023", "feat/us19-flags-20261025"];
 const UAT_REF = "wibqszhvuvpjycheaxzi";
 const UAT_URL = `https://${UAT_REF}.supabase.co`;
 
@@ -24,7 +24,7 @@ export function enforceUatIsolation(env: Record<string, string | undefined>) {
   // Only a key provided under the Brazil preview's branch-scoped UAT witness
   // may be used. Inherited NEXT_PUBLIC_* values can come from production;
   // overwrite them instead of accepting whichever env entry wins precedence.
-  const brasilPreview = ["feat/brasil-foundation-20261019", "feat/latam18-mx-uat-20261023"].includes(env.VERCEL_GIT_COMMIT_REF ?? "");
+  const brasilPreview = ["feat/brasil-foundation-20261019", "feat/latam18-mx-uat-20261023", "feat/us19-flags-20261025"].includes(env.VERCEL_GIT_COMMIT_REF ?? "");
   if (brasilPreview && (
     !env.UAT_SUPABASE_PUBLISHABLE_KEY ||
     !env.UAT_SUPABASE_PUBLISHABLE_KEY.startsWith("sb_publishable_")

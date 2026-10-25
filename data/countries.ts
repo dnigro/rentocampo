@@ -1,8 +1,12 @@
 import { EXPANSION_COUNTRIES, EXPANSION_COUNTRY_CODES, EXPANSION_SUBDIVISIONS } from "./latam-expansion.ts";
-export const COUNTRY_CODES = ["AR", "UY", "PY", "CL", "BO", "PE", "BR", ...EXPANSION_COUNTRY_CODES] as const;
+export const COUNTRY_CODES = ["AR", "UY", "PY", "CL", "BO", "PE", "BR", ...EXPANSION_COUNTRY_CODES, "US"] as const;
 export type CountryCode = (typeof COUNTRY_CODES)[number];
 
 export const COUNTRIES = {
+  US: {
+    code: "US" as const, name: "Estados Unidos", flag: "🇺🇸", locale: "en-US", currency: "USD",
+    subdivisionLabel: "State", mapCenter: [39.5, -98.35] as [number, number], mapZoom: 4,
+  },
   BR: {
     code: "BR" as const,
     name: "Brasil", flag: "🇧🇷", locale: "pt-BR", currency: "BRL",
@@ -99,9 +103,65 @@ export const ESTADOS_BR = [
   "Roraima", "Santa Catarina", "São Paulo", "Sergipe", "Tocantins",
 ] as const;
 
+/** 50 states and Washington, D.C. (a separate federal district). */
+export const ESTADOS_US = [
+  "Alabama",
+  "Alaska",
+  "Arizona",
+  "Arkansas",
+  "California",
+  "Colorado",
+  "Connecticut",
+  "Delaware",
+  "Florida",
+  "Georgia",
+  "Hawaii",
+  "Idaho",
+  "Illinois",
+  "Indiana",
+  "Iowa",
+  "Kansas",
+  "Kentucky",
+  "Louisiana",
+  "Maine",
+  "Maryland",
+  "Massachusetts",
+  "Michigan",
+  "Minnesota",
+  "Mississippi",
+  "Missouri",
+  "Montana",
+  "Nebraska",
+  "Nevada",
+  "New Hampshire",
+  "New Jersey",
+  "New Mexico",
+  "New York",
+  "North Carolina",
+  "North Dakota",
+  "Ohio",
+  "Oklahoma",
+  "Oregon",
+  "Pennsylvania",
+  "Rhode Island",
+  "South Carolina",
+  "South Dakota",
+  "Tennessee",
+  "Texas",
+  "Utah",
+  "Vermont",
+  "Virginia",
+  "Washington",
+  "West Virginia",
+  "Wisconsin",
+  "Wyoming",
+  "Washington, D.C."
+] as const;
+
 export function getCountrySubdivisions(code: CountryCode): readonly string[] {
   if (code in EXPANSION_SUBDIVISIONS) return EXPANSION_SUBDIVISIONS[code as keyof typeof EXPANSION_SUBDIVISIONS];
   switch (code) {
+    case "US": return ESTADOS_US;
     case "BR": return ESTADOS_BR;
     case "UY": return DEPARTAMENTOS_UY;
     case "PY": return DEPARTAMENTOS_PY;
@@ -111,6 +171,14 @@ export function getCountrySubdivisions(code: CountryCode): readonly string[] {
     default: return ["Buenos Aires", "CABA", "Catamarca", "Chaco", "Chubut", "Córdoba", "Corrientes", "Entre Ríos", "Formosa", "Jujuy", "La Pampa", "La Rioja", "Mendoza", "Misiones", "Neuquén", "Río Negro", "Salta", "San Juan", "San Luis", "Santa Cruz", "Santa Fe", "Santiago del Estero", "Tierra del Fuego", "Tucumán"];
   }
 }
+/** Localized display names for the country selector, independent of stored ISO codes. */
+export function displayCountryName(code: CountryCode, viewer: CountryCode): string {
+  if (viewer === "US") {
+    return new Intl.DisplayNames(["en-US"], { type: "region" }).of(code) ?? COUNTRIES[code].name;
+  }
+  return COUNTRIES[code].name;
+}
+
 export function isCountryCode(value: unknown): value is CountryCode {
   return typeof value === "string" && (COUNTRY_CODES as readonly string[]).includes(value);
 }

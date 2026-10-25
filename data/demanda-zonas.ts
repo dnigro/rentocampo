@@ -1,4 +1,4 @@
-import { EXPANSION_COUNTRY_CODES, EXPANSION_REGIONS } from "@/data/latam-expansion";
+import { EXPANSION_COUNTRY_CODES, EXPANSION_REGIONS } from "./latam-expansion.ts";
 export interface DemandaZona {
   id: string;
   country_code?: string;
@@ -39,9 +39,28 @@ export const DEMANDA_DESTACADA_IDS = [
   "general-pico",
 ] as const;
 
+
+/** US launch: city-scale editorial examples, not verified search demand or a land offer. */
+export const ZONAS_PRODUCTIVAS_US: DemandaZona[] = [
+  { id: "us-des-moines", country_code: "US", zona: "Des Moines", provincia: "Iowa",
+    latitud: 41.5869, longitud: -93.6249,
+    descripcion: "Agricultural reference region for corn, soybeans and livestock. Editorial example; not verified market demand." },
+  { id: "us-amarillo", country_code: "US", zona: "Amarillo", provincia: "Texas",
+    latitud: 35.2220, longitud: -101.8313,
+    descripcion: "Agricultural reference region for cattle and grains. Editorial example; not verified market demand." },
+  { id: "us-fresno", country_code: "US", zona: "Fresno", provincia: "California",
+    latitud: 36.7378, longitud: -119.7871,
+    descripcion: "Agricultural reference region for irrigated crops and fruit. Editorial example; not verified market demand." },
+  { id: "us-wichita", country_code: "US", zona: "Wichita", provincia: "Kansas",
+    latitud: 37.6872, longitud: -97.3301,
+    descripcion: "Agricultural reference region for wheat, cattle and mixed farming. Editorial example; not verified market demand." },
+];
+
 /** Editorial reference locations, NOT commercial demand or verified searches. */
-export const ZONAS_PRODUCTIVAS_LATAM: DemandaZona[] = EXPANSION_COUNTRY_CODES.flatMap(code =>
+export const ZONAS_PRODUCTIVAS_LATAM: DemandaZona[] = [
+  ...EXPANSION_COUNTRY_CODES.flatMap(code =>
   EXPANSION_REGIONS[code].map(r => ({ id: code.toLowerCase() + "-" + r.zona.toLowerCase().replace(/[^a-z0-9]+/g,"-"), country_code: code,
     zona: r.zona, provincia: r.subdivision, latitud: r.latitud, longitud: r.longitud,
-    descripcion: r.actividad + ". Región productiva editorial; sin demanda comercial verificada." })),
-);
+    descripcion: r.actividad + ". Región productiva editorial; sin demanda comercial verificada." }))),
+  ...ZONAS_PRODUCTIVAS_US,
+];

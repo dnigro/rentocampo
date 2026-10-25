@@ -67,7 +67,7 @@ export default async function RootLayout({
 }) {
   const country = resolveCountry((await cookies()).get("rentocampo_country")?.value);
   return (
-    <html lang={country === "BR" ? "pt-BR" : "es"} className={`${dmSans.variable} ${bebasNeue.variable}`}>
+    <html lang={country === "BR" ? "pt-BR" : country === "US" ? "en-US" : "es"} className={`${dmSans.variable} ${bebasNeue.variable}`}>
       <head>
         <script
           type="application/ld+json"

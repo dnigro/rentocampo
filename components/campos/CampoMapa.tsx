@@ -3,7 +3,7 @@
 import { demoServiceRegisterHref } from "@/data/visible-demo-services";
 import { regionalPublicationHref, regionalPublicationLabel } from "@/lib/publicacion-regional";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { LayerGroup, Map as LeafletMap } from "leaflet";
 import Link from "next/link";
 import Image from "next/image";
@@ -81,7 +81,7 @@ export default function CampoMapa({
   );
   const [vista, setVista] = useState<"tierra" | "servicios">(initialVista);
   const countryCode = initialCountry;
-  const tt=(es:string,pt:string)=>regionalText(countryCode,es,pt);
+  const tt = useCallback((es: string, pt: string) => regionalText(countryCode, es, pt), [countryCode]);
   const [mostrarCampos, setMostrarCampos] = useState(true);
   const [mapError, setMapError] = useState(false);
   const [supabase] = useState(createClient);
@@ -168,7 +168,7 @@ export default function CampoMapa({
             fillOpacity: 0.95,
           })
             .addTo(demandaGroup)
-            .bindTooltip(`Zona productiva (no es un campo): ${demanda.zona}`)
+            .bindTooltip(`${tt("Zona productiva (no es un campo):", "Região produtiva (não é uma terra):")} ${demanda.zona}`)
             .on("click", () => {
               setSelectedCampo(null);
               setSelectedDemanda(demanda);
@@ -201,7 +201,7 @@ export default function CampoMapa({
             fillOpacity: 1,
           })
             .addTo(camposGroup)
-            .bindTooltip(esDemo ? "Campo de demostración" : "Campo disponible")
+            .bindTooltip(esDemo ? tt("Campo de demostración", "Terra de demonstração") : tt("Campo disponible", "Terra disponível"))
             .on("click", () => {
               setSelectedDemanda(null);
               setSelectedCampo(campo);
@@ -226,7 +226,7 @@ export default function CampoMapa({
           })
             .addTo(serviciosGroup)
             .bindTooltip(
-              `${prestador.nombre} · Servicios rurales${prestador.is_demo ? " · DEMO" : ""}`,
+              `${prestador.nombre} · ${tt("Servicios rurales", "Serviços rurais")}${prestador.is_demo ? " · DEMO" : ""}`,
             )
             .on("click", () => {
               setSelectedCampo(null);
@@ -254,8 +254,16 @@ export default function CampoMapa({
           return lat !== null && lng !== null && Math.abs(lat) <= 90 && Math.abs(lng) <= 180
             ? [L.latLng(lat, lng)] : [];
         });
-        if (zonePoints.length && fieldPoints.length) {
-          leafletMap.fitBounds(L.latLngBounds([...fieldPoints, ...zonePoints]), {
+        const servicePoints = prestadoresFiltrados.flatMap((prestador) => {
+          return Number.isFinite(prestador.latitud) && Number.isFinite(prestador.longitud)
+            ? [L.latLng(prestador.latitud as number, prestador.longitud as number)]
+            : [];
+        });
+        // Only fit visible pins: service mode must center its service DEMOs,
+        // whereas farmland mode includes real/sample fields and editorial zones.
+        const visiblePoints = vista === "servicios" ? servicePoints : [...fieldPoints, ...zonePoints];
+        if (visiblePoints.length > 0) {
+          leafletMap.fitBounds(L.latLngBounds(visiblePoints), {
             padding: [38, 38], maxZoom: country.mapZoom, animate: false,
           });
         } else {
@@ -275,7 +283,7 @@ export default function CampoMapa({
       demandaLayer.current = null;
       serviciosLayer.current = null;
     };
-  }, [camposConCoordenadas, countryCode, prestadoresFiltrados, vista]);
+  }, [camposConCoordenadas, countryCode, prestadoresFiltrados, vista, tt]);
 
   useEffect(() => {
     const leafletMap = map.current;
@@ -453,7 +461,7 @@ export default function CampoMapa({
           <div className="mapa-campo-tags">
             <span className="mapa-panel-aptitud">
               {(selectedCampo.id.startsWith("20000000-") || selectedCampo.titulo.toUpperCase().includes("DEMO")) ? tt("PUBLICACIÓN DEMO · ","ANÚNCIO DEMO · ") : ""}
-              {countryCode==="BR"?({agricola:"Agrícola",ganadera:"Pecuária",mixta:"Mista",forestal:"Florestal",otro:"Outro"} as Record<string,string>)[selectedCampo.aptitud]??selectedCampo.aptitud:APTITUD_LABEL[selectedCampo.aptitud]??selectedCampo.aptitud}
+              {countryCode==="BR"?({agricola:"Agrícola",ganadera:"Pecuária",mixta:"Mista",forestal:"Florestal",otro:"Outro"} as Record<string,string>)[selectedCampo.aptitud]??selectedCampo.aptitud:countryCode==="US"?regionalText(countryCode,APTITUD_LABEL[selectedCampo.aptitud]??selectedCampo.aptitud,APTITUD_LABEL[selectedCampo.aptitud]??selectedCampo.aptitud):APTITUD_LABEL[selectedCampo.aptitud]??selectedCampo.aptitud}
             </span>
             {selectedCampo.operacion && (
               <span className="operacion-tag">
@@ -476,7 +484,7 @@ export default function CampoMapa({
             {selectedCampo.precio && (
               <span>
                 {selectedCampo.moneda}{" "}
-                {selectedCampo.precio.toLocaleString(COUNTRIES[selectedCampo.country_code ?? "AR"].locale)} total
+                {selectedCampo.precio.toLocaleString(COUNTRIES[selectedCampo.country_code ?? "AR"].locale)} {tt("total","total")}
               </span>
             )}
           </div>
@@ -496,7 +504,7 @@ export default function CampoMapa({
             ×
           </button>
           <p className="mapa-panel-aptitud mapa-panel-aptitud-demanda">
-            Zona productiva · referencia (no es un campo)
+            {tt("Zona productiva · referencia (no es un campo)", "Região produtiva · referência (não é uma terra)")}
           </p>
           <h3 className="mapa-panel-titulo">
             {tt("Región productiva de referencia:","Região produtiva de referência:")} {selectedDemanda.zona}

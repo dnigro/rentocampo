@@ -26,6 +26,10 @@ export function regionalPublicationHref(request: RegionalPublicationRequest): st
 }
 
 export function regionalPublicationLabel(request: Pick<RegionalPublicationRequest,"country"|"kind"|"authenticated">): string {
+  if (request.country === "US") {
+    if (!request.authenticated) return "SIGN IN TO POST";
+    return request.kind === "servicio" ? "POST MY SERVICES" : "LIST MY FARMLAND";
+  }
   if (!request.authenticated) return request.country === "BR" ? "ENTRAR PARA ANUNCIAR" : "INICIAR SESIÓN PARA PUBLICAR";
   if (request.kind === "servicio") return request.country === "BR" ? "ANUNCIAR MEUS SERVIÇOS" : "PUBLICAR MIS SERVICIOS";
   return request.country === "BR" ? "ANUNCIAR MINHA TERRA" : "PUBLICAR MI CAMPO";

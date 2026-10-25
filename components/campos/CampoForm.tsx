@@ -6,7 +6,7 @@ import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { FileText, Images, MapPinned, Sprout, WalletCards } from "lucide-react";
-import { COUNTRIES, COUNTRY_CODES_ALPHABETICAL, getCountrySubdivisions, type CountryCode } from "@/data/countries";
+import { displayCountryName, COUNTRIES, COUNTRY_CODES_ALPHABETICAL, getCountrySubdivisions, type CountryCode } from "@/data/countries";
 import type { CampoFormData, MonedaCampo } from "@/types";
 import { trackEvent } from "@/lib/analytics";
 import { regionalText } from "@/lib/i18n/regional";
@@ -355,7 +355,7 @@ export default function CampoForm({
             }}
             required
           >
-            {COUNTRY_CODES_ALPHABETICAL.map((code) => <option key={code} value={code}>{COUNTRIES[code].name}</option>)}
+            {COUNTRY_CODES_ALPHABETICAL.map((code) => <option key={code} value={code}>{COUNTRIES[code].flag} {displayCountryName(code, countryCode)}</option>)}
           </select>
         </div>
 
@@ -457,7 +457,7 @@ export default function CampoForm({
               name="hectareas"
               type="number"
               className="form-input"
-              placeholder="Ej: 240"
+              placeholder={tt("Ej: 240", "Ex.: 240")}
               value={form.hectareas || ""}
               onChange={handleChange}
               min={1}
@@ -476,7 +476,7 @@ export default function CampoForm({
             >
               {APTITUDES.map((a) => (
                 <option key={a.value} value={a.value}>
-                  {countryCode==="BR"?({agricola:"Agrícola",ganadera:"Pecuária",mixta:"Mista",forestal:"Florestal",otro:"Outro"} as Record<string,string>)[a.value]??a.label:a.label}
+                  {countryCode==="BR"?({agricola:"Agrícola",ganadera:"Pecuária",mixta:"Mista",forestal:"Florestal",otro:"Outro"} as Record<string,string>)[a.value]??a.label:countryCode==="US"?regionalText(countryCode,a.label,a.label):a.label}
                 </option>
               ))}
             </select>
@@ -501,7 +501,7 @@ export default function CampoForm({
               name="rendimiento_estimado"
               type="text"
               className="form-input"
-              placeholder="Ej: 35"
+              placeholder={tt("Ej: 35", "Ex.: 35")}
               value={form.rendimiento_estimado ?? ""}
               onChange={handleChange}
             />
@@ -580,7 +580,7 @@ export default function CampoForm({
                 name="precio"
                 type="number"
                 className="form-input input-after-prefix"
-                placeholder="Ej: 320"
+                placeholder={tt("Ej: 320","Ex.: 320")}
                 value={form.precio ?? ""}
                 onChange={handleChange}
                 min={0}
@@ -597,7 +597,7 @@ export default function CampoForm({
             >
               {DISPONIBILIDADES.map((d) => (
                 <option key={d.value} value={d.value}>
-                  {countryCode==="BR"?({inmediata:"Imediata","campaña_próxima":"Próxima safra",a_convenir:"A combinar"} as Record<string,string>)[d.value]??d.label:d.label}
+                  {countryCode==="BR"?({inmediata:"Imediata","campaña_próxima":"Próxima safra",a_convenir:"A combinar"} as Record<string,string>)[d.value]??d.label:countryCode==="US"?regionalText(countryCode,d.label,d.label):d.label}
                 </option>
               ))}
             </select>

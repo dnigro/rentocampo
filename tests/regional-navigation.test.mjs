@@ -112,7 +112,7 @@ test('hero shows 100% GRATIS, SUMATE as one bold underlined line', () => {
   const hero=readFileSync(new URL('../components/landing/LandingTriptychHero.tsx', import.meta.url),'utf8');
   const css=readFileSync(new URL('../styles/hero-2026-isolated.css', import.meta.url),'utf8');
   const lite=readFileSync(new URL('../app/lite/page.tsx', import.meta.url),'utf8');
-  assert.equal(COUNTRY_CODES.length,18);
+  assert.equal(COUNTRY_CODES.length,19);
   assert.match(hero, /className="rcHero26__freeLine"/);
   assert.ok(!hero.includes('rcHero26__number'));
   assert.match(hero, /UNIMOS EL CAMPO/);
@@ -195,21 +195,21 @@ test('V2 original image composition is fully visible and footer is legible', () 
  assert.ok(!v2.includes('aspect-ratio:2.85 / 1'));
 });
 
-test('country selector shows 18 unique markets in Spanish alphabetical order', () => {
+test('country selector shows 19 unique markets in Spanish alphabetical order', () => {
  const names=COUNTRY_CODES_ALPHABETICAL.map(code => COUNTRIES[code].name);
- assert.equal(names.length,18);
- assert.equal(new Set(names).size,18);
+ assert.equal(names.length,19);
+ assert.equal(new Set(names).size,19);
  assert.deepEqual(names,[...names].sort((a,b)=>a.localeCompare(b,"es",{sensitivity:"base"})));
  assert.equal(names[0],"Argentina");
  assert.equal(names.at(-1),"Venezuela");
  const nav=readFileSync(new URL('../components/layout/Navbar.tsx',import.meta.url),'utf8');
  assert.equal((nav.match(/COUNTRY_CODES_ALPHABETICAL\.map\(/g)||[]).length,2);
- assert.ok(!nav.includes('{COUNTRIES[code].flag} {code}'));
+ assert.ok(nav.includes('{COUNTRIES[code].flag} {code}'));
  assert.match(nav,/selectRegionalCountry\(country\);\s*window\.location\.reload\(\)/);
  assert.match(nav,/htmlFor="navbar-pais-desktop"/);
  assert.match(nav,/htmlFor="navbar-pais-mobile"/);
- assert.equal((nav.match(/>PAÍS<\/label>/g)||[]).length,2);
- assert.equal((nav.match(/\{code\}<\/option>/g)||[]).length,2);
+ assert.equal((nav.match(/regionalText\(activeCountry, "PAÍS", "PAÍS"\)/g)||[]).length,2);
+ assert.equal((nav.match(/\{COUNTRIES\[code\]\.flag\} \{code\}<\/option>/g)||[]).length,2);
 });
 test('new-country green available field pins paint above yellow editorial pins', () => {
  const source=readFileSync(new URL('../components/campos/CampoMapa.tsx',import.meta.url),'utf8');
@@ -218,7 +218,7 @@ test('new-country green available field pins paint above yellow editorial pins',
  assert.match(source,/fillColor: "#f4c542"/);
  assert.match(source,/\[demandaLayer.current, camposLayer.current\]/);
  assert.match(source,/leafletMap\.fitBounds\(L\.latLngBounds/);
- assert.match(source,/fieldPoints\.length/);
+ assert.match(source,/visiblePoints\.length/);
 });
 
 test('a country change reloads the matching map after updating URL and cookie', () => {
@@ -236,7 +236,7 @@ test('a country change reloads the matching map after updating URL and cookie', 
 });
 
 
-test('single regional publication CTA contract covers all 18 countries, service and field, anonymous and logged', async () => {
+test('single regional publication CTA contract covers all 19 countries, service and field, anonymous and logged', async () => {
  const { regionalPublicationHref, regionalPublicationLabel } = await import('../lib/publicacion-regional.ts');
  const { demoServiceRegisterHref } = await import('../data/visible-demo-services.ts');
  for (const country of COUNTRY_CODES) for (const kind of ['campo','servicio']) {
@@ -246,8 +246,8 @@ test('single regional publication CTA contract covers all 18 countries, service 
    assert.equal(new URLSearchParams(logged.split('?')[1]).get('pais'),country);
    assert.equal(new URLSearchParams(logged.split('?')[1]).get('zona'),'Río Cuarto');
    assert.equal(new URLSearchParams(anonymous.split('?')[1]).get('next'),logged);
-   assert.ok(regionalPublicationLabel({country,kind,authenticated:true}).includes(country==='BR'?'ANUNCIAR':'PUBLICAR'));
-   assert.ok(regionalPublicationLabel({country,kind,authenticated:false}).includes(country==='BR'?'ENTRAR':'INICIAR SESIÓN'));
+   assert.ok(regionalPublicationLabel({country,kind,authenticated:true}).includes(country==='BR'?'ANUNCIAR':country==='US'?'POST':'PUBLICAR') || (country==='US' && kind==='campo' && regionalPublicationLabel({country,kind,authenticated:true}).includes('LIST')));
+   assert.ok(regionalPublicationLabel({country,kind,authenticated:false}).includes(country==='BR'?'ENTRAR':country==='US'?'SIGN IN':'INICIAR SESIÓN'));
  }
  assert.equal(demoServiceRegisterHref('CO'),'/login?next='+encodeURIComponent('/mis-servicios-rurales/nuevo?pais=CO'));
  assert.equal(demoServiceRegisterHref('CO',true),'/mis-servicios-rurales/nuevo?pais=CO');
@@ -277,4 +277,80 @@ test('publish screens honor country and the selected regional zone after sign-in
  assert.match(campo,/Zona de referencia:/);
  assert.match(servicio,/initialZona=\{search.zona\}/);
  assert.match(serviceForm,/initialZona \?\? profile\?\.zona_servicio/);
+});
+
+
+test('United States: 19th market, 50 states plus Washington DC, map and USD', () => {
+ assert.equal(COUNTRY_CODES.length,19);
+ assert.equal(isCountryCode('US'),true);
+ assert.equal(resolveCountry('US','AR'),'US');
+ const states=getCountrySubdivisions('US');
+ assert.equal(states.length,51);
+ assert.equal(new Set(states).size,51);
+ for(const place of ['Iowa','Texas','California','Kansas','New York','Washington, D.C.']) assert.ok(states.includes(place));
+ assert.equal(COUNTRIES.US.flag,'🇺🇸');
+ assert.equal(COUNTRIES.US.locale,'en-US');
+ assert.equal(COUNTRIES.US.currency,'USD');
+ assert.equal(COUNTRIES.US.subdivisionLabel,'State');
+ assert.equal(COUNTRIES.US.mapCenter.length,2);
+ const filters=campoFilterParams({pais:'US',provincia:'Texas',operacion:'alquiler'});
+ assert.equal(filters.get('pais'),'US');
+ assert.equal(filters.get('provincia'),'Texas');
+});
+test('every country has a visible emoji flag next to its ISO code in web and Lite',()=>{
+ const nav=readFileSync(new URL('../components/layout/Navbar.tsx',import.meta.url),'utf8');
+ const lite=readFileSync(new URL('../components/lite/LiteHeader.tsx',import.meta.url),'utf8');
+ assert.equal((nav.match(/\{COUNTRIES\[code\]\.flag\} \{code\}<\/option>/g)||[]).length,2);
+ assert.match(lite,/\{COUNTRIES\[code\]\.flag\} \{code\}<\/option>/);
+ for(const code of COUNTRY_CODES) assert.ok(COUNTRIES[code].flag.length>=2,code);
+});
+test('US preview fails closed rather than inheriting production credentials',()=>{
+ assert.throws(()=>enforceUatIsolation({VERCEL_ENV:'preview',VERCEL_GIT_COMMIT_REF:'feat/us19-flags-20261025',NEXT_PUBLIC_SUPABASE_URL:'https://production.invalid'}),/UAT isolation/);
+ const env={VERCEL_ENV:'preview',VERCEL_GIT_COMMIT_REF:'feat/us19-flags-20261025',NEXT_PUBLIC_SUPABASE_URL:'https://production.invalid',UAT_SUPABASE_PUBLISHABLE_KEY:'sb_publishable_uat_fixture'};
+ enforceUatIsolation(env);
+ assert.equal(env.NEXT_PUBLIC_SUPABASE_URL,'https://wibqszhvuvpjycheaxzi.supabase.co');
+ assert.equal(env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY,'sb_publishable_uat_fixture');
+});
+
+// Guard against regression to partial Spanish copy when the United States is selected.
+test('United States English copy is shared by public landing, listings and publication forms', () => {
+ const copy = readFileSync(new URL('../lib/i18n/enUS-copy.ts',import.meta.url),'utf8');
+ const regional = readFileSync(new URL('../lib/i18n/regional.ts',import.meta.url),'utf8');
+ const listing = readFileSync(new URL('../app/(public)/servicios-rurales/page.tsx',import.meta.url),'utf8');
+ const forms = readFileSync(new URL('../components/campos/CampoForm.tsx',import.meta.url),'utf8');
+ const faq = readFileSync(new URL('../components/landing/LandingFAQ.tsx',import.meta.url),'utf8');
+ const countries = readFileSync(new URL('../data/countries.ts',import.meta.url),'utf8');
+ for (const sentence of ['PRODUCTIVE LAND ACROSS THE REGION','No service providers match these filters.','VIEW MAP','Select country']) {
+  assert.ok(copy.includes(sentence),sentence);
+ }
+ assert.match(regional,/enUSCopy\[spanish\]/);
+ assert.match(listing,/pais === "US" \? "Rural Services in the United States/);
+ assert.match(forms,/countryCode==="US"\?regionalText\(countryCode,a\.label,a\.label\)/);
+ assert.match(faq,/country === "BR" \|\| country === "US"/);
+ assert.match(countries,/Intl\.DisplayNames\(\["en-US"\]/);
+});
+
+// US 19th-market demo content is explicit, geolocated and non-commercial.
+test('US demo markers: 4 editorial zones, 2 fixture fields, 2 whitelisted service IDs', async () => {
+  const { ZONAS_PRODUCTIVAS_US, ZONAS_PRODUCTIVAS_LATAM } = await import('../data/demanda-zonas.ts');
+  const { esServicioDemoVisible } = await import('../data/visible-demo-services.ts');
+  assert.equal(ZONAS_PRODUCTIVAS_US.length, 4);
+  assert.equal(ZONAS_PRODUCTIVAS_LATAM.filter(z => z.country_code === 'US').length, 4);
+  assert.deepEqual(new Set(ZONAS_PRODUCTIVAS_US.map(z => z.provincia)), new Set(['Iowa','Texas','California','Kansas']));
+  for (const zone of ZONAS_PRODUCTIVAS_US) {
+    assert.ok(Number.isFinite(zone.latitud) && zone.latitud >= 24 && zone.latitud <= 50);
+    assert.ok(Number.isFinite(zone.longitud) && zone.longitud <= -66 && zone.longitud >= -125);
+    assert.match(zone.descripcion,/not verified market demand/);
+  }
+  assert.equal(esServicioDemoVisible('10000000-0000-4000-8000-000000000301'), true);
+  assert.equal(esServicioDemoVisible('10000000-0000-4000-8000-000000000302'), true);
+  assert.equal(esServicioDemoVisible('10000000-0000-4000-8000-000000000999'), false);
+  const sql = readFileSync(new URL('../supabase/seeds/20261025_us19_demo_uat.sql',import.meta.url),'utf8');
+  assert.equal((sql.match(/20000000-0000-4000-8000-00000000030[12]/g)||[]).length >= 4, true);
+  assert.match(sql,/UAT ONLY/);
+  assert.match(sql,/ON CONFLICT \(id\) DO NOTHING/);
+  const map = readFileSync(new URL('../components/campos/CampoMapa.tsx',import.meta.url),'utf8');
+  assert.match(map,/visiblePoints = vista === "servicios" \? servicePoints : \[\.\.\.fieldPoints, \.\.\.zonePoints\]/);
+  assert.match(map,/leafletMap\.fitBounds\(L\.latLngBounds\(visiblePoints\)/);
+  assert.match(map,/tt\("Campo de demostración"/);
 });

@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { useState, useRef } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { type Profile, type RolPerfil, type ServicioRural } from "@/types";
-import { COUNTRIES, COUNTRY_CODES_ALPHABETICAL, getCountrySubdivisions, type CountryCode } from "@/data/countries";
+import { displayCountryName, COUNTRIES, COUNTRY_CODES_ALPHABETICAL, getCountrySubdivisions, type CountryCode } from "@/data/countries";
 import { SERVICIOS_RURALES, servicioLabel } from "@/data/servicios-rurales";
 import { regionalText } from "@/lib/i18n/regional";
 
@@ -349,7 +349,7 @@ export default function PerfilForm({ profile, email }: Props) {
               }))
             }
           >
-            {COUNTRY_CODES_ALPHABETICAL.map((code) => <option key={code} value={code}>{COUNTRIES[code].name}</option>)}
+            {COUNTRY_CODES_ALPHABETICAL.map((code) => <option key={code} value={code}>{COUNTRIES[code].flag} {displayCountryName(code, form.country_code)}</option>)}
           </select>
           <span className="form-hint">
             {tt("Define tu mercado principal y adapta campos, servicios y ubicaciones.","Defina seu mercado principal para adaptar terras, serviços e localizações.")}
