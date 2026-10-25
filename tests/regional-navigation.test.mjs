@@ -115,9 +115,12 @@ test('hero shows 100% GRATIS, SUMATE as one bold underlined line', () => {
   assert.equal(COUNTRY_CODES.length,18);
   assert.match(hero, /className="rcHero26__freeLine"/);
   assert.ok(!hero.includes('rcHero26__number'));
-  assert.match(css, /rcHero26__steps li:not\(:last-child\):after/);
+  assert.match(hero, /UNIMOS EL CAMPO/);
+  assert.match(hero, /UNIMOS O CAMPO/);
+  assert.ok(!hero.includes('rcHero26__steps'));
   assert.ok(!lite.includes('#1 RED FEDERAL'));
-  assert.match(lite, /index<steps.length-1/);
+  assert.match(lite, /UNIMOS EL CAMPO/);
+  assert.ok(!lite.includes('index<steps.length-1'));
   assert.match(hero, /t\("100% GRATIS,","100% GRÁTIS,"\)/);
   assert.match(hero, /t\("SUMATE","JUNTE-SE"\)/);
   assert.ok(!hero.includes('COUNTRY_CODES.slice('));

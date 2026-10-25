@@ -104,19 +104,6 @@
 @media(max-width:900px){.rcHero26__chooseCountry{font-size:clamp(18px,5.2vw,28px)}}
 
 
-/* Secuencia editorial 1 -> 2 -> 3 -> 4: flechas visibles en desktop, móvil y Brasil. */
-.rcHero26__steps{display:grid;grid-template-columns:minmax(0,1fr);gap:17px;width:min(100%,340px);margin:0;padding:0;list-style:none;text-align:left}
-.rcHero26__steps li{position:relative;display:flex;align-items:center;gap:10px;min-height:38px;padding:6px 12px;border:1px solid rgba(255,255,255,.27);border-radius:9px;background:rgba(0,0,0,.25);color:#f7f5f0;font-size:clamp(11px,1.05vw,14px);font-weight:800;line-height:1.2;letter-spacing:-.01em}
-.rcHero26__stepNumber{display:inline-flex;align-items:center;justify-content:center;flex:none;width:26px;height:26px;border:1px solid rgba(255,225,124,.85);border-radius:50%;color:var(--gold);background:rgba(255,225,124,.08);font-size:15px;font-weight:900;line-height:1}
-.rcHero26__steps li:not(:last-child):after{content:"↓";position:absolute;left:50%;bottom:-18px;transform:translateX(-50%);color:var(--gold);font-size:17px;font-weight:900;line-height:17px}
-@media(max-width:900px){
- .rcHero26__steps{gap:16px;width:min(100%,340px)}
- .rcHero26__steps li{min-height:36px;padding:6px 10px;font-size:clamp(11px,3vw,13px)}
- .rcHero26__stepNumber{width:24px;height:24px;font-size:14px}
- .rcHero26__steps li:not(:last-child):after{bottom:-17px}
-}
-@media(max-width:360px){.rcHero26__steps{gap:15px}.rcHero26__steps li{min-height:34px;padding:5px 9px;font-size:11px}.rcHero26__stepNumber{width:22px;height:22px;font-size:13px}.rcHero26__steps li:not(:last-child):after{bottom:-16px}}
-
 /* Cierre de portada: promesa + invitación, un solo renglón subrayado. */
 .rcHero26__freeLine{display:inline-flex;align-items:baseline;justify-content:center;gap:clamp(5px,.75vw,10px);max-width:100%;width:max-content;margin:0;padding:0 0 3px;border-bottom:3px solid var(--gold);color:var(--gold);white-space:nowrap;line-height:1.1}
 .rcHero26__freeText{font-size:clamp(18px,2.15vw,31px);font-weight:900;letter-spacing:-.045em}
@@ -130,3 +117,9 @@
  .rcHero26__freeText{font-size:clamp(17px,5.8vw,20px)}
  .rcHero26__sumate{font-size:clamp(20px,7vw,25px)}
 }
+
+/* Mensaje de marca: unimos el campo, con una sola propuesta de valor. */
+.rcHero26__visionTitle{font-size:clamp(22px,2.65vw,39px);line-height:1.07;font-weight:900;letter-spacing:-.06em;white-space:nowrap}
+.rcHero26__visionLine{max-width:100%;margin:0;color:#f2f0e9;font-size:clamp(12px,1.15vw,16px);font-weight:800;line-height:1.3;letter-spacing:-.01em;text-align:center}
+@media(max-width:900px){.rcHero26__visionTitle{font-size:clamp(23px,6.6vw,38px)}.rcHero26__visionLine{font-size:clamp(12px,3.5vw,16px)}}
+@media(max-width:360px){.rcHero26__visionTitle{font-size:clamp(20px,6.2vw,23px)}.rcHero26__visionLine{font-size:12px}}

@@ -220,7 +220,10 @@ test("approved responsive hero and FAQ experience remain present", () => {
  const styles=read("styles/hero-2026-isolated.css");
  assert.ok(hero.includes('rcHero26__heading'));
  assert.ok(!hero.includes('rcHero26__number'));
- assert.ok(hero.includes('rcHero26__steps'));
+ assert.ok(hero.includes('rcHero26__visionTitle'));
+ assert.ok(hero.includes('UNIMOS EL CAMPO'));
+ assert.ok(hero.includes('rcHero26__visionLine'));
+ assert.ok(!hero.includes('rcHero26__steps'));
  assert.ok(hero.includes('rcHero26__freeLine'));
  assert.ok(hero.includes('rcHero26__sumate'));
  assert.ok(!hero.includes('className="rcHero26__countries"'));
