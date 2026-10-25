@@ -15,7 +15,7 @@ function detectRegionalCountry(): CountryCode {
     document.cookie = `rentocampo_country=${country}; path=/; max-age=31536000; SameSite=Lax`;
     window.localStorage.setItem("rentocampo_country", country);
   }
-  document.documentElement.lang = country === "BR" ? "pt-BR" : "es";
+  document.documentElement.lang = country === "BR" ? "pt-BR" : country === "US" ? "en-US" : "es";
   return country;
 }
 
@@ -53,6 +53,6 @@ export function selectRegionalCountry(country: CountryCode): void {
   );
   window.localStorage.setItem("rentocampo_country", country);
   document.cookie = `rentocampo_country=${country}; path=/; max-age=31536000; SameSite=Lax`;
-  document.documentElement.lang = country === "BR" ? "pt-BR" : "es";
+  document.documentElement.lang = country === "BR" ? "pt-BR" : country === "US" ? "en-US" : "es";
   window.dispatchEvent(new Event(CHANGE_EVENT));
 }

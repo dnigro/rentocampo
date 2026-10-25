@@ -24,7 +24,7 @@ export default function ListingCountrySelector({ country }: { country: CountryCo
     <div className="rc-explorer-country">
       <label htmlFor="listing-country">{regionalText(selected, "País", "País")}</label>
       <select id="listing-country" aria-label={regionalText(selected, "Seleccionar país de publicaciones", "Selecionar país dos anúncios")} value={selected} onChange={(event) => change(event.target.value as CountryCode)}>
-        {COUNTRY_CODES_ALPHABETICAL.map(code => <option value={code} key={code}>{COUNTRIES[code].name}</option>)}
+        {COUNTRY_CODES_ALPHABETICAL.map(code => <option value={code} key={code}>{COUNTRIES[code].flag} {COUNTRIES[code].name}</option>)}
       </select>
     </div>
   );

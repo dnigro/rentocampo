@@ -349,7 +349,7 @@ export default function PerfilForm({ profile, email }: Props) {
               }))
             }
           >
-            {COUNTRY_CODES_ALPHABETICAL.map((code) => <option key={code} value={code}>{COUNTRIES[code].name}</option>)}
+            {COUNTRY_CODES_ALPHABETICAL.map((code) => <option key={code} value={code}>{COUNTRIES[code].flag} {COUNTRIES[code].name}</option>)}
           </select>
           <span className="form-hint">
             {tt("Define tu mercado principal y adapta campos, servicios y ubicaciones.","Defina seu mercado principal para adaptar terras, serviços e localizações.")}

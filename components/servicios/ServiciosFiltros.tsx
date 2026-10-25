@@ -55,7 +55,7 @@ export default function ServiciosFiltros({
         </div>
 
         <div className="listing-filters-grid">
-          <div className="filtro-grupo"><label className="filtro-label" htmlFor="servicios-pais">{t("filters.country")}</label><select id="servicios-pais" className="filtro-input" value={pais} onChange={(e) => { setPais(e.target.value as CountryCode); setProvincia(""); }}>{COUNTRY_CODES_ALPHABETICAL.map((code) => <option key={code} value={code}>{COUNTRIES[code].name}</option>)}</select></div>
+          <div className="filtro-grupo"><label className="filtro-label" htmlFor="servicios-pais">{t("filters.country")}</label><select id="servicios-pais" className="filtro-input" value={pais} onChange={(e) => { setPais(e.target.value as CountryCode); setProvincia(""); }}>{COUNTRY_CODES_ALPHABETICAL.map((code) => <option key={code} value={code}>{COUNTRIES[code].flag} {COUNTRIES[code].name}</option>)}</select></div>
           <div className="filtro-grupo">
             <label className="filtro-label" htmlFor="servicios-provincia">
               {COUNTRIES[pais].subdivisionLabel}

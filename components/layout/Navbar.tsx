@@ -8,7 +8,7 @@ import type { User } from "@supabase/supabase-js";
 import BrandWordmark from "@/components/layout/BrandWordmark";
 import { regionalText } from "@/lib/i18n/regional";
 import { selectRegionalCountry, useRegionalCountry } from "@/lib/i18n/useRegionalCountry";
-import { COUNTRY_CODES_ALPHABETICAL, type CountryCode } from "@/data/countries";
+import { COUNTRIES, COUNTRY_CODES_ALPHABETICAL, type CountryCode } from "@/data/countries";
 
 function NavbarContent() {
   const [user, setUser] = useState<User | null>(null);
@@ -172,8 +172,8 @@ function NavbarContent() {
           <div className="navbar-actions navbar-desktop">
             <div className="navbar-country-switch" aria-label="Seleccionar país" style={{ background: "transparent", border: 0, padding: 0, gap: 8 }}>
               <label htmlFor="navbar-pais-desktop" style={{ color: "#fff", fontSize: 12, fontWeight: 850, letterSpacing: ".05em", whiteSpace: "nowrap" }}>PAÍS</label>
-              <select id="navbar-pais-desktop" aria-label="Seleccionar país" disabled={!countrySelectReady} value={activeCountry} onChange={(event) => cambiarPais(event.target.value as CountryCode)} style={{ background: "#fff", color: "#111", borderRadius: "20px", padding: "7px 9px", fontWeight: 700, cursor: "pointer", minWidth: 67 }}>
-                {COUNTRY_CODES_ALPHABETICAL.map((code) => <option key={code} value={code}>{code}</option>)}
+              <select id="navbar-pais-desktop" aria-label="Seleccionar país" disabled={!countrySelectReady} value={activeCountry} onChange={(event) => cambiarPais(event.target.value as CountryCode)} style={{ background: "#fff", color: "#111", borderRadius: "20px", padding: "7px 9px", fontWeight: 700, cursor: "pointer", minWidth: 88 }}>
+                {COUNTRY_CODES_ALPHABETICAL.map((code) => <option key={code} value={code}>{COUNTRIES[code].flag} {code}</option>)}
               </select>
             </div>
             {user ? (
@@ -226,8 +226,8 @@ function NavbarContent() {
           <div className="navbar-mobile-right">
             <div className="navbar-country-switch navbar-country-switch-mobile" aria-label="Seleccionar país" style={{ gap: 6 }}>
               <label htmlFor="navbar-pais-mobile" style={{ color: "#fff", fontSize: 11, fontWeight: 850, letterSpacing: ".04em", whiteSpace: "nowrap" }}>PAÍS</label>
-              <select id="navbar-pais-mobile" aria-label="Seleccionar país" disabled={!countrySelectReady} value={activeCountry} onChange={(event) => cambiarPais(event.target.value as CountryCode)} style={{ background: "#fff", color: "#111", borderRadius: "20px", padding: "7px", fontWeight: 700, minWidth: 64 }}>
-                {COUNTRY_CODES_ALPHABETICAL.map((code) => <option key={code} value={code}>{code}</option>)}
+              <select id="navbar-pais-mobile" aria-label="Seleccionar país" disabled={!countrySelectReady} value={activeCountry} onChange={(event) => cambiarPais(event.target.value as CountryCode)} style={{ background: "#fff", color: "#111", borderRadius: "20px", padding: "7px", fontWeight: 700, minWidth: 84 }}>
+                {COUNTRY_CODES_ALPHABETICAL.map((code) => <option key={code} value={code}>{COUNTRIES[code].flag} {code}</option>)}
               </select>
             </div>
             <button type="button" className="navbar-mobile-account" aria-label="Mi cuenta y navegación" aria-expanded={menuAbierto} aria-controls="navbar-mobile-menu" onClick={() => setMenuAbierto((open) => !open)}>{regionalText(activeCountry, "Mi cuenta", "Minha conta")}</button>

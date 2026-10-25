@@ -14,6 +14,13 @@ export interface RegionProductiva {
 const LATAM_REGIONS = Object.fromEntries(EXPANSION_COUNTRY_CODES.map(code => [code, EXPANSION_REGIONS[code].map(r => ({ zona: r.zona, subdivision: r.subdivision, actividad: r.actividad }))])) as unknown as Record<(typeof EXPANSION_COUNTRY_CODES)[number], readonly RegionProductiva[]>;
 
 export const REGIONES_PRODUCTIVAS: Record<CountryCode, readonly RegionProductiva[]> = {
+  // Editorial examples only; not measured demand or live listings.
+  US: [
+    { zona: "Des Moines", subdivision: "Iowa", actividad: "Corn, soybeans and livestock" },
+    { zona: "Amarillo", subdivision: "Texas", actividad: "Cattle and grain" },
+    { zona: "Fresno", subdivision: "California", actividad: "Irrigated crops and fruit production" },
+    { zona: "Wichita", subdivision: "Kansas", actividad: "Wheat, cattle and mixed farming" },
+  ],
   AR: [
     { zona: "Pergamino", subdivision: "Buenos Aires", actividad: "Agricultura" },
     { zona: "Río Cuarto", subdivision: "Córdoba", actividad: "Agricultura y ganadería" },
@@ -60,6 +67,7 @@ export const REGIONES_PRODUCTIVAS: Record<CountryCode, readonly RegionProductiva
 };
 
 export const REGIONES_EDITORIALES_ES: Record<CountryCode, string> = {
+  US: "Explore productive agricultural regions across the United States.",
   AR: "De la zona núcleo a las tierras ganaderas del interior.",
   UY: "Del litoral agrícola a los campos ganaderos y lecheros.",
   PY: "Regiones agrícolas y ganaderas con identidad propia.",

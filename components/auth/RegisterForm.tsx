@@ -239,7 +239,7 @@ export default function RegisterForm({ initialCountry: paisInicial, initialRole:
               onChange={handleChange}
               required
             >
-              {COUNTRY_CODES_ALPHABETICAL.map((code) => <option key={code} value={code}>{COUNTRIES[code].name}</option>)}
+              {COUNTRY_CODES_ALPHABETICAL.map((code) => <option key={code} value={code}>{COUNTRIES[code].flag} {COUNTRIES[code].name}</option>)}
             </select>
             <span className="form-hint">
               {tt("Usamos este dato para mostrarte campos, servicios y opciones de tu mercado.", "Usamos este dado para mostrar terras, serviços e opções do seu mercado.")}

@@ -112,7 +112,7 @@ test('hero shows 100% GRATIS, SUMATE as one bold underlined line', () => {
   const hero=readFileSync(new URL('../components/landing/LandingTriptychHero.tsx', import.meta.url),'utf8');
   const css=readFileSync(new URL('../styles/hero-2026-isolated.css', import.meta.url),'utf8');
   const lite=readFileSync(new URL('../app/lite/page.tsx', import.meta.url),'utf8');
-  assert.equal(COUNTRY_CODES.length,18);
+  assert.equal(COUNTRY_CODES.length,19);
   assert.match(hero, /className="rcHero26__freeLine"/);
   assert.ok(!hero.includes('rcHero26__number'));
   assert.match(hero, /UNIMOS EL CAMPO/);
@@ -195,21 +195,21 @@ test('V2 original image composition is fully visible and footer is legible', () 
  assert.ok(!v2.includes('aspect-ratio:2.85 / 1'));
 });
 
-test('country selector shows 18 unique markets in Spanish alphabetical order', () => {
+test('country selector shows 19 unique markets in Spanish alphabetical order', () => {
  const names=COUNTRY_CODES_ALPHABETICAL.map(code => COUNTRIES[code].name);
- assert.equal(names.length,18);
- assert.equal(new Set(names).size,18);
+ assert.equal(names.length,19);
+ assert.equal(new Set(names).size,19);
  assert.deepEqual(names,[...names].sort((a,b)=>a.localeCompare(b,"es",{sensitivity:"base"})));
  assert.equal(names[0],"Argentina");
  assert.equal(names.at(-1),"Venezuela");
  const nav=readFileSync(new URL('../components/layout/Navbar.tsx',import.meta.url),'utf8');
  assert.equal((nav.match(/COUNTRY_CODES_ALPHABETICAL\.map\(/g)||[]).length,2);
- assert.ok(!nav.includes('{COUNTRIES[code].flag} {code}'));
+ assert.ok(nav.includes('{COUNTRIES[code].flag} {code}'));
  assert.match(nav,/selectRegionalCountry\(country\);\s*window\.location\.reload\(\)/);
  assert.match(nav,/htmlFor="navbar-pais-desktop"/);
  assert.match(nav,/htmlFor="navbar-pais-mobile"/);
  assert.equal((nav.match(/>PAÍS<\/label>/g)||[]).length,2);
- assert.equal((nav.match(/\{code\}<\/option>/g)||[]).length,2);
+ assert.equal((nav.match(/\{COUNTRIES\[code\]\.flag\} \{code\}<\/option>/g)||[]).length,2);
 });
 test('new-country green available field pins paint above yellow editorial pins', () => {
  const source=readFileSync(new URL('../components/campos/CampoMapa.tsx',import.meta.url),'utf8');
@@ -236,7 +236,7 @@ test('a country change reloads the matching map after updating URL and cookie', 
 });
 
 
-test('single regional publication CTA contract covers all 18 countries, service and field, anonymous and logged', async () => {
+test('single regional publication CTA contract covers all 19 countries, service and field, anonymous and logged', async () => {
  const { regionalPublicationHref, regionalPublicationLabel } = await import('../lib/publicacion-regional.ts');
  const { demoServiceRegisterHref } = await import('../data/visible-demo-services.ts');
  for (const country of COUNTRY_CODES) for (const kind of ['campo','servicio']) {
@@ -246,8 +246,8 @@ test('single regional publication CTA contract covers all 18 countries, service 
    assert.equal(new URLSearchParams(logged.split('?')[1]).get('pais'),country);
    assert.equal(new URLSearchParams(logged.split('?')[1]).get('zona'),'Río Cuarto');
    assert.equal(new URLSearchParams(anonymous.split('?')[1]).get('next'),logged);
-   assert.ok(regionalPublicationLabel({country,kind,authenticated:true}).includes(country==='BR'?'ANUNCIAR':'PUBLICAR'));
-   assert.ok(regionalPublicationLabel({country,kind,authenticated:false}).includes(country==='BR'?'ENTRAR':'INICIAR SESIÓN'));
+   assert.ok(regionalPublicationLabel({country,kind,authenticated:true}).includes(country==='BR'?'ANUNCIAR':country==='US'?'POST':'PUBLICAR') || (country==='US' && kind==='campo' && regionalPublicationLabel({country,kind,authenticated:true}).includes('LIST')));
+   assert.ok(regionalPublicationLabel({country,kind,authenticated:false}).includes(country==='BR'?'ENTRAR':country==='US'?'SIGN IN':'INICIAR SESIÓN'));
  }
  assert.equal(demoServiceRegisterHref('CO'),'/login?next='+encodeURIComponent('/mis-servicios-rurales/nuevo?pais=CO'));
  assert.equal(demoServiceRegisterHref('CO',true),'/mis-servicios-rurales/nuevo?pais=CO');
@@ -277,4 +277,37 @@ test('publish screens honor country and the selected regional zone after sign-in
  assert.match(campo,/Zona de referencia:/);
  assert.match(servicio,/initialZona=\{search.zona\}/);
  assert.match(serviceForm,/initialZona \?\? profile\?\.zona_servicio/);
+});
+
+
+test('United States: 19th market, 50 states plus Washington DC, map and USD', () => {
+ assert.equal(COUNTRY_CODES.length,19);
+ assert.equal(isCountryCode('US'),true);
+ assert.equal(resolveCountry('US','AR'),'US');
+ const states=getCountrySubdivisions('US');
+ assert.equal(states.length,51);
+ assert.equal(new Set(states).size,51);
+ for(const place of ['Iowa','Texas','California','Kansas','New York','Washington, D.C.']) assert.ok(states.includes(place));
+ assert.equal(COUNTRIES.US.flag,'🇺🇸');
+ assert.equal(COUNTRIES.US.locale,'en-US');
+ assert.equal(COUNTRIES.US.currency,'USD');
+ assert.equal(COUNTRIES.US.subdivisionLabel,'State');
+ assert.equal(COUNTRIES.US.mapCenter.length,2);
+ const filters=campoFilterParams({pais:'US',provincia:'Texas',operacion:'alquiler'});
+ assert.equal(filters.get('pais'),'US');
+ assert.equal(filters.get('provincia'),'Texas');
+});
+test('every country has a visible emoji flag next to its ISO code in web and Lite',()=>{
+ const nav=readFileSync(new URL('../components/layout/Navbar.tsx',import.meta.url),'utf8');
+ const lite=readFileSync(new URL('../components/lite/LiteHeader.tsx',import.meta.url),'utf8');
+ assert.equal((nav.match(/\{COUNTRIES\[code\]\.flag\} \{code\}<\/option>/g)||[]).length,2);
+ assert.match(lite,/\{COUNTRIES\[code\]\.flag\} \{code\}<\/option>/);
+ for(const code of COUNTRY_CODES) assert.ok(COUNTRIES[code].flag.length>=2,code);
+});
+test('US preview fails closed rather than inheriting production credentials',()=>{
+ assert.throws(()=>enforceUatIsolation({VERCEL_ENV:'preview',VERCEL_GIT_COMMIT_REF:'feat/us19-flags-20261025',NEXT_PUBLIC_SUPABASE_URL:'https://production.invalid'}),/UAT isolation/);
+ const env={VERCEL_ENV:'preview',VERCEL_GIT_COMMIT_REF:'feat/us19-flags-20261025',NEXT_PUBLIC_SUPABASE_URL:'https://production.invalid',UAT_SUPABASE_PUBLISHABLE_KEY:'sb_publishable_uat_fixture'};
+ enforceUatIsolation(env);
+ assert.equal(env.NEXT_PUBLIC_SUPABASE_URL,'https://wibqszhvuvpjycheaxzi.supabase.co');
+ assert.equal(env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY,'sb_publishable_uat_fixture');
 });

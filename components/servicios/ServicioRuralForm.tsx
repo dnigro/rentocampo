@@ -246,7 +246,7 @@ export default function ServicioRuralForm({ profile, publicacion, initialCountry
           setProvincia(""); setLocalidad(""); setUbicacion(""); setZona("");
           setLatitud(undefined); setLongitud(undefined);
         }}>
-          {COUNTRY_CODES_ALPHABETICAL.map((code) => <option key={code} value={code}>{COUNTRIES[code].name}</option>)}
+          {COUNTRY_CODES_ALPHABETICAL.map((code) => <option key={code} value={code}>{COUNTRIES[code].flag} {COUNTRIES[code].name}</option>)}
         </select>
       </div>
       <div className="form-field">

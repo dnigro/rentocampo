@@ -70,7 +70,7 @@ export default function CampoFiltros({ filtrosActivos }: Props) {
         )}
       </div>
 
-      <div className="filtro-grupo"><label className="filtro-label">{t("filters.country")}</label><select className="filtro-input" value={filtros.pais} onChange={(e) => setFiltros((p) => ({ ...p, pais: e.target.value as CountryCode, provincia: "" }))}>{COUNTRY_CODES_ALPHABETICAL.map((code) => <option key={code} value={code}>{COUNTRIES[code].name}</option>)}</select></div>
+      <div className="filtro-grupo"><label className="filtro-label">{t("filters.country")}</label><select className="filtro-input" value={filtros.pais} onChange={(e) => setFiltros((p) => ({ ...p, pais: e.target.value as CountryCode, provincia: "" }))}>{COUNTRY_CODES_ALPHABETICAL.map((code) => <option key={code} value={code}>{COUNTRIES[code].flag} {COUNTRIES[code].name}</option>)}</select></div>
       <div className="filtro-grupo"><label className="filtro-label">{t("filters.operation")}</label><select className="filtro-input" value={filtros.operacion} onChange={(e) => setFiltros((p) => ({ ...p, operacion: e.target.value }))}><option value="">{t("filters.allFemale")}</option><option value="alquiler">{t("filters.rent")}</option><option value="venta">{t("filters.sale")}</option><option value="ambas">{t("filters.both")}</option></select></div>
       <div className="filtro-grupo">
         <label className="filtro-label">{COUNTRIES[filtros.pais].subdivisionLabel}</label>

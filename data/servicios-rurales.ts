@@ -33,8 +33,18 @@ const SERVICIO_LABEL_BR: Record<ServicioRural,string> = {
   agronomia: "Agronomia e consultoria", seguros_financiacion: "Seguros e financiamento",
   otro: "Outro serviço rural",
 };
+const SERVICIO_LABEL_US: Record<ServicioRural, string> = {
+  cosecha: "Harvesting", siembra: "Planting", pulverizacion: "Crop spraying",
+  fertilizacion: "Fertilization", maquinaria: "Farm machinery and fieldwork",
+  transporte: "Transportation and logistics", hoteleria_vacuna: "Cattle boarding",
+  granja: "Animal farming", silos_almacenamiento: "Grain storage",
+  acondicionamiento_granos: "Grain conditioning", riego: "Irrigation and water",
+  alambrados: "Fencing and infrastructure", veterinaria: "Veterinary care",
+  agronomia: "Agronomy and advisory", seguros_financiacion: "Insurance and financing",
+  otro: "Other rural services",
+};
 export function servicioLabel(value: ServicioRural, country: string): string {
-  return country === "BR" ? SERVICIO_LABEL_BR[value] ?? value : SERVICIO_LABEL[value] ?? value;
+  return country === "BR" ? SERVICIO_LABEL_BR[value] ?? value : country === "US" ? SERVICIO_LABEL_US[value] ?? value : SERVICIO_LABEL[value] ?? value;
 }
 
 export const CENTROS_PROVINCIA: Record<string, [number, number]> = {
