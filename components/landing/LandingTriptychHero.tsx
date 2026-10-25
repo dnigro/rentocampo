@@ -20,8 +20,7 @@ export default function LandingTriptychHero() {
   <div className="rcHero26__left">
    <h1 className="rcHero26__heading" id="rcHero26-title">
     <span className="rcHero26__number">#1</span>
-    <span>{t("PUBLICÁ, BUSCÁ","ANUNCIE, BUSQUE")}</span>
-    <span>{t("Y CONECTÁ","E CONECTE-SE")}</span>
+    <span className="rcHero26__chooseCountry">{t("SELECCIONÁ TU PAÍS","SELECIONE SEU PAÍS")}</span>
     <span className="rcHero26__free">{t("100% GRATIS.","100% GRÁTIS.")}</span>
    </h1>
    <p className="rcHero26__countries" aria-label="Sumate a RentoCampo">SUMATE</p>
@@ -31,7 +30,7 @@ export default function LandingTriptychHero() {
    {panels.map(p=><RegionalLink key={p.href} href={p.href} className="rcHero26__panel">
     <Image src={p.image} alt="" fill priority={p.href==="/campos"} sizes="(max-width:900px) 33vw, 22vw" className="rcHero26__photo"/>
     <span className="rcHero26__shade" aria-hidden="true"/>
-    <span className="rcHero26__panelInner"><span className="rcHero26__panelTitle">{p.title}</span><span className="rcHero26__panelCta">{p.cta}</span></span>
+    <span className="rcHero26__panelInner"><span className="rcHero26__panelCta">{p.cta}</span><span className="rcHero26__panelTitle">{p.title}</span></span>
    </RegionalLink>)}
   </div>
  </section>;
