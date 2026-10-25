@@ -3,7 +3,7 @@
 import { demoServiceRegisterHref } from "@/data/visible-demo-services";
 import { regionalPublicationHref, regionalPublicationLabel } from "@/lib/publicacion-regional";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { LayerGroup, Map as LeafletMap } from "leaflet";
 import Link from "next/link";
 import Image from "next/image";
@@ -81,7 +81,7 @@ export default function CampoMapa({
   );
   const [vista, setVista] = useState<"tierra" | "servicios">(initialVista);
   const countryCode = initialCountry;
-  const tt=(es:string,pt:string)=>regionalText(countryCode,es,pt);
+  const tt = useCallback((es: string, pt: string) => regionalText(countryCode, es, pt), [countryCode]);
   const [mostrarCampos, setMostrarCampos] = useState(true);
   const [mapError, setMapError] = useState(false);
   const [supabase] = useState(createClient);
@@ -283,7 +283,7 @@ export default function CampoMapa({
       demandaLayer.current = null;
       serviciosLayer.current = null;
     };
-  }, [camposConCoordenadas, countryCode, prestadoresFiltrados, vista]);
+  }, [camposConCoordenadas, countryCode, prestadoresFiltrados, vista, tt]);
 
   useEffect(() => {
     const leafletMap = map.current;
