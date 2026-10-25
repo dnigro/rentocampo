@@ -204,12 +204,12 @@ test('country selector shows 19 unique markets in Spanish alphabetical order', (
  assert.equal(names.at(-1),"Venezuela");
  const nav=readFileSync(new URL('../components/layout/Navbar.tsx',import.meta.url),'utf8');
  assert.equal((nav.match(/COUNTRY_CODES_ALPHABETICAL\.map\(/g)||[]).length,2);
- assert.ok(nav.includes('{COUNTRIES[code].flag} {code}'));
+ assert.ok(nav.includes('/flags/'));
  assert.match(nav,/selectRegionalCountry\(country\);\s*window\.location\.reload\(\)/);
- assert.match(nav,/htmlFor="navbar-pais-desktop"/);
+ assert.match(nav,/aria-haspopup="listbox"/);
  assert.match(nav,/htmlFor="navbar-pais-mobile"/);
  assert.equal((nav.match(/regionalText\(activeCountry, "PAÍS", "PAÍS"\)/g)||[]).length,2);
- assert.equal((nav.match(/\{COUNTRIES\[code\]\.flag\} \{code\}<\/option>/g)||[]).length,2);
+ assert.equal((nav.match(/\{COUNTRIES\[code\]\.flag\} \{code\}<\/option>/g)||[]).length,1);
 });
 test('new-country green available field pins paint above yellow editorial pins', () => {
  const source=readFileSync(new URL('../components/campos/CampoMapa.tsx',import.meta.url),'utf8');
@@ -297,12 +297,12 @@ test('United States: 19th market, 50 states plus Washington DC, map and USD', ()
  assert.equal(filters.get('pais'),'US');
  assert.equal(filters.get('provincia'),'Texas');
 });
-test('every country has a visible emoji flag next to its ISO code in web and Lite',()=>{
+test('every country has a local SVG flag for desktop and emoji fallback for mobile and Lite',()=>{
  const nav=readFileSync(new URL('../components/layout/Navbar.tsx',import.meta.url),'utf8');
  const lite=readFileSync(new URL('../components/lite/LiteHeader.tsx',import.meta.url),'utf8');
- assert.equal((nav.match(/\{COUNTRIES\[code\]\.flag\} \{code\}<\/option>/g)||[]).length,2);
+ assert.equal((nav.match(/\{COUNTRIES\[code\]\.flag\} \{code\}<\/option>/g)||[]).length,1);
  assert.match(lite,/\{COUNTRIES\[code\]\.flag\} \{code\}<\/option>/);
- for(const code of COUNTRY_CODES) assert.ok(COUNTRIES[code].flag.length>=2,code);
+ for(const code of COUNTRY_CODES) { assert.ok(COUNTRIES[code].flag.length>=2,code); assert.ok(readFileSync(new URL(`../public/flags/${code.toLowerCase()}.svg`,import.meta.url),'utf8').includes('<svg'),code); }
 });
 test('US preview fails closed rather than inheriting production credentials',()=>{
  assert.throws(()=>enforceUatIsolation({VERCEL_ENV:'preview',VERCEL_GIT_COMMIT_REF:'feat/us19-flags-20261025',NEXT_PUBLIC_SUPABASE_URL:'https://production.invalid'}),/UAT isolation/);
