@@ -21,8 +21,16 @@ export default function LandingTriptychHero() {
    <h1 className="rcHero26__heading" id="rcHero26-title">
     <span className="rcHero26__number">#1</span>
     <span className="rcHero26__chooseCountry">{t("SELECCIONÁ TU PAÍS","SELECIONE SEU PAÍS")}</span>
-    <span className="rcHero26__free">{t("100% GRATIS.","100% GRÁTIS.")}</span>
    </h1>
+   <ul className="rcHero26__steps" aria-label={t("Cómo funciona RentoCampo","Como funciona a RentoCampo")}>
+    {[
+     t("REGISTRATE GRATIS","CADASTRE-SE GRÁTIS"),
+     t("CHATEÁ ONLINE","CONVERSE ONLINE"),
+     t("MAPA POR REGIÓN","MAPA POR REGIÃO"),
+     t("ACORDÁ LAS CONDICIONES","COMBINE AS CONDIÇÕES")
+    ].map(step=><li key={step}>{step}</li>)}
+   </ul>
+   <p className="rcHero26__free">{t("100% GRATIS.","100% GRÁTIS.")}</p>
    <p className="rcHero26__countries" aria-label="Sumate a RentoCampo">SUMATE</p>
    <RegionalLink href="/register" className="rcHero26__register">{t("REGISTRATE →","CADASTRE-SE →")}</RegionalLink>
   </div>

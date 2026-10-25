@@ -10,16 +10,22 @@ export const metadata: Metadata = { title: "RentoCampo Lite | Preview" };
 export default async function LitePreview() {
  const country = resolveCountry((await cookies()).get("rentocampo_country")?.value);
  const t = (es: string, pt: string) => regionalText(country, es, pt);
+ const steps = [
+  t("REGISTRATE GRATIS", "CADASTRE-SE GRÁTIS"),
+  t("CHATEÁ ONLINE", "CONVERSE ONLINE"),
+  t("MAPA POR REGIÓN", "MAPA POR REGIÃO"),
+  t("ACORDÁ LAS CONDICIONES", "COMBINE AS CONDIÇÕES"),
+ ];
  const links = [
   { title: t("Ver campos", "Ver terras"), subtitle: t("Encontrá tu próxima oportunidad", "Encontre sua próxima oportunidade"), href: "/lite/campos", icon: "↗", dark: true },
   { title: t("Ver servicios rurales", "Ver serviços rurais"), subtitle: t("Conectá con profesionales del campo", "Conecte-se com profissionais do campo"), href: "/lite/servicios", icon: "↗", dark: false },
  ];
  return <main style={{minHeight:"100dvh",background:"#f8f8f6",color:"#20201e",fontFamily:"Arial, Helvetica, sans-serif",maxWidth:520,margin:"auto",paddingBottom:95}}>
   <LiteHeader/>
-  <section style={{position:"relative",height:210,overflow:"hidden",background:"#252525"}}>
+  <section style={{position:"relative",minHeight:236,overflow:"hidden",background:"#252525"}}>
    <Image src={heroTambo} alt="Vacas y tambo de RentoCampo" fill priority sizes="(max-width: 520px) 100vw, 520px" style={{objectFit:"cover",objectPosition:"68% center",filter:"grayscale(1) contrast(1.1) brightness(.72)"}}/><div style={{position:"absolute",inset:0,background:"linear-gradient(90deg,rgba(0,0,0,.78) 0%,rgba(0,0,0,.55) 46%,rgba(0,0,0,.12) 100%)"}}/>
    
-   <div style={{position:"relative",padding:"28px 22px",color:"white"}}><span style={{fontSize:11,fontWeight:700,letterSpacing:2,color:"#e6d39a"}}>{t("#1 RED FEDERAL", "#1 REDE DO CAMPO")}</span><h1 style={{fontSize:"clamp(18px, 4.8vw, 25px)",lineHeight:1.12,letterSpacing:-.9,fontWeight:900,whiteSpace:"nowrap",margin:"14px 0 10px"}}>{t("SELECCIONÁ TU PAÍS", "SELECIONE SEU PAÍS")}</h1><p style={{fontSize:18,fontWeight:900,color:"#ffe17c",margin:"0 0 9px"}}>{t("100% GRATIS.", "100% GRÁTIS.")}</p><p style={{fontSize:12,maxWidth:275,lineHeight:1.4,margin:0}}>{t("Tierras y servicios rurales en un solo lugar.", "Terras e serviços rurais em um só lugar.")}</p></div>
+   <div style={{position:"relative",padding:"22px 20px 23px",color:"white"}}><span style={{fontSize:11,fontWeight:700,letterSpacing:2,color:"#e6d39a"}}>{t("#1 RED FEDERAL", "#1 REDE DO CAMPO")}</span><h1 style={{fontSize:"clamp(18px, 4.8vw, 25px)",lineHeight:1.12,letterSpacing:-.9,fontWeight:900,whiteSpace:"nowrap",margin:"12px 0 12px"}}>{t("SELECCIONÁ TU PAÍS", "SELECIONE SEU PAÍS")}</h1><ul aria-label={t("Cómo funciona RentoCampo", "Como funciona a RentoCampo")} style={{display:"grid",gridTemplateColumns:"repeat(2,minmax(0,1fr))",gap:"7px 8px",maxWidth:460,margin:0,padding:0,listStyle:"none"}}>{steps.map(step=><li key={step} style={{minWidth:0,padding:"7px 6px",border:"1px solid rgba(255,255,255,.28)",background:"rgba(0,0,0,.27)",borderRadius:7,fontSize:"clamp(10px,2.5vw,12px)",fontWeight:800,lineHeight:1.2}}><span aria-hidden="true" style={{color:"#ffe17c",marginRight:5}}>✓</span>{step}</li>)}</ul><p style={{fontSize:17,fontWeight:900,color:"#ffe17c",margin:"12px 0 0"}}>{t("100% GRATIS.", "100% GRÁTIS.")}</p></div>
   </section>
   <section style={{padding:"27px 20px 16px"}}><p style={{fontSize:11,letterSpacing:2,fontWeight:800,color:"#777",marginBottom:10}}>{t("EXPLORÁ RENTO CAMPO", "EXPLORE A RENTO CAMPO")}</p><h2 style={{fontSize:23,letterSpacing:-.7,margin:"0 0 19px"}}>{t("¿Qué necesitás hoy?", "Do que você precisa hoje?")}</h2>
   <div style={{display:"grid",gap:10}}>{links.map(item=><Link key={item.href} href={item.href} style={{background:item.dark?"#222":"#fff",color:item.dark?"#fff":"#222",border:item.dark?"none":"1px solid #e4e4e0",borderRadius:13,padding:"17px 18px",textDecoration:"none",display:"flex",justifyContent:"space-between",alignItems:"center"}}><span><strong style={{fontSize:18,letterSpacing:-.5}}>{item.title}</strong><small style={{display:"block",marginTop:7,opacity:.65,fontSize:12}}>{item.subtitle}</small></span><span style={{fontSize:25}}>{item.icon}</span></Link>)}</div>

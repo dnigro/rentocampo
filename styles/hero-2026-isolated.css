@@ -8,7 +8,7 @@
 .rcHero26__heading{display:flex;flex-direction:column;gap:3px;margin:0;font-size:clamp(23px,2.5vw,42px);line-height:1.06;font-weight:900;letter-spacing:-.035em}
 .rcHero26__heading span{display:block}
 .rcHero26__number{font-size:clamp(72px,7.6vw,125px);line-height:.94;color:var(--gold)}
-.rcHero26__free{font-size:clamp(27px,2.8vw,46px);color:var(--gold);margin-top:6px;white-space:nowrap}
+.rcHero26__free{font-size:clamp(27px,2.8vw,46px);color:var(--gold);margin:0;white-space:nowrap}
 .rcHero26__countries{position:relative;left:auto;right:auto;bottom:auto;transform:none;margin:0;padding:0 0 9px;border-bottom:3px solid var(--gold);display:flex;flex-direction:column;gap:3px;max-width:100%;font-size:clamp(10px,1vw,15px);font-weight:800;letter-spacing:.045em;color:#fff;text-align:left}
 .rcHero26__register{display:inline-flex;align-items:center;justify-content:center;min-height:54px;width:min(310px,100%);padding:10px 18px;border-radius:999px;background:var(--gold);color:#111;text-decoration:none;font-size:clamp(15px,1.25vw,19px);font-weight:900}
 .rcHero26__right{position:relative;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));height:100%;min-width:0;overflow:hidden}
@@ -102,3 +102,10 @@
 /* A single compact line reduces hero height without affecting the triptych. */
 .rcHero26__chooseCountry{font-size:clamp(18px,1.85vw,27px);line-height:1.12;letter-spacing:-.045em;white-space:nowrap;max-width:100%}
 @media(max-width:900px){.rcHero26__chooseCountry{font-size:clamp(18px,5.2vw,28px)}}
+
+/* Cuatro beneficios rápidos debajo del selector de país, en una grilla compacta. */
+.rcHero26__steps{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px 9px;width:min(100%,390px);margin:0;padding:0;list-style:none;text-align:left}
+.rcHero26__steps li{display:flex;align-items:center;gap:5px;min-height:29px;padding:6px 7px;border:1px solid rgba(255,255,255,.25);border-radius:7px;background:rgba(0,0,0,.24);color:#f7f5f0;font-size:clamp(10px,1vw,12px);font-weight:800;line-height:1.2;letter-spacing:-.01em}
+.rcHero26__steps li:before{content:"✓";color:var(--gold);font-size:12px;font-weight:900;flex:none}
+@media(max-width:900px){.rcHero26__steps{gap:6px 8px;width:min(100%,365px)}.rcHero26__steps li{font-size:clamp(10px,2.6vw,12px);padding:6px 6px}}
+@media(max-width:360px){.rcHero26__steps li{gap:4px;padding:5px;font-size:10px}}
