@@ -106,7 +106,10 @@
 /* Cuatro beneficios rápidos debajo del selector de país, en una grilla compacta. */
 .rcHero26__steps{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px 9px;width:min(100%,390px);margin:0;padding:0;list-style:none;text-align:left}
 .rcHero26__steps li{display:flex;align-items:center;gap:5px;min-height:29px;padding:6px 7px;border:1px solid rgba(255,255,255,.25);border-radius:7px;background:rgba(0,0,0,.24);color:#f7f5f0;font-size:clamp(10px,1vw,12px);font-weight:800;line-height:1.2;letter-spacing:-.01em}
-.rcHero26__steps li:before{content:"✓";color:var(--gold);font-size:12px;font-weight:900;flex:none}
+.rcHero26__stepNumber{display:inline-flex;align-items:center;justify-content:center;flex:none;width:22px;height:22px;border:1px solid rgba(255,225,124,.8);border-radius:50%;color:var(--gold);background:rgba(255,225,124,.08);font-size:13px;font-weight:900;line-height:1}
+@media(min-width:901px){.rcHero26__steps{width:min(100%,405px);gap:9px 11px}.rcHero26__steps li{gap:8px;min-height:40px;padding:7px 9px;font-size:clamp(10px,.95vw,13px)}.rcHero26__stepNumber{width:26px;height:26px;font-size:15px}}
+@media(max-width:900px){.rcHero26__stepNumber{width:21px;height:21px;font-size:13px}}
+@media(max-width:360px){.rcHero26__stepNumber{width:19px;height:19px;font-size:12px}}
 @media(max-width:900px){.rcHero26__steps{gap:6px 8px;width:min(100%,365px)}.rcHero26__steps li{font-size:clamp(10px,2.6vw,12px);padding:6px 6px}}
 @media(max-width:360px){.rcHero26__steps li{gap:4px;padding:5px;font-size:10px}}
 
