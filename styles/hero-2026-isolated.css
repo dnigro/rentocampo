@@ -82,4 +82,19 @@
  .rcHero26__panelInner{left:5px;right:5px;top:14px;bottom:20px}
  .rcHero26__panelCta{min-height:68px;padding:9px 3px;font-size:12px;letter-spacing:-.035em}
 }
+/* Compensate for the horizontal skew of each photo, so the upper CTA
+   sits at the visual center of its own image rather than to its left.
+   Reserve side space to keep the pill visible inside narrow viewports. */
+@media(max-width:900px){
+ .rcHero26__panelCta{
+  width:calc(100% - 12px);
+  margin-inline:auto;
+ }
+ .rcHero26__panel:nth-child(1) .rcHero26__panelCta{transform:translateX(9px)}
+ .rcHero26__panel:nth-child(2) .rcHero26__panelCta{transform:translateX(8px)}
+ .rcHero26__panel:nth-child(3) .rcHero26__panelCta{transform:translateX(7px)}
+}
+@media(min-width:901px){
+ .rcHero26__panelCta{margin-inline:auto;transform:translateX(8px)}
+}
 .rcHero26__panel:focus-visible{outline:3px solid var(--gold);outline-offset:-4px}
