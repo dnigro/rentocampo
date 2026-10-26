@@ -51,7 +51,7 @@ export default function GeoMarketLaboratorio(){
  const [live,setLive]=useState<LiveData|null>(null);
  const [loading,setLoading]=useState(true);
  const [error,setError]=useState("");
- useEffect(()=>{const controller=new AbortController();setLoading(true);setError("");setLive(null);
+ useEffect(()=>{const controller=new AbortController();
  fetch("/api/laboratorio/geomarket?country="+regionId,{signal:controller.signal}).then(async r=>{const d=await r.json();if(!r.ok)throw new Error(d.error??"No disponible");return d as LiveData;}).then(setLive).catch(e=>{if(e.name!=="AbortError")setError(String(e.message))}).finally(()=>{if(!controller.signal.aborted)setLoading(false)});
  return()=>controller.abort();},[regionId]);
  const region=regions.find(r=>r.id===regionId)!;
@@ -65,7 +65,7 @@ export default function GeoMarketLaboratorio(){
  </header>
  <p style={{fontSize:"clamp(18px,2.5vw,27px)",maxWidth:780,lineHeight:1.25,margin:"32px 0"}}>Tu territorio. Tus alertas. Tus oportunidades.<br/><strong>Un sistema de decisiones, no un informe.</strong></p>
  <div style={{display:"flex",gap:12,flexWrap:"wrap",alignItems:"end",marginBottom:22}}>
- <label style={{display:"grid",gap:7,fontSize:12,fontWeight:700}}>PAÍS / REGIÓN<select aria-label="Seleccionar país" value={regionId} onChange={e=>setRegionId(e.target.value)} style={{padding:12,borderRadius:8,border:"1px solid #aaa",minWidth:220,background:"white"}}>{regions.map(r=><option key={r.id} value={r.id}>{r.country} · {r.label}</option>)}</select></label>
+ <label style={{display:"grid",gap:7,fontSize:12,fontWeight:700}}>PAÍS / REGIÓN<select aria-label="Seleccionar país" value={regionId} onChange={e=>{setRegionId(e.target.value);setLoading(true);setError("");setLive(null)}} style={{padding:12,borderRadius:8,border:"1px solid #aaa",minWidth:220,background:"white"}}>{regions.map(r=><option key={r.id} value={r.id}>{r.country} · {r.label}</option>)}</select></label>
  <label style={{display:"grid",gap:7,fontSize:12,fontWeight:700}}>RADIO DE INTERÉS: {radius} KM<input aria-label="Radio de interés" type="range" min="10" max="200" step="10" value={radius} onChange={e=>setRadius(Number(e.target.value))}/></label>
  <button onClick={()=>setWatch(!watch)} style={{padding:"13px 18px",background:watch?"#555":"#222",color:"white",border:0,borderRadius:8,cursor:"pointer"}}>{watch?"✓ Zona guardada en esta vista":"＋ Seguir esta zona"}</button>
  </div>
