@@ -15,6 +15,7 @@ function NavbarContent() {
   const [noLeidos, setNoLeidos] = useState(0);
   const [menuAbierto, setMenuAbierto] = useState(false);
   const [countrySelectReady, setCountrySelectReady] = useState(false);
+  const [countryMenuOpen, setCountryMenuOpen] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
   const activeCountry = useRegionalCountry();
@@ -172,9 +173,28 @@ function NavbarContent() {
           <div className="navbar-actions navbar-desktop">
             <div className="navbar-country-switch" aria-label="Seleccionar país" style={{ background: "transparent", border: 0, padding: 0, gap: 8 }}>
               <label htmlFor="navbar-pais-desktop" style={{ color: "#fff", fontSize: 12, fontWeight: 850, letterSpacing: ".05em", whiteSpace: "nowrap" }}>{regionalText(activeCountry, "PAÍS", "PAÍS")}</label>
-              <select id="navbar-pais-desktop" aria-label="Seleccionar país" disabled={!countrySelectReady} value={activeCountry} onChange={(event) => cambiarPais(event.target.value as CountryCode)} style={{ background: "#fff", color: "#111", borderRadius: "20px", padding: "7px 9px", fontWeight: 700, cursor: "pointer", minWidth: 88 }}>
-                {COUNTRY_CODES_ALPHABETICAL.map((code) => <option key={code} value={code}>{COUNTRIES[code].flag} {code}</option>)}
-              </select>
+              <div style={{ position: "relative" }}>
+                <button type="button" aria-label="Seleccionar país" aria-haspopup="listbox" aria-expanded={countryMenuOpen} disabled={!countrySelectReady} onClick={() => setCountryMenuOpen((open) => !open)} style={{ display: "flex", alignItems: "center", gap: 6, background: "#fff", color: "#111", border: 0, borderRadius: 20, padding: "9px 12px", fontWeight: 700, cursor: "pointer" }}>
+                  {/* SVG flags render reliably on Windows, unlike emoji in native selects. */}
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={`/flags/${activeCountry.toLowerCase()}.svg`} alt="" width={24} height={18} style={{ objectFit: "cover" }} />
+                  {activeCountry} <span aria-hidden="true">⌄</span>
+                </button>
+                {countryMenuOpen && (
+                  <>
+                    <button type="button" aria-label="Cerrar selector de país" onClick={() => setCountryMenuOpen(false)} style={{ position: "fixed", inset: 0, background: "transparent", border: 0, cursor: "default", zIndex: 98 }} />
+                    <div role="listbox" aria-label="País" style={{ position: "absolute", top: "100%", right: 0, zIndex: 99, maxHeight: "65vh", overflowY: "auto", background: "#fff", color: "#111", minWidth: 190, borderRadius: 10, boxShadow: "0 8px 28px #0005", padding: "5px 0" }}>
+                      {COUNTRY_CODES_ALPHABETICAL.map((code) => (
+                        <button key={code} type="button" role="option" aria-selected={activeCountry === code} onClick={() => { setCountryMenuOpen(false); cambiarPais(code); }} style={{ display: "flex", alignItems: "center", gap: 10, width: "100%", padding: "9px 12px", background: activeCountry === code ? "#e5edf9" : "#fff", color: "#111", border: 0, textAlign: "left", cursor: "pointer", fontWeight: activeCountry === code ? 700 : 500 }}>
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img src={`/flags/${code.toLowerCase()}.svg`} alt="" width={24} height={18} style={{ objectFit: "cover" }} />
+                          {code} · {COUNTRIES[code].name}
+                        </button>
+                      ))}
+                    </div>
+                  </>
+                )}
+              </div>
             </div>
             {user ? (
               <>
