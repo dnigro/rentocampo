@@ -21,19 +21,26 @@ const modules=[
  {name:"Logística rural",type:"Operación",description:"Accesos, caminos y referencias",source:"OpenStreetMap",phase:"Evolutivo"}
 ];
 type Observation={lat:number;lon:number;rainfallMm:number;meanTempC:number|null;days:number};
-type LiveData={country:string;region:string;center:[number,number];period:{start:string;end:string};source:string;metric:string;points:Observation[];partial:boolean;alerts:{event:string;severity:string;headline:string}[];alertsSource:string;updatedAt:string};
+type LiveData={country:string;region:string;center:[number,number];period:{start:string;end:string};source:string;metric:string;points:Observation[];partial:boolean;grid:{latStep:number;lonStep:number;expected:number};alerts:{event:string;severity:string;headline:string}[];alertsSource:string;updatedAt:string};
 function HeatMap({data}:{data:LiveData}){
  const node=useRef<HTMLDivElement>(null);
  useEffect(()=>{if(!node.current)return;let cancelled=false;let map:import("leaflet").Map|undefined;
  (async()=>{const L=await import("leaflet");if(cancelled||!node.current)return;
  map=L.map(node.current,{zoomControl:true,attributionControl:true}).setView(data.center,7);
  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:18,attribution:'© OpenStreetMap contributors'}).addTo(map);
- const max=Math.max(1,...data.points.map(p=>p.rainfallMm));
- data.points.forEach(p=>{const t=p.rainfallMm/max;const color=t<0.33?"#d4b04d":t<0.67?"#69a8a0":"#2c6f91";
- L.circle([p.lat,p.lon],{radius:32000,stroke:true,color,weight:2,fillColor:color,fillOpacity:0.47}).addTo(map!).bindPopup("<strong>NASA POWER</strong><br/>Lluvia histórica 14 días: "+p.rainfallMm+" mm<br/>Temperatura media: "+(p.meanTempC??"s/d")+" °C");});
+ const values=data.points.map(p=>p.rainfallMm);
+ const min=Math.min(...values),max=Math.max(...values);
+ const ramp=["#b45a3c","#e8ad49","#e7d86d","#9dcf94","#51a8a3","#3167a6"];
+ data.points.forEach(p=>{
+ const t=max===min?0.5:(p.rainfallMm-min)/(max-min);
+ const color=ramp[Math.min(ramp.length-1,Math.floor(t*ramp.length))];
+ const latHalf=data.grid.latStep/2,lonHalf=data.grid.lonStep/2;
+ L.rectangle([[p.lat-latHalf,p.lon-lonHalf],[p.lat+latHalf,p.lon+lonHalf]],{color:"#f7f7f5",weight:1,fillColor:color,fillOpacity:0.75}).addTo(map!).bindPopup("<strong>NASA POWER · dato observado</strong><br/>Precipitación acumulada: "+p.rainfallMm+" mm<br/>Temperatura media: "+(p.meanTempC??"s/d")+" °C<br/>Período: "+data.period.start+" a "+data.period.end);
+ });
+ map.fitBounds([[data.center[0]-0.85,data.center[1]-1.1],[data.center[0]+0.85,data.center[1]+1.1]],{padding:[15,15]});
  })().catch(()=>{});
  return()=>{cancelled=true;map?.remove()};},[data]);
- return <div ref={node} style={{height:330,width:"100%",borderRadius:12,overflow:"hidden",zIndex:0}} aria-label="Mapa de calor geográfico de precipitaciones NASA POWER"/>;
+ return <div ref={node} style={{height:330,width:"100%",borderRadius:12,overflow:"hidden",zIndex:0}} aria-label="Mapa de calor por celdas NASA POWER de precipitaciones observadas"/>;
 }
 export default function GeoMarketLaboratorio(){
  const [regionId,setRegionId]=useState("AR");
@@ -66,7 +73,7 @@ export default function GeoMarketLaboratorio(){
  {[["PRECIPITACIÓN PREVISTA",live?Math.round(live.points.reduce((a,p)=>a+p.rainfallMm,0)/live.points.length)+" mm":"—","NASA POWER · últimos 14 días"],["ÍNDICE VEGETAL","—","Sentinel · pendiente"],["OPORTUNIDADES","—","Conector RentoCampo pendiente"],["RADIO ACTIVO",radius+" km","Filtro local"]].map(([label,value,sub])=><div key={label} style={panel}><div style={{fontSize:11,fontWeight:700,letterSpacing:1,color:"#666"}}>{label}</div><div style={{fontSize:36,fontWeight:800,margin:"12px 0 4px"}}>{value}</div><div style={{fontSize:12,color:"#777"}}>{sub}</div></div>)}
  </div>
  <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(300px,1fr))",gap:16,marginTop:18}}>
- <section style={panel}><div style={{fontSize:12,letterSpacing:2}}>01 / RADAR TERRITORIAL</div><h2 style={{fontSize:26,margin:"12px 0"}}>{region.label}</h2>{loading?<div style={{height:330,display:"grid",placeItems:"center"}}>Consultando NASA POWER…</div>:live?<HeatMap data={live}/>:<div style={{height:330,display:"grid",placeItems:"center",padding:20,background:"#e6e6e3",borderRadius:12}}>Sin datos disponibles. {error}</div>}<p style={{color:"#555",fontSize:13}}><strong>Mapa real OpenStreetMap.</strong> Los círculos muestran precipitación histórica NASA POWER, no un pronóstico ni un raster continuo. Amarillo: menor acumulado; azul: mayor acumulado relativo entre muestras. NDVI y demanda pendientes.</p></section>
+ <section style={panel}><div style={{fontSize:12,letterSpacing:2}}>01 / RADAR TERRITORIAL</div><h2 style={{fontSize:26,margin:"12px 0"}}>{region.label}</h2>{loading?<div style={{height:330,display:"grid",placeItems:"center"}}>Consultando NASA POWER…</div>:live?<HeatMap data={live}/>:<div style={{height:330,display:"grid",placeItems:"center",padding:20,background:"#e6e6e3",borderRadius:12}}>Sin datos disponibles. {error}</div>}<p style={{color:"#555",fontSize:13}}><strong>Mapa real OpenStreetMap.</strong> Las celdas de color representan muestras reales NASA POWER sobre una grilla de 0,5° × 0,625°. Rojo: menor lluvia; azul: mayor lluvia relativa a esta zona. Sin interpolación ni pronóstico. NDVI y demanda pendientes.</p></section>
  <section style={panel}><div style={{fontSize:12,letterSpacing:2}}>02 / CENTRO DE ALERTAS</div><h2 style={{fontSize:26,margin:"12px 0"}}>Lo que importa hoy</h2><div style={{background:"white",padding:16,borderRadius:12,borderLeft:"4px solid #555",marginBottom:12}}><strong>◉ {regionId==="US"&&live?.alerts.length?live.alerts[0].event:"Seguimiento meteorológico"}</strong><p style={{fontSize:14,color:"#555"}}>{regionId==="US"&&live?.alerts.length?live.alerts[0].headline:"Consulta los acumulados históricos del mapa; no hay un pronóstico de lluvia conectado para esta región."}</p><small>{regionId==="US"&&live?.alerts.length?"AVISO OFICIAL NOAA NWS":"SIN ALERTA OFICIAL CONECTADA"}</small></div><div style={{background:"white",padding:16,borderRadius:12}}><strong>◎ Nueva oportunidad cercana</strong><p style={{fontSize:14,color:"#555"}}>Cruzar campos, servicios y demanda en un radio de {radius} km.</p><small>REGLA SIMULADA · SIN CONSULTAS A PRODUCCIÓN</small></div><p style={{fontSize:12,color:"#666"}}>Las alertas reales requerirán fuente, fecha, umbral, precisión y permiso del usuario.</p></section>
  </div>
  <section style={{marginTop:28}}><div style={{display:"flex",justifyContent:"space-between",flexWrap:"wrap",alignItems:"center",gap:12}}><h2 style={{fontSize:30,letterSpacing:"-.04em"}}>Soluciones que construimos</h2><div style={{display:"flex",gap:8}}><button onClick={()=>setView("panel")} style={{padding:10,border:"1px solid #aaa",background:view==="panel"?"#333":"white",color:view==="panel"?"white":"#333",borderRadius:8}}>Módulos</button><button onClick={()=>setView("fuentes")} style={{padding:10,border:"1px solid #aaa",background:view==="fuentes"?"#333":"white",color:view==="fuentes"?"white":"#333",borderRadius:8}}>Fuentes y costos</button></div></div>
