@@ -26,8 +26,10 @@ export async function GET(req:NextRequest){
  const center=centers[country];if(!center)return json({error:"País no admitido"},400);
  const end=new Date(Date.now()-4*86400000),start=new Date(end.getTime()-13*86400000);
  const fmt=(d:Date)=>d.toISOString().slice(0,10).replaceAll("-","");
- const positions=[[0,0],[0.55,-0.65],[-0.55,0.65]].map(([a,b])=>({lat:Math.round((center.lat+a)*100)/100,lon:Math.round((center.lon+b)*100)/100}));
- const results=await Promise.allSettled(positions.map(p=>nasa(p.lat,p.lon,fmt(start),fmt(end))));
+ const offsets=[-1,0,1];
+ const positions=offsets.flatMap(a=>offsets.map(b=>({lat:Math.round((center.lat+a*0.5)*100)/100,lon:Math.round((center.lon+b*0.625)*1000)/1000})));
+ const results:PromiseSettledResult<Awaited<ReturnType<typeof nasa>>>[]=[];
+ for(let i=0;i<positions.length;i+=3){const batch=await Promise.allSettled(positions.slice(i,i+3).map(p=>nasa(p.lat,p.lon,fmt(start),fmt(end))));results.push(...batch);}
  const points=results.flatMap(x=>x.status==="fulfilled"?[x.value]:[]);
  if(!points.length)return json({error:"NASA POWER no disponible; no se muestran datos simulados",source:"NASA POWER"},503);
  let alerts:{event:string;severity:string;headline:string}[]=[];
@@ -35,5 +37,5 @@ export async function GET(req:NextRequest){
  const r=await fetch("https://api.weather.gov/alerts/active?point="+center.lat+","+center.lon,{headers:{"User-Agent":"RentoCampo GeoMarket (hola@rentocampo.com)","Accept":"application/geo+json"},next:{revalidate:1800},signal:AbortSignal.timeout(8000)});
  if(r.ok){const d=await r.json();alerts=(d.features??[]).slice(0,8).map((f:{properties?:{event?:string;severity?:string;headline?:string}})=>({event:f.properties?.event??"Aviso",severity:f.properties?.severity??"Unknown",headline:f.properties?.headline??""}));}
  }catch{}
- return json({country,region:center.name,center:[center.lat,center.lon],period:{start:fmt(start),end:fmt(end)},source:"NASA POWER Daily API",metric:"Precipitación acumulada histórica (mm), últimos 14 días disponibles",points,partial:points.length<positions.length,alerts,alertsSource:country==="US"?"NOAA NWS":"No disponible",updatedAt:new Date().toISOString()});
+ return json({country,region:center.name,center:[center.lat,center.lon],period:{start:fmt(start),end:fmt(end)},source:"NASA POWER Daily API",metric:"Precipitación acumulada histórica (mm), últimos 14 días disponibles",points,partial:points.length<positions.length,grid:{latStep:0.5,lonStep:0.625,expected:positions.length},alerts,alertsSource:country==="US"?"NOAA NWS":"No disponible",updatedAt:new Date().toISOString()});
 }
