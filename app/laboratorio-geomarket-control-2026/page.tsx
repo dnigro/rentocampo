@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
+import "leaflet/dist/leaflet.css";
 
 type Region = { id:string; country:string; label:string; rainfall:number; ndvi:number; opportunities:number; risk:string; detail:string };
 const regions:Region[]=[
