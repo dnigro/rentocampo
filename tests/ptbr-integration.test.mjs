@@ -214,22 +214,25 @@ test("map displays new-country field markers and refreshes on country change", (
  assert.match(nav,/router\.refresh\(\)/);
  assert.match(selector,/router\.replace\(/);
 });
-test("approved responsive hero and FAQ experience remain present", () => {
+test("approved responsive direct-contact hero and FAQ experience remain present", () => {
  const faq=read("components/landing/LandingFAQ.tsx");
  const hero=read("components/landing/LandingTriptychHero.tsx");
  const styles=read("styles/hero-2026-isolated.css");
+ const lite=read("app/lite/page.tsx");
  assert.ok(hero.includes('rcHero26__heading'));
- assert.ok(!hero.includes('rcHero26__number'));
- assert.ok(hero.includes('rcHero26__visionTitle'));
- assert.ok(hero.includes('UNIMOS EL CAMPO'));
+ assert.ok(hero.includes('rcHero26__impactLead'));
+ assert.ok(hero.includes('rcHero26__impactWord'));
  assert.ok(hero.includes('rcHero26__visionLine'));
- assert.ok(!hero.includes('rcHero26__steps'));
- assert.ok(hero.includes('rcHero26__freeLine'));
- assert.ok(hero.includes('rcHero26__sumate'));
- assert.ok(!hero.includes('className="rcHero26__countries"'));
+ assert.ok(hero.includes('rcHero26__stats'));
  assert.ok(hero.includes('rcHero26__register'));
  assert.ok(hero.includes('rcHero26__panel'));
- assert.ok(hero.includes('100% GRATIS,'));
+ assert.ok(hero.includes('INTERMEDIARIOS.'));
+ assert.ok(hero.includes('INTERMEDIÁRIOS.'));
+ assert.ok(hero.includes('COMISSÕES.'));
+ assert.ok(!hero.includes('rcHero26__sumate'));
+ assert.ok(lite.includes('rcLiteDirectHero__register'));
+ assert.ok(lite.includes('CADASTRE-SE GRÁTIS'));
+ assert.ok(!hero.includes('className="rcHero26__countries"'));
  assert.match(styles, /@media\(min-width:901px\)/);
  assert.match(styles, /@media\(max-width:900px\)/);
  assert.ok(faq.includes('id="preguntas"'));

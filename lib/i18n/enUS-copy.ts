@@ -1,5 +1,14 @@
 /** Shared US-English copy for the existing regionalText interface. Keep Spanish keys stable; translate only product UI, not user content. */
 export const enUSCopy: Record<string, string> = {
+  "CONECTAMOS EL CAMPO": "CONNECTING RURAL COMMUNITIES",
+  "SIN": "NO",
+  "INTERMEDIARIOS.": "MIDDLEMEN.",
+  "Vos publicás. Vos contactás. Vos acordás.": "You list. You connect. You decide.",
+  "Sin comisiones y contacto directo": "No commissions and direct contact",
+  "COMISIONES.": "COMMISSIONS.",
+  "CONTACTO DIRECTO.": "DIRECT CONTACT.",
+  "REGISTRATE GRATIS": "SIGN UP FREE",
+
   "Tierras productivas en la región": "PRODUCTIVE LAND ACROSS THE REGION",
   "La red del campo": "THE RURAL NETWORK",
   "Buscá campos disponibles en Argentina, Uruguay, Paraguay, Chile, Bolivia y Perú, por zona y aptitud agrícola, ganadera o mixta.": "Explore farmland across the Americas by location and agricultural, livestock, or mixed-use potential.",

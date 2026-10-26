@@ -128,3 +128,47 @@
 @media(min-width:901px){
  html[lang="en"] .rcHero26__visionTitle{font-size:clamp(18px,2.05vw,30px);letter-spacing:-.065em}
 }
+
+
+/* 2026-10: matte, neutral direct-contact hero (web and mobile). */
+.rcHero26{--gold:#c9c9c6;height:clamp(490px,62vh,650px)}
+.rcHero26__left{align-items:flex-start;text-align:left;gap:clamp(12px,1.5vw,22px);background:#242626}
+.rcHero26__left:before{background:linear-gradient(90deg,rgba(13,15,15,.84),rgba(24,26,26,.71)),url("/image_trigo_pix.png") center/cover no-repeat;filter:grayscale(1) brightness(.8)}
+.rcHero26__left:after{background:linear-gradient(180deg,rgba(23,24,24,.13),rgba(11,12,12,.32))}
+.rcHero26__eyebrow{margin:0;color:#dededb;font-size:clamp(10px,.88vw,13px);font-weight:800;letter-spacing:.24em;line-height:1.4}
+.rcHero26__heading{width:100%;align-items:flex-start;text-align:left;gap:0;max-width:100%;line-height:.94}
+.rcHero26__impactLead{font-size:clamp(68px,7.3vw,118px);line-height:.88;font-weight:900;letter-spacing:-.075em}
+.rcHero26__impactWord{max-width:100%;font-size:clamp(24px,3.35vw,49px);line-height:1.02;font-weight:900;letter-spacing:-.072em;overflow-wrap:anywhere}
+.rcHero26__visionLine{margin:0;color:#e6e5e2;text-align:left;font-size:clamp(11px,1.1vw,15px);font-weight:750;letter-spacing:.06em;line-height:1.45}
+.rcHero26__stats{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.22fr);width:100%;gap:0;padding:4px 0}
+.rcHero26__stat{display:flex;flex-direction:column;min-width:0;gap:2px}
+.rcHero26__stat+.rcHero26__stat{border-left:1px solid rgba(231,231,227,.4);padding-left:clamp(14px,2.3vw,32px)}
+.rcHero26__stat strong{font-size:clamp(49px,5.3vw,78px);line-height:1;font-weight:900;letter-spacing:-.08em;font-variant-numeric:tabular-nums;color:#f0f0ee}
+.rcHero26__stat span{font-size:clamp(11px,1.17vw,17px);line-height:1.18;font-weight:900;letter-spacing:-.03em;color:#dadad7}
+.rcHero26__register{width:min(342px,100%);min-height:53px;gap:15px;margin-top:2px;background:#efeeeb;color:#222423;box-shadow:none;font-weight:900;letter-spacing:-.025em;text-transform:uppercase}
+.rcHero26__register:hover{background:#d9d9d6}
+.rcHero26__register:focus-visible{outline:3px solid #f4f4f2;outline-offset:3px}
+.rcHero26__panelCta{background:#e8e7e3;border:1px solid #d6d5d1;box-shadow:none}
+.rcHero26__panelTitle{text-shadow:none}
+.rcHero26__photo{filter:grayscale(1) brightness(.72) contrast(1.03)}
+@media(min-width:901px){
+ .rcHero26{grid-template-columns:49% 51%}
+ .rcHero26__left{padding:30px clamp(22px,3.3vw,56px);padding-right:clamp(42px,4.2vw,75px);margin-right:-28px}
+}
+@media(max-width:900px){
+ .rcHero26{height:auto}
+ .rcHero26__left{padding:28px clamp(18px,5vw,36px) 27px;gap:14px}
+ .rcHero26__eyebrow{font-size:11px;letter-spacing:.18em}
+ .rcHero26__impactLead{font-size:clamp(56px,13.5vw,96px)}
+ .rcHero26__impactWord{font-size:clamp(25px,6.6vw,49px);letter-spacing:-.075em}
+ .rcHero26__visionLine{font-size:clamp(11px,2.9vw,15px);letter-spacing:.02em}
+ .rcHero26__stats{max-width:480px;margin:4px 0}
+ .rcHero26__stat strong{font-size:clamp(47px,12vw,72px)}
+ .rcHero26__stat span{font-size:clamp(11px,3.25vw,15px)}
+ .rcHero26__register{min-height:52px;width:min(100%,360px);margin-top:2px;font-size:clamp(14px,4vw,17px)}
+}
+@media(max-width:360px){
+ .rcHero26__impactWord{font-size:clamp(23px,6.55vw,27px)}
+ .rcHero26__stat+.rcHero26__stat{padding-left:12px}
+ .rcHero26__stat span{font-size:10.5px}
+}

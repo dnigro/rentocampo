@@ -108,27 +108,33 @@ test('LATAM preview fails closed without dedicated UAT credentials', () => {
 });
 
 // The homepage must be derived from the same ISO catalog as selectors and filters.
-test('hero shows 100% GRATIS, SUMATE as one bold underlined line', () => {
+test('web and Lite heroes communicate direct contact with zero commissions in every layout', () => {
   const hero=readFileSync(new URL('../components/landing/LandingTriptychHero.tsx', import.meta.url),'utf8');
   const css=readFileSync(new URL('../styles/hero-2026-isolated.css', import.meta.url),'utf8');
   const lite=readFileSync(new URL('../app/lite/page.tsx', import.meta.url),'utf8');
+  const liteCss=readFileSync(new URL('../styles/lite-direct-hero.css', import.meta.url),'utf8');
+  const en=readFileSync(new URL('../lib/i18n/enUS-copy.ts', import.meta.url),'utf8');
   assert.equal(COUNTRY_CODES.length,19);
-  assert.match(hero, /className="rcHero26__freeLine"/);
-  assert.ok(!hero.includes('rcHero26__number'));
-  assert.match(hero, /UNIMOS EL CAMPO/);
-  assert.match(hero, /UNIMOS O CAMPO/);
-  assert.ok(!hero.includes('rcHero26__steps'));
-  assert.ok(!lite.includes('#1 RED FEDERAL'));
-  assert.match(lite, /UNIMOS EL CAMPO/);
-  assert.ok(!lite.includes('index<steps.length-1'));
-  assert.match(hero, /t\("100% GRATIS,","100% GRÁTIS,"\)/);
-  assert.match(hero, /t\("SUMATE","JUNTE-SE"\)/);
-  assert.ok(!hero.includes('COUNTRY_CODES.slice('));
-  assert.match(css, /\.rcHero26__freeLine\{[^}]*border-bottom:3px solid var\(--gold\)/);
-  assert.match(css, /\.rcHero26__sumate\{font-size:clamp\(/);
-  assert.match(lite, /t\("100% GRATIS,", "100% GRÁTIS,"\)/);
-  assert.match(lite, /t\("SUMATE", "JUNTE-SE"\)/);
+  for (const copy of [hero,lite]) {
+    assert.match(copy, /INTERMEDIARIOS\./);
+    assert.match(copy, /COMISIONES\./);
+    assert.match(copy, /CONTACTO DIRECTO\./);
+    assert.match(copy, /Vos publicás\. Vos contactás\. Vos acordás\./);
+    assert.match(copy, /REGISTRATE GRATIS/);
+    assert.match(copy, /100%/);
+    assert.match(copy, /0%/);
+    assert.ok(!copy.includes('100% GRATIS,'), 'old SUMATE hero wording removed');
+  }
   assert.match(hero, /className="rcHero26__register"/);
+  assert.match(hero, /href="\/register"/);
+  assert.match(lite, /href="\/lite\/cuenta\/registro"/);
+  assert.match(css, /\.rcHero26__stats\{/);
+  assert.match(css, /@media\(min-width:901px\)/);
+  assert.match(css, /@media\(max-width:900px\)/);
+  assert.match(liteCss, /\.rcLiteDirectHero__stats\{/);
+  assert.match(liteCss, /@media\(max-width:360px\)/);
+  assert.match(en, /"INTERMEDIARIOS\.": "MIDDLEMEN\."/);
+  assert.match(en, /"REGISTRATE GRATIS": "SIGN UP FREE"/);
 });
 
 test('LATAM18 map zoning catalog has four valid geolocated references per new country', async () => {

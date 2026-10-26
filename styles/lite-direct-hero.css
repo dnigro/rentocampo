@@ -1,0 +1,20 @@
+/* App Lite home: responsive, matte version of the direct-contact hero. */
+.rcLiteDirectHero{position:relative;isolation:isolate;display:flex;align-items:center;min-height:clamp(430px,115vw,555px);overflow:hidden;background:#242626;color:#f5f5f3}
+.rcLiteDirectHero *{box-sizing:border-box}
+.rcLiteDirectHero__image{object-fit:cover;object-position:72% center;filter:grayscale(1) brightness(.62) contrast(1.05);z-index:-2}
+.rcLiteDirectHero__tone{position:absolute;inset:0;z-index:-1;background:linear-gradient(143deg,rgba(23,25,25,.98) 0%,rgba(29,31,31,.95) 53%,rgba(29,31,31,.42) 77%,rgba(29,31,31,.20) 100%)}
+.rcLiteDirectHero__body{position:relative;width:100%;max-width:520px;padding:34px 22px 40px;display:flex;flex-direction:column;align-items:flex-start;gap:18px}
+.rcLiteDirectHero__eyebrow{margin:0;color:#d2d2ce;font-size:11px;letter-spacing:.18em;font-weight:800}
+.rcLiteDirectHero__title{margin:0;display:flex;flex-direction:column;max-width:100%;line-height:.97;letter-spacing:-.07em;font-weight:900}
+.rcLiteDirectHero__title span:first-child{font-size:clamp(66px,17vw,110px);line-height:.83}
+.rcLiteDirectHero__title span:last-child{font-size:clamp(26px,6.7vw,42px);overflow-wrap:anywhere}
+.rcLiteDirectHero__line{margin:0;font-size:clamp(11px,3.1vw,15px);line-height:1.5;font-weight:750;letter-spacing:.025em;color:#e6e5e1}
+.rcLiteDirectHero__stats{display:grid;grid-template-columns:1fr 1.25fr;gap:0;width:min(100%,410px);margin:4px 0}
+.rcLiteDirectHero__stats>div{min-width:0;display:flex;flex-direction:column;gap:2px}
+.rcLiteDirectHero__stats>div+div{border-left:1px solid #aaa9a5;padding-left:18px}
+.rcLiteDirectHero__stats strong{font-size:clamp(52px,13vw,74px);line-height:.96;font-weight:900;letter-spacing:-.07em}
+.rcLiteDirectHero__stats span{font-size:clamp(11px,3.15vw,16px);font-weight:900;line-height:1.2}
+.rcLiteDirectHero__register{width:min(100%,365px);min-height:56px;display:flex;align-items:center;justify-content:center;gap:14px;border-radius:999px;background:#efeeeb;color:#1c1e1d;text-decoration:none;text-align:center;font-weight:900;font-size:clamp(14px,4vw,17px);box-shadow:none}
+.rcLiteDirectHero__register:hover{background:#d9d8d4}
+.rcLiteDirectHero__register:focus-visible{outline:3px solid #fff;outline-offset:3px}
+@media(max-width:360px){.rcLiteDirectHero__body{padding-inline:17px;gap:15px}.rcLiteDirectHero__title span:last-child{font-size:clamp(22px,6.65vw,27px)}.rcLiteDirectHero__stats>div+div{padding-left:12px}.rcLiteDirectHero__stats span{font-size:10.5px}}
