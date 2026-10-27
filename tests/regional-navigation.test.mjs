@@ -177,7 +177,7 @@ test('four regional zone markers are not mislabeled as field DEMOs', () => {
  assert.match(map,/Zona productiva \(no es un campo\)/);
 });
 
-test('approved V2 teaser is restored below FAQ with original images',()=>{ const home=readFileSync(new URL('../components/landing/LandingPageContent.tsx',import.meta.url),'utf8'); const v2=readFileSync(new URL('../components/landing/LandingIntelligence.tsx',import.meta.url),'utf8'); assert.ok(home.indexOf('<LandingFAQ />')<home.indexOf('<LandingIntelligence />')); for(const s of ['PRÓXIMAMENTE','AgroClimate','GeoMarket','/intelligence-agro-approved.webp','/intelligence-geo-approved.webp']) assert.ok(v2.includes(s)); });
+test('V2 teaser stays hidden from public homepage until launch, while preserving its assets',()=>{ const home=readFileSync(new URL('../components/landing/LandingPageContent.tsx',import.meta.url),'utf8'); const v2=readFileSync(new URL('../components/landing/LandingIntelligence.tsx',import.meta.url),'utf8'); assert.ok(home.includes('<LandingFAQ />')); assert.ok(!home.includes('LandingIntelligence')); for(const s of ['PRÓXIMAMENTE','AgroClimate','GeoMarket','/intelligence-agro-approved.webp','/intelligence-geo-approved.webp']) assert.ok(v2.includes(s)); });
 
 test('V2 evolution cards use a compact image crop and prose instead of bullet lists', () => {
   const v2=readFileSync(new URL('../components/landing/LandingIntelligence.tsx',import.meta.url),'utf8');
