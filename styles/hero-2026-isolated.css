@@ -174,7 +174,7 @@
 }
 
 /* Preview 2026-10-27: two mustard-yellow value lines, without changing the existing promise or CTA. */
-.rcHero26__features{display:flex;flex-direction:column;align-items:flex-start;gap:4px;max-width:100%;color:#caa343}
+.rcHero26__features{display:flex;flex-direction:column;align-items:flex-start;gap:4px;max-width:100%;color:var(--impact-yellow,#E6D87A)}
 .rcHero26__features p{margin:0;max-width:100%;overflow-wrap:break-word;text-wrap:balance;line-height:1.1}
 .rcHero26__featurePrimary{font-size:clamp(20px,2.15vw,29px);font-weight:900;letter-spacing:-.045em}
 .rcHero26__featureSecondary{font-size:clamp(15px,1.55vw,22px);font-weight:800;letter-spacing:-.025em}
