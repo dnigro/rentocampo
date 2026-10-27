@@ -172,3 +172,18 @@
  .rcHero26__stat+.rcHero26__stat{padding-left:12px}
  .rcHero26__stat span{font-size:10.5px}
 }
+
+/* Preview 2026-10-27: two mustard-yellow value lines, without changing the existing promise or CTA. */
+.rcHero26__features{display:flex;flex-direction:column;align-items:flex-start;gap:4px;max-width:100%;color:var(--impact-yellow,#E6D87A)}
+.rcHero26__features p{margin:0;max-width:100%;overflow-wrap:break-word;text-wrap:balance;line-height:1.1}
+.rcHero26__featurePrimary{font-size:clamp(20px,2.15vw,29px);font-weight:900;letter-spacing:-.045em}
+.rcHero26__featureSecondary{font-size:clamp(15px,1.55vw,22px);font-weight:800;letter-spacing:-.025em}
+@media(max-width:900px){
+ .rcHero26__features{gap:5px}
+ .rcHero26__featurePrimary{font-size:clamp(19px,5.2vw,27px)}
+ .rcHero26__featureSecondary{font-size:clamp(14px,3.85vw,19px)}
+}
+@media(max-width:360px){
+ .rcHero26__featurePrimary{font-size:18px}
+ .rcHero26__featureSecondary{font-size:13px}
+}
