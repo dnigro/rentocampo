@@ -23,6 +23,10 @@ export default function LandingTriptychHero() {
     <span className="rcHero26__impactLead">{t("SIN","SEM")}</span>
     <span className="rcHero26__impactWord">{t("INTERMEDIARIOS.","INTERMEDIÁRIOS.")}</span>
    </h1>
+   <div className="rcHero26__features" aria-label={t("Mapas, chat, productores, tierras y servicios","Mapas, chat, produtores, terras e serviços")}>
+    <p className="rcHero26__featurePrimary">{t("MAPAS + CHAT ONLINE","MAPAS + CHAT ONLINE")}</p>
+    <p className="rcHero26__featureSecondary">{t("Productores + Tierra + Servicios","Produtores + Terras + Serviços")}</p>
+   </div>
    <p className="rcHero26__visionLine">{t("Vos publicás. Vos contactás. Vos acordás.","Você anuncia. Você conversa. Você combina.")}</p>
    <div className="rcHero26__stats" aria-label={t("Sin comisiones y contacto directo","Sem comissões e contato direto")}>
     <div className="rcHero26__stat"><strong>0%</strong><span>{t("COMISIONES.","COMISSÕES.")}</span></div>
