@@ -129,6 +129,9 @@ test('web and Lite heroes communicate direct contact with zero commissions in ev
   assert.match(hero, /href="\/register"/);
   assert.match(lite, /href="\/lite\/cuenta\/registro"/);
   assert.match(css, /\.rcHero26__stats\{/);
+  // Desktop CTA must stay inside the hero when additional value lines are present.
+  assert.ok(css.includes('.rcHero26{--gold:#c9c9c6;height:auto;min-height:clamp(490px,62vh,650px)}'));
+  assert.ok(css.includes('.rcHero26__register{flex-shrink:0;'));
   assert.match(css, /@media\(min-width:901px\)/);
   assert.match(css, /@media\(max-width:900px\)/);
   assert.match(liteCss, /\.rcLiteDirectHero__stats\{/);
