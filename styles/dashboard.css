@@ -237,3 +237,8 @@
 .app-shell .main-content>.page-container:not(.perfil-page) .btn-primary-lg{background:#151515;color:#fff;border-radius:7px}
 .app-shell .main-content>.page-container:not(.perfil-page) .empty-state{border:1px solid #e6e4df;border-radius:12px;background:#f8f8f6;padding:48px 24px}
 @media(max-width:640px){.app-shell .main-content>.page-container:not(.perfil-page){padding:20px 16px 60px}.app-shell .main-content>.page-container:not(.perfil-page)>.page-header{flex-wrap:wrap}}
+
+/* V4 — clearer account navigation icons without changing cards */
+.app-shell .dashboard-cards .dash-card-icon{font-size:38px!important;line-height:1.15!important;display:inline-flex;align-items:center;justify-content:flex-start;min-height:44px;margin-bottom:14px;filter:saturate(.9)}
+.app-shell .dashboard-cards .dash-card-icon svg{width:38px;height:38px;stroke-width:1.9}
+@media(max-width:600px){.app-shell .dashboard-cards .dash-card-icon{font-size:35px!important;min-height:40px;margin-bottom:10px}.app-shell .dashboard-cards .dash-card-icon svg{width:35px;height:35px}}
