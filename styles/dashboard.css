@@ -192,3 +192,53 @@
     font-size: 16px !important;
   }
 }
+
+/* Dashboard visual refresh — October 2026 preview, scoped to dashboard */
+.app-shell .dashboard-page {max-width:1320px;padding:38px clamp(16px,4vw,64px) 88px;}
+.app-shell .dashboard-header {background:#151515;color:#fff;border-radius:16px;padding:clamp(28px,4vw,54px);margin-bottom:26px;min-height:210px;align-items:center;position:relative;overflow:hidden;}
+.app-shell .dashboard-header:after {content:"RENTOCAMPO";position:absolute;right:-8px;bottom:-35px;font-family:Impact,sans-serif;font-size:clamp(90px,12vw,200px);font-weight:900;color:rgba(255,255,255,.045);pointer-events:none;}
+.app-shell .dashboard-title {font-family:var(--font-display),Impact,sans-serif;font-size:clamp(52px,6.5vw,96px);line-height:.95;font-weight:800;letter-spacing:-.03em;text-transform:uppercase;color:#fff!important;position:relative;z-index:1;}
+.app-shell .dashboard-header .badge-tipo {background:#c49a19!important;color:#141414!important;border:1px solid #e4c661!important;border-radius:6px;padding:12px 16px;font-weight:800;position:relative;z-index:1;}
+.app-shell .dashboard-cards {grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;counter-reset:dashcards;}
+.app-shell .dashboard-cards .dash-card {counter-increment:dashcards;min-height:235px;padding:28px 30px;position:relative;background:#f5f5f3;border:1px solid #deded9;border-radius:12px;box-shadow:none;justify-content:flex-end;overflow:hidden;}
+.app-shell .dashboard-cards .dash-card:before {content:counter(dashcards,decimal-leading-zero);position:absolute;right:22px;top:12px;font-family:var(--font-display),Impact,sans-serif;font-size:clamp(70px,7vw,110px);font-weight:800;line-height:1;color:#c49a19;opacity:.9;}
+.app-shell .dashboard-cards .dash-card:hover {background:#151515;border-color:#151515;box-shadow:0 16px 36px rgba(0,0,0,.12);transform:translateY(-3px);}
+.app-shell .dashboard-cards .dash-card:hover .dash-card-label {color:#fff!important;}
+.app-shell .dashboard-cards .dash-card:hover .dash-card-desc {color:#c8c8c8!important;}
+.app-shell .dashboard-cards .dash-card-icon {font-size:28px;position:relative;z-index:1;}
+.app-shell .dashboard-cards .dash-card-label {font-size:clamp(22px,2vw,28px)!important;color:#151515!important;position:relative;z-index:1;max-width:80%;}
+.app-shell .dashboard-cards .dash-card-desc {font-size:15px!important;color:#666!important;position:relative;z-index:1;max-width:85%;}
+@media(max-width:950px){.app-shell .dashboard-cards{grid-template-columns:repeat(2,minmax(0,1fr));}.app-shell .dashboard-header{min-height:180px;}}
+@media(max-width:760px){.app-shell .dashboard-page{padding:20px 16px 60px}.app-shell .dashboard-header{display:flex!important;flex-direction:column-reverse;align-items:flex-start;justify-content:center;gap:22px;padding:26px 22px!important;min-height:190px}.app-shell .dashboard-header .badge-tipo{position:relative!important;top:auto!important;left:auto!important;max-width:100%;white-space:normal}.app-shell .dashboard-title{font-size:clamp(44px,10vw,70px)!important;margin:0!important}.app-shell .dashboard-cards{grid-template-columns:1fr;gap:12px}.app-shell .dashboard-cards .dash-card{min-height:175px;padding:22px 24px}.app-shell .dashboard-cards .dash-card:before{font-size:85px;}}
+
+/* V3 refined layout — remove oversized hero and broken CSS counter */
+.app-shell .dashboard-page{max-width:1200px;padding:28px 24px 70px}
+.app-shell .dashboard-header{min-height:0;padding:30px 36px;background:#f4f4f1;color:#151515;border-radius:12px;border-left:5px solid #c49a19;align-items:center;margin-bottom:24px}
+.app-shell .dashboard-header:after{display:none}
+.app-shell .dashboard-title{font-size:clamp(32px,4vw,54px)!important;color:#151515!important;letter-spacing:-.015em}
+.app-shell .dashboard-header .badge-tipo{background:#fff!important;border:1px solid #e1d5aa!important;border-radius:999px}
+.app-shell .dashboard-cards{grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.app-shell .dashboard-cards .dash-card{min-height:165px;padding:24px;justify-content:flex-start;background:#fff;border-radius:10px}
+.app-shell .dashboard-cards .dash-card:before{display:none!important;content:none!important}
+.app-shell .dashboard-cards .dash-card-icon{font-size:25px;margin-bottom:14px}
+.app-shell .dashboard-cards .dash-card-label{font-size:21px!important;max-width:100%}
+.app-shell .dashboard-cards .dash-card-desc{font-size:14px!important;max-width:100%}
+.app-shell .dashboard-cards .dash-card:hover{background:#f8f6ee;border-color:#c49a19;transform:translateY(-2px)}
+.app-shell .dashboard-cards .dash-card:hover .dash-card-label{color:#151515!important}
+.app-shell .dashboard-cards .dash-card:hover .dash-card-desc{color:#666!important}
+@media(max-width:850px){.app-shell .dashboard-cards{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.app-shell .dashboard-header{min-height:0;padding:24px 20px!important;display:flex!important;flex-direction:column-reverse;align-items:flex-start}.app-shell .dashboard-cards{grid-template-columns:1fr}.app-shell .dashboard-cards .dash-card{min-height:130px}}
+
+/* Shared internal pages: compact editorial hierarchy */
+.app-shell .main-content>.page-container:not(.perfil-page){max-width:1200px;margin:0 auto;padding:34px 24px 76px}
+.app-shell .main-content>.page-container:not(.perfil-page)>.page-header{padding:24px 0 22px;margin-bottom:22px;border-bottom:1px solid #e5e3df;gap:20px;align-items:center}
+.app-shell .main-content>.page-container:not(.perfil-page) .page-title{font-family:var(--font-display),Impact,sans-serif;font-size:clamp(34px,4vw,56px);line-height:1.05;color:#151515;letter-spacing:-.015em}
+.app-shell .main-content>.page-container:not(.perfil-page) .page-subtitle{font-size:16px;color:#666}
+.app-shell .main-content>.page-container:not(.perfil-page) .btn-primary-lg{background:#151515;color:#fff;border-radius:7px}
+.app-shell .main-content>.page-container:not(.perfil-page) .empty-state{border:1px solid #e6e4df;border-radius:12px;background:#f8f8f6;padding:48px 24px}
+@media(max-width:640px){.app-shell .main-content>.page-container:not(.perfil-page){padding:20px 16px 60px}.app-shell .main-content>.page-container:not(.perfil-page)>.page-header{flex-wrap:wrap}}
+
+/* V4 — clearer account navigation icons without changing cards */
+.app-shell .dashboard-cards .dash-card-icon{font-size:38px!important;line-height:1.15!important;display:inline-flex;align-items:center;justify-content:flex-start;min-height:44px;margin-bottom:14px;filter:saturate(.9)}
+.app-shell .dashboard-cards .dash-card-icon svg{width:38px;height:38px;stroke-width:1.9}
+@media(max-width:600px){.app-shell .dashboard-cards .dash-card-icon{font-size:35px!important;min-height:40px;margin-bottom:10px}.app-shell .dashboard-cards .dash-card-icon svg{width:35px;height:35px}}

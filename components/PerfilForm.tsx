@@ -13,9 +13,10 @@ import { regionalText } from "@/lib/i18n/regional";
 interface Props {
   profile: Partial<Profile> | null;
   email: string;
+  country: CountryCode;
 }
 
-export default function PerfilForm({ profile, email }: Props) {
+export default function PerfilForm({ profile, email, country }: Props) {
   const router = useRouter();
   const [supabase] = useState(createClient);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -35,7 +36,7 @@ export default function PerfilForm({ profile, email }: Props) {
     localidad_servicio: profile?.localidad_servicio ?? "",
   });
 
-  const tt=(es:string,pt:string)=>regionalText(form.country_code,es,pt);
+  const tt=(es:string,pt:string,en?:string)=>regionalText(country,es,pt,en);
   const [avatarPreview, setAvatarPreview] = useState(profile?.avatar_url ?? "");
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
   const [servicePhotoPreview, setServicePhotoPreview] = useState(profile?.service_photo_url ?? "");
@@ -260,8 +261,8 @@ export default function PerfilForm({ profile, email }: Props) {
   return (
     <div className="perfil-layout">
       {/* Sección: Avatar */}
-      <div className="perfil-section">
-        <h2 className="perfil-section-title">{tt("Foto de perfil","Foto de perfil")}</h2>
+      <div className="perfil-section perfil-avatar-panel">
+        <div className="perfil-photo-intro"><span className="perfil-intro-icon" aria-hidden="true">◉</span><div><h2 className="perfil-section-title">{tt("Información de perfil","Informações do perfil","Profile information")}</h2><p className="perfil-section-description">{tt("Personalizá tu foto y los datos de tu cuenta.","Personalize sua foto e os dados da sua conta.","Personalize your photo and account details.")}</p></div></div><div className="perfil-photo-column"><h3 className="perfil-photo-label">{tt("Foto de perfil","Foto de perfil","Profile photo")}</h3>
         <div className="avatar-editor">
           <div
             className="avatar-preview"
@@ -283,13 +284,13 @@ export default function PerfilForm({ profile, email }: Props) {
             </div>
           </div>
           <div className="avatar-info">
-            <p className="avatar-hint">JPG o PNG, máximo 2MB</p>
+            <p className="avatar-hint">{tt("JPG o PNG, máximo 2MB","JPG ou PNG, máximo 2 MB","JPG or PNG, maximum 2 MB")}</p>
             <button
               type="button"
               className="btn-secondary-lg"
               onClick={() => fileInputRef.current?.click()}
             >
-              Elegir foto
+              {tt("Elegir foto","Escolher foto","Choose photo")}
             </button>
             {avatarPreview && (
               <button
@@ -301,10 +302,11 @@ export default function PerfilForm({ profile, email }: Props) {
                   setRemoveAvatar(true);
                 }}
               >
-                Eliminar foto
+                {tt("Eliminar foto","Excluir foto","Remove photo")}
               </button>
             )}
           </div>
+        </div>
         </div>
         <input
           ref={fileInputRef}
@@ -316,8 +318,8 @@ export default function PerfilForm({ profile, email }: Props) {
       </div>
 
       {/* Sección: Datos personales */}
-      <form className="perfil-section" onSubmit={handleSavePerfil}>
-        <h2 className="perfil-section-title">{tt("Datos personales","Dados pessoais")}</h2>
+      <form className="perfil-section perfil-main-form" onSubmit={handleSavePerfil}>
+        <h2 className="perfil-section-title">{tt("Datos personales","Dados pessoais","Personal details")}</h2><p className="perfil-section-description">{tt("Completá tus datos para mejorar tu experiencia en RentoCampo.","Complete seus dados para melhorar sua experiência no RentoCampo.","Complete your details to improve your RentoCampo experience.")}</p>
 
         {error && <div className="form-error">{error}</div>}
         {successMsg && <div className="form-success">{successMsg}</div>}
@@ -410,7 +412,7 @@ export default function PerfilForm({ profile, email }: Props) {
                     checked={form.servicios_rurales.includes(servicio.value)}
                     onChange={() => toggleServicio(servicio.value)}
                   />
-                  <span>{servicioLabel(servicio.value,form.country_code)}</span>
+                  <span>{servicioLabel(servicio.value,country)}</span>
                 </label>
               ))}
             </div>
