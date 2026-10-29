@@ -61,7 +61,7 @@ Alianzas | organizaciones que aceptan difundir y resultados atribuibles | regist
 - Cambio aplicado 21/10/2026: todas las 16 tienen **5 hashtags** relevantes y mantienen imagen, fecha y ambos canales (Instagram/Facebook).
 - Máximo 5 etiquetas IG: marca + actividad/intención + región; preferir 3-5 etiquetas específicas a listados masivos.
 - Copy con localidad, servicio real, propuesta de valor y una sola CTA; en Instagram, dirigir al enlace de perfil o Story enlazada (no depender de URLs de caption como clicables).
-- Estética oficial: fotos rurales realistas, opacas/vintage, blanco/negro sobrio, tipografía blanca y botones verde inglés; no reemplazar con imágenes genéricas de IA.
+- Estética oficial y QA obligatorio: aplicar [identidad visual y QA social 2026](./identidad-visual-y-qa-social-2026.md) a **todas** las piezas nuevas y futuras adaptaciones; prioridad a la referencia diagonal de Bolivia aportada el 29/10/2026 (verde inglés, grafito, gris/plateado mate, blanco y negro, fotos reales; sin efecto IA). Revisión autónoma de legibilidad, composición, copy, país/idioma y contenido; sin exigir validación de cada imagen.
 - No presentar una foto ilustrativa como una propiedad, usuario o servicio real. Señalizar ilustraciones y DEMO.
 - Antes de programar: revisar duplicados, país/idioma (PT-BR), fecha, medio, imagen y enlace.
 - Próximos experimentos: versiones 3 vs. 5 hashtags en posts comparables; contenido de **ficha real específica** vs. mensaje genérico, orientado a clic/registros (no solo likes).
