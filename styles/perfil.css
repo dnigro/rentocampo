@@ -896,3 +896,27 @@
 .app-shell .perfil-page .perfil-layout>.perfil-avatar-panel .perfil-section-title{grid-column:2;grid-row:1;align-self:end;margin:0 0 6px 0;text-align:left;font-family:inherit;font-size:22px;font-weight:800;line-height:1.2;letter-spacing:0;text-transform:none}
 .app-shell .perfil-page .perfil-layout>.perfil-avatar-panel .avatar-editor{grid-column:2;grid-row:2;justify-content:flex-start;align-items:center}
 }
+
+/* V7 — approved clean profile direction */
+.app-shell .page-container.perfil-page{max-width:1220px;margin:auto;padding:28px 28px 80px;background:#fff}
+.app-shell .perfil-page>.page-header{margin:0 0 22px;padding:16px 0 22px;border-bottom:0;text-align:left}
+.app-shell .perfil-page .page-title{font-family:inherit!important;font-size:clamp(30px,3.5vw,44px)!important;font-weight:800!important;letter-spacing:-.035em;text-transform:none!important;line-height:1.15}
+.app-shell .perfil-page .page-subtitle{font-size:17px;color:#757575}
+.app-shell .perfil-page .perfil-layout{display:flex!important;flex-direction:column!important;gap:18px;max-width:1120px}
+.app-shell .perfil-page .perfil-layout>.perfil-section{width:100%;max-width:none;grid-column:auto!important;grid-row:auto!important;border:1px solid #e7e4de;border-radius:14px;background:#fff;padding:30px 32px;box-shadow:none}
+.app-shell .perfil-page .perfil-layout>.perfil-avatar-panel{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(320px,420px)!important;grid-template-rows:auto!important;gap:32px;align-items:center;position:static!important;background:#fff}
+.app-shell .perfil-page .perfil-avatar-panel .perfil-photo-intro{display:flex;align-items:flex-start;gap:18px;align-self:start}
+.app-shell .perfil-page .perfil-intro-icon{display:grid;place-items:center;flex-shrink:0;width:48px;height:48px;border-radius:50%;background:#faf2dc;color:#bd951c;font-size:28px}
+.app-shell .perfil-page .perfil-avatar-panel .perfil-photo-intro .perfil-section-title{font-family:inherit!important;font-size:22px!important;font-weight:750!important;line-height:1.25;text-transform:none!important;letter-spacing:-.02em!important;border:0;padding:0;margin:0 0 8px;text-align:left}
+.app-shell .perfil-page .perfil-section-description{color:#797979;font-size:14px;line-height:1.55;margin:0 0 22px}
+.app-shell .perfil-page .perfil-avatar-panel .perfil-photo-column{grid-column:2;grid-row:1;min-width:0;padding-left:26px;border-left:1px solid #ebe8e2}
+.app-shell .perfil-page .perfil-photo-label{font-family:inherit;font-size:17px;font-weight:750;margin:0 0 18px;color:#222}
+.app-shell .perfil-page .perfil-avatar-panel .avatar-editor{display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:22px}
+.app-shell .perfil-page .perfil-avatar-panel .avatar-preview{width:110px;height:110px;flex-shrink:0;border:2px solid #c49a19}
+.app-shell .perfil-page .perfil-avatar-panel .avatar-info{min-width:0;width:auto}
+.app-shell .perfil-page .perfil-avatar-panel .avatar-info .btn-secondary-lg{width:auto;min-width:142px;background:#fff;color:#222;border:1px solid #aaa;border-radius:6px}
+.app-shell .perfil-page .perfil-main-form .perfil-section-title,.app-shell .perfil-page .perfil-layout>.perfil-section:not(.perfil-avatar-panel) .perfil-section-title{font-family:inherit!important;font-size:24px!important;font-weight:750!important;letter-spacing:-.025em!important;text-transform:none!important;border:0;padding:0;margin:0 0 8px}
+.app-shell .perfil-page .perfil-main-form .form-input{background:#fff;border:1px solid #dad8d2;border-radius:8px}
+.app-shell .perfil-page .perfil-main-form .form-input:focus{outline:2px solid #c49a19;outline-offset:1px}
+@media(max-width:800px){.app-shell .perfil-page .perfil-layout>.perfil-avatar-panel{grid-template-columns:1fr!important;gap:20px}.app-shell .perfil-page .perfil-avatar-panel .perfil-photo-column{grid-column:1;grid-row:2;border-left:0;border-top:1px solid #ebe8e2;padding:20px 0 0}}
+@media(max-width:560px){.app-shell .page-container.perfil-page{padding:20px 16px 60px}.app-shell .perfil-page .perfil-layout>.perfil-section{padding:22px 18px}.app-shell .perfil-page .perfil-avatar-panel .avatar-editor{flex-wrap:wrap;gap:16px}.app-shell .perfil-page .perfil-avatar-panel .avatar-preview{width:92px;height:92px}}
