@@ -920,3 +920,32 @@
 .app-shell .perfil-page .perfil-main-form .form-input:focus{outline:2px solid #c49a19;outline-offset:1px}
 @media(max-width:800px){.app-shell .perfil-page .perfil-layout>.perfil-avatar-panel{grid-template-columns:1fr!important;gap:20px}.app-shell .perfil-page .perfil-avatar-panel .perfil-photo-column{grid-column:1;grid-row:2;border-left:0;border-top:1px solid #ebe8e2;padding:20px 0 0}}
 @media(max-width:560px){.app-shell .page-container.perfil-page{padding:20px 16px 60px}.app-shell .perfil-page .perfil-layout>.perfil-section{padding:22px 18px}.app-shell .perfil-page .perfil-avatar-panel .avatar-editor{flex-wrap:wrap;gap:16px}.app-shell .perfil-page .perfil-avatar-panel .avatar-preview{width:92px;height:92px}}
+
+/* V8: quiet, compact account workspace */
+.app-shell .perfil-page .perfil-layout{gap:16px}
+.app-shell .perfil-page .perfil-layout>.perfil-section{border-color:#e9e8e4;border-radius:12px;padding:28px 30px}
+.app-shell .perfil-page .perfil-layout>.perfil-avatar-panel{grid-template-columns:minmax(0,1fr) minmax(300px,390px)!important;gap:24px;background:#f8f8f7}
+.app-shell .perfil-page .perfil-avatar-panel .perfil-photo-intro{align-self:center;gap:14px}
+.app-shell .perfil-page .perfil-intro-icon{background:#f1ede1;color:#a5821e;width:40px;height:40px;font-size:22px}
+.app-shell .perfil-page .perfil-avatar-panel .perfil-photo-intro .perfil-section-title{font-size:21px!important;font-weight:700!important}
+.app-shell .perfil-page .perfil-avatar-panel .perfil-photo-column{padding-left:24px}
+.app-shell .perfil-page .perfil-avatar-panel .avatar-preview{width:88px;height:88px;border:2px solid #c6a34a}
+.app-shell .perfil-page .perfil-photo-label{font-size:14px;color:#666;font-weight:700;margin-bottom:12px}
+.app-shell .perfil-page .perfil-avatar-panel .avatar-editor{gap:16px}
+.app-shell .perfil-page .perfil-avatar-panel .avatar-info .btn-secondary-lg{font-size:13px;min-height:38px;min-width:120px}
+.app-shell .perfil-page .perfil-role-options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.app-shell .perfil-page .perfil-role-option,.app-shell .perfil-page .perfil-main-form .perfil-role-option{background:#fafaf9;border:1px solid #e5e4e0;border-radius:10px;padding:16px;min-height:105px;transition:background .15s,border-color .15s}
+.app-shell .perfil-page .perfil-role-option:has(input:checked){background:#f8f5e9!important;border-color:#c6a34a}
+.app-shell .perfil-page .perfil-role-option strong{color:#222}
+.app-shell .perfil-page .perfil-role-option small{color:#727272}
+.app-shell .perfil-page .perfil-role-option input{accent-color:#161616}
+.app-shell .perfil-page .servicios-profile-box{background:#fafaf9;border:1px solid #e8e6e1;border-left:3px solid #c6a34a;border-radius:10px;padding:20px}
+.app-shell .perfil-page .servicios-profile-box h3{color:#262626}
+.app-shell .perfil-page .servicios-profile-box p{color:#737373}
+.app-shell .perfil-page .servicios-options{gap:9px}
+.app-shell .perfil-page .servicio-option span{border:1px solid #e2e0da;background:#fff;color:#333;font-size:13px;font-weight:600;border-radius:8px;padding:10px 13px}
+.app-shell .perfil-page .servicio-option input:checked+span{background:#242424;color:#fff;border-color:#242424}
+.app-shell .perfil-page .servicio-option input:focus-visible+span{outline:2px solid #c6a34a;outline-offset:2px}
+@media(max-width:850px){.app-shell .perfil-page .perfil-role-options,.app-shell .perfil-page .perfil-main-form .perfil-role-options{grid-template-columns:1fr 1fr}}
+@media(max-width:800px){.app-shell .perfil-page .perfil-layout>.perfil-avatar-panel{grid-template-columns:1fr!important}.app-shell .perfil-page .perfil-avatar-panel .perfil-photo-column{padding:18px 0 0;border-left:0;border-top:1px solid #e9e8e4}}
+@media(max-width:560px){.app-shell .perfil-page .perfil-role-options,.app-shell .perfil-page .perfil-main-form .perfil-role-options{grid-template-columns:1fr}.app-shell .perfil-page .perfil-layout>.perfil-section{padding:22px 18px}}
