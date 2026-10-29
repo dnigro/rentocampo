@@ -35,3 +35,12 @@
 .app-shell .auth-page-login .auth-footer{border-top:1px solid #e8e7e3;margin-top:24px;padding-top:20px}
 @media(max-width:850px){.app-shell .auth-page-login{grid-template-columns:1fr;max-width:540px;min-height:0;padding:30px 0}.app-shell .auth-page-login:before{font-size:clamp(30px,6vw,44px);min-height:130px;border-radius:12px 12px 0 0;padding:25px 30px}.app-shell .auth-page-login .auth-card{border:1px solid #e5e3df;border-top:0;border-radius:0 0 12px 12px}}
 @media(max-width:600px){.app-shell .auth-page-login{width:calc(100% - 28px);padding:18px 0}.app-shell .auth-page-login:before{min-height:105px;padding:22px;font-size:30px}.app-shell .auth-page-login .auth-card{padding:24px 20px}.app-shell .auth-page-login .auth-title{font-size:34px}}
+
+/* Login V3: white canvas, no decorative number or split panel */
+.app-shell .auth-page-login{display:flex;justify-content:center;align-items:flex-start;width:100%;max-width:none;min-height:calc(100vh - 190px);padding:46px 20px;background:#fff!important}
+.app-shell .auth-page-login:before{content:none!important;display:none!important}
+.app-shell .auth-page-login .auth-card{flex:none;width:min(100%,520px);max-width:520px;border:1px solid #e7e5df;border-radius:12px;padding:clamp(24px,3vw,38px);background:#fff;box-shadow:none}
+.app-shell .auth-page-login .auth-title{font-size:clamp(32px,3.5vw,46px);line-height:1.08}
+.app-shell .auth-page-login .auth-title:before,.app-shell .auth-page-login .auth-title:after,.app-shell .auth-page-login .auth-card:before,.app-shell .auth-page-login .auth-header:before{content:none!important;display:none!important}
+.app-shell .auth-page-login .auth-subtitle{font-size:15px;line-height:1.5}
+@media(max-width:600px){.app-shell .auth-page-login{padding:24px 14px}.app-shell .auth-page-login .auth-card{padding:24px 20px}}
