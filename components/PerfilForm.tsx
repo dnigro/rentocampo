@@ -412,7 +412,7 @@ export default function PerfilForm({ profile, email, country }: Props) {
                     checked={form.servicios_rurales.includes(servicio.value)}
                     onChange={() => toggleServicio(servicio.value)}
                   />
-                  <span>{servicioLabel(servicio.value,form.country_code)}</span>
+                  <span>{servicioLabel(servicio.value,country)}</span>
                 </label>
               ))}
             </div>
