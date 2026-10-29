@@ -889,3 +889,10 @@
 .app-shell .perfil-page .perfil-layout>.perfil-main-form,.app-shell .perfil-page .perfil-layout>.perfil-section:not(.perfil-avatar-panel):not(.perfil-main-form){grid-column:1;grid-row:auto}
 .app-shell .perfil-page .perfil-layout>.perfil-main-form{padding:28px 34px}
 @media(max-width:760px){.app-shell .perfil-page .perfil-layout>.perfil-avatar-panel{grid-template-columns:1fr;gap:14px;padding:22px}.app-shell .perfil-page .perfil-layout>.perfil-avatar-panel .avatar-editor{justify-content:flex-start;flex-wrap:wrap}.app-shell .perfil-page .perfil-layout>.perfil-avatar-panel .avatar-info{min-width:0}}
+
+/* V6: align photo heading with the photo on the right */
+@media(min-width:761px){
+.app-shell .perfil-page .perfil-layout>.perfil-avatar-panel{grid-template-columns:minmax(0,1fr) 410px;column-gap:18px}
+.app-shell .perfil-page .perfil-layout>.perfil-avatar-panel .perfil-section-title{grid-column:2;grid-row:1;align-self:end;margin:0 0 6px 0;text-align:left;font-family:inherit;font-size:22px;font-weight:800;line-height:1.2;letter-spacing:0;text-transform:none}
+.app-shell .perfil-page .perfil-layout>.perfil-avatar-panel .avatar-editor{grid-column:2;grid-row:2;justify-content:flex-start;align-items:center}
+}
