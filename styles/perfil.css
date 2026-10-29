@@ -805,3 +805,20 @@
     padding: 24px;
   }
 }
+
+/* Internal profile visual alignment — homepage palette */
+.app-shell .perfil-page { background: #f7f7f5; color: #151515; }
+.app-shell .perfil-page > .page-header { padding: 30px 0 36px; }
+.app-shell .perfil-page .page-title { color: #111; }
+.app-shell .perfil-page .page-subtitle { color: #646464; }
+.app-shell .perfil-page .perfil-section { border: 1px solid #e5e3dd; border-radius: 18px; box-shadow: none; }
+.app-shell .perfil-page .perfil-section-title { color: #111; font-family: var(--font-display), sans-serif; font-size: clamp(26px,3vw,42px); font-weight: 800; text-transform: uppercase; }
+.app-shell .perfil-page .perfil-role-option:has(input:checked) { border-color: #c49a19; background: #faf6e8; }
+.app-shell .perfil-page .perfil-role-option input { accent-color: #c49a19; }
+.app-shell .perfil-page .perfil-role-option strong { color: #171717; }
+.app-shell .perfil-page .perfil-section .btn-primary-lg { background: #141414; color: #fff; }
+.app-shell .perfil-page .perfil-section .btn-primary-lg:hover { background: #363636; }
+.app-shell .perfil-page .servicios-profile-box { background: #f7f7f5; border-color: #ddd9cc; border-left-color: #c49a19; }
+.app-shell .perfil-page .servicios-profile-box h3 { color: #141414; }
+.app-shell .perfil-page .servicio-option input:checked + span { background: #141414; border-color: #141414; }
+@media(max-width:640px){.app-shell .perfil-page > .page-header { padding: 18px 0 26px; }}
