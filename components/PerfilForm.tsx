@@ -262,7 +262,7 @@ export default function PerfilForm({ profile, email, country }: Props) {
     <div className="perfil-layout">
       {/* Sección: Avatar */}
       <div className="perfil-section perfil-avatar-panel">
-        <h2 className="perfil-section-title">{tt("Foto de perfil","Foto de perfil")}</h2>
+        <div className="perfil-photo-intro"><span className="perfil-intro-icon" aria-hidden="true">◉</span><div><h2 className="perfil-section-title">{tt("Información de perfil","Informações do perfil","Profile information")}</h2><p className="perfil-section-description">{tt("Personalizá tu foto y los datos de tu cuenta.","Personalize sua foto e os dados da sua conta.","Personalize your photo and account details.")}</p></div></div><div className="perfil-photo-column"><h3 className="perfil-photo-label">{tt("Foto de perfil","Foto de perfil","Profile photo")}</h3>
         <div className="avatar-editor">
           <div
             className="avatar-preview"
@@ -307,6 +307,7 @@ export default function PerfilForm({ profile, email, country }: Props) {
             )}
           </div>
         </div>
+        </div>
         <input
           ref={fileInputRef}
           type="file"
@@ -318,7 +319,7 @@ export default function PerfilForm({ profile, email, country }: Props) {
 
       {/* Sección: Datos personales */}
       <form className="perfil-section perfil-main-form" onSubmit={handleSavePerfil}>
-        <h2 className="perfil-section-title">{tt("Datos personales","Dados pessoais")}</h2>
+        <h2 className="perfil-section-title">{tt("Datos personales","Dados pessoais","Personal details")}</h2><p className="perfil-section-description">{tt("Completá tus datos para mejorar tu experiencia en RentoCampo.","Complete seus dados para melhorar sua experiência no RentoCampo.","Complete your details to improve your RentoCampo experience.")}</p>
 
         {error && <div className="form-error">{error}</div>}
         {successMsg && <div className="form-success">{successMsg}</div>}
