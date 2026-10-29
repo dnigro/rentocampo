@@ -261,7 +261,7 @@ export default function PerfilForm({ profile, email, country }: Props) {
   return (
     <div className="perfil-layout">
       {/* Sección: Avatar */}
-      <div className="perfil-section">
+      <div className="perfil-section perfil-avatar-panel">
         <h2 className="perfil-section-title">{tt("Foto de perfil","Foto de perfil")}</h2>
         <div className="avatar-editor">
           <div
@@ -317,7 +317,7 @@ export default function PerfilForm({ profile, email, country }: Props) {
       </div>
 
       {/* Sección: Datos personales */}
-      <form className="perfil-section" onSubmit={handleSavePerfil}>
+      <form className="perfil-section perfil-main-form" onSubmit={handleSavePerfil}>
         <h2 className="perfil-section-title">{tt("Datos personales","Dados pessoais")}</h2>
 
         {error && <div className="form-error">{error}</div>}
