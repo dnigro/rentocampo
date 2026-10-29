@@ -210,3 +210,30 @@
 .app-shell .dashboard-cards .dash-card-desc {font-size:15px!important;color:#666!important;position:relative;z-index:1;max-width:85%;}
 @media(max-width:950px){.app-shell .dashboard-cards{grid-template-columns:repeat(2,minmax(0,1fr));}.app-shell .dashboard-header{min-height:180px;}}
 @media(max-width:760px){.app-shell .dashboard-page{padding:20px 16px 60px}.app-shell .dashboard-header{display:flex!important;flex-direction:column-reverse;align-items:flex-start;justify-content:center;gap:22px;padding:26px 22px!important;min-height:190px}.app-shell .dashboard-header .badge-tipo{position:relative!important;top:auto!important;left:auto!important;max-width:100%;white-space:normal}.app-shell .dashboard-title{font-size:clamp(44px,10vw,70px)!important;margin:0!important}.app-shell .dashboard-cards{grid-template-columns:1fr;gap:12px}.app-shell .dashboard-cards .dash-card{min-height:175px;padding:22px 24px}.app-shell .dashboard-cards .dash-card:before{font-size:85px;}}
+
+/* V3 refined layout — remove oversized hero and broken CSS counter */
+.app-shell .dashboard-page{max-width:1200px;padding:28px 24px 70px}
+.app-shell .dashboard-header{min-height:0;padding:30px 36px;background:#f4f4f1;color:#151515;border-radius:12px;border-left:5px solid #c49a19;align-items:center;margin-bottom:24px}
+.app-shell .dashboard-header:after{display:none}
+.app-shell .dashboard-title{font-size:clamp(32px,4vw,54px)!important;color:#151515!important;letter-spacing:-.015em}
+.app-shell .dashboard-header .badge-tipo{background:#fff!important;border:1px solid #e1d5aa!important;border-radius:999px}
+.app-shell .dashboard-cards{grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.app-shell .dashboard-cards .dash-card{min-height:165px;padding:24px;justify-content:flex-start;background:#fff;border-radius:10px}
+.app-shell .dashboard-cards .dash-card:before{display:none!important;content:none!important}
+.app-shell .dashboard-cards .dash-card-icon{font-size:25px;margin-bottom:14px}
+.app-shell .dashboard-cards .dash-card-label{font-size:21px!important;max-width:100%}
+.app-shell .dashboard-cards .dash-card-desc{font-size:14px!important;max-width:100%}
+.app-shell .dashboard-cards .dash-card:hover{background:#f8f6ee;border-color:#c49a19;transform:translateY(-2px)}
+.app-shell .dashboard-cards .dash-card:hover .dash-card-label{color:#151515!important}
+.app-shell .dashboard-cards .dash-card:hover .dash-card-desc{color:#666!important}
+@media(max-width:850px){.app-shell .dashboard-cards{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.app-shell .dashboard-header{min-height:0;padding:24px 20px!important;display:flex!important;flex-direction:column-reverse;align-items:flex-start}.app-shell .dashboard-cards{grid-template-columns:1fr}.app-shell .dashboard-cards .dash-card{min-height:130px}}
+
+/* Shared internal pages: compact editorial hierarchy */
+.app-shell .main-content>.page-container:not(.perfil-page){max-width:1200px;margin:0 auto;padding:34px 24px 76px}
+.app-shell .main-content>.page-container:not(.perfil-page)>.page-header{padding:24px 0 22px;margin-bottom:22px;border-bottom:1px solid #e5e3df;gap:20px;align-items:center}
+.app-shell .main-content>.page-container:not(.perfil-page) .page-title{font-family:var(--font-display),Impact,sans-serif;font-size:clamp(34px,4vw,56px);line-height:1.05;color:#151515;letter-spacing:-.015em}
+.app-shell .main-content>.page-container:not(.perfil-page) .page-subtitle{font-size:16px;color:#666}
+.app-shell .main-content>.page-container:not(.perfil-page) .btn-primary-lg{background:#151515;color:#fff;border-radius:7px}
+.app-shell .main-content>.page-container:not(.perfil-page) .empty-state{border:1px solid #e6e4df;border-radius:12px;background:#f8f8f6;padding:48px 24px}
+@media(max-width:640px){.app-shell .main-content>.page-container:not(.perfil-page){padding:20px 16px 60px}.app-shell .main-content>.page-container:not(.perfil-page)>.page-header{flex-wrap:wrap}}
