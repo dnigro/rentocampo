@@ -949,3 +949,6 @@
 @media(max-width:850px){.app-shell .perfil-page .perfil-role-options,.app-shell .perfil-page .perfil-main-form .perfil-role-options{grid-template-columns:1fr 1fr}}
 @media(max-width:800px){.app-shell .perfil-page .perfil-layout>.perfil-avatar-panel{grid-template-columns:1fr!important}.app-shell .perfil-page .perfil-avatar-panel .perfil-photo-column{padding:18px 0 0;border-left:0;border-top:1px solid #e9e8e4}}
 @media(max-width:560px){.app-shell .perfil-page .perfil-role-options,.app-shell .perfil-page .perfil-main-form .perfil-role-options{grid-template-columns:1fr}.app-shell .perfil-page .perfil-layout>.perfil-section{padding:22px 18px}}
+
+/* Final approved alignment: shift profile page heading toward the center */
+@media(min-width:900px){.app-shell .perfil-page>.page-header{padding-left:clamp(100px,15vw,220px)}}
