@@ -20,3 +20,18 @@
   .auth-page-register .form-input { width: 100%; min-width: 0; font-size: 16px; }
   .auth-page-register .auth-form { min-width: 0; }
 }
+
+/* RentoCampo login V2 — split-screen editorial layout */
+.app-shell .auth-page-login{width:min(1180px,calc(100% - 48px));min-height:calc(100vh - 190px);margin:0 auto;padding:54px 0;display:grid;grid-template-columns:minmax(0,1fr) minmax(390px,480px);gap:0;align-items:stretch;background:transparent}
+.app-shell .auth-page-login:before{content:"CONECTAMOS\\A EL CAMPO.\\A SIN COMISIONES.";white-space:pre-line;display:flex;align-items:center;padding:clamp(28px,4vw,58px);background:#161616;color:#f7f7f5;border-radius:14px 0 0 14px;font-family:var(--font-display),Impact,sans-serif;font-size:clamp(40px,4.5vw,70px);font-weight:800;line-height:1.05;letter-spacing:-.02em;border-bottom:7px solid #c49a19}
+.app-shell .auth-page-login .auth-card{width:100%;max-width:none;margin:0;box-shadow:none;border:1px solid #e5e3df;border-left:0;border-radius:0 14px 14px 0;background:#fff;padding:clamp(28px,3vw,44px);display:flex;flex-direction:column;justify-content:center}
+.app-shell .auth-page-login .auth-header{text-align:left;margin-bottom:24px}
+.app-shell .auth-page-login .auth-title{font-family:var(--font-display),Impact,sans-serif;font-size:clamp(34px,3vw,48px);line-height:1.05;letter-spacing:-.015em;text-transform:uppercase;margin-bottom:12px}
+.app-shell .auth-page-login .auth-title:after{content:none!important;display:none!important}
+.app-shell .auth-page-login .auth-subtitle{font-size:16px;line-height:1.5;text-align:left;color:#676767}
+.app-shell .auth-page-login .auth-form .form-input{min-height:48px;border-radius:8px;background:#fff}
+.app-shell .auth-page-login .auth-form .form-input:focus{outline:2px solid #c49a19;outline-offset:1px}
+.app-shell .auth-page-login .btn-submit{background:#161616;color:#fff;border-radius:7px;min-height:50px;font-weight:800}
+.app-shell .auth-page-login .auth-footer{border-top:1px solid #e8e7e3;margin-top:24px;padding-top:20px}
+@media(max-width:850px){.app-shell .auth-page-login{grid-template-columns:1fr;max-width:540px;min-height:0;padding:30px 0}.app-shell .auth-page-login:before{font-size:clamp(30px,6vw,44px);min-height:130px;border-radius:12px 12px 0 0;padding:25px 30px}.app-shell .auth-page-login .auth-card{border:1px solid #e5e3df;border-top:0;border-radius:0 0 12px 12px}}
+@media(max-width:600px){.app-shell .auth-page-login{width:calc(100% - 28px);padding:18px 0}.app-shell .auth-page-login:before{min-height:105px;padding:22px;font-size:30px}.app-shell .auth-page-login .auth-card{padding:24px 20px}.app-shell .auth-page-login .auth-title{font-size:34px}}
