@@ -36,7 +36,7 @@ export default function PerfilForm({ profile, email, country }: Props) {
     localidad_servicio: profile?.localidad_servicio ?? "",
   });
 
-  const tt=(es:string,pt:string)=>regionalText(country,es,pt);
+  const tt=(es:string,pt:string,en?:string)=>regionalText(country,es,pt,en);
   const [avatarPreview, setAvatarPreview] = useState(profile?.avatar_url ?? "");
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
   const [servicePhotoPreview, setServicePhotoPreview] = useState(profile?.service_photo_url ?? "");
