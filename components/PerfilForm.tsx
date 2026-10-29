@@ -13,9 +13,10 @@ import { regionalText } from "@/lib/i18n/regional";
 interface Props {
   profile: Partial<Profile> | null;
   email: string;
+  country: CountryCode;
 }
 
-export default function PerfilForm({ profile, email }: Props) {
+export default function PerfilForm({ profile, email, country }: Props) {
   const router = useRouter();
   const [supabase] = useState(createClient);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -35,7 +36,7 @@ export default function PerfilForm({ profile, email }: Props) {
     localidad_servicio: profile?.localidad_servicio ?? "",
   });
 
-  const tt=(es:string,pt:string)=>regionalText(form.country_code,es,pt);
+  const tt=(es:string,pt:string)=>regionalText(country,es,pt);
   const [avatarPreview, setAvatarPreview] = useState(profile?.avatar_url ?? "");
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
   const [servicePhotoPreview, setServicePhotoPreview] = useState(profile?.service_photo_url ?? "");
@@ -283,13 +284,13 @@ export default function PerfilForm({ profile, email }: Props) {
             </div>
           </div>
           <div className="avatar-info">
-            <p className="avatar-hint">JPG o PNG, máximo 2MB</p>
+            <p className="avatar-hint">{tt("JPG o PNG, máximo 2MB","JPG ou PNG, máximo 2 MB","JPG or PNG, maximum 2 MB")}</p>
             <button
               type="button"
               className="btn-secondary-lg"
               onClick={() => fileInputRef.current?.click()}
             >
-              Elegir foto
+              {tt("Elegir foto","Escolher foto","Choose photo")}
             </button>
             {avatarPreview && (
               <button
@@ -301,7 +302,7 @@ export default function PerfilForm({ profile, email }: Props) {
                   setRemoveAvatar(true);
                 }}
               >
-                Eliminar foto
+                {tt("Eliminar foto","Excluir foto","Remove photo")}
               </button>
             )}
           </div>
