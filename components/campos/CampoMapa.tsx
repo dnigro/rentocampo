@@ -6,7 +6,6 @@ import { regionalPublicationHref, regionalPublicationLabel } from "@/lib/publica
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { LayerGroup, Map as LeafletMap } from "leaflet";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { ZONAS_PRODUCTIVAS_LATAM, type DemandaZona } from "@/data/demanda-zonas";
 import {
@@ -69,7 +68,6 @@ export default function CampoMapa({
   initialVista = "tierra",
   initialCountry = "AR",
 }: Props) {
-  const router = useRouter();
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<LeafletMap | null>(null);
   const camposLayer = useRef<LayerGroup | null>(null);
@@ -114,15 +112,29 @@ export default function CampoMapa({
   }
 
   function cambiarPais(nuevoPais: CountryCode) {
+    const pais = COUNTRIES[nuevoPais];
+    // El país elegido define SIEMPRE el centro y el zoom, en ambas capas.
+    // Centrar inmediatamente para que la interacción tenga respuesta visual.
+    map.current?.setView([...pais.mapCenter] as [number, number], pais.mapZoom, { animate: false });
     if (nuevoPais === countryCode) return;
-    // The map's points come from country-filtered server queries. Navigate to
-    // the selected market so fields and services are both fetched afresh.
-    // This also synchronizes the header selector and App Lite country cookie.
+
+    setSelectedCampo(null);
+    setSelectedDemanda(null);
+    setSelectedServicio(null);
+
+    // Igual que el selector del encabezado: navegar de forma completa.
+    // Un router.refresh() después de history.replaceState puede reutilizar
+    // los datos del país anterior. Reload fuerza las nuevas consultas
+    // servidoras para campos, servicios y DEMOs, también en App Lite.
     selectRegionalCountry(nuevoPais);
     const destino = new URL(window.location.href);
     destino.searchParams.set("vista", vista);
-    window.history.replaceState(window.history.state, "", `${destino.pathname}${destino.search}${destino.hash}`);
-    router.refresh();
+    window.history.replaceState(
+      window.history.state,
+      "",
+      `${destino.pathname}${destino.search}${destino.hash}`,
+    );
+    window.location.reload();
   }
 
   const prestadoresFiltrados = useMemo(
@@ -256,34 +268,12 @@ export default function CampoMapa({
           serviciosGroup.addTo(leafletMap);
         }
 
-        // The country selection owns the viewport, not whichever pins were
-        // rendered first. Keep the country's mapCenter/mapZoom authoritative.
-        // New-market DEMO fields share coordinates with editorial region references.
-        // Fit all active fields and editorial zones into view, especially on narrow screens.
-        const zonePoints = ZONAS_PRODUCTIVAS_LATAM
-          .filter((zone) => zone.country_code === countryCode)
-          .map((zone) => L.latLng(zone.latitud, zone.longitud));
-        const fieldPoints = camposConCoordenadas.flatMap((campo) => {
-          const lat = normalizarCoordenada(campo.latitud);
-          const lng = normalizarCoordenada(campo.longitud);
-          return lat !== null && lng !== null && Math.abs(lat) <= 90 && Math.abs(lng) <= 180
-            ? [L.latLng(lat, lng)] : [];
+        // Regla UX: nunca ajustar el viewport a los marcadores.
+        // Algunos marcadores están concentrados en una sola región;
+        // fitBounds los centraría allí en vez de mostrar el país seleccionado.
+        leafletMap.setView([...country.mapCenter] as [number, number], country.mapZoom, {
+          animate: false,
         });
-        const servicePoints = prestadoresFiltrados.flatMap((prestador) => {
-          return Number.isFinite(prestador.latitud) && Number.isFinite(prestador.longitud)
-            ? [L.latLng(prestador.latitud as number, prestador.longitud as number)]
-            : [];
-        });
-        // Only fit visible pins: service mode must center its service DEMOs,
-        // whereas farmland mode includes real/sample fields and editorial zones.
-        const visiblePoints = vista === "servicios" ? servicePoints : [...fieldPoints, ...zonePoints];
-        if (visiblePoints.length > 0) {
-          leafletMap.fitBounds(L.latLngBounds(visiblePoints), {
-            padding: [38, 38], maxZoom: country.mapZoom, animate: false,
-          });
-        } else {
-          leafletMap.setView([...country.mapCenter] as [number, number], country.mapZoom, { animate: false });
-        }
 
       })
       .catch(() => {
