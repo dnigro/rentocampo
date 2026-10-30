@@ -188,3 +188,20 @@
  .rcHero26__featurePrimary{font-size:18px}
  .rcHero26__featureSecondary{font-size:13px}
 }
+
+/* Prioridad del CTA: en móvil, tras la propuesta de valor y antes de métricas.
+   En desktop conservar orden anterior (métricas antes del CTA). */
+@media (min-width: 901px) {
+ .rcHero26__stats { order: 1; }
+ .rcHero26__register { order: 2; }
+}
+@media (max-width: 900px) {
+ .rcHero26__register {
+  order: 1;
+  align-self: center;
+  width: 100%;
+  max-width: 480px;
+  margin: 6px 0 2px;
+ }
+ .rcHero26__stats { order: 2; margin-top: 8px; }
+}

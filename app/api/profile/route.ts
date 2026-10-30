@@ -39,11 +39,17 @@ export async function POST(request: Request) {
     country_code: body.country_code,
   };
 
+  // Los datos específicos del prestador se editan al publicar servicios.
+  // Cambiar el rol o guardar datos personales nunca debe borrar esos valores.
   if (requestedRoles.includes("prestador")) {
-    profileUpdate.servicios_rurales = Array.isArray(body.servicios_rurales) ? body.servicios_rurales : [];
-    profileUpdate.zona_servicio = typeof body.zona_servicio === "string" ? body.zona_servicio : null;
-    profileUpdate.provincia_servicio = typeof body.provincia_servicio === "string" ? body.provincia_servicio : null;
-    profileUpdate.localidad_servicio = typeof body.localidad_servicio === "string" ? body.localidad_servicio : null;
+    if ("servicios_rurales" in body) {
+      profileUpdate.servicios_rurales = Array.isArray(body.servicios_rurales) ? body.servicios_rurales : [];
+    }
+    for (const field of ["zona_servicio", "provincia_servicio", "localidad_servicio"] as const) {
+      if (field in body) {
+        profileUpdate[field] = typeof body[field] === "string" ? body[field] : null;
+      }
+    }
   }
 
   if (body.remove_avatar === true) profileUpdate.avatar_url = null;

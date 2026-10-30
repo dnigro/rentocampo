@@ -5,9 +5,8 @@ import { useRouter } from "next/navigation";
 
 import { useState, useRef } from "react";
 import { createClient } from "@/lib/supabase/client";
-import { type Profile, type RolPerfil, type ServicioRural } from "@/types";
-import { displayCountryName, COUNTRIES, COUNTRY_CODES_ALPHABETICAL, getCountrySubdivisions, type CountryCode } from "@/data/countries";
-import { SERVICIOS_RURALES, servicioLabel } from "@/data/servicios-rurales";
+import { type Profile, type RolPerfil } from "@/types";
+import { displayCountryName, COUNTRIES, COUNTRY_CODES_ALPHABETICAL, type CountryCode } from "@/data/countries";
 import { regionalText } from "@/lib/i18n/regional";
 
 interface Props {
@@ -20,7 +19,6 @@ export default function PerfilForm({ profile, email, country }: Props) {
   const router = useRouter();
   const [supabase] = useState(createClient);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const servicePhotoInputRef = useRef<HTMLInputElement>(null);
 
   const [form, setForm] = useState({
     nombre: profile?.nombre ?? "",
@@ -30,19 +28,12 @@ export default function PerfilForm({ profile, email, country }: Props) {
     roles: profile?.roles?.length
       ? profile.roles
       : ["productor" as const],
-    servicios_rurales: profile?.servicios_rurales ?? [],
-    zona_servicio: profile?.zona_servicio ?? "",
-    provincia_servicio: profile?.provincia_servicio ?? "",
-    localidad_servicio: profile?.localidad_servicio ?? "",
   });
 
   const tt=(es:string,pt:string,en?:string)=>regionalText(country,es,pt,en);
   const [avatarPreview, setAvatarPreview] = useState(profile?.avatar_url ?? "");
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
-  const [servicePhotoPreview, setServicePhotoPreview] = useState(profile?.service_photo_url ?? "");
-  const [servicePhotoFile, setServicePhotoFile] = useState<File | null>(null);
   const [removeAvatar, setRemoveAvatar] = useState(false);
-  const [removeServicePhoto, setRemoveServicePhoto] = useState(false);
 
   const [passwords, setPasswords] = useState({
     nueva: "",
@@ -75,14 +66,6 @@ export default function PerfilForm({ profile, email, country }: Props) {
     setAvatarPreview(URL.createObjectURL(file));
   }
 
-  function handleServicePhotoChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    setServicePhotoFile(file);
-    setRemoveServicePhoto(false);
-    setServicePhotoPreview(URL.createObjectURL(file));
-  }
-
   function toggleRole(role: RolPerfil) {
     setForm((prev) => {
       const activo = prev.roles.includes(role);
@@ -94,15 +77,6 @@ export default function PerfilForm({ profile, email, country }: Props) {
           : [...prev.roles, role],
       };
     });
-  }
-
-  function toggleServicio(servicio: ServicioRural) {
-    setForm((prev) => ({
-      ...prev,
-      servicios_rurales: prev.servicios_rurales.includes(servicio)
-        ? prev.servicios_rurales.filter((item) => item !== servicio)
-        : [...prev.servicios_rurales, servicio],
-    }));
   }
 
   async function handleSavePerfil(e: React.FormEvent) {
@@ -124,20 +98,6 @@ export default function PerfilForm({ profile, email, country }: Props) {
         setAvatarPreview(result.url);
       }
 
-      if (servicePhotoFile && form.roles.includes("prestador")) {
-        const body = new FormData();
-        body.set("file", servicePhotoFile);
-        const response = await fetch("/api/profile/service-photo", {
-          method: "POST",
-          body,
-        });
-        const result = await response.json();
-        if (!response.ok || !result.url) {
-          throw new Error(result.error ?? "No se pudo subir la foto del servicio");
-        }
-        setServicePhotoPreview(result.url);
-      }
-
       // Guardar primero los roles mediante la ruta autenticada. Esto permite
       // volver a activar "prestador" antes de persistir sus datos de servicio.
       const roleResponse = await fetch("/api/profile/role", {
@@ -156,23 +116,10 @@ export default function PerfilForm({ profile, email, country }: Props) {
         body: JSON.stringify({
           roles: form.roles,
           remove_avatar: removeAvatar,
-          remove_service_photo: removeServicePhoto,
           nombre: form.nombre,
           country_code: form.country_code,
           telefono: form.telefono,
           bio: form.bio,
-          servicios_rurales: form.roles.includes("prestador")
-            ? form.servicios_rurales
-            : [],
-          zona_servicio: form.roles.includes("prestador")
-            ? form.zona_servicio
-            : null,
-          provincia_servicio: form.roles.includes("prestador")
-            ? form.provincia_servicio
-            : null,
-          localidad_servicio: form.roles.includes("prestador")
-            ? form.localidad_servicio
-            : null,
         }),
       });
       const profileResult = await profileResponse.json();
@@ -345,9 +292,6 @@ export default function PerfilForm({ profile, email, country }: Props) {
               setForm((prev) => ({
                 ...prev,
                 country_code: e.target.value as CountryCode,
-                zona_servicio: "",
-                provincia_servicio: "",
-                localidad_servicio: "",
               }))
             }
           >
@@ -397,101 +341,6 @@ export default function PerfilForm({ profile, email, country }: Props) {
           </div>
           <span className="form-hint">{tt("Podés elegir uno o varios perfiles.","Você pode selecionar um ou mais perfis.")}</span>
         </div>
-
-        {form.roles.includes("prestador") && (
-          <div className="servicios-profile-box" id="mis-servicios-rurales">
-            <div>
-              <h3>{tt("¿Qué servicios ofrecés?","Quais serviços você oferece?")}</h3>
-              <p>{tt("Elegí todos los que correspondan para que puedan encontrarte.","Selecione as categorias necessárias para que encontrem você.")}</p>
-            </div>
-            <div className="servicios-options">
-              {SERVICIOS_RURALES.map((servicio) => (
-                <label className="servicio-option" key={servicio.value}>
-                  <input
-                    type="checkbox"
-                    checked={form.servicios_rurales.includes(servicio.value)}
-                    onChange={() => toggleServicio(servicio.value)}
-                  />
-                  <span>{servicioLabel(servicio.value,country)}</span>
-                </label>
-              ))}
-            </div>
-            <div className="form-field">
-              <label className="form-label">{tt("Foto de tus servicios","Foto dos seus serviços")}</label>
-              <div className="servicio-foto-editor">
-                {servicePhotoPreview ? (
-                  <Image
-                    src={servicePhotoPreview}
-                    alt="Foto representativa de tus servicios rurales"
-                    width={720}
-                    height={420}
-                    className="servicio-foto-preview"
-                  />
-                ) : (
-                  <div className="servicio-foto-placeholder">
-                    📷 {tt("Subí una foto que represente tu trabajo","Envie uma foto que represente seu trabalho")}
-                  </div>
-                )}
-                <button
-                  type="button"
-                  className="btn-secondary-lg"
-                  onClick={() => servicePhotoInputRef.current?.click()}
-                >
-                  {servicePhotoPreview ? tt("Cambiar foto","Trocar foto") : tt("Subir foto","Enviar foto")}
-                </button>
-                {servicePhotoPreview && (
-                  <button type="button" className="btn-secondary-lg" onClick={() => {
-                    setServicePhotoPreview("");
-                    setServicePhotoFile(null);
-                    setRemoveServicePhoto(true);
-                  }}>{tt("Eliminar foto","Excluir foto")}</button>
-                )}
-                <input
-                  ref={servicePhotoInputRef}
-                  type="file"
-                  accept="image/*"
-                  style={{ display: "none" }}
-                  onChange={handleServicePhotoChange}
-                />
-              </div>
-              <span className="form-hint">
-                {tt("Usá una imagen real y acorde al servicio que ofrecés.","Use uma imagem real que represente o serviço que oferece.")}
-              </span>
-            </div>
-
-            <div className="form-field">
-              <label className="form-label" htmlFor="zona_servicio">
-                {tt("Zona donde trabajás","Área onde você atende")}
-              </label>
-              <input
-                id="zona_servicio"
-                name="zona_servicio"
-                type="text"
-                className="form-input"
-                placeholder={tt("Ej: sur de Córdoba y norte de La Pampa","Ex.: interior de São Paulo e região")}
-                value={form.zona_servicio}
-                onChange={handleChange}
-              />
-            </div>
-            <div className="form-row">
-              <div className="form-field">
-                <label className="form-label" htmlFor="provincia_servicio">
-                  {`${COUNTRIES[form.country_code].subdivisionLabel} principal`}
-                </label>
-                <select id="provincia_servicio" name="provincia_servicio" className="form-input" value={form.provincia_servicio} onChange={handleChange}>
-                  <option value="">
-                    {tt(`Elegí ${COUNTRIES[form.country_code].subdivisionLabel.toLowerCase()}`,`Selecione ${COUNTRIES[form.country_code].subdivisionLabel.toLowerCase()}`)}
-                  </option>
-                  {getCountrySubdivisions(form.country_code).map((provincia) => <option key={provincia} value={provincia}>{provincia}</option>)}
-                </select>
-              </div>
-              <div className="form-field">
-                <label className="form-label" htmlFor="localidad_servicio">{tt("Localidad de referencia","Cidade de referência")}</label>
-                <input id="localidad_servicio" name="localidad_servicio" className="form-input" placeholder={tt("Ej: Pergamino","Ex.: Campinas")} value={form.localidad_servicio} onChange={handleChange} />
-              </div>
-            </div>
-          </div>
-        )}
 
         <div className="form-row">
           <div className="form-field">
