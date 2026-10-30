@@ -130,9 +130,12 @@
 @media (min-width: 901px) {
   .rc-landing .rcHero26 {
     --hero-desktop-diagonal: clamp(52px, 7.5vw, 140px);
+    position: relative;
     display: grid;
     grid-template-columns: minmax(0, 42%) minmax(0, 58%);
     align-items: stretch;
+    width: 100%;
+    max-width: none;
     min-height: clamp(440px, 32.6vw, 800px);
   }
 
@@ -155,15 +158,15 @@
   }
 
   .rc-landing .rcHomeVideo {
-    position: relative;
+    /* Se fija al borde DERECHO del hero. Con grilla y margen negativo,
+       algunos tamaños/zoom dejaban una franja oscura sin video al final. */
+    position: absolute;
+    inset: 0 0 0 auto;
     z-index: 1;
-    align-self: stretch;
-    /* La columna del video se extiende detrás del panel izquierdo, de modo
-       que el lado recortado de la diagonal muestre video y nunca fondo negro. */
-    width: calc(100% + var(--hero-desktop-diagonal) + 2px);
-    margin-left: calc(-1 * var(--hero-desktop-diagonal) - 2px);
+    width: calc(58% + var(--hero-desktop-diagonal) + 2px);
     height: 100%;
-    min-height: clamp(440px, 32.6vw, 800px);
+    min-height: 0;
+    margin: 0;
     background: #171717;
     overflow: hidden;
   }
