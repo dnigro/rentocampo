@@ -95,6 +95,8 @@ export default async function GerencialPage() {
         <p className="mt-2 text-xs text-zinc-500">Solo usuarios externos confirmados.</p>
       </section>
 
+      <Trend months={report.months} />
+
       <section className="mt-5 rounded-2xl border border-zinc-200 bg-white p-5">
         <h2 className="text-lg font-semibold text-zinc-900">Embudo de crecimiento</h2>
         <p className="mt-1 text-xs text-zinc-500">Sin datos de visitas ni chats en este tablero.</p>
