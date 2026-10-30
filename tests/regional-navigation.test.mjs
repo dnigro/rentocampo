@@ -226,8 +226,9 @@ test('new-country green available field pins paint above yellow editorial pins',
  assert.match(source,/fillColor: "#2d6a2d"/);
  assert.match(source,/fillColor: "#f4c542"/);
  assert.match(source,/\[demandaLayer.current, camposLayer.current\]/);
- assert.match(source,/leafletMap\.fitBounds\(L\.latLngBounds/);
- assert.match(source,/visiblePoints\.length/);
+ // Los pines conservan sus capas, pero NO definen el centro geográfico.
+ assert.match(source,/leafletMap\.setView\(\[\.\.\.country\.mapCenter\]/);
+ assert.doesNotMatch(source,/leafletMap\.fitBounds\(/);
 });
 
 test('a country change reloads the matching map after updating URL and cookie', () => {
