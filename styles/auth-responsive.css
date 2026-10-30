@@ -62,3 +62,32 @@
   .app-shell .auth-page-login .auth-title { font-size: 32px; }
   .app-shell .auth-page-login .auth-form .form-input { font-size: 16px; }
 }
+
+/* Mismo sistema tipográfico de "Crear cuenta": jerarquía consistente. */
+html body .app-shell .auth-page-login .auth-title {
+  font-family: var(--font-display), Impact, sans-serif;
+  font-size: clamp(52px, 7vw, 86px) !important;
+  line-height: .88 !important;
+  letter-spacing: 0 !important;
+  margin: 0 0 10px !important;
+}
+/* Recupero fuera del campo, centrado en mobile. */
+@media (max-width: 600px) {
+  html body .app-shell .auth-page-login .auth-title {
+    font-size: clamp(34px, 10vw, 44px) !important;
+    line-height: 1.02 !important;
+    margin-bottom: 6px !important;
+  }
+  .app-shell .auth-page-login .auth-forgot-below {
+    width: 100%;
+    align-self: stretch;
+    text-align: center;
+    margin-top: 9px;
+    padding: 3px 0;
+    font-size: 14px;
+    white-space: normal;
+  }
+}
+@media (max-width: 360px) {
+  html body .app-shell .auth-page-login .auth-title { font-size: 33px !important; }
+}
