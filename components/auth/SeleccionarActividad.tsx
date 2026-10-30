@@ -4,6 +4,7 @@ import { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { LandPlot, Sprout, Wrench } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
+import { trackEvent } from "@/lib/analytics";
 import { regionalText } from "@/lib/i18n/regional";
 import type { CountryCode } from "@/data/countries";
 import type { RolPerfil } from "@/types";
@@ -64,6 +65,7 @@ export default function SeleccionarActividad({ country }: Props) {
         data: { onboarding_pending_roles: false },
       });
       if (updateError) throw updateError;
+      trackEvent("registro_roles_seleccionados", { roles: roles.join(","), pais: country });
       router.replace(pathname.startsWith("/lite/") ? "/lite/perfil" : "/dashboard");
       router.refresh();
     } catch (err) {
