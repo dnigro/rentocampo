@@ -8,6 +8,7 @@ export type AnalyticsEventName =
   | "registro_enviado"
   | "registro_error"
   | "registro_pendiente_confirmacion"
+  | "registro_roles_seleccionados"
   | "enviar_mensaje"
   | "iniciar_pago"
   | "checkout_mercadopago_abierto";
