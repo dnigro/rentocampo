@@ -443,3 +443,80 @@
     line-height: 1.4;
   }
 }
+
+
+/* Footer: redes sociales más visibles y enlace legal con la misma
+   jerarquía y tono de «Alianzas rurales». Desktop + mobile. */
+.footer .footer-socials {
+  gap: 14px;
+  align-items: center;
+}
+.footer .footer-social-link {
+  box-sizing: border-box;
+  width: 58px;
+  height: 58px;
+  min-width: 58px;
+  min-height: 58px;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid #51565b;
+  color: #fff;
+  background: #2b2e32;
+  transition: background .18s ease, color .18s ease, border-color .18s ease, transform .18s ease;
+}
+.footer .footer-social-link svg {
+  width: 27px;
+  height: 27px;
+  display: block;
+  flex: none;
+}
+.footer .footer-social-link:hover {
+  color: #171717;
+  background: #d6bf79;
+  border-color: #d6bf79;
+  transform: translateY(-2px);
+}
+.footer .footer-social-link:focus-visible {
+  outline: 2px solid #d6bf79;
+  outline-offset: 4px;
+}
+body:has(.rc-landing) .footer .footer-social-link {
+  color: #fff;
+  background: #2b2e32;
+  border-color: #737476;
+}
+body:has(.rc-landing) .footer .footer-social-link:hover {
+  color: #171717;
+  background: #d6bf79;
+  border-color: #d6bf79;
+}
+.footer .footer-bottom-link {
+  color: #777;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+body:has(.rc-landing) .footer .footer-bottom-link {
+  color: #d0d0d0;
+}
+.footer .footer-bottom-link:hover {
+  color: #d6bf79;
+  text-decoration: underline;
+}
+@media (max-width: 600px) {
+  .footer .footer-social-link {
+    width: 52px;
+    height: 52px;
+    min-width: 52px;
+    min-height: 52px;
+    padding: 0;
+  }
+  .footer .footer-social-link svg {
+    width: 25px;
+    height: 25px;
+  }
+  .footer .footer-bottom-link {
+    font-size: 14px;
+    line-height: 1.4;
+  }
+}
