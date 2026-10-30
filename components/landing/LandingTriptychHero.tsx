@@ -1,45 +1,92 @@
 "use client";
+
 import Image from "next/image";
+import { ArrowRight, MapPin, Tractor, Wrench } from "lucide-react";
 import RegionalLink from "@/components/layout/RegionalLink";
-import fieldsPhoto from "@/public/image_eol_pix.png";
-import producersPhoto from "@/public/image_vaca_pix.png";
-import servicesPhoto from "@/public/image_truck_pix.png";
+import cowPhoto from "@/public/image_vaca_pix.png";
 import { regionalText } from "@/lib/i18n/regional";
 import { useRegionalCountry } from "@/lib/i18n/useRegionalCountry";
-import "@/styles/hero-2026-isolated.css";
+import "@/styles/home-option2.css";
 
+/**
+ * Opción 2 aprobada para revisión: un solo hero con tres cajitas.
+ * Mantiene el recurso ganadero existente sin introducir imágenes con texto incrustado.
+ * El tríptico y los tres pasos quedan fuera del render.
+ */
 export default function LandingTriptychHero() {
- const country=useRegionalCountry();
- const t=(es:string,pt:string)=>regionalText(country,es,pt);
- const panels=[
-  {href:"/campos",image:fieldsPhoto,title:t("CAMPOS","TERRAS"),cta:t("VER CAMPOS","VER TERRAS")},
-  {href:"/register?tipo=productor",image:producersPhoto,title:t("PRODUCTORES","PRODUTORES"),cta:t("SOY PRODUCTOR","SOU PRODUTOR")},
-  {href:"/servicios-rurales",image:servicesPhoto,title:t("SERVICIOS RURALES","SERVIÇOS RURAIS"),cta:t("VER SERVICIOS","VER SERVIÇOS")}
- ];
- return <section className="rcHero26" id="hero" aria-labelledby="rcHero26-title">
-  <div className="rcHero26__left">
-   <p className="rcHero26__eyebrow">{t("CONECTAMOS EL CAMPO","CONECTAMOS O CAMPO")}</p>
-   <h1 className="rcHero26__heading" id="rcHero26-title">
-    <span className="rcHero26__impactLead">{t("SIN","SEM")}</span>
-    <span className="rcHero26__impactWord">{t("INTERMEDIARIOS.","INTERMEDIÁRIOS.")}</span>
-   </h1>
-   <div className="rcHero26__features" aria-label={t("Mapas, chat, productores, tierras y servicios","Mapas, chat, produtores, terras e serviços")}>
-    <p className="rcHero26__featurePrimary">{t("MAPAS + CHAT ONLINE","MAPAS + CHAT ONLINE")}</p>
-    <p className="rcHero26__featureSecondary">{t("Productores + Tierra + Servicios","Produtores + Terras + Serviços")}</p>
-   </div>
-   <p className="rcHero26__visionLine">{t("Vos publicás. Vos contactás. Vos acordás.","Você anuncia. Você conversa. Você combina.")}</p>
-   <div className="rcHero26__stats" aria-label={t("Sin comisiones y contacto directo","Sem comissões e contato direto")}>
-    <div className="rcHero26__stat"><strong>0%</strong><span>{t("COMISIONES.","COMISSÕES.")}</span></div>
-    <div className="rcHero26__stat"><strong>100%</strong><span>{t("CONTACTO DIRECTO.","CONTATO DIRETO.")}</span></div>
-   </div>
-   <RegionalLink href="/register" className="rcHero26__register">{t("REGISTRATE GRATIS","CADASTRE-SE GRÁTIS")} <span aria-hidden="true">→</span></RegionalLink>
-  </div>
-  <div className="rcHero26__right" aria-label={t("Explorá RentoCampo","Explore a RentoCampo")}>
-   {panels.map(p=><RegionalLink key={p.href} href={p.href} className="rcHero26__panel">
-    <Image src={p.image} alt="" fill priority={p.href==="/campos"} sizes="(max-width:900px) 33vw, 22vw" className="rcHero26__photo"/>
-    <span className="rcHero26__shade" aria-hidden="true"/>
-    <span className="rcHero26__panelInner"><span className="rcHero26__panelCta">{p.cta}</span><span className="rcHero26__panelTitle">{p.title}</span></span>
-   </RegionalLink>)}
-  </div>
- </section>;
+  const country = useRegionalCountry();
+  const t = (es: string, pt: string, en?: string) => regionalText(country, es, pt, en);
+
+  const categories = [
+    {
+      href: "/register?tipo=productor",
+      label: t("PRODUCTORES", "PRODUTORES", "FARMERS"),
+      Icon: Tractor,
+    },
+    {
+      href: "/campos",
+      label: t("TIERRA", "TERRA", "LAND"),
+      Icon: MapPin,
+    },
+    {
+      href: "/servicios-rurales",
+      label: t("SERVICIOS", "SERVIÇOS", "SERVICES"),
+      Icon: Wrench,
+    },
+  ];
+
+  return (
+    <section className="rcOption2" id="hero" aria-labelledby="rcOption2-title">
+      <div className="rcOption2__photo" aria-hidden="true">
+        <Image
+          src={cowPhoto}
+          alt=""
+          fill
+          priority
+          placeholder="blur"
+          sizes="(max-width: 900px) 78vw, 65vw"
+          className="rcOption2__cow"
+        />
+      </div>
+
+      <div className="rcOption2__content">
+        <p className="rcOption2__eyebrow">{t("CONECTAMOS EL CAMPO", "CONECTAMOS O CAMPO")}</p>
+
+        <h1 className="rcOption2__title" id="rcOption2-title">
+          <span className="rcOption2__big">{t("SIN", "SEM", "NO")}</span>
+          <span className="rcOption2__titleSecond">{t("INTERMEDIARIOS.", "INTERMEDIÁRIOS.", "MIDDLEMEN.")}</span>
+        </h1>
+
+        <p className="rcOption2__claim">{t("MAPAS + CHAT ONLINE", "MAPAS + CHAT ONLINE", "MAPS + ONLINE CHAT")}</p>
+
+        <div className="rcOption2__categories" aria-label={t("Productores, tierra y servicios", "Produtores, terras e serviços", "Farmers, land and services")}>
+          {categories.map(({ href, label, Icon }) => (
+            <RegionalLink key={href} href={href} className="rcOption2__category">
+              <Icon className="rcOption2__categoryIcon" size={29} strokeWidth={1.75} aria-hidden="true" />
+              <span className="rcOption2__categoryLabel">{label}</span>
+              <ArrowRight className="rcOption2__categoryArrow" size={17} strokeWidth={2.25} aria-hidden="true" />
+            </RegionalLink>
+          ))}
+        </div>
+
+        <p className="rcOption2__slogan">{t("Vos publicás. Vos contactás. Vos acordás.", "Você anuncia. Você conversa. Você combina.", "You list. You connect. You decide.")}</p>
+
+        <div className="rcOption2__stats" aria-label={t("Sin comisiones y contacto directo", "Sem comissões e contato direto", "No commissions and direct contact")}>
+          <div className="rcOption2__stat">
+            <strong>0%</strong>
+            <span>{t("COMISIONES.", "COMISSÕES.", "COMMISSIONS.")}</span>
+          </div>
+          <div className="rcOption2__stat">
+            <strong>100%</strong>
+            <span>{t("CONTACTO DIRECTO.", "CONTATO DIRETO.", "DIRECT CONTACT.")}</span>
+          </div>
+        </div>
+
+        <RegionalLink href="/register" className="rcOption2__register">
+          <span>{t("REGISTRATE GRATIS", "CADASTRE-SE GRÁTIS", "SIGN UP FREE")}</span>
+          <ArrowRight size={25} strokeWidth={2.25} aria-hidden="true" />
+        </RegionalLink>
+      </div>
+    </section>
+  );
 }

@@ -163,8 +163,8 @@ function NavbarContent() {
             <Link href="/servicios-rurales" className="nav-link">
               {regionalText(activeCountry, "Servicios rurales", "Serviços rurais")}
             </Link>
-            <Link href="/#como-funciona" className="nav-link">
-              {regionalText(activeCountry, "Cómo funciona", "Como funciona")}
+            <Link href="/#preguntas" className="nav-link">
+              {regionalText(activeCountry, "Preguntas frecuentes", "Perguntas frequentes", "FAQ")}
             </Link>
             
           </nav>
@@ -306,8 +306,8 @@ function NavbarContent() {
               <Link href="/servicios-rurales" className="mobile-menu-link">
                 🚜 {regionalText(activeCountry, "Servicios rurales", "Serviços rurais")}
               </Link>
-              <Link href="/#como-funciona" className="mobile-menu-link">
-                ℹ️ {regionalText(activeCountry, "Cómo funciona", "Como funciona")}
+              <Link href="/#preguntas" className="mobile-menu-link">
+                ℹ️ {regionalText(activeCountry, "Preguntas frecuentes", "Perguntas frequentes", "FAQ")}
               </Link>
               
 
