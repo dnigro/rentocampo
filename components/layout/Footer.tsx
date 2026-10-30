@@ -81,45 +81,27 @@ export default function Footer() {
             <a
               href="https://www.instagram.com/rento_campo/"
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
               className="footer-social-link"
-              aria-label="Instagram de RentoCampo"
+              aria-label="Instagram de RentoCampo (se abre en una nueva pestaña)"
+              title="Instagram · RentoCampo"
             >
-              <svg
-                viewBox="0 0 24 24"
-                width="18"
-                height="18"
-                aria-hidden="true"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-              >
-                <rect x="3" y="3" width="18" height="18" rx="5" />
-                <circle cx="12" cy="12" r="4" />
-                <circle
-                  cx="17.5"
-                  cy="6.5"
-                  r="1"
-                  fill="currentColor"
-                  stroke="none"
-                />
+              <svg viewBox="0 0 24 24" width="27" height="27" fill="none" stroke="currentColor" strokeWidth="1.85" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <rect x="2.75" y="2.75" width="18.5" height="18.5" rx="5.25" />
+                <circle cx="12" cy="12" r="4.15" />
+                <circle cx="17.6" cy="6.5" r="1.15" fill="currentColor" stroke="none" />
               </svg>
             </a>
             <a
-              href="https://www.facebook.com/profile.php?id=61593397379391"
+              href="https://www.facebook.com/profile.php?id=61594630832899"
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
               className="footer-social-link"
-              aria-label="Facebook @rentocampo"
+              aria-label="Facebook de RentoCampo (se abre en una nueva pestaña)"
+              title="Facebook · RentoCampo"
             >
-              <svg
-                viewBox="0 0 24 24"
-                width="18"
-                height="18"
-                aria-hidden="true"
-                fill="currentColor"
-              >
-                <path d="M14 8h3V4.2c-.5-.1-2.2-.2-4.1-.2C9 4 6.3 6.4 6.3 10.8V14H3v4.3h3.3V24h4.1v-5.7h3.4L14.4 14h-4v-2.8C10.4 9.9 10.8 8 14 8Z" />
+              <svg viewBox="0 0 24 24" width="27" height="27" fill="currentColor" aria-hidden="true">
+                <path d="M13.65 21v-8h2.7l.43-3.2h-3.13V7.75c0-.93.26-1.55 1.6-1.55h1.67V3.34a23 23 0 0 0-2.45-.13c-2.43 0-4.1 1.49-4.1 4.23V9.8H7.65V13h2.72v8h3.28Z" />
               </svg>
             </a>
           </div>
