@@ -26,12 +26,16 @@ export default async function LitePreview() {
      <span>{t("SIN","SEM")}</span>
      <span>{t("INTERMEDIARIOS.","INTERMEDIÁRIOS.")}</span>
     </h1>
+    <div className="rcLiteDirectHero__features" aria-label={t("Mapas, chat, productores, tierras y servicios","Mapas, chat, produtores, terras e serviços")}>
+     <p className="rcLiteDirectHero__featurePrimary">{t("MAPAS + CHAT ONLINE","MAPAS + CHAT ONLINE")}</p>
+     <p className="rcLiteDirectHero__featureSecondary">{t("Productores + Tierra + Servicios","Produtores + Terras + Serviços")}</p>
+    </div>
     <p className="rcLiteDirectHero__line">{t("Vos publicás. Vos contactás. Vos acordás.","Você anuncia. Você conversa. Você combina.")}</p>
+    <Link href="/lite/cuenta/registro" className="rcLiteDirectHero__register">{t("REGISTRATE GRATIS","CADASTRE-SE GRÁTIS")} <span aria-hidden="true">→</span></Link>
     <div className="rcLiteDirectHero__stats" aria-label={t("Sin comisiones y contacto directo","Sem comissões e contato direto")}>
      <div><strong>0%</strong><span>{t("COMISIONES.","COMISSÕES.")}</span></div>
      <div><strong>100%</strong><span>{t("CONTACTO DIRECTO.","CONTATO DIRETO.")}</span></div>
     </div>
-    <Link href="/lite/cuenta/registro" className="rcLiteDirectHero__register">{t("REGISTRATE GRATIS","CADASTRE-SE GRÁTIS")} <span aria-hidden="true">→</span></Link>
    </div>
   </section>
   <section style={{padding:"27px 20px 16px"}}><p style={{fontSize:11,letterSpacing:2,fontWeight:800,color:"#777",marginBottom:10}}>{t("EXPLORÁ RENTO CAMPO", "EXPLORE A RENTO CAMPO")}</p><h2 style={{fontSize:23,letterSpacing:-.7,margin:"0 0 19px"}}>{t("¿Qué necesitás hoy?", "Do que você precisa hoje?")}</h2>
