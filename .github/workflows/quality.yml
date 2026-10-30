@@ -32,8 +32,8 @@ jobs:
       - name: Lint
         run: npm run lint
 
-      - name: Test commercial metrics
-        run: node --test tests/commercial-filters.test.mjs tests/regional-navigation.test.mjs tests/ptbr-integration.test.mjs
+      - name: Test commercial metrics and 3-surface parity
+        run: node --test tests/commercial-filters.test.mjs tests/regional-navigation.test.mjs tests/ptbr-integration.test.mjs tests/ux-parity.test.mjs
 
       - name: Build
         run: npm run build
