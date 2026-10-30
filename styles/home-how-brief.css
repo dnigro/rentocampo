@@ -1,0 +1,83 @@
+/*
+ * Resumen editorial compacto de "Cómo funciona" de la portada.
+ * El ancla recupera el enlace del navbar sin reinstalar el flujo de 3 pasos.
+ */
+.rc-landing .rc-how-brief {
+  background: #202225;
+  color: #f5f3ef;
+  padding: clamp(46px, 6vw, 74px) 0;
+  scroll-margin-top: 100px;
+}
+
+.rc-landing .rc-how-brief__layout {
+  display: grid;
+  grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr);
+  align-items: center;
+  gap: clamp(26px, 5vw, 84px);
+}
+
+.rc-landing .rc-how-brief__eyebrow {
+  margin: 0 0 14px;
+  color: #c7b47c;
+  font-size: 13px;
+  font-weight: 850;
+  letter-spacing: .16em;
+}
+
+.rc-landing .rc-how-brief__title {
+  max-width: 560px;
+  margin: 0;
+  color: #fff;
+  font-size: clamp(36px, 4.1vw, 62px);
+  font-weight: 850;
+  letter-spacing: -.045em;
+  line-height: 1.04;
+  text-wrap: balance;
+}
+
+.rc-landing .rc-how-brief__copy {
+  min-width: 0;
+}
+
+.rc-landing .rc-how-brief__description {
+  max-width: 620px;
+  margin: 0;
+  color: #e1e0dc;
+  font-size: clamp(17px, 1.45vw, 21px);
+  font-weight: 450;
+  line-height: 1.55;
+}
+
+.rc-landing .rc-how-brief__benefit {
+  display: inline-block;
+  margin: 23px 0 0;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255,255,255,.23);
+  color: #d4bf80;
+  font-size: clamp(12px, 1.05vw, 15px);
+  font-weight: 850;
+  letter-spacing: .055em;
+  line-height: 1.5;
+}
+
+@media (max-width: 700px) {
+  .rc-landing .rc-how-brief {
+    padding: 45px 0 48px;
+    scroll-margin-top: 76px;
+  }
+  .rc-landing .rc-how-brief__layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 22px;
+  }
+  .rc-landing .rc-how-brief__title {
+    font-size: clamp(32px, 8.3vw, 47px);
+  }
+  .rc-landing .rc-how-brief__description {
+    font-size: 17px;
+    line-height: 1.55;
+  }
+  .rc-landing .rc-how-brief__benefit {
+    margin-top: 18px;
+    letter-spacing: .03em;
+  }
+}
