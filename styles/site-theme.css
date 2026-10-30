@@ -3042,36 +3042,12 @@ html body .app-shell footer.footer .footer-logo .brand-wordmark--text-only .bran
   -webkit-text-fill-color: #c5c5c5 !important;
 }
 
-/* Registro sin numeración editorial ni espacio reservado al 01. */
+/* Registro directo: sin numeración ni párrafos introductorios. */
 .app-shell .auth-page-register .auth-card::before {
   content: none !important;
   display: none !important;
 }
 .app-shell .auth-page-register .auth-header {
   padding-right: 0 !important;
-}
-.app-shell .auth-page-register .auth-onboarding-note {
-  margin-top: 10px;
-  font-size: 14px;
-  color: #666;
-  line-height: 1.5;
-}
-
-/* Registro móvil: prioridad a la legibilidad del texto introductorio. */
-@media (max-width: 760px) {
-  .app-shell .auth-page-register .auth-subtitle {
-    font-size: 20px !important;
-    font-weight: 700 !important;
-    line-height: 1.35 !important;
-    color: #292929 !important;
-    margin-bottom: 10px;
-  }
-  .app-shell .auth-page-register .auth-onboarding-note {
-    font-size: 18px !important;
-    font-weight: 500;
-    line-height: 1.5;
-    color: #454545 !important;
-    margin-top: 10px;
-    margin-bottom: 18px;
-  }
+  margin-bottom: 18px;
 }
