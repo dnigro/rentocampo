@@ -12,9 +12,9 @@ export default function LandingTriptychHero() {
  const country=useRegionalCountry();
  const t=(es:string,pt:string)=>regionalText(country,es,pt);
  const panels=[
-  {href:"/campos",image:fieldsPhoto,title:t("CAMPOS","TERRAS"),cta:t("VER CAMPOS","VER TERRAS")},
-  {href:"/register?tipo=productor",image:producersPhoto,title:t("PRODUCTORES","PRODUTORES"),cta:t("SOY PRODUCTOR","SOU PRODUTOR")},
-  {href:"/servicios-rurales",image:servicesPhoto,title:t("SERVICIOS RURALES","SERVIÇOS RURAIS"),cta:t("VER SERVICIOS","VER SERVIÇOS")}
+  {href:"/campos",image:fieldsPhoto,cta:t("VER CAMPOS","VER TERRAS")},
+  {href:"/register?tipo=productor",image:producersPhoto,cta:t("SOY PRODUCTOR","SOU PRODUTOR")},
+  {href:"/servicios-rurales",image:servicesPhoto,cta:t("VER SERVICIOS","VER SERVIÇOS")}
  ];
  return <section className="rcHero26" id="hero" aria-labelledby="rcHero26-title">
   <div className="rcHero26__left">
@@ -38,7 +38,7 @@ export default function LandingTriptychHero() {
    {panels.map(p=><RegionalLink key={p.href} href={p.href} className="rcHero26__panel">
     <Image src={p.image} alt="" fill priority={p.href==="/campos"} sizes="(max-width:900px) 33vw, 22vw" className="rcHero26__photo"/>
     <span className="rcHero26__shade" aria-hidden="true"/>
-    <span className="rcHero26__panelInner"><span className="rcHero26__panelCta">{p.cta}</span><span className="rcHero26__panelTitle">{p.title}</span></span>
+    <span className="rcHero26__panelInner"><span className="rcHero26__panelCta">{p.cta}</span></span>
    </RegionalLink>)}
   </div>
  </section>;
