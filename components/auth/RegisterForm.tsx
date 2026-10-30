@@ -16,7 +16,7 @@ export default function RegisterForm({ initialCountry: paisInicial }: { initialC
     password: "",
     country_code: paisInicial,
   });
-  const tt=(es:string,pt:string)=>regionalText(form.country_code,es,pt);
+  const tt=(es:string,pt:string,en?:string)=>regionalText(form.country_code,es,pt,en);
   const t=(key: Parameters<typeof translate>[1])=>translate(form.country_code,key);
   const [error, setError] = useState("");
   const [accountExists, setAccountExists] = useState(false);
