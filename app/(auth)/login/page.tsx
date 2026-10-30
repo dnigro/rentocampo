@@ -36,10 +36,7 @@ export default function LoginPage() {
     <div className="auth-page auth-page-login">
       <div className="auth-card">
         <div className="auth-header">
-          <h1 className="auth-title">{t("auth.welcome")}</h1>
-          <p className="auth-subtitle">
-            {t("auth.welcomeSubtitle")}
-          </p>
+          <h1 className="auth-title">{t("auth.signIn")}</h1>
         </div>
 
         <form className="auth-form" onSubmit={handleSubmit}>
@@ -51,10 +48,7 @@ export default function LoginPage() {
           </div>
 
           <div className="form-field">
-            <div className="form-label-row">
-              <label className="form-label" htmlFor="password">{t("auth.password")}</label>
-              <Link href="/recuperar-contrasena" className="form-label-link">{t("auth.forgot")}</Link>
-            </div>
+            <label className="form-label" htmlFor="password">{t("auth.password")}</label>
             <div className="password-input-wrapper">
               <input id="password" type={showPassword ? "text" : "password"} className="form-input"
                 placeholder="••••••••" value={password} onChange={(e) => setPassword(e.target.value)}
@@ -75,6 +69,7 @@ export default function LoginPage() {
                 )}
               </button>
             </div>
+            <Link href="/recuperar-contrasena" className="form-label-link auth-forgot-below">{t("auth.forgot")}</Link>
           </div>
 
           <button type="submit" className="btn-submit" disabled={loading}>
