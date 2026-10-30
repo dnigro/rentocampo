@@ -226,8 +226,9 @@ test('new-country green available field pins paint above yellow editorial pins',
  assert.match(source,/fillColor: "#2d6a2d"/);
  assert.match(source,/fillColor: "#f4c542"/);
  assert.match(source,/\[demandaLayer.current, camposLayer.current\]/);
- assert.match(source,/leafletMap\.fitBounds\(L\.latLngBounds/);
- assert.match(source,/visiblePoints\.length/);
+ // Los pines conservan sus capas, pero NO definen el centro geográfico.
+ assert.match(source,/leafletMap\.setView\(\[\.\.\.country\.mapCenter\]/);
+ assert.doesNotMatch(source,/leafletMap\.fitBounds\(/);
 });
 
 test('a country change reloads the matching map after updating URL and cookie', () => {
@@ -359,7 +360,9 @@ test('US demo markers: 4 editorial zones, 2 fixture fields, 2 whitelisted servic
   assert.match(sql,/UAT ONLY/);
   assert.match(sql,/ON CONFLICT \(id\) DO NOTHING/);
   const map = readFileSync(new URL('../components/campos/CampoMapa.tsx',import.meta.url),'utf8');
-  assert.match(map,/visiblePoints = vista === "servicios" \? servicePoints : \[\.\.\.fieldPoints, \.\.\.zonePoints\]/);
-  assert.match(map,/leafletMap\.fitBounds\(L\.latLngBounds\(visiblePoints\)/);
+  // El país elegido siempre manda el centro y zoom, incluso con pines DEMO dispersos.
+  assert.match(map,/leafletMap\.setView\(\[\.\.\.country\.mapCenter\]/);
+  assert.match(map,/country\.mapZoom/);
+  assert.doesNotMatch(map,/leafletMap\.fitBounds\(/);
   assert.match(map,/tt\("Campo de demostración"/);
 });

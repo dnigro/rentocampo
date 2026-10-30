@@ -779,3 +779,53 @@ body:has(.mapa-page) {
     white-space: nowrap;
   }
 }
+
+
+/* País único para ambas las capas del mapa: debajo de Tierra y Servicios. */
+.mapa-pais-control {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0 0 14px;
+  min-width: 0;
+}
+.mapa-pais-control label {
+  flex: 0 0 auto;
+  color: #333;
+  font-size: 13px;
+  font-weight: 850;
+  text-transform: uppercase;
+  letter-spacing: .045em;
+}
+.mapa-pais-control select {
+  display: block;
+  flex: 1 1 auto;
+  min-width: 0;
+  max-width: 100%;
+  min-height: 46px;
+  border: 1px solid #dedbd2;
+  border-radius: 9px;
+  background-color: #fff;
+  color: #141414;
+  padding: 9px 12px;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 750;
+  cursor: pointer;
+}
+.mapa-pais-control select:focus-visible {
+  outline: 3px solid #d7bf62;
+  outline-offset: 2px;
+}
+@media (max-width: 640px) {
+  .mapa-pais-control {
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  .mapa-pais-control select {
+    min-height: 44px;
+    padding: 8px 10px;
+    font-size: 16px;
+  }
+}
