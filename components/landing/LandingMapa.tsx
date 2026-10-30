@@ -29,7 +29,7 @@ export default function LandingMapa() {
             fill
             sizes="(max-width: 900px) 100vw, 62vw"
             className="rc-map-diagonal__photo"
-            style={{ objectFit:"cover", objectPosition:"center 48%", filter:"grayscale(1) contrast(1.14)", clipPath:"polygon(0 10%, 100% 0, 100% 100%, 0 100%)" }}
+            style={{ objectFit:"cover", objectPosition:"center 48%", filter:"grayscale(1) contrast(1.14)" }}
           />
         </div>
       </div>
