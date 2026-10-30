@@ -18,16 +18,16 @@ export default function LandingEditorialSimple() {
   ];
   return <main className="rc-simple">
     <section className="rc-simple-hero" aria-labelledby="rc-simple-title">
-      <Image src={servicesPhoto} alt="" fill priority sizes="100vw" className="rc-simple-hero-photo" />
+      <div className="rc-hero-scene" aria-hidden="true"><Image src={servicesPhoto} alt="" fill priority sizes="100vw" className="rc-simple-hero-photo" /><div className="rc-hero-scene-cut" /><div className="rc-hero-scene-label">RENTOCAMPO <span> / </span> {t("LA RED DEL CAMPO", "A REDE DO CAMPO")}</div></div>
       <div className="rc-simple-hero-copy">
-        <p className="rc-simple-kicker">{country === "US" ? "UNITED STATES" : country === "AR" ? "ARGENTINA" : "RENTOCAMPO"} <span className="rc-simple-flag">{country === "US" ? "🇺🇸" : country === "AR" ? "🇦🇷" : "🌎"}</span></p>
-        <h1 id="rc-simple-title">{t("La tierra", "A terra")}<br/><span>{t("nos conecta.", "nos conecta.")}</span></h1>
+        <p className="rc-simple-kicker rc-hero-region">{country === "US" ? "UNITED STATES" : country === "AR" ? "ARGENTINA" : "RENTOCAMPO"} <span className="rc-simple-flag">{country === "US" ? "🇺🇸" : country === "AR" ? "🇦🇷" : "🌎"}</span></p>
+        <h1 id="rc-simple-title">{t("El campo", "O campo")}<br/><span>{t("nos conecta.", "nos conecta.")}</span></h1>
         <p className="rc-simple-lead">{t("Campos, servicios y personas.", "Terras, serviços e pessoas.")}<br/>{t("Sin intermediarios, sin comisiones.", "Sem intermediários, sem comissões.")}</p>
         <div className="rc-simple-actions">
           <RegionalLink href="/campos" className="rc-simple-button rc-simple-button-primary"><span aria-hidden="true">⌕</span> {t("Buscar campos", "Buscar terras")}</RegionalLink>
           <RegionalLink href="/register" className="rc-simple-button rc-simple-button-light"><span aria-hidden="true">+</span> {t("Publicar gratis", "Anunciar grátis")}</RegionalLink>
         </div>
-        <div className="rc-simple-hero-benefits"><span>◎ {t("Chat directo", "Chat direto")}</span><span>✓ 100% {t("gratis", "grátis")}</span><span>◉ {t("En toda la región", "Em toda a região")}</span></div>
+        <div className="rc-simple-hero-benefits"><span><b>01</b> {t("Encontrá", "Encontre")}</span><span><b>02</b> {t("Chateá", "Converse")}</span><span><b>03</b> {t("Acordá directo", "Combine direto")}</span></div>
       </div>
       <div className="rc-simple-hero-caption" aria-hidden="true">RENTOCAMPO <span> / </span> {t("LA RED DEL CAMPO", "A REDE DO CAMPO")}</div>
     </section>
