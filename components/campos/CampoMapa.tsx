@@ -6,6 +6,7 @@ import { regionalPublicationHref, regionalPublicationLabel } from "@/lib/publica
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { LayerGroup, Map as LeafletMap } from "leaflet";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { ZONAS_PRODUCTIVAS_LATAM, type DemandaZona } from "@/data/demanda-zonas";
 import {
@@ -68,6 +69,7 @@ export default function CampoMapa({
   initialVista = "tierra",
   initialCountry = "AR",
 }: Props) {
+  const router = useRouter();
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<LeafletMap | null>(null);
   const camposLayer = useRef<LayerGroup | null>(null);
@@ -119,7 +121,8 @@ export default function CampoMapa({
     selectRegionalCountry(nuevoPais);
     const destino = new URL(window.location.href);
     destino.searchParams.set("vista", vista);
-    window.location.assign(`${destino.pathname}${destino.search}${destino.hash}`);
+    window.history.replaceState(window.history.state, "", `${destino.pathname}${destino.search}${destino.hash}`);
+    router.refresh();
   }
 
   const prestadoresFiltrados = useMemo(
@@ -392,12 +395,12 @@ export default function CampoMapa({
             </button>
           </div>
           <div className="mapa-pais-control">
-            <label htmlFor="mapa-pais-selector">{tt("País", "País")}</label>
+            <label htmlFor="mapa-pais-selector">{regionalText(countryCode, "País", "País", "Country")}</label>
             <select
               id="mapa-pais-selector"
               value={countryCode}
               onChange={(event) => cambiarPais(event.target.value as CountryCode)}
-              aria-label={tt("Seleccionar país para el mapa", "Selecionar país para o mapa")}
+              aria-label={regionalText(countryCode, "Seleccionar país para el mapa", "Selecionar país para o mapa", "Select country on map")}
             >
               {COUNTRY_CODES_ALPHABETICAL.map((code) => (
                 <option key={code} value={code}>
@@ -434,11 +437,11 @@ export default function CampoMapa({
             {vista === "tierra" ? (
               <>
                 <strong>{camposConCoordenadas.length}</strong> {tt("campos en","terras em")}{" "}
-                {COUNTRIES[countryCode].name}
+                {displayCountryName(countryCode, countryCode)}
               </>
             ) : (
               <>
-                <strong>{prestadoresFiltrados.length}</strong> {tt("servicios en","serviços em")}{" "}{displayCountryName(countryCode, countryCode)}
+                <strong>{prestadoresFiltrados.length}</strong> {regionalText(countryCode, "servicios en", "serviços em", "services in")}{" "}{displayCountryName(countryCode, countryCode)}
               </>
             )}
           </div>
