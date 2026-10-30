@@ -25,7 +25,7 @@ export default function LandingTriptychHero() {
    </div>
    <RegionalLink href="/register" className="rcHero26__register">{t("REGISTRATE GRATIS","CADASTRE-SE GRÁTIS")} <span aria-hidden="true">→</span></RegionalLink>
   </div>
-  <div className="rcHomeVideo" aria-label={t("Video panorámico del campo","Vídeo panorâmico do campo")}>
+  <div className="rcHomeVideo" style={{ position:"relative", display:"block", width:"100%", height:"clamp(220px, 38vw, 500px)", overflow:"hidden", flex:"0 0 auto" }} aria-label={t("Video panorámico del campo","Vídeo panorâmico do campo")}>
    <video
     className="rcHomeVideo__player"
     style={{ position:"absolute", inset:0, display:"block", width:"100%", height:"100%", maxWidth:"none", objectFit:"cover", objectPosition:"center 52%", filter:"grayscale(1) contrast(1.08)" }}
