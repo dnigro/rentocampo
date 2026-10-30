@@ -1,20 +1,18 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { LandPlot, Sprout, Wrench } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { regionalText } from "@/lib/i18n/regional";
 import type { CountryCode } from "@/data/countries";
 import type { RolPerfil } from "@/types";
 
-type Props = {
-  country: CountryCode;
-  continueTo?: string;
-};
+type Props = { country: CountryCode };
 
-export default function SeleccionarActividad({ country, continueTo = "/dashboard" }: Props) {
+export default function SeleccionarActividad({ country }: Props) {
   const router = useRouter();
+  const pathname = usePathname();
   const [roles, setRoles] = useState<RolPerfil[]>([]);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
@@ -66,7 +64,7 @@ export default function SeleccionarActividad({ country, continueTo = "/dashboard
         data: { onboarding_pending_roles: false },
       });
       if (updateError) throw updateError;
-      router.replace(continueTo);
+      router.replace(pathname.startsWith("/lite/") ? "/lite/perfil" : "/dashboard");
       router.refresh();
     } catch (err) {
       setError(err instanceof Error ? err.message : tt("Probá nuevamente.", "Tente novamente.", "Please try again."));
