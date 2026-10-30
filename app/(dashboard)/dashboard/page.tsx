@@ -16,6 +16,9 @@ export default async function DashboardPage() {
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) redirect("/login");
+  if (user.user_metadata?.onboarding_pending_roles === true) {
+    redirect("/perfil?elegir=rol");
+  }
   const canViewCommercialReport = Boolean(
     user.email && INTERNAL_TEST_EMAILS.includes(user.email.trim().toLowerCase()),
   );

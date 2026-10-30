@@ -4,6 +4,7 @@ import { regionalText } from "@/lib/i18n/regional";
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import PerfilForm from "@/components/PerfilForm";
+import SeleccionarActividad from "@/components/auth/SeleccionarActividad";
 import "@/styles/perfil.css";
 
 export default async function PerfilPage() {
@@ -26,10 +27,14 @@ export default async function PerfilPage() {
       <div className="page-header">
         <div>
           <h1 className="page-title">{tt("Mi perfil", "Meu perfil", "My profile")}</h1>
-          <p className="page-subtitle">{tt("Editá tus datos personales", "Edite seus dados pessoais", "Manage your personal information")}</p>
+          <p className="page-subtitle">{user.user_metadata?.onboarding_pending_roles === true ? tt("Elegí cómo querés usar RentoCampo", "Escolha como deseja usar a RentoCampo", "Choose how you want to use RentoCampo") : tt("Editá tus datos personales", "Edite seus dados pessoais", "Manage your personal information")}</p>
         </div>
       </div>
-      <PerfilForm profile={profile} email={user.email ?? ""} country={country} />
+      {user.user_metadata?.onboarding_pending_roles === true ? (
+        <SeleccionarActividad country={country} />
+      ) : (
+        <PerfilForm profile={profile} email={user.email ?? ""} country={country} />
+      )}
     </div>
   );
 }

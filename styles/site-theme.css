@@ -3041,3 +3041,13 @@ html body .app-shell footer.footer .footer-logo .brand-wordmark--text-only .bran
   color: #c5c5c5 !important;
   -webkit-text-fill-color: #c5c5c5 !important;
 }
+
+/* Registro directo: sin numeración ni párrafos introductorios. */
+.app-shell .auth-page-register .auth-card::before {
+  content: none !important;
+  display: none !important;
+}
+.app-shell .auth-page-register .auth-header {
+  padding-right: 0 !important;
+  margin-bottom: 18px;
+}
