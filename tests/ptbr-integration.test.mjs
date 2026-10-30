@@ -306,7 +306,7 @@ test("mobile and desktop use their approved video and cattle photo layout", () =
   assert.match(swap, /\.rc-landing \.rc-map-section \.rc-map-copy \{[\s\S]*?order: 0/);
   assert.match(swap, /\.rc-landing \.rc-map-section \.rc-map-diagonal \{[\s\S]*?order: 1/);
   assert.match(swap, /\.rc-landing \.rcHomeVideo \{[\s\S]*?object-fit: cover/);
-  assert.match(swap, /margin-left: calc\(-1 \* var\(--hero-desktop-diagonal\) - 2px\)/);
+  assert.match(swap, /margin-right: calc\(-1 \* var\(--hero-desktop-diagonal\)\)/);
   assert.match(hero, /className="rcHomeVideo__player"/);
   assert.match(map, /rc-map-diagonal__photo/);
   assert.ok(landing.indexOf("<LandingTriptychHero") < landing.indexOf("<LandingMapa"));
