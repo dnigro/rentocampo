@@ -129,17 +129,26 @@
  */
 @media (min-width: 901px) {
   .rc-landing .rcHero26 {
+    --hero-desktop-diagonal: clamp(36px, 5.5vw, 78px);
     display: grid;
     grid-template-columns: minmax(0, 42%) minmax(0, 58%);
     align-items: stretch;
     min-height: clamp(410px, 36vw, 520px);
   }
 
+  /* La capa del texto avanza sobre el video con borde diagonal, sin
+     cortar el fotograma del tractor ni dejar una cuña negra vacía. */
   .rc-landing .rcHero26__left {
+    position: relative;
+    z-index: 2;
+    box-sizing: border-box;
     min-width: 0;
+    width: calc(100% + var(--hero-desktop-diagonal));
+    margin-right: calc(-1 * var(--hero-desktop-diagonal));
     align-self: stretch;
     justify-content: center;
-    padding: clamp(28px, 3.5vw, 54px) clamp(24px, 3.7vw, 62px);
+    padding: clamp(28px, 3.5vw, 54px) calc(clamp(24px, 3.7vw, 62px) + var(--hero-desktop-diagonal)) clamp(28px, 3.5vw, 54px) clamp(24px, 3.7vw, 62px);
+    clip-path: polygon(0 0, 100% 0, calc(100% - var(--hero-desktop-diagonal)) 100%, 0 100%);
   }
 
   .rc-landing .rcHomeVideo {
