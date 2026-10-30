@@ -19,7 +19,10 @@ test("the map country selector is shared by farmland and services", () => {
   assert.match(map, /selectRegionalCountry\(nuevoPais\)/);
   assert.match(map, /destino\.searchParams\.set\("vista", vista\)/);
   assert.match(map, /window\.history\.replaceState/);
-  assert.match(map, /router\.refresh\(\)/);
+  assert.match(map, /window\.location\.reload\(\)/);
+  assert.match(map, /map\.current\?\.setView/);
+  assert.match(map, /leafletMap\.setView\(\[\.\.\.country\.mapCenter\]/);
+  assert.doesNotMatch(map, /fitBounds\(/);
   assert.match(map, /prestadores\.filter/);
   assert.match(map, /campos\.filter/);
 });
