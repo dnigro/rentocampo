@@ -296,3 +296,150 @@
     line-height: 1.5;
   }
 }
+
+/* Footer compacto mobile: secciones en 2 columnas, servicios y contacto agrupados. */
+.footer-services-links,
+.footer-contact-group {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.footer-contact-title { display: none; }
+
+@media (max-width: 600px) {
+  .footer { padding: 30px 20px 0; }
+  .footer-inner {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px 18px;
+    padding-bottom: 28px;
+  }
+  .footer-brand { grid-column: 1 / -1; min-width: 0; }
+  .footer-brand .brand-wordmark-footer { font-size: clamp(26px, 7.6vw, 32px); }
+  .footer-logo { margin-bottom: 6px; }
+  .footer-desc {
+    max-width: 410px;
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.4;
+  }
+  .footer-col { min-width: 0; }
+  .footer-col-title {
+    margin: 0 0 10px;
+    font-size: 17px;
+    line-height: 1.2;
+  }
+  .footer-nav,
+  .footer-services-links,
+  .footer-contact-group { gap: 10px; }
+  .footer-link { font-size: 14px; line-height: 1.35; }
+  .footer-col--services {
+    grid-column: 1 / -1;
+    padding-top: 20px;
+    border-top: 1px solid rgba(200, 200, 200, .27);
+  }
+  .footer-nav--services { gap: 17px; }
+  .footer-services-links {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px 18px;
+  }
+  .footer-contact-group {
+    padding-top: 16px;
+    border-top: 1px solid rgba(200, 200, 200, .27);
+  }
+  .footer-contact-title {
+    display: block;
+    margin: 0 0 1px;
+    font-size: 16px;
+    font-weight: 850;
+    line-height: 1.2;
+    color: inherit;
+  }
+  .footer-regional-claim { display: none; }
+  .footer-socials { margin-top: 15px; gap: 10px; }
+  .footer-social-link { min-height: 44px; min-width: 44px; padding: 9px; }
+  .footer-bottom { gap: 10px; padding: 18px 0; font-size: 12px; }
+  .footer-bottom-link { font-size: 12px; }
+}
+
+/*
+ * Footer de páginas internas: densidad menor que la portada.
+ * La Home conserva íntegramente su footer aprobado.
+ */
+@media (max-width: 600px) {
+  body:not(:has(.rc-landing)) .footer {
+    padding: 24px 18px 0;
+  }
+  body:not(:has(.rc-landing)) .footer .footer-inner {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px 16px;
+    padding-bottom: 20px;
+  }
+  body:not(:has(.rc-landing)) .footer .footer-brand {
+    grid-column: 1 / -1;
+  }
+  body:not(:has(.rc-landing)) .footer .footer-brand .brand-wordmark-footer {
+    font-size: clamp(23px, 6vw, 27px);
+  }
+  body:not(:has(.rc-landing)) .footer .footer-logo {
+    margin-bottom: 4px;
+  }
+  body:not(:has(.rc-landing)) .footer .footer-desc {
+    max-width: 345px;
+    font-size: 13px;
+    line-height: 1.4;
+  }
+  body:not(:has(.rc-landing)) .footer .footer-col-title {
+    font-size: 15px;
+    line-height: 1.25;
+    margin-bottom: 8px;
+  }
+  body:not(:has(.rc-landing)) .footer .footer-nav,
+  body:not(:has(.rc-landing)) .footer .footer-services-links,
+  body:not(:has(.rc-landing)) .footer .footer-contact-group {
+    gap: 9px;
+  }
+  body:not(:has(.rc-landing)) .footer .footer-link {
+    font-size: 13px;
+    line-height: 1.35;
+    font-weight: 500;
+    overflow-wrap: anywhere;
+  }
+  body:not(:has(.rc-landing)) .footer .footer-col--services {
+    grid-column: 1 / -1;
+    padding-top: 15px;
+  }
+  body:not(:has(.rc-landing)) .footer .footer-nav--services {
+    gap: 14px;
+  }
+  body:not(:has(.rc-landing)) .footer .footer-services-links {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px 14px;
+  }
+  body:not(:has(.rc-landing)) .footer .footer-contact-group {
+    padding-top: 13px;
+  }
+  body:not(:has(.rc-landing)) .footer .footer-contact-title {
+    font-size: 14px;
+    line-height: 1.25;
+  }
+  body:not(:has(.rc-landing)) .footer .footer-socials {
+    margin-top: 12px;
+    gap: 8px;
+  }
+  body:not(:has(.rc-landing)) .footer .footer-social-link {
+    min-width: 42px;
+    min-height: 42px;
+    padding: 8px;
+  }
+  body:not(:has(.rc-landing)) .footer .footer-bottom {
+    padding: 14px 0;
+    gap: 8px;
+    font-size: 11px;
+    line-height: 1.4;
+  }
+  body:not(:has(.rc-landing)) .footer .footer-bottom-link {
+    font-size: 11px;
+    line-height: 1.4;
+  }
+}

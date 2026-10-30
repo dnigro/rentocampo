@@ -18,7 +18,7 @@ export default function Footer() {
             <BrandWordmark className="brand-wordmark-footer" />
           </Link>
           <p className="footer-desc">
-            {t("Tierra productiva, productores y servicios rurales conectados en toda la región.", "Terras produtivas, produtores e serviços rurais conectados em toda a região.")}
+            {t("Tierra, productores y servicios rurales conectados en la región.", "Terras, produtores e serviços rurais conectados na região.")}
           </p>
         </div>
 
@@ -52,25 +52,30 @@ export default function Footer() {
           </nav>
         </div>
 
-        <div className="footer-col">
+        <div className="footer-col footer-col--services">
           <h4 className="footer-col-title">{t("Servicios rurales", "Serviços rurais")}</h4>
-          <nav className="footer-nav">
-            <Link href="/servicios-rurales" className="footer-link">
-              {t("Buscar servicios", "Buscar serviços")}
-            </Link>
-            <Link href="/campos/mapa?vista=servicios" className="footer-link">
-              {t("Ver mapa de servicios", "Ver mapa de serviços")}
-            </Link>
-            <RegionalLink href="/register?tipo=prestador" fallbackCountry={country} className="footer-link">
-              {t("Ofrecer mis servicios", "Oferecer meus serviços")}
-            </RegionalLink>
-            <Link href="/alianzas" className="footer-link">
-              {t("Alianzas rurales", "Parcerias rurais")}
-            </Link>
-            <a href="mailto:hola@rentocampo.com" className="footer-link">
-              hola@rentocampo.com
-            </a>
-            <span className="footer-link">{t("Red regional de servicios rurales", "Rede regional de serviços rurais")}</span>
+          <nav className="footer-nav footer-nav--services">
+            <div className="footer-services-links">
+              <Link href="/servicios-rurales" className="footer-link">
+                {t("Buscar servicios", "Buscar serviços")}
+              </Link>
+              <Link href="/campos/mapa?vista=servicios" className="footer-link">
+                {t("Ver mapa de servicios", "Ver mapa de serviços")}
+              </Link>
+              <RegionalLink href="/register?tipo=prestador" fallbackCountry={country} className="footer-link">
+                {t("Ofrecer mis servicios", "Oferecer meus serviços")}
+              </RegionalLink>
+            </div>
+            <div className="footer-contact-group">
+              <h5 className="footer-contact-title">{t("Contacto", "Contato")}</h5>
+              <Link href="/alianzas" className="footer-link">
+                {t("Alianzas rurales", "Parcerias rurais")}
+              </Link>
+              <a href="mailto:hola@rentocampo.com" className="footer-link">
+                hola@rentocampo.com
+              </a>
+              <span className="footer-link footer-regional-claim">{t("Red regional de servicios rurales", "Rede regional de serviços rurais")}</span>
+            </div>
           </nav>
           <div className="footer-socials" aria-label="Redes sociales">
             <a

@@ -1,5 +1,7 @@
 /** Shared US-English copy for the existing regionalText interface. Keep Spanish keys stable; translate only product UI, not user content. */
 export const enUSCopy: Record<string, string> = {
+  "Tierra, productores y servicios rurales conectados en la región.": "Land, farmers and rural services connected across the region.",
+  "Contacto": "Contact",
   "CONECTAMOS EL CAMPO": "CONNECTING RURAL COMMUNITIES",
   "SIN": "NO",
   "INTERMEDIARIOS.": "MIDDLEMEN.",
@@ -14,7 +16,7 @@ export const enUSCopy: Record<string, string> = {
 
   "Tierras productivas en la región": "PRODUCTIVE LAND ACROSS THE REGION",
   "La red del campo": "THE RURAL NETWORK",
-  "Buscá campos disponibles en Argentina, Uruguay, Paraguay, Chile, Bolivia y Perú, por zona y aptitud agrícola, ganadera o mixta.": "Explore farmland across the Americas by location and agricultural, livestock, or mixed-use potential.",
+  "Explorá campos disponibles en la región y encontrá oportunidades por zona y perfil productivo.": "Explore farmland across the region and find opportunities by location and production profile.",
   "Conectamos oportunidades en cada región productiva.": "Connecting rural opportunities in every productive region.",
   "Explorar alquiler de campos →": "Browse land for rent →",
   "Ver mapa de campos →": "View farmland map →",
