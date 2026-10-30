@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
-import LandingPageContent from "@/components/landing/LandingPageContent";
+import LandingEditorialSimple from "@/components/landing/LandingEditorialSimple";
 import "@/styles/public.css";
 import "@/styles/landing-bold.css";
 import "@/styles/landing-marketplace.css";
@@ -12,6 +12,7 @@ import "@/styles/landing-impact.css";
 import "@/styles/hero-regional-minimal.css";
 import "@/styles/landing-triptych-hero.css";
 import "@/styles/landing-triptych-refinements.css";
+import "@/styles/landing-editorial-simple.css";
 
 export const metadata: Metadata = {
   title: "RentoCampo | Campos y servicios rurales en la región",
@@ -46,10 +47,10 @@ export default async function LandingPage({
   }
 
   return (
-    <>
+    <div className="rc-home-editorial">
       <Navbar />
-      <LandingPageContent />
+      <LandingEditorialSimple />
       <Footer />
-    </>
+    </div>
   );
 }
