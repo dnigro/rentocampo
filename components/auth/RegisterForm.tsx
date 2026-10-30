@@ -1,7 +1,6 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { LandPlot, Sprout, Wrench } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
@@ -10,12 +9,11 @@ import { trackEvent } from "@/lib/analytics";
 import { regionalText } from "@/lib/i18n/regional";
 import { translate } from "@/lib/i18n/messages";
 
-export default function RegisterForm({ initialCountry: paisInicial, initialRole: tipoInicial }: { initialCountry: CountryCode; initialRole: "propietario" | "productor" | "prestador" }) {
+export default function RegisterForm({ initialCountry: paisInicial }: { initialCountry: CountryCode }) {
   const [form, setForm] = useState({
     nombre: "",
     email: "",
     password: "",
-    tipo: tipoInicial as "propietario" | "productor" | "prestador",
     country_code: paisInicial,
   });
   const tt=(es:string,pt:string)=>regionalText(form.country_code,es,pt);
@@ -31,7 +29,7 @@ export default function RegisterForm({ initialCountry: paisInicial, initialRole:
   function handleFirstInteraction() {
     if (interactionRecorded.current) return;
     interactionRecorded.current = true;
-    trackEvent("registro_iniciado", { rol: form.tipo, pais: form.country_code });
+    trackEvent("registro_iniciado", { rol: "pendiente", pais: form.country_code });
   }
 
   function handleChange(
@@ -50,20 +48,20 @@ export default function RegisterForm({ initialCountry: paisInicial, initialRole:
     setLoading(true);
 
     if (form.password.length < 6) {
-      trackEvent("registro_error", { motivo: "password_corta", rol: form.tipo, pais: form.country_code });
+      trackEvent("registro_error", { motivo: "password_corta", rol: "pendiente", pais: form.country_code });
       setError(t("auth.passwordTooShort"));
       setLoading(false);
       return;
     }
 
     if (!acceptedTerms) {
-      trackEvent("registro_error", { motivo: "terminos", rol: form.tipo, pais: form.country_code });
+      trackEvent("registro_error", { motivo: "terminos", rol: "pendiente", pais: form.country_code });
       setError(tt("Para crear tu cuenta, aceptá los términos y condiciones.", "Para criar sua conta, aceite os termos e condições."));
       setLoading(false);
       return;
     }
 
-    trackEvent("registro_enviado", { rol: form.tipo, pais: form.country_code });
+    trackEvent("registro_enviado", { rol: "pendiente", pais: form.country_code });
 
     // Construir la URL de callback dinámicamente según el entorno
     const origin = window.location.origin;
@@ -76,7 +74,8 @@ export default function RegisterForm({ initialCountry: paisInicial, initialRole:
         emailRedirectTo,
         data: {
           nombre: form.nombre,
-          tipo: form.tipo,
+          tipo: "productor", // Rol técnico inicial requerido por la base; el usuario lo elige luego.
+          onboarding_pending_roles: true,
           country_code: form.country_code,
           terms_accepted_at: new Date().toISOString(),
           terms_version: "2026-09-23",
@@ -97,7 +96,7 @@ export default function RegisterForm({ initialCountry: paisInicial, initialRole:
         normalizedError.includes("email rate limit");
       trackEvent("registro_error", {
         motivo: isDuplicateAccount ? "cuenta_existente" : isEmailLimit ? "limite_email" : "error_auth",
-        rol: form.tipo,
+        rol: "pendiente",
         pais: form.country_code,
       });
 
@@ -124,25 +123,25 @@ export default function RegisterForm({ initialCountry: paisInicial, initialRole:
       data.user.identities.length === 0;
 
     if (isObfuscatedExistingAccount) {
-      trackEvent("registro_error", { motivo: "cuenta_existente", rol: form.tipo, pais: form.country_code });
+      trackEvent("registro_error", { motivo: "cuenta_existente", rol: "pendiente", pais: form.country_code });
       setAccountExists(true);
       setLoading(false);
       return;
     }
 
     trackEvent("registrarse", {
-      rol: form.tipo,
+      rol: "pendiente",
       pais: form.country_code,
     });
 
     // Si Auth devuelve sesión, no existe un correo pendiente que confirmar.
     if (data.session) {
-      router.replace("/dashboard");
+      router.replace("/perfil?elegir=rol");
       return;
     }
 
     trackEvent("registro_pendiente_confirmacion", {
-      rol: form.tipo,
+      rol: "pendiente",
       pais: form.country_code,
     });
     router.push("/confirmar-email");
@@ -154,6 +153,7 @@ export default function RegisterForm({ initialCountry: paisInicial, initialRole:
         <div className="auth-header">
           <h1 className="auth-title">{tt("Crear cuenta", "Criar conta")}</h1>
           <p className="auth-subtitle">{tt("Empezá a usar RentoCampo gratis", "Comece a usar a RentoCampo gratuitamente")}</p>
+          <p className="auth-onboarding-note">{tt("Creá tu cuenta ahora. Después elegís cómo participar desde tu perfil.", "Crie sua conta agora. Depois escolha como participar no seu perfil.", "Create your account now. Choose how to participate in your profile later.")}</p>
         </div>
 
         <form className="auth-form" onSubmit={handleSubmit} onFocusCapture={handleFirstInteraction}>
@@ -169,63 +169,6 @@ export default function RegisterForm({ initialCountry: paisInicial, initialRole:
               {error}
             </div>
           )}
-
-          <div className="form-field">
-            <label className="form-label">{tt("Soy...", "Sou...")}</label>
-            <div className="tipo-selector">
-              <div className="tipo-option">
-                <input
-                  type="radio"
-                  id="tipo-propietario"
-                  name="tipo"
-                  value="propietario"
-                  checked={form.tipo === "propietario"}
-                  onChange={handleChange}
-                />
-                <label htmlFor="tipo-propietario" className="tipo-label">
-                  <span className="tipo-emoji" aria-hidden="true"><LandPlot size={30} strokeWidth={1.8} /></span>
-                  <span className="tipo-nombre">{tt("Propietario", "Proprietário")}</span>
-                  <span className="tipo-desc">
-                    {tt("Tengo campo y quiero arrendar", "Tenho terra e quero arrendá-la")}
-                  </span>
-                </label>
-              </div>
-              <div className="tipo-option">
-                <input
-                  type="radio"
-                  id="tipo-productor"
-                  name="tipo"
-                  value="productor"
-                  checked={form.tipo === "productor"}
-                  onChange={handleChange}
-                />
-                <label htmlFor="tipo-productor" className="tipo-label">
-                  <span className="tipo-emoji" aria-hidden="true"><Sprout size={30} strokeWidth={1.8} /></span>
-                  <span className="tipo-nombre">{tt("Productor", "Produtor")}</span>
-                  <span className="tipo-desc">{tt("Busco tierra para producir", "Procuro terra para produzir")}</span>
-                </label>
-              </div>
-              <div className="tipo-option">
-                <input
-                  type="radio"
-                  id="tipo-prestador"
-                  name="tipo"
-                  value="prestador"
-                  checked={form.tipo === "prestador"}
-                  onChange={handleChange}
-                />
-                <label htmlFor="tipo-prestador" className="tipo-label">
-                  <span className="tipo-emoji" aria-hidden="true"><Wrench size={30} strokeWidth={1.8} /></span>
-                  <span className="tipo-nombre">{tt("Servicios rurales", "Serviços rurais")}</span>
-                  <span className="tipo-desc">
-                    {tt("Ofrezco servicios para el campo", "Ofereço serviços para o campo")}
-                  </span>
-                </label>
-              </div>
-            </div>
-          </div>
-
-          <div className="form-divider" />
 
           <div className="form-field">
             <label className="form-label" htmlFor="country_code">
