@@ -152,8 +152,6 @@ export default function RegisterForm({ initialCountry: paisInicial }: { initialC
       <div className="auth-card">
         <div className="auth-header">
           <h1 className="auth-title">{tt("Crear cuenta", "Criar conta")}</h1>
-          <p className="auth-subtitle">{tt("Empezá a usar RentoCampo gratis", "Comece a usar a RentoCampo gratuitamente")}</p>
-          <p className="auth-onboarding-note">{tt("Creá tu cuenta ahora. Después elegís cómo participar desde tu perfil.", "Crie sua conta agora. Depois escolha como participar no seu perfil.", "Create your account now. Choose how to participate in your profile later.")}</p>
         </div>
 
         <form className="auth-form" onSubmit={handleSubmit} onFocusCapture={handleFirstInteraction}>
