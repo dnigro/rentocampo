@@ -48,7 +48,7 @@ export default function LandingTriptychHero() {
       </div>
       <div className="rcHome3__triptych" aria-label={t("Explorá RentoCampo", "Explore a RentoCampo")}>
         {panels.map((panel) => (
-          <RegionalLink href={panel.href} key={panel.href} className="rcHome3__panel" aria-label={panel.cta}>
+          <RegionalLink href={panel.href} key={panel.href} className="rcHome3__panel">
             <Image src={panel.image} alt="" fill sizes="(max-width: 900px) 40vw, 36vw" className="rcHome3__panelImage" />
             <span className="rcHome3__panelShade" aria-hidden="true" />
             <span className="rcHome3__panelButton">{panel.cta}</span>
