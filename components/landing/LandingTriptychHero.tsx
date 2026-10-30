@@ -19,11 +19,11 @@ export default function LandingTriptychHero() {
     <p className="rcHero26__featureSecondary">{t("Productores + Tierra + Servicios","Produtores + Terras + Serviços")}</p>
    </div>
    <p className="rcHero26__visionLine">{t("Vos publicás. Vos contactás. Vos acordás.","Você anuncia. Você conversa. Você combina.")}</p>
+   <RegionalLink href="/register" className="rcHero26__register">{t("REGISTRATE GRATIS","CADASTRE-SE GRÁTIS")} <span aria-hidden="true">→</span></RegionalLink>
    <div className="rcHero26__stats" aria-label={t("Sin comisiones y contacto directo","Sem comissões e contato direto")}>
     <div className="rcHero26__stat"><strong>0%</strong><span>{t("COMISIONES.","COMISSÕES.")}</span></div>
     <div className="rcHero26__stat"><strong>100%</strong><span>{t("CONTACTO DIRECTO.","CONTATO DIRETO.")}</span></div>
    </div>
-   <RegionalLink href="/register" className="rcHero26__register">{t("REGISTRATE GRATIS","CADASTRE-SE GRÁTIS")} <span aria-hidden="true">→</span></RegionalLink>
   </div>
   <div className="rcHomeVideo" aria-label={t("Video panorámico del campo","Vídeo panorâmico do campo")}>
    <video
