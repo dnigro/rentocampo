@@ -18,3 +18,11 @@
 .rcLiteDirectHero__register:hover{background:#d9d8d4}
 .rcLiteDirectHero__register:focus-visible{outline:3px solid #fff;outline-offset:3px}
 @media(max-width:360px){.rcLiteDirectHero__body{padding-inline:17px;gap:15px}.rcLiteDirectHero__title span:last-child{font-size:clamp(22px,6.65vw,27px)}.rcLiteDirectHero__stats>div+div{padding-left:12px}.rcLiteDirectHero__stats span{font-size:10.5px}}
+
+/* 2026-10-30: App Lite mirrors web mobile hero hierarchy and colors. */
+.rcLiteDirectHero__features{display:flex;flex-direction:column;align-items:flex-start;gap:5px;max-width:100%;color:#e6d87a}
+.rcLiteDirectHero__features p{margin:0;max-width:100%;line-height:1.12;overflow-wrap:break-word;text-wrap:balance}
+.rcLiteDirectHero__featurePrimary{font-size:clamp(19px,5.2vw,27px);font-weight:900;letter-spacing:-.045em}
+.rcLiteDirectHero__featureSecondary{font-size:clamp(14px,3.85vw,19px);font-weight:800;letter-spacing:-.025em}
+.rcLiteDirectHero__register{align-self:center;width:100%;max-width:365px;flex-shrink:0}
+@media(max-width:360px){.rcLiteDirectHero__featurePrimary{font-size:18px}.rcLiteDirectHero__featureSecondary{font-size:13px}}
