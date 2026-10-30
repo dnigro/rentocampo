@@ -211,8 +211,10 @@ test("map displays new-country field markers and refreshes on country change", (
  const nav=read("components/layout/Navbar.tsx");
  const selector=read("components/listings/ListingCountrySelector.tsx");
  assert.match(map,/leafletMap\.setView\(\[\.\.\.country\.mapCenter\] as \[number, number\], country\.mapZoom/);
- assert.match(map,/leafletMap\.fitBounds\(L\.latLngBounds/);
- assert.match(map,/visiblePoints = vista === "servicios" \? servicePoints : \[\.\.\.fieldPoints, \.\.\.zonePoints\]/);
+ // Un país seleccionado siempre determina centro y zoom, no los marcadores.
+ assert.doesNotMatch(map,/leafletMap\.fitBounds\(/);
+ assert.match(map,/selectRegionalCountry\(nuevoPais\)/);
+ assert.match(map,/window\.location\.reload\(\)/);
  assert.match(map,/data-country=\{countryCode\}/);
  assert.match(page,/key=\{selectedCountry\}/);
  assert.match(nav,/router\.refresh\(\)/);
