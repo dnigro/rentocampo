@@ -25,17 +25,21 @@ test("pt-BR and Spanish catalogs have matching message keys", () => {
   assert.equal(brData["fields.available"], "Terras disponíveis");
 });
 
-test("hero has named actions on all cards, with country retained", () => {
-  assert.match(hero, /VER CAMPOS/);
-  assert.match(hero, /VER TERRAS/);
-  assert.match(hero, /SOU PRODUTOR/);
-  assert.match(hero, /VER SERVIÇOS/);
-  assert.equal((hero.match(/className="rcHero26__panelCta"/g) || []).length, 1);
-  assert.match(hero, /className="rcHero26__panel"/);
-  assert.match(hero, /href:\s*"\/campos"/);
-  assert.match(hero, /href:\s*"\/servicios-rurales"/);
-  assert.match(read("styles/hero-2026-isolated.css"), /\.rcHero26__panelCta/);
-  assert.ok(!hero.includes("triptychHero__panelArrow"), "Legacy arrow-only labels remain removed");
+test("regional video hero keeps its free registration CTA and links to listings", () => {
+  const map=read("components/landing/LandingMapa.tsx");
+  const styles=read("styles/home-video-swap.css");
+  assert.match(hero, /className="rcHero26__register"/);
+  assert.match(hero, /REGISTRATE GRATIS/);
+  assert.match(hero, /CADASTRE-SE GRÁTIS/);
+  assert.match(hero, /INTERMEDIARIOS\./);
+  assert.match(hero, /INTERMEDIÁRIOS\./);
+  assert.match(hero, /className="rcHomeVideo__player"/);
+  assert.match(hero, /RentoCampo_video_real_dron_tractor_silos_mar_16x9/);
+  assert.match(navbar, /href="\/campos"/);
+  assert.match(navbar, /href="\/servicios-rurales"/);
+  assert.match(map, /href="\/campos\/mapa"/);
+  assert.match(styles, /\.rc-landing \.rcHomeVideo/);
+  assert.ok(!hero.includes("triptychHero__panelArrow"), "Legacy triptych stays removed");
 });
 
 test("country selection preserves current route and regional state", () => {
@@ -214,29 +218,34 @@ test("map displays new-country field markers and refreshes on country change", (
  assert.match(nav,/router\.refresh\(\)/);
  assert.match(selector,/router\.replace\(/);
 });
-test("approved responsive direct-contact hero and FAQ experience remain present", () => {
- const faq=read("components/landing/LandingFAQ.tsx");
- const hero=read("components/landing/LandingTriptychHero.tsx");
- const styles=read("styles/hero-2026-isolated.css");
- const lite=read("app/lite/page.tsx");
- assert.ok(hero.includes('rcHero26__heading'));
- assert.ok(hero.includes('rcHero26__impactLead'));
- assert.ok(hero.includes('rcHero26__impactWord'));
- assert.ok(hero.includes('rcHero26__visionLine'));
- assert.ok(hero.includes('rcHero26__stats'));
- assert.ok(hero.includes('rcHero26__register'));
- assert.ok(hero.includes('rcHero26__panel'));
- assert.ok(hero.includes('INTERMEDIARIOS.'));
- assert.ok(hero.includes('INTERMEDIÁRIOS.'));
- assert.ok(hero.includes('COMISSÕES.'));
- assert.ok(!hero.includes('rcHero26__sumate'));
- assert.ok(lite.includes('rcLiteDirectHero__register'));
- assert.ok(lite.includes('CADASTRE-SE GRÁTIS'));
- assert.ok(!hero.includes('className="rcHero26__countries"'));
- assert.match(styles, /@media\(min-width:901px\)/);
- assert.match(styles, /@media\(max-width:900px\)/);
- assert.ok(faq.includes('id="preguntas"'));
- assert.ok(!faq.toLowerCase().includes("packs"));
+test("approved responsive direct-contact video hero and FAQ remain present", () => {
+  const faq=read("components/landing/LandingFAQ.tsx");
+  const hero=read("components/landing/LandingTriptychHero.tsx");
+  const styles=read("styles/hero-2026-isolated.css");
+  const swap=read("styles/home-video-swap.css");
+  const lite=read("app/lite/page.tsx");
+  assert.ok(hero.includes('rcHero26__heading'));
+  assert.ok(hero.includes('rcHero26__impactLead'));
+  assert.ok(hero.includes('rcHero26__impactWord'));
+  assert.ok(hero.includes('rcHero26__visionLine'));
+  assert.ok(hero.includes('rcHero26__stats'));
+  assert.ok(hero.includes('rcHero26__register'));
+  assert.ok(hero.includes('rcHomeVideo__player'));
+  assert.ok(hero.includes('INTERMEDIARIOS.'));
+  assert.ok(hero.includes('INTERMEDIÁRIOS.'));
+  assert.ok(hero.includes('COMISSÕES.'));
+  assert.ok(!hero.includes('rcHero26__sumate'));
+  assert.ok(!hero.includes('rcHero26__panel'));
+  assert.ok(lite.includes('rcLiteDirectHero__register'));
+  assert.ok(lite.includes('CADASTRE-SE GRÁTIS'));
+  assert.ok(!hero.includes('className="rcHero26__countries"'));
+  assert.match(styles, /@media\(min-width:901px\)/);
+  assert.match(styles, /@media\(max-width:900px\)/);
+  assert.match(swap, /@media \(min-width: 901px\)/);
+  assert.match(swap, /@media \(max-width: 900px\)/);
+  assert.match(swap, /object-fit: cover/);
+  assert.ok(faq.includes('id="preguntas"'));
+  assert.ok(!faq.toLowerCase().includes("packs"));
 });
 
 test("public catalog filters sit beside results, with a mobile disclosure before listings", () => {
@@ -287,15 +296,19 @@ test("regional productive zones replace clipped Argentina-only unverified demand
  assert.match(panel,/Não são indicadores de procura verificada/);
 });
 
-test("mobile triptych pills wrap safely and the video follows the registration CTA", () => {
-  const style=read("styles/landing-triptych-refinements.css");
+test("mobile and desktop use their approved video and cattle photo layout", () => {
+  const swap=read("styles/home-video-swap.css");
   const landing=read("components/landing/LandingPageContent.tsx");
+  const hero=read("components/landing/LandingTriptychHero.tsx");
+  const map=read("components/landing/LandingMapa.tsx");
   const lite=read("app/lite/page.tsx");
-  assert.match(style,/\.triptychHero__panel \.triptychHero__panelCta \{[\s\S]*?white-space: normal/);
-  assert.match(style,/\.triptychHero__panel--producers \.triptychHero__panelCta/);
-  assert.match(style,/\.rc-map-section > \.rc-shell \{[\s\S]*?flex-direction: column/);
-  assert.match(style,/\.rc-map-section \.rc-aerial-video \{[\s\S]*?order: 0/);
-  assert.match(style,/\.rc-map-section \.rc-map-copy \{[\s\S]*?order: 1/);
+  assert.match(swap, /\.rc-landing \.rc-map-section > \.rc-shell \{[\s\S]*?flex-direction: column/);
+  assert.match(swap, /\.rc-landing \.rc-map-section \.rc-map-copy \{[\s\S]*?order: 0/);
+  assert.match(swap, /\.rc-landing \.rc-map-section \.rc-map-diagonal \{[\s\S]*?order: 1/);
+  assert.match(swap, /\.rc-landing \.rcHomeVideo \{[\s\S]*?object-fit: cover/);
+  assert.match(swap, /margin-left: calc\(-1 \* var\(--hero-desktop-diagonal\) - 2px\)/);
+  assert.match(hero, /className="rcHomeVideo__player"/);
+  assert.match(map, /rc-map-diagonal__photo/);
   assert.ok(landing.indexOf("<LandingTriptychHero") < landing.indexOf("<LandingMapa"));
-  assert.ok(!lite.includes("triptychHero"), "the independent Lite home needs no web triptych overrides");
+  assert.ok(!lite.includes("triptychHero"), "Lite has independent hero");
 });
