@@ -41,3 +41,10 @@ test("web desktop, web mobile and Lite reuse the same regional map", () => {
   assert.match(mobile, /\.mapa-pais-control select/);
   assert.match(mobile, /@media \(max-width: 640px\)[\s\S]*\.mapa-pais-control select/);
 });
+
+test("the native app opens the same regional map used by web and App Lite", () => {
+  const native = read("apps/mobile/src/App.tsx");
+  assert.match(native, /open\("\/campos\/mapa\?vista=tierra"/);
+  assert.match(native, /open\("\/campos\/mapa\?vista=servicios"/);
+  assert.doesNotMatch(native, /open\("\/mapa\?tipo=/);
+});
