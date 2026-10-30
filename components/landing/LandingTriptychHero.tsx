@@ -1,9 +1,5 @@
 "use client";
-import Image from "next/image";
 import RegionalLink from "@/components/layout/RegionalLink";
-import fieldsPhoto from "@/public/image_eol_pix.png";
-import producersPhoto from "@/public/image_vaca_pix.png";
-import servicesPhoto from "@/public/image_truck_pix.png";
 import { regionalText } from "@/lib/i18n/regional";
 import { useRegionalCountry } from "@/lib/i18n/useRegionalCountry";
 import "@/styles/hero-2026-isolated.css";
@@ -11,11 +7,6 @@ import "@/styles/hero-2026-isolated.css";
 export default function LandingTriptychHero() {
  const country=useRegionalCountry();
  const t=(es:string,pt:string)=>regionalText(country,es,pt);
- const panels=[
-  {href:"/campos",image:fieldsPhoto,cta:t("VER CAMPOS","VER TERRAS")},
-  {href:"/register?tipo=productor",image:producersPhoto,cta:t("SOY PRODUCTOR","SOU PRODUTOR")},
-  {href:"/servicios-rurales",image:servicesPhoto,cta:t("VER SERVICIOS","VER SERVIÇOS")}
- ];
  return <section className="rcHero26" id="hero" aria-labelledby="rcHero26-title">
   <div className="rcHero26__left">
    <p className="rcHero26__eyebrow">{t("CONECTAMOS EL CAMPO","CONECTAMOS O CAMPO")}</p>
@@ -34,12 +25,28 @@ export default function LandingTriptychHero() {
    </div>
    <RegionalLink href="/register" className="rcHero26__register">{t("REGISTRATE GRATIS","CADASTRE-SE GRÁTIS")} <span aria-hidden="true">→</span></RegionalLink>
   </div>
-  <div className="rcHero26__right" aria-label={t("Explorá RentoCampo","Explore a RentoCampo")}>
-   {panels.map(p=><RegionalLink key={p.href} href={p.href} className="rcHero26__panel">
-    <Image src={p.image} alt="" fill priority={p.href==="/campos"} sizes="(max-width:900px) 33vw, 22vw" className="rcHero26__photo"/>
-    <span className="rcHero26__shade" aria-hidden="true"/>
-    <span className="rcHero26__panelInner"><span className="rcHero26__panelCta">{p.cta}</span></span>
-   </RegionalLink>)}
+  <div className="rcHomeVideo" style={{ position:"relative", display:"block", width:"100%", height:"clamp(220px, 38vw, 500px)", overflow:"hidden", flex:"0 0 auto" }} aria-label={t("Video panorámico del campo","Vídeo panorâmico do campo")}>
+   <video
+    className="rcHomeVideo__player"
+    style={{ position:"absolute", inset:0, display:"block", width:"100%", height:"100%", maxWidth:"none", objectFit:"cover", objectPosition:"center 52%", filter:"grayscale(1) contrast(1.08)" }}
+    autoPlay
+    muted
+    playsInline
+    loop
+    preload="metadata"
+    poster="/rentocampo-hero-campo-bn-1920x1080.webp"
+    aria-label={t("Vista aérea de actividades agrícolas en la región","Vista aérea das atividades agrícolas na região")}
+    onTimeUpdate={(event) => {
+     // Evita el frame en negro de algunos dispositivos al terminar el MP4.
+     const video=event.currentTarget;
+     if (Number.isFinite(video.duration) && video.currentTime>=video.duration-1.1) {
+      video.currentTime=2;
+      void video.play().catch(()=>{});
+     }
+    }}
+   >
+    <source src="/RentoCampo_video_real_dron_tractor_silos_mar_16x9.mp4.mp4#t=2" type="video/mp4"/>
+   </video>
   </div>
  </section>;
 }
