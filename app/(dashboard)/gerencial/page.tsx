@@ -17,6 +17,37 @@ function Metric({ label, value, description, tone = "neutral" }: { label: string
   );
 }
 
+function Trend({ months }: { months: { month: string; registrations: number }[] }) {
+  const points = months.reduce<{ month: string; total: number }[]>((acc, month) => {
+    acc.push({ month: month.month, total: (acc.at(-1)?.total ?? 0) + month.registrations });
+    return acc;
+  }, []);
+  const max = Math.max(1, ...points.map((point) => point.total));
+  const coordinates = points.map((point, i) => ({
+    ...point, x: 35 + (i * 520) / Math.max(1, points.length - 1),
+    y: 145 - (point.total / max) * 110,
+  }));
+  const line = coordinates.map((p, i) => (i ? "L" : "M") + p.x + " " + p.y).join(" ");
+  return (
+    <div className="rounded-2xl border border-zinc-200 bg-white p-4 sm:p-5">
+      <div className="flex items-center justify-between gap-2">
+        <h2 className="font-semibold text-zinc-900">Evolución de registros</h2>
+        <span className="text-xs text-zinc-500">6 meses</span>
+      </div>
+      <svg className="mt-3 w-full" viewBox="0 0 590 185" role="img" aria-label="Línea de registros elegibles por mes de creación, acumulados dentro de los seis meses visibles">
+        <path d="M35 145 H555" fill="none" stroke="#e4e4e7" />
+        {coordinates.length > 0 && <path d={line} fill="none" stroke="#ca8a04" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />}
+        {coordinates.map((p) => <g key={p.month}>
+          <circle cx={p.x} cy={p.y} r="4.5" fill="#ca8a04" />
+          <text x={p.x} y={p.y - 11} textAnchor="middle" fontSize="12" fill="#27272a">{p.total}</text>
+          <text x={p.x} y="168" textAnchor="middle" fontSize="11" fill="#71717a">{p.month.slice(5)}</text>
+        </g>)}
+      </svg>
+      <p className="text-xs text-zinc-500">Acumulado dentro de la ventana mostrada, no total histórico.</p>
+    </div>
+  );
+}
+
 function Stage({ number, label, detail }: { number?: number; label: string; detail: string }) {
   return (
     <div className="min-w-0 rounded-xl border border-zinc-200 bg-zinc-50 p-3 text-center">
@@ -45,7 +76,7 @@ export default async function GerencialPage() {
       <header className="mb-6">
         <p className="text-xs font-bold uppercase tracking-[0.18em] text-zinc-500">RentoCampo / Growth 360° / Privado</p>
         <h1 className="mt-2 text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl">Tablero gerencial</h1>
-        <p className="mt-2 text-sm text-zinc-600">Usuarios y oferta reales, sin cuentas internas ni DEMO. Datos de producción, solo lectura.</p>
+        <p className="mt-2 text-sm text-zinc-600">Datos reales de producción · Sin DEMO ni cuentas internas.</p>
         <p className="mt-1 text-xs text-zinc-500">Actualizado: {new Date(report.updatedAt).toLocaleString("es-AR", { timeZone: "America/Argentina/Buenos_Aires" })} (Argentina)</p>
       </header>
 
@@ -61,12 +92,12 @@ export default async function GerencialPage() {
       <section className="mt-5 rounded-2xl border border-zinc-200 bg-white p-5">
         <div className="flex items-center justify-between gap-3"><h2 className="font-semibold text-zinc-900">Meta · 1.000 registros</h2><span className="text-lg font-bold tabular-nums">{progress.toLocaleString("es-AR", { maximumFractionDigits: 2 })}%</span></div>
         <div className="mt-3 h-3 overflow-hidden rounded-full bg-zinc-100"><div className="h-full rounded-full bg-amber-500" style={{ width: `${progress}%` }} /></div>
-        <p className="mt-2 text-xs text-zinc-500">Solo registros elegibles con correo confirmado. Seguidores y visitantes no suman a esta meta.</p>
+        <p className="mt-2 text-xs text-zinc-500">Solo usuarios externos confirmados.</p>
       </section>
 
       <section className="mt-5 rounded-2xl border border-zinc-200 bg-white p-5">
         <h2 className="text-lg font-semibold text-zinc-900">Embudo de crecimiento</h2>
-        <p className="mt-1 text-xs text-zinc-500">Etapas de diferentes fuentes; no es una conversión individual. Tráfico y consultas requieren integración verificada.</p>
+        <p className="mt-1 text-xs text-zinc-500">Sin datos de visitas ni chats en este tablero.</p>
         <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-4">
           <Stage label="Visitas" detail="GA4 no conectado aquí" />
           <Stage number={report.totals.registrations} label="Registros" detail="Correo confirmado" />
@@ -75,10 +106,10 @@ export default async function GerencialPage() {
         </div>
       </section>
 
-      <section className="mt-5 grid gap-3 md:grid-cols-3">
-        <div className="rounded-xl bg-zinc-900 p-4 text-white"><p className="text-xs uppercase tracking-wide text-zinc-300">01 · Propietarios</p><p className="mt-2 text-sm font-semibold">Más campos reales publicados</p></div>
-        <div className="rounded-xl bg-zinc-800 p-4 text-white"><p className="text-xs uppercase tracking-wide text-zinc-300">02 · Prestadores</p><p className="mt-2 text-sm font-semibold">Activar servicios rurales</p></div>
-        <div className="rounded-xl bg-zinc-700 p-4 text-white"><p className="text-xs uppercase tracking-wide text-zinc-200">03 · Productores</p><p className="mt-2 text-sm font-semibold">Primeras consultas genuinas</p></div>
+      <section className="mt-5 grid gap-2 md:grid-cols-3">
+        <div className="rounded-xl bg-zinc-900 p-4 text-white"><p className="text-xs uppercase tracking-wide text-zinc-300">01 · Propietarios</p><p className="mt-2 text-sm font-semibold">Captar campos reales</p></div>
+        <div className="rounded-xl bg-zinc-800 p-4 text-white"><p className="text-xs uppercase tracking-wide text-zinc-300">02 · Prestadores</p><p className="mt-2 text-sm font-semibold">Sumar servicios activos</p></div>
+        <div className="rounded-xl bg-zinc-700 p-4 text-white"><p className="text-xs uppercase tracking-wide text-zinc-200">03 · Productores</p><p className="mt-2 text-sm font-semibold">Conseguir consultas reales</p></div>
       </section>
 
       <section className="mt-8 overflow-hidden rounded-2xl border border-zinc-200 bg-white">
@@ -110,8 +141,9 @@ export default async function GerencialPage() {
         </div>
       </section>
 
-      <section className="mt-8 overflow-hidden rounded-2xl border border-zinc-200 bg-white">
-        <div className="border-b border-zinc-200 p-5">
+      <details className="mt-5 overflow-hidden rounded-2xl border border-zinc-200 bg-white">
+        <summary className="cursor-pointer p-5 font-semibold text-zinc-900">Detalle mensual (opcional)</summary>
+        <div className="border-t border-zinc-200 p-5">
           <h2 className="text-lg font-semibold">Altas de los últimos seis meses</h2>
           <p className="text-sm text-zinc-500">Fecha de creación. En campos y servicios sólo incluye los que siguen activos; no representa el parque histórico al cierre de cada mes.</p>
         </div>
@@ -132,7 +164,7 @@ export default async function GerencialPage() {
             </tbody>
           </table>
         </div>
-      </section>
+      </details>
       <p className="mt-5 text-xs text-zinc-500">Reporte gerencial privado: no altera registros, fichas, búsquedas ni datos de producción.</p>
     </section>
   );
