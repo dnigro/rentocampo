@@ -833,7 +833,7 @@
   .rc-landing .triptychHero__mobileHero .triptychHero__actions {
     margin-top: 10px;
   }
-  /* Video first on mobile: no oversized editorial copy between the two CTAs. */
+  /* Mobile: texto y botón de «La red del campo» primero; video del tractor debajo. */
   .rc-landing .rc-map-section > .rc-shell {
     display: flex;
     flex-direction: column;
@@ -842,7 +842,7 @@
     min-height: 0;
   }
   .rc-landing .rc-map-section .rc-aerial-video {
-    order: 0;
+    order: 1;
     width: 100%;
     height: clamp(194px, 56vw, 295px);
     min-height: 0;
@@ -850,7 +850,7 @@
     border-radius: 0;
   }
   .rc-landing .rc-map-section .rc-map-copy {
-    order: 1;
+    order: 0;
     width: 100%;
     box-sizing: border-box;
     padding: 30px clamp(18px, 5vw, 30px) 38px;
