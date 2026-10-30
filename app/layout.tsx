@@ -82,7 +82,7 @@ export default async function RootLayout({
                 "Plataforma regional que conecta tierra productiva, productores y servicios rurales.",
               sameAs: [
                 "https://www.instagram.com/rento_campo",
-                "https://www.facebook.com/rentocampo",
+                "https://www.facebook.com/profile.php?id=61594630832899",
               ],
             }).replace(/</g, "\\u003c"),
           }}

@@ -122,22 +122,22 @@
 }
 
 /*
- * Ajuste desktop: el tractor quedaba cortado porque un video 16:9 se
- * mostraba con object-fit: cover dentro de una banda demasiado baja.
- * La imagen ahora ocupa el panel derecho completo con encuadre íntegro.
- * Mobile conserva exactamente la composición aprobada en producción.
+ * Desktop 2026-10-30: cortes editoriales coherentes.
+ * - Evita letterboxing del MP4 a zoom bajo (30%) y pantallas ultrapanorámicas.
+ * - Alinea el borde diagonal de texto/video con el de texto/foto.
+ * - Solo desktop: mobile conserva su composición y encuadres.
  */
 @media (min-width: 901px) {
   .rc-landing .rcHero26 {
-    --hero-desktop-diagonal: clamp(36px, 5.5vw, 78px);
+    --hero-desktop-diagonal: clamp(52px, 7.5vw, 140px);
     display: grid;
     grid-template-columns: minmax(0, 42%) minmax(0, 58%);
     align-items: stretch;
-    min-height: clamp(410px, 36vw, 520px);
+    min-height: clamp(440px, 32.6vw, 800px);
   }
 
-  /* La capa del texto avanza sobre el video con borde diagonal, sin
-     cortar el fotograma del tractor ni dejar una cuña negra vacía. */
+  /* El panel oscuro se superpone al MP4: el recorte es visible,
+     pero nunca queda una franja vacía junto a la diagonal. */
   .rc-landing .rcHero26__left {
     position: relative;
     z-index: 2;
@@ -147,22 +147,47 @@
     margin-right: calc(-1 * var(--hero-desktop-diagonal));
     align-self: stretch;
     justify-content: center;
-    padding: clamp(28px, 3.5vw, 54px) calc(clamp(24px, 3.7vw, 62px) + var(--hero-desktop-diagonal)) clamp(28px, 3.5vw, 54px) clamp(24px, 3.7vw, 62px);
+    padding: clamp(28px, 3.5vw, 54px)
+      calc(clamp(24px, 3.7vw, 62px) + var(--hero-desktop-diagonal))
+      clamp(28px, 3.5vw, 54px)
+      calc(clamp(24px, 3.7vw, 62px) + 10px);
     clip-path: polygon(0 0, 100% 0, calc(100% - var(--hero-desktop-diagonal)) 100%, 0 100%);
   }
 
   .rc-landing .rcHomeVideo {
+    position: relative;
+    z-index: 1;
     align-self: stretch;
-    width: 100%;
+    /* La columna del video se extiende detrás del panel izquierdo, de modo
+       que el lado recortado de la diagonal muestre video y nunca fondo negro. */
+    width: calc(100% + var(--hero-desktop-diagonal) + 2px);
+    margin-left: calc(-1 * var(--hero-desktop-diagonal) - 2px);
     height: 100%;
-    min-height: clamp(410px, 36vw, 520px);
+    min-height: clamp(440px, 32.6vw, 800px);
     background: #171717;
+    overflow: hidden;
   }
 
   .rc-landing .rcHomeVideo video,
   .rc-landing .rcHomeVideo__player {
-    object-fit: contain;
-    object-position: center center;
+    /* Cover en vez de contain: elimina las bandas laterales a cualquier zoom.
+       El tractor se mantiene cerca del centro del encuadre. */
+    object-fit: cover;
+    object-position: center 53%;
+  }
+
+  /* El antiguo .rc-map tenía un clip-path que recortaba el costado DERECHO,
+     dejando un triángulo vacío. El nuevo corte va solo en el borde izquierdo. */
+  .rc-landing .rc-map-section .rc-map-diagonal {
+    --map-desktop-diagonal: clamp(52px, 7.5vw, 140px);
+    clip-path: polygon(var(--map-desktop-diagonal) 0, 100% 0, 100% 100%, 0 100%);
+    background: transparent;
+  }
+
+  .rc-landing .rc-map-section .rc-map-diagonal__photo {
+    clip-path: none;
+    object-fit: cover;
+    object-position: center 48%;
   }
 }
 
@@ -179,5 +204,10 @@
   .rc-landing .rcHomeVideo__player {
     object-fit: cover;
     object-position: center 52%;
+  }
+  /* Tablets/mobile: conservar el corte superior de la imagen
+     y evitar el recorte lateral heredado del bloque desktop. */
+  .rc-landing .rc-map-section .rc-map-diagonal {
+    clip-path: none;
   }
 }
