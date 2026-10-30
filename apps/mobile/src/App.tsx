@@ -82,7 +82,7 @@ function AppShell() {
         <Text style={styles.description}>Encontrá oportunidades en Argentina.</Text>
         <View style={styles.space} />
         {action("Ver campos", "Listado de publicaciones", () => open("/campos", "Campos disponibles"), true)}
-        {action("Explorar mapa", "Ubicaciones de campos", () => open("/mapa?tipo=campos", "Mapa de campos"))}
+        {action("Explorar mapa", "Ubicaciones de campos", () => open("/campos/mapa?vista=tierra", "Mapa de campos"))}
         <View style={styles.rule} />
         {action("Publicar un campo", "Accedé con tu cuenta", () => open("/login", "Ingresar"))}
       </>
@@ -94,7 +94,7 @@ function AppShell() {
         <Text style={styles.description}>Conectá con quienes trabajan en el campo.</Text>
         <View style={styles.space} />
         {action("Ver servicios", "Prestadores disponibles", () => open("/servicios-rurales", "Servicios disponibles"), true)}
-        {action("Explorar mapa", "Servicios por ubicación", () => open("/mapa?tipo=servicios", "Mapa de servicios"))}
+        {action("Explorar mapa", "Servicios por ubicación", () => open("/campos/mapa?vista=servicios", "Mapa de servicios"))}
         <View style={styles.rule} />
         {action("Ofrecer un servicio", "Accedé con tu cuenta", () => open("/login", "Ingresar"))}
       </>
