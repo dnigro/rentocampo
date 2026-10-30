@@ -359,7 +359,9 @@ test('US demo markers: 4 editorial zones, 2 fixture fields, 2 whitelisted servic
   assert.match(sql,/UAT ONLY/);
   assert.match(sql,/ON CONFLICT \(id\) DO NOTHING/);
   const map = readFileSync(new URL('../components/campos/CampoMapa.tsx',import.meta.url),'utf8');
-  assert.match(map,/visiblePoints = vista === "servicios" \? servicePoints : \[\.\.\.fieldPoints, \.\.\.zonePoints\]/);
-  assert.match(map,/leafletMap\.fitBounds\(L\.latLngBounds\(visiblePoints\)/);
+  // El país elegido siempre manda el centro y zoom, incluso con pines DEMO dispersos.
+  assert.match(map,/leafletMap\.setView\(\[\.\.\.country\.mapCenter\]/);
+  assert.match(map,/country\.mapZoom/);
+  assert.doesNotMatch(map,/leafletMap\.fitBounds\(/);
   assert.match(map,/tt\("Campo de demostración"/);
 });
