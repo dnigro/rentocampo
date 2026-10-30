@@ -13,7 +13,7 @@ export default function LandingMapa() {
         <div className="rc-map-copy">
           <p className="rc-kicker">{t("Tierras productivas en la región", "Terras produtivas na região")}</p>
           <h2 className="rc-map-title">{t("La red del campo", "A rede do campo")}</h2>
-          <p>{t("Buscá campos disponibles en Argentina, Uruguay, Paraguay, Chile, Bolivia y Perú, por zona y aptitud agrícola, ganadera o mixta.", "Encontre terras no Brasil e na região por localização e aptidão agrícola, pecuária ou mista.")}</p>
+          <p>{t("Explorá campos disponibles en la región y encontrá oportunidades por zona y perfil productivo.", "Explore terras disponíveis na região e encontre oportunidades por localização e perfil produtivo.")}</p>
           <p className="rc-map-emphasis">
             {t("Conectamos oportunidades en cada región productiva.", "Conectamos oportunidades em cada região produtiva.")}{" "}
             <RegionalLink href="/alquiler-de-campos">{t("Explorar alquiler de campos →", "Explorar arrendamento rural →")}</RegionalLink>
