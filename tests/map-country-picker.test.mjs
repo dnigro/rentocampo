@@ -18,7 +18,8 @@ test("the map country selector is shared by farmland and services", () => {
   assert.match(map, /cambiarPais\(event\.target\.value as CountryCode\)/);
   assert.match(map, /selectRegionalCountry\(nuevoPais\)/);
   assert.match(map, /destino\.searchParams\.set\("vista", vista\)/);
-  assert.match(map, /window\.location\.assign/);
+  assert.match(map, /window\.history\.replaceState/);
+  assert.match(map, /router\.refresh\(\)/);
   assert.match(map, /prestadores\.filter/);
   assert.match(map, /campos\.filter/);
 });
