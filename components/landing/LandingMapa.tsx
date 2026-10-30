@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import fieldPanorama from "@/public/rentocampo-hero-campo-bn-1920x1080.webp";
+import cowsPhoto from "@/public/image_vaca_pix.png";
 import RegionalLink from "@/components/layout/RegionalLink";
 import { regionalText } from "@/lib/i18n/regional";
 import { useRegionalCountry } from "@/lib/i18n/useRegionalCountry";
@@ -24,11 +24,12 @@ export default function LandingMapa() {
         </div>
         <div className="rc-map rc-map-diagonal">
           <Image
-            src={fieldPanorama}
-            alt={t("Vista panorámica de tierras productivas en blanco y negro", "Vista panorâmica de terras produtivas em preto e branco")}
+            src={cowsPhoto}
+            alt={t("Vacas en un campo ganadero", "Bovinos em uma propriedade rural")}
             fill
             sizes="(max-width: 900px) 100vw, 62vw"
             className="rc-map-diagonal__photo"
+            style={{ objectFit:"cover", objectPosition:"center 48%", filter:"grayscale(1) contrast(1.14)", clipPath:"polygon(0 10%, 100% 0, 100% 100%, 0 100%)" }}
           />
         </div>
       </div>
