@@ -13,7 +13,8 @@ import {
   servicioLabel,
 } from "@/data/servicios-rurales";
 import type { ServicioRural } from "@/types";
-import { COUNTRIES, type CountryCode } from "@/data/countries";
+import { COUNTRIES, COUNTRY_CODES_ALPHABETICAL, displayCountryName, type CountryCode } from "@/data/countries";
+import { selectRegionalCountry } from "@/lib/i18n/useRegionalCountry";
 import { regionalText } from "@/lib/i18n/regional";
 import { createClient } from "@/lib/supabase/client";
 import { normalizarCoordenada } from "@/lib/campos/visible-fields";
@@ -108,6 +109,17 @@ export default function CampoMapa({
     setSelectedCampo(null);
     setSelectedDemanda(null);
     setSelectedServicio(null);
+  }
+
+  function cambiarPais(nuevoPais: CountryCode) {
+    if (nuevoPais === countryCode) return;
+    // The map's points come from country-filtered server queries. Navigate to
+    // the selected market so fields and services are both fetched afresh.
+    // This also synchronizes the header selector and App Lite country cookie.
+    selectRegionalCountry(nuevoPais);
+    const destino = new URL(window.location.href);
+    destino.searchParams.set("vista", vista);
+    window.location.assign(`${destino.pathname}${destino.search}${destino.hash}`);
   }
 
   const prestadoresFiltrados = useMemo(
@@ -379,6 +391,21 @@ export default function CampoMapa({
               {tt("Servicios rurales","Serviços rurais")}
             </button>
           </div>
+          <div className="mapa-pais-control">
+            <label htmlFor="mapa-pais-selector">{tt("País", "País")}</label>
+            <select
+              id="mapa-pais-selector"
+              value={countryCode}
+              onChange={(event) => cambiarPais(event.target.value as CountryCode)}
+              aria-label={tt("Seleccionar país para el mapa", "Selecionar país para o mapa")}
+            >
+              {COUNTRY_CODES_ALPHABETICAL.map((code) => (
+                <option key={code} value={code}>
+                  {COUNTRIES[code].flag} {displayCountryName(code, countryCode)}
+                </option>
+              ))}
+            </select>
+          </div>
           {vista === "tierra" ? (
             <>
               <p className="mapa-filtros-titulo">{tt("Mostrar en el mapa","Mostrar no mapa")}</p>
@@ -411,7 +438,7 @@ export default function CampoMapa({
               </>
             ) : (
               <>
-                <strong>{prestadoresFiltrados.length}</strong> {tt("servicios en mapa","serviços no mapa")}
+                <strong>{prestadoresFiltrados.length}</strong> {tt("servicios en","serviços em")}{" "}{displayCountryName(countryCode, countryCode)}
               </>
             )}
           </div>
