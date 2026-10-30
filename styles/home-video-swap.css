@@ -150,13 +150,18 @@
     padding: clamp(28px, 3.5vw, 54px)
       calc(clamp(24px, 3.7vw, 62px) + var(--hero-desktop-diagonal))
       clamp(28px, 3.5vw, 54px)
-      clamp(24px, 3.7vw, 62px);
+      calc(clamp(24px, 3.7vw, 62px) + 10px);
     clip-path: polygon(0 0, 100% 0, calc(100% - var(--hero-desktop-diagonal)) 100%, 0 100%);
   }
 
   .rc-landing .rcHomeVideo {
+    position: relative;
+    z-index: 1;
     align-self: stretch;
-    width: 100%;
+    /* La columna del video se extiende detrás del panel izquierdo, de modo
+       que el lado recortado de la diagonal muestre video y nunca fondo negro. */
+    width: calc(100% + var(--hero-desktop-diagonal) + 2px);
+    margin-left: calc(-1 * var(--hero-desktop-diagonal) - 2px);
     height: 100%;
     min-height: clamp(440px, 32.6vw, 800px);
     background: #171717;
