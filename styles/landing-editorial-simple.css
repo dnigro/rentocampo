@@ -94,3 +94,65 @@
 .rc-simple-video{height:280px}
 .rc-simple-video-label{font-size:9px}
 }
+
+/* Final approved composition: matte forest, mustard CTA, rounded type, generous air. */
+.rc-home-editorial .navbar{background:#f9faf8!important}
+.rc-home-editorial .navbar a,.rc-home-editorial .navbar button{color:#172820}
+.rc-simple{background:#f7f8f6}
+.rc-simple-hero{min-height:590px;margin:0 16px;border-radius:6px}
+.rc-simple-hero-photo{object-position:center;filter:grayscale(.55) saturate(.45) brightness(.83)}
+.rc-simple-hero:after{background:linear-gradient(115deg,rgba(14,34,25,.97) 0%,rgba(17,39,29,.94) 34%,rgba(17,39,29,.8) 49%,rgba(17,39,29,.1) 49.2%,rgba(17,39,29,.08) 100%)}
+.rc-simple-hero:before{background:linear-gradient(116deg,transparent 48.9%,rgba(125,153,127,.55) 49.02%,transparent 49.16%)}
+.rc-simple-hero-copy{padding:72px 5%;max-width:1380px}
+.rc-simple-hero h1{font-family:inherit;font-size:clamp(55px,6.6vw,94px);font-weight:800;letter-spacing:-.055em;line-height:1.01}
+.rc-simple-hero h1 span{color:#d3d8d4}
+.rc-simple-lead{font-size:clamp(17px,1.8vw,22px)}
+.rc-simple-button{min-width:210px;border-radius:11px;min-height:60px;font-size:16px;gap:18px}
+.rc-simple-button-primary{background:#e9b931!important;border-color:#e9b931!important;color:#14261b!important}
+.rc-simple-button-primary:hover{background:#d8a825!important}
+.rc-simple-actions .rc-simple-button-light{background:#fff}
+.rc-simple-hero-benefits{display:flex;gap:34px;flex-wrap:wrap;margin-top:42px;font-size:14px;color:#f1f3f0}
+.rc-simple-hero-caption{display:none}
+.rc-simple-paths{max-width:none;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;padding:18px 16px 24px}
+.rc-simple-path{display:flex;min-height:205px;overflow:hidden;border:1px solid #e3e6e1!important;border-radius:11px;padding:0;background:#fff}
+.rc-simple-path-body{flex:1;min-width:0;padding:25px 12px 22px 28px;position:relative;z-index:1}
+.rc-simple-path-num{font-weight:700;color:#c49b27}
+.rc-simple-path h2{font-size:clamp(21px,2vw,29px);font-weight:750;margin:18px 0 9px}
+.rc-simple-path p{font-size:14px;line-height:1.45}
+.rc-simple-path-image{position:relative;flex:0 0 42%;clip-path:polygon(40% 0,100% 0,100% 100%,0 100%)}
+.rc-simple-path-image img{object-fit:cover;filter:grayscale(.6) saturate(.5) brightness(.91)}
+.rc-simple-arrow{left:28px;right:auto;bottom:13px;color:#234c37;font-size:19px}
+.rc-simple-map{margin:0 16px 12px;border-radius:10px;overflow:hidden;grid-template-columns:1fr 1fr;min-height:340px}
+.rc-simple-map-copy{padding:44px 8%}
+.rc-simple-map h2,.rc-simple-end h2{font-family:inherit;font-weight:800}
+.rc-simple-video{clip-path:none}
+.rc-simple-video video{filter:grayscale(.45) saturate(.5) brightness(.7)}
+.rc-simple-video:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(15,30,23,.55),transparent 85%);pointer-events:none}
+.rc-simple-video-overlay{position:absolute;z-index:2;left:7%;top:12%;right:6%;color:#fff}
+.rc-simple-video-overlay h2{font-size:clamp(25px,2.5vw,37px);line-height:1.12;color:#fff}
+.rc-simple-proof{padding:26px 6%}
+.rc-simple-end{margin:0 16px;border-radius:10px 10px 0 0;min-height:210px;background:linear-gradient(90deg,rgba(19,40,28,.95),rgba(28,54,37,.91)),url('/image_eol_pix.png') center/cover}
+.rc-home-editorial .footer{background:#172820!important}
+@media(max-width:760px){
+.rc-simple-hero{margin:0;min-height:650px;border-radius:0}
+.rc-simple-hero-copy{padding:65px 7% 55px}
+.rc-simple-hero:after{background:linear-gradient(145deg,rgba(14,33,24,.96) 0%,rgba(15,32,24,.9) 54%,rgba(16,34,25,.45) 100%)}
+.rc-simple-hero:before{background:linear-gradient(145deg,transparent 63%,rgba(125,153,127,.5) 63.1%,transparent 63.2%)}
+.rc-simple-hero h1{font-size:clamp(45px,10.7vw,70px)}
+.rc-simple-actions{max-width:420px;gap:12px}
+.rc-simple-button{min-height:59px;width:100%}
+.rc-simple-hero-benefits{gap:14px 22px;margin-top:28px;font-size:12px}
+.rc-simple-paths{grid-template-columns:1fr;gap:12px;padding:16px}
+.rc-simple-path{min-height:150px;border:1px solid #e3e6e1!important}
+.rc-simple-path-body{padding:20px 10px 20px 22px}
+.rc-simple-path h2{font-size:23px;margin:10px 0 7px}
+.rc-simple-path p{font-size:13px;max-width:210px}
+.rc-simple-path-image{flex-basis:39%}
+.rc-simple-arrow{left:22px;bottom:8px}
+.rc-simple-map{margin:0 16px 12px;grid-template-columns:1fr}
+.rc-simple-map-copy{padding:35px 7%}
+.rc-simple-video{height:265px;clip-path:none}
+.rc-simple-video-overlay{top:12%}
+.rc-simple-proof{padding:22px 7%}
+.rc-simple-end{margin:0 16px;padding:35px 7%}
+}
