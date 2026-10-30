@@ -3041,3 +3041,18 @@ html body .app-shell footer.footer .footer-logo .brand-wordmark--text-only .bran
   color: #c5c5c5 !important;
   -webkit-text-fill-color: #c5c5c5 !important;
 }
+
+/* Registro sin numeración editorial ni espacio reservado al 01. */
+.app-shell .auth-page-register .auth-card::before {
+  content: none !important;
+  display: none !important;
+}
+.app-shell .auth-page-register .auth-header {
+  padding-right: 0 !important;
+}
+.app-shell .auth-page-register .auth-onboarding-note {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #666;
+  line-height: 1.5;
+}
