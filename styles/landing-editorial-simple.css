@@ -62,3 +62,35 @@
 .rc-simple-proof>div{border:0;border-bottom:1px solid #d8ded9;padding-bottom:14px}
 .rc-simple-end{padding:40px 7%;flex-direction:column;align-items:stretch}
 }
+
+/* Editorial evolution inspired by the supplied regional campaign cards. */
+.rc-home-editorial .navbar{background:#f7f8f6!important}
+.rc-home-editorial .navbar .navbar-brand,.rc-home-editorial .navbar .navbar-brand a,.rc-home-editorial .navbar .nav-account,.rc-home-editorial .navbar a[href*="login"],.rc-home-editorial .navbar a[href*="cuenta"]{color:#172820!important}
+.rc-simple-hero{min-height:640px;background:#16251e;isolation:isolate}
+.rc-simple-hero-photo{filter:grayscale(.92) saturate(.18) brightness(.83);object-position:60% center}
+.rc-simple-hero:after{background:linear-gradient(125deg,rgba(13,24,19,.96) 0%,rgba(19,34,27,.95) 37%,rgba(20,38,29,.78) 48%,rgba(20,38,29,.08) 48.25%,rgba(20,38,29,.06) 100%);z-index:0}
+.rc-simple-hero:before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(132deg,transparent 47.9%,#819d83 48.05%,transparent 48.2%)}
+.rc-simple-hero-copy{z-index:2;max-width:1300px}
+.rc-simple-hero h1{max-width:960px;font-family:Georgia,"Times New Roman",serif;font-size:clamp(54px,7.2vw,106px);font-weight:700;letter-spacing:-.048em;line-height:.94;text-wrap:balance}
+.rc-simple-hero h1 span{color:#f5f5f1}
+.rc-simple-hero .rc-simple-kicker{letter-spacing:.28em;font-weight:700;color:#e6eee8}
+.rc-simple-flag{margin-left:12px;letter-spacing:normal}
+.rc-simple-hero-caption{position:absolute;z-index:2;bottom:25px;right:6%;font-size:12px;font-weight:650;letter-spacing:.22em;color:#fff}
+.rc-simple-hero-caption span{color:#a2b4a6;padding:0 12px}
+.rc-simple-map{background:#edf0ed}
+.rc-simple-map h2,.rc-simple-end h2{font-family:Georgia,"Times New Roman",serif;letter-spacing:-.035em}
+.rc-simple-video video{width:100%;height:100%;object-fit:cover;filter:grayscale(.75) saturate(.32) brightness(.79)}
+.rc-simple-video-label{position:absolute;bottom:20px;right:25px;color:#fff;font-size:11px;letter-spacing:.15em;font-weight:700;text-shadow:0 1px 3px #172820}
+.rc-simple-path{transition:background .2s ease}
+.rc-simple-path:hover{background:#e9eeea}
+.rc-simple-path h2{font-weight:650}
+.rc-simple-end{background:#1b3025}
+@media(max-width:760px){
+.rc-simple-hero{min-height:650px}
+.rc-simple-hero:after{background:linear-gradient(145deg,rgba(12,27,20,.95) 0%,rgba(15,30,23,.91) 54%,rgba(15,30,23,.3) 100%)}
+.rc-simple-hero:before{background:linear-gradient(145deg,transparent 64%,rgba(129,157,131,.7) 64.15%,transparent 64.3%)}
+.rc-simple-hero h1{font-size:clamp(48px,10.8vw,76px);max-width:600px}
+.rc-simple-hero-caption{font-size:10px;bottom:15px;right:7%}
+.rc-simple-video{height:280px}
+.rc-simple-video-label{font-size:9px}
+}
