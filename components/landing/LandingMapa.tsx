@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+import fieldPanorama from "@/public/rentocampo-hero-campo-bn-1920x1080.webp";
 import RegionalLink from "@/components/layout/RegionalLink";
 import { regionalText } from "@/lib/i18n/regional";
 import { useRegionalCountry } from "@/lib/i18n/useRegionalCountry";
@@ -20,23 +22,14 @@ export default function LandingMapa() {
           </p>
           <RegionalLink href="/campos/mapa" className="rc-button rc-button-yellow">{t("Ver mapa de campos →", "Ver mapa de terras →")}</RegionalLink>
         </div>
-        <div className="rc-map rc-aerial-video">
-          <video
-            autoPlay
-            muted
-            playsInline
-            preload="metadata"
-            aria-label="Vista aérea de actividades agrícolas en la región"
-            onTimeUpdate={(event) => {
-              const video = event.currentTarget;
-              if (Number.isFinite(video.duration) && video.currentTime >= video.duration - 1.1) {
-                video.currentTime = 2;
-                void video.play();
-              }
-            }}
-          >
-            <source src="/RentoCampo_video_real_dron_tractor_silos_mar_16x9.mp4.mp4#t=2" type="video/mp4" />
-          </video>
+        <div className="rc-map rc-map-diagonal">
+          <Image
+            src={fieldPanorama}
+            alt={t("Vista panorámica de tierras productivas en blanco y negro", "Vista panorâmica de terras produtivas em preto e branco")}
+            fill
+            sizes="(max-width: 900px) 100vw, 62vw"
+            className="rc-map-diagonal__photo"
+          />
         </div>
       </div>
     </section>
