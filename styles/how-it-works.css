@@ -1,99 +1,31 @@
-/* Explicación de tres pasos, pequeña y consistente entre web, mobile y Lite. */
-.rc-how {
-  --how-dark: #222b25;
-  --how-mustard: #d5bd72;
-  --how-white: #f7f9f5;
-  --how-silver: #c5cdc5;
-  scroll-margin-top: 92px;
-  color: var(--how-white);
-  background: var(--how-dark);
-  border-block: 1px solid #455449;
-  font-family: var(--font-dm-sans), Arial, sans-serif;
+/* Cómo funciona — una sola franja horizontal en web, móvil y Lite. */
+.rc-how{--how-dark:#28292c;--how-mustard:#d5bd72;--how-white:#f7f7f5;--how-silver:#ceced0;scroll-margin-top:90px;color:var(--how-white);background:var(--how-dark);border-block:1px solid #555659;font-family:var(--font-dm-sans),Arial,sans-serif}
+.rc-how *, .rc-how *::before,.rc-how *::after{box-sizing:border-box}
+.rc-how__inner{max-width:1380px;margin:auto;padding:35px clamp(24px,5.3vw,80px) 42px}
+.rc-how__intro{display:flex;align-items:center;gap:24px;margin-bottom:29px}
+.rc-how__intro::after{content:"";height:1px;min-width:20px;flex:1;background:#88888a}
+.rc-how__eyebrow{margin:0;color:var(--how-mustard);font-size:clamp(14px,1.4vw,19px);font-weight:900;letter-spacing:.12em;white-space:nowrap}
+.rc-how__title{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.rc-how__steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}
+.rc-how__step{min-width:0;display:grid;grid-template-columns:1fr;align-content:start;gap:9px;padding:0 24px}
+.rc-how__step:first-child{padding-left:0}
+.rc-how__step+.rc-how__step{border-left:1px solid #78797b}
+.rc-how__number{display:inline-block;width:max-content;min-width:45px;padding:4px 12px;border-radius:10px 4px 10px 4px;color:#151516;background:var(--how-mustard);font-size:18px;line-height:1.1;font-weight:900;font-variant-numeric:tabular-nums}
+.rc-how__step-copy h3{margin:0;color:var(--how-white);font-size:clamp(17px,1.8vw,25px);line-height:1.15;font-weight:850;letter-spacing:-.025em}
+.rc-how__step-copy p{margin:6px 0 0;color:var(--how-silver);font-size:clamp(14px,1.2vw,17px);line-height:1.36}
+.rc-how__icon{margin-top:9px;width:34px;height:34px;color:#c2c2c4}
+@media(max-width:600px){
+.rc-how__inner{padding:27px 15px 31px}
+.rc-how__intro{gap:12px;margin-bottom:25px;padding-inline:6px}
+.rc-how__eyebrow{font-size:clamp(13px,3.7vw,17px);letter-spacing:.08em}
+.rc-how__steps{grid-template-columns:repeat(3,minmax(0,1fr));gap:0}
+.rc-how__step{padding:0 9px;gap:8px;min-width:0}
+.rc-how__step:first-child{padding-left:5px}
+.rc-how__step+.rc-how__step{border-left:1px solid #858588}
+.rc-how__number{font-size:14px;min-width:36px;padding:4px 9px;border-radius:8px 3px 8px 3px}
+.rc-how__step-copy h3{font-size:clamp(12px,3.5vw,16px);line-height:1.2;overflow-wrap:break-word}
+.rc-how__step-copy p{font-size:clamp(11px,3.0vw,13px);line-height:1.28;margin-top:5px}
+.rc-how__icon{width:29px;height:29px;margin-top:7px}
 }
-.rc-how *, .rc-how *::before, .rc-how *::after { box-sizing: border-box; }
-.rc-how__inner {
-  width: min(1380px, 100%);
-  margin-inline: auto;
-  padding: 43px clamp(23px, 5.3vw, 80px);
-  display: grid;
-  grid-template-columns: minmax(175px, .76fr) minmax(0, 2.24fr);
-  gap: clamp(24px, 4vw, 68px);
-  align-items: center;
-}
-.rc-how__eyebrow {
-  margin: 0 0 9px;
-  font-size: 12px;
-  font-weight: 900;
-  letter-spacing: .10em;
-  color: var(--how-mustard);
-}
-.rc-how__title {
-  margin: 0;
-  font-size: clamp(25px, 3vw, 41px);
-  font-weight: 900;
-  letter-spacing: -.06em;
-  line-height: 1.05;
-  color: var(--how-white);
-}
-.rc-how__steps {
-  list-style: none;
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(16px, 2vw, 32px);
-  margin: 0;
-  padding: 0;
-}
-.rc-how__step {
-  min-width: 0;
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-}
-.rc-how__step + .rc-how__step {
-  border-left: 1px solid #607063;
-  padding-left: clamp(12px, 2vw, 28px);
-}
-.rc-how__number {
-  color: var(--how-mustard);
-  font-size: 17px;
-  font-weight: 900;
-  line-height: 1.4;
-  font-variant-numeric: tabular-nums;
-}
-.rc-how__step-copy h3 {
-  margin: 0;
-  color: var(--how-white);
-  font-size: clamp(16px, 1.42vw, 20px);
-  line-height: 1.3;
-  font-weight: 850;
-}
-.rc-how__step-copy p {
-  margin: 5px 0 0;
-  color: var(--how-silver);
-  font-size: clamp(13px, 1.05vw, 15px);
-  line-height: 1.45;
-}
-@media (max-width: 860px) {
-  .rc-how__inner {
-    grid-template-columns: 1fr;
-    gap: 26px;
-    padding-block: 35px;
-  }
-  .rc-how__steps { gap: 13px; }
-}
-@media (max-width: 600px) {
-  .rc-how__inner { padding: 32px 23px 35px; gap: 22px; }
-  .rc-how__title { font-size: 30px; }
-  .rc-how__steps { grid-template-columns: 1fr; gap: 0; }
-  .rc-how__step { padding-block: 12px; }
-  .rc-how__step + .rc-how__step {
-    border-left: 0;
-    border-top: 1px solid #4d5b50;
-    padding-left: 0;
-  }
-  .rc-how__number { font-size: 17px; width: 28px; flex-shrink: 0; }
-  .rc-how__step-copy h3 { font-size: 18px; }
-  .rc-how__step-copy p { font-size: 14px; }
-}
-/* App Lite usa exactamente las mismas tarjetas compactas. */
-.rc-how--lite .rc-how__inner { padding-inline: 23px; }
+@media(max-width:340px){.rc-how__inner{padding-inline:9px}.rc-how__step{padding-inline:7px}.rc-how__step-copy h3{font-size:12px}.rc-how__step-copy p{font-size:11px}}
+.rc-how--lite .rc-how__inner{padding-inline:15px}
