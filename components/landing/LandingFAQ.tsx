@@ -8,8 +8,8 @@ type FAQContent = { label: string; headline: string; emphasis: string; intro: st
 const localized: Record<"es" | "pt" | "en", FAQContent> = {
   es: {
     label: "PREGUNTAS FRECUENTES",
-    headline: "TODO CLARO.",
-    emphasis: "SIN VUELTAS.",
+    headline: "PREGUNTAS",
+    emphasis: "CLAVE.",
     intro: "Las respuestas que necesitás para empezar.",
     items: [
       {
@@ -36,8 +36,8 @@ const localized: Record<"es" | "pt" | "en", FAQContent> = {
   },
   pt: {
     label: "PERGUNTAS FREQUENTES",
-    headline: "TUDO CLARO.",
-    emphasis: "SEM COMPLICAÇÕES.",
+    headline: "PERGUNTAS",
+    emphasis: "ESSENCIAIS.",
     intro: "As respostas que você precisa para começar.",
     items: [
       {
@@ -64,8 +64,8 @@ const localized: Record<"es" | "pt" | "en", FAQContent> = {
   },
   en: {
     label: "FREQUENTLY ASKED QUESTIONS",
-    headline: "STRAIGHT ANSWERS.",
-    emphasis: "NO DETOURS.",
+    headline: "KEY",
+    emphasis: "QUESTIONS.",
     intro: "Everything you need to get started.",
     items: [
       {
