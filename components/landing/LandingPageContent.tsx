@@ -1,14 +1,12 @@
 import LandingFigmaHome from "@/components/landing/LandingFigmaHome";
-import LandingMapa from "@/components/landing/LandingMapa";
 import LandingFAQ from "@/components/landing/LandingFAQ";
-import LandingHowBrief from "@/components/landing/LandingHowBrief";
 
+// Home minimal: hero + preguntas frecuentes. El header y el footer
+// siguen en app/page.tsx, fuera de este contenido.
 export default function LandingPageContent() {
   return (
     <main className="rc-landing">
       <LandingFigmaHome />
-      <LandingMapa />
-      <LandingHowBrief />
       <LandingFAQ />
     </main>
   );
