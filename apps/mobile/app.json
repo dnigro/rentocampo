@@ -3,7 +3,7 @@
     "name": "RentoCampo",
     "slug": "rentocampo",
     "scheme": "rentocampo",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "orientation": "portrait",
     "userInterfaceStyle": "light",
     "ios": {
@@ -11,7 +11,8 @@
       "bundleIdentifier": "com.rentocampo.app"
     },
     "android": {
-      "package": "com.rentocampo.app"
+      "package": "com.rentocampo.app",
+      "versionCode": 2
     },
     "plugins": [
       "expo-web-browser"
@@ -19,6 +20,6 @@
     "extra": {
       "environment": "prototype"
     },
-    "description": "Prototipo interno de navegación móvil de RentoCampo. No apto para publicar en tiendas."
+    "description": "RentoCampo App Lite para Android: inicio, campos, servicios y perfil. Prueba interna con catalogo en linea."
   }
 }
