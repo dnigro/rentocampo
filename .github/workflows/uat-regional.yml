@@ -3,7 +3,7 @@ name: UAT Registro Multiformato
 on:
   workflow_dispatch:
   push:
-    branches: [feat/regional-ar-uy-py-20261014, feat/regional-six-countries-20261015, feat/brasil-foundation-20261019]
+    branches: [feat/regional-ar-uy-py-20261014, feat/regional-six-countries-20261015, feat/brasil-foundation-20261019, feat/home-figma-sin-vueltas-20261031]
 
 concurrency:
   group: uat-registro-${{ github.ref }}
@@ -41,6 +41,8 @@ jobs:
           test -z "$VERCEL_ENV" || { echo "::error::Cloud deployment forbidden"; exit 1; }
       - name: Install project dependencies
         run: npm ci
+      - name: Source regression — active design, auth and profile
+        run: node --test tests/ux-parity.test.mjs
       - name: Install Playwright in a separate temporary npm project
         timeout-minutes: 5
         run: |
