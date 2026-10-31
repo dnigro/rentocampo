@@ -108,30 +108,17 @@ test('LATAM preview fails closed without dedicated UAT credentials', () => {
 });
 
 // The homepage must be derived from the same ISO catalog as selectors and filters.
-test('web and Lite minimalist homes offer browsing without registration and direct contact', () => {
-  const hero=readFileSync(new URL('../components/landing/LandingSimpleHome.tsx', import.meta.url),'utf8');
-  const css=readFileSync(new URL('../styles/home-simple.css', import.meta.url),'utf8');
-  const lite=readFileSync(new URL('../app/lite/page.tsx', import.meta.url),'utf8');
-  assert.equal(COUNTRY_CODES.length,19);
-  for (const copy of [hero,lite]) {
-    assert.match(copy, /SIN INTERMEDIARIOS/);
-    assert.match(copy, /SIN COMISIONES/);
-    assert.match(copy, /Registrate gratis/);
-    assert.match(copy, /Ver campos/);
-    assert.match(copy, /Ver servicios/);
-    assert.match(copy, /Browse services/);
-    assert.match(copy, /Cadastre-se grátis/);
-    assert.ok(copy.indexOf("Registrate gratis")<copy.indexOf("Ver campos"));
-  }
-  assert.match(hero, /href="\/register"/);
-  assert.match(hero, /href="\/campos"/);
-  assert.match(hero, /href="\/servicios-rurales"/);
-  assert.match(lite, /href="\/lite\/cuenta\/registro"/);
-  assert.match(lite, /href="\/lite\/campos"/);
-  assert.match(lite, /href="\/lite\/servicios"/);
-  assert.match(css, /\.rcSimpleHero__action--primary/);
-  assert.match(css, /@media\(max-width:700px\)/);
-  assert.match(css, /@media\(max-width:350px\)/);
+test('web and Lite restore production hero with diagonal imagery',()=>{
+ const hero=readFileSync(new URL('../components/landing/LandingSimpleHome.tsx',import.meta.url),'utf8');
+ const lite=readFileSync(new URL('../app/lite/page.tsx',import.meta.url),'utf8');
+ const css=readFileSync(new URL('../styles/home-simple.css',import.meta.url),'utf8');
+ assert.equal(COUNTRY_CODES.length,19);
+ for(const copy of [hero,lite]){
+ for(const term of ['INTERMEDIARIOS.','MAPAS + CHAT ONLINE','Productores + Tierra + Servicios','REGISTRATE GRATIS','Ver campos','Ver servicios','COMISIONES','CONTACTO DIRECTO'])assert.ok(copy.includes(term),term);
+ }
+ assert.match(css,/clip-path:polygon/);
+ assert.match(hero,/href="\/register"/);
+ assert.match(lite,/href="\/lite\/cuenta\/registro"/);
 });
 
 test('LATAM18 map zoning catalog has four valid geolocated references per new country', async () => {
