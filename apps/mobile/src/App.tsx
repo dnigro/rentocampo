@@ -1,176 +1,291 @@
-import React, { useEffect, useRef, useState } from "react";
-import { BackHandler, ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import {
+  ActivityIndicator,
+  BackHandler,
+  Image,
+  ImageBackground,
+  Modal,
+  ScrollView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { SafeAreaProvider, useSafeAreaInsets } from "react-native-safe-area-context";
 import { WebView } from "react-native-webview";
 
 const SITE = "https://rentocampo.com";
+const COLORS = {
+  green: "#193E32",
+  greenDeep: "#102C23",
+  greenSoft: "#416957",
+  white: "#FFFFFF",
+  paper: "#F5F6F3",
+  gray: "#626D69",
+  silver: "#C9D0CC",
+  border: "#DFE5E0",
+  black: "#17231D",
+} as const;
+
 type Section = "inicio" | "campos" | "servicios" | "perfil";
-type WebDestination = { url: string; title: string };
-const NAV: { id: Section; title: string }[] = [
-  { id: "campos", title: "Campos" },
-  { id: "servicios", title: "Servicios" },
-  { id: "perfil", title: "Mi perfil" },
+type Country = { code: string; label: string; flag: string };
+const COUNTRIES: Country[] = [
+  { code: "AR", label: "Argentina", flag: "🇦🇷" },
+  { code: "BO", label: "Bolivia", flag: "🇧🇴" },
+  { code: "BR", label: "Brasil", flag: "🇧🇷" },
+  { code: "CL", label: "Chile", flag: "🇨🇱" },
+  { code: "CO", label: "Colombia", flag: "🇨🇴" },
+  { code: "CR", label: "Costa Rica", flag: "🇨🇷" },
+  { code: "EC", label: "Ecuador", flag: "🇪🇨" },
+  { code: "GT", label: "Guatemala", flag: "🇬🇹" },
+  { code: "HN", label: "Honduras", flag: "🇭🇳" },
+  { code: "MX", label: "México", flag: "🇲🇽" },
+  { code: "NI", label: "Nicaragua", flag: "🇳🇮" },
+  { code: "PA", label: "Panamá", flag: "🇵🇦" },
+  { code: "PY", label: "Paraguay", flag: "🇵🇾" },
+  { code: "PE", label: "Perú", flag: "🇵🇪" },
+  { code: "SV", label: "El Salvador", flag: "🇸🇻" },
+  { code: "US", label: "Estados Unidos", flag: "🇺🇸" },
+  { code: "UY", label: "Uruguay", flag: "🇺🇾" },
+  { code: "VE", label: "Venezuela", flag: "🇻🇪" },
 ];
+const TABS: { id: Section; label: string; icon: string; path: string }[] = [
+  { id: "inicio", label: "Inicio", icon: "⌂", path: "/lite" },
+  { id: "campos", label: "Campos", icon: "▱", path: "/lite/campos" },
+  { id: "servicios", label: "Servicios", icon: "▦", path: "/lite/servicios" },
+  { id: "perfil", label: "Perfil", icon: "◯", path: "/lite/perfil" },
+];
+
+// The native shell owns the header and tab bar. Hide only their web duplicates.
+// This also applies the approved English-green / white / gray / silver palette
+// to the live Lite pages, including authentication flows.
+const LITE_STYLES = `
+(function () {
+ var id = "rentocampo-android-unified-theme";
+ function install() {
+  if (!document.head || document.getElementById(id)) return;
+  var style = document.createElement("style");
+  style.id = id;
+  style.textContent = [
+    ".lite-regional-header,.lite-app-footer{display:none!important}",
+    "nav[aria-label='Navegación Lite'],main > nav[style*='position:fixed'],main > nav[style*='position: fixed']{display:none!important}",
+    "html,body,.lite-app{background:#F5F6F3!important}",
+    "main{padding-bottom:28px!important}",
+    ".rcLiteDirectHero{background:#102C23!important}",
+    ".rcLiteDirectHero__tone{background:linear-gradient(145deg,rgba(16,44,35,.97),rgba(25,62,50,.83) 65%,rgba(25,62,50,.48))!important}",
+    ".rcLiteDirectHero__features{color:#D3DDD5!important}",
+    ".rcLiteDirectHero__register{background:#FFFFFF!important;color:#193E32!important}",
+    ".rcLiteDirectHero__register:hover{background:#E5EBE6!important}",
+    ".rcLiteDirectHero__stats>div+div{border-left-color:#C9D0CC!important}",
+    ".rcLiteDirectHero__line{color:#F1F4F1!important}",
+    "a[href*='/lite/campos/filtrar'],a[href*='/lite/servicios/filtrar']{border-color:#C9D0CC!important}",
+    "a:focus-visible,button:focus-visible{outline-color:#416957!important}"
+  ].join("");
+  document.head.appendChild(style);
+ }
+ install();
+ document.addEventListener("DOMContentLoaded", install);
+})();
+true;`;
 
 function AppShell() {
   const insets = useSafeAreaInsets();
   const browser = useRef<WebView>(null);
+  const appliedCountry = useRef<string | null>(null);
   const [section, setSection] = useState<Section>("inicio");
-  const [destination, setDestination] = useState<WebDestination | null>(null);
+  const [destination, setDestination] = useState<string | null>(null);
   const [canGoBack, setCanGoBack] = useState(false);
+  const [country, setCountry] = useState("AR");
+  const [countryModal, setCountryModal] = useState(false);
   const [failed, setFailed] = useState(false);
 
-  const open = (url: string, title: string) => {
-    setFailed(false);
-    setCanGoBack(false);
-    setDestination({ url: SITE + url, title });
-  };
-  const select = (next: Section) => {
+  const select = useCallback((next: Section) => {
     setDestination(null);
+    setCanGoBack(false);
     setFailed(false);
     setSection(next);
-  };
-  const back = () => {
-    if (destination && canGoBack) {
-      browser.current?.goBack();
-      return true;
-    }
-    if (destination) {
-      setDestination(null);
-      setCanGoBack(false);
-      return true;
-    }
-    if (section !== "inicio") {
-      setSection("inicio");
-      return true;
-    }
+  }, []);
+
+  const open = useCallback((path: string) => {
+    setCanGoBack(false);
+    setFailed(false);
+    setDestination(path);
+  }, []);
+
+  const back = useCallback(() => {
+    if (countryModal) { setCountryModal(false); return true; }
+    if (destination && canGoBack) { browser.current?.goBack(); return true; }
+    if (destination) { setDestination(null); setCanGoBack(false); return true; }
+    if (section !== "inicio" && canGoBack) { browser.current?.goBack(); return true; }
+    if (section !== "inicio") { select("inicio"); return true; }
     return false;
-  };
+  }, [countryModal, destination, canGoBack, section, select]);
 
   useEffect(() => {
-    const subscription = BackHandler.addEventListener("hardwareBackPress", back);
-    return () => subscription.remove();
-  });
+    const listener = BackHandler.addEventListener("hardwareBackPress", back);
+    return () => listener.remove();
+  }, [back]);
 
-  const action = (title: string, detail: string, onPress: () => void, dark = false) => (
-    <TouchableOpacity key={title} onPress={onPress} activeOpacity={0.82} style={[styles.action, dark && styles.actionDark]}>
+  const changeCountry = (code: string) => {
+    setCountryModal(false);
+    if (country !== code) {
+      appliedCountry.current = null;
+      setCountry(code);
+      if (section === "inicio" && !destination) {
+        // The selected region is applied to the next Lite page opened.
+        return;
+      }
+    }
+  };
+
+  const renderLink = (title: string, detail: string, onPress: () => void, filled = false) => (
+    <TouchableOpacity key={title} onPress={onPress} activeOpacity={0.82} style={[styles.action, filled && styles.actionFilled]}>
       <View style={styles.actionCopy}>
-        <Text style={[styles.actionTitle, dark && styles.onDark]}>{title}</Text>
-        <Text style={[styles.actionDetail, dark && styles.detailOnDark]}>{detail}</Text>
+        <Text style={[styles.actionTitle, filled && styles.textWhite]}>{title}</Text>
+        <Text style={[styles.actionDetail, filled && styles.detailWhite]}>{detail}</Text>
       </View>
-      <Text style={[styles.arrow, dark && styles.onDark]}>→</Text>
+      <Text style={[styles.arrow, filled && styles.textWhite]}>→</Text>
     </TouchableOpacity>
   );
 
-  const content = () => {
-    if (section === "inicio") return (
-      <>
-        <Text style={styles.kicker}>#1 RED FEDERAL</Text>
-        <Text style={styles.heading}>El campo,{"\n"}más cerca.</Text>
-        <Text style={styles.description}>Tierra, productores y servicios rurales en un solo lugar.</Text>
-        <View style={styles.space} />
-        {action("Campos", "Explorá tierras disponibles", () => select("campos"), true)}
-        {action("Servicios rurales", "Encontrá prestadores", () => select("servicios"))}
-        {action("Mi perfil", "Ingresá a tu cuenta", () => select("perfil"))}
-        <Text style={styles.foot}>REGISTRARTE, PUBLICAR Y CONTACTAR ES GRATIS.</Text>
-      </>
-    );
-    if (section === "campos") return (
-      <>
-        <Text style={styles.kicker}>TIERRA PRODUCTIVA</Text>
-        <Text style={styles.heading}>Campos</Text>
-        <Text style={styles.description}>Encontrá oportunidades en Argentina.</Text>
-        <View style={styles.space} />
-        {action("Ver campos", "Listado de publicaciones", () => open("/campos", "Campos disponibles"), true)}
-        {action("Explorar mapa", "Ubicaciones de campos", () => open("/mapa?tipo=campos", "Mapa de campos"))}
-        <View style={styles.rule} />
-        {action("Publicar un campo", "Accedé con tu cuenta", () => open("/login", "Ingresar"))}
-      </>
-    );
-    if (section === "servicios") return (
-      <>
-        <Text style={styles.kicker}>RED DE SERVICIOS</Text>
-        <Text style={styles.heading}>Servicios{"\n"}rurales</Text>
-        <Text style={styles.description}>Conectá con quienes trabajan en el campo.</Text>
-        <View style={styles.space} />
-        {action("Ver servicios", "Prestadores disponibles", () => open("/servicios-rurales", "Servicios disponibles"), true)}
-        {action("Explorar mapa", "Servicios por ubicación", () => open("/mapa?tipo=servicios", "Mapa de servicios"))}
-        <View style={styles.rule} />
-        {action("Ofrecer un servicio", "Accedé con tu cuenta", () => open("/login", "Ingresar"))}
-      </>
-    );
-    return (
-      <>
-        <Text style={styles.kicker}>TU ESPACIO</Text>
-        <Text style={styles.heading}>Mi perfil</Text>
-        <Text style={styles.description}>Administrá tus publicaciones, consultas y datos.</Text>
-        <View style={styles.space} />
-        {action("Ingresar", "Accedé a tu cuenta RentoCampo", () => open("/login", "Iniciar sesión"), true)}
-        {action("Registrarme", "Creá tu cuenta gratis", () => open("/register", "Registro"))}
-      </>
-    );
+  const home = () => (
+    <ScrollView contentContainerStyle={styles.homeScroll} showsVerticalScrollIndicator={false}>
+      <ImageBackground
+        source={{ uri: SITE + "/rentocampo-hero-campo-bn-1920x1080.webp" }}
+        imageStyle={styles.heroImage}
+        style={styles.hero}
+      >
+        <Text style={styles.eyebrow}>CONECTAMOS EL CAMPO</Text>
+        <Text style={styles.heroBig}>SIN</Text>
+        <Text style={styles.heroHeading}>INTERMEDIARIOS.</Text>
+        <Text style={styles.heroFeature}>MAPAS + CHAT ONLINE</Text>
+        <Text style={styles.heroSecondary}>Productores + Tierra + Servicios</Text>
+        <Text style={styles.heroLine}>Vos publicás. Vos contactás. Vos acordás.</Text>
+        <TouchableOpacity style={styles.register} activeOpacity={0.82} onPress={() => open("/lite/cuenta/registro")} accessibilityRole="button">
+          <Text style={styles.registerText}>REGISTRATE GRATIS</Text>
+          <Text style={styles.registerArrow}>→</Text>
+        </TouchableOpacity>
+        <View style={styles.stats}>
+          <View style={styles.statLeft}>
+            <Text style={styles.statNumber}>0%</Text>
+            <Text style={styles.statCaption}>COMISIONES</Text>
+          </View>
+          <View style={styles.statRight}>
+            <Text style={styles.statNumber}>100%</Text>
+            <Text style={styles.statCaption}>CONTACTO DIRECTO</Text>
+          </View>
+        </View>
+      </ImageBackground>
+      <View style={styles.homeActions}>
+        <Text style={styles.sectionKicker}>EXPLORÁ RENTOCAMPO</Text>
+        <Text style={styles.sectionTitle}>¿Qué necesitás hoy?</Text>
+        {renderLink("Ver campos", "Encontrá tierras disponibles en el mapa", () => select("campos"), true)}
+        {renderLink("Ver servicios rurales", "Conectá con profesionales del campo", () => select("servicios"))}
+        {renderLink("Publicar y administrar", "Tus publicaciones, mensajes y perfil", () => select("perfil"))}
+      </View>
+    </ScrollView>
+  );
+
+  const webPath = destination ?? TABS.find(t => t.id === section)!.path;
+  const showWeb = Boolean(destination || section !== "inicio");
+
+  const applyCountry = () => {
+    if (!showWeb || appliedCountry.current === country) return;
+    appliedCountry.current = country;
+    const safeCode = country.replace(/[^A-Z]/g, "");
+    const script = `(function(){var code="${safeCode}";var cookie="rentocampo_country="+code; if (document.cookie.indexOf(cookie)===-1) {document.cookie=cookie+"; path=/; max-age=31536000; SameSite=Lax";location.reload();}})();true;`;
+    browser.current?.injectJavaScript(script);
   };
 
   return (
     <View style={[styles.root, { paddingTop: insets.top }]}>
-      <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" translucent={false} />
+      <StatusBar barStyle="light-content" backgroundColor={COLORS.greenDeep} translucent={false} />
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => destination ? setDestination(null) : select("inicio")} accessibilityLabel={destination ? "Volver" : "Inicio"}>
-          <Text style={styles.brand}>rento<Text style={styles.brandBold}>Campo</Text></Text>
+        <TouchableOpacity onPress={() => select("inicio")} style={styles.brandBox} accessibilityLabel="RentoCampo, ir al inicio">
+          <View style={styles.logoTile}>
+            <Image source={{ uri: SITE + "/logo-rentocampo-oficial.png" }} resizeMode="contain" style={styles.logoImage} />
+          </View>
+          <Text style={styles.brand}>Rento<Text style={styles.brandStrong}>Campo</Text></Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => destination ? setDestination(null) : select("inicio")} style={styles.monogram}>
-          <Text style={styles.monogramText}>{destination ? "←" : "RC"}</Text>
+        <TouchableOpacity style={styles.countryButton} onPress={() => setCountryModal(true)} accessibilityRole="button" accessibilityLabel="Seleccionar país">
+          <Text style={styles.countryText}>{COUNTRIES.find(c => c.code === country)?.flag ?? "🌎"} {country}  ▾</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => select("perfil")} style={styles.profileButton} accessibilityLabel="Ir a mi perfil">
+          <Text style={styles.profileSymbol}>◯</Text>
         </TouchableOpacity>
       </View>
       <View style={styles.body}>
-        {destination ? (
+        {showWeb ? (
           <>
-            <View style={styles.webBar}>
-              <TouchableOpacity onPress={() => { setDestination(null); setCanGoBack(false); }}>
-                <Text style={styles.webBack}>← Volver</Text>
-              </TouchableOpacity>
-              <Text style={styles.webTitle} numberOfLines={1}>{destination.title}</Text>
-            </View>
             <WebView
+              key={webPath}
               ref={browser}
-              key={destination.url}
-              source={{ uri: destination.url }}
-              onNavigationStateChange={(nav) => setCanGoBack(nav.canGoBack)}
-              onError={() => setFailed(true)}
-              onLoadStart={() => setFailed(false)}
+              source={{ uri: SITE + webPath }}
+              originWhitelist={["https://*"]}
+              injectedJavaScriptBeforeContentLoaded={LITE_STYLES}
+              injectedJavaScript={LITE_STYLES}
+              onLoadEnd={applyCountry}
               sharedCookiesEnabled
               thirdPartyCookiesEnabled
               domStorageEnabled
               javaScriptEnabled
               startInLoadingState
+              renderLoading={() => <View style={styles.loader}><ActivityIndicator color={COLORS.green} size="large" /></View>}
+              onNavigationStateChange={nav => setCanGoBack(nav.canGoBack)}
+              onError={() => setFailed(true)}
               setSupportMultipleWindows={false}
+              style={styles.webView}
             />
             {failed && (
               <View style={styles.error}>
-                <Text>No se pudo cargar. Revisá tu conexión.</Text>
-                <TouchableOpacity onPress={() => browser.current?.reload()}><Text style={styles.retry}>Reintentar</Text></TouchableOpacity>
+                <Text style={styles.errorTitle}>No se pudo cargar la página</Text>
+                <Text style={styles.errorText}>Revisá tu conexión a Internet.</Text>
+                <TouchableOpacity onPress={() => { setFailed(false); browser.current?.reload(); }} style={styles.retry}>
+                  <Text style={styles.retryText}>Reintentar</Text>
+                </TouchableOpacity>
               </View>
             )}
           </>
-        ) : (
-          <ScrollView contentContainerStyle={styles.page} showsVerticalScrollIndicator={false}>
-            {content()}
-          </ScrollView>
-        )}
+        ) : home()}
       </View>
-      <View style={[styles.tabs, { paddingBottom: Math.max(insets.bottom, 12) }]}>
-        {NAV.map((item) => (
-          <TouchableOpacity
-            key={item.id}
-            onPress={() => select(item.id)}
-            accessibilityRole="tab"
-            accessibilityState={{ selected: !destination && section === item.id }}
-            style={[styles.tab, !destination && section === item.id && styles.activeTab]}
-          >
-            <Text numberOfLines={1} style={[styles.tabLabel, !destination && section === item.id && styles.activeLabel]}>{item.title}</Text>
-          </TouchableOpacity>
-        ))}
+      <View style={[styles.tabs, { paddingBottom: Math.max(insets.bottom, 10) }]}>
+        {TABS.map(item => {
+          const active = item.id === section;
+          return (
+            <TouchableOpacity
+              key={item.id}
+              onPress={() => select(item.id)}
+              accessibilityRole="tab"
+              accessibilityState={{ selected: active }}
+              style={[styles.tab, active && styles.activeTab]}
+            >
+              <Text style={[styles.tabIcon, active && styles.tabActiveText]}>{item.icon}</Text>
+              <Text numberOfLines={1} style={[styles.tabLabel, active && styles.tabActiveText]}>{item.label}</Text>
+            </TouchableOpacity>
+          );
+        })}
       </View>
+      <Modal visible={countryModal} animationType="slide" transparent onRequestClose={() => setCountryModal(false)}>
+        <View style={styles.modalShade}>
+          <View style={styles.modalPanel}>
+            <View style={styles.modalHeading}>
+              <Text style={styles.modalTitle}>Seleccioná tu país</Text>
+              <TouchableOpacity onPress={() => setCountryModal(false)} accessibilityLabel="Cerrar selección de país">
+                <Text style={styles.close}>✕</Text>
+              </TouchableOpacity>
+            </View>
+            <ScrollView>
+              {COUNTRIES.map(c => (
+                <TouchableOpacity key={c.code} onPress={() => changeCountry(c.code)} style={[styles.countryRow, c.code === country && styles.countrySelected]}>
+                  <Text style={styles.countryRowText}>{c.flag}  {c.label}</Text>
+                  <Text style={styles.countryCode}>{c.code === country ? "✓" : c.code}</Text>
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 }
@@ -180,36 +295,66 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
-  root: { flex: 1, backgroundColor: "#FFFFFF" },
-  header: { minHeight: 64, paddingHorizontal: 22, flexDirection: "row", alignItems: "center", justifyContent: "space-between", borderBottomWidth: 1, borderBottomColor: "#ECECEC" },
-  brand: { color: "#111111", fontSize: 26, fontWeight: "300", letterSpacing: -1.1 },
-  brandBold: { fontWeight: "900" },
-  monogram: { width: 40, height: 40, borderWidth: 2, borderColor: "#111111", borderRadius: 20, justifyContent: "center", alignItems: "center" },
-  monogramText: { fontSize: 15, fontWeight: "900", color: "#111111" },
-  body: { flex: 1 },
-  page: { paddingHorizontal: 24, paddingTop: 42, paddingBottom: 36, flexGrow: 1 },
-  kicker: { fontSize: 11, letterSpacing: 2.3, fontWeight: "900", color: "#666666" },
-  heading: { marginTop: 15, fontSize: 40, lineHeight: 45, letterSpacing: -1.4, fontWeight: "900", color: "#111111" },
-  description: { marginTop: 16, fontSize: 16, lineHeight: 24, color: "#666666", maxWidth: 330 },
-  space: { height: 35 },
-  action: { borderWidth: 1, borderColor: "#111111", backgroundColor: "#FFFFFF", borderRadius: 12, minHeight: 78, marginBottom: 12, paddingHorizontal: 18, paddingVertical: 13, flexDirection: "row", justifyContent: "space-between", alignItems: "center" },
-  actionDark: { backgroundColor: "#111111" },
-  actionCopy: { flex: 1 },
-  actionTitle: { fontSize: 19, fontWeight: "800", color: "#111111" },
-  actionDetail: { marginTop: 5, fontSize: 12, color: "#666666" },
-  onDark: { color: "#FFFFFF" },
-  detailOnDark: { color: "#DDDDDD" },
-  arrow: { fontSize: 25, color: "#111111", marginLeft: 8 },
-  foot: { marginTop: 32, fontSize: 10, lineHeight: 17, letterSpacing: 1.2, fontWeight: "800", color: "#777777" },
-  rule: { height: 1, backgroundColor: "#EEEEEE", marginVertical: 15 },
-  tabs: { flexDirection: "row", borderTopWidth: 1, borderColor: "#E5E5E5", paddingTop: 9, paddingHorizontal: 8, backgroundColor: "#FFFFFF" },
-  tab: { flex: 1, minHeight: 43, alignItems: "center", justifyContent: "center", borderRadius: 8, marginHorizontal: 3 },
-  activeTab: { backgroundColor: "#111111" },
-  tabLabel: { fontSize: 12, fontWeight: "800", color: "#111111" },
-  activeLabel: { color: "#FFFFFF" },
-  webBar: { height: 46, flexDirection: "row", alignItems: "center", gap: 15, paddingHorizontal: 20, borderBottomWidth: 1, borderBottomColor: "#EEEEEE" },
-  webBack: { fontSize: 14, fontWeight: "800", color: "#111111" },
-  webTitle: { fontSize: 13, color: "#666666", flex: 1 },
-  error: { ...StyleSheet.absoluteFillObject, backgroundColor: "#FFFFFF", alignItems: "center", justifyContent: "center", padding: 20 },
-  retry: { marginTop: 20, fontWeight: "800", textDecorationLine: "underline" },
+  root: { flex: 1, backgroundColor: COLORS.paper },
+  header: { minHeight: 68, paddingHorizontal: 12, flexDirection: "row", alignItems: "center", backgroundColor: COLORS.greenDeep, borderBottomWidth: 1, borderBottomColor: COLORS.greenSoft },
+  brandBox: { flex: 1, minWidth: 0, flexDirection: "row", alignItems: "center" },
+  logoTile: { height: 40, width: 40, backgroundColor: COLORS.white, borderRadius: 8, justifyContent: "center", alignItems: "center", overflow: "hidden", marginRight: 7 },
+  logoImage: { height: 36, width: 36 },
+  brand: { color: COLORS.white, fontWeight: "300", fontSize: 22, letterSpacing: -1.3 },
+  brandStrong: { fontWeight: "900" },
+  countryButton: { minHeight: 42, borderWidth: 1, borderColor: COLORS.silver, borderRadius: 22, paddingHorizontal: 9, justifyContent: "center", marginRight: 7 },
+  countryText: { fontSize: 12, fontWeight: "800", color: COLORS.white },
+  profileButton: { width: 35, height: 42, alignItems: "center", justifyContent: "center" },
+  profileSymbol: { fontSize: 27, fontWeight: "700", color: COLORS.white },
+  body: { flex: 1, backgroundColor: COLORS.paper },
+  homeScroll: { paddingBottom: 32 },
+  hero: { backgroundColor: COLORS.greenDeep, paddingHorizontal: 22, paddingTop: 38, paddingBottom: 35, minHeight: 455 },
+  heroImage: { opacity: 0.29 },
+  eyebrow: { fontSize: 11, letterSpacing: 2.4, color: COLORS.silver, fontWeight: "800", marginBottom: 24 },
+  heroBig: { fontSize: 67, fontWeight: "900", color: COLORS.white, letterSpacing: -3.5, lineHeight: 72 },
+  heroHeading: { fontSize: 31, fontWeight: "900", color: COLORS.white, letterSpacing: -1.5, marginBottom: 24 },
+  heroFeature: { fontSize: 19, fontWeight: "900", color: COLORS.silver, letterSpacing: -0.5 },
+  heroSecondary: { fontSize: 15, fontWeight: "800", color: COLORS.white, marginTop: 4 },
+  heroLine: { fontSize: 13, fontWeight: "700", color: COLORS.white, marginVertical: 19, lineHeight: 19 },
+  register: { backgroundColor: COLORS.white, minHeight: 55, flexDirection: "row", justifyContent: "center", alignItems: "center", gap: 14, borderRadius: 30 },
+  registerText: { fontSize: 16, fontWeight: "900", color: COLORS.green },
+  registerArrow: { fontSize: 22, color: COLORS.green },
+  stats: { flexDirection: "row", marginTop: 28 },
+  statLeft: { flex: 1, borderRightWidth: 1, borderRightColor: COLORS.silver },
+  statRight: { flex: 1.45, paddingLeft: 19 },
+  statNumber: { fontSize: 45, lineHeight: 47, letterSpacing: -2, fontWeight: "900", color: COLORS.white },
+  statCaption: { fontSize: 11, color: COLORS.white, fontWeight: "900", marginTop: 4, letterSpacing: 0.2 },
+  homeActions: { paddingHorizontal: 20, paddingVertical: 30 },
+  sectionKicker: { color: COLORS.greenSoft, letterSpacing: 2, fontSize: 11, fontWeight: "900" },
+  sectionTitle: { color: COLORS.black, fontSize: 26, fontWeight: "900", marginTop: 9, marginBottom: 23 },
+  action: { backgroundColor: COLORS.white, borderWidth: 1, borderColor: COLORS.border, borderRadius: 15, minHeight: 82, paddingHorizontal: 18, paddingVertical: 13, marginBottom: 11, flexDirection: "row", justifyContent: "space-between", alignItems: "center" },
+  actionFilled: { backgroundColor: COLORS.green, borderColor: COLORS.green },
+  actionCopy: { flex: 1, paddingRight: 8 },
+  actionTitle: { fontSize: 18, fontWeight: "900", color: COLORS.green },
+  actionDetail: { fontSize: 12, lineHeight: 17, color: COLORS.gray, marginTop: 5 },
+  textWhite: { color: COLORS.white },
+  detailWhite: { color: "#DFE7E1" },
+  arrow: { fontSize: 24, color: COLORS.green },
+  webView: { flex: 1, backgroundColor: COLORS.paper },
+  loader: { ...StyleSheet.absoluteFillObject, alignItems: "center", justifyContent: "center", backgroundColor: COLORS.paper },
+  tabs: { flexDirection: "row", backgroundColor: COLORS.white, borderTopWidth: 1, borderTopColor: COLORS.border, paddingTop: 8, paddingHorizontal: 7 },
+  tab: { flex: 1, minHeight: 56, justifyContent: "center", alignItems: "center", marginHorizontal: 2, borderRadius: 10 },
+  activeTab: { backgroundColor: "#E4ECE6" },
+  tabIcon: { fontSize: 22, color: COLORS.gray },
+  tabLabel: { fontSize: 11, fontWeight: "800", color: COLORS.gray, marginTop: 3 },
+  tabActiveText: { color: COLORS.green },
+  error: { ...StyleSheet.absoluteFillObject, backgroundColor: COLORS.paper, alignItems: "center", justifyContent: "center", padding: 25 },
+  errorTitle: { fontSize: 19, fontWeight: "800", color: COLORS.green },
+  errorText: { marginTop: 10, color: COLORS.gray },
+  retry: { backgroundColor: COLORS.green, borderRadius: 25, paddingHorizontal: 25, paddingVertical: 13, marginTop: 23 },
+  retryText: { color: COLORS.white, fontWeight: "900" },
+  modalShade: { flex: 1, justifyContent: "flex-end", backgroundColor: "#0008" },
+  modalPanel: { backgroundColor: COLORS.paper, borderTopLeftRadius: 25, borderTopRightRadius: 25, paddingHorizontal: 18, paddingTop: 22, paddingBottom: 25, maxHeight: "78%" },
+  modalHeading: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginBottom: 12 },
+  modalTitle: { color: COLORS.green, fontWeight: "900", fontSize: 22 },
+  close: { color: COLORS.gray, fontSize: 22, padding: 8 },
+  countryRow: { flexDirection: "row", paddingHorizontal: 12, minHeight: 51, justifyContent: "space-between", alignItems: "center", borderBottomWidth: 1, borderBottomColor: COLORS.border },
+  countrySelected: { backgroundColor: "#E4ECE6", borderRadius: 8 },
+  countryRowText: { color: COLORS.black, fontSize: 16, fontWeight: "700" },
+  countryCode: { color: COLORS.greenSoft, fontSize: 13, fontWeight: "900" },
 });
