@@ -97,9 +97,7 @@ export default function LandingFAQ() {
   const copy = localized[country === "BR" ? "pt" : country === "US" ? "en" : "es"];
 
   return (
-    <section className="rcf-faq" id="como-funciona" aria-labelledby="rcf-faq-title">
-      {/* Conserva los enlaces existentes a /#preguntas y /#como-funciona. */}
-      <span id="preguntas" className="rcf-faq__anchor" aria-hidden="true" />
+    <section className="rcf-faq" id="preguntas" aria-labelledby="rcf-faq-title">
       <div className="rcf-faq__container">
         <div className="rcf-faq__intro">
           <p className="rcf-faq__eyebrow">{copy.label}</p>
