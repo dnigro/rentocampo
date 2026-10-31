@@ -1,0 +1,72 @@
+/* RentoCampo · MANIFIESTO 2026
+   Estilo editorial deliberadamente distinto: un solo paisaje,
+   tipografía protagonista y tres acciones. Sin trípticos, tarjetas,
+   degradados, sombras flotantes ni claims inventados. */
+.rcManifesto{--paper:#f0eee5;--ink:#151917;--copper:#be552d;--muted:#536057;--line:#bbb9ae;background:var(--paper);color:var(--ink);width:100%;overflow:hidden}
+.rcManifesto *{box-sizing:border-box}
+.rcManifestoHero{display:grid;grid-template-columns:minmax(0,57%) minmax(0,43%);min-height:clamp(520px,67svh,775px);width:100%;background:var(--paper)}
+.rcManifestoCopy{grid-column:1;grid-row:1;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;min-width:0;padding:clamp(42px,5.4vw,86px) clamp(38px,5.5vw,92px);position:relative}
+.rcManifestoCopy:before{content:"";position:absolute;left:clamp(38px,5.5vw,92px);top:clamp(24px,3vw,44px);height:4px;width:58px;background:var(--copper)}
+.rcManifestoKicker{color:#414b44;font-size:clamp(10px,.87vw,13px);font-weight:850;line-height:1.4;letter-spacing:.17em;margin:0 0 clamp(26px,3.4vw,49px);text-transform:uppercase}
+.rcManifestoTitle{font-family:Arial,Helvetica,sans-serif;margin:0;font-weight:900;letter-spacing:-.087em;line-height:.88;max-width:100%;text-transform:uppercase}
+.rcManifestoTitle span,.rcManifestoTitle strong{display:block;font-size:clamp(58px,7.6vw,130px);font-weight:900;white-space:nowrap}
+.rcManifestoTitle span{color:var(--ink)}
+.rcManifestoTitle strong{color:var(--copper)}
+.rcManifestoDescription{font-size:clamp(16px,1.4vw,21px);line-height:1.43;color:#36433a;max-width:590px;margin:clamp(24px,3.3vw,48px) 0 0;font-weight:550;text-wrap:balance}
+.rcManifestoActions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px;width:min(100%,570px);margin-top:clamp(22px,3.2vw,45px)}
+.rcManifestoButton{display:flex;align-items:center;justify-content:center;min-height:55px;padding:13px 17px;text-align:center;border-radius:999px;border:2px solid var(--ink);text-decoration:none;line-height:1.17;font-size:clamp(12px,1.08vw,16px);font-weight:900;letter-spacing:.01em;transition:background-color .15s ease,color .15s ease}
+.rcManifestoButton--primary{background:var(--ink);color:#fff}
+.rcManifestoButton--primary:hover{background:#323a34;color:#fff}
+.rcManifestoButton--secondary{background:transparent;color:var(--ink)}
+.rcManifestoButton--secondary:hover{background:#dfddd3}
+.rcManifestoButton--tertiary{grid-column:1 / -1;background:var(--copper);color:#fff;border-color:var(--copper)}
+.rcManifestoButton--tertiary:hover{background:#9e4627;border-color:#9e4627}
+.rcManifestoButton:focus-visible{outline:3px solid var(--copper);outline-offset:4px}
+.rcManifestoVisual{grid-column:2;grid-row:1;position:relative;isolation:isolate;min-height:100%;background:#555e50;overflow:hidden}
+.rcManifestoVisualImage{object-fit:cover;object-position:50% center;filter:grayscale(.93) contrast(1.17) brightness(.91)}
+.rcManifestoVisualEdge{position:absolute;inset:auto 0 0;z-index:1;height:17px;background:var(--copper)}
+.rcManifestoVisualCaption{position:absolute;left:28px;bottom:41px;z-index:1;display:block;color:#fff;background:var(--ink);padding:8px 11px;font-size:clamp(10px,.9vw,13px);font-weight:800;letter-spacing:.13em}
+.rcManifestoTrust{display:flex;align-items:center;justify-content:center;gap:clamp(20px,4vw,77px);min-height:54px;padding:13px 17px;background:var(--ink);color:#efeee8;scroll-margin-top:90px}
+.rcManifestoTrust span{font-size:clamp(10px,.95vw,13px);letter-spacing:.105em;font-weight:800;text-align:center}
+.rcManifestoTrust span+span{position:relative}
+.rcManifestoTrust span+span:before{position:absolute;content:"";width:1px;height:18px;left:calc(-1 * clamp(11px,2vw,39px));top:50%;transform:translateY(-50%);background:#696e68}
+@media(min-width:851px) and (max-width:1230px){
+ .rcManifestoHero{grid-template-columns:minmax(0,61%) minmax(0,39%)}
+ .rcManifestoCopy{padding:55px 35px}
+ .rcManifestoCopy:before{left:35px;top:28px}
+ .rcManifestoTitle span,.rcManifestoTitle strong{font-size:clamp(54px,7.1vw,90px)}
+}
+@media(max-width:850px){
+ .rcManifestoHero{display:flex;flex-direction:column;min-height:0}
+ .rcManifestoCopy{order:0;padding:38px 23px 28px;min-height:0;width:100%;align-items:stretch}
+ .rcManifestoCopy:before{left:23px;top:21px;height:3px;width:42px}
+ .rcManifestoKicker{font-size:10px;letter-spacing:.12em;margin:0 0 27px}
+ .rcManifestoTitle{line-height:.92;letter-spacing:-.08em}
+ .rcManifestoTitle span,.rcManifestoTitle strong{font-size:clamp(41px,11.7vw,88px);white-space:normal}
+ .rcManifestoDescription{font-size:clamp(14px,3.8vw,19px);max-width:550px;margin:20px 0 0;text-wrap:pretty}
+ .rcManifestoActions{margin-top:21px;gap:10px;max-width:600px}
+ .rcManifestoButton{min-height:50px;padding:12px 9px;font-size:clamp(12px,3.45vw,16px)}
+ .rcManifestoVisual{order:1;width:100%;height:clamp(185px,46vw,330px);min-height:0;flex:none}
+ .rcManifestoVisualImage{object-position:center 53%;filter:grayscale(.86) contrast(1.12) brightness(.94)}
+ .rcManifestoVisualEdge{height:9px}
+ .rcManifestoVisualCaption{bottom:26px;left:18px;font-size:10px;padding:7px 9px}
+ .rcManifestoTrust{gap:11px;min-height:46px;padding:13px 8px;flex-wrap:wrap}
+ .rcManifestoTrust span{font-size:clamp(9px,2.48vw,12px);letter-spacing:.02em}
+ .rcManifestoTrust span+span:before{display:none}
+}
+@media(max-width:350px){
+ .rcManifestoCopy{padding:35px 16px 24px}
+ .rcManifestoCopy:before{left:16px}
+ .rcManifestoKicker{font-size:9px}
+ .rcManifestoTitle span,.rcManifestoTitle strong{font-size:clamp(38px,11vw,45px)}
+ .rcManifestoActions{gap:7px}
+ .rcManifestoButton{font-size:11px;padding:10px 6px}
+}
+@media(prefers-reduced-motion:reduce){.rcManifestoButton{transition:none}}
+/* App Lite: misma experiencia en formato aplicación, navegación nativa intacta. */
+.rcLiteManifesto{max-width:520px;margin:0 auto;min-height:100dvh;padding-bottom:90px;background:#f0eee5}
+.rcLiteManifesto .rcManifestoHero{display:flex;flex-direction:column;min-height:0}
+.rcLiteManifesto .rcManifestoCopy{width:100%;padding:38px 22px 26px}
+.rcLiteManifesto .rcManifestoCopy:before{left:22px}
+.rcLiteManifesto .rcManifestoTitle span,.rcLiteManifesto .rcManifestoTitle strong{font-size:clamp(42px,11.6vw,68px)}
+.rcLiteManifesto .rcManifestoVisual{height:clamp(190px,46vw,280px);min-height:0;flex:none;width:100%}

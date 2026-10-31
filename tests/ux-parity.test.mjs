@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 const read=(p)=>readFileSync(new URL(`../${p}`,import.meta.url),"utf8");
-const web=read("components/landing/LandingTriptychHero.tsx");
+const web=read("components/landing/LandingSimpleHome.tsx");
 const lite=read("app/lite/page.tsx");
 const webLogin=read("app/(auth)/login/page.tsx");
 const webCss=read("styles/auth-responsive.css");
@@ -11,18 +11,31 @@ const liteCss=read("styles/lite-auth.css");
 const profile=read("components/PerfilForm.tsx");
 const liteProfile=read("app/lite/perfil/editar/page.tsx");
 
-test("desktop/mobile/Lite preserve direct-contact CTA hierarchy and proposition",()=>{
- for(const [name,source] of [["web",web],["Lite",lite]]){
-  const cta=source.indexOf('className="rc'+(name==="web"?'Hero26':'LiteDirectHero')+'__register"');
-  const stats=source.indexOf('className="rc'+(name==="web"?'Hero26':'LiteDirectHero')+'__stats"');
-  assert.ok(cta>0 && stats>0 && cta<stats,`${name} CTA must precede stats in mobile DOM order`);
-  assert.match(source,/MAPAS \+ CHAT ONLINE/);
-  assert.match(source,/Productores \+ Tierra \+ Servicios/);
+test("web, mobile and Lite share manifesto and exactly three public actions", () => {
+ const css=read("styles/home-simple.css");
+ const home=read("components/landing/LandingPageContent.tsx");
+ for (const source of [web,lite]) {
+   for (const phrase of [
+      "EL CAMPO","NO ESPERA.","EXPLORAR CAMPOS","VER SERVICIOS","REGISTRATE GRATIS",
+      "0% COMISIONES","CONTACTO DIRECTO","hero-campo.jpeg",
+      "EXPLORAR TERRAS","VER SERVIÇOS","EXPLORE FARMLAND","BROWSE SERVICES",
+   ]) assert.ok(source.includes(phrase),phrase);
+   assert.match(source,/rcManifestoActions/);
+   assert.match(source,/rcManifestoVisual/);
+   assert.doesNotMatch(source,/rcDoorsGrid|rcSimpleHero__art|image_truck_pix\.png|<video/);
  }
- const css=read("styles/hero-2026-isolated.css");
- assert.match(css,/@media \(min-width: 901px\)/);
- assert.match(css,/\.rcHero26__stats \{ order: 1; \}/);
- assert.match(css,/\.rcHero26__register \{ order: 2; \}/);
+ assert.match(web,/href="\/campos"/);
+ assert.match(web,/href="\/servicios-rurales"/);
+ assert.match(web,/href="\/register"/);
+ assert.match(lite,/href="\/lite\/campos"/);
+ assert.match(lite,/href="\/lite\/servicios"/);
+ assert.match(lite,/href="\/lite\/cuenta\/registro"/);
+ assert.match(css,/\.rcManifestoTitle/);
+ assert.match(css,/\.rcManifestoVisual/);
+ assert.match(css,/@media\(max-width:850px\)/);
+ assert.match(css,/\.rcLiteManifesto/);
+ assert.match(home,/LandingSimpleHome/);
+ assert.doesNotMatch(home,/LandingFAQ|LandingMapa|LandingTriptychHero|LandingHowBrief/);
 });
 
 test("web and Lite login use short title and accessible recovery link below password",()=>{
