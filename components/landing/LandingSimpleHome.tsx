@@ -13,9 +13,9 @@ export default function LandingSimpleHome() {
   const country = useRegionalCountry();
   const t = (es: string, pt: string, en: string) => regionalText(country, es, pt, en);
   const panels = [
-    { image: photoFields, label: t("Campos", "Terras", "Farmland"), number: "01", position: "center" },
-    { image: photoCattle, label: t("Productores", "Produtores", "Farmers"), number: "02", position: "center" },
-    { image: photoServices, label: t("Servicios rurales", "Serviços rurais", "Rural services"), number: "03", position: "center" },
+    { image: photoFields, label: t("Campos", "Terras", "Farmland") },
+    { image: photoCattle, label: t("Productores", "Produtores", "Farmers") },
+    { image: photoServices, label: t("Servicios rurales", "Serviços rurais", "Rural services") },
   ];
 
   return (
@@ -52,7 +52,7 @@ export default function LandingSimpleHome() {
         </div>
         <div className="rcSimpleHero__art" aria-label={t("Campos, productores y servicios rurales", "Terras, produtores e serviços rurais", "Farmland, farmers and rural services")}>
           {panels.map((panel, index) => (
-            <div className="rcSimpleHero__panel" key={panel.number}>
+            <div className="rcSimpleHero__panel" key={panel.label}>
               <Image
                 src={panel.image}
                 alt=""
@@ -62,11 +62,10 @@ export default function LandingSimpleHome() {
                 className="rcSimpleHero__image"
               />
               <div className="rcSimpleHero__photoLabel" aria-hidden="true">
-                <span>{panel.number}</span><strong>{panel.label}</strong>
+                <strong>{panel.label}</strong>
               </div>
             </div>
           ))}
-          <div className="rcSimpleHero__artMark" aria-hidden="true">RC / 19</div>
         </div>
       </section>
       <div id="como-funciona" className="rcSimpleTrust" aria-label={t("Ventajas", "Vantagens", "Benefits")}>
