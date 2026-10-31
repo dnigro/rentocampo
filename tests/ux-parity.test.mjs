@@ -49,12 +49,14 @@ test("home stays hero + short explainer + FAQ, with a shared header/footer",()=>
  assert.ok(how.includes("Explorá o publicá") && how.includes("Conectá por chat") && how.includes("Acordá directo"));
  assert.ok(howCss.includes("scroll-margin-top:90px"));
  assert.ok(howCss.includes("grid-template-columns:repeat(3,minmax(0,1fr))"));
- assert.ok(howCss.includes("grid-auto-columns: min(82vw, 340px)"));
- assert.ok(howCss.includes("scroll-snap-type: x mandatory"));
+ assert.ok(howCss.includes("grid-template-columns: minmax(0, 1fr)"));
+ assert.ok(howCss.includes("scroll-snap-type: none"));
+ assert.ok(howCss.includes("overflow-x: visible"));
+ assert.ok(!howCss.includes("scroll-snap-type: x mandatory"));
  assert.ok(howCss.includes("font-size: clamp(21px, 2.1vw, 31px)"));
  assert.ok(howCss.includes("width: clamp(53px, 5.0vw, 68px)"));
  assert.ok(how.includes('className="rc-how__symbol"'));
- assert.ok(how.includes("tabIndex={0}"));
+ assert.ok(!how.includes("tabIndex={0}"));
  assert.ok(how.includes("MapPinned") && how.includes("MessageCircleMore") && how.includes("Handshake"));
  assert.ok(sharedStyle.includes("--rc-green: #646569"));
  assert.ok(liteStyle.includes("background:#646569"));
@@ -87,6 +89,9 @@ test("responsive hero has a visible matte gold accent and no legacy hero CSS imp
  assert.ok(webStyle.includes("Compact desktop/notebook"));
  assert.ok(webStyle.includes("Protección editorial del hero sobre la diagonal"));
  assert.ok(webStyle.includes("max-width: min(55vw, 790px)"));
+ assert.ok(webStyle.includes("UI aprobada: texto protagonista"));
+ assert.ok(webStyle.includes("align-items: center;"));
+ assert.ok(liteStyle.includes("Portada Lite: misma composición centrada"));
  assert.ok(webStyle.includes("max-width: 58vw"));
  assert.ok(webStyle.includes("@media (min-width: 641px) and (max-width: 900px)"));
  assert.ok(webStyle.includes("calc(100svh - 110px)"));
