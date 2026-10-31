@@ -29,6 +29,15 @@ test("desktop, mobile and Lite expose the same three low-friction actions", () =
   assert.match(lite,/href="\/lite\/cuenta\/registro"/);
   assert.match(lite,/href="\/lite\/campos"/);
   assert.match(lite,/href="\/lite\/servicios"/);
+  // Las tres imágenes rurales reales están presentes en las tres superficies.
+  for(const name of ["image_trigo_pix.png","image_vaca_pix.png","image_truck_pix.png"]) {
+    assert.ok(web.includes(name),name+" missing from web");
+    assert.ok(lite.includes(name),name+" missing from Lite");
+  }
+  assert.match(css,/\.rcSimpleHero__art\{/);
+  assert.match(css,/\.rcSimpleHero__photoLabel\{/);
+  assert.doesNotMatch(web, /<video|__stats|__artMark/);
+  assert.doesNotMatch(lite, /<video|__stats|__artMark/);
   assert.match(css,/@media\(max-width:700px\)/);
   assert.match(css,/@media\(max-width:350px\)/);
   assert.match(home,/LandingSimpleHome/);
