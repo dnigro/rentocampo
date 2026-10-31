@@ -16,9 +16,9 @@ export default async function LiteHome() {
   const country = resolveCountry((await cookies()).get("rentocampo_country")?.value);
   const t = (es: string, pt: string, en: string) => regionalText(country, es, pt, en);
   const panels = [
-    { image: photoFields, label: t("Campos", "Terras", "Farmland"), number: "01" },
-    { image: photoCattle, label: t("Productores", "Produtores", "Farmers"), number: "02" },
-    { image: photoServices, label: t("Servicios rurales", "Serviços rurais", "Rural services"), number: "03" },
+    { image: photoFields, label: t("Campos", "Terras", "Farmland") },
+    { image: photoCattle, label: t("Productores", "Produtores", "Farmers") },
+    { image: photoServices, label: t("Servicios rurales", "Serviços rurais", "Rural services") },
   ];
   const nav = [
     { symbol: "⌂", label: t("Inicio", "Início", "Home"), href: "/lite" },
@@ -62,7 +62,7 @@ export default async function LiteHome() {
         </div>
         <div className="rcSimpleHero__art" aria-label={t("Campos, productores y servicios rurales", "Terras, produtores e serviços rurais", "Farmland, farmers and rural services")}>
           {panels.map((panel, index) => (
-            <div className="rcSimpleHero__panel" key={panel.number}>
+            <div className="rcSimpleHero__panel" key={panel.label}>
               <Image
                 src={panel.image}
                 alt=""
@@ -72,11 +72,10 @@ export default async function LiteHome() {
                 className="rcSimpleHero__image"
               />
               <div className="rcSimpleHero__photoLabel" aria-hidden="true">
-                <span>{panel.number}</span><strong>{panel.label}</strong>
+                <strong>{panel.label}</strong>
               </div>
             </div>
           ))}
-          <div className="rcSimpleHero__artMark" aria-hidden="true">RC / 19</div>
         </div>
       </section>
       <div className="rcSimpleTrust">
