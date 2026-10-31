@@ -189,12 +189,6 @@
   color: #151915;
   padding: clamp(68px, 8vw, 124px) 0 clamp(78px, 8vw, 126px);
 }
-.rc-landing .rcf-faq__anchor {
-  position: absolute;
-  left: 0;
-  top: 0;
-  scroll-margin-top: 90px;
-}
 .rc-landing .rcf-faq__container {
   display: grid;
   grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
