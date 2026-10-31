@@ -115,7 +115,7 @@ test('web/mobile/Lite promote 0 percent commission with a compact regional messa
   const liteCss=readFileSync(new URL('../styles/lite-direct-hero.css',import.meta.url),'utf8');
   assert.equal(COUNTRY_CODES.length,19);
   for(const source of [hero,lite]){
-    for(const phrase of ['CONECTÁ DIRECTO.','Campos y servicios. Contacto directo.','SIN VUELTAS','0%</strong>','100%</strong>','COMISIÓN','CONTACTO DIRECTO']){
+    for(const phrase of ['CAMPOS Y SERVICIOS','Buscá, publicá y conectá.','SIN VUELTAS','0%</strong>','100%</strong>','COMISIÓN','CONTACTO DIRECTO']){
       assert.ok(source.includes(phrase), 'missing hero content: '+phrase);
     }
     assert.ok(!source.includes('MAPAS + CHAT ONLINE'), 'retired noisy hero copy');
