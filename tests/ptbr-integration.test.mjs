@@ -27,7 +27,7 @@ test("pt-BR and Spanish catalogs have matching message keys", () => {
 
 test("regional hero has the same short ES/PT claim and 0 percent offer",()=>{
  const styles=read("styles/home-figma-sin-vueltas.css");
- for(const phrase of ["CONECTÁ DIRECTO.","CONECTE-SE DIRETO.","SIN VUELTAS","0%</strong>","100%</strong>"])assert.ok(hero.includes(phrase));
+ for(const phrase of ["CAMPOS Y SERVICIOS","TERRAS E SERVIÇOS","SIN VUELTAS","0%</strong>","100%</strong>"])assert.ok(hero.includes(phrase));
  assert.ok(hero.includes('href="/register"'));
  assert.ok(hero.includes('href="/campos/mapa"'));
  assert.ok(styles.includes(".rc-landing .rcf-hero__matte"));
