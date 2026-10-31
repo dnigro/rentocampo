@@ -42,7 +42,7 @@ try{
    await check("Home / FAQ / header / footer "+label,page,async()=>{
     await open(page,"/","#rcf-hero-title");
     if(!(await page.locator("#rcf-hero-title").innerText()).includes("SIN VUELTAS"))throw Error("Wrong claim");
-    await page.getByText("CONECTÁ DIRECTO.",{exact:true}).waitFor({state:"visible"});
+    await page.getByText("CAMPOS Y SERVICIOS",{exact:true}).waitFor({state:"visible"});
     if((await page.locator(".rcf-hero__metric-value").count())!==2)throw Error("Missing 0% or 100% metric");
     if((await page.locator(".rcf-actions a").count())!==2)throw Error("Wrong CTA count");
     if((await page.locator(".rc-how--web .rc-how__step").count())!==3)throw Error("How it works count");
@@ -89,7 +89,7 @@ try{
   const ctx=await browser.newContext({viewport:{width:390,height:844}});
   const page=await ctx.newPage();
   await check("BR / US localization and 0% benefit",page,async()=>{
-    for(const [code,text] of [["BR","CONECTE-SE DIRETO."],["US","CONNECT DIRECTLY."]]){
+    for(const [code,text] of [["BR","TERRAS E SERVIÇOS"],["US","LAND & SERVICES"]]){
      await open(page,"/?pais="+code,"#rcf-hero-title");
      await page.getByText(text,{exact:true}).waitFor({state:"visible",timeout:10000});
      if((await page.locator(".rcf-hero__metric-value").count())!==2)throw Error("Benefits for "+code);
