@@ -55,9 +55,9 @@ export default function LandingFigmaHome() {
             </RegionalLink>
           </div>
           <div className="rcf-hero__proof" aria-label={t("Beneficios", "Benefícios", "Benefits")}>
-            <span>{t("0% COMISIONES", "0% COMISSÕES", "0% COMMISSION")}</span>
+            <span>{t("CERO COMISIÓN", "ZERO COMISSÃO", "ZERO COMMISSION")}</span>
             <span className="rcf-hero__divider" aria-hidden="true" />
-            <span>{t("CONTACTO DIRECTO", "CONTATO DIRETO", "DIRECT CONTACT")}</span>
+            <span>{t("100% CONTACTO DIRECTO", "100% CONTATO DIRETO", "100% DIRECT CONTACT")}</span>
           </div>
         </div>
       </section>
