@@ -14,6 +14,7 @@ import {
 } from "react-native";
 import { SafeAreaProvider, useSafeAreaInsets } from "react-native-safe-area-context";
 import { WebView } from "react-native-webview";
+import rcIcon from "../assets/icon.png";
 
 const SITE = "https://rentocampo.com";
 const COLORS = {
@@ -209,7 +210,7 @@ function AppShell() {
       <View style={styles.header}>
         <TouchableOpacity onPress={() => select("inicio")} style={styles.brandBox} accessibilityLabel="RentoCampo, ir al inicio">
           <View style={styles.logoTile}>
-            <Image source={require("../assets/icon.png")} resizeMode="contain" style={styles.logoImage} />
+            <Image source={rcIcon} alt="Escudo RC oficial de RentoCampo" resizeMode="contain" style={styles.logoImage} />
           </View>
           <Text style={styles.brand} numberOfLines={1}>Rento<Text style={styles.brandStrong}>Campo</Text></Text>
         </TouchableOpacity>
