@@ -37,6 +37,7 @@ const COUNTRIES: Country[] = [
   { code: "CL", label: "Chile", flag: "🇨🇱" },
   { code: "CO", label: "Colombia", flag: "🇨🇴" },
   { code: "CR", label: "Costa Rica", flag: "🇨🇷" },
+  { code: "DO", label: "República Dominicana", flag: "🇩🇴" },
   { code: "EC", label: "Ecuador", flag: "🇪🇨" },
   { code: "GT", label: "Guatemala", flag: "🇬🇹" },
   { code: "HN", label: "Honduras", flag: "🇭🇳" },
@@ -132,12 +133,15 @@ function AppShell() {
     if (country !== code) {
       appliedCountry.current = null;
       setCountry(code);
-      if (section === "inicio" && !destination) {
-        // The selected region is applied to the next Lite page opened.
-        return;
+      if (section !== "inicio" || destination) {
+        // Keep the native country selector in sync with the regionalized web catalog.
+        appliedCountry.current = code;
+        browser.current?.injectJavaScript(`document.cookie="rentocampo_country=${code}; path=/; max-age=31536000; SameSite=Lax";window.location.reload();true;`);
       }
     }
   };
+
+  const t = (es: string, pt: string, en: string) => country === "BR" ? pt : country === "US" ? en : es;
 
   const renderLink = (title: string, detail: string, onPress: () => void, filled = false) => (
     <TouchableOpacity key={title} onPress={onPress} activeOpacity={0.82} style={[styles.action, filled && styles.actionFilled]}>
@@ -156,33 +160,33 @@ function AppShell() {
         imageStyle={styles.heroImage}
         style={styles.hero}
       >
-        <Text style={styles.eyebrow}>CONECTAMOS EL CAMPO</Text>
-        <Text style={styles.heroBig}>SIN</Text>
-        <Text style={styles.heroHeading}>INTERMEDIARIOS.</Text>
-        <Text style={styles.heroFeature}>MAPAS + CHAT ONLINE</Text>
-        <Text style={styles.heroSecondary}>Productores + Tierra + Servicios</Text>
-        <Text style={styles.heroLine}>Vos publicás. Vos contactás. Vos acordás.</Text>
+        <Text style={styles.eyebrow}>{t("CONECTAMOS EL CAMPO", "CONECTAMOS O CAMPO", "CONNECTING RURAL COMMUNITIES")}</Text>
+        <Text style={styles.heroBig}>{t("SIN", "SEM", "NO")}</Text>
+        <Text style={styles.heroHeading}>{t("INTERMEDIARIOS.", "INTERMEDIÁRIOS.", "MIDDLEMEN.")}</Text>
+        <Text style={styles.heroFeature}>{t("MAPAS + CHAT ONLINE", "MAPAS + CHAT ONLINE", "MAPS + ONLINE CHAT")}</Text>
+        <Text style={styles.heroSecondary}>{t("Productores + Tierra + Servicios", "Produtores + Terras + Serviços", "Farmers + Land + Services")}</Text>
+        <Text style={styles.heroLine}>{t("Vos publicás. Vos contactás. Vos acordás.", "Você anuncia. Você conversa. Você combina.", "Post. Connect. Make a deal.")}</Text>
         <TouchableOpacity style={styles.register} activeOpacity={0.82} onPress={() => open("/lite/cuenta/registro")} accessibilityRole="button">
-          <Text style={styles.registerText}>REGISTRATE GRATIS</Text>
+          <Text style={styles.registerText}>{t("REGISTRATE GRATIS", "CADASTRE-SE GRÁTIS", "SIGN UP FOR FREE")}</Text>
           <Text style={styles.registerArrow}>→</Text>
         </TouchableOpacity>
         <View style={styles.stats}>
           <View style={styles.statLeft}>
             <Text style={styles.statNumber}>0%</Text>
-            <Text style={styles.statCaption}>COMISIONES</Text>
+            <Text style={styles.statCaption}>{t("COMISIONES", "COMISSÕES", "FEES")}</Text>
           </View>
           <View style={styles.statRight}>
             <Text style={styles.statNumber}>100%</Text>
-            <Text style={styles.statCaption}>CONTACTO DIRECTO</Text>
+            <Text style={styles.statCaption}>{t("CONTACTO DIRECTO", "CONTATO DIRETO", "DIRECT CONTACT")}</Text>
           </View>
         </View>
       </ImageBackground>
       <View style={styles.homeActions}>
-        <Text style={styles.sectionKicker}>EXPLORÁ RENTOCAMPO</Text>
-        <Text style={styles.sectionTitle}>¿Qué necesitás hoy?</Text>
-        {renderLink("Ver campos", "Encontrá tierras disponibles en el mapa", () => select("campos"), true)}
-        {renderLink("Ver servicios rurales", "Conectá con profesionales del campo", () => select("servicios"))}
-        {renderLink("Publicar y administrar", "Tus publicaciones, mensajes y perfil", () => select("perfil"))}
+        <Text style={styles.sectionKicker}>{t("EXPLORÁ RENTOCAMPO", "EXPLORE A RENTOCAMPO", "EXPLORE RENTOCAMPO")}</Text>
+        <Text style={styles.sectionTitle}>{t("¿Qué necesitás hoy?", "Do que você precisa hoje?", "What do you need today?")}</Text>
+        {renderLink(t("Ver campos", "Ver terras", "Find land"), t("Encontrá tierras disponibles en el mapa", "Encontre terras disponíveis no mapa", "Find available land on the map"), () => select("campos"), true)}
+        {renderLink(t("Ver servicios rurales", "Ver serviços rurais", "Rural services"), t("Conectá con profesionales del campo", "Conecte-se com profissionais do campo", "Connect with rural professionals"), () => select("servicios"))}
+        {renderLink(t("Publicar y administrar", "Anunciar e administrar", "Post and manage"), t("Tus publicaciones, mensajes y perfil", "Seus anúncios, mensagens e perfil", "Your listings, messages and profile"), () => select("perfil"))}
       </View>
     </ScrollView>
   );
