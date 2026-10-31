@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useState, type CSSProperties } from "react";
+import Image from "next/image";
+import { useState, type CSSProperties } from "react";
 
-/** Use the stored image when available; gracefully fall back to an existing public asset. */
+/** Resilient photo display for web / mobile / App Lite, with no broken-image glyph. */
 export default function LiteListingImage({
   src,
   alt,
@@ -16,12 +17,13 @@ export default function LiteListingImage({
   eager?: boolean;
   style?: CSSProperties;
 }) {
-  const safe = (value?: string | null) => {
-    const v = value?.trim() ?? "";
-    return v.startsWith("/") && !v.startsWith("//") || /^https:\/\//i.test(v) ? v : fallback;
-  };
-  const [current, setCurrent] = useState(() => safe(src));
-  useEffect(() => setCurrent(safe(src)), [src, fallback]);
+  const value = src?.trim() ?? "";
+  const validUrl = (value.startsWith("/") && !value.startsWith("//")) || /^https:\/\//i.test(value);
+  const primary = validUrl ? value : fallback;
+  const [failed, setFailed] = useState<string[]>([]);
+  const current = failed.includes(primary)
+    ? (failed.includes(fallback) ? "" : fallback)
+    : primary;
   const frame: CSSProperties = {
     display: "block",
     width: "100%",
@@ -33,22 +35,20 @@ export default function LiteListingImage({
     background: "#e5eae6",
     ...style,
   };
-
   if (!current) {
     return <div role="img" aria-label={alt} style={{
       ...frame, display: "grid", placeItems: "center",
       color: "#4b6054", fontSize: 12, fontWeight: 700,
     }}>Sin imagen</div>;
   }
-  return <img
-    key={current}
+  return <Image
+    unoptimized
     src={current}
     alt={alt}
     loading={eager ? "eager" : "lazy"}
-    decoding="async"
     width={280}
     height={180}
     style={frame}
-    onError={() => setCurrent(prev => prev === fallback ? "" : fallback)}
+    onError={() => setFailed(prev => prev.includes(current) ? prev : [...prev, current])}
   />;
 }
