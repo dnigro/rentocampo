@@ -220,34 +220,26 @@ test("map displays new-country field markers and refreshes on country change", (
  assert.match(nav,/router\.refresh\(\)/);
  assert.match(selector,/router\.replace\(/);
 });
-test("approved responsive direct-contact video hero and FAQ remain present", () => {
-  const faq=read("components/landing/LandingFAQ.tsx");
-  const hero=read("components/landing/LandingTriptychHero.tsx");
-  const styles=read("styles/hero-2026-isolated.css");
-  const swap=read("styles/home-video-swap.css");
+test("approved minimal home removes video and FAQ from the homepage only", () => {
+  const landing=read("components/landing/LandingPageContent.tsx");
+  const hero=read("components/landing/LandingSimpleHome.tsx");
   const lite=read("app/lite/page.tsx");
-  assert.ok(hero.includes('rcHero26__heading'));
-  assert.ok(hero.includes('rcHero26__impactLead'));
-  assert.ok(hero.includes('rcHero26__impactWord'));
-  assert.ok(hero.includes('rcHero26__visionLine'));
-  assert.ok(hero.includes('rcHero26__stats'));
-  assert.ok(hero.includes('rcHero26__register'));
-  assert.ok(hero.includes('rcHomeVideo__player'));
-  assert.ok(hero.includes('INTERMEDIARIOS.'));
-  assert.ok(hero.includes('INTERMEDIÁRIOS.'));
-  assert.ok(hero.includes('COMISSÕES.'));
-  assert.ok(!hero.includes('rcHero26__sumate'));
-  assert.ok(!hero.includes('rcHero26__panel'));
-  assert.ok(lite.includes('rcLiteDirectHero__register'));
-  assert.ok(lite.includes('CADASTRE-SE GRÁTIS'));
-  assert.ok(!hero.includes('className="rcHero26__countries"'));
-  assert.match(styles, /@media\(min-width:901px\)/);
+  const styles=read("styles/home-simple.css");
+  const faq=read("components/landing/LandingFAQ.tsx");
+  assert.match(landing, /LandingSimpleHome/);
+  assert.doesNotMatch(landing, /LandingFAQ|LandingMapa|LandingTriptychHero|LandingHowBrief/);
+  assert.match(hero, /REGISTRATE GRATIS/);
+  assert.match(hero, /CADASTRE-SE GRÁTIS/);
+  assert.match(hero, /INTERMEDIARIOS/);
+  assert.match(hero, /COMISSÕES/);
+  assert.match(hero, /href="\/campos"/);
+  assert.match(hero, /href="\/servicios-rurales"/);
+  assert.match(lite, /href="\/lite\/cuenta\/registro"/);
+  assert.match(lite, /href="\/lite\/servicios"/);
   assert.match(styles, /@media\(max-width:900px\)/);
-  assert.match(swap, /@media \(min-width: 901px\)/);
-  assert.match(swap, /@media \(max-width: 900px\)/);
-  assert.match(swap, /object-fit: cover/);
+  assert.match(styles, /\.rcSimpleHero__panel--1/);
+  // El FAQ sigue disponible como componente, sin cargarlo en la home.
   assert.ok(faq.includes('id="preguntas"'));
-  assert.ok(!faq.toLowerCase().includes("packs"));
 });
 
 test("public catalog filters sit beside results, with a mobile disclosure before listings", () => {
@@ -298,19 +290,17 @@ test("regional productive zones replace clipped Argentina-only unverified demand
  assert.match(panel,/Não são indicadores de procura verificada/);
 });
 
-test("mobile and desktop use their approved video and cattle photo layout", () => {
-  const swap=read("styles/home-video-swap.css");
+test("mobile and desktop share an image-only landing while Lite keeps its own links", () => {
   const landing=read("components/landing/LandingPageContent.tsx");
-  const hero=read("components/landing/LandingTriptychHero.tsx");
-  const map=read("components/landing/LandingMapa.tsx");
+  const hero=read("components/landing/LandingSimpleHome.tsx");
   const lite=read("app/lite/page.tsx");
-  assert.match(swap, /\.rc-landing \.rc-map-section > \.rc-shell \{[\s\S]*?flex-direction: column/);
-  assert.match(swap, /\.rc-landing \.rc-map-section \.rc-map-copy \{[\s\S]*?order: 0/);
-  assert.match(swap, /\.rc-landing \.rc-map-section \.rc-map-diagonal \{[\s\S]*?order: 1/);
-  assert.match(swap, /\.rc-landing \.rcHomeVideo \{[\s\S]*?object-fit: cover/);
-  assert.match(swap, /margin-right: calc\(-1 \* var\(--hero-desktop-diagonal\)\)/);
-  assert.match(hero, /className="rcHomeVideo__player"/);
-  assert.match(map, /rc-map-diagonal__photo/);
-  assert.ok(landing.indexOf("<LandingTriptychHero") < landing.indexOf("<LandingMapa"));
+  const css=read("styles/home-simple.css");
+  assert.match(landing, /LandingSimpleHome/);
+  assert.match(hero, /className="rcSimpleHero__image"/);
+  assert.doesNotMatch(hero, /<video/);
+  assert.match(css, /\.rcSimpleHero__actions/);
+  assert.match(css, /@media\(max-width:900px\)/);
+  assert.match(css, /@media\(max-width:350px\)/);
+  assert.match(lite, /href="\/lite\/campos"/);
   assert.ok(!lite.includes("triptychHero"), "Lite has independent hero");
 });
