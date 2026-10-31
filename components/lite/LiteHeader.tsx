@@ -84,6 +84,7 @@ export default function LiteHeader() {
           <Link onClick={closeMenu} href="/lite">{regionalText(country, "Inicio", "Início")}</Link>
           <Link onClick={closeMenu} href="/lite/campos">{regionalText(country, "Campos", "Terras")}</Link>
           <Link onClick={closeMenu} href="/lite/servicios">{regionalText(country, "Servicios rurales", "Serviços rurais")}</Link>
+          <a onClick={closeMenu} href="/lite#como-funciona-lite">{regionalText(country, "Cómo funciona", "Como funciona", "How it works")}</a>
           <Link onClick={closeMenu} href="/lite/perfil">{regionalText(country, "Mi perfil", "Meu perfil")}</Link>
           {user ? (
             <>
