@@ -51,9 +51,13 @@ try{
     if(!(await page.locator(".rcf-faq__item").first().evaluate(e=>e.open)))throw Error("FAQ does not open");
     if(!await page.locator(".navbar").count()||!await page.locator("footer.footer").count())throw Error("Header/footer absent");
     if(!await page.locator('a[href="/#como-funciona"]').count())throw Error("Menu anchor missing");
-    await page.locator('.navbar-links a[href="/#como-funciona"]').first().click().catch(async()=>{
-      await page.locator('a[href="/#como-funciona"]').last().click();
-    });
+    const desktopHowLink = page.locator('.navbar-links a[href="/#como-funciona"]');
+    if (await desktopHowLink.isVisible()) {
+      await desktopHowLink.click();
+    } else {
+      await page.locator('button.hamburguesa').click();
+      await page.locator('.mobile-menu-nav a[href="/#como-funciona"]').click();
+    }
     await page.waitForFunction(()=>location.hash==="#como-funciona",{timeout:7000});
     if(!await page.locator('section#como-funciona').isVisible())throw Error("How it works anchor broken");
     await noOverflow(page);
