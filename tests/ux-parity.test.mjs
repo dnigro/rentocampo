@@ -49,6 +49,12 @@ test("home stays hero + short explainer + FAQ, with a shared header/footer",()=>
  assert.ok(how.includes("Explorá o publicá") && how.includes("Conectá por chat") && how.includes("Acordá directo"));
  assert.ok(howCss.includes("scroll-margin-top:90px"));
  assert.ok(howCss.includes("grid-template-columns:repeat(3,minmax(0,1fr))"));
+ assert.ok(howCss.includes("grid-auto-columns: min(82vw, 340px)"));
+ assert.ok(howCss.includes("scroll-snap-type: x mandatory"));
+ assert.ok(howCss.includes("font-size: clamp(21px, 2.1vw, 31px)"));
+ assert.ok(howCss.includes("width: clamp(53px, 5.0vw, 68px)"));
+ assert.ok(how.includes('className="rc-how__symbol"'));
+ assert.ok(how.includes("tabIndex={0}"));
  assert.ok(how.includes("MapPinned") && how.includes("MessageCircleMore") && how.includes("Handshake"));
  assert.ok(sharedStyle.includes("--rc-green: #646569"));
  assert.ok(liteStyle.includes("background:#646569"));
