@@ -27,12 +27,12 @@ export default async function LitePreview() {
         <Image src="/image_vaca_pix.png" alt="" fill priority sizes="(max-width:520px) 100vw, 520px" className="rcLiteDirectHero__image" />
         <div className="rcLiteDirectHero__tone" aria-hidden="true" />
         <div className="rcLiteDirectHero__body">
-          <p className="rcLiteDirectHero__eyebrow">{t("CONECTÁ DIRECTO.", "CONECTE-SE DIRETO.", "CONNECT DIRECTLY.")}</p>
+          <p className="rcLiteDirectHero__eyebrow">{t("CAMPOS Y SERVICIOS", "TERRAS E SERVIÇOS", "LAND & SERVICES")}</p>
           <h1 className="rcLiteDirectHero__title" id="rcLiteDirectHero-title">
             <span>{t("EL CAMPO.", "O CAMPO.", "RURAL LIFE.")}</span>
             <span>{t("SIN VUELTAS.", "SEM COMPLICAÇÕES.", "MADE SIMPLE.")}</span>
           </h1>
-          <p className="rcLiteDirectHero__line">{t("Campos y servicios. Contacto directo.", "Terras e serviços. Contato direto.", "Land and services. Direct contact.")}</p>
+          <p className="rcLiteDirectHero__line">{t("Buscá, publicá y conectá.", "Busque, anuncie e conecte-se.", "Find, list and connect.")}</p>
           <span className="rcLiteDirectHero__rule" aria-hidden="true" />
           <div className="rcLiteDirectHero__actions">
             <Link href="/lite/cuenta/registro" className="rcLiteDirectHero__register">

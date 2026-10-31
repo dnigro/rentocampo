@@ -31,7 +31,7 @@ export default function LandingFigmaHome() {
         <div className="rcf-hero__matte" aria-hidden="true" />
         <div className="rcf-hero__content">
           <p className="rcf-eyebrow rcf-hero__eyebrow">
-            {t("CONECTÁ DIRECTO.", "CONECTE-SE DIRETO.", "CONNECT DIRECTLY.")}
+            {t("CAMPOS Y SERVICIOS", "TERRAS E SERVIÇOS", "LAND & SERVICES")}
           </p>
           <h1 id="rcf-hero-title" className="rcf-hero__title">
             <span>{t("EL CAMPO.", "O CAMPO.", "RURAL LIFE.")}</span>
@@ -39,9 +39,9 @@ export default function LandingFigmaHome() {
           </h1>
           <p className="rcf-hero__description">
             {t(
-              "Campos y servicios. Contacto directo.",
-              "Terras e serviços. Contato direto.",
-              "Land and services. Direct contact.",
+              "Buscá, publicá y conectá.",
+              "Busque, anuncie e conecte-se.",
+              "Find, list and connect.",
             )}
           </p>
           <span className="rcf-rule" aria-hidden="true" />

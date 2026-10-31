@@ -36,3 +36,30 @@
 .rcLiteDirectHero__image{object-position:64% center}
 .rcLiteDirectHero__line{font-style:italic;font-weight:600}
 .rcLiteDirectHero__title span:last-child{color:#f0f0ef}
+
+/* Lite / WebView: ganado visible primero, contenido debajo; mismo título redondeado. */
+.rcLiteDirectHero__title,
+.rcLiteDirectHero__eyebrow,
+.rcLiteDirectHero__line { font-family: var(--font-rounded), var(--font-dm-sans), sans-serif; }
+.rcLiteDirectHero__title { font-size: clamp(40px, 10.7vw, 55px); line-height: 1.045; letter-spacing: -.048em; }
+.rcLiteDirectHero__line { font-style: normal; font-weight: 700; }
+.rcLiteDirectHero { display: block; min-height: 0; }
+.rcLiteDirectHero__image {
+  object-position: 65% 60%;
+  filter: grayscale(1) brightness(.96) contrast(1.09);
+}
+.rcLiteDirectHero > img.rcLiteDirectHero__image {
+  inset: 0 0 auto !important;
+  height: clamp(290px, 84vw, 430px) !important;
+}
+.rcLiteDirectHero__tone {
+  clip-path: none;
+  background: linear-gradient(180deg, transparent 0%, transparent 25%, rgba(25,26,28,.16) 37%, #191a1c 53%, #191a1c 100%);
+}
+.rcLiteDirectHero__body { padding: clamp(292px, 83vw, 400px) 23px 46px; }
+.rcLiteDirectHero__eyebrow { margin-bottom: 10px; font-size: clamp(15px, 4vw, 19px); letter-spacing: .065em; }
+.rcLiteDirectHero__line { font-size: clamp(19px, 4.75vw, 22px); margin-top: 20px; }
+.rcLiteDirectHero__rule { margin-top: 20px; }
+.rcLiteDirectHero__actions { margin-top: 24px; gap: 12px; }
+.rcLiteDirectHero__stats { margin-top: 35px; }
+@media (max-width: 380px) { .rcLiteDirectHero__title { font-size: clamp(38px, 10.2vw, 42px); } }

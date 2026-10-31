@@ -27,7 +27,7 @@ test("pt-BR and Spanish catalogs have matching message keys", () => {
 
 test("regional hero has the same short ES/PT claim and 0 percent offer",()=>{
  const styles=read("styles/home-figma-sin-vueltas.css");
- for(const phrase of ["CONECTÁ DIRECTO.","CONECTE-SE DIRETO.","SIN VUELTAS","0%</strong>","100%</strong>"])assert.ok(hero.includes(phrase));
+ for(const phrase of ["CAMPOS Y SERVICIOS","TERRAS E SERVIÇOS","SIN VUELTAS","0%</strong>","100%</strong>"])assert.ok(hero.includes(phrase));
  assert.ok(hero.includes('href="/register"'));
  assert.ok(hero.includes('href="/campos/mapa"'));
  assert.ok(styles.includes(".rc-landing .rcf-hero__matte"));
@@ -218,7 +218,7 @@ test("responsive rural hero, FAQ and Lite share the current design",()=>{
  const hero=read("components/landing/LandingFigmaHome.tsx");
  const css=read("styles/home-figma-sin-vueltas.css");
  const lite=read("app/lite/page.tsx");
- for(const phrase of ["CONECTÁ DIRECTO.","0%</strong>","100%</strong>",'href="/register"','className="rcf-hero__title"'])assert.ok(hero.includes(phrase));
+ for(const phrase of ["CAMPOS Y SERVICIOS","0%</strong>","100%</strong>",'href="/register"','className="rcf-hero__title"'])assert.ok(hero.includes(phrase));
  assert.ok(lite.includes('className="rcLiteDirectHero__register"'));
  assert.ok(css.includes(".rc-landing .rcf-hero__matte"));
  assert.ok(css.includes("@media (max-width: 520px)"));
