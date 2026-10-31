@@ -17,7 +17,6 @@ export default function LandingFigmaHome() {
     regionalText(country, es, pt, en);
 
   return (
-    <>
       <section className="rcf-hero" id="hero" aria-labelledby="rcf-hero-title">
         <div className="rcf-hero__photo" aria-hidden="true">
           <Image
@@ -32,7 +31,7 @@ export default function LandingFigmaHome() {
         <div className="rcf-hero__matte" aria-hidden="true" />
         <div className="rcf-hero__content">
           <p className="rcf-eyebrow rcf-hero__eyebrow">
-            {t("EL CAMPO ES DE QUIEN LO HACE", "O CAMPO É DE QUEM O FAZ", "THE LAND BELONGS TO THOSE WHO WORK IT")}
+            {t("EL CAMPO, CONECTADO", "O CAMPO, CONECTADO", "RURAL COMMUNITIES CONNECTED")}
           </p>
           <h1 id="rcf-hero-title" className="rcf-hero__title">
             <span>{t("EL CAMPO.", "O CAMPO.", "RURAL LIFE.")}</span>
@@ -41,9 +40,9 @@ export default function LandingFigmaHome() {
           <span className="rcf-rule" aria-hidden="true" />
           <p className="rcf-hero__description">
             {t(
-              "Publicá, buscá y conectá. Sin intermediarios. Sin comisiones.",
-              "Anuncie, encontre e conecte-se. Sem intermediários. Sem comissões.",
-              "List, explore and connect. No middlemen. No commissions.",
+              "Campos y servicios. Contacto directo.",
+              "Terras e serviços. Contato direto.",
+              "Land and services. Direct contact.",
             )}
           </p>
           <div className="rcf-actions">
@@ -55,13 +54,11 @@ export default function LandingFigmaHome() {
             </RegionalLink>
           </div>
           <div className="rcf-hero__proof" aria-label={t("Beneficios", "Benefícios", "Benefits")}>
-            <span>{t("CERO COMISIÓN", "ZERO COMISSÃO", "ZERO COMMISSION")}</span>
+            <strong>{t("CERO COMISIÓN", "ZERO COMISSÃO", "ZERO COMMISSION")}</strong>
             <span className="rcf-hero__divider" aria-hidden="true" />
-            <span>{t("100% CONTACTO DIRECTO", "100% CONTATO DIRETO", "100% DIRECT CONTACT")}</span>
+            <strong>{t("100% CONTACTO DIRECTO", "100% CONTATO DIRETO", "100% DIRECT CONTACT")}</strong>
           </div>
         </div>
       </section>
-
-    </>
   );
 }
