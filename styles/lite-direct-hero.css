@@ -63,3 +63,16 @@
 .rcLiteDirectHero__actions { margin-top: 24px; gap: 12px; }
 .rcLiteDirectHero__stats { margin-top: 35px; }
 @media (max-width: 380px) { .rcLiteDirectHero__title { font-size: clamp(38px, 10.2vw, 42px); } }
+
+/* Compactación Lite/webview sin ocultar ganado ni sacrificar blancos táctiles. */
+.rcLiteDirectHero > img.rcLiteDirectHero__image { height: clamp(250px, 72vw, 365px) !important; }
+.rcLiteDirectHero__body { padding: clamp(260px, 74vw, 380px) 21px 35px; }
+.rcLiteDirectHero__eyebrow { margin-bottom: 8px; }
+.rcLiteDirectHero__title { font-size: clamp(39px, 10vw, 53px); }
+.rcLiteDirectHero__line { margin-top: 13px; font-size: clamp(17px, 4.45vw, 20px); }
+.rcLiteDirectHero__actions { margin-top: 18px; }
+.rcLiteDirectHero__stats { margin-top: 26px; }
+.rcLiteExplore { padding: 27px 20px 20px; }
+.rcLiteExplore__label { margin-bottom: 13px; }
+.rcLiteExplore__list { gap: 9px; }
+.rcLiteExplore__link { min-height: 54px; padding: 12px 18px; font-size: 17px; }
