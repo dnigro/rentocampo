@@ -3,7 +3,7 @@
     "name": "RentoCampo",
     "slug": "rentocampo",
     "scheme": "rentocampo",
-    "version": "0.2.0",
+    "version": "0.2.1",
     "orientation": "portrait",
     "userInterfaceStyle": "light",
     "ios": {
@@ -12,7 +12,11 @@
     },
     "android": {
       "package": "com.rentocampo.app",
-      "versionCode": 2
+      "versionCode": 3,
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/icon.png",
+        "backgroundColor": "#FFFFFF"
+      }
     },
     "plugins": [
       "expo-web-browser"
@@ -20,6 +24,7 @@
     "extra": {
       "environment": "prototype"
     },
-    "description": "RentoCampo App Lite para Android: inicio, campos, servicios y perfil. Prueba interna con catalogo en linea."
+    "description": "RentoCampo Lite para Android, prueba interna: marca oficial RC, inicio, campos, servicios y perfil.",
+    "icon": "./assets/icon.png"
   }
 }

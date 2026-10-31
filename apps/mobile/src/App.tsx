@@ -208,9 +208,9 @@ function AppShell() {
       <View style={styles.header}>
         <TouchableOpacity onPress={() => select("inicio")} style={styles.brandBox} accessibilityLabel="RentoCampo, ir al inicio">
           <View style={styles.logoTile}>
-            <Image source={{ uri: SITE + "/logo-rentocampo-oficial.png" }} resizeMode="contain" style={styles.logoImage} />
+            <Image source={require("../assets/icon.png")} resizeMode="contain" style={styles.logoImage} />
           </View>
-          <Text style={styles.brand}>Rento<Text style={styles.brandStrong}>Campo</Text></Text>
+          <Text style={styles.brand} numberOfLines={1}>Rento<Text style={styles.brandStrong}>Campo</Text></Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.countryButton} onPress={() => setCountryModal(true)} accessibilityRole="button" accessibilityLabel="Seleccionar país">
           <Text style={styles.countryText}>{COUNTRIES.find(c => c.code === country)?.flag ?? "🌎"} {country}  ▾</Text>
@@ -299,12 +299,12 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
-  root: { flex: 1, backgroundColor: COLORS.paper },
+  root: { flex: 1, backgroundColor: COLORS.greenDeep },
   header: { minHeight: 68, paddingHorizontal: 12, flexDirection: "row", alignItems: "center", backgroundColor: COLORS.greenDeep, borderBottomWidth: 1, borderBottomColor: COLORS.greenSoft },
   brandBox: { flex: 1, minWidth: 0, flexDirection: "row", alignItems: "center" },
-  logoTile: { height: 40, width: 40, backgroundColor: COLORS.white, borderRadius: 8, justifyContent: "center", alignItems: "center", overflow: "hidden", marginRight: 7 },
-  logoImage: { height: 36, width: 36 },
-  brand: { color: COLORS.white, fontWeight: "300", fontSize: 22, letterSpacing: -1.3 },
+  logoTile: { height: 42, width: 42, backgroundColor: COLORS.white, borderRadius: 7, justifyContent: "center", alignItems: "center", overflow: "hidden", marginRight: 10 },
+  logoImage: { height: 40, width: 40 },
+  brand: { color: COLORS.white, fontWeight: "300", fontSize: 21, letterSpacing: -1.2, flexShrink: 1 },
   brandStrong: { fontWeight: "900" },
   countryButton: { minHeight: 42, borderWidth: 1, borderColor: COLORS.silver, borderRadius: 22, paddingHorizontal: 9, justifyContent: "center", marginRight: 7 },
   countryText: { fontSize: 12, fontWeight: "800", color: COLORS.white },
