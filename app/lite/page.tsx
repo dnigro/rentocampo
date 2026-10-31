@@ -5,16 +5,21 @@ import { cookies } from "next/headers";
 import LiteHeader from "@/components/lite/LiteHeader";
 import { resolveCountry } from "@/data/countries";
 import { regionalText } from "@/lib/i18n/regional";
-import heroRural from "@/public/rentocampo-hero-campo-bn-1920x1080.webp";
+import photoFields from "@/public/image_trigo_pix.png";
+import photoCattle from "@/public/image_vaca_pix.png";
+import photoServices from "@/public/image_truck_pix.png";
 import "@/styles/home-simple.css";
 
-export const metadata: Metadata = {
-  title: "RentoCampo Lite | Campos y servicios rurales",
-};
+export const metadata: Metadata = { title: "RentoCampo Lite | Campos y servicios rurales" };
 
 export default async function LiteHome() {
   const country = resolveCountry((await cookies()).get("rentocampo_country")?.value);
   const t = (es: string, pt: string, en: string) => regionalText(country, es, pt, en);
+  const panels = [
+    { image: photoFields, label: t("Campos", "Terras", "Farmland"), number: "01" },
+    { image: photoCattle, label: t("Productores", "Produtores", "Farmers"), number: "02" },
+    { image: photoServices, label: t("Servicios rurales", "Serviços rurais", "Rural services"), number: "03" },
+  ];
   const nav = [
     { symbol: "⌂", label: t("Inicio", "Início", "Home"), href: "/lite" },
     { symbol: "▱", label: t("Campos", "Terras", "Farmland"), href: "/lite/campos" },
@@ -26,40 +31,52 @@ export default async function LiteHome() {
     <main className="rcLiteSimpleHome">
       <LiteHeader />
       <section className="rcSimpleHero rcSimpleHero--lite" aria-labelledby="rc-lite-simple-title">
-        <Image
-          src={heroRural}
-          alt=""
-          fill
-          priority
-          sizes="(max-width:520px) 100vw, 520px"
-          className="rcSimpleHero__image"
-        />
-        <div className="rcSimpleHero__overlay" aria-hidden="true" />
         <div className="rcSimpleHero__content">
           <p className="rcSimpleHero__eyebrow">
-            {t("CAMPOS + SERVICIOS RURALES", "TERRAS + SERVIÇOS RURAIS", "FARMLAND + RURAL SERVICES")}
+            <span aria-hidden="true" className="rcSimpleHero__rule" />
+            {t("RentoCampo · mercado rural", "RentoCampo · mercado rural", "RentoCampo · rural marketplace")}
           </p>
           <h1 id="rc-lite-simple-title" className="rcSimpleHero__title">
-            {t("El campo,", "O campo,", "Farmland,")}
-            <span>{t("más cerca.", "mais perto.", "closer to you.")}</span>
+            {t("El campo,", "O campo,", "The countryside,")}
+            <span>{t("sin vueltas.", "sem complicações.", "without the hassle.")}</span>
           </h1>
           <p className="rcSimpleHero__description">
-            {t("Encontrá campos y servicios. Contactá directamente.", "Encontre terras e serviços. Entre em contato diretamente.", "Explore farmland and services. Connect directly.")}
+            {t("Encontrá campos y servicios rurales. Contactá directamente.", "Encontre terras e serviços rurais. Fale diretamente.", "Find farmland and rural services. Connect directly.")}
           </p>
           <div className="rcSimpleHero__actions" aria-label={t("Accesos principales", "Acessos principais", "Main actions")}>
             <Link href="/lite/cuenta/registro" className="rcSimpleHero__action rcSimpleHero__action--primary">
               {t("Registrate gratis", "Cadastre-se grátis", "Sign up free")}
               <span aria-hidden="true">↗</span>
             </Link>
-            <Link href="/lite/campos" className="rcSimpleHero__action rcSimpleHero__action--secondary">
-              {t("Ver campos", "Ver terras", "Browse farmland")}
-              <span aria-hidden="true">→</span>
-            </Link>
-            <Link href="/lite/servicios" className="rcSimpleHero__action rcSimpleHero__action--secondary">
-              {t("Ver servicios", "Ver serviços", "Browse services")}
-              <span aria-hidden="true">→</span>
-            </Link>
+            <div className="rcSimpleHero__browse">
+              <Link href="/lite/campos" className="rcSimpleHero__action rcSimpleHero__action--secondary">
+                {t("Ver campos", "Ver terras", "Browse farmland")}
+                <span aria-hidden="true">→</span>
+              </Link>
+              <Link href="/lite/servicios" className="rcSimpleHero__action rcSimpleHero__action--secondary">
+                {t("Ver servicios", "Ver serviços", "Browse services")}
+                <span aria-hidden="true">→</span>
+              </Link>
+            </div>
           </div>
+        </div>
+        <div className="rcSimpleHero__art" aria-label={t("Campos, productores y servicios rurales", "Terras, produtores e serviços rurais", "Farmland, farmers and rural services")}>
+          {panels.map((panel, index) => (
+            <div className="rcSimpleHero__panel" key={panel.number}>
+              <Image
+                src={panel.image}
+                alt=""
+                fill
+                priority={index === 0}
+                sizes="(max-width:520px) 34vw, 170px"
+                className="rcSimpleHero__image"
+              />
+              <div className="rcSimpleHero__photoLabel" aria-hidden="true">
+                <span>{panel.number}</span><strong>{panel.label}</strong>
+              </div>
+            </div>
+          ))}
+          <div className="rcSimpleHero__artMark" aria-hidden="true">RC / 19</div>
         </div>
       </section>
       <div className="rcSimpleTrust">
