@@ -58,7 +58,7 @@ try{
       await page.locator('button.hamburguesa').click();
       await page.locator('.mobile-menu-nav a[href="/#como-funciona"]').click();
     }
-    await page.waitForFunction(()=>location.hash==="#como-funciona",{timeout:7000});
+    await page.waitForFunction(()=>location.hash==="#como-funciona",null,{timeout:7000});
     if(!await page.locator('section#como-funciona').isVisible())throw Error("How it works anchor broken");
     await noOverflow(page);
     if(label==="390"||label==="1440")await page.screenshot({path:"test-results/design-uat/home-"+label+".png",fullPage:true});
@@ -69,6 +69,11 @@ try{
     if((await page.locator(".rcLiteDirectHero__metric strong").count())!==2)throw Error("Lite metrics");
     if((await page.locator(".rcLiteBottomNav a").count())!==4)throw Error("Lite navigation");
     if((await page.locator(".rc-how--lite .rc-how__step").count())!==3)throw Error("Lite how-it-works missing");
+    await page.locator(".lite-regional-account").click();
+    const howLite=page.locator('a[href="/lite#como-funciona-lite"]');
+    if(!await howLite.isVisible())throw Error("Lite how-it-works menu item missing");
+    await howLite.click();
+    await page.waitForFunction(()=>location.hash==="#como-funciona-lite",null,{timeout:7000});
     if(!await page.locator(".lite-regional-header").count()||!await page.locator("footer.footer").count())throw Error("Lite shell");
     await noOverflow(page);
     if(label==="390")await page.screenshot({path:"test-results/design-uat/lite-390.png",fullPage:true});
