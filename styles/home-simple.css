@@ -1,0 +1,51 @@
+/* Home V1 simplificada: tres destinos, una foto, sin video ni secciones extensas. */
+.rcSimpleHome{width:100%;background:#f6f6f3;color:#fff}
+.rcSimpleHero{position:relative;isolation:isolate;display:flex;align-items:center;min-height:clamp(490px,68svh,690px);overflow:hidden;background:#1d2c25;color:#fff}
+.rcSimpleHero__image{z-index:-2;object-fit:cover;object-position:center 55%;filter:grayscale(.82) contrast(1.02) brightness(.76)}
+.rcSimpleHero__overlay{position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(14,30,24,.97) 0%,rgba(18,35,28,.92) 33%,rgba(21,33,28,.55) 67%,rgba(15,27,22,.25) 100%)}
+.rcSimpleHero__content{position:relative;width:min(640px,calc(100% - 64px));margin:0 0 0 clamp(28px,6vw,110px);padding:64px 0}
+.rcSimpleHero__eyebrow{margin:0 0 20px;color:#d2dbd2;font-size:clamp(12px,1vw,14px);font-weight:800;letter-spacing:.13em;line-height:1.4}
+.rcSimpleHero__title{margin:0;color:#fff;font-size:clamp(48px,6.3vw,86px);line-height:1.01;letter-spacing:-.06em;font-weight:900;text-wrap:balance}
+.rcSimpleHero__title span{display:block;color:#d5dfd6}
+.rcSimpleHero__description{max-width:540px;margin:22px 0 28px;color:#eeefea;font-size:clamp(16px,1.55vw,20px);line-height:1.45;font-weight:600;text-wrap:balance}
+.rcSimpleHero__actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;width:min(540px,100%)}
+.rcSimpleHero__action{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:58px;border-radius:11px;padding:14px 19px;color:#fff;text-decoration:none;font-size:clamp(14px,1.14vw,17px);font-weight:850;line-height:1.25;transition:background .15s ease,transform .15s ease}
+.rcSimpleHero__action span{font-size:21px;line-height:1;flex-shrink:0}
+.rcSimpleHero__action--primary{grid-column:1/-1;min-height:66px;background:#dce6dc;color:#1c362b;font-size:clamp(17px,1.3vw,20px)}
+.rcSimpleHero__action--primary:hover{background:#f0f5ef}
+.rcSimpleHero__action--secondary{background:rgba(24,41,33,.78);border:1px solid rgba(225,234,226,.68)}
+.rcSimpleHero__action--secondary:hover{background:rgba(50,75,59,.92)}
+.rcSimpleHero__action:focus-visible{outline:3px solid #fff;outline-offset:4px}
+.rcSimpleHero__action:active{transform:translateY(1px)}
+.rcSimpleTrust{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:12px clamp(18px,3vw,42px);padding:22px 18px;background:#e9ede9;color:#2c4437;scroll-margin-top:100px}
+.rcSimpleTrust span{font-size:clamp(11px,1vw,14px);font-weight:850;letter-spacing:.09em;text-align:center}
+@media(max-width:700px){
+ .rcSimpleHero{min-height:clamp(500px,75svh,660px);align-items:flex-end}
+ .rcSimpleHero__image{object-position:67% center;filter:grayscale(.85) brightness(.6)}
+ .rcSimpleHero__overlay{background:linear-gradient(180deg,rgba(18,35,29,.54) 0%,rgba(16,33,27,.89) 39%,rgba(14,30,24,.98) 100%)}
+ .rcSimpleHero__content{width:calc(100% - 40px);margin:0 auto;padding:38px 0 42px}
+ .rcSimpleHero__eyebrow{margin-bottom:15px;font-size:11px;letter-spacing:.08em}
+ .rcSimpleHero__title{font-size:clamp(42px,10.8vw,70px)}
+ .rcSimpleHero__description{margin:17px 0 25px;font-size:clamp(15px,3.9vw,18px)}
+ .rcSimpleHero__actions{gap:10px}
+ .rcSimpleHero__action{min-height:55px;padding:13px 14px;font-size:clamp(13px,3.6vw,16px)}
+ .rcSimpleHero__action--primary{min-height:61px;font-size:17px}
+ .rcSimpleHero__action span{font-size:18px}
+ .rcSimpleTrust{padding:18px 10px;gap:11px 19px}
+ .rcSimpleTrust span{font-size:10px;letter-spacing:.045em}
+}
+@media(max-width:350px){
+ .rcSimpleHero__content{width:calc(100% - 30px);padding-bottom:30px}
+ .rcSimpleHero__action{padding-inline:10px;font-size:12px}
+ .rcSimpleHero__title{font-size:40px}
+}
+@media(prefers-reduced-motion:reduce){.rcSimpleHero__action{transition:none}}
+/* App Lite comparte jerarquía, con botones accesibles encima de su barra inferior. */
+.rcLiteSimpleHome{min-height:100dvh;max-width:520px;margin:auto;padding-bottom:86px;background:#f6f6f3}
+.rcLiteSimpleHome .rcSimpleHero{min-height:clamp(475px,72svh,620px)}
+.rcLiteSimpleHome .rcSimpleHero__content{width:calc(100% - 40px);margin:0 auto;padding:40px 0}
+.rcLiteSimpleHome .rcSimpleHero__title{font-size:clamp(43px,10.8vw,66px)}
+.rcLiteSimpleHome .rcSimpleHero__description{font-size:clamp(15px,3.8vw,19px)}
+.rcLiteSimpleHome .rcSimpleHero__actions{width:100%}
+.rcLiteSimpleHome .rcSimpleTrust{padding:17px 10px}
+@media(max-width:350px){.rcLiteSimpleHome .rcSimpleHero__content{width:calc(100% - 30px);padding:30px 0}}
