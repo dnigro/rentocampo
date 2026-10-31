@@ -1,5 +1,6 @@
 "use client";
 
+import { MapPinned, MessageCircleMore, Handshake } from "lucide-react";
 import { regionalText } from "@/lib/i18n/regional";
 import { useRegionalCountry } from "@/lib/i18n/useRegionalCountry";
 import "@/styles/how-it-works.css";
@@ -14,15 +15,18 @@ export default function HowItWorksStrip({ lite = false }: { lite?: boolean }) {
   const steps = [
     {
       title: t("Explorá o publicá", "Explore ou anuncie", "Explore or post"),
-      detail: t("Campos y servicios rurales.", "Terras e serviços rurais.", "Land and rural services."),
+      icon: MapPinned,
+      detail: t("Campos y servicios.", "Terras e serviços.", "Land and services."),
     },
     {
       title: t("Conectá por chat", "Converse pelo chat", "Connect by chat"),
-      detail: t("Hablá con la otra persona.", "Fale com a outra pessoa.", "Talk directly to the other person."),
+      icon: MessageCircleMore,
+      detail: t("Hablá directo.", "Converse direto.", "Talk directly."),
     },
     {
       title: t("Acordá directo", "Combine diretamente", "Agree directly"),
-      detail: t("Sin intermediarios ni comisión.", "Sem intermediários nem comissão.", "No middlemen or commission."),
+      icon: Handshake,
+      detail: t("Sin comisión.", "Sem comissão.", "No commission."),
     },
   ];
 
@@ -36,7 +40,7 @@ export default function HowItWorksStrip({ lite = false }: { lite?: boolean }) {
         <div className="rc-how__intro">
           <p className="rc-how__eyebrow">{t("CÓMO FUNCIONA", "COMO FUNCIONA", "HOW IT WORKS")}</p>
           <h2 className="rc-how__title" id={lite ? "rc-how-title-lite" : "rc-how-title"}>
-            {t("ASÍ DE SIMPLE.", "SIMPLES ASSIM.", "THAT SIMPLE.")}
+            {t("Tres pasos, contacto directo.", "Três passos, contato direto.", "Three steps, direct contact.")}
           </h2>
         </div>
         <ol className="rc-how__steps">
@@ -47,6 +51,7 @@ export default function HowItWorksStrip({ lite = false }: { lite?: boolean }) {
                 <h3>{step.title}</h3>
                 <p>{step.detail}</p>
               </div>
+              <step.icon className="rc-how__icon" aria-hidden="true" strokeWidth={1.6} />
             </li>
           ))}
         </ol>
