@@ -31,7 +31,7 @@ export default function LandingFigmaHome() {
         <div className="rcf-hero__matte" aria-hidden="true" />
         <div className="rcf-hero__content">
           <p className="rcf-eyebrow rcf-hero__eyebrow">
-            {t("EL CAMPO, CONECTADO", "O CAMPO, CONECTADO", "RURAL COMMUNITIES CONNECTED")}
+            {t("CONECTÁ DIRECTO.", "CONECTE-SE DIRETO.", "CONNECT DIRECTLY.")}
           </p>
           <h1 id="rcf-hero-title" className="rcf-hero__title">
             <span>{t("EL CAMPO.", "O CAMPO.", "RURAL LIFE.")}</span>
@@ -53,10 +53,10 @@ export default function LandingFigmaHome() {
               {t("Explorar el mapa", "Explorar o mapa", "Explore the map")}
             </RegionalLink>
           </div>
-          <div className="rcf-hero__proof" aria-label={t("Beneficios", "Benefícios", "Benefits")}>
-            <strong>{t("CERO COMISIÓN", "ZERO COMISSÃO", "ZERO COMMISSION")}</strong>
+          <div className="rcf-hero__proof" aria-label={t("0% comisión. 100% contacto directo.", "0% comissão. 100% contato direto.", "0% commission. 100% direct contact.")}>
+            <div className="rcf-hero__metric"><strong className="rcf-hero__metric-value">0%</strong><span className="rcf-hero__metric-label">{t("COMISIÓN", "COMISSÃO", "COMMISSION")}</span></div>
             <span className="rcf-hero__divider" aria-hidden="true" />
-            <strong>{t("100% CONTACTO DIRECTO", "100% CONTATO DIRETO", "100% DIRECT CONTACT")}</strong>
+            <div className="rcf-hero__metric"><strong className="rcf-hero__metric-value">100%</strong><span className="rcf-hero__metric-label">{t("CONTACTO DIRECTO", "CONTATO DIRETO", "DIRECT CONTACT")}</span></div>
           </div>
         </div>
       </section>
