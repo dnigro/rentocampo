@@ -36,6 +36,7 @@ test("web, mobile and Lite keep the same short message and numeric offer",()=>{
   assert.ok(lite.includes('href="/lite/cuenta/registro"'));
   assert.ok(lite.includes('href="/lite/campos"'));
  assert.ok(lite.includes("<HowItWorksStrip lite />"));
+ assert.ok(read("components/lite/LiteHeader.tsx").includes('href="/lite#como-funciona-lite"'));
 });
 
 test("home stays hero + short explainer + FAQ, with a shared header/footer",()=>{
