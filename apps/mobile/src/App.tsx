@@ -58,12 +58,13 @@ const TABS: { id: Section; label: string; icon: string; path: string }[] = [
   { id: "perfil", label: "Perfil", icon: "◯", path: "/lite/perfil" },
 ];
 
-// The native shell owns the header and tab bar. Hide only their web duplicates.
+// The shared Android and iOS native shell owns the header and tab bar.
+// Hide duplicated web chrome in both Android WebView and iOS WKWebView.
 // This also applies the approved English-green / white / gray / silver palette
 // to the live Lite pages, including authentication flows.
 const LITE_STYLES = `
 (function () {
- var id = "rentocampo-android-unified-theme";
+ var id = "rentocampo-mobile-unified-theme";
  function install() {
   if (!document.head || document.getElementById(id)) return;
   var style = document.createElement("style");
@@ -229,6 +230,9 @@ function AppShell() {
               originWhitelist={["https://*"]}
               injectedJavaScriptBeforeContentLoaded={LITE_STYLES}
               injectedJavaScript={LITE_STYLES}
+              onMessage={() => undefined}
+              allowsBackForwardNavigationGestures
+              allowsInlineMediaPlayback
               onLoadEnd={applyCountry}
               sharedCookiesEnabled
               thirdPartyCookiesEnabled
