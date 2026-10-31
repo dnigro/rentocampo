@@ -16,9 +16,9 @@ export default async function LiteHome() {
   const country = resolveCountry((await cookies()).get("rentocampo_country")?.value);
   const t = (es: string, pt: string, en: string) => regionalText(country, es, pt, en);
   const panels = [
-    { image: photoFields, label: t("Campos", "Terras", "Farmland") },
-    { image: photoCattle, label: t("Productores", "Produtores", "Farmers") },
-    { image: photoServices, label: t("Servicios rurales", "Serviços rurais", "Rural services") },
+    { image: photoFields, label: t("Campos", "Terras", "Farmland"), css: "fields" },
+    { image: photoCattle, label: t("Productores", "Produtores", "Farmers"), css: "producers" },
+    { image: photoServices, label: t("Servicios", "Serviços", "Services"), css: "services" },
   ];
   const nav = [
     { symbol: "⌂", label: t("Inicio", "Início", "Home"), href: "/lite" },
@@ -33,15 +33,19 @@ export default async function LiteHome() {
       <section className="rcSimpleHero rcSimpleHero--lite" aria-labelledby="rc-lite-simple-title">
         <div className="rcSimpleHero__content">
           <p className="rcSimpleHero__eyebrow">
-            <span aria-hidden="true" className="rcSimpleHero__rule" />
-            {t("RentoCampo · mercado rural", "RentoCampo · mercado rural", "RentoCampo · rural marketplace")}
+            {t("PLATAFORMA RURAL", "PLATAFORMA RURAL", "RURAL MARKETPLACE")}
+            <span className="rcSimpleHero__edition">/ RentoCampo</span>
           </p>
           <h1 id="rc-lite-simple-title" className="rcSimpleHero__title">
-            {t("El campo,", "O campo,", "The countryside,")}
-            <span>{t("sin vueltas.", "sem complicações.", "without the hassle.")}</span>
+            {t("Campos y servicios.", "Terras e serviços.", "Farmland and services.")}
+            <span>{t("Contacto directo.", "Contato direto.", "Direct connections.")}</span>
           </h1>
           <p className="rcSimpleHero__description">
-            {t("Encontrá campos y servicios rurales. Contactá directamente.", "Encontre terras e serviços rurais. Fale diretamente.", "Find farmland and rural services. Connect directly.")}
+            {t(
+              "Explorá oportunidades rurales sin intermediarios ni comisiones.",
+              "Explore oportunidades rurais sem intermediários nem comissões.",
+              "Explore rural opportunities without middlemen or commissions."
+            )}
           </p>
           <div className="rcSimpleHero__actions" aria-label={t("Accesos principales", "Acessos principais", "Main actions")}>
             <Link href="/lite/cuenta/registro" className="rcSimpleHero__action rcSimpleHero__action--primary">
@@ -51,24 +55,24 @@ export default async function LiteHome() {
             <div className="rcSimpleHero__browse">
               <Link href="/lite/campos" className="rcSimpleHero__action rcSimpleHero__action--secondary">
                 {t("Ver campos", "Ver terras", "Browse farmland")}
-                <span aria-hidden="true">→</span>
+                <span aria-hidden="true">↗</span>
               </Link>
               <Link href="/lite/servicios" className="rcSimpleHero__action rcSimpleHero__action--secondary">
                 {t("Ver servicios", "Ver serviços", "Browse services")}
-                <span aria-hidden="true">→</span>
+                <span aria-hidden="true">↗</span>
               </Link>
             </div>
           </div>
         </div>
-        <div className="rcSimpleHero__art" aria-label={t("Campos, productores y servicios rurales", "Terras, produtores e serviços rurais", "Farmland, farmers and rural services")}>
+        <div className="rcSimpleHero__art" aria-label={t("Tríptico rural de campos, productores y servicios", "Tríptico rural de terras, produtores e serviços", "Rural triptych of farmland, farmers and services")}>
           {panels.map((panel, index) => (
-            <div className="rcSimpleHero__panel" key={panel.label}>
+            <div className={"rcSimpleHero__panel rcSimpleHero__panel--" + panel.css} key={panel.css}>
               <Image
                 src={panel.image}
                 alt=""
                 fill
                 priority={index === 0}
-                sizes="(max-width:520px) 34vw, 170px"
+                sizes="(max-width: 520px) 50vw, 260px"
                 className="rcSimpleHero__image"
               />
               <div className="rcSimpleHero__photoLabel" aria-hidden="true">
