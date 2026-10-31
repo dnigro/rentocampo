@@ -163,9 +163,11 @@ function NavbarContent() {
             <Link href="/servicios-rurales" className="nav-link">
               {regionalText(activeCountry, "Servicios rurales", "Serviços rurais")}
             </Link>
-            <a href="/#como-funciona" className="nav-link">
+            <Link href="/#como-funciona" className="nav-link" onClick={() => {
+              if (pathname === "/") document.getElementById("como-funciona")?.scrollIntoView({ behavior: "smooth" });
+            }}>
               {regionalText(activeCountry, "Cómo funciona", "Como funciona")}
-            </a>
+            </Link>
             
           </nav>
 
@@ -306,9 +308,11 @@ function NavbarContent() {
               <Link href="/servicios-rurales" className="mobile-menu-link">
                 🚜 {regionalText(activeCountry, "Servicios rurales", "Serviços rurais")}
               </Link>
-              <a href="/#como-funciona" className="mobile-menu-link">
+              <Link href="/#como-funciona" className="mobile-menu-link" onClick={() => {
+                if (pathname === "/") document.getElementById("como-funciona")?.scrollIntoView({ behavior: "smooth" });
+              }}>
                 ℹ️ {regionalText(activeCountry, "Cómo funciona", "Como funciona")}
-              </a>
+              </Link>
               
 
               <div className="mobile-menu-sep" />
