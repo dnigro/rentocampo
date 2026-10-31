@@ -5,6 +5,8 @@ const read=(p)=>readFileSync(new URL(`../${p}`,import.meta.url),"utf8");
 const web=read("components/landing/LandingFigmaHome.tsx");
 const lite=read("app/lite/page.tsx");
 const home=read("components/landing/LandingPageContent.tsx");
+const how=read("components/landing/HowItWorksStrip.tsx");
+const howCss=read("styles/how-it-works.css");
 const faq=read("components/landing/LandingFAQ.tsx");
 const webStyle=read("styles/home-figma-sin-vueltas.css");
 const liteStyle=read("styles/lite-direct-hero.css");
@@ -33,11 +35,20 @@ test("web, mobile and Lite keep the same short message and numeric offer",()=>{
   assert.ok(web.includes('href="/campos/mapa"'));
   assert.ok(lite.includes('href="/lite/cuenta/registro"'));
   assert.ok(lite.includes('href="/lite/campos"'));
+ assert.ok(lite.includes("<HowItWorksStrip lite />"));
 });
 
-test("home stays hero + FAQ, with a single shared header/footer system",()=>{
+test("home stays hero + short explainer + FAQ, with a shared header/footer",()=>{
  assert.ok(home.includes("<LandingFigmaHome />"));
  assert.ok(home.includes("<LandingFAQ />"));
+ assert.ok(home.includes("<HowItWorksStrip />"));
+ assert.ok(home.indexOf("<LandingFigmaHome />") < home.indexOf("<HowItWorksStrip />"));
+ assert.ok(home.indexOf("<HowItWorksStrip />") < home.indexOf("<LandingFAQ />"));
+ assert.ok(how.includes('id={lite ? "como-funciona-lite" : "como-funciona"}'));
+ assert.ok(how.includes("Explorá o publicá") && how.includes("Conectá por chat") && how.includes("Acordá directo"));
+ assert.ok(howCss.includes("scroll-margin-top: 92px"));
+ assert.ok(read("components/layout/Navbar.tsx").includes('href="/#como-funciona"'));
+ assert.ok(faq.includes('id="preguntas"'));
  assert.ok(!home.includes("LandingMapa")&&!home.includes("LandingHowBrief"));
  assert.match(faq,/PREGUNTAS/);
  assert.doesNotMatch(faq,/headline: "TODO CLARO"/);
