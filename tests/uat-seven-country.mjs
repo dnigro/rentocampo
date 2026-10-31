@@ -66,7 +66,7 @@ async function run() {
           if(await sel.inputValue()!=="BR")throw Error("Double selection required");
           const lang=await page.evaluate(()=>document.documentElement.lang);
           if(lang!=="pt-BR")throw Error("Locale not switched: "+lang);
-          await page.getByText("GRÁTIS PARA O CAMPO.",{exact:false}).first().waitFor({state:"visible",timeout:8000});
+          await page.getByText("CONECTE-SE DIRETO.",{exact:true}).first().waitFor({state:"visible",timeout:8000});
           const cookie=await context.cookies();if(!cookie.find(c=>c.name==="rentocampo_country"&&c.value==="BR"))throw Error("Country cookie not persisted");
           await sel.selectOption("AR");
           await page.waitForFunction(() => new URL(location.href).searchParams.get("pais")==="AR",null,{timeout:7500});
