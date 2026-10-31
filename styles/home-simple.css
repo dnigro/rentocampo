@@ -1,51 +1,77 @@
-/* Home V1 simplificada: tres destinos, una foto, sin video ni secciones extensas. */
-.rcSimpleHome{width:100%;background:#f6f6f3;color:#fff}
-.rcSimpleHero{position:relative;isolation:isolate;display:flex;align-items:center;min-height:clamp(490px,68svh,690px);overflow:hidden;background:#1d2c25;color:#fff}
-.rcSimpleHero__image{z-index:-2;object-fit:cover;object-position:center 55%;filter:grayscale(.82) contrast(1.02) brightness(.76)}
-.rcSimpleHero__overlay{position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(14,30,24,.97) 0%,rgba(18,35,28,.92) 33%,rgba(21,33,28,.55) 67%,rgba(15,27,22,.25) 100%)}
-.rcSimpleHero__content{position:relative;width:min(640px,calc(100% - 64px));margin:0 0 0 clamp(28px,6vw,110px);padding:64px 0}
-.rcSimpleHero__eyebrow{margin:0 0 20px;color:#d2dbd2;font-size:clamp(12px,1vw,14px);font-weight:800;letter-spacing:.13em;line-height:1.4}
-.rcSimpleHero__title{margin:0;color:#fff;font-size:clamp(48px,6.3vw,86px);line-height:1.01;letter-spacing:-.06em;font-weight:900;text-wrap:balance}
-.rcSimpleHero__title span{display:block;color:#d5dfd6}
-.rcSimpleHero__description{max-width:540px;margin:22px 0 28px;color:#eeefea;font-size:clamp(16px,1.55vw,20px);line-height:1.45;font-weight:600;text-wrap:balance}
-.rcSimpleHero__actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;width:min(540px,100%)}
-.rcSimpleHero__action{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:58px;border-radius:11px;padding:14px 19px;color:#fff;text-decoration:none;font-size:clamp(14px,1.14vw,17px);font-weight:850;line-height:1.25;transition:background .15s ease,transform .15s ease}
-.rcSimpleHero__action span{font-size:21px;line-height:1;flex-shrink:0}
-.rcSimpleHero__action--primary{grid-column:1/-1;min-height:66px;background:#dce6dc;color:#1c362b;font-size:clamp(17px,1.3vw,20px)}
-.rcSimpleHero__action--primary:hover{background:#f0f5ef}
-.rcSimpleHero__action--secondary{background:rgba(24,41,33,.78);border:1px solid rgba(225,234,226,.68)}
-.rcSimpleHero__action--secondary:hover{background:rgba(50,75,59,.92)}
-.rcSimpleHero__action:focus-visible{outline:3px solid #fff;outline-offset:4px}
-.rcSimpleHero__action:active{transform:translateY(1px)}
-.rcSimpleTrust{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:12px clamp(18px,3vw,42px);padding:22px 18px;background:#e9ede9;color:#2c4437;scroll-margin-top:100px}
-.rcSimpleTrust span{font-size:clamp(11px,1vw,14px);font-weight:850;letter-spacing:.09em;text-align:center}
+/* RentoCampo · dirección de arte editorial, no plantilla genérica.
+   La composición utiliza exclusivamente fotografías propias existentes. */
+.rcSimpleHome{background:#edede8;color:#1d2520;width:100%}
+.rcSimpleHero{display:grid;grid-template-columns:minmax(0,42%) minmax(0,58%);min-height:clamp(515px,70svh,720px);background:#eeeee9;color:#1f2923}
+.rcSimpleHero__content{grid-column:1;grid-row:1;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;padding:clamp(40px,5vw,90px) clamp(26px,4.4vw,82px);min-width:0}
+.rcSimpleHero__eyebrow{display:flex;align-items:center;gap:12px;margin:0 0 clamp(26px,3.5vw,48px);font-size:clamp(10px,.9vw,12px);font-weight:700;letter-spacing:.09em;line-height:1.5;color:#4c6655}
+.rcSimpleHero__rule{display:block;width:26px;height:1px;flex:0 0 26px;background:#4c6655}
+.rcSimpleHero__title{font-size:clamp(42px,5vw,75px);line-height:1.07;letter-spacing:-.07em;font-weight:700;margin:0;max-width:620px;text-wrap:balance;color:#18271f}
+.rcSimpleHero__title span{display:block;font-family:Georgia,'Times New Roman',serif;font-style:italic;font-weight:400;letter-spacing:-.055em;color:#536d5b;font-size:1.02em;line-height:1.16}
+.rcSimpleHero__description{max-width:380px;margin:clamp(22px,2.7vw,34px) 0 clamp(25px,3vw,39px);font-size:clamp(15px,1.22vw,19px);line-height:1.5;font-weight:500;color:#46554c}
+.rcSimpleHero__actions{display:flex;flex-direction:column;align-items:stretch;width:min(390px,100%);gap:20px}
+.rcSimpleHero__action{font-size:clamp(14px,1.12vw,16px);font-weight:700;text-decoration:none;transition:color .18s ease,background-color .18s ease}
+.rcSimpleHero__action span{font-size:21px;font-weight:400;line-height:1}
+.rcSimpleHero__action--primary{display:flex;justify-content:space-between;align-items:center;min-height:56px;gap:15px;padding:12px 20px;background:#284537;color:#f5f5f0;border:1px solid #284537;border-radius:2px}
+.rcSimpleHero__action--primary:hover{background:#365845;color:#fff}
+.rcSimpleHero__browse{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
+.rcSimpleHero__action--secondary{min-width:0;min-height:47px;display:flex;justify-content:space-between;align-items:center;gap:8px;border-bottom:1px solid #8f9b90;color:#294437}
+.rcSimpleHero__action--secondary:hover{color:#0d2116;border-bottom-color:#0d2116}
+.rcSimpleHero__action:focus-visible{outline:3px solid #667b68;outline-offset:4px}
+.rcSimpleHero__art{grid-column:2;grid-row:1;position:relative;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));min-width:0;min-height:100%;overflow:hidden;background:#252b27;isolation:isolate}
+.rcSimpleHero__panel{position:relative;min-width:0;min-height:100%;overflow:hidden;background:#383a35}
+.rcSimpleHero__panel+.rcSimpleHero__panel{border-left:2px solid #e9e8df}
+.rcSimpleHero__image{object-fit:cover;object-position:center;filter:grayscale(.92) contrast(1.05) brightness(.9);transition:filter .25s ease, transform .45s ease}
+.rcSimpleHero__panel:hover .rcSimpleHero__image{filter:grayscale(.7) contrast(1.03) brightness(.98);transform:scale(1.035)}
+.rcSimpleHero__panel:after{content:"";position:absolute;inset:58% 0 0;background:linear-gradient(0deg,rgba(14,20,16,.73),rgba(14,20,16,0));pointer-events:none}
+.rcSimpleHero__photoLabel{position:absolute;z-index:1;bottom:clamp(26px,4vw,54px);left:clamp(12px,1.55vw,26px);right:6px;display:flex;flex-direction:column;gap:7px;color:#f3f1eb}
+.rcSimpleHero__photoLabel span{font-size:11px;letter-spacing:.14em;color:#d1d1c8}
+.rcSimpleHero__photoLabel strong{font-size:clamp(12px,1.15vw,17px);line-height:1.15;font-weight:700;overflow-wrap:break-word}
+.rcSimpleHero__artMark{position:absolute;right:20px;top:20px;color:#fff;font-size:11px;font-weight:700;letter-spacing:.13em;opacity:.75;pointer-events:none}
+.rcSimpleTrust{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:10px clamp(17px,2.9vw,46px);padding:20px 20px;background:#e6e7e0;color:#516356;border-top:1px solid #d4d8d0;scroll-margin-top:100px}
+.rcSimpleTrust span{font-size:clamp(10px,.92vw,12px);font-weight:700;letter-spacing:.09em}
+@media(min-width:701px) and (max-width:1060px){
+ .rcSimpleHero{grid-template-columns:minmax(0,46%) minmax(0,54%)}
+ .rcSimpleHero__content{padding:42px 30px}
+ .rcSimpleHero__title{font-size:clamp(40px,4.85vw,60px)}
+ .rcSimpleHero__browse{gap:15px}
+ .rcSimpleHero__photoLabel{left:10px}
+}
 @media(max-width:700px){
- .rcSimpleHero{min-height:clamp(500px,75svh,660px);align-items:flex-end}
- .rcSimpleHero__image{object-position:67% center;filter:grayscale(.85) brightness(.6)}
- .rcSimpleHero__overlay{background:linear-gradient(180deg,rgba(18,35,29,.54) 0%,rgba(16,33,27,.89) 39%,rgba(14,30,24,.98) 100%)}
- .rcSimpleHero__content{width:calc(100% - 40px);margin:0 auto;padding:38px 0 42px}
- .rcSimpleHero__eyebrow{margin-bottom:15px;font-size:11px;letter-spacing:.08em}
- .rcSimpleHero__title{font-size:clamp(42px,10.8vw,70px)}
- .rcSimpleHero__description{margin:17px 0 25px;font-size:clamp(15px,3.9vw,18px)}
- .rcSimpleHero__actions{gap:10px}
- .rcSimpleHero__action{min-height:55px;padding:13px 14px;font-size:clamp(13px,3.6vw,16px)}
- .rcSimpleHero__action--primary{min-height:61px;font-size:17px}
- .rcSimpleHero__action span{font-size:18px}
- .rcSimpleTrust{padding:18px 10px;gap:11px 19px}
+ .rcSimpleHero{display:flex;flex-direction:column;min-height:0}
+ .rcSimpleHero__art{order:0;grid-column:auto;grid-row:auto;width:100%;height:clamp(210px,57vw,330px);min-height:0;flex:none}
+ .rcSimpleHero__panel{min-height:0}
+ .rcSimpleHero__panel+.rcSimpleHero__panel{border-left-width:1px}
+ .rcSimpleHero__image{filter:grayscale(.93) contrast(1.07) brightness(.92)}
+ .rcSimpleHero__photoLabel{bottom:13px;left:8px;right:4px;gap:3px}
+ .rcSimpleHero__photoLabel span{font-size:9px}
+ .rcSimpleHero__photoLabel strong{font-size:clamp(10px,2.7vw,13px)}
+ .rcSimpleHero__artMark{right:12px;top:12px;font-size:9px}
+ .rcSimpleHero__content{order:1;grid-column:auto;grid-row:auto;padding:31px 25px 36px;min-height:0;width:100%}
+ .rcSimpleHero__eyebrow{margin:0 0 18px;font-size:10px;gap:9px}
+ .rcSimpleHero__title{font-size:clamp(42px,10.5vw,60px);line-height:1.04;max-width:540px}
+ .rcSimpleHero__description{max-width:500px;margin:16px 0 23px;font-size:clamp(14px,3.9vw,17px)}
+ .rcSimpleHero__actions{width:100%;max-width:540px;gap:10px}
+ .rcSimpleHero__action--primary{min-height:53px;padding:12px 17px}
+ .rcSimpleHero__browse{gap:18px}
+ .rcSimpleHero__action--secondary{font-size:clamp(13px,3.8vw,16px);min-height:43px}
+ .rcSimpleTrust{gap:10px 20px;padding:16px 11px}
  .rcSimpleTrust span{font-size:10px;letter-spacing:.045em}
 }
 @media(max-width:350px){
- .rcSimpleHero__content{width:calc(100% - 30px);padding-bottom:30px}
- .rcSimpleHero__action{padding-inline:10px;font-size:12px}
+ .rcSimpleHero__content{padding:25px 17px 29px}
  .rcSimpleHero__title{font-size:40px}
+ .rcSimpleHero__browse{gap:12px}
+ .rcSimpleHero__action--secondary{font-size:12px}
+ .rcSimpleHero__photoLabel strong{font-size:9px}
 }
-@media(prefers-reduced-motion:reduce){.rcSimpleHero__action{transition:none}}
-/* App Lite comparte jerarquía, con botones accesibles encima de su barra inferior. */
-.rcLiteSimpleHome{min-height:100dvh;max-width:520px;margin:auto;padding-bottom:86px;background:#f6f6f3}
-.rcLiteSimpleHome .rcSimpleHero{min-height:clamp(475px,72svh,620px)}
-.rcLiteSimpleHome .rcSimpleHero__content{width:calc(100% - 40px);margin:0 auto;padding:40px 0}
-.rcLiteSimpleHome .rcSimpleHero__title{font-size:clamp(43px,10.8vw,66px)}
-.rcLiteSimpleHome .rcSimpleHero__description{font-size:clamp(15px,3.8vw,19px)}
+@media(prefers-reduced-motion:reduce){.rcSimpleHero__image,.rcSimpleHero__action{transition:none}}
+/* Lite: mismas decisiones de composición, ancho de app y barra nativa preservada. */
+.rcLiteSimpleHome{min-height:100dvh;max-width:520px;margin:auto;padding-bottom:90px;background:#eeeee9}
+.rcLiteSimpleHome .rcSimpleHero{display:flex;flex-direction:column;min-height:0}
+.rcLiteSimpleHome .rcSimpleHero__art{height:clamp(205px,53vw,265px);width:100%;flex:none;min-height:0}
+.rcLiteSimpleHome .rcSimpleHero__content{padding:27px 22px 32px;min-height:0}
+.rcLiteSimpleHome .rcSimpleHero__title{font-size:clamp(39px,10.5vw,60px)}
+.rcLiteSimpleHome .rcSimpleHero__description{font-size:clamp(14px,3.8vw,17px)}
 .rcLiteSimpleHome .rcSimpleHero__actions{width:100%}
-.rcLiteSimpleHome .rcSimpleTrust{padding:17px 10px}
-@media(max-width:350px){.rcLiteSimpleHome .rcSimpleHero__content{width:calc(100% - 30px);padding:30px 0}}
+.rcLiteSimpleHome .rcSimpleTrust{padding:16px 8px}
+@media(max-width:350px){.rcLiteSimpleHome .rcSimpleHero__content{padding:24px 17px 30px}}
