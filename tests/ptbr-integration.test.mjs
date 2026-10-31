@@ -220,26 +220,28 @@ test("map displays new-country field markers and refreshes on country change", (
  assert.match(nav,/router\.refresh\(\)/);
  assert.match(selector,/router\.replace\(/);
 });
-test("approved minimal home removes video and FAQ from the homepage only", () => {
-  const landing=read("components/landing/LandingPageContent.tsx");
-  const hero=read("components/landing/LandingSimpleHome.tsx");
-  const lite=read("app/lite/page.tsx");
-  const styles=read("styles/home-simple.css");
-  const faq=read("components/landing/LandingFAQ.tsx");
-  assert.match(landing, /LandingSimpleHome/);
-  assert.doesNotMatch(landing, /LandingFAQ|LandingMapa|LandingTriptychHero|LandingHowBrief/);
-  assert.match(hero, /REGISTRATE GRATIS/);
-  assert.match(hero, /CADASTRE-SE GRÁTIS/);
-  assert.match(hero, /INTERMEDIARIOS/);
-  assert.match(hero, /COMISSÕES/);
-  assert.match(hero, /href="\/campos"/);
-  assert.match(hero, /href="\/servicios-rurales"/);
-  assert.match(lite, /href="\/lite\/cuenta\/registro"/);
-  assert.match(lite, /href="\/lite\/servicios"/);
-  assert.match(styles, /@media\(max-width:900px\)/);
-  assert.match(styles, /\.rcSimpleHero__panel--1/);
-  // El FAQ sigue disponible como componente, sin cargarlo en la home.
-  assert.ok(faq.includes('id="preguntas"'));
+test("two-door homepage keeps categories public and registration optional", () => {
+ const landing=read("components/landing/LandingPageContent.tsx");
+ const hero=read("components/landing/LandingSimpleHome.tsx");
+ const lite=read("app/lite/page.tsx");
+ const styles=read("styles/home-simple.css");
+ const faq=read("components/landing/LandingFAQ.tsx");
+ assert.match(landing,/LandingSimpleHome/);
+ assert.doesNotMatch(landing,/LandingFAQ|LandingMapa|LandingTriptychHero|LandingHowBrief/);
+ assert.match(hero,/VER CAMPOS/);
+ assert.match(hero,/VER SERVICIOS/);
+ assert.match(hero,/REGISTRATE GRATIS/);
+ assert.match(hero,/VER TERRAS/);
+ assert.match(hero,/VER SERVIÇOS/);
+ assert.match(hero,/BROWSE FARMLAND/);
+ assert.match(hero,/href: "\/campos"/);
+ assert.match(hero,/href: "\/servicios-rurales"/);
+ assert.match(lite,/href: "\/lite\/campos"/);
+ assert.match(lite,/href: "\/lite\/servicios"/);
+ assert.match(lite,/href="\/lite\/cuenta\/registro"/);
+ assert.match(styles,/@media\(max-width:720px\)/);
+ assert.match(styles,/\.rcDoorsGrid/);
+ assert.ok(faq.includes('id="preguntas"'),"FAQ preserved but not on homepage");
 });
 
 test("public catalog filters sit beside results, with a mobile disclosure before listings", () => {
@@ -290,17 +292,18 @@ test("regional productive zones replace clipped Argentina-only unverified demand
  assert.match(panel,/Não são indicadores de procura verificada/);
 });
 
-test("mobile and desktop share an image-only landing while Lite keeps its own links", () => {
-  const landing=read("components/landing/LandingPageContent.tsx");
-  const hero=read("components/landing/LandingSimpleHome.tsx");
-  const lite=read("app/lite/page.tsx");
-  const css=read("styles/home-simple.css");
-  assert.match(landing, /LandingSimpleHome/);
-  assert.match(hero, /className="rcSimpleHero__image"/);
-  assert.doesNotMatch(hero, /<video/);
-  assert.match(css, /\.rcSimpleHero__actions/);
-  assert.match(css, /@media\(max-width:900px\)/);
-  assert.match(css, /@media\(max-width:350px\)/);
-  assert.match(lite, /href="\/lite\/campos"/);
-  assert.ok(!lite.includes("triptychHero"), "Lite has independent hero");
+test("mobile and desktop use photo doors while Lite retains bottom navigation", () => {
+ const landing=read("components/landing/LandingPageContent.tsx");
+ const hero=read("components/landing/LandingSimpleHome.tsx");
+ const lite=read("app/lite/page.tsx");
+ const css=read("styles/home-simple.css");
+ assert.match(landing,/LandingSimpleHome/);
+ assert.match(hero,/className="rcDoorsTileImage"/);
+ assert.doesNotMatch(hero,/<video/);
+ assert.match(css,/\.rcDoorsGrid/);
+ assert.match(css,/@media\(max-width:720px\)/);
+ assert.match(css,/@media\(max-width:355px\)/);
+ assert.match(lite,/href: "\/lite\/campos"/);
+ assert.match(lite,/aria-label=\{t\("Navegación Lite"/);
+ assert.doesNotMatch(lite,/rcSimpleHero__art/);
 });
