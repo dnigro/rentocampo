@@ -1,71 +1,78 @@
-/* RentoCampo · dirección de arte editorial, no plantilla genérica.
-   La composición utiliza exclusivamente fotografías propias existentes. */
-.rcSimpleHome{background:#edede8;color:#1d2520;width:100%}
-.rcSimpleHero{display:grid;grid-template-columns:minmax(0,42%) minmax(0,58%);min-height:clamp(515px,70svh,720px);background:#eeeee9;color:#1f2923}
-.rcSimpleHero__content{grid-column:1;grid-row:1;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;padding:clamp(40px,5vw,90px) clamp(26px,4.4vw,82px);min-width:0}
-.rcSimpleHero__eyebrow{display:flex;align-items:center;gap:12px;margin:0 0 clamp(26px,3.5vw,48px);font-size:clamp(10px,.9vw,12px);font-weight:700;letter-spacing:.09em;line-height:1.5;color:#4c6655}
-.rcSimpleHero__rule{display:block;width:26px;height:1px;flex:0 0 26px;background:#4c6655}
-.rcSimpleHero__title{font-size:clamp(42px,5vw,75px);line-height:1.07;letter-spacing:-.07em;font-weight:700;margin:0;max-width:620px;text-wrap:balance;color:#18271f}
-.rcSimpleHero__title span{display:block;font-family:Georgia,'Times New Roman',serif;font-style:italic;font-weight:400;letter-spacing:-.055em;color:#536d5b;font-size:1.02em;line-height:1.16}
-.rcSimpleHero__description{max-width:380px;margin:clamp(22px,2.7vw,34px) 0 clamp(25px,3vw,39px);font-size:clamp(15px,1.22vw,19px);line-height:1.5;font-weight:500;color:#46554c}
-.rcSimpleHero__actions{display:flex;flex-direction:column;align-items:stretch;width:min(390px,100%);gap:20px}
-.rcSimpleHero__action{font-size:clamp(14px,1.12vw,16px);font-weight:700;text-decoration:none;transition:color .18s ease,background-color .18s ease}
-.rcSimpleHero__action span{font-size:21px;font-weight:400;line-height:1}
-.rcSimpleHero__action--primary{display:flex;justify-content:space-between;align-items:center;min-height:56px;gap:15px;padding:12px 20px;background:#284537;color:#f5f5f0;border:1px solid #284537;border-radius:2px}
-.rcSimpleHero__action--primary:hover{background:#365845;color:#fff}
-.rcSimpleHero__browse{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
-.rcSimpleHero__action--secondary{min-width:0;min-height:47px;display:flex;justify-content:space-between;align-items:center;gap:8px;border-bottom:1px solid #8f9b90;color:#294437}
-.rcSimpleHero__action--secondary:hover{color:#0d2116;border-bottom-color:#0d2116}
-.rcSimpleHero__action:focus-visible{outline:3px solid #667b68;outline-offset:4px}
-.rcSimpleHero__art{grid-column:2;grid-row:1;position:relative;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));min-width:0;min-height:100%;overflow:hidden;background:#252b27;isolation:isolate}
-.rcSimpleHero__panel{position:relative;min-width:0;min-height:100%;overflow:hidden;background:#383a35}
-.rcSimpleHero__panel+.rcSimpleHero__panel{border-left:2px solid #e9e8df}
-.rcSimpleHero__image{object-fit:cover;object-position:center;filter:grayscale(.76) saturate(.5) contrast(1.02) brightness(.94)}
-.rcSimpleHero__photoLabel{position:absolute;z-index:1;bottom:0;left:0;right:0;min-height:68px;display:flex;align-items:center;padding:17px clamp(12px,1.55vw,26px);background:rgba(23,29,25,.78);color:#f2f1ed}
-.rcSimpleHero__photoLabel strong{font-size:clamp(11px,1.07vw,15px);line-height:1.2;font-weight:700;letter-spacing:.07em;text-transform:uppercase;overflow-wrap:break-word}
-.rcSimpleTrust{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:10px clamp(17px,2.9vw,46px);padding:20px 20px;background:#e6e7e0;color:#516356;border-top:1px solid #d4d8d0;scroll-margin-top:100px}
-.rcSimpleTrust span{font-size:clamp(10px,.92vw,12px);font-weight:700;letter-spacing:.09em}
-@media(min-width:701px) and (max-width:1060px){
- .rcSimpleHero{grid-template-columns:minmax(0,46%) minmax(0,54%)}
- .rcSimpleHero__content{padding:42px 30px}
- .rcSimpleHero__title{font-size:clamp(40px,4.85vw,60px)}
+/* RentoCampo — catálogo rural, no landing de plantilla.
+   Un lenguaje editorial deliberado: fondo grafito, fotografía documental,
+   composición asimétrica y controles sin superficies flotantes. */
+.rcSimpleHome{width:100%;color:#ecece7;background:#1b1e1c}
+.rcSimpleHero{display:grid;grid-template-columns:minmax(0,43%) minmax(0,57%);min-height:clamp(540px,72svh,740px);background:#1a1e1b;overflow:hidden}
+.rcSimpleHero__content{grid-column:1;grid-row:1;align-self:center;display:flex;flex-direction:column;align-items:flex-start;min-width:0;padding:64px clamp(32px,4.5vw,84px) 64px clamp(32px,5.4vw,100px)}
+.rcSimpleHero__eyebrow{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:0 0 clamp(22px,3.4vw,48px);color:#c4c7bf;font-size:clamp(10px,.9vw,12px);font-weight:700;letter-spacing:.16em;line-height:1.5}
+.rcSimpleHero__edition{font-weight:400;letter-spacing:.06em;color:#838c84}
+.rcSimpleHero__title{margin:0;max-width:650px;color:#f2f2ed;font-size:clamp(40px,4.35vw,72px);line-height:1.045;letter-spacing:-.052em;font-weight:700;text-wrap:balance}
+.rcSimpleHero__title span{display:block;color:#b3bfb5;font-weight:500;letter-spacing:-.055em}
+.rcSimpleHero__description{max-width:420px;margin:clamp(18px,2vw,29px) 0 clamp(26px,3.2vw,45px);color:#c1c7bf;font-size:clamp(14px,1.1vw,17px);line-height:1.55;font-weight:400}
+.rcSimpleHero__actions{display:flex;flex-direction:column;align-items:flex-start;gap:24px;width:min(390px,100%)}
+.rcSimpleHero__action{display:flex;justify-content:space-between;align-items:center;gap:18px;text-decoration:none;font-size:clamp(14px,1.08vw,16px);line-height:1.2;font-weight:700;transition:background-color .15s ease,color .15s ease,border-color .15s ease}
+.rcSimpleHero__action span{flex:none;font-size:19px;font-weight:400;line-height:1}
+.rcSimpleHero__action--primary{min-width:205px;min-height:52px;padding:12px 17px;background:#e8e9e2;border:1px solid #e8e9e2;color:#1d2821;border-radius:0}
+.rcSimpleHero__action--primary:hover{background:#fff;border-color:#fff;color:#111}
+.rcSimpleHero__browse{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;width:100%}
+.rcSimpleHero__action--secondary{width:100%;min-height:41px;padding:0 0 12px;color:#ecece8;border-bottom:1px solid #77837b}
+.rcSimpleHero__action--secondary:hover{color:#fff;border-color:#fff}
+.rcSimpleHero__action:focus-visible{outline:2px solid #f9f9f6;outline-offset:5px}
+.rcSimpleHero__art{grid-column:2;grid-row:1;position:relative;display:grid;grid-template-columns:minmax(0,1.72fr) minmax(0,.82fr) minmax(0,1fr);gap:5px;min-width:0;height:100%;min-height:540px;background:#1a1e1b;overflow:hidden}
+.rcSimpleHero__panel{position:relative;min-width:0;min-height:0;overflow:hidden;background:#484b46}
+.rcSimpleHero__panel--fields{margin-top:0;margin-bottom:0}
+.rcSimpleHero__panel--producers{margin-top:58px;margin-bottom:38px}
+.rcSimpleHero__panel--services{margin-top:25px;margin-bottom:0}
+.rcSimpleHero__image{object-fit:cover;object-position:center;filter:grayscale(.76) saturate(.48) brightness(.88) contrast(1.07)}
+.rcSimpleHero__panel--fields .rcSimpleHero__image{object-position:42% center}
+.rcSimpleHero__panel--producers .rcSimpleHero__image{object-position:53% center}
+.rcSimpleHero__panel--services .rcSimpleHero__image{object-position:57% center}
+.rcSimpleHero__photoLabel{position:absolute;left:0;bottom:0;min-height:38px;max-width:100%;padding:10px 15px;background:#1a1e1be8;color:#ededeb;display:flex;align-items:center}
+.rcSimpleHero__photoLabel strong{font-size:clamp(10px,.95vw,13px);font-weight:700;line-height:1.2;letter-spacing:.08em;text-transform:uppercase;overflow-wrap:break-word}
+.rcSimpleTrust{display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:12px clamp(18px,3vw,50px);min-height:47px;padding:12px 17px;background:#e9eae4;color:#3c4940;scroll-margin-top:95px}
+.rcSimpleTrust span{font-size:clamp(10px,.85vw,12px);letter-spacing:.06em;font-weight:700}
+@media(min-width:701px) and (max-width:1100px){
+ .rcSimpleHero{grid-template-columns:minmax(0,47%) minmax(0,53%)}
+ .rcSimpleHero__content{padding:45px 28px}
+ .rcSimpleHero__title{font-size:clamp(37px,4.2vw,56px)}
  .rcSimpleHero__browse{gap:15px}
- .rcSimpleHero__photoLabel{left:10px}
 }
 @media(max-width:700px){
- .rcSimpleHero{display:flex;flex-direction:column;min-height:0}
- .rcSimpleHero__art{order:0;grid-column:auto;grid-row:auto;width:100%;height:clamp(210px,57vw,330px);min-height:0;flex:none}
- .rcSimpleHero__panel{min-height:0}
- .rcSimpleHero__panel+.rcSimpleHero__panel{border-left-width:1px}
- .rcSimpleHero__image{filter:grayscale(.78) saturate(.48) contrast(1.02) brightness(.94)}
- .rcSimpleHero__photoLabel{bottom:0;left:0;right:0;min-height:43px;padding:10px 7px}
- .rcSimpleHero__photoLabel strong{font-size:clamp(9px,2.45vw,12px);letter-spacing:0}
- .rcSimpleHero__content{order:1;grid-column:auto;grid-row:auto;padding:31px 25px 36px;min-height:0;width:100%}
- .rcSimpleHero__eyebrow{margin:0 0 18px;font-size:10px;gap:9px}
- .rcSimpleHero__title{font-size:clamp(42px,10.5vw,60px);line-height:1.04;max-width:540px}
- .rcSimpleHero__description{max-width:500px;margin:16px 0 23px;font-size:clamp(14px,3.9vw,17px)}
- .rcSimpleHero__actions{width:100%;max-width:540px;gap:10px}
- .rcSimpleHero__action--primary{min-height:53px;padding:12px 17px}
- .rcSimpleHero__browse{gap:18px}
- .rcSimpleHero__action--secondary{font-size:clamp(13px,3.8vw,16px);min-height:43px}
- .rcSimpleTrust{gap:10px 20px;padding:16px 11px}
- .rcSimpleTrust span{font-size:10px;letter-spacing:.045em}
+ .rcSimpleHero{display:flex;flex-direction:column;min-height:0;overflow:visible}
+ .rcSimpleHero__content{order:0;grid-column:auto;grid-row:auto;padding:25px 24px 25px;align-self:stretch}
+ .rcSimpleHero__eyebrow{margin:0 0 16px;font-size:10px;gap:6px;letter-spacing:.125em}
+ .rcSimpleHero__title{font-size:clamp(34px,8.65vw,49px);line-height:1.075;letter-spacing:-.044em}
+ .rcSimpleHero__title span{letter-spacing:-.047em}
+ .rcSimpleHero__description{margin:13px 0 19px;font-size:clamp(13px,3.65vw,16px);line-height:1.45;max-width:440px}
+ .rcSimpleHero__actions{gap:14px;width:100%;max-width:520px}
+ .rcSimpleHero__action--primary{min-width:0;width:100%;min-height:48px;padding:10px 16px;font-size:15px}
+ .rcSimpleHero__browse{width:100%;gap:18px}
+ .rcSimpleHero__action--secondary{min-height:39px;padding-bottom:10px;font-size:clamp(13px,3.6vw,16px)}
+ .rcSimpleHero__art{order:1;grid-column:auto;grid-row:auto;width:100%;height:clamp(164px,43vw,260px);min-height:0;flex:none;grid-template-columns:minmax(0,1.65fr) minmax(0,.9fr) minmax(0,1fr);gap:4px}
+ .rcSimpleHero__panel--fields{margin:0}
+ .rcSimpleHero__panel--producers{margin:15px 0 12px}
+ .rcSimpleHero__panel--services{margin:6px 0 0}
+ .rcSimpleHero__image{filter:grayscale(.67) saturate(.52) brightness(.96) contrast(1.05)}
+ .rcSimpleHero__photoLabel{min-height:27px;padding:8px 7px}
+ .rcSimpleHero__photoLabel strong{font-size:clamp(9px,2.15vw,11px);letter-spacing:.01em}
+ .rcSimpleTrust{min-height:37px;gap:8px 16px;padding:9px 9px}
+ .rcSimpleTrust span{font-size:clamp(9px,2.4vw,11px);letter-spacing:.02em}
 }
 @media(max-width:350px){
- .rcSimpleHero__content{padding:25px 17px 29px}
- .rcSimpleHero__title{font-size:40px}
- .rcSimpleHero__browse{gap:12px}
+ .rcSimpleHero__content{padding:22px 16px}
+ .rcSimpleHero__title{font-size:32px}
  .rcSimpleHero__action--secondary{font-size:12px}
+ .rcSimpleHero__browse{gap:12px}
  .rcSimpleHero__photoLabel strong{font-size:9px}
 }
 @media(prefers-reduced-motion:reduce){.rcSimpleHero__action{transition:none}}
-/* Lite: mismas decisiones de composición, ancho de app y barra nativa preservada. */
-.rcLiteSimpleHome{min-height:100dvh;max-width:520px;margin:auto;padding-bottom:90px;background:#eeeee9}
+/* Home Lite: misma dirección de arte y jerarquía, sin alterar el resto del producto. */
+.rcLiteSimpleHome{min-height:100dvh;max-width:520px;margin:0 auto;padding-bottom:89px;background:#1a1e1b}
 .rcLiteSimpleHome .rcSimpleHero{display:flex;flex-direction:column;min-height:0}
-.rcLiteSimpleHome .rcSimpleHero__art{height:clamp(205px,53vw,265px);width:100%;flex:none;min-height:0}
-.rcLiteSimpleHome .rcSimpleHero__content{padding:27px 22px 32px;min-height:0}
-.rcLiteSimpleHome .rcSimpleHero__title{font-size:clamp(39px,10.5vw,60px)}
-.rcLiteSimpleHome .rcSimpleHero__description{font-size:clamp(14px,3.8vw,17px)}
+.rcLiteSimpleHome .rcSimpleHero__content{padding:24px 22px 24px;align-self:stretch}
+.rcLiteSimpleHome .rcSimpleHero__title{font-size:clamp(33px,8.6vw,46px)}
+.rcLiteSimpleHome .rcSimpleHero__description{font-size:clamp(13px,3.6vw,16px)}
 .rcLiteSimpleHome .rcSimpleHero__actions{width:100%}
-.rcLiteSimpleHome .rcSimpleTrust{padding:16px 8px}
-@media(max-width:350px){.rcLiteSimpleHome .rcSimpleHero__content{padding:24px 17px 30px}}
+.rcLiteSimpleHome .rcSimpleHero__art{width:100%;height:clamp(163px,42vw,235px);min-height:0;flex:none}
+.rcLiteSimpleHome .rcSimpleTrust{padding:11px 8px}
+@media(max-width:350px){.rcLiteSimpleHome .rcSimpleHero__content{padding:20px 16px}}
