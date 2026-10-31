@@ -1052,3 +1052,138 @@
   border-right: 2px solid #26332d; border-bottom: 2px solid #26332d;
   transform: translateY(-70%) rotate(45deg); pointer-events: none;
 }
+
+/*
+ * Publicar campo / servicio rural: pasos compactos, sin títulos amarillos gigantes.
+ * Cambio exclusivamente visual: los campos, requeridos, fotos, geocoder, validación
+ * y botones conservan su comportamiento.
+ */
+html body .app-shell .page-container:has(.campo-form) {
+  max-width: 1020px;
+  padding-top: 20px !important;
+  padding-bottom: 48px !important;
+}
+html body .app-shell .page-container:has(.campo-form) .page-header {
+  margin-bottom: 13px !important;
+  gap: 12px;
+}
+html body .app-shell .page-container:has(.campo-form) .page-title {
+  font-size: clamp(24px, 2.5vw, 32px) !important;
+  line-height: 1.12 !important;
+}
+html body .app-shell .page-container:has(.campo-form) .page-subtitle {
+  max-width: 690px;
+  font-size: 13px;
+  line-height: 1.4;
+}
+html body .app-shell .campo-form .form-section {
+  padding: clamp(18px, 2.8vw, 27px) 0 !important;
+}
+html body .app-shell .campo-form .form-section-title-editorial {
+  display: flex !important;
+  gap: 11px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin: 0 0 18px !important;
+  padding: 0 0 11px !important;
+  border-bottom: 1px solid #c9c9c9 !important;
+}
+html body .app-shell .campo-form .form-section-number,
+html body .app-shell .campo-form .form-section:nth-of-type(even) .form-section-number {
+  min-width: 0;
+  font-family: var(--font-dm-sans), Arial, sans-serif;
+  font-size: 12px;
+  line-height: 1;
+  font-weight: 900;
+  letter-spacing: .035em;
+  color: #4d4f53 !important;
+  background: #e8e8e9;
+  border: 1px solid #d2d2d3;
+  border-radius: 8px;
+  padding: 7px 9px;
+}
+html body .app-shell .campo-form .form-section-icon {
+  display: none !important;
+}
+html body .app-shell .campo-form .form-section-copy {
+  font-family: var(--font-rounded), var(--font-dm-sans), Arial, sans-serif;
+  font-size: clamp(20px, 2.3vw, 27px) !important;
+  font-weight: 850;
+  line-height: 1.18;
+  letter-spacing: -.035em;
+  text-transform: none;
+}
+html body .app-shell .campo-form .form-section-copy em,
+html body .app-shell .campo-form .form-section:nth-of-type(even) .form-section-copy em {
+  color: #55565a !important;
+}
+html body .app-shell .campo-form .form-section-hint {
+  align-self: center;
+  padding-bottom: 0;
+}
+html body .app-shell .campo-form .form-field {
+  margin-bottom: 13px;
+}
+html body .app-shell .campo-form .form-label {
+  display: block;
+  font-size: 13px;
+  margin-bottom: 6px;
+}
+html body .app-shell .campo-form :is(.form-input,.form-select,.form-textarea,.geocoder-input-row,.input-prefix) {
+  border-radius: 10px !important;
+  border-color: #cbcbcd !important;
+  box-shadow: none !important;
+}
+html body .app-shell .campo-form :is(.form-input,.form-select,.geocoder-input-row) {
+  min-height: 44px;
+}
+html body .app-shell .campo-form .input-after-prefix {
+  border-radius: 0 10px 10px 0 !important;
+}
+html body .app-shell .campo-form .form-check { padding: 10px 0; }
+html body .app-shell .campo-form .form-check input[type="checkbox"] {
+  accent-color: #5e6064 !important;
+}
+html body .app-shell .campo-form .foto-add-icon {
+  color: #67696d !important;
+  font-size: 27px;
+}
+html body .app-shell .campo-form .foto-add:hover { background: #f2f2f2 !important; }
+html body .app-shell .campo-form .foto-principal {
+  background: #d9d9da !important;
+  color: #25262a !important;
+  border-radius: 6px !important;
+}
+html body .app-shell .campo-form .form-actions {
+  margin-top: 8px;
+  padding-top: 17px;
+  border-top: 1px solid #c9c9ca;
+}
+@media (max-width: 700px) {
+  html body .app-shell .page-container:has(.campo-form) {
+    padding: 16px 16px 42px !important;
+  }
+  html body .app-shell .campo-form .form-section {
+    padding: 17px 0 !important;
+  }
+  html body .app-shell .campo-form .form-section-title-editorial {
+    gap: 8px !important;
+    margin-bottom: 13px !important;
+    padding-bottom: 9px !important;
+  }
+  html body .app-shell .campo-form .form-section-number {
+    grid-row: auto;
+    min-width: 0;
+    font-size: 12px;
+  }
+  html body .app-shell .campo-form .form-section-copy {
+    font-size: clamp(19px, 5.2vw, 24px) !important;
+  }
+  html body .app-shell .campo-form .form-section-hint {
+    grid-column: auto;
+  }
+  html body .app-shell .campo-form .form-actions :is(.btn-primary-lg,.btn-secondary-lg) {
+    min-height: 48px;
+    padding: 10px 17px;
+  }
+}

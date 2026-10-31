@@ -78,6 +78,15 @@ test("responsive hero has a visible matte gold accent and no legacy hero CSS imp
  assert.ok(webStyle.includes(".rcf-hero__metric-value"));
  assert.ok(liteStyle.includes(".rcLiteDirectHero__metric strong"));
  assert.ok(webStyle.includes("@media (max-width: 520px)"));
+ assert.ok(webStyle.includes("Compact desktop/notebook"));
+ assert.ok(webStyle.includes("calc(100svh - 110px)"));
+ assert.ok(liteStyle.includes("Compactación Lite/webview"));
+ assert.ok(howCss.includes("La explicación se lee de un vistazo"));
+ const formCss=read("styles/campos.css");
+ assert.ok(formCss.includes("Publicar campo / servicio rural: pasos compactos"));
+ assert.ok(formCss.includes("font-size: 12px;"));
+ assert.ok(formCss.includes("accent-color: #5e6064"));
+ assert.ok(sharedStyle.includes("Densidad general 2026"));
  assert.ok(liteStyle.includes("@media(max-width:380px)"));
  assert.ok(!read("app/page.tsx").includes("landing-impact.css"));
 });
