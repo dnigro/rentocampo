@@ -47,7 +47,12 @@ test("home stays hero + short explainer + FAQ, with a shared header/footer",()=>
  assert.ok(home.indexOf("<HowItWorksStrip />") < home.indexOf("<LandingFAQ />"));
  assert.ok(how.includes('id={lite ? "como-funciona-lite" : "como-funciona"}'));
  assert.ok(how.includes("Explorá o publicá") && how.includes("Conectá por chat") && how.includes("Acordá directo"));
- assert.ok(howCss.includes("scroll-margin-top: 92px"));
+ assert.ok(howCss.includes("scroll-margin-top:90px"));
+ assert.ok(howCss.includes("grid-template-columns:repeat(3,minmax(0,1fr))"));
+ assert.ok(how.includes("MapPinned") && how.includes("MessageCircleMore") && how.includes("Handshake"));
+ assert.ok(sharedStyle.includes("--rc-green: #646569"));
+ assert.ok(liteStyle.includes("background:#646569"));
+ assert.ok(webStyle.includes("background:#646569"));
  assert.ok(read("components/layout/Navbar.tsx").includes('href="/#como-funciona"'));
  assert.ok(faq.includes('id="preguntas"'));
  assert.ok(!home.includes("LandingMapa")&&!home.includes("LandingHowBrief"));
