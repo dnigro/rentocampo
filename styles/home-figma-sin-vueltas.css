@@ -92,10 +92,10 @@
   background: #71947a;
 }
 .rc-landing .rcf-hero__description {
-  max-width: 650px;
+  max-width: min(520px, 48vw);
   margin: 0;
   color: #f8faf6;
-  font-size: clamp(21px, 1.95vw, 29px);
+  font-size: clamp(21px, 1.85vw, 28px);
   font-weight: 720;
   line-height: 1.36;
   text-wrap: balance;
@@ -289,9 +289,9 @@
 @media (max-width: 900px) {
   .rc-landing .rcf-hero { min-height: 720px; }
   .rc-landing .rcf-hero__matte {
-    /* Reducimos el corte en móvil para mostrar más ganado sin cortar el texto. */
-    clip-path: polygon(0 0, 100% 0, 76% 100%, 0 100%);
-    background: linear-gradient(90deg, rgba(14, 18, 15, .92), rgba(22, 29, 23, .76));
+    /* Textos siempre sobre oscuro; diagonal solo en la banda lateral de la imagen. */
+    clip-path: polygon(0 0, 100% 0, 87% 100%, 0 100%);
+    background: linear-gradient(90deg, rgba(14, 18, 15, .96), rgba(22, 29, 23, .87));
   }
   .rc-landing .rcf-hero__content { padding: 95px clamp(23px, 6vw, 50px) 64px; }
   .rc-landing .rcf-hero__title { font-size: clamp(55px, 9.6vw, 82px); line-height: .98; }
@@ -320,7 +320,7 @@
   }
   .rc-landing .rcf-hero__title span { overflow-wrap: anywhere; }
   .rc-landing .rcf-rule { width: 101px; margin: 34px 0 22px; }
-  .rc-landing .rcf-hero__description { font-size: clamp(19px, 4.95vw, 22px); max-width: 345px; }
+  .rc-landing .rcf-hero__description { font-size: clamp(19px, 4.95vw, 22px); max-width: min(345px, 100%); }
   .rc-landing .rcf-actions {
     margin-top: 39px;
     flex-direction: column;
@@ -374,4 +374,20 @@ html[lang="en-US"] .rc-landing .rcf-hero__title { font-size: clamp(46px, 7vw, 94
   .rc-landing .rcf-pill,
   .rc-landing .rcf-faq__symbol { transition: none; }
   .rc-landing .rcf-pill:hover { transform: none; }
+}
+
+/* 2026-10 cierre visual: beneficios como dos promesas legibles. */
+.rc-landing .rcf-hero__proof strong {
+  display: inline-block;
+  font-weight: 900;
+  font-size: inherit;
+  line-height: 1.22;
+}
+@media (min-width: 901px) {
+  .rc-landing .rcf-hero__title { max-width: min(65vw, 1030px); }
+  .rc-landing .rcf-hero__content { position: relative; z-index: 1; }
+}
+@media (max-width: 900px) {
+  .rc-landing .rcf-hero__description { max-width: min(100%, 440px); }
+  .rc-landing .rcf-hero__content { position: relative; z-index: 1; }
 }
