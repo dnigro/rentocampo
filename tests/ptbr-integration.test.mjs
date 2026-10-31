@@ -213,34 +213,17 @@ test("map displays new-country field markers and refreshes on country change", (
  assert.match(nav,/router\.refresh\(\)/);
  assert.match(selector,/router\.replace\(/);
 });
-test("approved responsive direct-contact video hero and FAQ remain present", () => {
-  const faq=read("components/landing/LandingFAQ.tsx");
-  const hero=read("components/landing/LandingFigmaHome.tsx");
-  const styles=read("styles/hero-2026-isolated.css");
-  const swap=read("styles/home-video-swap.css");
-  const lite=read("app/lite/page.tsx");
-  assert.ok(hero.includes('rcHero26__heading'));
-  assert.ok(hero.includes('rcHero26__impactLead'));
-  assert.ok(hero.includes('rcHero26__impactWord'));
-  assert.ok(hero.includes('rcHero26__visionLine'));
-  assert.ok(hero.includes('rcHero26__stats'));
-  assert.ok(hero.includes('rcHero26__register'));
-  assert.ok(hero.includes('rcHomeVideo__player'));
-  assert.ok(hero.includes('INTERMEDIARIOS.'));
-  assert.ok(hero.includes('INTERMEDIÁRIOS.'));
-  assert.ok(hero.includes('COMISSÕES.'));
-  assert.ok(!hero.includes('rcHero26__sumate'));
-  assert.ok(!hero.includes('rcHero26__panel'));
-  assert.ok(lite.includes('rcLiteDirectHero__register'));
-  assert.ok(lite.includes('CADASTRE-SE GRÁTIS'));
-  assert.ok(!hero.includes('className="rcHero26__countries"'));
-  assert.match(styles, /@media\(min-width:901px\)/);
-  assert.match(styles, /@media\(max-width:900px\)/);
-  assert.match(swap, /@media \(min-width: 901px\)/);
-  assert.match(swap, /@media \(max-width: 900px\)/);
-  assert.match(swap, /object-fit: cover/);
-  assert.ok(faq.includes('id="preguntas"'));
-  assert.ok(!faq.toLowerCase().includes("packs"));
+test("responsive rural hero, FAQ and Lite share the current design",()=>{
+ const faq=read("components/landing/LandingFAQ.tsx");
+ const hero=read("components/landing/LandingFigmaHome.tsx");
+ const css=read("styles/home-figma-sin-vueltas.css");
+ const lite=read("app/lite/page.tsx");
+ for(const phrase of ["CONECTÁ DIRECTO.","0%</strong>","100%</strong>",'href="/register"','className="rcf-hero__title"'])assert.ok(hero.includes(phrase));
+ assert.ok(lite.includes('className="rcLiteDirectHero__register"'));
+ assert.ok(css.includes(".rc-landing .rcf-hero__matte"));
+ assert.ok(css.includes("@media (max-width: 520px)"));
+ assert.ok(faq.includes('id="preguntas"'));
+ assert.ok(!faq.toLowerCase().includes("packs"));
 });
 
 test("public catalog filters sit beside results, with a mobile disclosure before listings", () => {
@@ -291,19 +274,18 @@ test("regional productive zones replace clipped Argentina-only unverified demand
  assert.match(panel,/Não são indicadores de procura verificada/);
 });
 
-test("mobile and desktop use their approved video and cattle photo layout", () => {
-  const swap=read("styles/home-video-swap.css");
-  const landing=read("components/landing/LandingPageContent.tsx");
-  const hero=read("components/landing/LandingFigmaHome.tsx");
-  const map=read("components/landing/LandingMapa.tsx");
-  const lite=read("app/lite/page.tsx");
-  assert.match(swap, /\.rc-landing \.rc-map-section > \.rc-shell \{[\s\S]*?flex-direction: column/);
-  assert.match(swap, /\.rc-landing \.rc-map-section \.rc-map-copy \{[\s\S]*?order: 0/);
-  assert.match(swap, /\.rc-landing \.rc-map-section \.rc-map-diagonal \{[\s\S]*?order: 1/);
-  assert.match(swap, /\.rc-landing \.rcHomeVideo \{[\s\S]*?object-fit: cover/);
-  assert.match(swap, /margin-right: calc\(-1 \* var\(--hero-desktop-diagonal\)\)/);
-  assert.match(hero, /className="rcHomeVideo__player"/);
-  assert.match(map, /rc-map-diagonal__photo/);
-  assert.ok(landing.indexOf("<LandingTriptychHero") < landing.indexOf("<LandingMapa"));
-  assert.ok(!lite.includes("triptychHero"), "Lite has independent hero");
+test("mobile/desktop show the new cow image without the obsolete video/map below",()=>{
+ const landing=read("components/landing/LandingPageContent.tsx");
+ const hero=read("components/landing/LandingFigmaHome.tsx");
+ const css=read("styles/home-figma-sin-vueltas.css");
+ const lite=read("app/lite/page.tsx");
+ assert.ok(landing.includes("<LandingFigmaHome />"));
+ assert.ok(landing.includes("<LandingFAQ />"));
+ assert.ok(!landing.includes("<LandingMapa"));
+ assert.ok(!landing.includes("<LandingHowBrief"));
+ assert.ok(hero.includes('src="/image_vaca_pix.png"'));
+ assert.ok(lite.includes('src="/image_vaca_pix.png"'));
+ assert.ok(css.includes("clip-path: polygon("));
+ assert.ok(!hero.includes("rcHomeVideo__player"));
 });
+
