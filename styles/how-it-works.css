@@ -29,3 +29,14 @@
 }
 @media(max-width:340px){.rc-how__inner{padding-inline:9px}.rc-how__step{padding-inline:7px}.rc-how__step-copy h3{font-size:12px}.rc-how__step-copy p{font-size:11px}}
 .rc-how--lite .rc-how__inner{padding-inline:15px}
+
+/* La explicación se lee de un vistazo, sin otra pantalla completa. */
+.rc-how__inner { padding-top: 22px; padding-bottom: 26px; }
+.rc-how__intro { margin-bottom: 19px; }
+.rc-how__step { gap: 6px; }
+.rc-how__icon { margin-top: 3px; width: 29px; height: 29px; }
+@media (max-width: 600px) {
+  .rc-how__inner { padding-top: 20px; padding-bottom: 24px; }
+  .rc-how__intro { margin-bottom: 17px; }
+  .rc-how__icon { width: 25px; height: 25px; }
+}
