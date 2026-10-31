@@ -52,3 +52,56 @@
 .rcLiteSimpleHome .rcSimpleHero__content{padding:23px 20px 17px}
 .rcLiteSimpleHome .rcSimpleHero__art{width:100%;height:clamp(220px,58vw,320px);min-height:0;flex:none}
 .rcLiteSimpleHome .rcSimpleHero__actions{width:100%}
+
+
+/* 2026-10-31 — Paridad visual definitiva: diagonales continuas (web y Lite)
+   Soporta las variantes de clase vigentes durante la transición del PR. */
+.rcSimpleHero__art{display:block;position:relative;isolation:isolate;max-width:none}
+.rcSimpleHero__panel{position:absolute;top:0;bottom:0;width:auto;min-width:0;margin:0;flex:none;clip-path:none}
+.rcSimpleHero__panel--0,.rcSimpleHero__panel--fields{
+  left:0;width:46%;z-index:3;
+  clip-path:polygon(0 0,100% 0,80% 100%,0 100%);
+}
+.rcSimpleHero__panel--1,.rcSimpleHero__panel--producers{
+  left:31%;width:46%;z-index:2;
+  clip-path:polygon(20% 0,100% 0,80% 100%,0 100%);
+}
+.rcSimpleHero__panel--2,.rcSimpleHero__panel--services{
+  left:64%;width:42%;z-index:1;
+  clip-path:polygon(20% 0,100% 0,100% 100%,0 100%);
+}
+.rcSimpleHero__image{transform:none;object-fit:cover;filter:grayscale(1) brightness(.79) contrast(1.08)}
+.rcSimpleHero__photoLabel{left:10%;right:9%;z-index:2}
+.rcSimpleHero__panel--1 .rcSimpleHero__photoLabel,
+.rcSimpleHero__panel--producers .rcSimpleHero__photoLabel{left:25%;right:18%}
+.rcSimpleHero__panel--2 .rcSimpleHero__photoLabel,
+.rcSimpleHero__panel--services .rcSimpleHero__photoLabel{left:27%;right:8%}
+.rcSimpleHero__title .rcSimpleHero__lead{font-size:clamp(66px,7vw,110px);font-weight:900;line-height:.9}
+.rcSimpleHero__title .rcSimpleHero__impact{font-size:clamp(24px,3.25vw,48px);font-weight:900;line-height:1.03;overflow-wrap:anywhere}
+.rcSimpleHero__features .rcSimpleHero__featurePrimary{font-size:clamp(19px,2vw,28px)}
+.rcSimpleHero__features .rcSimpleHero__featureSecondary{font-size:clamp(14px,1.45vw,20px)}
+.rcSimpleHero__actions .rcSimpleHero__register{gap:15px;text-align:center}
+.rcSimpleHero__browse .rcSimpleHero__browseLink{gap:8px}
+@media(min-width:901px){
+ .rcSimpleHero{--join:clamp(35px,5vw,86px)}
+ .rcSimpleHero__content{
+  position:relative;z-index:4;max-width:none;
+  width:calc(100% + var(--join));margin-right:calc(-1 * var(--join));
+  padding-right:calc(clamp(28px,3.7vw,64px) + var(--join));
+  background:#202222;
+  clip-path:polygon(0 0,100% 0,calc(100% - var(--join)) 100%,0 100%);
+ }
+ .rcSimpleHero__art{width:calc(100% + var(--join));margin-left:calc(-1 * var(--join));max-width:none}
+}
+@media(max-width:900px){
+ .rcSimpleHero__title .rcSimpleHero__lead{font-size:clamp(58px,13.3vw,92px)}
+ .rcSimpleHero__title .rcSimpleHero__impact{font-size:clamp(24px,6.5vw,44px)}
+ .rcSimpleHero__features .rcSimpleHero__featurePrimary{font-size:clamp(18px,4.9vw,27px)}
+ .rcSimpleHero__features .rcSimpleHero__featureSecondary{font-size:clamp(13px,3.65vw,19px)}
+ .rcSimpleHero__image{transform:none;filter:grayscale(1) brightness(.81) contrast(1.07)}
+ .rcSimpleHero__photoLabel{bottom:17px;left:6%;font-size:clamp(10px,3vw,16px)}
+ .rcSimpleHero__panel--1 .rcSimpleHero__photoLabel,
+ .rcSimpleHero__panel--producers .rcSimpleHero__photoLabel{left:24%}
+ .rcSimpleHero__panel--2 .rcSimpleHero__photoLabel,
+ .rcSimpleHero__panel--services .rcSimpleHero__photoLabel{left:28%;font-size:clamp(9px,2.7vw,14px)}
+}
