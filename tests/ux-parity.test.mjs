@@ -20,8 +20,8 @@ const liteProfile=read("app/lite/perfil/editar/page.tsx");
 
 test("web, mobile and Lite keep the same short message and numeric offer",()=>{
   for (const [name,source] of [["web",web],["Lite",lite]]) {
-    assert.match(source,/CONECTÁ DIRECTO/);
-    assert.ok(source.includes("Campos y servicios. Contacto directo."));
+    assert.match(source,/CAMPOS Y SERVICIOS/);
+    assert.ok(source.includes("Buscá, publicá y conectá."));
     assert.match(source,/SIN VUELTAS/);
     assert.ok(source.includes("0%</strong>"));
     assert.ok(source.includes("100%</strong>"));
@@ -53,6 +53,10 @@ test("home stays hero + short explainer + FAQ, with a shared header/footer",()=>
  assert.ok(sharedStyle.includes("--rc-green: #646569"));
  assert.ok(liteStyle.includes("background:#646569"));
  assert.ok(webStyle.includes("background:#646569"));
+ assert.ok(read("app/layout.tsx").includes("Nunito"));
+ assert.ok(webStyle.includes("clip-path: none;"));
+ assert.ok(liteStyle.includes("clip-path: none;"));
+ assert.ok(webStyle.includes("height: clamp(290px, 84vw, 430px)"));
  assert.ok(read("components/layout/Navbar.tsx").includes('href="/#como-funciona"'));
  assert.ok(faq.includes('id="preguntas"'));
  assert.ok(!home.includes("LandingMapa")&&!home.includes("LandingHowBrief"));
