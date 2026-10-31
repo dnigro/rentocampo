@@ -32,61 +32,26 @@ export default async function LiteHome() {
       <LiteHeader />
       <section className="rcSimpleHero rcSimpleHero--lite" aria-labelledby="rc-lite-simple-title">
         <div className="rcSimpleHero__content">
-          <p className="rcSimpleHero__eyebrow">
-            {t("PLATAFORMA RURAL", "PLATAFORMA RURAL", "RURAL MARKETPLACE")}
-            <span className="rcSimpleHero__edition">/ RentoCampo</span>
-          </p>
-          <h1 id="rc-lite-simple-title" className="rcSimpleHero__title">
-            {t("Campos y servicios.", "Terras e serviços.", "Farmland and services.")}
-            <span>{t("Contacto directo.", "Contato direto.", "Direct connections.")}</span>
-          </h1>
-          <p className="rcSimpleHero__description">
-            {t(
-              "Explorá oportunidades rurales sin intermediarios ni comisiones.",
-              "Explore oportunidades rurais sem intermediários nem comissões.",
-              "Explore rural opportunities without middlemen or commissions."
-            )}
-          </p>
-          <div className="rcSimpleHero__actions" aria-label={t("Accesos principales", "Acessos principais", "Main actions")}>
-            <Link href="/lite/cuenta/registro" className="rcSimpleHero__action rcSimpleHero__action--primary">
-              {t("Registrate gratis", "Cadastre-se grátis", "Sign up free")}
-              <span aria-hidden="true">↗</span>
-            </Link>
+          <p className="rcSimpleHero__eyebrow">{t("CONECTAMOS EL CAMPO","CONECTAMOS O CAMPO","CONNECTING RURAL COMMUNITIES")}</p>
+          <h1 id="rc-lite-simple-title" className="rcSimpleHero__title"><span>{t("SIN","SEM","NO")}</span><strong>{t("INTERMEDIARIOS.","INTERMEDIÁRIOS.","MIDDLEMEN.")}</strong></h1>
+          <div className="rcSimpleHero__features"><p>{t("MAPAS + CHAT ONLINE","MAPAS + CHAT ONLINE","MAPS + ONLINE CHAT")}</p><p>{t("Productores + Tierra + Servicios","Produtores + Terras + Serviços","Farmers + Land + Services")}</p></div>
+          <p className="rcSimpleHero__vision">{t("Vos publicás. Vos contactás. Vos acordás.","Você anuncia. Você conversa. Você combina.","You list. You connect. You agree.")}</p>
+          <div className="rcSimpleHero__actions">
+            <Link href="/lite/cuenta/registro" className="rcSimpleHero__register">{t("REGISTRATE GRATIS","CADASTRE-SE GRÁTIS","SIGN UP FREE")} <span aria-hidden="true">→</span></Link>
             <div className="rcSimpleHero__browse">
-              <Link href="/lite/campos" className="rcSimpleHero__action rcSimpleHero__action--secondary">
-                {t("Ver campos", "Ver terras", "Browse farmland")}
-                <span aria-hidden="true">↗</span>
-              </Link>
-              <Link href="/lite/servicios" className="rcSimpleHero__action rcSimpleHero__action--secondary">
-                {t("Ver servicios", "Ver serviços", "Browse services")}
-                <span aria-hidden="true">↗</span>
-              </Link>
+              <Link href="/lite/campos">{t("Ver campos","Ver terras","Browse farmland")} <span aria-hidden="true">→</span></Link>
+              <Link href="/lite/servicios">{t("Ver servicios","Ver serviços","Browse services")} <span aria-hidden="true">→</span></Link>
             </div>
           </div>
         </div>
-        <div className="rcSimpleHero__art" aria-label={t("Tríptico rural de campos, productores y servicios", "Tríptico rural de terras, produtores e serviços", "Rural triptych of farmland, farmers and services")}>
-          {panels.map((panel, index) => (
-            <div className={"rcSimpleHero__panel rcSimpleHero__panel--" + panel.css} key={panel.css}>
-              <Image
-                src={panel.image}
-                alt=""
-                fill
-                priority={index === 0}
-                sizes="(max-width: 520px) 50vw, 260px"
-                className="rcSimpleHero__image"
-              />
-              <div className="rcSimpleHero__photoLabel" aria-hidden="true">
-                <strong>{panel.label}</strong>
-              </div>
-            </div>
-          ))}
+        <div className="rcSimpleHero__art" aria-label={t("Campos, productores y servicios rurales","Terras, produtores e serviços rurais","Farmland, farmers and rural services")}>
+          {panels.map((panel,index)=><div className={"rcSimpleHero__panel rcSimpleHero__panel--"+index} key={panel.label}>
+            <Image src={panel.image} alt="" fill priority={index===0} sizes="(max-width:520px) 45vw, 235px" className="rcSimpleHero__image"/>
+            <strong className="rcSimpleHero__photoLabel">{panel.label}</strong>
+          </div>)}
         </div>
       </section>
-      <div className="rcSimpleTrust">
-        <span>{t("GRATIS", "GRÁTIS", "FREE")}</span>
-        <span>{t("SIN INTERMEDIARIOS", "SEM INTERMEDIÁRIOS", "NO MIDDLEMEN")}</span>
-        <span>{t("SIN COMISIONES", "SEM COMISSÕES", "NO COMMISSIONS")}</span>
-      </div>
+      <div id="como-funciona" className="rcSimpleTrust"><span>{t("0% COMISIONES","0% COMISSÕES","0% COMMISSIONS")}</span><span>{t("100% CONTACTO DIRECTO","100% CONTATO DIRETO","100% DIRECT CONTACT")}</span></div>
       <nav aria-label={t("Navegación Lite", "Navegação Lite", "Lite navigation")} style={{
         position: "fixed", bottom: 0, left: "50%", transform: "translateX(-50%)",
         width: "100%", maxWidth: 520, display: "grid", gridTemplateColumns: "repeat(4,1fr)",
