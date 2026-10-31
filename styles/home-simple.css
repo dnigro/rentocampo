@@ -1,0 +1,87 @@
+/* RentoCampo / V4 — editorial compacto para comparación A/B.
+  Diferencia deliberada con V3 y A: palabras, CTAs y exploración se leen
+  ANTES de las fotos en móvil. SIN es un antetítulo pequeño, no un bloque
+  de 100px. La composición sigue usando el tríptico diagonal original.
+  Sin textos nuevos, fuentes importadas, imágenes generadas ni backend. */
+.rcSimpleHome{width:100%;background:#242626;color:#f1f1ee}
+.rcSimpleHero{display:grid;grid-template-columns:minmax(0,55%) minmax(0,45%);min-height:clamp(485px,58svh,660px);overflow:hidden;background:#242626}
+.rcSimpleHero *{box-sizing:border-box}
+.rcSimpleHero__content{grid-column:2;grid-row:1;position:relative;z-index:5;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:clamp(22px,2.4vw,36px);min-width:0;padding:clamp(30px,4vw,66px)}
+.rcSimpleHero__title{margin:0;display:flex;flex-direction:column;align-items:flex-start;gap:17px;line-height:1.05;color:#f4f4f1;max-width:100%;font-family:inherit}
+.rcSimpleHero__title span{display:block;padding-left:3px;font-size:clamp(13px,1.15vw,17px);font-weight:800;line-height:1;letter-spacing:.22em;color:#d6d7d2}
+.rcSimpleHero__title strong{display:block;font-size:clamp(30px,3.3vw,49px);line-height:1.05;font-weight:900;letter-spacing:-.048em;overflow-wrap:anywhere;color:#fff}
+.rcSimpleHero__features{display:flex;flex-direction:column;align-items:flex-start;gap:9px;max-width:100%;padding:0;border:0}
+.rcSimpleHero__features p{margin:0;line-height:1.2}
+.rcSimpleHero__featurePrimary{font-size:clamp(19px,1.95vw,28px);font-weight:850;letter-spacing:-.022em;color:#e4d77b}
+.rcSimpleHero__featureSecondary{font-size:clamp(13px,1.22vw,18px);font-weight:600;color:#d2d5d0;letter-spacing:0}
+.rcSimpleHero__actions{display:flex;flex-direction:column;align-items:stretch;width:min(405px,100%);gap:11px}
+.rcSimpleHero__register{display:flex;align-items:center;justify-content:space-between;gap:18px;width:100%;min-height:56px;padding:12px 19px;border:1px solid #d8d9d4;border-radius:0;background:#e6e6e2;color:#202321;text-decoration:none;font-size:clamp(14px,1.14vw,17px);font-weight:900;line-height:1.1;transition:background .15s ease}
+.rcSimpleHero__register:hover{background:#fff}
+.rcSimpleHero__register span{font-size:22px;line-height:1;font-weight:400}
+.rcSimpleHero__browse{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;width:100%}
+.rcSimpleHero__browseLink{display:flex;align-items:center;justify-content:space-between;gap:7px;min-height:50px;min-width:0;padding:10px 0 12px;border-bottom:1px solid #929c94;color:#f1f1ed;text-decoration:none;font-size:clamp(13px,1.05vw,16px);font-weight:750}
+.rcSimpleHero__browseLink:hover{border-bottom-color:#fff}
+.rcSimpleHero__browseLink span{font-weight:400}
+.rcSimpleHero__register:focus-visible,.rcSimpleHero__browseLink:focus-visible{outline:3px solid #fff;outline-offset:3px}
+.rcSimpleHero__art{grid-column:1;grid-row:1;position:relative;z-index:1;isolation:isolate;width:100%;height:100%;min-height:100%;overflow:hidden;background:#323533}
+.rcSimpleHero__panel{position:absolute;top:0;bottom:0;min-width:0;overflow:hidden}
+.rcSimpleHero__panel--0{left:0;width:46%;z-index:3;clip-path:polygon(0 0,100% 0,80% 100%,0 100%)}
+.rcSimpleHero__panel--1{left:31%;width:46%;z-index:2;clip-path:polygon(20% 0,100% 0,80% 100%,0 100%)}
+.rcSimpleHero__panel--2{left:64%;width:42%;z-index:1;clip-path:polygon(20% 0,100% 0,100% 100%,0 100%)}
+.rcSimpleHero__image{object-fit:cover;object-position:center;filter:grayscale(1) brightness(.88) contrast(1.05)}
+.rcSimpleHero__panel--0 .rcSimpleHero__image{object-position:48% center}
+.rcSimpleHero__panel--1 .rcSimpleHero__image{object-position:54% center}
+.rcSimpleHero__panel--2 .rcSimpleHero__image{object-position:52% center}
+.rcSimpleHero__panel:after{content:"";position:absolute;inset:55% 0 0;background:linear-gradient(0deg,#111617d4,transparent);pointer-events:none}
+.rcSimpleHero__photoLabel{position:absolute;bottom:27px;left:8%;right:5%;z-index:2;color:#f7f7f4;font-size:clamp(11px,1.08vw,15px);font-weight:850;letter-spacing:.025em;line-height:1.13;text-shadow:0 2px 7px #111}
+.rcSimpleHero__panel--1 .rcSimpleHero__photoLabel{left:26%}
+.rcSimpleHero__panel--2 .rcSimpleHero__photoLabel{left:28%;right:1%}
+.rcSimpleTrust{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:clamp(10px,1.7vw,30px);min-height:43px;padding:11px 12px;background:#303331;color:#ebebe8;scroll-margin-top:90px}
+.rcSimpleTrust span{font-size:clamp(10px,.96vw,13px);font-weight:850;letter-spacing:.025em}
+.rcSimpleTrust span[aria-hidden]{font-size:15px;color:#89988e}
+@media(min-width:901px){
+ .rcSimpleHero{--rc-diagonal:clamp(40px,5.2vw,92px)}
+ .rcSimpleHero__content{width:calc(100% + var(--rc-diagonal));margin-left:calc(-1 * var(--rc-diagonal));padding-left:calc(clamp(30px,4vw,66px) + var(--rc-diagonal));background:#242626;clip-path:polygon(var(--rc-diagonal) 0,100% 0,100% 100%,0 100%)}
+ .rcSimpleHero__art{width:calc(100% + var(--rc-diagonal))}
+}
+@media(min-width:901px) and (max-width:1200px){
+ .rcSimpleHero{grid-template-columns:minmax(0,52%) minmax(0,48%)}
+ .rcSimpleHero__content{gap:23px;padding-right:25px}
+ .rcSimpleHero__title strong{font-size:clamp(28px,3.16vw,38px)}
+}
+@media(max-width:900px){
+ .rcSimpleHero{display:flex;flex-direction:column;min-height:0}
+ /* Acción antes del material visual: el acceso es prioritario. */
+ .rcSimpleHero__content{order:0;grid-column:auto;grid-row:auto;align-self:stretch;gap:15px;min-height:0;padding:24px 23px 22px;width:100%}
+ .rcSimpleHero__title{gap:10px}
+ .rcSimpleHero__title span{font-size:14px;line-height:1;letter-spacing:.20em}
+ .rcSimpleHero__title strong{font-size:clamp(31px,8.35vw,48px);line-height:1.04;letter-spacing:-.055em}
+ .rcSimpleHero__features{gap:7px}
+ .rcSimpleHero__featurePrimary{font-size:clamp(19px,4.8vw,25px)}
+ .rcSimpleHero__featureSecondary{font-size:clamp(13px,3.5vw,17px)}
+ .rcSimpleHero__actions{gap:7px;width:100%;max-width:550px}
+ .rcSimpleHero__register{min-height:49px;padding:10px 15px;font-size:14px}
+ .rcSimpleHero__browseLink{min-height:44px;padding:9px 0 10px;font-size:clamp(13px,3.6vw,16px)}
+ .rcSimpleHero__art{order:1;grid-column:auto;grid-row:auto;flex:none;width:100%;height:clamp(176px,48vw,315px);min-height:0}
+ .rcSimpleHero__image{filter:grayscale(1) brightness(.9) contrast(1.06)}
+ .rcSimpleHero__photoLabel{bottom:16px;font-size:clamp(10px,2.8vw,14px)}
+ .rcSimpleHero__panel--0 .rcSimpleHero__photoLabel{left:6%}
+ .rcSimpleHero__panel--1 .rcSimpleHero__photoLabel{left:24%}
+ .rcSimpleHero__panel--2 .rcSimpleHero__photoLabel{left:27%}
+ .rcSimpleTrust{min-height:38px;gap:11px;padding:10px 8px}
+ .rcSimpleTrust span{font-size:clamp(10px,2.7vw,13px);letter-spacing:0}
+}
+@media(max-width:350px){
+ .rcSimpleHero__content{padding:20px 16px 20px;gap:13px}
+ .rcSimpleHero__title strong{font-size:28px}
+ .rcSimpleHero__browse{gap:9px}
+ .rcSimpleHero__browseLink{font-size:12px}
+ .rcSimpleHero__art{height:175px}
+ .rcSimpleHero__photoLabel{font-size:9px}
+}
+.rcLiteSimpleHome{min-height:100dvh;max-width:520px;margin:0 auto;padding-bottom:90px;background:#242626}
+.rcLiteSimpleHome .rcSimpleHero{display:flex;flex-direction:column;min-height:0}
+.rcLiteSimpleHome .rcSimpleHero__content{padding:23px 20px 20px;align-self:stretch}
+.rcLiteSimpleHome .rcSimpleHero__art{height:clamp(176px,48vw,250px);min-height:0;flex:none;width:100%}
+.rcLiteSimpleHome .rcSimpleHero__actions{width:100%}
+@media(prefers-reduced-motion:reduce){.rcSimpleHero__register{transition:none}}
