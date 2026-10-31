@@ -203,3 +203,26 @@ html body .lite-app-footer { background: var(--rc-black) !important; }
     padding: 11px 18px !important;
   }
 }
+
+/* Densidad general 2026: menos scroll, mismo tamaño táctil y controles. */
+@media (min-width: 761px) {
+  html body .app-shell .page-container:not(:has(.campo-form)) {
+    padding-top: clamp(23px, 3vw, 34px) !important;
+    padding-bottom: clamp(44px, 4vw, 64px) !important;
+  }
+  html body .app-shell .page-header { margin-bottom: 22px !important; }
+  html body .app-shell .page-title { font-size: clamp(25px, 2.6vw, 36px) !important; }
+  html body .app-shell :is(.dash-card,.perfil-section,.filtros-panel) {
+    padding-block: clamp(15px, 1.9vw, 22px) !important;
+  }
+}
+@media (max-width: 760px) {
+  html body .app-shell .page-container:not(:has(.campo-form)) {
+    padding-top: 19px !important;
+    padding-bottom: 45px !important;
+  }
+  html body .app-shell .page-header { margin-bottom: 15px !important; }
+  html body .app-shell :is(.dash-card,.perfil-section,.filtros-panel) {
+    padding-block: 15px !important;
+  }
+}
