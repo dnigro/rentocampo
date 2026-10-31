@@ -1,0 +1,62 @@
+/* RentoCampo · DOS PUERTAS.
+   Identidad oficial (grafito, gris mate y verde inglés), fotografías del repositorio,
+   layout mobile-first. No afecta listados, perfiles ni componentes compartidos. */
+.rcDoorsHome{--rc-ink:#203c2d;--rc-surface:#f3f2ed;--rc-silver:#e4e5df;--rc-graphite:#242626;background:var(--rc-surface);color:var(--rc-ink);width:100%;overflow:hidden}
+.rcDoorsHome *{box-sizing:border-box}
+.rcDoorsHero{width:min(100%,1360px);margin:0 auto;padding:clamp(32px,4vw,64px) clamp(24px,5.5vw,86px) clamp(27px,3vw,42px)}
+.rcDoorsIntro{max-width:790px;margin-bottom:clamp(19px,2.7vw,31px)}
+.rcDoorsEyebrow{margin:0 0 14px;color:#557262;font-size:clamp(10px,.92vw,13px);font-weight:850;letter-spacing:.13em;line-height:1.35}
+.rcDoorsTitle{margin:0;font-size:clamp(44px,5.1vw,72px);line-height:1.035;letter-spacing:-.062em;font-weight:850;color:#1b3b2b;text-wrap:balance}
+.rcDoorsTitle span{display:block}
+.rcDoorsSubtitle{margin:16px 0 0;font-size:clamp(14px,1.25vw,18px);line-height:1.45;color:#4e6256;font-weight:500}
+.rcDoorsGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(11px,1.45vw,21px);margin:0}
+.rcDoorsTile{height:clamp(245px,29vw,390px);position:relative;display:flex;align-items:flex-end;min-width:0;overflow:hidden;isolation:isolate;background:#333e35;color:#fff;text-decoration:none;border:0;outline-offset:4px}
+.rcDoorsTileImage{object-fit:cover;object-position:center;filter:grayscale(.91) contrast(1.04) brightness(.91);transition:transform .25s ease,filter .25s ease}
+.rcDoorsTile--campos .rcDoorsTileImage{object-position:50% 50%}
+.rcDoorsTile--servicios .rcDoorsTileImage{object-position:50% 58%}
+.rcDoorsTileShade{position:absolute;inset:45% 0 0;z-index:1;background:linear-gradient(0deg,rgba(14,27,20,.85),rgba(14,27,20,0));pointer-events:none}
+.rcDoorsTileLabel{position:relative;z-index:2;display:flex;width:100%;align-items:center;justify-content:space-between;gap:13px;padding:clamp(17px,2.3vw,31px);min-height:86px}
+.rcDoorsTileLabel strong{font-size:clamp(21px,2.4vw,34px);line-height:1.08;letter-spacing:-.035em;font-weight:850;text-shadow:0 2px 10px #0007}
+.rcDoorsTileArrow{font-size:clamp(28px,3vw,41px);font-weight:300;line-height:1}
+.rcDoorsTile:hover .rcDoorsTileImage,.rcDoorsTile:focus-visible .rcDoorsTileImage{transform:scale(1.045);filter:grayscale(.74) brightness(.95)}
+.rcDoorsTile:focus-visible,.rcDoorsRegister:focus-visible{outline:3px solid #497b58;outline-offset:3px}
+.rcDoorsRegisterWrap{display:flex;justify-content:center;margin-top:clamp(18px,2vw,27px)}
+.rcDoorsRegister{width:min(100%,440px);min-height:58px;padding:13px clamp(17px,2.1vw,28px);display:flex;align-items:center;justify-content:space-between;gap:12px;background:#294a37;color:#fff;text-decoration:none;font-size:clamp(14px,1.22vw,18px);font-weight:850;letter-spacing:.01em;transition:background-color .15s ease}
+.rcDoorsRegister:hover{background:#375e48}
+.rcDoorsRegister span{font-size:25px;font-weight:400;line-height:1}
+.rcDoorsTrust{width:100%;background:#e7e8e2;color:#3d5444;display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:10px clamp(17px,2.2vw,37px);padding:17px 12px;scroll-margin-top:95px}
+.rcDoorsTrust span{font-size:clamp(10px,.97vw,13px);font-weight:850;letter-spacing:.03em;line-height:1.25}
+.rcDoorsTrustDot{font-size:17px!important;color:#78877d}
+@media(max-width:720px){
+ .rcDoorsHero{padding:23px 18px 23px}
+ .rcDoorsIntro{margin:0 3px 19px}
+ .rcDoorsEyebrow{font-size:10px;letter-spacing:.1em;margin-bottom:10px}
+ .rcDoorsTitle{font-size:clamp(34px,9.4vw,51px);line-height:1.045;letter-spacing:-.055em}
+ .rcDoorsSubtitle{margin-top:9px;font-size:clamp(13px,3.6vw,16px)}
+ .rcDoorsGrid{grid-template-columns:minmax(0,1fr);gap:10px}
+ .rcDoorsTile{height:clamp(145px,39vw,225px)}
+ .rcDoorsTileLabel{min-height:58px;padding:14px 18px}
+ .rcDoorsTileLabel strong{font-size:clamp(20px,5.35vw,29px)}
+ .rcDoorsTileArrow{font-size:30px}
+ .rcDoorsRegisterWrap{margin-top:14px}
+ .rcDoorsRegister{width:100%;min-height:54px;font-size:clamp(14px,3.75vw,17px);padding:12px 17px}
+ .rcDoorsTrust{padding:13px 8px;gap:8px 12px}
+ .rcDoorsTrust span{font-size:clamp(9px,2.75vw,12px);letter-spacing:0}
+}
+@media(max-width:355px){
+ .rcDoorsHero{padding-inline:14px}
+ .rcDoorsTitle{font-size:33px}
+ .rcDoorsTile{height:143px}
+ .rcDoorsTileLabel strong{font-size:19px}
+ .rcDoorsTrust{gap:5px 10px}
+ .rcDoorsTrust span{font-size:9px}
+}
+@media(prefers-reduced-motion:reduce){.rcDoorsTileImage,.rcDoorsRegister{transition:none}}
+/* Lite: mismas puertas y jerarquía, sin duplicar decisiones de diseño.
+   La barra de navegación existente se muestra debajo del contenido. */
+.rcLiteDoorsHome{min-height:100dvh;max-width:520px;margin:0 auto;padding-bottom:90px;background:#f3f2ed}
+.rcLiteDoorsHome .rcDoorsHero{padding:23px 18px 21px}
+.rcLiteDoorsHome .rcDoorsGrid{grid-template-columns:minmax(0,1fr);gap:10px}
+.rcLiteDoorsHome .rcDoorsTile{height:clamp(145px,39vw,220px)}
+.rcLiteDoorsHome .rcDoorsTitle{font-size:clamp(34px,9.4vw,50px)}
+.rcLiteDoorsHome .rcDoorsRegister{width:100%}
