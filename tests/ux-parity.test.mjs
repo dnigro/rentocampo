@@ -11,34 +11,29 @@ const liteCss=read("styles/lite-auth.css");
 const profile=read("components/PerfilForm.tsx");
 const liteProfile=read("app/lite/perfil/editar/page.tsx");
 
-test("web, mobile and Lite offer two public doorways and optional registration", () => {
+test("web, mobile and Lite share manifesto and exactly three public actions", () => {
  const css=read("styles/home-simple.css");
  const home=read("components/landing/LandingPageContent.tsx");
  for (const source of [web,lite]) {
-  for (const phrase of [
-   "¿Qué buscás","en el campo?","Accedé directamente, sin intermediarios.",
-   "VER CAMPOS","VER SERVICIOS","REGISTRATE GRATIS",
-   "0% COMISIONES","100% CONTACTO DIRECTO",
-   "image_trigo_pix.png","image_truck_pix.png",
-   "VER TERRAS","VER SERVIÇOS","BROWSE FARMLAND","BROWSE SERVICES",
-  ]) assert.ok(source.includes(phrase), phrase);
-  assert.match(source,/rcDoorsGrid/);
-  assert.match(source,/rcDoorsTile/);
-  assert.doesNotMatch(source,/rcSimpleHero__art|image_vaca_pix\.png|<video/);
+   for (const phrase of [
+      "EL CAMPO","NO ESPERA.","EXPLORAR CAMPOS","VER SERVICIOS","REGISTRATE GRATIS",
+      "0% COMISIONES","CONTACTO DIRECTO","hero-campo.jpeg",
+      "EXPLORAR TERRAS","VER SERVIÇOS","EXPLORE FARMLAND","BROWSE SERVICES",
+   ]) assert.ok(source.includes(phrase),phrase);
+   assert.match(source,/rcManifestoActions/);
+   assert.match(source,/rcManifestoVisual/);
+   assert.doesNotMatch(source,/rcDoorsGrid|rcSimpleHero__art|image_truck_pix\.png|<video/);
  }
- assert.match(web,/href: "\/campos"/);
- assert.match(web,/href: "\/servicios-rurales"/);
+ assert.match(web,/href="\/campos"/);
+ assert.match(web,/href="\/servicios-rurales"/);
  assert.match(web,/href="\/register"/);
- assert.match(lite,/href: "\/lite\/campos"/);
- assert.match(lite,/href: "\/lite\/servicios"/);
+ assert.match(lite,/href="\/lite\/campos"/);
+ assert.match(lite,/href="\/lite\/servicios"/);
  assert.match(lite,/href="\/lite\/cuenta\/registro"/);
- assert.match(css,/\.rcDoorsGrid/);
- assert.match(css,/\.rcDoorsTileImage/);
- assert.match(css,/clip-path:polygon/);
- assert.match(css,/\.rcDoorsTile--servicios/);
- assert.match(css,/\.rcDoorsTile--campos/);
- assert.match(css,/@media\(max-width:900px\)/);
- assert.match(css,/\.rcLiteDoorsHome/);
+ assert.match(css,/\.rcManifestoTitle/);
+ assert.match(css,/\.rcManifestoVisual/);
+ assert.match(css,/@media\(max-width:850px\)/);
+ assert.match(css,/\.rcLiteManifesto/);
  assert.match(home,/LandingSimpleHome/);
  assert.doesNotMatch(home,/LandingFAQ|LandingMapa|LandingTriptychHero|LandingHowBrief/);
 });
