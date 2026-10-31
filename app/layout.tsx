@@ -1,4 +1,4 @@
-import { Bebas_Neue, DM_Sans } from "next/font/google";
+import { Bebas_Neue, DM_Sans, Nunito } from "next/font/google";
 import type { Metadata, Viewport } from "next";
 import { Suspense } from "react";
 import { cookies } from "next/headers";
@@ -55,6 +55,13 @@ const dmSans = DM_Sans({
   variable: "--font-dm-sans",
 });
 
+const rounded = Nunito({
+  subsets: ["latin"],
+  weight: ["600", "700", "800", "900"],
+  variable: "--font-rounded",
+  display: "swap",
+});
+
 const bebasNeue = Bebas_Neue({
   subsets: ["latin"],
   weight: "400",
@@ -68,7 +75,7 @@ export default async function RootLayout({
 }) {
   const country = resolveCountry((await cookies()).get("rentocampo_country")?.value);
   return (
-    <html lang={country === "BR" ? "pt-BR" : country === "US" ? "en-US" : "es"} className={`${dmSans.variable} ${bebasNeue.variable}`}>
+    <html lang={country === "BR" ? "pt-BR" : country === "US" ? "en-US" : "es"} className={`${dmSans.variable} ${bebasNeue.variable} ${rounded.variable}`}>
       <head>
         <script
           type="application/ld+json"
