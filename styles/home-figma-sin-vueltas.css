@@ -47,9 +47,9 @@
   position: absolute;
   inset: 0;
   z-index: -1;
-  background: linear-gradient(90deg, rgba(17, 22, 18, .97), rgba(26, 33, 28, .91));
-  /* Corte diagonal editorial: continuo y sin franjas vacías. */
-  clip-path: polygon(0 0, 83% 0, 57% 100%, 0 100%);
+  background: linear-gradient(90deg, rgba(13, 18, 14, .98), rgba(24, 31, 25, .90));
+  /* Corte editorial más equilibrado, sin franjas vacías. */
+  clip-path: polygon(0 0, 80% 0, 54% 100%, 0 100%);
 }
 .rc-landing .rcf-hero__content {
   width: min(1370px, 100%);
@@ -71,18 +71,18 @@
   letter-spacing: .085em;
 }
 .rc-landing .rcf-hero__title {
-  max-width: 1140px;
+  max-width: 1180px;
   margin: 0;
   color: #fff;
-  font-size: clamp(65px, 8.4vw, 125px);
+  font-size: clamp(70px, 8.8vw, 132px);
   font-weight: 900;
-  letter-spacing: -.088em;
-  line-height: .95;
-  text-shadow: 0 6px 26px rgba(0, 0, 0, .40);
+  letter-spacing: -.095em;
+  line-height: .92;
+  text-shadow: 0 8px 30px rgba(0, 0, 0, .46);
 }
 .rc-landing .rcf-hero__title span { display: block; }
 .rc-landing .rcf-hero__title span:last-child {
-  color: #e0e8df;
+  color: #d9e4d9;
 }
 .rc-landing .rcf-rule {
   display: block;
@@ -92,14 +92,14 @@
   background: #71947a;
 }
 .rc-landing .rcf-hero__description {
-  max-width: 620px;
+  max-width: 650px;
   margin: 0;
-  color: #f7f8f4;
-  font-size: clamp(20px, 1.82vw, 27px);
-  font-weight: 700;
-  line-height: 1.39;
+  color: #f8faf6;
+  font-size: clamp(21px, 1.95vw, 29px);
+  font-weight: 720;
+  line-height: 1.36;
   text-wrap: balance;
-  text-shadow: 0 3px 16px rgba(0, 0, 0, .30);
+  text-shadow: 0 4px 18px rgba(0, 0, 0, .34);
 }
 .rc-landing .rcf-actions {
   display: flex;
@@ -146,14 +146,21 @@
 .rc-landing .rcf-hero__proof {
   display: flex;
   align-items: center;
-  gap: 21px;
-  margin-top: clamp(47px, 7vw, 92px);
-  font-size: clamp(12px, 1vw, 15px);
-  font-weight: 800;
-  letter-spacing: .025em;
-  color: var(--rcf-white);
+  flex-wrap: wrap;
+  gap: 18px;
+  margin-top: clamp(52px, 7.5vw, 96px);
+  font-size: clamp(15px, 1.22vw, 20px);
+  font-weight: 900;
+  letter-spacing: .015em;
+  color: #ffffff;
+  text-transform: uppercase;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, .35);
 }
-.rc-landing .rcf-hero__divider { width: 2px; height: 20px; background: #71947a; }
+.rc-landing .rcf-hero__divider {
+  width: 3px;
+  height: 24px;
+  background: #86ab8c;
+}
 
 
 /* Preguntas frecuentes — editorial gris mate / verde inglés. */
@@ -282,9 +289,9 @@
 @media (max-width: 900px) {
   .rc-landing .rcf-hero { min-height: 720px; }
   .rc-landing .rcf-hero__matte {
-    /* La diagonal sigue visible en teléfonos, sin recortar los CTA. */
-    clip-path: polygon(0 0, 96% 0, 65% 100%, 0 100%);
-    background: linear-gradient(90deg, rgba(17, 22, 18, .94), rgba(23, 31, 24, .82));
+    /* Reducimos el corte en móvil para mostrar más ganado sin cortar el texto. */
+    clip-path: polygon(0 0, 100% 0, 76% 100%, 0 100%);
+    background: linear-gradient(90deg, rgba(14, 18, 15, .92), rgba(22, 29, 23, .76));
   }
   .rc-landing .rcf-hero__content { padding: 95px clamp(23px, 6vw, 50px) 64px; }
   .rc-landing .rcf-hero__title { font-size: clamp(55px, 9.6vw, 82px); line-height: .98; }
@@ -307,13 +314,13 @@
     letter-spacing: .055em;
   }
   .rc-landing .rcf-hero__title {
-    font-size: clamp(47px, 12.25vw, 66px);
-    letter-spacing: -.081em;
-    line-height: 1.01;
+    font-size: clamp(50px, 12.8vw, 70px);
+    letter-spacing: -.085em;
+    line-height: .98;
   }
   .rc-landing .rcf-hero__title span { overflow-wrap: anywhere; }
   .rc-landing .rcf-rule { width: 101px; margin: 34px 0 22px; }
-  .rc-landing .rcf-hero__description { font-size: clamp(18px, 4.95vw, 21px); max-width: 345px; }
+  .rc-landing .rcf-hero__description { font-size: clamp(19px, 4.95vw, 22px); max-width: 345px; }
   .rc-landing .rcf-actions {
     margin-top: 39px;
     flex-direction: column;
@@ -322,12 +329,19 @@
   }
   .rc-landing .rcf-hero .rcf-pill { min-width: 210px; }
   .rc-landing .rcf-hero__proof {
-    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: flex-start;
+    flex-wrap: nowrap;
     gap: 13px;
-    margin-top: 67px;
-    font-size: 11px;
+    margin-top: 57px;
+    font-size: clamp(16px, 4.45vw, 19px);
+    line-height: 1.15;
+    font-weight: 900;
   }
-  .rc-landing .rcf-hero__divider { height: 17px; }
+  .rc-landing .rcf-hero__divider {
+    width: 62px;
+    height: 3px;
+  }
   .rc-landing .rcf-faq { padding: 64px 0 77px; }
   .rc-landing .rcf-faq__container { gap: 39px; }
   .rc-landing .rcf-faq__eyebrow { margin-bottom: 21px; }
@@ -348,7 +362,7 @@
   .rc-landing .rcf-faq__answer p { font-size: 16px; }
 }
 @media (max-width: 380px) {
-  .rc-landing .rcf-hero__title { font-size: 46px; }
+  .rc-landing .rcf-hero__title { font-size: 50px; }
 }
 html[lang="pt-BR"] .rc-landing .rcf-hero__title { font-size: clamp(41px, 6.1vw, 85px); }
 html[lang="en-US"] .rc-landing .rcf-hero__title { font-size: clamp(46px, 7vw, 94px); }
