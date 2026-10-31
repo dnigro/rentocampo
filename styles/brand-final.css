@@ -1,0 +1,205 @@
+/*
+ * RentoCampo · Identidad visual transversal 2026
+ * Un solo sistema para home, rutas web, perfiles, formularios y Lite webview.
+ * No altera flujos, datos, mapas ni el comportamiento de los botones.
+ */
+:root {
+  --rc-black: #151915;
+  --rc-graphite: #232925;
+  --rc-green: #46604d;
+  --rc-green-hover: #344b3a;
+  --rc-silver: #c5cdc5;
+  --rc-paper: #f0f1ed;
+  --rc-white: #f7f9f5;
+  --rc-line: #d1d8d1;
+  --brand-yellow: var(--rc-green);
+  --brand-ink: var(--rc-black);
+  --brand-text: var(--rc-black);
+  --brand-muted: #57645b;
+  --brand-paper: var(--rc-paper);
+  --brand-soft: var(--rc-paper);
+  --brand-line: var(--rc-line);
+  --brand-radius: 16px;
+  --action-mustard: var(--rc-green);
+  --action-mustard-hover: var(--rc-green-hover);
+  --action-ink: #fff;
+}
+
+html body { color: var(--rc-black); }
+html body .app-shell {
+  --app-yellow: var(--rc-green);
+  --app-black: var(--rc-black);
+  --app-white: var(--rc-white);
+  --app-soft: var(--rc-paper);
+  --app-line: var(--rc-line);
+  --app-muted: #5b665e;
+  color: var(--rc-black);
+  background: var(--rc-paper);
+}
+html body .app-shell .main-content,
+html body .app-shell .auth-main { background: var(--rc-paper) !important; }
+
+/* Header y footer: la MISMA identidad en inicio, interiores y dashboard. */
+html body header.navbar,
+html body .app-shell header.navbar {
+  background: var(--rc-black) !important;
+  border-bottom: 1px solid #3b453e !important;
+}
+html body header.navbar :is(.nav-link,.btn-ghost,.navbar-mensajes,.hamburguesa,.navbar-mobile-account),
+html body .app-shell header.navbar :is(.nav-link,.btn-ghost,.navbar-mensajes,.hamburguesa,.navbar-mobile-account) {
+  color: var(--rc-white) !important;
+}
+html body header.navbar :is(.nav-link,.btn-ghost):hover,
+html body .app-shell header.navbar :is(.nav-link,.btn-ghost):hover {
+  background: #303a32 !important;
+  color: #fff !important;
+}
+html body :is(header.navbar, footer.footer) .brand-clean-name,
+html body :is(header.navbar, footer.footer) .brand-clean-name > .brand-initial,
+html body .app-shell :is(header.navbar, footer.footer) .brand-clean-name,
+html body .app-shell :is(header.navbar, footer.footer) .brand-clean-name > .brand-initial {
+  color: var(--rc-silver) !important;
+  -webkit-text-fill-color: var(--rc-silver) !important;
+}
+html body :is(header.navbar,footer.footer) .brand-clean-tagline {
+  color: var(--rc-silver) !important;
+}
+
+/* Los controles regionales se mantienen blancos para conservar legibilidad. */
+html body header.navbar :is(.navbar-country-switch select,.navbar-country-switch button[aria-haspopup="listbox"]) {
+  border-radius: 999px !important;
+}
+html body footer.footer,
+html body .app-shell footer.footer,
+html body .lite-app footer.footer {
+  background: var(--rc-black) !important;
+  color: var(--rc-white) !important;
+  border-top: 1px solid #3b453e !important;
+}
+html body footer.footer :is(.footer-col-title,.footer-desc,.footer-link,.footer-bottom,.footer-bottom-link,.footer-contact-title),
+html body .app-shell footer.footer :is(.footer-col-title,.footer-desc,.footer-link,.footer-bottom,.footer-bottom-link,.footer-contact-title) {
+  color: var(--rc-silver) !important;
+}
+html body footer.footer .footer-col-title { color: var(--rc-white) !important; }
+html body footer.footer :is(.footer-link,.footer-bottom-link):hover {
+  color: #fff !important;
+}
+html body footer.footer .footer-bottom,
+html body footer.footer .footer-col--services,
+html body footer.footer .footer-contact-group { border-color: #3b453e !important; }
+html body footer.footer .footer-social-link {
+  color: #fff !important;
+  background: #2b342d !important;
+  border-color: #637168 !important;
+}
+html body footer.footer .footer-social-link:hover {
+  color: #fff !important;
+  background: var(--rc-green) !important;
+  border-color: var(--rc-green) !important;
+}
+
+/* Tipografía y superficies de interiores: sin numeración decorativa. */
+html body .app-shell :is(.page-title,.dashboard-title,.explorador-title,.ficha-titulo,.auth-title,.form-section-title,.perfil-section-title) {
+  color: var(--rc-black) !important;
+  letter-spacing: -.035em !important;
+  font-family: var(--font-dm-sans),Arial,sans-serif !important;
+  line-height: 1.05 !important;
+}
+html body .app-shell :is(.dashboard-header,.page-header,.explorador-header) {
+  border-bottom-color: var(--rc-line) !important;
+  background: transparent !important;
+}
+html body .app-shell :is(.dashboard-header,.page-header,.explorador-header)::before,
+html body .app-shell .auth-card::before,
+html body .app-shell .auth-page-register .auth-card::before {
+  content: none !important;
+  display: none !important;
+}
+html body .app-shell :is(.dash-card,.campo-card,.campo-card-pub,.filtros-panel,.ficha-precio-card,.ficha-propietario,.perfil-section,.hilo-item,.empty-state,.campo-form,.mapa-panel,.mapa-contador,.auth-card,.servicio-card,.servicios-profile-box) {
+  background: var(--rc-white) !important;
+  border: 1px solid var(--rc-line) !important;
+  border-radius: 16px !important;
+  box-shadow: none !important;
+}
+html body .app-shell :is(.form-input,.form-select,.form-textarea,.filtro-input,.filtro-input-sm,.mensaje-input) {
+  border: 1px solid #b8c3ba !important;
+  background: #fff !important;
+  color: var(--rc-black) !important;
+  border-radius: 12px !important;
+}
+html body .app-shell :is(.form-input,.form-select,.form-textarea,.filtro-input,.filtro-input-sm,.mensaje-input):focus-visible {
+  border-color: var(--rc-green) !important;
+  outline: 2px solid #a4baa7;
+  outline-offset: 1px;
+}
+:root .app-shell :is(a,button):is(
+  .listing-button,.btn-primary,.mobile-menu-btn,.btn-primary-lg,.btn-submit,
+  .btn-aplicar,.btn-mapa,.btn-consultar,.btn-volver,.btn-pagina,.mapa-panel-btn,
+  .mapa-publicar-btn,.servicios-btn,.prestador-card__actions a,
+  .demanda-cta-boton,.fav-accion-ver
+) {
+  border-radius: 999px !important;
+  background: var(--rc-green) !important;
+  border-color: var(--rc-green) !important;
+  color: #fff !important;
+  box-shadow: none !important;
+  text-transform: none !important;
+  letter-spacing: 0 !important;
+  font-family: var(--font-dm-sans),Arial,sans-serif;
+  font-weight: 800 !important;
+}
+:root .app-shell :is(a,button):is(
+  .listing-button,.btn-primary,.mobile-menu-btn,.btn-primary-lg,.btn-submit,
+  .btn-aplicar,.btn-mapa,.btn-consultar,.btn-volver,.btn-pagina,.mapa-panel-btn,
+  .mapa-publicar-btn,.servicios-btn,.prestador-card__actions a,
+  .demanda-cta-boton,.fav-accion-ver
+):hover:not(:disabled) {
+  background: var(--rc-green-hover) !important;
+  border-color: var(--rc-green-hover) !important;
+  color: #fff !important;
+}
+/* Auth y perfil: seleccionar por contexto, sin alterar estados o validaciones. */
+html body .app-shell .tipo-option input:checked + .tipo-label,
+html body .app-shell .perfil-role-option:has(input:checked),
+html body .app-shell .servicio-option input:checked + span {
+  background: #e0e9df !important;
+  border-color: var(--rc-green) !important;
+  color: var(--rc-black) !important;
+}
+html body .app-shell :is(.filtro-chip.active,.filtro-chip[aria-pressed="true"]) {
+  background: var(--rc-green) !important;
+  border-color: var(--rc-green) !important;
+  color: #fff !important;
+}
+html body .app-shell :is(.auth-page,.auth-page-register) {
+  background: var(--rc-paper) !important;
+}
+
+/* Lite webview: mismo header oscuro y footer compartido. */
+html body .lite-app { background: var(--rc-paper) !important; }
+html body .lite-regional-header {
+  background: var(--rc-black) !important;
+  border-bottom: 1px solid #3b453e !important;
+}
+html body .lite-regional-logo, html body .lite-regional-logo .lite-regional-initial {
+  color: var(--rc-silver) !important;
+}
+html body .lite-regional-country:focus-visible,
+html body .lite-regional-account:focus-visible {
+  outline: 3px solid #7d9f83 !important;
+}
+html body .lite-regional-menu { border-color: var(--rc-line); }
+html body .lite-regional-menu a:hover,
+html body .lite-regional-menu button:hover { background: var(--rc-paper) !important; }
+html body .lite-app-footer { background: var(--rc-black) !important; }
+
+@media(max-width:600px){
+  html body .app-shell :is(.page-title,.dashboard-title,.explorador-title,.ficha-titulo,.auth-title) {
+    font-size: clamp(30px,8vw,45px) !important;
+    line-height: 1.1 !important;
+  }
+  :root .app-shell :is(a,button):is(.listing-button,.btn-primary,.mobile-menu-btn,.btn-primary-lg,.btn-submit,.btn-aplicar,.btn-consultar,.mapa-panel-btn) {
+    min-height: 50px !important;
+    padding: 11px 18px !important;
+  }
+}
