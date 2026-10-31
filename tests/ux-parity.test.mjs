@@ -85,6 +85,10 @@ test("responsive hero has a visible matte gold accent and no legacy hero CSS imp
  assert.ok(liteStyle.includes(".rcLiteDirectHero__metric strong"));
  assert.ok(webStyle.includes("@media (max-width: 520px)"));
  assert.ok(webStyle.includes("Compact desktop/notebook"));
+ assert.ok(webStyle.includes("Protección editorial del hero sobre la diagonal"));
+ assert.ok(webStyle.includes("max-width: min(55vw, 790px)"));
+ assert.ok(webStyle.includes("max-width: 58vw"));
+ assert.ok(webStyle.includes("@media (min-width: 641px) and (max-width: 900px)"));
  assert.ok(webStyle.includes("calc(100svh - 110px)"));
  assert.ok(liteStyle.includes("Compactación Lite/webview"));
  assert.ok(howCss.includes("La explicación se lee de un vistazo"));
