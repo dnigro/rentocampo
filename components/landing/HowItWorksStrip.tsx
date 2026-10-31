@@ -43,15 +43,17 @@ export default function HowItWorksStrip({ lite = false }: { lite?: boolean }) {
             {t("Tres pasos, contacto directo.", "Três passos, contato direto.", "Three steps, direct contact.")}
           </h2>
         </div>
-        <ol className="rc-how__steps">
+        <ol className="rc-how__steps" tabIndex={0} aria-label={t("Tres pasos para usar RentoCampo", "Três passos para usar a RentoCampo", "Three steps to use RentoCampo")}>
           {steps.map((step, index) => (
             <li className="rc-how__step" key={index}>
-              <span className="rc-how__number" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+              <div className="rc-how__symbol" aria-hidden="true">
+                <step.icon className="rc-how__icon" strokeWidth={1.75} />
+                <span className="rc-how__number">{String(index + 1).padStart(2, "0")}</span>
+              </div>
               <div className="rc-how__step-copy">
                 <h3>{step.title}</h3>
                 <p>{step.detail}</p>
               </div>
-              <step.icon className="rc-how__icon" aria-hidden="true" strokeWidth={1.6} />
             </li>
           ))}
         </ol>
