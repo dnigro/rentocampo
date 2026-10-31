@@ -1,0 +1,81 @@
+/* RentoCampo | DOS PUERTAS / corte editorial.
+   Implementación original basada en principios de composición asimétrica de Figma.
+   Conserva imágenes, rutas, traducciones, encabezado y pie originales.
+   Las dos fotografías constituyen enlaces completos, sin registro obligatorio. */
+
+.rcDoorsHome{--rc-paper:#e9ebe6;--rc-graphite:#222725;--rc-forest:#294b39;--rc-metal:#d7dbd4;--rc-white:#f2f2ee;background:var(--rc-graphite);color:var(--rc-white);width:100%;overflow:hidden}
+.rcDoorsHome *{box-sizing:border-box}
+.rcDoorsHero{display:grid;grid-template-columns:minmax(0,40%) minmax(0,60%);grid-template-rows:1fr auto;min-height:clamp(540px,68svh,710px);width:100%;margin:0;background:var(--rc-graphite)}
+.rcDoorsIntro{grid-row:1;grid-column:1;align-self:end;min-width:0;margin:0;padding:clamp(48px,5vw,84px) clamp(28px,4.6vw,78px) 17px clamp(30px,5.3vw,88px);max-width:none}
+.rcDoorsEyebrow{margin:0 0 clamp(23px,3vw,41px);color:#b4c5b8;font-size:clamp(10px,.83vw,13px);font-weight:750;letter-spacing:.15em;line-height:1.45}
+.rcDoorsTitle{max-width:520px;margin:0;color:#f6f6f2;font-size:clamp(38px,4vw,62px);line-height:1.045;letter-spacing:-.058em;font-weight:850;text-wrap:balance}
+.rcDoorsTitle span{display:block;color:#b9c9bc}
+.rcDoorsSubtitle{max-width:410px;margin:clamp(17px,2.2vw,29px) 0 0;color:#d9dfd8;font-size:clamp(14px,1.12vw,18px);line-height:1.5;font-weight:500}
+.rcDoorsGrid{grid-row:1 / span 2;grid-column:2;display:block;position:relative;width:100%;height:100%;min-height:540px;margin:0;isolation:isolate;overflow:hidden;background:#323a34}
+.rcDoorsTile{position:absolute;display:flex;align-items:flex-end;min-width:0;min-height:0;height:100%;overflow:hidden;background:#4a5249;color:#fff;text-decoration:none;isolation:isolate}
+.rcDoorsTile--campos{left:0;top:0;width:63%;z-index:2;clip-path:polygon(0 0,100% 0,77% 100%,0 100%)}
+.rcDoorsTile--servicios{right:0;top:0;width:55%;z-index:1;clip-path:polygon(21% 0,100% 0,100% 100%,0 100%)}
+.rcDoorsTileImage{object-fit:cover;object-position:center;filter:grayscale(.85) contrast(1.035) brightness(.89);transition:transform .25s ease,filter .25s ease}
+.rcDoorsTile--campos .rcDoorsTileImage{object-position:53% center}
+.rcDoorsTile--servicios .rcDoorsTileImage{object-position:55% center}
+.rcDoorsTileShade{position:absolute;inset:47% 0 0;z-index:1;background:linear-gradient(0deg,rgba(7,18,12,.88),rgba(7,18,12,0));pointer-events:none}
+.rcDoorsTileLabel{position:absolute;bottom:clamp(28px,4vw,68px);left:clamp(21px,3vw,48px);right:12%;z-index:2;display:flex;justify-content:space-between;align-items:center;gap:12px;width:auto;min-height:44px;padding:0;color:white}
+.rcDoorsTile--servicios .rcDoorsTileLabel{left:30%;right:clamp(16px,2vw,36px)}
+.rcDoorsTileLabel strong{font-size:clamp(18px,1.8vw,29px);line-height:1.08;font-weight:850;letter-spacing:-.025em;text-shadow:0 2px 8px #0008}
+.rcDoorsTileArrow{font-size:clamp(27px,2.4vw,38px);line-height:1;font-weight:300}
+.rcDoorsTile:hover .rcDoorsTileImage,.rcDoorsTile:focus-visible .rcDoorsTileImage{transform:scale(1.045);filter:grayscale(.7) contrast(1.05) brightness(.94)}
+.rcDoorsTile:focus-visible,.rcDoorsRegister:focus-visible{outline:3px solid #d7e6db;outline-offset:-7px}
+.rcDoorsRegisterWrap{grid-column:1;grid-row:2;margin:0;padding:20px clamp(28px,4.6vw,78px) clamp(48px,5vw,84px) clamp(30px,5.3vw,88px);align-self:start;display:flex;justify-content:flex-start}
+.rcDoorsRegister{width:min(100%,410px);min-height:56px;display:flex;align-items:center;justify-content:space-between;gap:15px;padding:13px 20px;background:var(--rc-metal);border:1px solid #cbd2cb;color:#193728;text-decoration:none;font-size:clamp(14px,1.12vw,18px);letter-spacing:.005em;font-weight:850;transition:background .15s ease}
+.rcDoorsRegister:hover{background:#f6f6f1}
+.rcDoorsRegister span{font-size:26px;line-height:1;font-weight:400}
+.rcDoorsTrust{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:10px clamp(18px,2.4vw,37px);padding:14px 12px;min-height:45px;background:#353a36;color:#e4e7e2;scroll-margin-top:88px}
+.rcDoorsTrust span{font-size:clamp(10px,.94vw,13px);letter-spacing:.06em;font-weight:800;line-height:1.25}
+.rcDoorsTrustDot{color:#adbab0;font-size:15px!important}
+
+/* Mobile / tablet: two doors remain separated, accessible hyperlinks,
+   but a common slanted seam joins the photographs into one composition. */
+@media(max-width:900px){
+ .rcDoorsHero{display:flex;flex-direction:column;min-height:0;width:100%}
+ .rcDoorsIntro{order:0;align-self:stretch;width:100%;padding:24px 23px 24px;margin:0;background:var(--rc-graphite)}
+ .rcDoorsEyebrow{margin:0 0 15px;font-size:10px;letter-spacing:.115em;line-height:1.3}
+ .rcDoorsTitle{max-width:580px;font-size:clamp(32px,8.3vw,51px);letter-spacing:-.052em;line-height:1.08}
+ .rcDoorsSubtitle{margin:12px 0 0;font-size:clamp(13px,3.6vw,16px);line-height:1.4}
+ .rcDoorsGrid{order:1;display:block;position:relative;width:100%;height:clamp(320px,87vw,490px);min-height:0;flex:none;margin:0;background:#333d34;overflow:hidden}
+ .rcDoorsTile{position:absolute;left:0;right:0;width:100%;min-height:0;overflow:hidden}
+ .rcDoorsTile--campos{top:0;bottom:auto;height:60%;z-index:2;clip-path:polygon(0 0,100% 0,100% 78%,0 100%)}
+ .rcDoorsTile--servicios{top:43%;bottom:0;height:57%;z-index:1;clip-path:polygon(0 25%,100% 0,100% 100%,0 100%)}
+ .rcDoorsTileImage{filter:grayscale(.78) contrast(1.05) brightness(.91)}
+ .rcDoorsTile--campos .rcDoorsTileImage{object-position:50% 57%}
+ .rcDoorsTile--servicios .rcDoorsTileImage{object-position:50% 56%}
+ .rcDoorsTileShade{inset:45% 0 0}
+ .rcDoorsTileLabel{position:absolute;left:23px;top:31%;bottom:auto;right:auto;max-width:calc(100% - 46px);width:auto;gap:22px;padding:0;min-height:40px;justify-content:flex-start}
+ .rcDoorsTile--servicios .rcDoorsTileLabel{left:auto;right:23px;top:auto;bottom:18px;justify-content:flex-end;max-width:calc(100% - 46px)}
+ .rcDoorsTileLabel strong{font-size:clamp(22px,5.8vw,31px);letter-spacing:-.035em}
+ .rcDoorsTileArrow{font-size:32px}
+ .rcDoorsRegisterWrap{order:2;align-self:stretch;display:flex;justify-content:center;width:100%;margin:0;padding:20px 23px 22px;background:var(--rc-paper)}
+ .rcDoorsRegister{width:100%;max-width:580px;min-height:53px;padding:12px 18px;font-size:clamp(14px,3.6vw,17px);background:#264b37;color:#fff;border-color:#264b37}
+ .rcDoorsRegister:hover{background:#325d44}
+ .rcDoorsRegister:focus-visible{outline-color:#264b37;outline-offset:3px}
+ .rcDoorsTrust{padding:12px 9px;min-height:41px;gap:10px 17px}
+ .rcDoorsTrust span{font-size:clamp(10px,2.7vw,13px);letter-spacing:0}
+}
+@media(max-width:355px){
+ .rcDoorsIntro{padding:21px 17px 20px}
+ .rcDoorsTitle{font-size:32px}
+ .rcDoorsGrid{height:310px}
+ .rcDoorsTileLabel{left:16px}
+ .rcDoorsTile--servicios .rcDoorsTileLabel{right:16px}
+ .rcDoorsTileLabel strong{font-size:20px}
+ .rcDoorsRegisterWrap{padding:16px 17px 20px}
+ .rcDoorsTrust{gap:6px 10px}
+ .rcDoorsTrust span{font-size:9px}
+}
+@media(prefers-reduced-motion:reduce){.rcDoorsTileImage,.rcDoorsRegister{transition:none}}
+/* App Lite: same responsive layout and contrast system, existing native nav retained. */
+.rcLiteDoorsHome{min-height:100dvh;max-width:520px;margin:0 auto;padding-bottom:90px;background:#e9ebe6;color:#f3f3ee}
+.rcLiteDoorsHome .rcDoorsHero{display:flex;flex-direction:column;min-height:0}
+.rcLiteDoorsHome .rcDoorsIntro{padding:23px 21px 22px}
+.rcLiteDoorsHome .rcDoorsGrid{height:clamp(312px,87vw,455px);min-height:0;width:100%;flex:none}
+.rcLiteDoorsHome .rcDoorsRegisterWrap{width:100%;padding:19px 21px 23px}
+.rcLiteDoorsHome .rcDoorsRegister{width:100%}
