@@ -3,6 +3,7 @@ import Image from "next/image";
 import type { Metadata } from "next";
 import { cookies } from "next/headers";
 import LiteHeader from "@/components/lite/LiteHeader";
+import HowItWorksStrip from "@/components/landing/HowItWorksStrip";
 import { resolveCountry } from "@/data/countries";
 import { regionalText } from "@/lib/i18n/regional";
 import "@/styles/lite-direct-hero.css";
@@ -48,6 +49,7 @@ export default async function LitePreview() {
           </div>
         </div>
       </section>
+      <HowItWorksStrip lite />
       <section className="rcLiteExplore" aria-label={t("Explorá RentoCampo", "Explore a RentoCampo", "Explore RentoCampo")}>
         <p className="rcLiteExplore__label">{t("TU CAMPO. TUS OPORTUNIDADES.", "SEU CAMPO. SUAS OPORTUNIDADES.", "YOUR LAND. YOUR OPPORTUNITIES.")}</p>
         <div className="rcLiteExplore__list">
