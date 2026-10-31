@@ -572,3 +572,114 @@ html[lang="en-US"] .rc-landing .rcf-hero__title { font-size: clamp(46px, 7vw, 94
     max-width: 47vw;
   }
 }
+
+/* 31 OCT · UI aprobada: texto protagonista en diagonal desktop y hero móvil centrado. */
+@media (min-width: 901px) {
+  .rc-landing .rcf-hero__content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    width: min(1370px, 100%);
+    min-height: inherit;
+  }
+  .rc-landing .rcf-hero__eyebrow {
+    max-width: min(56vw, 790px);
+    margin-bottom: clamp(13px, 2vh, 22px);
+    font-size: clamp(17px, 1.6vw, 22px);
+  }
+  .rc-landing .rcf-hero__title {
+    max-width: min(55vw, 790px);
+    font-size: clamp(58px, 6.05vw, 92px);
+    line-height: .98;
+    letter-spacing: -.05em;
+  }
+  .rc-landing .rcf-hero__description {
+    max-width: min(50vw, 670px);
+    margin-top: 13px;
+    font-size: clamp(19px, 1.75vw, 25px);
+  }
+  .rc-landing .rcf-actions,
+  .rc-landing .rcf-hero__proof { max-width: min(55vw, 790px); }
+}
+@media (min-width: 901px) and (max-height: 750px) {
+  .rc-landing .rcf-hero__title { font-size: clamp(53px, 5.3vw, 75px); }
+  .rc-landing .rcf-hero__description { font-size: clamp(18px, 1.45vw, 22px); }
+  .rc-landing .rcf-hero__content { min-height: 0; }
+}
+@media (max-width: 640px) {
+  /* Foto B/N visible arriba; la información ocupa el ancho útil, sin un vacío lateral. */
+  .rc-landing .rcf-hero__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: clamp(258px, 74vw, 380px) 20px 35px;
+    text-align: center;
+  }
+  .rc-landing .rcf-hero__eyebrow,
+  .rc-landing .rcf-hero__title,
+  .rc-landing .rcf-hero__description,
+  .rc-landing .rcf-rule,
+  .rc-landing .rcf-actions,
+  .rc-landing .rcf-hero__proof {
+    width: 100%;
+    max-width: 100%;
+    margin-inline: auto;
+  }
+  .rc-landing .rcf-hero__eyebrow {
+    font-size: clamp(16px, 4.6vw, 21px);
+    margin-bottom: 15px;
+    letter-spacing: .045em;
+  }
+  .rc-landing .rcf-hero__title {
+    font-size: clamp(32px, 9.1vw, 48px);
+    line-height: 1.07;
+    letter-spacing: -.055em;
+    text-wrap: balance;
+  }
+  .rc-landing .rcf-hero__title span {
+    white-space: normal;
+    overflow-wrap: normal;
+  }
+  .rc-landing .rcf-hero__description {
+    margin-top: 17px;
+    font-size: clamp(18px, 4.7vw, 22px);
+    font-weight: 750;
+    text-wrap: balance;
+  }
+  .rc-landing .rcf-rule {
+    width: 80px;
+    margin: 22px auto 0;
+  }
+  .rc-landing .rcf-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    margin-top: 23px;
+  }
+  .rc-landing .rcf-actions .rcf-pill {
+    width: min(100%, 330px);
+    min-height: 50px;
+    padding: 13px 20px;
+    font-size: clamp(15px, 4vw, 17px);
+  }
+  .rc-landing .rcf-hero__proof {
+    justify-content: center;
+    gap: clamp(12px, 3.5vw, 22px);
+    margin-top: 31px;
+  }
+  .rc-landing .rcf-hero__metric {
+    align-items: center;
+    text-align: center;
+  }
+  .rc-landing .rcf-hero__metric-value { font-size: clamp(42px, 12vw, 58px); }
+  .rc-landing .rcf-hero__metric-label { font-size: clamp(10px, 3.1vw, 13px); }
+  .rc-landing .rcf-hero__divider { height: 48px; }
+  html[lang="pt-BR"] .rc-landing .rcf-hero__title {
+    font-size: clamp(26px, 7.7vw, 40px);
+  }
+  html[lang="en-US"] .rc-landing .rcf-hero__title {
+    font-size: clamp(30px, 8.3vw, 44px);
+  }
+}
