@@ -324,7 +324,7 @@ test('United States English copy is shared by public landing, listings and publi
  assert.match(regional,/enUSCopy\[spanish\]/);
  assert.match(listing,/pais === "US" \? "Rural Services in the United States/);
  assert.match(forms,/countryCode==="US"\?regionalText\(countryCode,a\.label,a\.label\)/);
- assert.match(faq,/country === "BR" \|\| country === "US"/);
+  assert.ok(faq.includes('country === "BR" ? "pt" : country === "US" ? "en" : "es"'));
  assert.match(countries,/Intl\.DisplayNames\(\["en-US"\]/);
 });
 
