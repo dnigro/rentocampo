@@ -1,6 +1,6 @@
 import { demoServiceRegisterHref } from "@/data/visible-demo-services";
 import Link from "next/link";
-import Image from "next/image";
+import LiteListingImage from "@/components/lite/LiteListingImage";
 import { cookies } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
 import { resolveCountry } from "@/data/countries";
@@ -27,7 +27,7 @@ export default async function LiteServiciosListado() {
       <p style={{color:"#666"}}>{[s.localidad,s.provincia].filter(Boolean).join(", ")}</p><span style={{float:"right"}}>{t("fields.viewDetails")}</span>
     </Link>)}
     {(demos??[]).map(s=><Link key={s.id} href={demoServiceRegisterHref(pais, Boolean(user))} style={{padding:18,borderRadius:15,background:"#fff",border:"1px solid #ddd",color:"#222",textDecoration:"none"}}>
-      <Image src={s.imagen_url || "/demo-servicio-veterinaria.jpg"} alt={`Imagen DEMO de ${s.nombre}`} width={460} height={250} style={{display:"block",width:"100%",height:170,objectFit:"cover",borderRadius:9,marginBottom:10}}/><strong>{s.nombre} · DEMO</strong><p>{[s.localidad_servicio,s.provincia_servicio].filter(Boolean).join(", ")}</p><span style={{display:"inline-block",fontSize:13,marginTop:8}}>{user ? (pais === "BR" ? "Anunciar meus serviços →" : "Publicar mis servicios →") : (pais === "BR" ? "Entrar para anunciar →" : "Iniciar sesión para publicar →")}</span>
+      <div style={{height:170,marginBottom:10}}><LiteListingImage src={s.imagen_url} fallback="/demo-servicio-veterinaria.jpg" alt={`Imagen ilustrativa DEMO de ${s.nombre}`} eager style={{height:170,minHeight:170}} /></div><strong>{s.nombre} · DEMO</strong><p>{[s.localidad_servicio,s.provincia_servicio].filter(Boolean).join(", ")}</p><span style={{display:"inline-block",fontSize:13,marginTop:8}}>{user ? (pais === "BR" ? "Anunciar meus serviços →" : "Publicar mis servicios →") : (pais === "BR" ? "Entrar para anunciar →" : "Iniciar sesión para publicar →")}</span>
     </Link>)}
     {!data?.length&&!demos?.length&&<p>{t("services.noResults")}</p>}
     <Link href={`/lite/servicios/mapa?pais=${pais}`} style={{padding:17,textAlign:"center",background:"#222",color:"white",borderRadius:12,textDecoration:"none"}}>{t("services.viewOnMap")}</Link>
