@@ -539,3 +539,36 @@ html[lang="en-US"] .rc-landing .rcf-hero__title { font-size: clamp(46px, 7vw, 94
   .rc-landing .rcf-actions { margin-top: 18px; }
   .rc-landing .rcf-hero__proof { margin-top: 26px; }
 }
+
+/*
+ * Protección editorial del hero sobre la diagonal.
+ * El área de lectura del desktop/tablet termina ANTES del corte que revela
+ * las vacas; no modifica el layout móvil con foto independiente arriba.
+ */
+@media (min-width: 901px) {
+  .rc-landing .rcf-hero__eyebrow,
+  .rc-landing .rcf-hero__title,
+  .rc-landing .rcf-hero__description,
+  .rc-landing .rcf-actions,
+  .rc-landing .rcf-hero__proof {
+    max-width: min(55vw, 790px);
+  }
+  .rc-landing .rcf-hero__description {
+    max-width: min(43vw, 540px);
+  }
+  .rc-landing .rcf-hero__title {
+    text-wrap: balance;
+  }
+}
+@media (min-width: 641px) and (max-width: 900px) {
+  .rc-landing .rcf-hero__eyebrow,
+  .rc-landing .rcf-hero__title,
+  .rc-landing .rcf-hero__description,
+  .rc-landing .rcf-actions,
+  .rc-landing .rcf-hero__proof {
+    max-width: 58vw;
+  }
+  .rc-landing .rcf-hero__description {
+    max-width: 47vw;
+  }
+}
