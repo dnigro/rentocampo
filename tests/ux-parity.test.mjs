@@ -15,12 +15,18 @@ test("web mobile and Lite keep production copy and diagonal triptych",()=>{
  const css=read("styles/home-simple.css");
  const home=read("components/landing/LandingPageContent.tsx");
  for(const source of [web,lite]){
-  for(const s of ["SIN","INTERMEDIARIOS.","MAPAS + CHAT ONLINE","Productores + Tierra + Servicios","Vos publicás. Vos contactás. Vos acordás.","REGISTRATE GRATIS","Ver campos","Ver servicios","image_trigo_pix.png","image_vaca_pix.png","image_truck_pix.png"])assert.ok(source.includes(s),s);
+  for(const s of ["SIN","INTERMEDIARIOS.","MAPAS + CHAT ONLINE","Productores + Tierra + Servicios","REGISTRATE GRATIS","Ver campos","Ver servicios","image_trigo_pix.png","image_vaca_pix.png","image_truck_pix.png"])assert.ok(source.includes(s),s);
   assert.match(source,/rcSimpleHero__art/);
  }
  assert.match(web,/href="\/register"/);
  assert.match(lite,/href="\/lite\/cuenta\/registro"/);
+ // La portada conserva sus accesos, sin el párrafo que repetía el mensaje.
+ for(const source of [web,lite]){
+  assert.doesNotMatch(source,/Vos publicás\. Vos contactás\. Vos acordás\./);
+  assert.match(source,/rcSimpleHero__browse/);
+ }
  assert.match(css,/clip-path:polygon/);
+ assert.match(css,/\.rcSimpleHero__panel--1/);
  assert.match(css,/@media\(max-width:900px\)/);
  assert.match(home,/LandingSimpleHome/);
  assert.doesNotMatch(home,/LandingFAQ|LandingMapa|LandingTriptychHero|LandingHowBrief/);
