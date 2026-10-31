@@ -237,7 +237,7 @@ test("approved minimal home removes video and FAQ from the homepage only", () =>
   assert.match(lite, /href="\/lite\/cuenta\/registro"/);
   assert.match(lite, /href="\/lite\/servicios"/);
   assert.match(styles, /@media\(max-width:900px\)/);
-  assert.match(styles, /\.rcSimpleHero__panel--producers/);
+  assert.match(styles, /\.rcSimpleHero__panel--1/);
   // El FAQ sigue disponible como componente, sin cargarlo en la home.
   assert.ok(faq.includes('id="preguntas"'));
 });
