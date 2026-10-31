@@ -1,0 +1,82 @@
+name: RentoCampo iOS firmado - TestFlight (manual)
+run-name: "RentoCampo iOS · ${{ inputs.mode }}"
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "Solo generar IPA firmada o también subir a TestFlight"
+        type: choice
+        required: true
+        default: signed-build
+        options:
+          - signed-build
+          - testflight-submit
+
+permissions:
+  contents: read
+
+concurrency:
+  group: rentocampo-ios-testflight-manual
+  cancel-in-progress: false
+
+jobs:
+  ios:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    defaults:
+      run:
+        working-directory: apps/mobile
+    env:
+      EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+      CI: "1"
+    steps:
+      - name: Checkout rama de la app mobile validada
+        uses: actions/checkout@v4
+        with:
+          ref: feat/mobile-app-foundation
+          persist-credentials: false
+      - name: Instalar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - name: Verificar credenciales y proyecto antes de usar recursos externos
+        run: |
+          if [ -z "$EXPO_TOKEN" ]; then
+            echo "::error::Falta EXPO_TOKEN en GitHub Actions Secrets (nunca pegues tokens en el repo o chat)."
+            exit 1
+          fi
+          node - <<'NODE'
+          const fs=require('fs');
+          const app=JSON.parse(fs.readFileSync('app.json','utf8'));
+          const eas=JSON.parse(fs.readFileSync('eas.json','utf8'));
+          const project=app.expo?.extra?.eas?.projectId;
+          if(!project) {
+            console.error('::error::Vinculá la aplicación a Expo EAS con eas init y guardá extra.eas.projectId en la rama feat/mobile-app-foundation.');
+            process.exit(1);
+          }
+          if(app.expo?.ios?.bundleIdentifier!=='com.rentocampo.app') {
+            console.error('::error::Revisá el bundle identifier de Apple.');
+            process.exit(1);
+          }
+          if(!eas.build?.production) {
+            console.error('::error::Falta build.production en eas.json.');
+            process.exit(1);
+          }
+          if(process.env.SUBMIT_TO_TESTFLIGHT==='true' && !eas.submit?.production?.ios?.ascAppId) {
+            console.error('::error::Falta submit.production.ios.ascAppId en eas.json (App Store Connect > App Information).');
+            process.exit(1);
+          }
+          console.log('Preflight OK: Expo EAS y bundle identifier.');
+          NODE
+        env:
+          SUBMIT_TO_TESTFLIGHT: ${{ inputs.mode == 'testflight-submit' }}
+      - name: Instalar dependencias de la app
+        run: npm install --no-audit --no-fund
+      - name: Validar TypeScript
+        run: npm run typecheck
+      - name: Generar IPA firmada en EAS (requiere certificados ya vinculados)
+        run: npx --yes eas-cli@latest build --platform ios --profile production --non-interactive --wait
+      - name: Subir a TestFlight solo por aprobación manual
+        if: ${{ inputs.mode == 'testflight-submit' }}
+        run: npx --yes eas-cli@latest submit --platform ios --profile production --latest --non-interactive
