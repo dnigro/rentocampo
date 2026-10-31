@@ -108,15 +108,20 @@ test('LATAM preview fails closed without dedicated UAT credentials', () => {
 });
 
 // The homepage must be derived from the same ISO catalog as selectors and filters.
-test('web and Lite restore production hero with diagonal imagery',()=>{
+test('web and Lite offer two visible public entry points across 19 countries', () => {
  const hero=readFileSync(new URL('../components/landing/LandingSimpleHome.tsx',import.meta.url),'utf8');
  const lite=readFileSync(new URL('../app/lite/page.tsx',import.meta.url),'utf8');
  const css=readFileSync(new URL('../styles/home-simple.css',import.meta.url),'utf8');
  assert.equal(COUNTRY_CODES.length,19);
- for(const copy of [hero,lite]){
- for(const term of ['INTERMEDIARIOS.','MAPAS + CHAT ONLINE','Productores + Tierra + Servicios','REGISTRATE GRATIS','Ver campos','Ver servicios','COMISIONES','CONTACTO DIRECTO'])assert.ok(copy.includes(term),term);
+ for (const copy of [hero,lite]) {
+  for (const term of ['¿Qué buscás','Accedé directamente','VER CAMPOS','VER SERVICIOS','REGISTRATE GRATIS','0% COMISIONES','100% CONTACTO DIRECTO']) {
+   assert.ok(copy.includes(term),term);
+  }
+  assert.ok(copy.includes('VER TERRAS'));
+  assert.ok(copy.includes('BROWSE FARMLAND'));
  }
- assert.match(css,/clip-path:polygon/);
+ assert.match(css,/\.rcDoorsTile/);
+ assert.match(css,/\.rcDoorsRegister/);
  assert.match(hero,/href="\/register"/);
  assert.match(lite,/href="\/lite\/cuenta\/registro"/);
 });
