@@ -20,13 +20,9 @@
 .rcSimpleHero__art{grid-column:2;grid-row:1;position:relative;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));min-width:0;min-height:100%;overflow:hidden;background:#252b27;isolation:isolate}
 .rcSimpleHero__panel{position:relative;min-width:0;min-height:100%;overflow:hidden;background:#383a35}
 .rcSimpleHero__panel+.rcSimpleHero__panel{border-left:2px solid #e9e8df}
-.rcSimpleHero__image{object-fit:cover;object-position:center;filter:grayscale(.92) contrast(1.05) brightness(.9);transition:filter .25s ease, transform .45s ease}
-.rcSimpleHero__panel:hover .rcSimpleHero__image{filter:grayscale(.7) contrast(1.03) brightness(.98);transform:scale(1.035)}
-.rcSimpleHero__panel:after{content:"";position:absolute;inset:58% 0 0;background:linear-gradient(0deg,rgba(14,20,16,.73),rgba(14,20,16,0));pointer-events:none}
-.rcSimpleHero__photoLabel{position:absolute;z-index:1;bottom:clamp(26px,4vw,54px);left:clamp(12px,1.55vw,26px);right:6px;display:flex;flex-direction:column;gap:7px;color:#f3f1eb}
-.rcSimpleHero__photoLabel span{font-size:11px;letter-spacing:.14em;color:#d1d1c8}
-.rcSimpleHero__photoLabel strong{font-size:clamp(12px,1.15vw,17px);line-height:1.15;font-weight:700;overflow-wrap:break-word}
-.rcSimpleHero__artMark{position:absolute;right:20px;top:20px;color:#fff;font-size:11px;font-weight:700;letter-spacing:.13em;opacity:.75;pointer-events:none}
+.rcSimpleHero__image{object-fit:cover;object-position:center;filter:grayscale(.76) saturate(.5) contrast(1.02) brightness(.94)}
+.rcSimpleHero__photoLabel{position:absolute;z-index:1;bottom:0;left:0;right:0;min-height:68px;display:flex;align-items:center;padding:17px clamp(12px,1.55vw,26px);background:rgba(23,29,25,.78);color:#f2f1ed}
+.rcSimpleHero__photoLabel strong{font-size:clamp(11px,1.07vw,15px);line-height:1.2;font-weight:700;letter-spacing:.07em;text-transform:uppercase;overflow-wrap:break-word}
 .rcSimpleTrust{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:10px clamp(17px,2.9vw,46px);padding:20px 20px;background:#e6e7e0;color:#516356;border-top:1px solid #d4d8d0;scroll-margin-top:100px}
 .rcSimpleTrust span{font-size:clamp(10px,.92vw,12px);font-weight:700;letter-spacing:.09em}
 @media(min-width:701px) and (max-width:1060px){
@@ -41,11 +37,9 @@
  .rcSimpleHero__art{order:0;grid-column:auto;grid-row:auto;width:100%;height:clamp(210px,57vw,330px);min-height:0;flex:none}
  .rcSimpleHero__panel{min-height:0}
  .rcSimpleHero__panel+.rcSimpleHero__panel{border-left-width:1px}
- .rcSimpleHero__image{filter:grayscale(.93) contrast(1.07) brightness(.92)}
- .rcSimpleHero__photoLabel{bottom:13px;left:8px;right:4px;gap:3px}
- .rcSimpleHero__photoLabel span{font-size:9px}
- .rcSimpleHero__photoLabel strong{font-size:clamp(10px,2.7vw,13px)}
- .rcSimpleHero__artMark{right:12px;top:12px;font-size:9px}
+ .rcSimpleHero__image{filter:grayscale(.78) saturate(.48) contrast(1.02) brightness(.94)}
+ .rcSimpleHero__photoLabel{bottom:0;left:0;right:0;min-height:43px;padding:10px 7px}
+ .rcSimpleHero__photoLabel strong{font-size:clamp(9px,2.45vw,12px);letter-spacing:0}
  .rcSimpleHero__content{order:1;grid-column:auto;grid-row:auto;padding:31px 25px 36px;min-height:0;width:100%}
  .rcSimpleHero__eyebrow{margin:0 0 18px;font-size:10px;gap:9px}
  .rcSimpleHero__title{font-size:clamp(42px,10.5vw,60px);line-height:1.04;max-width:540px}
@@ -64,7 +58,7 @@
  .rcSimpleHero__action--secondary{font-size:12px}
  .rcSimpleHero__photoLabel strong{font-size:9px}
 }
-@media(prefers-reduced-motion:reduce){.rcSimpleHero__image,.rcSimpleHero__action{transition:none}}
+@media(prefers-reduced-motion:reduce){.rcSimpleHero__action{transition:none}}
 /* Lite: mismas decisiones de composición, ancho de app y barra nativa preservada. */
 .rcLiteSimpleHome{min-height:100dvh;max-width:520px;margin:auto;padding-bottom:90px;background:#eeeee9}
 .rcLiteSimpleHome .rcSimpleHero{display:flex;flex-direction:column;min-height:0}
