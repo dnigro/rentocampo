@@ -108,36 +108,17 @@ test('LATAM preview fails closed without dedicated UAT credentials', () => {
 });
 
 // The homepage must be derived from the same ISO catalog as selectors and filters.
-test('web and Lite heroes communicate direct contact with zero commissions in every layout', () => {
-  const hero=readFileSync(new URL('../components/landing/LandingTriptychHero.tsx', import.meta.url),'utf8');
-  const css=readFileSync(new URL('../styles/hero-2026-isolated.css', import.meta.url),'utf8');
-  const lite=readFileSync(new URL('../app/lite/page.tsx', import.meta.url),'utf8');
-  const liteCss=readFileSync(new URL('../styles/lite-direct-hero.css', import.meta.url),'utf8');
-  const en=readFileSync(new URL('../lib/i18n/enUS-copy.ts', import.meta.url),'utf8');
-  assert.equal(COUNTRY_CODES.length,19);
-  for (const copy of [hero,lite]) {
-    assert.match(copy, /INTERMEDIARIOS\./);
-    assert.match(copy, /COMISIONES\./);
-    assert.match(copy, /CONTACTO DIRECTO\./);
-    assert.match(copy, /Vos publicás\. Vos contactás\. Vos acordás\./);
-    assert.match(copy, /REGISTRATE GRATIS/);
-    assert.match(copy, /100%/);
-    assert.match(copy, /0%/);
-    assert.ok(!copy.includes('100% GRATIS,'), 'old SUMATE hero wording removed');
-  }
-  assert.match(hero, /className="rcHero26__register"/);
-  assert.match(hero, /href="\/register"/);
-  assert.match(lite, /href="\/lite\/cuenta\/registro"/);
-  assert.match(css, /\.rcHero26__stats\{/);
-  // Desktop CTA must stay inside the hero when additional value lines are present.
-  assert.ok(css.includes('.rcHero26{--gold:#c9c9c6;height:auto;min-height:clamp(490px,62vh,650px)}'));
-  assert.ok(css.includes('.rcHero26__register{flex-shrink:0;'));
-  assert.match(css, /@media\(min-width:901px\)/);
-  assert.match(css, /@media\(max-width:900px\)/);
-  assert.match(liteCss, /\.rcLiteDirectHero__stats\{/);
-  assert.match(liteCss, /@media\(max-width:360px\)/);
-  assert.match(en, /"INTERMEDIARIOS\.": "MIDDLEMEN\."/);
-  assert.match(en, /"REGISTRATE GRATIS": "SIGN UP FREE"/);
+test('web and Lite restore production hero with diagonal imagery',()=>{
+ const hero=readFileSync(new URL('../components/landing/LandingSimpleHome.tsx',import.meta.url),'utf8');
+ const lite=readFileSync(new URL('../app/lite/page.tsx',import.meta.url),'utf8');
+ const css=readFileSync(new URL('../styles/home-simple.css',import.meta.url),'utf8');
+ assert.equal(COUNTRY_CODES.length,19);
+ for(const copy of [hero,lite]){
+ for(const term of ['INTERMEDIARIOS.','MAPAS + CHAT ONLINE','Productores + Tierra + Servicios','REGISTRATE GRATIS','Ver campos','Ver servicios','COMISIONES','CONTACTO DIRECTO'])assert.ok(copy.includes(term),term);
+ }
+ assert.match(css,/clip-path:polygon/);
+ assert.match(hero,/href="\/register"/);
+ assert.match(lite,/href="\/lite\/cuenta\/registro"/);
 });
 
 test('LATAM18 map zoning catalog has four valid geolocated references per new country', async () => {
@@ -180,7 +161,7 @@ test('four regional zone markers are not mislabeled as field DEMOs', () => {
  assert.match(map,/Zona productiva \(no es un campo\)/);
 });
 
-test('V2 teaser stays hidden from public homepage until launch, while preserving its assets',()=>{ const home=readFileSync(new URL('../components/landing/LandingPageContent.tsx',import.meta.url),'utf8'); const v2=readFileSync(new URL('../components/landing/LandingIntelligence.tsx',import.meta.url),'utf8'); assert.ok(home.includes('<LandingFAQ />')); assert.ok(!home.includes('LandingIntelligence')); for(const s of ['PRÓXIMAMENTE','AgroClimate','GeoMarket','/intelligence-agro-approved.webp','/intelligence-geo-approved.webp']) assert.ok(v2.includes(s)); });
+test('V2 teaser stays hidden from public homepage until launch, while preserving its assets',()=>{ const home=readFileSync(new URL('../components/landing/LandingPageContent.tsx',import.meta.url),'utf8'); const v2=readFileSync(new URL('../components/landing/LandingIntelligence.tsx',import.meta.url),'utf8'); assert.ok(home.includes('<LandingSimpleHome />')); assert.ok(!home.includes('LandingFAQ') && !home.includes('LandingMapa')); assert.ok(!home.includes('LandingIntelligence')); for(const s of ['PRÓXIMAMENTE','AgroClimate','GeoMarket','/intelligence-agro-approved.webp','/intelligence-geo-approved.webp']) assert.ok(v2.includes(s)); });
 
 test('V2 evolution cards use a compact image crop and prose instead of bullet lists', () => {
   const v2=readFileSync(new URL('../components/landing/LandingIntelligence.tsx',import.meta.url),'utf8');
