@@ -37,7 +37,6 @@ export default function LandingFigmaHome() {
             <span>{t("EL CAMPO.", "O CAMPO.", "RURAL LIFE.")}</span>
             <span>{t("SIN VUELTAS.", "SEM COMPLICAÇÕES.", "MADE SIMPLE.")}</span>
           </h1>
-          <span className="rcf-rule" aria-hidden="true" />
           <p className="rcf-hero__description">
             {t(
               "Campos y servicios. Contacto directo.",
@@ -45,6 +44,7 @@ export default function LandingFigmaHome() {
               "Land and services. Direct contact.",
             )}
           </p>
+          <span className="rcf-rule" aria-hidden="true" />
           <div className="rcf-actions">
             <RegionalLink href="/register" className="rcf-pill rcf-pill--light">
               {t("Registrate gratis", "Cadastre-se grátis", "Sign up free")}
