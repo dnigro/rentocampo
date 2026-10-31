@@ -220,7 +220,7 @@ test("map displays new-country field markers and refreshes on country change", (
  assert.match(nav,/router\.refresh\(\)/);
  assert.match(selector,/router\.replace\(/);
 });
-test("two-door homepage keeps categories public and registration optional", () => {
+test("manifesto homepage has three functional links, without login gate", () => {
  const landing=read("components/landing/LandingPageContent.tsx");
  const hero=read("components/landing/LandingSimpleHome.tsx");
  const lite=read("app/lite/page.tsx");
@@ -228,19 +228,14 @@ test("two-door homepage keeps categories public and registration optional", () =
  const faq=read("components/landing/LandingFAQ.tsx");
  assert.match(landing,/LandingSimpleHome/);
  assert.doesNotMatch(landing,/LandingFAQ|LandingMapa|LandingTriptychHero|LandingHowBrief/);
- assert.match(hero,/VER CAMPOS/);
- assert.match(hero,/VER SERVICIOS/);
- assert.match(hero,/REGISTRATE GRATIS/);
- assert.match(hero,/VER TERRAS/);
- assert.match(hero,/VER SERVIÇOS/);
- assert.match(hero,/BROWSE FARMLAND/);
- assert.match(hero,/href: "\/campos"/);
- assert.match(hero,/href: "\/servicios-rurales"/);
- assert.match(lite,/href: "\/lite\/campos"/);
- assert.match(lite,/href: "\/lite\/servicios"/);
+ for(const term of ["EL CAMPO","NO ESPERA.","EXPLORAR CAMPOS","VER SERVICIOS","REGISTRATE GRATIS","EXPLORAR TERRAS","VER SERVIÇOS","EXPLORE FARMLAND"])assert.ok(hero.includes(term));
+ assert.match(hero,/href="\/campos"/);
+ assert.match(hero,/href="\/servicios-rurales"/);
+ assert.match(lite,/href="\/lite\/campos"/);
+ assert.match(lite,/href="\/lite\/servicios"/);
  assert.match(lite,/href="\/lite\/cuenta\/registro"/);
- assert.match(styles,/@media\(max-width:900px\)/);
- assert.match(styles,/\.rcDoorsGrid/);
+ assert.match(styles,/@media\(max-width:850px\)/);
+ assert.match(styles,/\.rcManifestoTitle/);
  assert.ok(faq.includes('id="preguntas"'),"FAQ preserved but not on homepage");
 });
 
@@ -292,18 +287,18 @@ test("regional productive zones replace clipped Argentina-only unverified demand
  assert.match(panel,/Não são indicadores de procura verificada/);
 });
 
-test("mobile and desktop use photo doors while Lite retains bottom navigation", () => {
+test("web and Lite use one panoramic image, action-first mobile, and preserve Lite nav",()=>{
  const landing=read("components/landing/LandingPageContent.tsx");
  const hero=read("components/landing/LandingSimpleHome.tsx");
  const lite=read("app/lite/page.tsx");
  const css=read("styles/home-simple.css");
  assert.match(landing,/LandingSimpleHome/);
- assert.match(hero,/className="rcDoorsTileImage"/);
+ assert.match(hero,/className="rcManifestoVisualImage"/);
  assert.doesNotMatch(hero,/<video/);
- assert.match(css,/\.rcDoorsGrid/);
- assert.match(css,/@media\(max-width:900px\)/);
- assert.match(css,/@media\(max-width:355px\)/);
- assert.match(lite,/href: "\/lite\/campos"/);
+ assert.match(css,/\.rcManifestoActions/);
+ assert.match(css,/@media\(max-width:850px\)/);
+ assert.match(css,/@media\(max-width:350px\)/);
+ assert.match(lite,/href="\/lite\/campos"/);
  assert.match(lite,/aria-label=\{t\("Navegación Lite"/);
- assert.doesNotMatch(lite,/rcSimpleHero__art/);
+ assert.doesNotMatch(lite,/rcDoorsGrid/);
 });
