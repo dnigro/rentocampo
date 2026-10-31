@@ -45,10 +45,17 @@ try{
     await page.getByText("CONECTÁ DIRECTO.",{exact:true}).waitFor({state:"visible"});
     if((await page.locator(".rcf-hero__metric-value").count())!==2)throw Error("Missing 0% or 100% metric");
     if((await page.locator(".rcf-actions a").count())!==2)throw Error("Wrong CTA count");
+    if((await page.locator(".rc-how--web .rc-how__step").count())!==3)throw Error("How it works count");
     if((await page.locator(".rcf-faq__item").count())!==5)throw Error("FAQ count");
     await page.locator(".rcf-faq__item summary").first().click();
     if(!(await page.locator(".rcf-faq__item").first().evaluate(e=>e.open)))throw Error("FAQ does not open");
     if(!await page.locator(".navbar").count()||!await page.locator("footer.footer").count())throw Error("Header/footer absent");
+    if(!await page.locator('a[href="/#como-funciona"]').count())throw Error("Menu anchor missing");
+    await page.locator('.navbar-links a[href="/#como-funciona"]').first().click().catch(async()=>{
+      await page.locator('a[href="/#como-funciona"]').last().click();
+    });
+    await page.waitForFunction(()=>location.hash==="#como-funciona",{timeout:7000});
+    if(!await page.locator('section#como-funciona').isVisible())throw Error("How it works anchor broken");
     await noOverflow(page);
     if(label==="390"||label==="1440")await page.screenshot({path:"test-results/design-uat/home-"+label+".png",fullPage:true});
    });
@@ -57,6 +64,7 @@ try{
     if(!(await page.locator(".rcLiteDirectHero__title").innerText()).includes("SIN VUELTAS"))throw Error("Lite claim");
     if((await page.locator(".rcLiteDirectHero__metric strong").count())!==2)throw Error("Lite metrics");
     if((await page.locator(".rcLiteBottomNav a").count())!==4)throw Error("Lite navigation");
+    if((await page.locator(".rc-how--lite .rc-how__step").count())!==3)throw Error("Lite how-it-works missing");
     if(!await page.locator(".lite-regional-header").count()||!await page.locator("footer.footer").count())throw Error("Lite shell");
     await noOverflow(page);
     if(label==="390")await page.screenshot({path:"test-results/design-uat/lite-390.png",fullPage:true});
