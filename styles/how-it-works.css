@@ -1,0 +1,99 @@
+/* Explicación de tres pasos, pequeña y consistente entre web, mobile y Lite. */
+.rc-how {
+  --how-dark: #222b25;
+  --how-mustard: #d5bd72;
+  --how-white: #f7f9f5;
+  --how-silver: #c5cdc5;
+  scroll-margin-top: 92px;
+  color: var(--how-white);
+  background: var(--how-dark);
+  border-block: 1px solid #455449;
+  font-family: var(--font-dm-sans), Arial, sans-serif;
+}
+.rc-how *, .rc-how *::before, .rc-how *::after { box-sizing: border-box; }
+.rc-how__inner {
+  width: min(1380px, 100%);
+  margin-inline: auto;
+  padding: 43px clamp(23px, 5.3vw, 80px);
+  display: grid;
+  grid-template-columns: minmax(175px, .76fr) minmax(0, 2.24fr);
+  gap: clamp(24px, 4vw, 68px);
+  align-items: center;
+}
+.rc-how__eyebrow {
+  margin: 0 0 9px;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: .10em;
+  color: var(--how-mustard);
+}
+.rc-how__title {
+  margin: 0;
+  font-size: clamp(25px, 3vw, 41px);
+  font-weight: 900;
+  letter-spacing: -.06em;
+  line-height: 1.05;
+  color: var(--how-white);
+}
+.rc-how__steps {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(16px, 2vw, 32px);
+  margin: 0;
+  padding: 0;
+}
+.rc-how__step {
+  min-width: 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+.rc-how__step + .rc-how__step {
+  border-left: 1px solid #607063;
+  padding-left: clamp(12px, 2vw, 28px);
+}
+.rc-how__number {
+  color: var(--how-mustard);
+  font-size: 17px;
+  font-weight: 900;
+  line-height: 1.4;
+  font-variant-numeric: tabular-nums;
+}
+.rc-how__step-copy h3 {
+  margin: 0;
+  color: var(--how-white);
+  font-size: clamp(16px, 1.42vw, 20px);
+  line-height: 1.3;
+  font-weight: 850;
+}
+.rc-how__step-copy p {
+  margin: 5px 0 0;
+  color: var(--how-silver);
+  font-size: clamp(13px, 1.05vw, 15px);
+  line-height: 1.45;
+}
+@media (max-width: 860px) {
+  .rc-how__inner {
+    grid-template-columns: 1fr;
+    gap: 26px;
+    padding-block: 35px;
+  }
+  .rc-how__steps { gap: 13px; }
+}
+@media (max-width: 600px) {
+  .rc-how__inner { padding: 32px 23px 35px; gap: 22px; }
+  .rc-how__title { font-size: 30px; }
+  .rc-how__steps { grid-template-columns: 1fr; gap: 0; }
+  .rc-how__step { padding-block: 12px; }
+  .rc-how__step + .rc-how__step {
+    border-left: 0;
+    border-top: 1px solid #4d5b50;
+    padding-left: 0;
+  }
+  .rc-how__number { font-size: 17px; width: 28px; flex-shrink: 0; }
+  .rc-how__step-copy h3 { font-size: 18px; }
+  .rc-how__step-copy p { font-size: 14px; }
+}
+/* App Lite usa exactamente las mismas tarjetas compactas. */
+.rc-how--lite .rc-how__inner { padding-inline: 23px; }
