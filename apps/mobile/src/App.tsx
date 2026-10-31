@@ -14,6 +14,7 @@ import {
 } from "react-native";
 import { SafeAreaProvider, useSafeAreaInsets } from "react-native-safe-area-context";
 import { WebView } from "react-native-webview";
+import rcIcon from "../assets/icon.png";
 
 const SITE = "https://rentocampo.com";
 const COLORS = {
@@ -58,12 +59,13 @@ const TABS: { id: Section; label: string; icon: string; path: string }[] = [
   { id: "perfil", label: "Perfil", icon: "◯", path: "/lite/perfil" },
 ];
 
-// The native shell owns the header and tab bar. Hide only their web duplicates.
+// The shared Android and iOS native shell owns the header and tab bar.
+// Hide duplicated web chrome in both Android WebView and iOS WKWebView.
 // This also applies the approved English-green / white / gray / silver palette
 // to the live Lite pages, including authentication flows.
 const LITE_STYLES = `
 (function () {
- var id = "rentocampo-android-unified-theme";
+ var id = "rentocampo-mobile-unified-theme";
  function install() {
   if (!document.head || document.getElementById(id)) return;
   var style = document.createElement("style");
@@ -208,7 +210,7 @@ function AppShell() {
       <View style={styles.header}>
         <TouchableOpacity onPress={() => select("inicio")} style={styles.brandBox} accessibilityLabel="RentoCampo, ir al inicio">
           <View style={styles.logoTile}>
-            <Image source={require("../assets/icon.png")} resizeMode="contain" style={styles.logoImage} />
+            <Image source={rcIcon} alt="Escudo RC oficial de RentoCampo" resizeMode="contain" style={styles.logoImage} />
           </View>
           <Text style={styles.brand} numberOfLines={1}>Rento<Text style={styles.brandStrong}>Campo</Text></Text>
         </TouchableOpacity>
@@ -229,6 +231,9 @@ function AppShell() {
               originWhitelist={["https://*"]}
               injectedJavaScriptBeforeContentLoaded={LITE_STYLES}
               injectedJavaScript={LITE_STYLES}
+              onMessage={() => undefined}
+              allowsBackForwardNavigationGestures
+              allowsInlineMediaPlayback
               onLoadEnd={applyCountry}
               sharedCookiesEnabled
               thirdPartyCookiesEnabled

@@ -3,16 +3,21 @@
     "name": "RentoCampo",
     "slug": "rentocampo",
     "scheme": "rentocampo",
-    "version": "0.2.1",
+    "version": "0.2.2",
     "orientation": "portrait",
     "userInterfaceStyle": "light",
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.rentocampo.app"
+      "bundleIdentifier": "com.rentocampo.app",
+      "buildNumber": "1",
+      "deploymentTarget": "15.1",
+      "config": {
+        "usesNonExemptEncryption": false
+      }
     },
     "android": {
       "package": "com.rentocampo.app",
-      "versionCode": 3,
+      "versionCode": 4,
       "adaptiveIcon": {
         "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#FFFFFF"
@@ -24,7 +29,7 @@
     "extra": {
       "environment": "prototype"
     },
-    "description": "RentoCampo Lite para Android, prueba interna: marca oficial RC, inicio, campos, servicios y perfil.",
+    "description": "RentoCampo Lite para Android y iOS. Plataforma rural sin intermediarios, con Campos, Servicios y Perfil.",
     "icon": "./assets/icon.png"
   }
 }

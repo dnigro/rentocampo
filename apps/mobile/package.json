@@ -1,13 +1,15 @@
 {
   "name": "@rentocampo/mobile",
-  "version": "0.1.0",
+  "version": "0.2.2",
   "private": true,
   "main": "index.js",
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "prebuild:android": "expo prebuild --platform android --clean",
+    "prebuild:ios": "expo prebuild --platform ios --clean"
   },
   "dependencies": {
     "expo": "~54.0.0",

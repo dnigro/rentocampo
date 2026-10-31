@@ -1,0 +1,71 @@
+name: Mobile iOS Simulator (unsigned)
+on:
+  workflow_dispatch:
+  push:
+    branches: [feat/mobile-app-foundation, feat/mobile-ios-unified-20261031]
+    paths:
+      - "apps/mobile/**"
+      - ".github/workflows/mobile-ios-simulator.yml"
+  pull_request:
+    paths:
+      - "apps/mobile/**"
+      - ".github/workflows/mobile-ios-simulator.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ios-simulator-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  simulator:
+    runs-on: macos-15
+    timeout-minutes: 90
+    defaults:
+      run:
+        working-directory: apps/mobile
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - name: Verify Xcode simulator tools
+        run: |
+          xcodebuild -version
+          xcrun --sdk iphonesimulator --show-sdk-version
+      - name: Install JavaScript dependencies
+        run: npm install --no-audit --no-fund
+      - name: Align Expo SDK dependencies
+        run: CI=1 npx expo install --fix
+      - name: Typecheck shared Android / iOS code
+        run: npm run typecheck
+      - name: Generate native iOS project
+        run: CI=1 npx expo prebuild --platform ios --no-install --clean
+      - name: Install CocoaPods
+        run: cd ios && pod install
+      - name: Build unsigned iOS Simulator app
+        run: |
+          set -o pipefail
+          xcodebuild \
+            -workspace ios/RentoCampo.xcworkspace \
+            -scheme RentoCampo \
+            -configuration Release \
+            -sdk iphonesimulator \
+            -destination "generic/platform=iOS Simulator" \
+            -derivedDataPath "$RUNNER_TEMP/rc-ios-build" \
+            CODE_SIGNING_ALLOWED=NO \
+            build | tee "$RUNNER_TEMP/rc-xcodebuild.log" | tail -n 90
+      - name: Verify and package simulator app
+        run: |
+          APP="$RUNNER_TEMP/rc-ios-build/Build/Products/Release-iphonesimulator/RentoCampo.app"
+          test -d "$APP"
+          test -f "$APP/Info.plist"
+          /usr/libexec/PlistBuddy -c 'Print :CFBundleIdentifier' "$APP/Info.plist"
+          ditto -c -k --sequesterRsrc --keepParent "$APP" "$RUNNER_TEMP/RentoCampo-iOS-Simulator-v0.2.2.zip"
+      - name: Upload unsigned simulator build
+        uses: actions/upload-artifact@v4
+        with:
+          name: RentoCampo-iOS-Simulator-v0.2.2
+          path: ${{ runner.temp }}/RentoCampo-iOS-Simulator-v0.2.2.zip
+          if-no-files-found: error
