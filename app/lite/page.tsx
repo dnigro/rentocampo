@@ -32,8 +32,8 @@ export default async function LitePreview() {
             <span>{t("EL CAMPO.", "O CAMPO.", "RURAL LIFE.")}</span>
             <span>{t("SIN VUELTAS.", "SEM COMPLICAÇÕES.", "MADE SIMPLE.")}</span>
           </h1>
-          <span className="rcLiteDirectHero__rule" aria-hidden="true" />
           <p className="rcLiteDirectHero__line">{t("Campos y servicios. Contacto directo.", "Terras e serviços. Contato direto.", "Land and services. Direct contact.")}</p>
+          <span className="rcLiteDirectHero__rule" aria-hidden="true" />
           <div className="rcLiteDirectHero__actions">
             <Link href="/lite/cuenta/registro" className="rcLiteDirectHero__register">
               {t("Registrate gratis", "Cadastre-se grátis", "Sign up free")}
