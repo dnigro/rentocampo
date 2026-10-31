@@ -46,6 +46,10 @@ try{
     if((await page.locator(".rcf-hero__metric-value").count())!==2)throw Error("Missing 0% or 100% metric");
     if((await page.locator(".rcf-actions a").count())!==2)throw Error("Wrong CTA count");
     if((await page.locator(".rc-how--web .rc-how__step").count())!==3)throw Error("How it works count");
+    if(width<=680){
+      const fit=await page.locator(".rc-how--web .rc-how__steps").evaluate(el=>({width:el.clientWidth,scroll:el.scrollWidth,columns:getComputedStyle(el).gridTemplateColumns.split(" ").length}));
+      if(fit.scroll>fit.width+3||fit.columns!==1)throw Error("Steps must fit mobile width: "+JSON.stringify(fit));
+    }
     if((await page.locator(".rcf-faq__item").count())!==5)throw Error("FAQ count");
     await page.locator(".rcf-faq__item summary").first().click();
     if(!(await page.locator(".rcf-faq__item").first().evaluate(e=>e.open)))throw Error("FAQ does not open");
@@ -69,6 +73,10 @@ try{
     if((await page.locator(".rcLiteDirectHero__metric strong").count())!==2)throw Error("Lite metrics");
     if((await page.locator(".rcLiteBottomNav a").count())!==4)throw Error("Lite navigation");
     if((await page.locator(".rc-how--lite .rc-how__step").count())!==3)throw Error("Lite how-it-works missing");
+    if(width<=680){
+      const fit=await page.locator(".rc-how--lite .rc-how__steps").evaluate(el=>({width:el.clientWidth,scroll:el.scrollWidth}));
+      if(fit.scroll>fit.width+3)throw Error("Lite cards overflow: "+JSON.stringify(fit));
+    }
     await page.locator(".lite-regional-account").click();
     const howLite=page.locator('a[href="/lite#como-funciona-lite"]');
     if(!await howLite.isVisible())throw Error("Lite how-it-works menu item missing");
