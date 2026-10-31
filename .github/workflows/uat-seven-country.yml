@@ -3,7 +3,7 @@ name: UAT Siete Países
 on:
   workflow_dispatch:
   push:
-    branches: [feat/brasil-foundation-20261019, fix/regional-listings-map-country-20261019, fix/mobile-triptych-video-spacing-20261019]
+    branches: [feat/brasil-foundation-20261019, fix/regional-listings-map-country-20261019, fix/mobile-triptych-video-spacing-20261019, feat/home-figma-sin-vueltas-20261031]
 
 permissions:
   contents: read
@@ -48,6 +48,9 @@ jobs:
         run: npm run build
       - name: Seven-country browser regression
         run: node tests/uat-seven-country.mjs
+      - name: Final visual regression — web, mobile and Lite
+        if: success()
+        run: node tests/uat-design-smoke.mjs
       - name: Upload evidence and screenshots
         if: always()
         uses: actions/upload-artifact@v4

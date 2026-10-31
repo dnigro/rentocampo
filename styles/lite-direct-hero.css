@@ -1,28 +1,38 @@
-/* App Lite home: responsive, matte version of the direct-contact hero. */
-.rcLiteDirectHero{position:relative;isolation:isolate;display:flex;align-items:center;min-height:clamp(430px,115vw,555px);overflow:hidden;background:#242626;color:#f5f5f3}
+/* RentoCampo Lite: visual del mismo sistema del home web, sin duplicados. */
+.rcLiteShell{min-height:100dvh;max-width:520px;margin:0 auto;padding:0 0 112px;color:#191a1c;background:#ebebeb;font-family:var(--font-dm-sans),Arial,sans-serif}
+.rcLiteDirectHero{position:relative;isolation:isolate;display:flex;align-items:center;min-height:clamp(640px,146vw,760px);overflow:hidden;background:#191a1c;color:#fff}
 .rcLiteDirectHero *{box-sizing:border-box}
-.rcLiteDirectHero__image{object-fit:cover;object-position:72% center;filter:grayscale(1) brightness(.62) contrast(1.05);z-index:-2}
-.rcLiteDirectHero__tone{position:absolute;inset:0;z-index:-1;background:linear-gradient(143deg,rgba(23,25,25,.98) 0%,rgba(29,31,31,.95) 53%,rgba(29,31,31,.42) 77%,rgba(29,31,31,.20) 100%)}
-.rcLiteDirectHero__body{position:relative;width:100%;max-width:520px;padding:34px 22px 40px;display:flex;flex-direction:column;align-items:flex-start;gap:18px}
-.rcLiteDirectHero__eyebrow{margin:0;color:#d2d2ce;font-size:11px;letter-spacing:.18em;font-weight:800}
-.rcLiteDirectHero__title{margin:0;display:flex;flex-direction:column;max-width:100%;line-height:.97;letter-spacing:-.07em;font-weight:900}
-.rcLiteDirectHero__title span:first-child{font-size:clamp(66px,17vw,110px);line-height:.83}
-.rcLiteDirectHero__title span:last-child{font-size:clamp(26px,6.7vw,42px);overflow-wrap:anywhere}
-.rcLiteDirectHero__line{margin:0;font-size:clamp(11px,3.1vw,15px);line-height:1.5;font-weight:750;letter-spacing:.025em;color:#e6e5e1}
-.rcLiteDirectHero__stats{display:grid;grid-template-columns:1fr 1.25fr;gap:0;width:min(100%,410px);margin:4px 0}
-.rcLiteDirectHero__stats>div{min-width:0;display:flex;flex-direction:column;gap:2px}
-.rcLiteDirectHero__stats>div+div{border-left:1px solid #aaa9a5;padding-left:18px}
-.rcLiteDirectHero__stats strong{font-size:clamp(52px,13vw,74px);line-height:.96;font-weight:900;letter-spacing:-.07em}
-.rcLiteDirectHero__stats span{font-size:clamp(11px,3.15vw,16px);font-weight:900;line-height:1.2}
-.rcLiteDirectHero__register{width:min(100%,365px);min-height:56px;display:flex;align-items:center;justify-content:center;gap:14px;border-radius:999px;background:#efeeeb;color:#1c1e1d;text-decoration:none;text-align:center;font-weight:900;font-size:clamp(14px,4vw,17px);box-shadow:none}
-.rcLiteDirectHero__register:hover{background:#d9d8d4}
-.rcLiteDirectHero__register:focus-visible{outline:3px solid #fff;outline-offset:3px}
-@media(max-width:360px){.rcLiteDirectHero__body{padding-inline:17px;gap:15px}.rcLiteDirectHero__title span:last-child{font-size:clamp(22px,6.65vw,27px)}.rcLiteDirectHero__stats>div+div{padding-left:12px}.rcLiteDirectHero__stats span{font-size:10.5px}}
+.rcLiteDirectHero__image{z-index:-2;object-fit:cover;object-position:center 43%;filter:grayscale(1) brightness(.78) contrast(1.12)}
+.rcLiteDirectHero__tone{position:absolute;z-index:-1;inset:0;background:linear-gradient(90deg,rgba(22,22,24,.97),rgba(35,35,38,.91));clip-path:polygon(0 0,90% 0,58% 100%,0 100%)}
+.rcLiteDirectHero__body{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:0;width:100%;padding:50px 24px 50px}
+.rcLiteDirectHero__eyebrow{margin:0 0 28px;color:#d5bd72;font-size:clamp(18px,4.5vw,23px);font-weight:900;letter-spacing:.02em;text-shadow:0 3px 14px rgba(0,0,0,.35)}
+.rcLiteDirectHero__title{display:flex;flex-direction:column;margin:0;max-width:100%;font-size:clamp(43px,11.9vw,61px);font-weight:900;line-height:1;letter-spacing:-.083em;overflow-wrap:anywhere;text-shadow:0 4px 21px rgba(0,0,0,.32)}
+.rcLiteDirectHero__title span:last-child{color:#f0f0ef}
+.rcLiteDirectHero__rule{width:96px;height:5px;background:#969699;margin:23px 0 0}
+.rcLiteDirectHero__line{max-width:330px;margin:0;color:#fff;font-size:clamp(18px,4.65vw,22px);font-weight:750;line-height:1.35}
+.rcLiteDirectHero__actions{display:flex;align-items:flex-start;flex-direction:column;gap:14px;margin:28px 0 0}
+.rcLiteDirectHero__register,.rcLiteDirectHero__explore{display:inline-flex;justify-content:center;align-items:center;min-height:58px;min-width:230px;max-width:100%;padding:14px 26px;border-radius:999px;text-decoration:none;text-align:center;font-size:16px;font-weight:850;line-height:1.2}
+.rcLiteDirectHero__register{background:#f7f9f5;color:#191a1c}
+.rcLiteDirectHero__explore{background:#646569;color:#fff}
+.rcLiteDirectHero__register:hover{background:#dfe5dd}
+.rcLiteDirectHero__explore:hover{background:#505156}
+.rcLiteDirectHero__register:focus-visible,.rcLiteDirectHero__explore:focus-visible{outline:3px solid #fff;outline-offset:3px}
+.rcLiteDirectHero__stats{display:flex;align-items:center;gap:clamp(13px,4vw,20px);margin:35px 0 0;color:#fff}
+.rcLiteDirectHero__metric{display:flex;flex-direction:column;min-width:0;gap:2px;max-width:49%}
+.rcLiteDirectHero__metric strong{color:#d5bd72;font-size:clamp(41px,11vw,58px);line-height:1;font-weight:900;letter-spacing:-.06em;font-variant-numeric:tabular-nums}
+.rcLiteDirectHero__metric span{color:#f7f9f5;font-size:clamp(11px,3.2vw,14px);line-height:1.25;font-weight:900}
+.rcLiteDirectHero__separator{height:52px;flex:0 0 2px;background:#a4a4a6}
+.rcLiteExplore{padding:46px 23px 26px}
+.rcLiteExplore__label{margin:0 0 21px;color:#646569;font-size:13px;font-weight:900;letter-spacing:.07em}
+.rcLiteExplore__list{display:grid;gap:12px}
+.rcLiteExplore__link{display:flex;align-items:center;min-height:66px;padding:17px 23px;border:1px solid #d1d1d2;border-radius:16px;background:#f7f9f5;color:#191a1c;font-size:20px;font-weight:850;text-decoration:none}
+.rcLiteExplore__link:hover{background:#e1e1e3;border-color:#646569}
+.rcLiteBottomNav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);z-index:80;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));width:100%;max-width:520px;padding:10px 8px max(14px,env(safe-area-inset-bottom));border-top:1px solid #3b453e;background:#191a1c;box-shadow:0 -6px 24px rgba(0,0,0,.12)}
+.rcLiteBottomNav a{display:flex;justify-content:center;align-items:center;min-height:42px;color:#f7f9f5;font-size:13px;font-weight:800;text-decoration:none}
+.rcLiteBottomNav a:hover,.rcLiteBottomNav a:focus-visible{color:#d0d0d1;text-decoration:underline}
+@media(max-width:380px){.rcLiteDirectHero__body{padding-inline:20px}.rcLiteDirectHero__title{font-size:clamp(39px,11.75vw,47px)}.rcLiteDirectHero__line{font-size:18px}.rcLiteDirectHero__metric strong{font-size:40px}}
+@media(prefers-reduced-motion:reduce){.rcLiteDirectHero__register,.rcLiteDirectHero__explore{transition:none}}
 
-/* 2026-10-30: App Lite mirrors web mobile hero hierarchy and colors. */
-.rcLiteDirectHero__features{display:flex;flex-direction:column;align-items:flex-start;gap:5px;max-width:100%;color:#e6d87a}
-.rcLiteDirectHero__features p{margin:0;max-width:100%;line-height:1.12;overflow-wrap:break-word;text-wrap:balance}
-.rcLiteDirectHero__featurePrimary{font-size:clamp(19px,5.2vw,27px);font-weight:900;letter-spacing:-.045em}
-.rcLiteDirectHero__featureSecondary{font-size:clamp(14px,3.85vw,19px);font-weight:800;letter-spacing:-.025em}
-.rcLiteDirectHero__register{align-self:center;width:100%;max-width:365px;flex-shrink:0}
-@media(max-width:360px){.rcLiteDirectHero__featurePrimary{font-size:18px}.rcLiteDirectHero__featureSecondary{font-size:13px}}
+.rcLiteDirectHero__image{object-position:64% center}
+.rcLiteDirectHero__line{font-style:italic;font-weight:600}
+.rcLiteDirectHero__title span:last-child{color:#f0f0ef}
