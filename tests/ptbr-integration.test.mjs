@@ -239,7 +239,7 @@ test("two-door homepage keeps categories public and registration optional", () =
  assert.match(lite,/href: "\/lite\/campos"/);
  assert.match(lite,/href: "\/lite\/servicios"/);
  assert.match(lite,/href="\/lite\/cuenta\/registro"/);
- assert.match(styles,/@media\(max-width:720px\)/);
+ assert.match(styles,/@media\(max-width:900px\)/);
  assert.match(styles,/\.rcDoorsGrid/);
  assert.ok(faq.includes('id="preguntas"'),"FAQ preserved but not on homepage");
 });
@@ -301,7 +301,7 @@ test("mobile and desktop use photo doors while Lite retains bottom navigation", 
  assert.match(hero,/className="rcDoorsTileImage"/);
  assert.doesNotMatch(hero,/<video/);
  assert.match(css,/\.rcDoorsGrid/);
- assert.match(css,/@media\(max-width:720px\)/);
+ assert.match(css,/@media\(max-width:900px\)/);
  assert.match(css,/@media\(max-width:355px\)/);
  assert.match(lite,/href: "\/lite\/campos"/);
  assert.match(lite,/aria-label=\{t\("Navegación Lite"/);
