@@ -5,7 +5,7 @@
 .rcLiteDirectHero__image{z-index:-2;object-fit:cover;object-position:center 43%;filter:grayscale(1) brightness(.78) contrast(1.12)}
 .rcLiteDirectHero__tone{position:absolute;z-index:-1;inset:0;background:linear-gradient(90deg,rgba(14,18,15,.95),rgba(22,29,23,.8));clip-path:polygon(0 0,100% 0,86% 100%,0 100%)}
 .rcLiteDirectHero__body{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:0;width:100%;padding:55px 24px 58px}
-.rcLiteDirectHero__eyebrow{margin:0 0 40px;color:#d7dfd6;font-size:clamp(12px,3.3vw,15px);font-weight:850;letter-spacing:.07em}
+.rcLiteDirectHero__eyebrow{margin:0 0 38px;color:#d5bd72;font-size:clamp(18px,4.5vw,23px);font-weight:900;letter-spacing:.02em;text-shadow:0 3px 14px rgba(0,0,0,.35)}
 .rcLiteDirectHero__title{display:flex;flex-direction:column;margin:0;max-width:100%;font-size:clamp(43px,11.9vw,61px);font-weight:900;line-height:1;letter-spacing:-.083em;overflow-wrap:anywhere;text-shadow:0 4px 21px rgba(0,0,0,.32)}
 .rcLiteDirectHero__title span:last-child{color:#d9e4d9}
 .rcLiteDirectHero__rule{width:96px;height:5px;background:#71947a;margin:37px 0 22px}
@@ -17,8 +17,11 @@
 .rcLiteDirectHero__register:hover{background:#dfe5dd}
 .rcLiteDirectHero__explore:hover{background:#344b3a}
 .rcLiteDirectHero__register:focus-visible,.rcLiteDirectHero__explore:focus-visible{outline:3px solid #fff;outline-offset:3px}
-.rcLiteDirectHero__stats{display:flex;flex-direction:column;align-items:flex-start;gap:13px;margin:54px 0 0;color:#fff;font-size:clamp(15px,4vw,18px);line-height:1.2;letter-spacing:.014em;font-weight:900}
-.rcLiteDirectHero__stats>span{height:3px;width:65px;background:#86ab8c}
+.rcLiteDirectHero__stats{display:flex;align-items:center;gap:clamp(13px,4vw,20px);margin:43px 0 0;color:#fff}
+.rcLiteDirectHero__metric{display:flex;flex-direction:column;min-width:0;gap:2px;max-width:49%}
+.rcLiteDirectHero__metric strong{color:#d5bd72;font-size:clamp(41px,11vw,58px);line-height:1;font-weight:900;letter-spacing:-.06em;font-variant-numeric:tabular-nums}
+.rcLiteDirectHero__metric span{color:#f7f9f5;font-size:clamp(11px,3.2vw,14px);line-height:1.25;font-weight:900}
+.rcLiteDirectHero__separator{height:52px;flex:0 0 2px;background:#829989}
 .rcLiteExplore{padding:46px 23px 26px}
 .rcLiteExplore__label{margin:0 0 21px;color:#46604d;font-size:13px;font-weight:900;letter-spacing:.07em}
 .rcLiteExplore__list{display:grid;gap:12px}
@@ -27,5 +30,5 @@
 .rcLiteBottomNav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);z-index:80;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));width:100%;max-width:520px;padding:10px 8px max(14px,env(safe-area-inset-bottom));border-top:1px solid #3b453e;background:#151915;box-shadow:0 -6px 24px rgba(0,0,0,.12)}
 .rcLiteBottomNav a{display:flex;justify-content:center;align-items:center;min-height:42px;color:#f7f9f5;font-size:13px;font-weight:800;text-decoration:none}
 .rcLiteBottomNav a:hover,.rcLiteBottomNav a:focus-visible{color:#a9c4ad;text-decoration:underline}
-@media(max-width:380px){.rcLiteDirectHero__body{padding-inline:20px}.rcLiteDirectHero__title{font-size:clamp(39px,11.75vw,47px)}.rcLiteDirectHero__line{font-size:18px}.rcLiteDirectHero__stats{font-size:15px}}
+@media(max-width:380px){.rcLiteDirectHero__body{padding-inline:20px}.rcLiteDirectHero__title{font-size:clamp(39px,11.75vw,47px)}.rcLiteDirectHero__line{font-size:18px}.rcLiteDirectHero__metric strong{font-size:40px}}
 @media(prefers-reduced-motion:reduce){.rcLiteDirectHero__register,.rcLiteDirectHero__explore{transition:none}}
