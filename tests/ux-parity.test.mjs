@@ -34,7 +34,10 @@ test("web, mobile and Lite offer two public doorways and optional registration",
  assert.match(lite,/href="\/lite\/cuenta\/registro"/);
  assert.match(css,/\.rcDoorsGrid/);
  assert.match(css,/\.rcDoorsTileImage/);
- assert.match(css,/@media\(max-width:720px\)/);
+ assert.match(css,/clip-path:polygon/);
+ assert.match(css,/\.rcDoorsTile--servicios/);
+ assert.match(css,/\.rcDoorsTile--campos/);
+ assert.match(css,/@media\(max-width:900px\)/);
  assert.match(css,/\.rcLiteDoorsHome/);
  assert.match(home,/LandingSimpleHome/);
  assert.doesNotMatch(home,/LandingFAQ|LandingMapa|LandingTriptychHero|LandingHowBrief/);
