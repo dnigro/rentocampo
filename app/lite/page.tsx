@@ -26,7 +26,7 @@ export default async function LitePreview() {
         <Image src="/image_vaca_pix.png" alt="" fill priority sizes="(max-width:520px) 100vw, 520px" className="rcLiteDirectHero__image" />
         <div className="rcLiteDirectHero__tone" aria-hidden="true" />
         <div className="rcLiteDirectHero__body">
-          <p className="rcLiteDirectHero__eyebrow">{t("EL CAMPO, CONECTADO", "O CAMPO, CONECTADO", "RURAL COMMUNITIES CONNECTED")}</p>
+          <p className="rcLiteDirectHero__eyebrow">{t("CONECTÁ DIRECTO.", "CONECTE-SE DIRETO.", "CONNECT DIRECTLY.")}</p>
           <h1 className="rcLiteDirectHero__title" id="rcLiteDirectHero-title">
             <span>{t("EL CAMPO.", "O CAMPO.", "RURAL LIFE.")}</span>
             <span>{t("SIN VUELTAS.", "SEM COMPLICAÇÕES.", "MADE SIMPLE.")}</span>
@@ -41,10 +41,10 @@ export default async function LitePreview() {
               {t("Explorar campos", "Explorar terras", "Explore land")}
             </Link>
           </div>
-          <div className="rcLiteDirectHero__stats">
-            <strong>{t("CERO COMISIÓN", "ZERO COMISSÃO", "ZERO COMMISSION")}</strong>
-            <span aria-hidden="true" />
-            <strong>{t("100% CONTACTO DIRECTO", "100% CONTATO DIRETO", "100% DIRECT CONTACT")}</strong>
+          <div className="rcLiteDirectHero__stats" aria-label={t("0% comisión. 100% contacto directo.", "0% comissão. 100% contato direto.", "0% commission. 100% direct contact.")}>
+            <div className="rcLiteDirectHero__metric"><strong>0%</strong><span>{t("COMISIÓN", "COMISSÃO", "COMMISSION")}</span></div>
+            <span className="rcLiteDirectHero__separator" aria-hidden="true" />
+            <div className="rcLiteDirectHero__metric"><strong>100%</strong><span>{t("CONTACTO DIRECTO", "CONTATO DIRETO", "DIRECT CONTACT")}</span></div>
           </div>
         </div>
       </section>
