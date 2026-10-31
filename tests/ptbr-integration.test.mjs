@@ -228,10 +228,10 @@ test("approved minimal home removes video and FAQ from the homepage only", () =>
   const faq=read("components/landing/LandingFAQ.tsx");
   assert.match(landing, /LandingSimpleHome/);
   assert.doesNotMatch(landing, /LandingFAQ|LandingMapa|LandingTriptychHero|LandingHowBrief/);
-  assert.match(hero, /Registrate gratis/);
-  assert.match(hero, /Cadastre-se grátis/);
-  assert.match(hero, /SIN INTERMEDIARIOS/);
-  assert.match(hero, /SEM COMISSÕES/);
+  assert.match(hero, /REGISTRATE GRATIS/);
+  assert.match(hero, /CADASTRE-SE GRÁTIS/);
+  assert.match(hero, /INTERMEDIARIOS/);
+  assert.match(hero, /COMISSÕES/);
   assert.match(hero, /href="\/campos"/);
   assert.match(hero, /href="\/servicios-rurales"/);
   assert.match(lite, /href="\/lite\/cuenta\/registro"/);
@@ -298,7 +298,7 @@ test("mobile and desktop share an image-only landing while Lite keeps its own li
   assert.match(hero, /className="rcSimpleHero__image"/);
   assert.doesNotMatch(hero, /<video/);
   assert.match(css, /\.rcSimpleHero__actions/);
-  assert.match(css, /@media\(max-width:700px\)/);
+  assert.match(css, /@media\(max-width:900px\)/);
   assert.match(css, /@media\(max-width:350px\)/);
   assert.match(lite, /href="\/lite\/campos"/);
   assert.ok(!lite.includes("triptychHero"), "Lite has independent hero");
