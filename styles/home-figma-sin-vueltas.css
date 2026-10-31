@@ -66,9 +66,11 @@
 }
 .rc-landing .rcf-hero__eyebrow {
   margin-bottom: clamp(31px, 4.4vw, 58px);
-  color: #d7dfd6;
-  font-size: clamp(13px, 1.16vw, 17px);
-  letter-spacing: .085em;
+  color: #d5bd72;
+  font-size: clamp(20px, 2.0vw, 28px);
+  font-weight: 900;
+  letter-spacing: .02em;
+  text-shadow: 0 3px 14px rgba(0,0,0,.35);
 }
 .rc-landing .rcf-hero__title {
   max-width: 1180px;
@@ -146,22 +148,38 @@
 .rc-landing .rcf-hero__proof {
   display: flex;
   align-items: center;
-  flex-wrap: wrap;
-  gap: 18px;
-  margin-top: clamp(52px, 7.5vw, 96px);
-  font-size: clamp(15px, 1.22vw, 20px);
-  font-weight: 900;
-  letter-spacing: .015em;
-  color: #ffffff;
+  gap: 24px;
+  margin-top: clamp(40px,5.5vw,76px);
+  color: #fff;
+}
+.rc-landing .rcf-hero__metric {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
   text-transform: uppercase;
-  text-shadow: 0 2px 14px rgba(0, 0, 0, .35);
+}
+.rc-landing .rcf-hero__metric-value {
+  color: #d5bd72;
+  font-size: clamp(45px,5.6vw,76px);
+  font-weight: 900;
+  letter-spacing: -.06em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.rc-landing .rcf-hero__metric-label {
+  font-size: clamp(13px,1.18vw,18px);
+  font-weight: 900;
+  line-height: 1.25;
+  letter-spacing: .01em;
+  color: #f7f9f5;
 }
 .rc-landing .rcf-hero__divider {
-  width: 3px;
-  height: 24px;
-  background: #86ab8c;
+  flex: 0 0 2px;
+  width: 2px;
+  height: 60px;
+  background: #829989;
 }
-
 
 /* Preguntas frecuentes — editorial gris mate / verde inglés. */
 .rc-landing .rcf-faq {
@@ -310,8 +328,8 @@
   .rc-landing .rcf-hero__content { padding: 82px 23px 55px; }
   .rc-landing .rcf-hero__eyebrow {
     margin-bottom: 33px;
-    font-size: 13px;
-    letter-spacing: .055em;
+    font-size: clamp(18px,4.5vw,21px);
+    letter-spacing: .015em;
   }
   .rc-landing .rcf-hero__title {
     font-size: clamp(50px, 12.8vw, 70px);
@@ -329,18 +347,19 @@
   }
   .rc-landing .rcf-hero .rcf-pill { min-width: 210px; }
   .rc-landing .rcf-hero__proof {
-    flex-direction: column;
-    align-items: flex-start;
+    flex-direction: row;
     flex-wrap: nowrap;
-    gap: 13px;
-    margin-top: 57px;
-    font-size: clamp(16px, 4.45vw, 19px);
-    line-height: 1.15;
-    font-weight: 900;
+    align-items: center;
+    gap: clamp(13px,4vw,20px);
+    margin-top: 49px;
   }
+  .rc-landing .rcf-hero__metric { max-width: 49%; }
+  .rc-landing .rcf-hero__metric-value { font-size: clamp(40px,10.8vw,58px); }
+  .rc-landing .rcf-hero__metric-label { font-size: clamp(11px,3.2vw,14px); }
   .rc-landing .rcf-hero__divider {
-    width: 62px;
-    height: 3px;
+    flex-basis: 2px;
+    width: 2px;
+    height: 51px;
   }
   .rc-landing .rcf-faq { padding: 64px 0 77px; }
   .rc-landing .rcf-faq__container { gap: 39px; }
@@ -362,7 +381,7 @@
   .rc-landing .rcf-faq__answer p { font-size: 16px; }
 }
 @media (max-width: 380px) {
-  .rc-landing .rcf-hero__title { font-size: 50px; }
+  .rc-landing .rcf-hero__title { font-size: clamp(42px,12vw,48px); }
 }
 html[lang="pt-BR"] .rc-landing .rcf-hero__title { font-size: clamp(41px, 6.1vw, 85px); }
 html[lang="en-US"] .rc-landing .rcf-hero__title { font-size: clamp(46px, 7vw, 94px); }
@@ -376,13 +395,6 @@ html[lang="en-US"] .rc-landing .rcf-hero__title { font-size: clamp(46px, 7vw, 94
   .rc-landing .rcf-pill:hover { transform: none; }
 }
 
-/* 2026-10 cierre visual: beneficios como dos promesas legibles. */
-.rc-landing .rcf-hero__proof strong {
-  display: inline-block;
-  font-weight: 900;
-  font-size: inherit;
-  line-height: 1.22;
-}
 @media (min-width: 901px) {
   .rc-landing .rcf-hero__title { max-width: min(65vw, 1030px); }
   .rc-landing .rcf-hero__content { position: relative; z-index: 1; }
