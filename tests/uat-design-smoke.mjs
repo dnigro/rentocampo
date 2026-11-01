@@ -85,6 +85,26 @@ try{
     if(!(await page.locator("#rcf-hero-title").innerText()).includes("SIN VUELTAS"))throw Error("Wrong claim");
     await page.getByText("CAMPOS Y SERVICIOS",{exact:true}).waitFor({state:"visible"});
     if((await page.locator(".rcf-hero__metric-value").count())!==2)throw Error("Missing 0% or 100% metric");
+    if(width>=901){
+      const heroGeometry=await page.locator(".rcf-hero").evaluate(hero=>{
+        const title=hero.querySelector(".rcf-hero__title");
+        const matte=hero.querySelector(".rcf-hero__matte");
+        const proof=hero.querySelector(".rcf-hero__proof");
+        if(!title||!matte||!proof)throw Error("Incomplete hero geometry");
+        const outer=hero.getBoundingClientRect(),copy=title.getBoundingClientRect(),band=proof.getBoundingClientRect();
+        return {
+          height:outer.height,
+          textRight:copy.right-outer.left,
+          centerDiagonal:outer.width*.57,
+          proofVisible:band.top>=outer.top&&band.bottom<=outer.bottom+2,
+          matteClip:getComputedStyle(matte).clipPath,
+        };
+      });
+      if(heroGeometry.height>513||heroGeometry.height<438)throw Error("Hero not compact: "+JSON.stringify(heroGeometry));
+      if(heroGeometry.textRight>heroGeometry.centerDiagonal+8)throw Error("Headline overlaps cattle diagonal: "+JSON.stringify(heroGeometry));
+      if(!heroGeometry.proofVisible)throw Error("0/100 benefit cropped: "+JSON.stringify(heroGeometry));
+    }
+
     if((await page.locator(".rcf-actions a").count())!==2)throw Error("Wrong CTA count");
     if((await page.locator(".rc-how--web .rc-how__step").count())!==3)throw Error("How it works count");
     if(width<=680){
