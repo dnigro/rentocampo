@@ -82,7 +82,7 @@ html body .rc-landing .rcf-hero__photo::after {
 }
 html body .rc-landing .rcf-hero__matte {
   background: linear-gradient(105deg, #F7F4EE 0%, #FCFAF6 73%, #F7F4EE 100%);
-  clip-path: polygon(0 0, 69% 0, 43% 100%, 0 100%);
+  clip-path: polygon(0 0, 65% 0, 49% 100%, 0 100%);
 }
 html body .rc-landing .rcf-hero__content {
   position: static;
@@ -614,25 +614,33 @@ html body .app-shell .servicios-btn-primary {
   color: #FFFFFF !important;
 }
 
-/* Densidad editorial desktop 308: se reducen huecos blancos sin afectar el
- * contenido móvil ni cortar vacas, título, CTA o métricas.
+/* Densidad editorial desktop 309: composición equilibrada en notebook.
+ * El vacío entre copy y diagonal se elimina acercando la fotografía y
+ * ampliando la lectura, no estirando el panel marfil. Mobile queda intacto.
  */
 @media (min-width: 901px) {
   html body .rc-landing .rcf-hero {
-    min-height: clamp(500px, calc(100svh - 185px), 610px);
+    min-height: clamp(440px, calc(100svh - 290px), 510px);
   }
   html body .rc-landing .rcf-hero__content {
     min-height: inherit;
-    padding-top: 25px;
-    padding-bottom: 128px;
+    padding-top: 18px;
+    padding-bottom: 109px;
+    padding-inline: clamp(26px, 4.7vw, 70px);
   }
-  html body .rc-landing .rcf-hero__eyebrow { margin-bottom: 15px; }
+  html body .rc-landing .rcf-hero__eyebrow { margin-bottom: 11px; }
+  html body .rc-landing :is(.rcf-hero__eyebrow,.rcf-hero__title,.rcf-hero__description,.rcf-actions) {
+    width: min(48vw, 675px);
+    max-width: min(48vw, 675px);
+  }
+  html body .rc-landing .rcf-actions { margin-top: 16px; }
+  html body .rc-landing .rcf-rule { margin-top: 13px; }
   html body .rc-landing .rcf-hero__title {
-    font-size: clamp(50px, 5.5vw, 80px);
+    font-size: clamp(51px, 5.8vw, 83px);
   }
   html body .rc-landing .rcf-hero__proof {
-    min-height: 108px;
-    padding-block: 16px 13px;
+    min-height: 98px;
+    padding-block: 12px 10px;
   }
   html body .rc-landing .rcf-hero__metric-value {
     font-size: clamp(43px, 4.4vw, 61px);
