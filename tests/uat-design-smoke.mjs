@@ -77,7 +77,7 @@ try{
  if(!ready)throw Error("UAT local server not ready");
  const browser=await chromium.launch();
  try{
-  for(const [label,width,height] of [["320",320,740],["390",390,844],["768",768,1024],["1440",1440,900]]){
+  for(const [label,width,height] of [["320",320,740],["390",390,844],["768",768,1024],["980-desktop-mode",980,1700],["1440",1440,900]]){
    const context=await browser.newContext({viewport:{width,height},locale:"es-AR"});
    const page=await context.newPage();await page.route(/googletagmanager|google-analytics/,route=>route.abort());
    await check("Home / FAQ / header / footer "+label,page,async()=>{
