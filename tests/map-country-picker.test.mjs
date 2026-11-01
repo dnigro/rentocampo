@@ -48,3 +48,12 @@ test("the native app opens the same regional map used by web and App Lite", () =
   assert.match(native, /open\("\/campos\/mapa\?vista=servicios"/);
   assert.doesNotMatch(native, /open\("\/mapa\?tipo=/);
 });
+
+test("map filter stays visible and footer follows the map across screen sizes", () => {
+  const css = read("styles/mapa.css");
+  assert.match(css, /body:has\(\.mapa-page\) \.app-shell > \.main-content \{[^}]*height: auto !important;/);
+  assert.match(css, /body:has\(\.mapa-page\) \.app-shell > \.main-content \{[^}]*overflow: visible !important;/);
+  assert.match(css, /\.mapa-wrapper > \.mapa-filtros \{[^}]*max-height: calc\(100% - 32px\);[^}]*overflow-y: auto;/);
+  assert.match(css, /@media \(max-width: 640px\)[\s\S]*\.mapa-wrapper > \.mapa-filtros \{\s*max-height: calc\(100% - 20px\);/);
+  assert.match(css, /body:has\(\.mapa-page\) footer\.footer \{[^}]*position: relative !important;/);
+});
