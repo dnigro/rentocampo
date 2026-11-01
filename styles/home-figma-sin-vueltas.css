@@ -66,7 +66,7 @@
 }
 .rc-landing .rcf-hero__eyebrow {
   margin-bottom: clamp(31px, 4.4vw, 58px);
-  color: #d5bd72;
+  color: #B8D6DF;
   font-size: clamp(20px, 2.0vw, 28px);
   font-weight: 900;
   letter-spacing: .02em;
@@ -162,7 +162,7 @@
   text-transform: uppercase;
 }
 .rc-landing .rcf-hero__metric-value {
-  color: #d5bd72;
+  color: #B8D6DF;
   font-size: clamp(45px,5.6vw,76px);
   font-weight: 900;
   letter-spacing: -.06em;
@@ -799,15 +799,15 @@ html[lang="en-US"] .rc-landing .rcf-hero__title { font-size: clamp(46px, 7vw, 94
   html[lang="en-US"] .rc-landing .rcf-hero__title { font-size: clamp(40px, 5.7vw, 52px); }
 }
 
-/* CTA principal aprobado: mostaza mate de RentoCampo (no amarillo saturado). */
+/* CTA experimental: plata glaciar metalizada sobre negro mate. */
 .rc-landing .rcf-pill--light {
-  background: #d5bd72 !important;
+  background: #B8D6DF !important;
   color: #191a1c !important;
   font-family: var(--font-rounded), var(--font-dm-sans), sans-serif;
   font-weight: 900;
   letter-spacing: .025em;
 }
-.rc-landing .rcf-pill--light:hover { background: #c7ad62 !important; }
+.rc-landing .rcf-pill--light:hover { background: #D2E7EC !important; }
 .rc-landing .rcf-pill--light:focus-visible { outline: 3px solid #fff; outline-offset: 4px; }
 @media (max-width: 640px) {
   /* Foto más baja, pero el ganado sigue visible; texto y registro antes del scroll largo. */
