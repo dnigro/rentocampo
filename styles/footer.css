@@ -58,7 +58,7 @@ html body footer.footer .footer-col-title svg {
   width: 19px;
   height: 19px;
   flex-shrink: 0;
-  color: #d5bd72;
+  color: #B8D6DF;
 }
 html body footer.footer .footer-nav {
   display: flex;
@@ -78,7 +78,7 @@ html body footer.footer .footer-link {
 }
 html body footer.footer .footer-link:hover,
 html body footer.footer .footer-bottom-link:hover {
-  color: #d5bd72;
+  color: #B8D6DF;
   text-decoration: underline;
 }
 html body footer.footer .footer-socials {
@@ -111,12 +111,12 @@ html body footer.footer .footer-social-link svg {
   height: 23px;
 }
 html body footer.footer .footer-social-link:hover {
-  background: #d5bd72;
+  background: #B8D6DF;
   color: #191a1c;
-  border-color: #d5bd72;
+  border-color: #B8D6DF;
 }
 html body footer.footer .footer-social-link:focus-visible {
-  outline: 2px solid #d5bd72;
+  outline: 2px solid #B8D6DF;
   outline-offset: 3px;
 }
 html body footer.footer .footer-bottom {
