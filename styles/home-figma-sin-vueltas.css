@@ -798,3 +798,29 @@ html[lang="en-US"] .rc-landing .rcf-hero__title { font-size: clamp(46px, 7vw, 94
   html[lang="pt-BR"] .rc-landing .rcf-hero__title { font-size: clamp(37px, 5.3vw, 49px); }
   html[lang="en-US"] .rc-landing .rcf-hero__title { font-size: clamp(40px, 5.7vw, 52px); }
 }
+
+/* CTA principal aprobado: mostaza mate de RentoCampo (no amarillo saturado). */
+.rc-landing .rcf-pill--light {
+  background: #d5bd72 !important;
+  color: #191a1c !important;
+  font-family: var(--font-rounded), var(--font-dm-sans), sans-serif;
+  font-weight: 900;
+  letter-spacing: .025em;
+}
+.rc-landing .rcf-pill--light:hover { background: #c7ad62 !important; }
+.rc-landing .rcf-pill--light:focus-visible { outline: 3px solid #fff; outline-offset: 4px; }
+@media (max-width: 640px) {
+  /* Foto más baja, pero el ganado sigue visible; texto y registro antes del scroll largo. */
+  .rc-landing .rcf-hero__photo { height: clamp(205px, 54vw, 278px); }
+  .rc-landing .rcf-hero__photo::after {
+    background: linear-gradient(180deg, rgba(25,26,28,0) 0%, rgba(25,26,28,.07) 48%, #191a1c 100%);
+  }
+  .rc-landing .rcf-hero__content { padding: clamp(215px, 58vw, 295px) 20px 32px; }
+  .rc-landing .rcf-hero__eyebrow { margin-bottom: 10px; }
+  .rc-landing .rcf-hero__title { font-size: clamp(33px, 8.7vw, 46px); line-height: 1.035; }
+  .rc-landing .rcf-hero__description { margin-top: 11px; font-size: clamp(17px, 4.35vw, 20px); }
+  .rc-landing .rcf-rule { margin-top: 14px; }
+  .rc-landing .rcf-actions { margin-top: 16px; gap: 10px; }
+  .rc-landing .rcf-actions .rcf-pill { min-height: 48px; padding: 11px 20px; }
+  .rc-landing .rcf-hero__proof { margin-top: 23px; }
+}
