@@ -54,7 +54,7 @@ export default function LiteHeader() {
       </Link>
 
       <div className="lite-regional-controls">
-        <label className="lite-regional-country-label" htmlFor="lite-regional-pais">{regionalText(country, "PAÍS", "PAÍS")}</label>
+        <label className="lite-regional-country-label" htmlFor="lite-regional-pais">{regionalText(country, "PAÍS", "PAÍS", "COUNTRY")}</label>
         <select
           id="lite-regional-pais"
           className="lite-regional-country"
