@@ -242,3 +242,30 @@
 .app-shell .dashboard-cards .dash-card-icon{font-size:38px!important;line-height:1.15!important;display:inline-flex;align-items:center;justify-content:flex-start;min-height:44px;margin-bottom:14px;filter:saturate(.9)}
 .app-shell .dashboard-cards .dash-card-icon svg{width:38px;height:38px;stroke-width:1.9}
 @media(max-width:600px){.app-shell .dashboard-cards .dash-card-icon{font-size:35px!important;min-height:40px;margin-bottom:10px}.app-shell .dashboard-cards .dash-card-icon svg{width:35px;height:35px}}
+
+/* Navegación interior de Mi cuenta: botón cápsula estándar Patagonia. */
+html body .app-shell .dashboard-return a {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 44px;
+  padding: 11px 21px;
+  border: 1px solid #11283F;
+  border-radius: 999px;
+  background: #11283F;
+  color: #FFFFFF !important;
+  font-family: var(--font-rounded),var(--font-dm-sans),Arial,sans-serif;
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1.2;
+  text-decoration: none;
+}
+html body .app-shell .dashboard-return a:hover {
+  background: #365F7A;
+  border-color: #365F7A;
+  color: #FFFFFF !important;
+}
+html body .app-shell .dashboard-return a:focus-visible {
+  outline: 3px solid #779AB1;
+  outline-offset: 3px;
+}
