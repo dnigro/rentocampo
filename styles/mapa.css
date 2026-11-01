@@ -845,7 +845,9 @@ body:has(.mapa-page) .app-shell {
 }
 body:has(.mapa-page) .app-shell > .main-content {
   flex: 0 0 auto;
+  height: auto !important;
   min-height: 0 !important;
+  overflow: visible !important;
   display: block;
   padding-bottom: 0 !important;
 }
@@ -865,6 +867,16 @@ body:has(.mapa-page) .mapa-page > .mapa-wrapper {
   min-height: 0;
   overflow: hidden;
   position: relative;
+}
+
+/* El panel no puede quedar cortado al reducir la altura del navegador.
+ * El footer queda debajo del mapa, y el scroll ocurre dentro del filtro
+ * solo cuando el contenido excede el alto disponible del mapa. */
+body:has(.mapa-page) .mapa-wrapper > .mapa-filtros {
+  max-height: calc(100% - 32px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
 }
 body:has(.mapa-page) footer.footer {
   position: relative !important;
@@ -915,6 +927,9 @@ body:has(.mapa-page) footer.footer {
 @media (max-width: 640px) {
   body:has(.mapa-page) .mapa-page > .mapa-wrapper {
     height: clamp(500px, calc(100dvh - 175px), 680px);
+  }
+  body:has(.mapa-page) .mapa-wrapper > .mapa-filtros {
+    max-height: calc(100% - 20px);
   }
   .mapa-page .mapa-listas-nav {
     display: grid;
