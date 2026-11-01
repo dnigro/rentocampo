@@ -38,6 +38,22 @@ test("web desktop, mobile and Lite share +SIMPLE with MAP and ONLINE CHAT", () =
   assert.ok(hero.includes("TERRAS E SERVIÇOS") && hero.includes("LAND & SERVICES"));
 });
 
+test("desktop hero rotates to copy on left and cattle on right without changing mobile or Lite",()=>{
+ const hero=read("components/landing/SimpleMapChatHero.tsx");
+ const css=read("styles/hero-simple-map-chat.css");
+ assert.ok(web.includes("<SimpleMapChatHero />"));
+ assert.ok(lite.includes("<SimpleMapChatHero lite />"));
+ assert.ok(css.includes('@media (min-width:851px)'));
+ assert.ok(css.includes('grid-template-areas: "copy photo"'));
+ assert.match(css,/\.rc-landing \.rcsm-panel\s*\{\s*grid-area: copy;/);
+ assert.match(css,/\.rc-landing \.rcsm-photo\s*\{\s*grid-area: photo;/);
+ assert.ok(css.includes('clip-path: polygon(12% 0, 100% 0, 100% 100%, 0 100%)'));
+ assert.ok(css.includes('@media(max-width:850px)'));
+ assert.ok(css.includes('.rcsm-layout{display:block;min-height:0}'));
+ assert.ok(hero.indexOf('className="rcsm-photo"') < hero.indexOf('className="rcsm-panel"'));
+ assert.ok(!css.includes('.rcLiteShell .rcsm-layout { grid-template-areas: "copy photo"'));
+});
+
 test("home stays hero + short explainer + FAQ, with a shared header/footer",()=>{
  assert.ok(home.includes("<LandingFigmaHome />"));
  assert.ok(home.includes("<LandingFAQ />"));
