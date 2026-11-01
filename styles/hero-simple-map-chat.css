@@ -103,3 +103,26 @@
 @media(prefers-reduced-motion:reduce){.rcsm-button{transition:none}}
 /* La misma portada en Lite: no limitar ni a 520 px ni al estilo anterior. */
 .rcLiteShell .rcsm{max-width:100%}
+
+
+/* Home web desktop: copy y acciones a la izquierda, foto real del ganado a la derecha.
+ * El DOM y la composición móvil (foto arriba, contenido abajo) quedan intactos.
+ * App Lite conserva su layout específico en cualquier tamaño de ventana.
+ */
+@media (min-width:851px) {
+  .rc-landing .rcsm-layout {
+    grid-template-areas: "copy photo";
+    grid-template-columns: minmax(0,1.02fr) minmax(0,.98fr);
+  }
+  .rc-landing .rcsm-panel {
+    grid-area: copy;
+    padding: 40px clamp(18px,2.6vw,42px) 44px clamp(24px,4.6vw,74px);
+  }
+  .rc-landing .rcsm-photo {
+    grid-area: photo;
+    clip-path: polygon(12% 0, 100% 0, 100% 100%, 0 100%);
+  }
+  .rc-landing .rcsm-photo::after {
+    background: linear-gradient(90deg, rgba(247,246,242,.16), transparent 23%);
+  }
+}
