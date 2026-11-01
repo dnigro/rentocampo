@@ -167,7 +167,7 @@ export default async function ServicioDetallePage({ params }: { params: Promise<
             ) : user?.id === publicacion?.propietario_id ? (
               <Link href={`/mis-servicios-rurales/${publicacion?.id}/editar`} className="servicio-ficha-cta">{tt("Editar publicación","Editar anúncio")}</Link>
             ) : user ? (
-              <Link href={`/mensajes/direct/${publicacion?.propietario_id}`} className="servicio-ficha-cta">{tt("Consultar servicio →","Consultar serviço →")}</Link>
+              <Link href={`/mensajes/direct/${publicacion?.propietario_id}?borrador=servicio`} className="servicio-ficha-cta">{tt("Consultar servicio →","Consultar serviço →")}</Link>
             ) : (
               <Link href={`/login?next=/servicios-rurales/${id}`} className="servicio-ficha-cta">{tt("Ingresá para consultar →","Entre para consultar →")}</Link>
             )}
