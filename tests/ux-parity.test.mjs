@@ -58,7 +58,7 @@ test("home stays hero + short explainer + FAQ, with a shared header/footer",()=>
  assert.ok(how.includes('className="rc-how__symbol"'));
  assert.ok(!how.includes("tabIndex={0}"));
  assert.ok(how.includes("MapPinned") && how.includes("MessageCircleMore") && how.includes("Handshake"));
- assert.ok(sharedStyle.includes("--rc-green: #646569"));
+ assert.ok(sharedStyle.includes("--rc-green: #B8D6DF"));
  assert.ok(liteStyle.includes("background:#646569"));
  assert.ok(webStyle.includes("background:#646569"));
  assert.ok(read("app/layout.tsx").includes("Nunito"));
