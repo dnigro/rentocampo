@@ -425,7 +425,7 @@ html[lang="en-US"] .rc-landing .rcf-hero__title { font-size: clamp(46px, 7vw, 94
   font-style: normal;
   font-weight: 700;
 }
-.rc-landing .rcf-hero__photo .rcf-cover--cattle { object-position: 62% 55%; }
+.rc-landing .rcf-hero__photo .rcf-cover--cattle { object-position: 62% 62%; }
 @media (max-width: 640px) {
   .rc-landing .rcf-hero { display: block; min-height: 0; background: #191a1c; }
   .rc-landing .rcf-hero__photo {
