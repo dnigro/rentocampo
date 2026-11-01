@@ -6,8 +6,8 @@
 :root {
   --rc-black: #191a1c;
   --rc-graphite: #28292c;
-  --rc-green: #646569;
-  --rc-green-hover: #505156;
+  --rc-green: #B8D6DF;
+  --rc-green-hover: #D2E7EC;
   --rc-silver: #c7c7c9;
   --rc-paper: #ededeb;
   --rc-white: #f7f7f5;
@@ -22,7 +22,7 @@
   --brand-radius: 16px;
   --action-mustard: var(--rc-green);
   --action-mustard-hover: var(--rc-green-hover);
-  --action-ink: #fff;
+  --action-ink: #191a1c;
 }
 
 html body { color: var(--rc-black); }
@@ -93,7 +93,7 @@ html body footer.footer .footer-social-link {
   border-color: #68686b !important;
 }
 html body footer.footer .footer-social-link:hover {
-  color: #fff !important;
+  color: var(--rc-black) !important;
   background: var(--rc-green) !important;
   border-color: var(--rc-green) !important;
 }
@@ -141,7 +141,7 @@ html body .app-shell :is(.form-input,.form-select,.form-textarea,.filtro-input,.
   border-radius: 999px !important;
   background: var(--rc-green) !important;
   border-color: var(--rc-green) !important;
-  color: #fff !important;
+  color: var(--rc-black) !important;
   box-shadow: none !important;
   text-transform: none !important;
   letter-spacing: 0 !important;
@@ -156,7 +156,7 @@ html body .app-shell :is(.form-input,.form-select,.form-textarea,.filtro-input,.
 ):hover:not(:disabled) {
   background: var(--rc-green-hover) !important;
   border-color: var(--rc-green-hover) !important;
-  color: #fff !important;
+  color: var(--rc-black) !important;
 }
 /* Auth y perfil: seleccionar por contexto, sin alterar estados o validaciones. */
 html body .app-shell .tipo-option input:checked + .tipo-label,
@@ -169,7 +169,7 @@ html body .app-shell .servicio-option input:checked + span {
 html body .app-shell :is(.filtro-chip.active,.filtro-chip[aria-pressed="true"]) {
   background: var(--rc-green) !important;
   border-color: var(--rc-green) !important;
-  color: #fff !important;
+  color: var(--rc-black) !important;
 }
 html body .app-shell :is(.auth-page,.auth-page-register) {
   background: var(--rc-paper) !important;
