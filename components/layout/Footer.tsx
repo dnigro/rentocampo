@@ -2,6 +2,7 @@
 
 import RegionalLink from "@/components/layout/RegionalLink";
 import Link from "next/link";
+import { Tractor, House, Sprout, Mail } from "lucide-react";
 import "@/styles/footer.css";
 import BrandWordmark from "@/components/layout/BrandWordmark";
 import { regionalText } from "@/lib/i18n/regional";
@@ -23,7 +24,7 @@ export default function Footer() {
         </div>
 
         <div className="footer-col">
-          <h4 className="footer-col-title">{t("Productores", "Produtores")}</h4>
+          <h4 className="footer-col-title"><Tractor aria-hidden="true" />{t("Productores", "Produtores")}</h4>
           <nav className="footer-nav">
             <Link href="/alquiler-de-campos" className="footer-link">
               {t("Alquiler de campos", "Arrendamento rural")}
@@ -38,7 +39,7 @@ export default function Footer() {
         </div>
 
         <div className="footer-col">
-          <h4 className="footer-col-title">{t("Propietarios", "Proprietários")}</h4>
+          <h4 className="footer-col-title"><House aria-hidden="true" />{t("Propietarios", "Proprietários")}</h4>
           <nav className="footer-nav">
             <RegionalLink href="/register?tipo=propietario" fallbackCountry={country} className="footer-link">
               {t("Publicar un campo", "Anunciar terra")}
@@ -53,53 +54,33 @@ export default function Footer() {
         </div>
 
         <div className="footer-col footer-col--services">
-          <h4 className="footer-col-title">{t("Servicios rurales", "Serviços rurais")}</h4>
+          <h4 className="footer-col-title"><Sprout aria-hidden="true" />{t("Servicios rurales", "Serviços rurais")}</h4>
           <nav className="footer-nav footer-nav--services">
-            <div className="footer-services-links">
-              <Link href="/servicios-rurales" className="footer-link">
-                {t("Buscar servicios", "Buscar serviços")}
-              </Link>
-              <Link href="/campos/mapa?vista=servicios" className="footer-link">
-                {t("Ver mapa de servicios", "Ver mapa de serviços")}
-              </Link>
-              <RegionalLink href="/register?tipo=prestador" fallbackCountry={country} className="footer-link">
-                {t("Ofrecer mis servicios", "Oferecer meus serviços")}
-              </RegionalLink>
-            </div>
-            <div className="footer-contact-group">
-              <h5 className="footer-contact-title">{t("Contacto", "Contato")}</h5>
-              <Link href="/alianzas" className="footer-link">
-                {t("Alianzas rurales", "Parcerias rurais")}
-              </Link>
-              <a href="mailto:hola@rentocampo.com" className="footer-link">
-                hola@rentocampo.com
-              </a>
-              <span className="footer-link footer-regional-claim">{t("Red regional de servicios rurales", "Rede regional de serviços rurais")}</span>
-            </div>
+            <Link href="/servicios-rurales" className="footer-link">{t("Buscar servicios", "Buscar serviços")}</Link>
+            <Link href="/campos/mapa?vista=servicios" className="footer-link">{t("Ver mapa de servicios", "Ver mapa de serviços")}</Link>
+            <RegionalLink href="/register?tipo=prestador" fallbackCountry={country} className="footer-link">
+              {t("Ofrecer mis servicios", "Oferecer meus serviços")}
+            </RegionalLink>
+          </nav>
+        </div>
+
+        <div className="footer-col footer-col--contact">
+          <h4 className="footer-col-title"><Mail aria-hidden="true" />{t("Contacto", "Contato")}</h4>
+          <nav className="footer-nav">
+            <Link href="/alianzas" className="footer-link">{t("Alianzas rurales", "Parcerias rurais")}</Link>
+            <a href="mailto:hola@rentocampo.com" className="footer-link">hola@rentocampo.com</a>
           </nav>
           <div className="footer-socials" aria-label="Redes sociales">
-            <a
-              href="https://www.instagram.com/rento_campo/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="footer-social-link"
-              aria-label="Instagram de RentoCampo (se abre en una nueva pestaña)"
-              title="Instagram · RentoCampo"
-            >
+            <a href="https://www.instagram.com/rento_campo/" target="_blank" rel="noopener noreferrer" className="footer-social-link"
+              aria-label="Instagram de RentoCampo (se abre en una nueva pestaña)" title="Instagram · RentoCampo">
               <svg viewBox="0 0 24 24" width="27" height="27" fill="none" stroke="currentColor" strokeWidth="1.85" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <rect x="2.75" y="2.75" width="18.5" height="18.5" rx="5.25" />
                 <circle cx="12" cy="12" r="4.15" />
                 <circle cx="17.6" cy="6.5" r="1.15" fill="currentColor" stroke="none" />
               </svg>
             </a>
-            <a
-              href="https://www.facebook.com/profile.php?id=61594630832899"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="footer-social-link"
-              aria-label="Facebook de RentoCampo (se abre en una nueva pestaña)"
-              title="Facebook · RentoCampo"
-            >
+            <a href="https://www.facebook.com/profile.php?id=61594630832899" target="_blank" rel="noopener noreferrer" className="footer-social-link"
+              aria-label="Facebook de RentoCampo (se abre en una nueva pestaña)" title="Facebook · RentoCampo">
               <svg viewBox="0 0 24 24" width="27" height="27" fill="currentColor" aria-hidden="true">
                 <path d="M13.65 21v-8h2.7l.43-3.2h-3.13V7.75c0-.93.26-1.55 1.6-1.55h1.67V3.34a23 23 0 0 0-2.45-.13c-2.43 0-4.1 1.49-4.1 4.23V9.8H7.65V13h2.72v8h3.28Z" />
               </svg>
