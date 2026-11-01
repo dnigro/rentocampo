@@ -108,24 +108,33 @@ test('LATAM preview fails closed without dedicated UAT credentials', () => {
 });
 
 // The homepage must be derived from the same ISO catalog as selectors and filters.
-test('web/mobile/Lite promote 0 percent commission with a compact regional message', () => {
-  const hero=readFileSync(new URL('../components/landing/LandingFigmaHome.tsx',import.meta.url),'utf8');
-  const css=readFileSync(new URL('../styles/home-figma-sin-vueltas.css',import.meta.url),'utf8');
-  const lite=readFileSync(new URL('../app/lite/page.tsx',import.meta.url),'utf8');
-  const liteCss=readFileSync(new URL('../styles/lite-direct-hero.css',import.meta.url),'utf8');
-  assert.equal(COUNTRY_CODES.length,19);
-  for(const source of [hero,lite]){
-    for(const phrase of ['CAMPOS Y SERVICIOS','Buscá, publicá y conectá.','SIN VUELTAS','0%</strong>','100%</strong>','COMISIÓN','CONTACTO DIRECTO']){
-      assert.ok(source.includes(phrase), 'missing hero content: '+phrase);
-    }
-    assert.ok(!source.includes('MAPAS + CHAT ONLINE'), 'retired noisy hero copy');
-  }
-  assert.ok(hero.includes('href="/register"'));
-  assert.ok(hero.includes('href="/campos/mapa"'));
-  assert.ok(lite.includes('href="/lite/cuenta/registro"'));
-  assert.ok(css.includes('.rc-landing .rcf-hero__metric-value'));
-  assert.ok(css.includes('@media (max-width: 520px)'));
-  assert.ok(liteCss.includes('.rcLiteDirectHero__metric strong'));
+test('web/mobile/Lite have localized map/chat and 0% commission with country-aware navigation', () => {
+ const web=readFileSync(new URL('../components/landing/LandingFigmaHome.tsx',import.meta.url),'utf8');
+ const hero=readFileSync(new URL('../components/landing/SimpleMapChatHero.tsx',import.meta.url),'utf8');
+ const css=readFileSync(new URL('../styles/hero-simple-map-chat.css',import.meta.url),'utf8');
+ const lite=readFileSync(new URL('../app/lite/page.tsx',import.meta.url),'utf8');
+ const regional=readFileSync(new URL('../lib/i18n/regional.ts',import.meta.url),'utf8');
+ const countryHook=readFileSync(new URL('../lib/i18n/useRegionalCountry.ts',import.meta.url),'utf8');
+ assert.equal(COUNTRY_CODES.length,19);
+ assert.ok(web.includes('<SimpleMapChatHero />'));
+ assert.ok(lite.includes('<SimpleMapChatHero lite />'));
+ for(const phrase of ['CAMPOS Y SERVICIOS','TERRAS E SERVIÇOS','LAND & SERVICES',
+   'MAPA','CHAT ONLINE','ONLINE CHAT','Seleccioná la zona','Escolha a região','Select an area',
+   'Contactá en línea','Converse online','Connect online','0%</strong>','100%</strong>','COMISIÓN','COMISSÃO','COMMISSION','CONTACTO DIRECTO','CONTATO DIRETO','DIRECT CONTACT']){
+   assert.ok(hero.includes(phrase), 'missing localized hero copy: '+phrase);
+ }
+ assert.ok(hero.includes('href={lite ? "/lite/cuenta/registro" : "/register"}'));
+ assert.ok(hero.includes('href="/campos/mapa"'));
+ assert.ok(css.includes('.rcsm-proof__item'));
+ assert.ok(css.includes('@media(max-width:850px)'));
+ assert.ok(regional.includes('if (country === "BR") return portuguese'));
+ assert.ok(regional.includes('if (country === "US") return english'));
+ assert.ok(countryHook.includes('country === "BR" ? "pt-BR" : country === "US" ? "en-US" : "es"'));
+ const navbar=readFileSync(new URL('../components/layout/Navbar.tsx',import.meta.url),'utf8');
+ const liteHeader=readFileSync(new URL('../components/lite/LiteHeader.tsx',import.meta.url),'utf8');
+ assert.ok(navbar.includes('"PAÍS", "PAÍS", "COUNTRY"'));
+ assert.ok(liteHeader.includes('"PAÍS", "PAÍS", "COUNTRY"'));
+ assert.ok(lite.includes('resolveCountry(pais, (await cookies()).get("rentocampo_country")?.value)'));
 });
 
 test('LATAM18 map zoning catalog has four valid geolocated references per new country', async () => {
@@ -205,7 +214,7 @@ test('country selector shows 19 unique markets in Spanish alphabetical order', (
  assert.match(nav,/selectRegionalCountry\(country\);\s*window\.location\.reload\(\)/);
  assert.match(nav,/aria-haspopup="listbox"/);
  assert.match(nav,/htmlFor="navbar-pais-mobile"/);
- assert.equal((nav.match(/regionalText\(activeCountry, "PAÍS", "PAÍS"\)/g)||[]).length,2);
+ assert.equal((nav.match(/regionalText\(activeCountry, "PAÍS", "PAÍS", "COUNTRY"\)/g)||[]).length,2);
  assert.equal((nav.match(/\{COUNTRIES\[code\]\.flag\} \{code\}<\/option>/g)||[]).length,1);
 });
 test('new-country green available field pins paint above yellow editorial pins', () => {

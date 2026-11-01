@@ -1,0 +1,105 @@
+/* RentoCampo — +SIMPLE: dos herramientas centrales, MAPA + CHAT ONLINE.
+   Sistema compartido por home web / móvil / Lite. CSS aislado con prefijo rcsm. */
+.rcsm {
+  --rcsm-navy: #0c2d43;
+  --rcsm-blue: #7c9fb5;
+  --rcsm-green: #65b914;
+  --rcsm-paper: #f7f6f2;
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  color: var(--rcsm-navy);
+  background: var(--rcsm-paper);
+  font-family: var(--font-rounded), var(--font-dm-sans), Arial, sans-serif;
+}
+.rcsm * {box-sizing:border-box}
+.rcsm-layout {
+  display:grid;
+  grid-template-columns: minmax(0,.98fr) minmax(0,1.02fr);
+  min-height:570px;
+  max-width:1500px;
+  margin:0 auto;
+}
+.rcsm-photo {position:relative;min-height:570px;overflow:hidden;background:#b6b8b5}
+.rcsm-photo__image {object-fit:cover;object-position:62% 50%;filter:grayscale(1) contrast(1.09) brightness(.97)}
+.rcsm-photo::after {
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(90deg,transparent 74%,var(--rcsm-paper) 100%);
+}
+.rcsm-panel {
+  display:flex; flex-direction:column; justify-content:center;
+  min-width:0; padding:40px clamp(24px,4.6vw,74px) 44px 14px;
+}
+.rcsm-eyebrow {
+  margin:0 0 14px; text-align:center; color:#153850;
+  font-size:clamp(15px,1.5vw,21px);font-weight:850;letter-spacing:.13em;
+}
+.rcsm-title {
+  display:flex;align-items:baseline;justify-content:center;gap:2px;
+  margin:0 0 23px; color:var(--rcsm-navy);font-size:clamp(58px,6.9vw,96px);
+  font-weight:950;line-height:1;letter-spacing:-.057em;
+}
+.rcsm-title span{color:var(--rcsm-green)}
+.rcsm-features {
+  display:grid;grid-template-columns:1fr 1fr;align-items:center;
+  border:1px solid #d3dce0;border-radius:24px;
+  padding:clamp(15px,2vw,25px) 8px;
+  background:linear-gradient(145deg,#fff,#edf3f6);
+  box-shadow:0 9px 26px rgba(7,41,61,.12);
+}
+.rcsm-feature {display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;gap:10px;min-width:0;padding:2px 10px}
+.rcsm-feature + .rcsm-feature{border-left:1px solid #a7bdc9}
+.rcsm-feature__icon {display:block;width:clamp(48px,5vw,68px);height:clamp(48px,5vw,68px);color:#438b19;flex:none}
+.rcsm-feature h2 {margin:0 0 3px;color:var(--rcsm-navy);font-size:clamp(17px,1.8vw,24px);font-weight:900;line-height:1.05;letter-spacing:-.02em}
+.rcsm-feature p {margin:0;color:#34434e;font-size:clamp(13px,1.25vw,18px);line-height:1.18}
+.rcsm-actions{display:flex;flex-direction:column;gap:11px;margin-top:24px}
+.rcsm-button {
+  display:flex;align-items:center;justify-content:center;gap:12px;
+  width:100%;min-height:56px;border-radius:100px;padding:14px 20px;
+  color:#fff !important;text-align:center;text-decoration:none !important;
+  font-size:clamp(16px,1.5vw,22px);font-weight:900;line-height:1.2;
+  transition:background .15s ease;
+}
+.rcsm-button--primary{background:var(--rcsm-navy)}
+.rcsm-button--primary:hover{background:#174965}
+.rcsm-button--secondary{background:var(--rcsm-blue)}
+.rcsm-button--secondary:hover{background:#648da5}
+.rcsm-button:focus-visible{outline:3px solid #508f14;outline-offset:3px}
+.rcsm-proof {
+  display:flex;align-items:center;justify-content:center;gap:clamp(23px,4vw,60px);
+  margin:0 auto; padding:24px 18px 26px;background:#fff;border-top:1px solid #e3e7e9;
+}
+.rcsm-proof__item{display:flex;flex-direction:column;align-items:center;text-align:center;min-width:0}
+.rcsm-proof__item strong{color:#438b19;font-size:clamp(45px,5.3vw,73px);font-weight:900;line-height:.98;letter-spacing:-.045em}
+.rcsm-proof__item span{color:var(--rcsm-navy);font-size:clamp(12px,1.45vw,19px);font-weight:900;line-height:1.25;white-space:nowrap}
+.rcsm-proof__separator{height:65px;width:2px;flex:0 0 2px;background:#91aabb}
+@media(max-width:850px){
+  .rcsm-layout{display:block;min-height:0}
+  .rcsm-photo{height:clamp(224px,63vw,350px);min-height:0}
+  .rcsm-photo__image{object-position:60% 57%}
+  .rcsm-photo::after{background:linear-gradient(180deg,transparent 58%,var(--rcsm-paper) 100%)}
+  .rcsm-panel{padding:0 clamp(18px,4.6vw,30px) 27px;align-items:stretch}
+  .rcsm-eyebrow{font-size:clamp(15px,4.2vw,20px);margin:0 0 11px;letter-spacing:.09em}
+  .rcsm-title{font-size:clamp(55px,15vw,84px);margin-bottom:16px}
+  .rcsm-features{padding:16px 7px;border-radius:21px}
+  .rcsm-feature{padding:0 7px;gap:7px}
+  .rcsm-feature__icon{width:clamp(41px,11vw,58px);height:clamp(41px,11vw,58px)}
+  .rcsm-feature h2{font-size:clamp(17px,4.6vw,23px)}
+  .rcsm-feature p{font-size:clamp(12px,3.7vw,17px)}
+  .rcsm-actions{margin-top:18px;gap:10px}
+  .rcsm-button{font-size:clamp(16px,4.7vw,20px);min-height:52px}
+  .rcsm-proof{gap:clamp(14px,5vw,40px);padding:22px 10px}
+  .rcsm-proof__item strong{font-size:clamp(43px,12.8vw,66px)}
+  .rcsm-proof__item span{font-size:clamp(11px,3.4vw,15px)}
+  .rcsm-proof__separator{height:57px}
+}
+@media(max-width:350px){
+  .rcsm-eyebrow{font-size:14px}
+  .rcsm-feature h2{font-size:15px}
+  .rcsm-feature p{font-size:12px}
+  .rcsm-title{font-size:52px}
+  .rcsm-proof__item span{font-size:10px}
+}
+@media(prefers-reduced-motion:reduce){.rcsm-button{transition:none}}
+/* La misma portada en Lite: no limitar ni a 520 px ni al estilo anterior. */
+.rcLiteShell .rcsm{max-width:100%}

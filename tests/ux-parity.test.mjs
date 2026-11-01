@@ -18,25 +18,24 @@ const liteCss=read("styles/lite-auth.css");
 const profile=read("components/PerfilForm.tsx");
 const liteProfile=read("app/lite/perfil/editar/page.tsx");
 
-test("web, mobile and Lite keep the same short message and numeric offer",()=>{
-  for (const [name,source] of [["web",web],["Lite",lite]]) {
-    assert.match(source,/CAMPOS Y SERVICIOS/);
-    assert.ok(source.includes("Buscá, publicá y conectá."));
-    assert.match(source,/SIN VUELTAS/);
-    assert.ok(source.includes("0%</strong>"));
-    assert.ok(source.includes("100%</strong>"));
-    assert.match(source,/COMISIÓN/);
-    assert.match(source,/CONTACTO DIRECTO/);
-    const cta=source.indexOf(name==="web"?'className="rcf-actions"':'className="rcLiteDirectHero__actions"');
-    const benefit=source.indexOf(name==="web"?'className="rcf-hero__proof"':'className="rcLiteDirectHero__stats"');
-    assert.ok(cta>=0&&benefit>cta,name+" actions should appear before benefits");
+test("web desktop, mobile and Lite share +SIMPLE with MAP and ONLINE CHAT", () => {
+  const hero=read("components/landing/SimpleMapChatHero.tsx");
+  const css=read("styles/hero-simple-map-chat.css");
+  assert.ok(web.includes("<SimpleMapChatHero />"), "web uses the shared hero");
+  assert.ok(lite.includes("<SimpleMapChatHero lite />"), "Lite uses the same hero");
+  for(const text of ["CAMPOS Y SERVICIOS","SIMPLE","MAPA","CHAT ONLINE","Seleccioná la zona","Contactá en línea","REGISTRATE GRATIS","Explorar el mapa","0%","100%","COMISIÓN","CONTACTO DIRECTO"]) {
+    assert.ok(hero.includes(text), text+" is present");
   }
-  assert.ok(web.includes('href="/register"'));
-  assert.ok(web.includes('href="/campos/mapa"'));
-  assert.ok(lite.includes('href="/lite/cuenta/registro"'));
+  assert.ok(hero.includes('href={lite ? "/lite/cuenta/registro" : "/register"}'));
+  assert.ok(hero.includes('href="/campos/mapa"'));
   assert.ok(lite.includes('href="/lite/campos"'));
- assert.ok(lite.includes("<HowItWorksStrip lite />"));
- assert.ok(read("components/lite/LiteHeader.tsx").includes('href="/lite#como-funciona-lite"'));
+  assert.ok(lite.includes("<HowItWorksStrip lite />"));
+  assert.ok(read("components/lite/LiteHeader.tsx").includes('href="/lite#como-funciona-lite"'));
+  assert.ok(css.includes("@media(max-width:850px)"));
+  assert.ok(css.includes("grid-template-columns:1fr 1fr"));
+  assert.ok(css.includes(".rcsm-button:focus-visible"));
+  assert.ok(css.includes("prefers-reduced-motion"));
+  assert.ok(hero.includes("TERRAS E SERVIÇOS") && hero.includes("LAND & SERVICES"));
 });
 
 test("home stays hero + short explainer + FAQ, with a shared header/footer",()=>{
@@ -133,7 +132,7 @@ test("Lite profile reuses web profile: selecting rural-service role adds no expa
  assert.match(api,/if \("servicios_rurales" in body\)/);
 });
 
-test("approved compact footer and mustard register CTA across web and Lite", () => {
+test("approved compact footer and shared register CTA across web and Lite", () => {
   const footer = read("components/layout/Footer.tsx");
   const footerCss = read("styles/footer.css");
   assert.ok(footer.includes("footer-col--contact"));
@@ -146,8 +145,8 @@ test("approved compact footer and mustard register CTA across web and Lite", () 
   assert.ok(footerCss.includes("grid-column: auto"));
   assert.ok(footerCss.includes("overflow-wrap: anywhere"));
   assert.ok(footerCss.split(String.fromCharCode(10)).length < 300, "remove dead duplicated legacy footer CSS");
-  assert.ok(web.includes('t("REGISTRATE", "CADASTRE-SE", "SIGN UP")'));
-  assert.ok(lite.includes('t("REGISTRATE", "CADASTRE-SE", "SIGN UP")'));
+  assert.ok(web.includes("<SimpleMapChatHero />"));
+  assert.ok(lite.includes("<SimpleMapChatHero lite />"));
   assert.ok(webStyle.includes("background: #d5bd72 !important"));
   assert.ok(liteStyle.includes("background: #d5bd72"));
   assert.ok(webStyle.includes("height: clamp(205px, 54vw, 278px)"));

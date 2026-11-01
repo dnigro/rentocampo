@@ -6,7 +6,8 @@ import assert from "node:assert/strict";
 const read = (path) => readFileSync(new URL(`../${path}`, import.meta.url), "utf8");
 const dictionary = read("lib/i18n/messages.ts");
 const navbar = read("components/layout/Navbar.tsx");
-const hero = read("components/landing/LandingFigmaHome.tsx");
+const hero = read("components/landing/SimpleMapChatHero.tsx");
+const webHome = read("components/landing/LandingFigmaHome.tsx");
 
 const fieldForm = read("components/campos/CampoForm.tsx");
 const serviceForm = read("components/servicios/ServicioRuralForm.tsx");
@@ -25,12 +26,15 @@ test("pt-BR and Spanish catalogs have matching message keys", () => {
   assert.equal(brData["fields.available"], "Terras disponíveis");
 });
 
-test("regional hero has the same short ES/PT claim and 0 percent offer",()=>{
- const styles=read("styles/home-figma-sin-vueltas.css");
- for(const phrase of ["CAMPOS Y SERVICIOS","TERRAS E SERVIÇOS","SIN VUELTAS","0%</strong>","100%</strong>"])assert.ok(hero.includes(phrase));
- assert.ok(hero.includes('href="/register"'));
+test("regional hero gives equivalent ES/PT/EN product messaging and zero commission",()=>{
+ const styles=read("styles/hero-simple-map-chat.css");
+ for(const phrase of ["CAMPOS Y SERVICIOS","TERRAS E SERVIÇOS","LAND & SERVICES","SIMPLE", "SIMPLES","MAPA","CHAT ONLINE","ONLINE CHAT","Seleccioná la zona","Escolha a região","Select an area","Contactá en línea","Converse online","Connect online","0%</strong>","100%</strong>"]) {
+   assert.ok(hero.includes(phrase), "missing translated feature: "+phrase);
+ }
+ assert.ok(hero.includes('href={lite ? "/lite/cuenta/registro" : "/register"}'));
  assert.ok(hero.includes('href="/campos/mapa"'));
- assert.ok(styles.includes(".rc-landing .rcf-hero__matte"));
+ assert.ok(webHome.includes("<SimpleMapChatHero />"));
+ assert.ok(styles.includes(".rcsm-features"));
  assert.match(navbar,/href="\/campos"/);
  assert.match(navbar,/href="\/servicios-rurales"/);
 });
@@ -61,12 +65,16 @@ test("field and service forms have localized Brazilian labels", () => {
   assert.match(serviceForm, /Anunciar serviço/);
 });
 
-test("hero CTA stays prominent in desktop and mobile",()=>{
- const css=read("styles/home-figma-sin-vueltas.css");
- assert.ok(hero.includes('className="rcf-pill rcf-pill--light"'));
- assert.ok(css.includes("border-radius: 999px"));
- assert.ok(css.includes("@media (max-width: 900px)"));
- assert.ok(css.includes("@media (max-width: 520px)"));
+test("localized hero CTA stays prominent on desktop, mobile and Lite",()=>{
+ const css=read("styles/hero-simple-map-chat.css");
+ const lite=read("app/lite/page.tsx");
+ assert.ok(hero.includes('className="rcsm-button rcsm-button--primary"'));
+ assert.ok(hero.includes('className="rcsm-button rcsm-button--secondary"'));
+ for(const phrase of ["REGISTRATE GRATIS","CADASTRE-SE GRÁTIS","SIGN UP FREE","Explorar el mapa","Explorar o mapa","Explore the map"])assert.ok(hero.includes(phrase));
+ assert.ok(css.includes("border-radius:100px"));
+ assert.ok(css.includes("@media(max-width:850px)"));
+ assert.ok(css.includes("@media(max-width:350px)"));
+ assert.ok(lite.includes("<SimpleMapChatHero lite />"));
 });
 
 test("country switching is atomic on the first selection, including Lite", () => {
@@ -213,15 +221,15 @@ test("map displays new-country field markers and refreshes on country change", (
  assert.match(nav,/router\.refresh\(\)/);
  assert.match(selector,/router\.replace\(/);
 });
-test("responsive rural hero, FAQ and Lite share the current design",()=>{
+test("responsive simple map/chat hero and FAQ share the design with Lite",()=>{
  const faq=read("components/landing/LandingFAQ.tsx");
- const hero=read("components/landing/LandingFigmaHome.tsx");
- const css=read("styles/home-figma-sin-vueltas.css");
+ const css=read("styles/hero-simple-map-chat.css");
  const lite=read("app/lite/page.tsx");
- for(const phrase of ["CAMPOS Y SERVICIOS","0%</strong>","100%</strong>",'href="/register"','className="rcf-hero__title"'])assert.ok(hero.includes(phrase));
- assert.ok(lite.includes('className="rcLiteDirectHero__register"'));
- assert.ok(css.includes(".rc-landing .rcf-hero__matte"));
- assert.ok(css.includes("@media (max-width: 520px)"));
+ for(const phrase of ["CAMPOS Y SERVICIOS","TERRAS E SERVIÇOS","LAND & SERVICES","MAPA","CHAT ONLINE","0%</strong>","100%</strong>"])assert.ok(hero.includes(phrase));
+ assert.ok(webHome.includes("<SimpleMapChatHero />"));
+ assert.ok(lite.includes("<SimpleMapChatHero lite />"));
+ assert.ok(css.includes(".rcsm-photo__image"));
+ assert.ok(css.includes("@media(max-width:850px)"));
  assert.ok(faq.includes('id="preguntas"'));
  assert.ok(!faq.toLowerCase().includes("packs"));
 });
@@ -274,18 +282,16 @@ test("regional productive zones replace clipped Argentina-only unverified demand
  assert.match(panel,/Não são indicadores de procura verificada/);
 });
 
-test("mobile/desktop show the new cow image without the obsolete video/map below",()=>{
+test("mobile/desktop reuse the black-and-white cattle image without obsolete video/map",()=>{
  const landing=read("components/landing/LandingPageContent.tsx");
- const hero=read("components/landing/LandingFigmaHome.tsx");
- const css=read("styles/home-figma-sin-vueltas.css");
+ const css=read("styles/hero-simple-map-chat.css");
  const lite=read("app/lite/page.tsx");
  assert.ok(landing.includes("<LandingFigmaHome />"));
  assert.ok(landing.includes("<LandingFAQ />"));
  assert.ok(!landing.includes("<LandingMapa"));
  assert.ok(!landing.includes("<LandingHowBrief"));
  assert.ok(hero.includes('src="/image_vaca_pix.png"'));
- assert.ok(lite.includes('src="/image_vaca_pix.png"'));
- assert.ok(css.includes("clip-path: polygon("));
+ assert.ok(lite.includes("<SimpleMapChatHero lite />"));
+ assert.ok(css.includes("filter:grayscale(1)"));
  assert.ok(!hero.includes("rcHomeVideo__player"));
 });
-
