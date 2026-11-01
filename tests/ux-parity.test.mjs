@@ -90,6 +90,13 @@ test("responsive hero has a visible matte gold accent and no legacy hero CSS imp
  assert.ok(webStyle.includes("Protección editorial del hero sobre la diagonal"));
  assert.ok(webStyle.includes("max-width: min(55vw, 790px)"));
  assert.ok(webStyle.includes("UI aprobada: texto protagonista"));
+ assert.ok(webStyle.includes("Hero editorial 304: resuelve el vacío"));
+ assert.ok(webStyle.includes("clip-path: polygon(0 0, 71% 0, 43% 100%, 0 100%)"));
+ assert.ok(webStyle.includes("clip-path: polygon(0 0, 72% 0, 43% 100%, 0 100%)"));
+ assert.ok(webStyle.includes("width: min(53vw, 750px)"));
+ assert.ok(webStyle.includes("justify-content: center"));
+ assert.ok(webStyle.includes("width: 48vw"));
+
  assert.ok(webStyle.includes("align-items: center;"));
  assert.ok(liteStyle.includes("Portada Lite: misma composición centrada"));
  assert.ok(webStyle.includes("max-width: 58vw"));
