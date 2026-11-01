@@ -96,9 +96,10 @@ try{
           height:outer.height,
           textRight:copy.right-outer.left,
           centerDiagonal:outer.width*.57,
-          usableArea:outer.width*.55,
-          copyRatio:copy.width/(outer.width*.55),
+          usableArea:outer.width*.65,
+          copyRatio:copy.width/(outer.width*.65),
           overflowTitle:title.scrollWidth>title.clientWidth+3,
+          bg:getComputedStyle(document.body).backgroundColor,
           proofVisible:band.top>=outer.top&&band.bottom<=outer.bottom+2,
           matteClip:getComputedStyle(matte).clipPath,
         };
@@ -107,6 +108,7 @@ try{
       if(heroGeometry.textRight>heroGeometry.centerDiagonal+8)throw Error("Headline overlaps cattle diagonal: "+JSON.stringify(heroGeometry));
       if(Math.abs(heroGeometry.copyRatio-.8)>.025)throw Error("Copy does not fill 80% of safe area: "+JSON.stringify(heroGeometry));
       if(heroGeometry.overflowTitle)throw Error("Headline text overflows: "+JSON.stringify(heroGeometry));
+      if(heroGeometry.bg!=="rgb(11, 32, 53)")throw Error("Desktop-mode background beneath footer should match navy footer: "+JSON.stringify(heroGeometry));
       if(!heroGeometry.proofVisible)throw Error("0/100 benefit cropped: "+JSON.stringify(heroGeometry));
     }
 
