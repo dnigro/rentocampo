@@ -1,6 +1,6 @@
 /* Footer 305: estructura única en home, páginas internas y App Lite web.
  * El diseño mobile aprobado es 2 x 2 sin excepciones por página.
- * No usar body:not(:has(.rc-landing)): generaba reglas contradictorias.
+ * Sin selectores dependientes de la página: evitamos reglas contradictorias.
  */
 html body footer.footer {
   box-sizing: border-box;
