@@ -1,7 +1,7 @@
-/* Acciones compartidas: mismo mostaza y formato en listados, fichas y formularios. */
+/* Acciones compartidas: mismo azul marino y formato en listados, fichas y formularios. */
 :root {
-  --action-mustard: #171717;
-  --action-mustard-hover: #303030;
+  --action-mustard: #11283F;
+  --action-mustard-hover: #365F7A;
   --action-ink: #FFFFFF;
 }
 
@@ -92,21 +92,21 @@
 
 /* Paleta monocromatica: acciones primarias y filtros. */
 :root .app-shell :is(.filtro-chip.active, .filtro-chip[aria-pressed="true"], .tipo-option input:checked + .tipo-label) {
-  background: #171717 !important;
+  background: #11283F !important;
   color: #ffffff !important;
-  border-color: #171717 !important;
+  border-color: #11283F !important;
   box-shadow: none !important;
 }
 :root .app-shell :is(.filtro-chip, .filtro-chip:hover, .filtros-limpiar) {
-  border-color: #171717;
+  border-color: #11283F;
 }
 :root .app-shell :is(.rc-map-after-filters, .listing-button, .btn-aplicar) {
-  background: #171717 !important;
+  background: #11283F !important;
   color: #ffffff !important;
-  border-color: #171717 !important;
+  border-color: #11283F !important;
 }
 :root .app-shell :is(.rc-map-after-filters, .listing-button, .btn-aplicar):hover {
-  background: #303030 !important;
+  background: #365F7A !important;
   color: #ffffff !important;
 }
 @media (max-width: 768px) {

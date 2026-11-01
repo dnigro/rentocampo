@@ -8,6 +8,7 @@ import "./globals.css";
 import "@/styles/site-theme.css";
 import "@/styles/buttons.css";
 import "@/styles/brand-final.css";
+import "@/styles/rc-patagonia-preview.css";
 
 const SITE_URL = "https://rentocampo.com";
 const SITE_TITLE = "RentoCampo | Tierra, productores y servicios rurales";

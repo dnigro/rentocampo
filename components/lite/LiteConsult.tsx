@@ -1,1 +1,27 @@
-"use client";import {useState} from "react";import {useRouter} from "next/navigation";import {useTranslations} from "@/lib/i18n/useTranslations";export default function LiteConsult({campoId,propietarioId}:{campoId:string;propietarioId:string}){const {country}=useTranslations();const tt=(es:string,pt:string)=>country==="BR"?pt:es;const [busy,setBusy]=useState(false);const [confirmed,setConfirmed]=useState(false);const [error,setError]=useState("");const router=useRouter();return <><label style={{display:"flex",alignItems:"flex-start",gap:10,margin:"20px 0",fontSize:15}}><input type="checkbox" checked={confirmed} onChange={e=>setConfirmed(e.target.checked)} style={{width:22,height:22,flexShrink:0}}/><span>{tt("Confirmo que quiero enviar una consulta al propietario de este campo. No se enviará ningún mensaje hasta que presione el botón.","Confirmo que quero consultar o proprietário desta terra. Nenhuma mensagem será enviada até eu apertar o botão.")}</span></label><button disabled={busy||!confirmed} onClick={async()=>{setBusy(true);setError("");try{const response=await fetch("/api/mensajes",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({campoId,destinatarioId:propietarioId,contenido:tt("Hola, me interesa este campo. ¿Podemos hablar?","Olá, tenho interesse nesta propriedade. Podemos conversar?")})});const result=await response.json();if(!response.ok)throw new Error(result.error||tt("No se pudo enviar la consulta","Não foi possível enviar a consulta"));router.push(`/lite/perfil/mensajes/${campoId}`)}catch(e){setError(e instanceof Error?e.message :tt("Error al consultar","Erro ao consultar"))}finally{setBusy(false)}}} style={{width:"100%",background:confirmed?"#222":"#777",color:"white",padding:18,borderRadius:12,border:0,fontSize:16}}>{busy?tt("Enviando...","Enviando..."):tt("Confirmar y enviar consulta","Confirmar e enviar consulta")}</button>{error&&<p role="alert">{error}</p>}</>}
+"use client";
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useTranslations } from "@/lib/i18n/useTranslations";
+
+/** Solo abre el borrador: ningún mensaje se envía al pulsar Continuar. */
+export default function LiteConsult({ campoId }: { campoId: string; propietarioId: string }) {
+  const { country } = useTranslations();
+  const tt = (es: string, pt: string) => country === "BR" ? pt : es;
+  const [confirmed, setConfirmed] = useState(false);
+  const router = useRouter();
+
+  return (
+    <section>
+      <label style={{ display: "flex", alignItems: "flex-start", gap: 10, margin: "20px 0", fontSize: 15 }}>
+        <input type="checkbox" checked={confirmed} onChange={(event) => setConfirmed(event.target.checked)} style={{ width: 22, height: 22, flexShrink: 0 }} />
+        <span>{tt("Quiero abrir el chat para escribir mi consulta. El mensaje solo se enviará cuando presione Enviar mensaje.", "Quero abrir o chat para escrever minha consulta. A mensagem só será enviada quando eu pressionar Enviar mensagem.")}</span>
+      </label>
+      <button type="button" disabled={!confirmed}
+        onClick={() => router.push(`/lite/campos/${campoId}/consultar`)}
+        style={{ width: "100%", background: confirmed ? "#d5bd72" : "#777", color: confirmed ? "#191a1c" : "#fff", padding: 16, borderRadius: 999, border: 0, fontSize: 16, fontWeight: 850 }}>
+        {tt("Continuar al mensaje", "Continuar para a mensagem")}
+      </button>
+    </section>
+  );
+}

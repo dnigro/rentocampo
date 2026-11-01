@@ -47,7 +47,7 @@ export default function LandingFigmaHome() {
           <span className="rcf-rule" aria-hidden="true" />
           <div className="rcf-actions">
             <RegionalLink href="/register" className="rcf-pill rcf-pill--light">
-              {t("Registrate gratis", "Cadastre-se grátis", "Sign up free")}
+              {t("REGISTRATE", "CADASTRE-SE", "SIGN UP")}
             </RegionalLink>
             <RegionalLink href="/campos/mapa" className="rcf-pill rcf-pill--forest">
               {t("Explorar el mapa", "Explorar o mapa", "Explore the map")}
