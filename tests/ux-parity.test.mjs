@@ -266,10 +266,13 @@ test("desktop landing is more compact with readable Patagonia FAQ",()=>{
 test("desktop hero brings diagonal nearer to copy without changing mobile geometry",()=>{
  const theme=read("styles/rc-patagonia-preview.css");
  assert.ok(theme.includes("clip-path: polygon(0 0, 65% 0, 49% 100%, 0 100%)"));
- assert.ok(theme.includes("--rcf-copy-safe-zone: 55vw"));
+ assert.ok(theme.includes("--rcf-copy-safe-zone: 65vw"));
  assert.ok(theme.includes("--rcf-copy-target: calc(var(--rcf-copy-safe-zone) * .8)"));
- assert.ok(theme.includes("font-size: clamp(57px, 6.35vw, 93px)"));
+ assert.ok(theme.includes("font-size: clamp(66px, 7vw, 96px)"));
  assert.ok(theme.includes("html:lang(pt) body .rc-landing .rcf-hero__title"));
+ assert.ok(theme.includes("Chrome Android en «Sitio para computadora»"));
+ assert.ok(theme.includes("html body:has(.rc-landing)"));
+ assert.ok(theme.includes("background-color: #0B2035;"));
  assert.ok(theme.includes("min-height: clamp(440px, calc(100svh - 290px), 510px)"));
  assert.ok(theme.includes("min-height: 98px"));
  assert.ok(theme.includes("@media (max-width: 640px)"));
