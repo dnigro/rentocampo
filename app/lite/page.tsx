@@ -1,8 +1,8 @@
 import Link from "next/link";
-import Image from "next/image";
 import type { Metadata } from "next";
 import { cookies } from "next/headers";
 import LiteHeader from "@/components/lite/LiteHeader";
+import SimpleMapChatHero from "@/components/landing/SimpleMapChatHero";
 import HowItWorksStrip from "@/components/landing/HowItWorksStrip";
 import { resolveCountry } from "@/data/countries";
 import { regionalText } from "@/lib/i18n/regional";
@@ -23,32 +23,7 @@ export default async function LitePreview() {
   return (
     <main className="rcLiteShell">
       <LiteHeader />
-      <section className="rcLiteDirectHero" aria-labelledby="rcLiteDirectHero-title">
-        <Image src="/image_vaca_pix.png" alt="" fill priority sizes="(max-width:520px) 100vw, 520px" className="rcLiteDirectHero__image" />
-        <div className="rcLiteDirectHero__tone" aria-hidden="true" />
-        <div className="rcLiteDirectHero__body">
-          <p className="rcLiteDirectHero__eyebrow">{t("CAMPOS Y SERVICIOS", "TERRAS E SERVIÇOS", "LAND & SERVICES")}</p>
-          <h1 className="rcLiteDirectHero__title" id="rcLiteDirectHero-title">
-            <span>{t("EL CAMPO.", "O CAMPO.", "RURAL LIFE.")}</span>
-            <span>{t("SIN VUELTAS.", "SEM COMPLICAÇÕES.", "MADE SIMPLE.")}</span>
-          </h1>
-          <p className="rcLiteDirectHero__line">{t("Buscá, publicá y conectá.", "Busque, anuncie e conecte-se.", "Find, list and connect.")}</p>
-          <span className="rcLiteDirectHero__rule" aria-hidden="true" />
-          <div className="rcLiteDirectHero__actions">
-            <Link href="/lite/cuenta/registro" className="rcLiteDirectHero__register">
-              {t("REGISTRATE", "CADASTRE-SE", "SIGN UP")}
-            </Link>
-            <Link href="/lite/campos" className="rcLiteDirectHero__explore">
-              {t("Explorar campos", "Explorar terras", "Explore land")}
-            </Link>
-          </div>
-          <div className="rcLiteDirectHero__stats" aria-label={t("0% comisión. 100% contacto directo.", "0% comissão. 100% contato direto.", "0% commission. 100% direct contact.")}>
-            <div className="rcLiteDirectHero__metric"><strong>0%</strong><span>{t("COMISIÓN", "COMISSÃO", "COMMISSION")}</span></div>
-            <span className="rcLiteDirectHero__separator" aria-hidden="true" />
-            <div className="rcLiteDirectHero__metric"><strong>100%</strong><span>{t("CONTACTO DIRECTO", "CONTATO DIRETO", "DIRECT CONTACT")}</span></div>
-          </div>
-        </div>
-      </section>
+      <SimpleMapChatHero lite />
       <HowItWorksStrip lite />
       <section className="rcLiteExplore" aria-label={t("Explorá RentoCampo", "Explore a RentoCampo", "Explore RentoCampo")}>
         <p className="rcLiteExplore__label">{t("TU CAMPO. TUS OPORTUNIDADES.", "SEU CAMPO. SUAS OPORTUNIDADES.", "YOUR LAND. YOUR OPPORTUNITIES.")}</p>
