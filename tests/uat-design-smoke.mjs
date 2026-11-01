@@ -77,7 +77,7 @@ try{
  if(!ready)throw Error("UAT local server not ready");
  const browser=await chromium.launch();
  try{
-  for(const [label,width,height] of [["320",320,740],["390",390,844],["768",768,1024],["1440",1440,900]]){
+  for(const [label,width,height] of [["320",320,740],["390",390,844],["768",768,1024],["980-desktop-mode",980,1700],["1440",1440,900]]){
    const context=await browser.newContext({viewport:{width,height},locale:"es-AR"});
    const page=await context.newPage();await page.route(/googletagmanager|google-analytics/,route=>route.abort());
    await check("Home / FAQ / header / footer "+label,page,async()=>{
@@ -85,6 +85,33 @@ try{
     if(!(await page.locator("#rcf-hero-title").innerText()).includes("SIN VUELTAS"))throw Error("Wrong claim");
     await page.getByText("CAMPOS Y SERVICIOS",{exact:true}).waitFor({state:"visible"});
     if((await page.locator(".rcf-hero__metric-value").count())!==2)throw Error("Missing 0% or 100% metric");
+    if(width>=901){
+      const heroGeometry=await page.locator(".rcf-hero").evaluate(hero=>{
+        const title=hero.querySelector(".rcf-hero__title");
+        const matte=hero.querySelector(".rcf-hero__matte");
+        const proof=hero.querySelector(".rcf-hero__proof");
+        if(!title||!matte||!proof)throw Error("Incomplete hero geometry");
+        const outer=hero.getBoundingClientRect(),copy=title.getBoundingClientRect(),band=proof.getBoundingClientRect();
+        return {
+          height:outer.height,
+          textRight:copy.right-outer.left,
+          centerDiagonal:outer.width*.57,
+          usableArea:outer.width*.65,
+          copyRatio:copy.width/(outer.width*.65),
+          overflowTitle:title.scrollWidth>title.clientWidth+3,
+          bg:getComputedStyle(document.body).backgroundColor,
+          proofVisible:band.top>=outer.top&&band.bottom<=outer.bottom+2,
+          matteClip:getComputedStyle(matte).clipPath,
+        };
+      });
+      if(heroGeometry.height>513||heroGeometry.height<438)throw Error("Hero not compact: "+JSON.stringify(heroGeometry));
+      if(heroGeometry.textRight>heroGeometry.centerDiagonal+8)throw Error("Headline overlaps cattle diagonal: "+JSON.stringify(heroGeometry));
+      if(Math.abs(heroGeometry.copyRatio-.8)>.025)throw Error("Copy does not fill 80% of safe area: "+JSON.stringify(heroGeometry));
+      if(heroGeometry.overflowTitle)throw Error("Headline text overflows: "+JSON.stringify(heroGeometry));
+      if(heroGeometry.bg!=="rgb(11, 32, 53)")throw Error("Desktop-mode background beneath footer should match navy footer: "+JSON.stringify(heroGeometry));
+      if(!heroGeometry.proofVisible)throw Error("0/100 benefit cropped: "+JSON.stringify(heroGeometry));
+    }
+
     if((await page.locator(".rcf-actions a").count())!==2)throw Error("Wrong CTA count");
     if((await page.locator(".rc-how--web .rc-how__step").count())!==3)throw Error("How it works count");
     if(width<=680){

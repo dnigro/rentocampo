@@ -192,7 +192,7 @@ test("Patagonia warm-white + navy + steel reference is enabled on web, mobile an
    "--rc-patagonia-steel-dark":"#365F7A",
    "--rc-patagonia-ivory":"#F7F4EE"
  })) assert.ok(theme.includes(token+": "+value),token+" missing");
- assert.ok(theme.includes("clip-path: polygon(0 0, 69% 0, 43% 100%, 0 100%)"), "desktop dairy-photo diagonal");
+ assert.ok(theme.includes("clip-path: polygon(0 0, 65% 0, 49% 100%, 0 100%)"), "desktop dairy-photo diagonal");
  assert.ok(theme.includes("background: var(--rc-patagonia-ivory)"), "warm white shell");
  assert.ok(theme.includes("html body .rc-landing .rcf-hero__proof"), "full-width offer strip");
  assert.ok(theme.includes("position: absolute"), "desktop proof positioning");
@@ -257,8 +257,24 @@ test("map footer never overlays the interactive map and list routes are rounded 
 });
 test("desktop landing is more compact with readable Patagonia FAQ",()=>{
  const theme=read("styles/rc-patagonia-preview.css");
- assert.ok(theme.includes("Densidad editorial desktop 308"));
- assert.ok(theme.includes("calc(100svh - 185px)"));
+ assert.ok(theme.includes("Densidad editorial desktop 309b"));
+ assert.ok(theme.includes("calc(100svh - 290px)"));
  assert.ok(theme.includes("html body .rc-landing .rcf-faq__question"));
  assert.ok(theme.includes("min-height: 72px"));
+});
+
+test("desktop hero brings diagonal nearer to copy without changing mobile geometry",()=>{
+ const theme=read("styles/rc-patagonia-preview.css");
+ assert.ok(theme.includes("clip-path: polygon(0 0, 65% 0, 49% 100%, 0 100%)"));
+ assert.ok(theme.includes("--rcf-copy-safe-zone: 65vw"));
+ assert.ok(theme.includes("--rcf-copy-target: calc(var(--rcf-copy-safe-zone) * .8)"));
+ assert.ok(theme.includes("font-size: clamp(66px, 7vw, 96px)"));
+ assert.ok(theme.includes("html:lang(pt) body .rc-landing .rcf-hero__title"));
+ assert.ok(theme.includes("Chrome Android en «Sitio para computadora»"));
+ assert.ok(theme.includes("html body:has(.rc-landing)"));
+ assert.ok(theme.includes("background-color: #0B2035;"));
+ assert.ok(theme.includes("min-height: clamp(440px, calc(100svh - 290px), 510px)"));
+ assert.ok(theme.includes("min-height: 98px"));
+ assert.ok(theme.includes("@media (max-width: 640px)"));
+ assert.ok(theme.includes("height: clamp(205px, 54vw, 278px)"));
 });
