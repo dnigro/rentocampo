@@ -96,12 +96,17 @@ try{
           height:outer.height,
           textRight:copy.right-outer.left,
           centerDiagonal:outer.width*.57,
+          usableArea:outer.width*.55,
+          copyRatio:copy.width/(outer.width*.55),
+          overflowTitle:title.scrollWidth>title.clientWidth+3,
           proofVisible:band.top>=outer.top&&band.bottom<=outer.bottom+2,
           matteClip:getComputedStyle(matte).clipPath,
         };
       });
       if(heroGeometry.height>513||heroGeometry.height<438)throw Error("Hero not compact: "+JSON.stringify(heroGeometry));
       if(heroGeometry.textRight>heroGeometry.centerDiagonal+8)throw Error("Headline overlaps cattle diagonal: "+JSON.stringify(heroGeometry));
+      if(Math.abs(heroGeometry.copyRatio-.8)>.025)throw Error("Copy does not fill 80% of safe area: "+JSON.stringify(heroGeometry));
+      if(heroGeometry.overflowTitle)throw Error("Headline text overflows: "+JSON.stringify(heroGeometry));
       if(!heroGeometry.proofVisible)throw Error("0/100 benefit cropped: "+JSON.stringify(heroGeometry));
     }
 
