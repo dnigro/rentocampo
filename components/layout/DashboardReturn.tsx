@@ -10,7 +10,7 @@ export default function DashboardReturn() {
 
   return (
     <nav className="dashboard-return" aria-label="Volver a Mi cuenta">
-      <Link href="/dashboard">← Volver a Mi cuenta</Link>
+      <Link href="/dashboard">Volver a Mi cuenta</Link>
     </nav>
   );
 }
