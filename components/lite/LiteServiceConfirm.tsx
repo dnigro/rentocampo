@@ -10,6 +10,6 @@ export default function LiteServiceConfirm({usuarioId}:{usuarioId:string}){
  <label style={{display:"flex",gap:12,alignItems:"flex-start",margin:"20px 0"}}>
  <input type="checkbox" checked={confirmed} onChange={e=>setConfirmed(e.target.checked)} style={{width:22,height:22,flexShrink:0}}/>
  <span>{tt("Confirmo que quiero contactar al prestador.","Confirmo que quero contatar o prestador.")}</span></label>
- {confirmed?<Link href={`/lite/perfil/mensajes/direct/${usuarioId}`} style={{display:"block",textAlign:"center",padding:17,borderRadius:12,background:"#222",color:"white",textDecoration:"none",fontWeight:700}}>{tt("Continuar al chat","Continuar para o chat")}</Link>:<div style={{padding:17,borderRadius:12,background:"#aaa",color:"white",textAlign:"center"}}>{tt("Confirmá para continuar","Confirme para continuar")}</div>}
+ {confirmed?<Link href={`/lite/perfil/mensajes/direct/${usuarioId}?borrador=servicio`} style={{display:"block",textAlign:"center",padding:17,borderRadius:12,background:"#222",color:"white",textDecoration:"none",fontWeight:700}}>{tt("Continuar al chat","Continuar para o chat")}</Link>:<div style={{padding:17,borderRadius:12,background:"#aaa",color:"white",textAlign:"center"}}>{tt("Confirmá para continuar","Confirme para continuar")}</div>}
  </section>
 }
