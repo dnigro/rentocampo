@@ -25,16 +25,16 @@
   --action-mustard: var(--rc-patagonia-navy);
   --action-mustard-hover: var(--rc-patagonia-steel-dark);
   --action-ink: #FFFFFF;
-  --rc-chrome-graphite: var(--rc-patagonia-ivory);
-  --rc-chrome-graphite-border: #D6DEE4;
-  --rc-chrome-hover: #E9EFF2;
+  --rc-chrome-graphite: var(--rc-patagonia-navy-deep);
+  --rc-chrome-graphite-border: #365F7A;
+  --rc-chrome-hover: #203D56;
 }
 html body { background: var(--rc-patagonia-ivory); color: var(--rc-patagonia-navy); }
 
 /* Navegación compartida: misma superficie cálida en desktop, celular e internas. */
 html body header.navbar,
 html body .app-shell header.navbar,
-html body:has(html body .rc-landing) header.navbar {
+html body:has(.rc-landing) header.navbar {
   background: var(--rc-patagonia-ivory) !important;
   color: var(--rc-patagonia-navy) !important;
   border-bottom: 1px solid var(--rc-patagonia-line) !important;
@@ -221,7 +221,7 @@ html body .rc-landing .rcf-faq__rule { background: var(--rc-patagonia-steel-dark
 html body footer.footer,
 html body .app-shell footer.footer,
 html body .lite-app footer.footer,
-html body:has(html body .rc-landing) footer.footer {
+html body:has(.rc-landing) footer.footer {
   background: var(--rc-patagonia-navy-deep) !important;
   border-top: 1px solid #365F7A !important;
   color: #DCE6EC !important;
@@ -433,3 +433,131 @@ html body .rcLiteBottomNav { background: var(--rc-patagonia-navy-deep); border-c
   html[lang="en-US"] html body .rc-landing .rcf-hero__title { font-size: clamp(31px,8.2vw,44px); }
   html body .rc-how__step { background: #203D56; }
 }
+
+/* RentoCampo Patagonia v2 · contrastes compartidos y botones coherentes.
+ * El pie es SIEMPRE marino en home, rutas internas, dashboard y Lite.
+ * El header continúa marfil, sin reusar su variable en el footer.
+ */
+html body footer.footer,
+html body:has(.rc-landing) footer.footer,
+html body .app-shell footer.footer,
+html body .lite-app footer.footer {
+  background-color: #0B2035 !important;
+  background: #0B2035 !important;
+  color: #DCE6EC !important;
+  border-color: #365F7A !important;
+}
+html body footer.footer .footer-col-title,
+html body .app-shell footer.footer .footer-col-title,
+html body:has(.rc-landing) footer.footer .footer-col-title {
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+}
+html body footer.footer :is(.footer-desc,.footer-link,.footer-bottom,.footer-bottom-link),
+html body .app-shell footer.footer :is(.footer-desc,.footer-link,.footer-bottom,.footer-bottom-link),
+html body:has(.rc-landing) footer.footer :is(.footer-desc,.footer-link,.footer-bottom,.footer-bottom-link) {
+  color: #DCE6EC !important;
+  -webkit-text-fill-color: #DCE6EC !important;
+}
+html body footer.footer :is(.footer-logo,.brand-clean-name,.brand-initial,.brand-clean-tagline),
+html body:has(.rc-landing) footer.footer :is(.brand-clean-name,.brand-initial,.brand-clean-tagline),
+html body .app-shell footer.footer :is(.brand-clean-name,.brand-initial,.brand-clean-tagline) {
+  color: #F7F4EE !important;
+  -webkit-text-fill-color: #F7F4EE !important;
+}
+html body footer.footer :is(.footer-link,.footer-bottom-link):hover,
+html body:has(.rc-landing) footer.footer :is(.footer-link,.footer-bottom-link):hover {
+  color: #B0CAD8 !important;
+  -webkit-text-fill-color: #B0CAD8 !important;
+}
+html body footer.footer .footer-social-link,
+html body:has(.rc-landing) footer.footer .footer-social-link {
+  background: #203D56 !important;
+  border-color: #779AB1 !important;
+  color: #FFFFFF !important;
+}
+html body footer.footer .footer-social-link:hover,
+html body:has(.rc-landing) footer.footer .footer-social-link:hover {
+  background: #B0CAD8 !important;
+  color: #0B2035 !important;
+  border-color: #B0CAD8 !important;
+}
+html body footer.footer .footer-col-title svg,
+html body .app-shell footer.footer .footer-col-title svg { color: #B0CAD8 !important; }
+html body footer.footer .footer-bottom,
+html body .app-shell footer.footer .footer-bottom { border-top-color: #365F7A !important; }
+
+/* Accesibilidad: todos los controles destacados usan el mismo sistema.
+ * No forzar estilos en .btn-ghost, acciones destructivas o botones con estado semántico.
+ */
+html body .app-shell :is(a,button):is(
+  .listing-button,.btn-primary,.mobile-menu-btn,.btn-primary-lg,.btn-submit,
+  .btn-aplicar,.btn-mapa,.btn-consultar,.btn-volver,.btn-pagina,
+  .mapa-panel-btn,.mapa-publicar-btn,.servicios-btn,.servicios-btn-primary,
+  .prestador-card__actions a,.demanda-cta-boton,.fav-accion-ver,
+  .rc-map-after-filters
+),
+html body .app-shell .mensaje-compose-submit,
+html body .lite-app :is(.btn-primary,.btn-submit,.lite-btn-primary) {
+  background: #11283F !important;
+  border-color: #11283F !important;
+  color: #FFFFFF !important;
+  border-radius: 999px !important;
+  text-transform: none !important;
+  box-shadow: none !important;
+}
+html body .app-shell :is(a,button):is(
+  .listing-button,.btn-primary,.mobile-menu-btn,.btn-primary-lg,.btn-submit,
+  .btn-aplicar,.btn-mapa,.btn-consultar,.btn-volver,.btn-pagina,
+  .mapa-panel-btn,.mapa-publicar-btn,.servicios-btn,.servicios-btn-primary,
+  .prestador-card__actions a,.demanda-cta-boton,.fav-accion-ver,
+  .rc-map-after-filters
+):hover:not(:disabled),
+html body .app-shell .mensaje-compose-submit:hover:not(:disabled),
+html body .lite-app :is(.btn-primary,.btn-submit,.lite-btn-primary):hover:not(:disabled) {
+  background: #365F7A !important;
+  border-color: #365F7A !important;
+  color: #FFFFFF !important;
+}
+html body .app-shell :is(.filtro-chip.active,.filtro-chip[aria-pressed="true"],.tipo-option input:checked + .tipo-label,.mapa-paises button[aria-pressed="true"],.mapa-modos button[aria-pressed="true"]) {
+  background: #11283F !important;
+  color: #FFFFFF !important;
+  border-color: #11283F !important;
+}
+html body .app-shell :is(.btn-secondary,.btn-outline,.btn-ghost):not(.btn-primary),
+html body .rcLiteShell .rcLiteDirectHero__explore {
+  border-color: #779AB1 !important;
+}
+html body .app-shell :is(a,button):focus-visible,
+html body .rcLiteShell :is(a,button):focus-visible {
+  outline-color: #365F7A !important;
+}
+html body .mensaje-compose {
+  border-color: #779AB1;
+  background: #F7F4EE;
+  color: #11283F;
+}
+html body .mensaje-compose .mensaje-draft {
+  background: #FFFFFF !important;
+  color: #11283F !important;
+  border-color: #779AB1 !important;
+}
+html body .mensaje-compose :is(.mensaje-compose-label,.mensaje-compose-meta,.mensaje-compose-note) {
+  color: #11283F !important;
+}
+html body .mensaje-compose-note { background: #E8EEF2 !important; }
+
+/* Header claro con texto marino, también para usuarios autenticados. */
+html body header.navbar,
+html body:has(.rc-landing) header.navbar,
+html body .app-shell header.navbar { background: #F7F4EE !important; border-color: #D6DEE4 !important; }
+html body header.navbar :is(.nav-link,.btn-ghost,.navbar-mobile-account,.navbar-mensajes,.hamburguesa),
+html body:has(.rc-landing) header.navbar :is(.nav-link,.btn-ghost,.navbar-mobile-account,.navbar-mensajes,.hamburguesa) { color: #11283F !important; }
+html body header.navbar .brand-clean-name,
+html body header.navbar .brand-clean-name > .brand-initial,
+html body .app-shell header.navbar .brand-clean-name {
+  color: #11283F !important;
+  -webkit-text-fill-color: #11283F !important;
+}
+html body .lite-regional-header { background: #F7F4EE !important; }
+html body .lite-regional-header :is(.lite-regional-logo,.lite-regional-initial,.lite-regional-account,.lite-regional-country-label) { color: #11283F !important; }
