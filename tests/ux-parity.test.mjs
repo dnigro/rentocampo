@@ -206,3 +206,33 @@ test("Patagonia warm-white + navy + steel reference is enabled on web, mobile an
  assert.ok(theme.includes("html body footer.footer"), "shared navy footer");
  assert.ok(!theme.includes("#d5bd72"), "no mustard overrides in new design layer");
 });
+
+test("Patagonia shared footer and actions guarantee readable navy + ivory contrast on every surface",()=>{
+ const theme=read("styles/rc-patagonia-preview.css");
+ const footer=read("styles/footer.css");
+ const actions=read("styles/buttons.css");
+ const native=read("apps/mobile/src/App.tsx");
+ assert.ok(theme.includes("--rc-chrome-graphite: var(--rc-patagonia-navy-deep)"));
+ assert.ok(!theme.includes("body:has(html body .rc-landing)"),"invalid :has selector causes footer regression");
+ assert.ok(theme.includes("body:has(.rc-landing) footer.footer"));
+ assert.ok(theme.includes("background: #0B2035 !important"));
+ assert.ok(theme.includes("color: #DCE6EC !important"));
+ assert.ok(theme.includes("-webkit-text-fill-color: #DCE6EC !important"));
+ assert.ok(theme.includes("footer.footer :is(.footer-logo,.brand-clean-name,.brand-initial,.brand-clean-tagline)"));
+ assert.ok(theme.includes("color: #F7F4EE !important"));
+ assert.ok(theme.includes("html body header.navbar"));
+ assert.ok(theme.includes("background: #11283F !important"));
+ assert.ok(theme.includes("background: #DCE6EC !important"));
+ assert.ok(theme.includes("html body .lite-regional-header"));
+ assert.ok(footer.includes("background: #0B2035"));
+ assert.ok(footer.includes("color: #DCE6EC"));
+ assert.ok(footer.includes("color: #B0CAD8"));
+ assert.ok(!footer.includes("#d5bd72"));
+ assert.ok(actions.includes("--action-mustard: #11283F"));
+ assert.ok(actions.includes("--action-mustard-hover: #365F7A"));
+ assert.ok(!actions.includes("#171717"));
+ assert.ok(native.includes('backgroundColor: "#F7F4EE"'));
+ assert.ok(native.includes('backgroundColor: "#0B2035"'));
+ assert.ok(native.includes('backgroundColor: "#11283F"'));
+ assert.ok(native.includes('borderColor: "#365F7A"'));
+});
