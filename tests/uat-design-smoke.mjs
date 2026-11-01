@@ -38,6 +38,25 @@ async function footerMetrics(page) {
   };
  });
 }
+async function checkPatagoniaColors(page,where) {
+ const colors=await page.locator("footer.footer").evaluate(footer=>{
+  const link=footer.querySelector(".footer-link");
+  const brand=footer.querySelector(".brand-clean-name");
+  if(!link||!brand)throw Error("Footer brand/link missing");
+  const rgb=str=>(str.match(/[\\d.]+/g)||[]).slice(0,3).map(Number);
+  const luminance=triplet=>{
+    const linear=triplet.map(v=>{const n=v/255;return n<=0.04045?n/12.92:((n+0.055)/1.055)**2.4});
+    return linear[0]*.2126+linear[1]*.7152+linear[2]*.0722;
+  };
+  const contrast=(a,b)=>{const aa=luminance(rgb(a)),bb=luminance(rgb(b));return (Math.max(aa,bb)+.05)/(Math.min(aa,bb)+.05)};
+  const bg=getComputedStyle(footer).backgroundColor;
+  const text=getComputedStyle(link).color;
+  const brandText=getComputedStyle(brand).color;
+  return {bg,text,brandText,linkContrast:contrast(text,bg),brandContrast:contrast(brandText,bg)};
+ });
+ if(colors.linkContrast<7||colors.brandContrast<7)
+   throw Error(where+" footer illegible: "+JSON.stringify(colors));
+}
 async function checkMobileFooter(page,expected,where) {
  if(expected.cols!==2||Math.abs(expected.servicesY-expected.contactY)>4
    ||expected.linkFont>15||expected.footerOverflow)
@@ -77,6 +96,7 @@ try{
     if(!(await page.locator(".rcf-faq__item").first().evaluate(e=>e.open)))throw Error("FAQ does not open");
     if(!await page.locator(".navbar").count()||!await page.locator("footer.footer").count())throw Error("Header/footer absent");
     if(width<=600)await checkMobileFooter(page,await footerMetrics(page),"Home");
+    await checkPatagoniaColors(page,"Home");
     if(!await page.locator('a[href="/#como-funciona"]').count())throw Error("Menu anchor missing");
     const desktopHowLink = page.locator('.navbar-links a[href="/#como-funciona"]');
     if (await desktopHowLink.isVisible()) {
@@ -107,6 +127,7 @@ try{
     await page.waitForFunction(()=>location.hash==="#como-funciona-lite",null,{timeout:7000});
     if(!await page.locator(".lite-regional-header").count()||!await page.locator("footer.footer").count())throw Error("Lite shell");
     if(width<=600)await checkMobileFooter(page,await footerMetrics(page),"Lite");
+    await checkPatagoniaColors(page,"Lite");
     await noOverflow(page);
     if(label==="390")await page.screenshot({path:"test-results/design-uat/lite-390.png",fullPage:true});
    });
@@ -115,6 +136,7 @@ try{
      await open(page,path);
      await noOverflow(page);
      if(width<=600)await checkMobileFooter(page,await footerMetrics(page),"Internal "+path);
+     await checkPatagoniaColors(page,"Internal "+path);
     }
    });
    await context.close();
