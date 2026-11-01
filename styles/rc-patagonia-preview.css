@@ -613,3 +613,37 @@ html body .app-shell .servicios-btn-primary {
   border-color: #11283F !important;
   color: #FFFFFF !important;
 }
+
+/* Densidad editorial desktop 308: se reducen huecos blancos sin afectar el
+ * contenido móvil ni cortar vacas, título, CTA o métricas.
+ */
+@media (min-width: 901px) {
+  html body .rc-landing .rcf-hero {
+    min-height: clamp(500px, calc(100svh - 185px), 610px);
+  }
+  html body .rc-landing .rcf-hero__content {
+    min-height: inherit;
+    padding-top: 25px;
+    padding-bottom: 128px;
+  }
+  html body .rc-landing .rcf-hero__eyebrow { margin-bottom: 15px; }
+  html body .rc-landing .rcf-hero__title {
+    font-size: clamp(50px, 5.5vw, 80px);
+  }
+  html body .rc-landing .rcf-hero__proof {
+    min-height: 108px;
+    padding-block: 16px 13px;
+  }
+  html body .rc-landing .rcf-hero__metric-value {
+    font-size: clamp(43px, 4.4vw, 61px);
+  }
+  html body .rc-landing .rcf-faq {
+    padding: clamp(33px, 3.8vw, 55px) 0 clamp(29px, 3.6vw, 52px);
+  }
+  html body .rc-landing .rcf-faq__question {
+    min-height: 72px;
+    padding: 15px 0;
+  }
+  html body .rc-landing .rcf-faq__eyebrow { margin-bottom: 17px; }
+  html body .rc-landing .rcf-faq__rule { margin: 27px 0 19px; }
+}
