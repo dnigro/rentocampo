@@ -132,3 +132,50 @@ test("Lite profile reuses web profile: selecting rural-service role adds no expa
  const api=read("app/api/profile/route.ts");
  assert.match(api,/if \("servicios_rurales" in body\)/);
 });
+
+test("approved compact footer and mustard register CTA across web and Lite", () => {
+  const footer = read("components/layout/Footer.tsx");
+  const footerCss = read("styles/footer.css");
+  assert.ok(footer.includes("footer-col--contact"));
+  assert.ok(footer.includes("Tractor, House, Sprout, Mail"));
+  assert.ok(footerCss.includes("grid-template-columns: repeat(2, minmax(0, 1fr))"));
+  assert.ok(footerCss.includes("Footer 305: estructura única"));
+  assert.ok(!footerCss.includes("body:not(:has(.rc-landing))"), "no CSS specific to internal pages");
+  assert.ok(footerCss.includes("footer.footer .footer-col--services,"));
+  assert.ok(footerCss.includes("footer.footer .footer-col--contact"));
+  assert.ok(footerCss.includes("grid-column: auto"));
+  assert.ok(footerCss.includes("overflow-wrap: anywhere"));
+  assert.ok(footerCss.split(String.fromCharCode(10)).length < 300, "remove dead duplicated legacy footer CSS");
+  assert.ok(web.includes('t("REGISTRATE", "CADASTRE-SE", "SIGN UP")'));
+  assert.ok(lite.includes('t("REGISTRATE", "CADASTRE-SE", "SIGN UP")'));
+  assert.ok(webStyle.includes("background: #d5bd72 !important"));
+  assert.ok(liteStyle.includes("background: #d5bd72"));
+  assert.ok(webStyle.includes("height: clamp(205px, 54vw, 278px)"));
+  assert.ok(liteStyle.includes("height: clamp(205px, 54vw, 278px)"));
+});
+
+test("field and service contact creates an editable draft only; no automatic POST", () => {
+  const consulta = read("components/campos/ConsultaButton.tsx");
+  const liteConsulta = read("components/lite/LiteConsult.tsx");
+  const fieldThread = read("components/mensajes/MensajeHilo.tsx");
+  const directThread = read("components/mensajes/MensajeDirectoHilo.tsx");
+  const fieldPage = read("app/(dashboard)/mensajes/[campoId]/page.tsx");
+  const directPage = read("app/(dashboard)/mensajes/direct/[usuarioId]/page.tsx");
+  const servicePage = read("app/(public)/servicios-rurales/[id]/page.tsx");
+  const liteDirectPage = read("app/lite/perfil/mensajes/direct/[usuarioId]/page.tsx");
+  assert.ok(!consulta.includes('fetch("/api/mensajes"'));
+  assert.ok(!liteConsulta.includes('fetch("/api/mensajes"'));
+  assert.ok(consulta.includes("?borrador=consulta"));
+  assert.ok(servicePage.includes("?borrador=servicio"));
+  assert.ok(liteDirectPage.includes("searchParams={searchParams}"));
+  assert.ok(fieldPage.includes('borrador === "consulta"'));
+  assert.ok(directPage.includes('borrador === "servicio"'));
+  assert.ok(fieldThread.includes('onSubmit={handleEnviar}'));
+  assert.ok(directThread.includes('onSubmit={enviar}'));
+  assert.ok(fieldThread.includes("Enviar mensaje"));
+  assert.ok(directThread.includes("Enviar mensaje"));
+  assert.ok(fieldThread.includes("maxLength={500}"));
+  assert.ok(directThread.includes("maxLength={500}"));
+  assert.ok(fieldThread.includes('fetch("/api/mensajes"'));
+  assert.ok(directThread.includes('fetch("/api/mensajes/directos"'));
+});

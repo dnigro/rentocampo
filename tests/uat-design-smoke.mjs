@@ -21,6 +21,28 @@ async function open(page,path,selector="body"){
  if(r?.status()!==200)throw Error(path+" HTTP "+r?.status());
  await page.locator(selector).first().waitFor({state:"visible",timeout:12000});
 }
+async function footerMetrics(page) {
+ return await page.locator("footer.footer").evaluate(footer => {
+  const container=footer.querySelector(".footer-inner");
+  const services=footer.querySelector(".footer-col--services");
+  const contact=footer.querySelector(".footer-col--contact");
+  const link=footer.querySelector(".footer-link");
+  if(!container||!services||!contact||!link)throw Error("Footer incomplete");
+  const position=el=>el.getBoundingClientRect();
+  return {
+   cols:getComputedStyle(container).gridTemplateColumns.split(" ").length,
+   servicesY:position(services).y,
+   contactY:position(contact).y,
+   linkFont:parseFloat(getComputedStyle(link).fontSize),
+   footerOverflow:footer.scrollWidth>footer.clientWidth+3
+  };
+ });
+}
+async function checkMobileFooter(page,expected,where) {
+ if(expected.cols!==2||Math.abs(expected.servicesY-expected.contactY)>4
+   ||expected.linkFont>15||expected.footerOverflow)
+  throw Error(where+" footer differs from home 2x2 layout: "+JSON.stringify(expected));
+}
 async function noOverflow(page){
  const s=await page.evaluate(()=>({width:document.documentElement.clientWidth,scroll:document.documentElement.scrollWidth}));
  if(s.scroll>s.width+3)throw Error("Horizontal overflow "+JSON.stringify(s));
@@ -54,6 +76,7 @@ try{
     await page.locator(".rcf-faq__item summary").first().click();
     if(!(await page.locator(".rcf-faq__item").first().evaluate(e=>e.open)))throw Error("FAQ does not open");
     if(!await page.locator(".navbar").count()||!await page.locator("footer.footer").count())throw Error("Header/footer absent");
+    if(width<=600)await checkMobileFooter(page,await footerMetrics(page),"Home");
     if(!await page.locator('a[href="/#como-funciona"]').count())throw Error("Menu anchor missing");
     const desktopHowLink = page.locator('.navbar-links a[href="/#como-funciona"]');
     if (await desktopHowLink.isVisible()) {
@@ -83,6 +106,7 @@ try{
     await howLite.click();
     await page.waitForFunction(()=>location.hash==="#como-funciona-lite",null,{timeout:7000});
     if(!await page.locator(".lite-regional-header").count()||!await page.locator("footer.footer").count())throw Error("Lite shell");
+    if(width<=600)await checkMobileFooter(page,await footerMetrics(page),"Lite");
     await noOverflow(page);
     if(label==="390")await page.screenshot({path:"test-results/design-uat/lite-390.png",fullPage:true});
    });
@@ -90,6 +114,7 @@ try{
     for(const path of ["/register","/login","/campos","/campos/mapa","/servicios-rurales"]){
      await open(page,path);
      await noOverflow(page);
+     if(width<=600)await checkMobileFooter(page,await footerMetrics(page),"Internal "+path);
     }
    });
    await context.close();

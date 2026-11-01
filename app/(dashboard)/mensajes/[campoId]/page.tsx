@@ -7,10 +7,13 @@ import "@/styles/mensajes.css";
 
 export default async function HiloCampoPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ campoId: string }>;
+  searchParams: Promise<{ borrador?: string }>;
 }) {
   const { campoId } = await params;
+  const { borrador } = await searchParams;
   const supabase = await createClient();
 
   const {
@@ -103,6 +106,7 @@ export default async function HiloCampoPage({
         userId={user.id}
         destinatarioId={otroId ?? ""}
         mensajesIniciales={mensajesFormateados}
+        borradorConsulta={borrador === "consulta" && mensajesFormateados.length === 0}
       />
     </div>
   );
