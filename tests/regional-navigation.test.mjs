@@ -214,7 +214,7 @@ test('country selector shows 19 unique markets in Spanish alphabetical order', (
  assert.match(nav,/selectRegionalCountry\(country\);\s*window\.location\.reload\(\)/);
  assert.match(nav,/aria-haspopup="listbox"/);
  assert.match(nav,/htmlFor="navbar-pais-mobile"/);
- assert.equal((nav.match(/regionalText\(activeCountry, "PAÍS", "PAÍS"\)/g)||[]).length,2);
+ assert.equal((nav.match(/regionalText\(activeCountry, "PAÍS", "PAÍS", "COUNTRY"\)/g)||[]).length,2);
  assert.equal((nav.match(/\{COUNTRIES\[code\]\.flag\} \{code\}<\/option>/g)||[]).length,1);
 });
 test('new-country green available field pins paint above yellow editorial pins', () => {
