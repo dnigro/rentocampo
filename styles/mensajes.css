@@ -524,28 +524,28 @@
   max-width: 100%;
   padding: 14px 15px;
   border-radius: 13px;
-  border: 1px solid #d5bd72;
+  border: 1px solid #B8D6DF;
   background: #303134;
   color: #fff;
   font-size: 16px;
   line-height: 1.5;
   resize: vertical;
 }
-.mensaje-compose .mensaje-draft:focus-visible { outline: 2px solid #d5bd72; outline-offset: 2px; }
+.mensaje-compose .mensaje-draft:focus-visible { outline: 2px solid #B8D6DF; outline-offset: 2px; }
 .mensaje-compose-meta { font-size: 12px; color: #c9c9ca; text-align: right; }
 .mensaje-compose-note {
   margin: 0;
   padding: 12px;
   border-radius: 10px;
-  background: #3b3830;
-  color: #f1e3b8;
+  background: #303B3F;
+  color: #E4EDF0;
   font-size: 13px;
   line-height: 1.4;
 }
 .mensaje-compose-submit {
   border: 0;
   border-radius: 999px;
-  background: #d5bd72;
+  background: #B8D6DF;
   color: #191a1c;
   min-height: 48px;
   padding: 12px 24px;
