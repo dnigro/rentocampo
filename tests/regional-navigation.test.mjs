@@ -130,6 +130,11 @@ test('web/mobile/Lite have localized map/chat and 0% commission with country-awa
  assert.ok(regional.includes('if (country === "BR") return portuguese'));
  assert.ok(regional.includes('if (country === "US") return english'));
  assert.ok(countryHook.includes('country === "BR" ? "pt-BR" : country === "US" ? "en-US" : "es"'));
+ const navbar=readFileSync(new URL('../components/layout/Navbar.tsx',import.meta.url),'utf8');
+ const liteHeader=readFileSync(new URL('../components/lite/LiteHeader.tsx',import.meta.url),'utf8');
+ assert.ok(navbar.includes('"PAÍS", "PAÍS", "COUNTRY"'));
+ assert.ok(liteHeader.includes('"PAÍS", "PAÍS", "COUNTRY"'));
+ assert.ok(lite.includes('resolveCountry(pais, (await cookies()).get("rentocampo_country")?.value)'));
 });
 
 test('LATAM18 map zoning catalog has four valid geolocated references per new country', async () => {
