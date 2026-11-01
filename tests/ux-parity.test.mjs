@@ -81,8 +81,8 @@ test("home stays hero + short explainer + FAQ, with a shared header/footer",()=>
 });
 
 test("responsive hero has a visible matte gold accent and no legacy hero CSS imports",()=>{
- assert.match(webStyle,/color: #d5bd72/);
- assert.match(liteStyle,/color:#d5bd72/);
+ assert.match(webStyle,/color: #B8D6DF/);
+ assert.match(liteStyle,/color:#B8D6DF/);
  assert.ok(webStyle.includes(".rcf-hero__metric-value"));
  assert.ok(liteStyle.includes(".rcLiteDirectHero__metric strong"));
  assert.ok(webStyle.includes("@media (max-width: 520px)"));
