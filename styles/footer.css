@@ -520,3 +520,80 @@ body:has(.rc-landing) .footer .footer-bottom-link {
     line-height: 1.4;
   }
 }
+
+/* Footer 305: estructura única en 4 secciones, compacta en pantallas internas y Lite.
+   En mobile queda una grilla 2x2 sin agrandar las letras ni crear una fila huérfana. */
+html body footer.footer { padding: 30px clamp(18px, 3.1vw, 44px) 0; }
+html body footer.footer .footer-inner {
+  max-width: 1180px;
+  display: grid;
+  grid-template-columns: 1.7fr repeat(4, minmax(0, 1fr));
+  align-items: start;
+  gap: 25px;
+  padding-bottom: 29px;
+}
+html body footer.footer .footer-col,
+html body footer.footer .footer-brand { grid-column: auto; min-width: 0; }
+html body footer.footer .footer-col--services,
+html body footer.footer .footer-col--contact { border: 0 !important; padding-top: 0 !important; }
+html body footer.footer .footer-logo { margin-bottom: 7px; }
+html body footer.footer .footer-desc { font-size: 13px; line-height: 1.4; max-width: 320px; }
+html body footer.footer .footer-col-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  font-size: 15px;
+  line-height: 1.2;
+}
+html body footer.footer .footer-col-title svg {
+  width: 19px;
+  height: 19px;
+  flex: none;
+  color: #d5bd72;
+}
+html body footer.footer .footer-nav { gap: 9px; }
+html body footer.footer .footer-link { font-size: 13px; line-height: 1.36; overflow-wrap: anywhere; }
+html body footer.footer .footer-socials { gap: 8px; margin-top: 13px; }
+html body footer.footer .footer-social-link {
+  width: 44px; height: 44px; min-width: 44px; min-height: 44px;
+  border-radius: 12px; padding: 0;
+}
+html body footer.footer .footer-social-link svg { width: 23px; height: 23px; }
+html body footer.footer .footer-bottom { padding: 17px 0; font-size: 12px; }
+html body footer.footer .footer-bottom-link { font-size: 12px; }
+@media (max-width: 950px) {
+  html body footer.footer .footer-inner {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 21px 24px;
+  }
+  html body footer.footer .footer-brand { grid-column: 1 / -1; }
+}
+@media (max-width: 600px) {
+  html body footer.footer,
+  html body:not(:has(.rc-landing)) footer.footer {
+    padding: 24px 18px 0;
+  }
+  html body footer.footer .footer-inner,
+  html body:not(:has(.rc-landing)) footer.footer .footer-inner {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 21px 15px;
+    padding-bottom: 23px;
+  }
+  html body footer.footer .footer-brand { grid-column: 1 / -1; }
+  html body footer.footer .footer-brand .brand-wordmark-footer { font-size: clamp(25px, 6.6vw, 29px); }
+  html body footer.footer .footer-desc { max-width: 100%; font-size: 13.5px; line-height: 1.4; }
+  html body footer.footer .footer-col { grid-column: auto; min-width: 0; padding: 0 !important; border: 0 !important; }
+  html body footer.footer .footer-col-title { font-size: 15px; margin-bottom: 9px; gap: 6px; }
+  html body footer.footer .footer-col-title svg { width: 18px; height: 18px; }
+  html body footer.footer .footer-nav { gap: 8px; }
+  html body footer.footer .footer-link { font-size: clamp(12px, 3.4vw, 14px); line-height: 1.35; }
+  html body footer.footer .footer-socials { gap: 8px; }
+  html body footer.footer .footer-bottom {
+    padding: 15px 0;
+    font-size: 11px;
+    line-height: 1.4;
+    gap: 8px;
+  }
+  html body footer.footer .footer-bottom-link { font-size: 12px; }
+}
