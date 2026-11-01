@@ -10,8 +10,9 @@ import "@/styles/lite-direct-hero.css";
 
 export const metadata: Metadata = { title: "RentoCampo Lite | Campos y servicios" };
 
-export default async function LitePreview() {
-  const country = resolveCountry((await cookies()).get("rentocampo_country")?.value);
+export default async function LitePreview({ searchParams }: { searchParams: Promise<{ pais?: string }> }) {
+  const { pais } = await searchParams;
+  const country = resolveCountry(pais, (await cookies()).get("rentocampo_country")?.value);
   const t = (es: string, pt: string, en: string) => regionalText(country, es, pt, en);
 
   const links = [
