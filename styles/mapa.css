@@ -829,3 +829,103 @@ body:has(.mapa-page) {
     font-size: 16px;
   }
 }
+
+/* Mapa: ocupar su propio bloque real en el flujo del documento.
+ * La regla antigua height:100vh combinada con overflow:hidden ocultaba el
+ * final del mapa debajo del footer. Nada de overlays ni bloqueos de scroll.
+ */
+body:has(.mapa-page) {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+body:has(.mapa-page) .app-shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100svh;
+}
+body:has(.mapa-page) .app-shell > .main-content {
+  flex: 0 0 auto;
+  min-height: 0 !important;
+  display: block;
+  padding-bottom: 0 !important;
+}
+body:has(.mapa-page) .mapa-page {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: auto !important;
+  min-height: 0;
+  overflow: visible;
+  isolation: isolate;
+}
+body:has(.mapa-page) .mapa-page > .mapa-wrapper {
+  flex: 0 0 auto;
+  width: 100%;
+  height: clamp(530px, calc(100dvh - 170px), 840px);
+  min-height: 0;
+  overflow: hidden;
+  position: relative;
+}
+body:has(.mapa-page) footer.footer {
+  position: relative !important;
+  inset: auto !important;
+  transform: none !important;
+  flex: 0 0 auto;
+  z-index: 0;
+}
+
+/* Rutas a listados: botones cápsula azul marino, sin flechas decorativas. */
+.mapa-page .mapa-listas-nav {
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+  padding: 12px clamp(14px, 3vw, 32px);
+  background: #F7F4EE;
+  border-bottom: 1px solid #D6DEE4;
+}
+.mapa-page .mapa-lista-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 10px 19px;
+  border: 1px solid #11283F;
+  border-radius: 999px;
+  background: #11283F;
+  color: #FFFFFF;
+  font-family: var(--font-rounded),var(--font-dm-sans),Arial,sans-serif;
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1.2;
+  text-decoration: none;
+  white-space: normal;
+  text-align: center;
+}
+.mapa-page .mapa-lista-link:hover {
+  background: #365F7A;
+  border-color: #365F7A;
+  color: #FFFFFF;
+  text-decoration: none;
+}
+.mapa-page .mapa-lista-link:focus-visible {
+  outline: 3px solid #779AB1;
+  outline-offset: 3px;
+  text-decoration: none;
+}
+@media (max-width: 640px) {
+  body:has(.mapa-page) .mapa-page > .mapa-wrapper {
+    height: clamp(500px, calc(100dvh - 175px), 680px);
+  }
+  .mapa-page .mapa-listas-nav {
+    display: grid;
+    grid-template-columns: repeat(2,minmax(0,1fr));
+    gap: 9px;
+    padding: 10px 12px;
+  }
+  .mapa-page .mapa-lista-link {
+    min-width: 0;
+    width: 100%;
+    font-size: clamp(12px,3.4vw,14px);
+    padding: 10px 8px;
+  }
+}

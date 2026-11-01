@@ -119,8 +119,8 @@ export default async function MapaPage({
   return (
     <div className="mapa-page">
       <nav className="mapa-listas-nav" aria-label={tt("Volver a los listados","Voltar às listas")}>
-        <Link href={`/campos?${listaCamposParams}`} className="mapa-lista-link">← {tt("Lista de campos","Lista de terras")}</Link>
-        <Link href={`/servicios-rurales?${listaServiciosParams}`} className="mapa-lista-link">← {tt("Lista de servicios","Lista de serviços")}</Link>
+        <Link href={`/campos?${listaCamposParams}`} className="mapa-lista-link">{tt("Lista de campos","Lista de terras")}</Link>
+        <Link href={`/servicios-rurales?${listaServiciosParams}`} className="mapa-lista-link">{tt("Lista de servicios","Lista de serviços")}</Link>
       </nav>
       <CampoMapa
         key={selectedCountry}
