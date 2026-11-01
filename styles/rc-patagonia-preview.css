@@ -624,7 +624,7 @@ html body .app-shell .servicios-btn-primary {
   }
   html body .rc-landing .rcf-hero__content {
     /* 80% de la zona izquierda útil a la altura media de la diagonal. */
-    --rcf-copy-safe-zone: 55vw;
+    --rcf-copy-safe-zone: 65vw;
     --rcf-copy-target: calc(var(--rcf-copy-safe-zone) * .8);
     min-height: inherit;
     padding-top: 15px;
@@ -642,13 +642,13 @@ html body .app-shell .servicios-btn-primary {
     text-align: left;
   }
   html body .rc-landing .rcf-hero__title {
-    font-size: clamp(57px, 6.35vw, 93px);
+    font-size: clamp(66px, 7vw, 96px);
     line-height: .98;
     letter-spacing: -.052em;
     text-wrap: balance;
   }
   html body .rc-landing .rcf-hero__description {
-    font-size: clamp(19px, 1.88vw, 27px);
+    font-size: clamp(20px, 2vw, 28px);
     margin-top: 11px;
   }
   html body .rc-landing .rcf-rule { margin-top: 11px; width: 90px; }
@@ -658,8 +658,21 @@ html body .app-shell .servicios-btn-primary {
     gap: 12px;
   }
   html body .rc-landing .rcf-pill { min-height: 49px; }
-  html:lang(pt) body .rc-landing .rcf-hero__title { font-size: clamp(47px, 5.0vw, 75px); }
-  html:lang(en) body .rc-landing .rcf-hero__title { font-size: clamp(55px, 5.9vw, 88px); }
+  html:lang(pt) body .rc-landing .rcf-hero__title { font-size: clamp(49px, 5.4vw, 78px); }
+  html:lang(en) body .rc-landing .rcf-hero__title { font-size: clamp(58px, 6.25vw, 90px); }
+  /* Chrome Android en «Sitio para computadora» usa un viewport ancho,
+     aunque el dispositivo sea móvil. No dejar aire sin uso a 900–1200px. */
+  @media (max-width: 1200px) {
+    html body .rc-landing .rcf-hero__content {
+      padding-inline: clamp(21px, 2.75vw, 36px);
+    }
+    html body .rc-landing .rcf-hero__eyebrow {
+      margin-bottom: 8px;
+    }
+    html body .rc-landing .rcf-actions {
+      gap: 10px;
+    }
+  }
   html body .rc-landing .rcf-hero__proof {
     min-height: 98px;
     padding-block: 12px 10px;
@@ -676,4 +689,12 @@ html body .app-shell .servicios-btn-primary {
   }
   html body .rc-landing .rcf-faq__eyebrow { margin-bottom: 17px; }
   html body .rc-landing .rcf-faq__rule { margin: 27px 0 19px; }
+}
+
+/* En Chrome Android modo escritorio, la ventana puede ser mucho más alta
+   que la página escalada. El fondo fuera del contenido continúa el footer
+   marino (no deja un rectángulo marfil vacío debajo del sitio). */
+html:has(.rc-landing),
+html body:has(.rc-landing) {
+  background-color: #0B2035;
 }
