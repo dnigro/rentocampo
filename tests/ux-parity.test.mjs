@@ -140,6 +140,12 @@ test("approved compact footer and mustard register CTA across web and Lite", () 
   assert.ok(footer.includes("Tractor, House, Sprout, Mail"));
   assert.ok(footerCss.includes("grid-template-columns: repeat(2, minmax(0, 1fr))"));
   assert.ok(footerCss.includes("Footer 305: estructura única"));
+  assert.ok(!footerCss.includes("body:not(:has(.rc-landing))"), "no CSS specific to internal pages");
+  assert.ok(footerCss.includes("footer.footer .footer-col--services,"));
+  assert.ok(footerCss.includes("footer.footer .footer-col--contact"));
+  assert.ok(footerCss.includes("grid-column: auto"));
+  assert.ok(footerCss.includes("overflow-wrap: anywhere"));
+  assert.ok(footerCss.split("\\n").length < 300, "remove dead duplicated legacy footer CSS");
   assert.ok(web.includes('t("REGISTRATE", "CADASTRE-SE", "SIGN UP")'));
   assert.ok(lite.includes('t("REGISTRATE", "CADASTRE-SE", "SIGN UP")'));
   assert.ok(webStyle.includes("background: #d5bd72 !important"));
