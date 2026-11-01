@@ -2380,9 +2380,9 @@ body {
   .navbar .btn-primary,
   .navbar .btn-primary:link,
   .navbar .btn-primary:visited {
-    background: #E6D87A !important;
-    background-color: #E6D87A !important;
-    border-color: #E6D87A !important;
+    background: #B8D6DF !important;
+    background-color: #B8D6DF !important;
+    border-color: #B8D6DF !important;
     color: #141414 !important;
   }
 
@@ -3023,8 +3023,8 @@ html body footer.footer .footer-social-link {
 }
 html body footer.footer .footer-social-link:hover {
   color: #202420 !important;
-  background: #e6d87a !important;
-  border-color: #e6d87a !important;
+  background: #B8D6DF !important;
+  border-color: #B8D6DF !important;
 }
 
 /* Marca B: gris plateado, sin acentos amarillos.
