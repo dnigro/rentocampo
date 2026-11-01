@@ -137,6 +137,20 @@ try{
      await noOverflow(page);
      if(width<=600)await checkMobileFooter(page,await footerMetrics(page),"Internal "+path);
      await checkPatagoniaColors(page,"Internal "+path);
+     if(path==="/campos/mapa") {
+       const metrics=await page.evaluate(()=>{
+         const map=document.querySelector(".mapa-page"),footer=document.querySelector("footer.footer");
+         const links=[...document.querySelectorAll(".mapa-page .mapa-lista-link")];
+         if(!map||!footer||links.length!==2)throw Error("Map or footer missing");
+         return {gap:footer.getBoundingClientRect().top-map.getBoundingClientRect().bottom,
+           bodyOverflow:getComputedStyle(document.body).overflowY,
+           links:links.map(el=>({label:el.textContent?.trim(),r:getComputedStyle(el).borderRadius,minHeight:el.getBoundingClientRect().height}))};
+       });
+       if(metrics.gap<-2)throw Error("Map covered by footer: "+JSON.stringify(metrics));
+       if(metrics.bodyOverflow==="hidden")throw Error("Map scroll is still blocked");
+       if(metrics.links.some(link=>!link.r.startsWith("999")||link.minHeight<40||link.label?.includes("←")))
+         throw Error("Map list actions are not pill buttons: "+JSON.stringify(metrics));
+     }
     }
    });
    await context.close();
