@@ -145,7 +145,7 @@ test("approved compact footer and mustard register CTA across web and Lite", () 
   assert.ok(footerCss.includes("footer.footer .footer-col--contact"));
   assert.ok(footerCss.includes("grid-column: auto"));
   assert.ok(footerCss.includes("overflow-wrap: anywhere"));
-  assert.ok(footerCss.split("\\n").length < 300, "remove dead duplicated legacy footer CSS");
+  assert.ok(footerCss.split(String.fromCharCode(10)).length < 300, "remove dead duplicated legacy footer CSS");
   assert.ok(web.includes('t("REGISTRATE", "CADASTRE-SE", "SIGN UP")'));
   assert.ok(lite.includes('t("REGISTRATE", "CADASTRE-SE", "SIGN UP")'));
   assert.ok(webStyle.includes("background: #d5bd72 !important"));
