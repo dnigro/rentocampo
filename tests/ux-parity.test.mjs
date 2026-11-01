@@ -236,3 +236,29 @@ test("Patagonia shared footer and actions guarantee readable navy + ivory contra
  assert.ok(native.includes('backgroundColor: "#11283F"'));
  assert.ok(native.includes('borderColor: "#365F7A"'));
 });
+
+test("map footer never overlays the interactive map and list routes are rounded buttons", () => {
+ const mapPage=read("app/(public)/campos/mapa/page.tsx");
+ const css=read("styles/mapa.css");
+ const back=read("components/layout/DashboardReturn.tsx");
+ const backCss=read("styles/dashboard.css");
+ assert.ok(mapPage.includes('className="mapa-lista-link"'));
+ assert.ok(!mapPage.includes('>← {tt("Lista de campos"'));
+ assert.ok(!mapPage.includes('>← {tt("Lista de servicios"'));
+ assert.ok(css.includes("Mapa: ocupar su propio bloque real"));
+ assert.ok(css.includes("overflow-y: auto"));
+ assert.ok(css.includes("height: auto !important"));
+ assert.ok(css.includes("isolation: isolate"));
+ assert.ok(css.includes("body:has(.mapa-page) footer.footer"));
+ assert.ok(css.includes("height: clamp(530px, calc(100dvh - 170px), 840px)"));
+ assert.ok(css.includes("border-radius: 999px"));
+ assert.ok(back.includes('<Link href="/dashboard">Volver a Mi cuenta</Link>'));
+ assert.ok(backCss.includes("Navegación interior de Mi cuenta: botón cápsula"));
+});
+test("desktop landing is more compact with readable Patagonia FAQ",()=>{
+ const theme=read("styles/rc-patagonia-preview.css");
+ assert.ok(theme.includes("Densidad editorial desktop 308"));
+ assert.ok(theme.includes("calc(100svh - 185px)"));
+ assert.ok(theme.includes("html body .rc-landing .rcf-faq__question"));
+ assert.ok(theme.includes("min-height: 72px"));
+});
