@@ -133,7 +133,7 @@ test("Lite profile reuses web profile: selecting rural-service role adds no expa
  assert.match(api,/if \("servicios_rurales" in body\)/);
 });
 
-test("approved compact footer and mustard register CTA across web and Lite", () => {
+test("approved compact footer and glacier metallic register CTA across web and Lite", () => {
   const footer = read("components/layout/Footer.tsx");
   const footerCss = read("styles/footer.css");
   assert.ok(footer.includes("footer-col--contact"));
@@ -148,8 +148,8 @@ test("approved compact footer and mustard register CTA across web and Lite", () 
   assert.ok(footerCss.split(String.fromCharCode(10)).length < 300, "remove dead duplicated legacy footer CSS");
   assert.ok(web.includes('t("REGISTRATE", "CADASTRE-SE", "SIGN UP")'));
   assert.ok(lite.includes('t("REGISTRATE", "CADASTRE-SE", "SIGN UP")'));
-  assert.ok(webStyle.includes("background: #d5bd72 !important"));
-  assert.ok(liteStyle.includes("background: #d5bd72"));
+  assert.ok(webStyle.includes("background: #B8D6DF !important"));
+  assert.ok(liteStyle.includes("background: #B8D6DF"));
   assert.ok(webStyle.includes("height: clamp(205px, 54vw, 278px)"));
   assert.ok(liteStyle.includes("height: clamp(205px, 54vw, 278px)"));
 });
@@ -178,4 +178,26 @@ test("field and service contact creates an editable draft only; no automatic POS
   assert.ok(directThread.includes("maxLength={500}"));
   assert.ok(fieldThread.includes('fetch("/api/mensajes"'));
   assert.ok(directThread.includes('fetch("/api/mensajes/directos"'));
+});
+
+test("premium glacier-silver accent preview stays unified, accessible and non-yellow", () => {
+  const brand = read("styles/brand-final.css");
+  const how = read("styles/how-it-works.css");
+  const footer = read("styles/footer.css");
+  const msg = read("styles/mensajes.css");
+  const chrome = read("styles/site-theme.css");
+  const publicCss = read("styles/public.css");
+  const liteHeader = read("styles/lite-header.css");
+  const native = read("apps/mobile/src/App.tsx");
+  assert.ok(brand.includes("--rc-green: #B8D6DF"));
+  assert.ok(brand.includes("--rc-green-hover: #D2E7EC"));
+  for(const [name, css] of Object.entries({webStyle, liteStyle, how, footer, msg, chrome, publicCss, liteHeader, native})) {
+    assert.ok(css.includes("#B8D6DF"), name+" lacks shared accent");
+    assert.ok(!/#d5bd72|#d2b84c|#E6D87A/i.test(css), name+" retained obsolete mustard");
+  }
+  assert.ok(how.includes("--how-accent"));
+  assert.ok(brand.includes("color: var(--rc-black) !important"));
+  assert.ok(webStyle.includes("background: #B8D6DF !important"));
+  assert.ok(liteStyle.includes("background: #B8D6DF"));
+  assert.ok(msg.includes("mensaje-compose-submit"));
 });
