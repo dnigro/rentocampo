@@ -1,5 +1,5 @@
 :root {
-  --brand-yellow: #d2b84c;
+  --brand-yellow: #B8D6DF;
   --brand-ink: #073f30;
   --brand-text: #263a32;
   --brand-muted: #718078;
@@ -2380,9 +2380,9 @@ body {
   .navbar .btn-primary,
   .navbar .btn-primary:link,
   .navbar .btn-primary:visited {
-    background: #E6D87A !important;
-    background-color: #E6D87A !important;
-    border-color: #E6D87A !important;
+    background: #B8D6DF !important;
+    background-color: #B8D6DF !important;
+    border-color: #B8D6DF !important;
     color: #141414 !important;
   }
 
@@ -2538,9 +2538,9 @@ body {
 }
 
 
-/* 2026-10-06 — Header: marca con más presencia + paleta mostaza/carbón */
+/* 2026-10-06 — Header: marca con más presencia + paleta plata glaciar/carbón */
 .navbar {
-  --header-mustard: #d2b84c;
+  --header-mustard: #B8D6DF;
   --header-charcoal: #20211f;
 }
 .brand-wordmark--text-only .brand-clean-name {
@@ -2557,7 +2557,7 @@ body {
 }
 .navbar-country-switch button.active {
   border-color: var(--header-mustard) !important;
-  background: #e8dfc4 !important;
+  background: #B8D6DF !important;
 }
 @media (max-width: 900px) {
   .navbar {
@@ -2573,7 +2573,7 @@ body {
     font-weight: 950 !important;
   }
   .navbar .navbar-logo .brand-clean-name .brand-initial {
-    color: #d2b84c !important;
+    color: #B8D6DF !important;
   }
   .navbar .navbar-logo .brand-clean-name {
     color: #20211f !important;
@@ -2586,14 +2586,14 @@ body {
   color: #20211f !important;
 }
 .navbar .navbar-logo .brand-clean-name .brand-initial {
-  color: #d2b84c !important;
+  color: #B8D6DF !important;
 }
 @media (min-width: 901px) {
   .navbar .navbar-logo .brand-wordmark--text-only .brand-clean-name {
     color: #20211f !important;
   }
   .navbar .navbar-logo .brand-clean-name .brand-initial {
-    color: #d2b84c !important;
+    color: #B8D6DF !important;
   }
 }
 
@@ -2603,8 +2603,8 @@ header.navbar a.navbar-logo span.brand-wordmark--text-only span.brand-clean-name
   color: #20211f !important;
 }
 header.navbar a.navbar-logo span.brand-wordmark--text-only span.brand-clean-name > span.brand-initial {
-  color: #d2b84c !important;
-  -webkit-text-fill-color: #d2b84c !important;
+  color: #B8D6DF !important;
+  -webkit-text-fill-color: #B8D6DF !important;
 }
 
 /* Header negro mate: escritorio y móvil (actualización de marca 2026-10-12) */
@@ -2654,8 +2654,8 @@ html body header.navbar a.navbar-logo span.brand-wordmark--text-only span.brand-
   -webkit-text-fill-color: #fff !important;
 }
 html body header.navbar a.navbar-logo span.brand-wordmark--text-only span.brand-clean-name > span.brand-initial {
-  color: #d2b84c !important;
-  -webkit-text-fill-color: #d2b84c !important;
+  color: #B8D6DF !important;
+  -webkit-text-fill-color: #B8D6DF !important;
 }
 html body header.navbar .brand-clean-tagline,
 html body header.navbar .brand-wordmark-tagline {
@@ -2999,8 +2999,8 @@ html body footer.footer .brand-clean-name {
   -webkit-text-fill-color: #fff !important;
 }
 html body footer.footer .brand-clean-name > .brand-initial {
-  color: #d2b84c !important;
-  -webkit-text-fill-color: #d2b84c !important;
+  color: #B8D6DF !important;
+  -webkit-text-fill-color: #B8D6DF !important;
 }
 html body footer.footer .footer-desc,
 html body footer.footer .footer-link,
@@ -3023,8 +3023,8 @@ html body footer.footer .footer-social-link {
 }
 html body footer.footer .footer-social-link:hover {
   color: #202420 !important;
-  background: #e6d87a !important;
-  border-color: #e6d87a !important;
+  background: #B8D6DF !important;
+  border-color: #B8D6DF !important;
 }
 
 /* Marca B: gris plateado, sin acentos amarillos.

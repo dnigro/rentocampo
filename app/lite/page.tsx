@@ -36,7 +36,7 @@ export default async function LitePreview() {
           <span className="rcLiteDirectHero__rule" aria-hidden="true" />
           <div className="rcLiteDirectHero__actions">
             <Link href="/lite/cuenta/registro" className="rcLiteDirectHero__register">
-              {t("Registrate gratis", "Cadastre-se grátis", "Sign up free")}
+              {t("REGISTRATE", "CADASTRE-SE", "SIGN UP")}
             </Link>
             <Link href="/lite/campos" className="rcLiteDirectHero__explore">
               {t("Explorar campos", "Explorar terras", "Explore land")}

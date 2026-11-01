@@ -58,7 +58,7 @@ test("home stays hero + short explainer + FAQ, with a shared header/footer",()=>
  assert.ok(how.includes('className="rc-how__symbol"'));
  assert.ok(!how.includes("tabIndex={0}"));
  assert.ok(how.includes("MapPinned") && how.includes("MessageCircleMore") && how.includes("Handshake"));
- assert.ok(sharedStyle.includes("--rc-green: #646569"));
+ assert.ok(sharedStyle.includes("--rc-green: #B8D6DF"));
  assert.ok(liteStyle.includes("background:#646569"));
  assert.ok(webStyle.includes("background:#646569"));
  assert.ok(read("app/layout.tsx").includes("Nunito"));
@@ -81,8 +81,8 @@ test("home stays hero + short explainer + FAQ, with a shared header/footer",()=>
 });
 
 test("responsive hero has a visible matte gold accent and no legacy hero CSS imports",()=>{
- assert.match(webStyle,/color: #d5bd72/);
- assert.match(liteStyle,/color:#d5bd72/);
+ assert.match(webStyle,/color: #B8D6DF/);
+ assert.match(liteStyle,/color:#B8D6DF/);
  assert.ok(webStyle.includes(".rcf-hero__metric-value"));
  assert.ok(liteStyle.includes(".rcLiteDirectHero__metric strong"));
  assert.ok(webStyle.includes("@media (max-width: 520px)"));
@@ -131,4 +131,73 @@ test("Lite profile reuses web profile: selecting rural-service role adds no expa
  assert.doesNotMatch(profile,/servicePhotoInputRef/);
  const api=read("app/api/profile/route.ts");
  assert.match(api,/if \("servicios_rurales" in body\)/);
+});
+
+test("approved compact footer and glacier metallic register CTA across web and Lite", () => {
+  const footer = read("components/layout/Footer.tsx");
+  const footerCss = read("styles/footer.css");
+  assert.ok(footer.includes("footer-col--contact"));
+  assert.ok(footer.includes("Tractor, House, Sprout, Mail"));
+  assert.ok(footerCss.includes("grid-template-columns: repeat(2, minmax(0, 1fr))"));
+  assert.ok(footerCss.includes("Footer 305: estructura única"));
+  assert.ok(!footerCss.includes("body:not(:has(.rc-landing))"), "no CSS specific to internal pages");
+  assert.ok(footerCss.includes("footer.footer .footer-col--services,"));
+  assert.ok(footerCss.includes("footer.footer .footer-col--contact"));
+  assert.ok(footerCss.includes("grid-column: auto"));
+  assert.ok(footerCss.includes("overflow-wrap: anywhere"));
+  assert.ok(footerCss.split(String.fromCharCode(10)).length < 300, "remove dead duplicated legacy footer CSS");
+  assert.ok(web.includes('t("REGISTRATE", "CADASTRE-SE", "SIGN UP")'));
+  assert.ok(lite.includes('t("REGISTRATE", "CADASTRE-SE", "SIGN UP")'));
+  assert.ok(webStyle.includes("background: #B8D6DF !important"));
+  assert.ok(liteStyle.includes("background: #B8D6DF"));
+  assert.ok(webStyle.includes("height: clamp(205px, 54vw, 278px)"));
+  assert.ok(liteStyle.includes("height: clamp(205px, 54vw, 278px)"));
+});
+
+test("field and service contact creates an editable draft only; no automatic POST", () => {
+  const consulta = read("components/campos/ConsultaButton.tsx");
+  const liteConsulta = read("components/lite/LiteConsult.tsx");
+  const fieldThread = read("components/mensajes/MensajeHilo.tsx");
+  const directThread = read("components/mensajes/MensajeDirectoHilo.tsx");
+  const fieldPage = read("app/(dashboard)/mensajes/[campoId]/page.tsx");
+  const directPage = read("app/(dashboard)/mensajes/direct/[usuarioId]/page.tsx");
+  const servicePage = read("app/(public)/servicios-rurales/[id]/page.tsx");
+  const liteDirectPage = read("app/lite/perfil/mensajes/direct/[usuarioId]/page.tsx");
+  assert.ok(!consulta.includes('fetch("/api/mensajes"'));
+  assert.ok(!liteConsulta.includes('fetch("/api/mensajes"'));
+  assert.ok(consulta.includes("?borrador=consulta"));
+  assert.ok(servicePage.includes("?borrador=servicio"));
+  assert.ok(liteDirectPage.includes("searchParams={searchParams}"));
+  assert.ok(fieldPage.includes('borrador === "consulta"'));
+  assert.ok(directPage.includes('borrador === "servicio"'));
+  assert.ok(fieldThread.includes('onSubmit={handleEnviar}'));
+  assert.ok(directThread.includes('onSubmit={enviar}'));
+  assert.ok(fieldThread.includes("Enviar mensaje"));
+  assert.ok(directThread.includes("Enviar mensaje"));
+  assert.ok(fieldThread.includes("maxLength={500}"));
+  assert.ok(directThread.includes("maxLength={500}"));
+  assert.ok(fieldThread.includes('fetch("/api/mensajes"'));
+  assert.ok(directThread.includes('fetch("/api/mensajes/directos"'));
+});
+
+test("premium glacier-silver accent preview stays unified, accessible and non-yellow", () => {
+  const brand = read("styles/brand-final.css");
+  const how = read("styles/how-it-works.css");
+  const footer = read("styles/footer.css");
+  const msg = read("styles/mensajes.css");
+  const chrome = read("styles/site-theme.css");
+  const publicCss = read("styles/public.css");
+  const liteHeader = read("styles/lite-header.css");
+  const native = read("apps/mobile/src/App.tsx");
+  assert.ok(brand.includes("--rc-green: #B8D6DF"));
+  assert.ok(brand.includes("--rc-green-hover: #D2E7EC"));
+  for(const [name, css] of Object.entries({webStyle, liteStyle, how, footer, msg, chrome, publicCss, liteHeader, native})) {
+    assert.ok(css.includes("#B8D6DF"), name+" lacks shared accent");
+    assert.ok(!/#d5bd72|#d2b84c|#E6D87A/i.test(css), name+" retained obsolete mustard");
+  }
+  assert.ok(how.includes("--how-accent"));
+  assert.ok(brand.includes("color: var(--rc-black) !important"));
+  assert.ok(webStyle.includes("background: #B8D6DF !important"));
+  assert.ok(liteStyle.includes("background: #B8D6DF"));
+  assert.ok(msg.includes("mensaje-compose-submit"));
 });

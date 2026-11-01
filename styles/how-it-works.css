@@ -2,7 +2,7 @@
    La explicación se lee de un vistazo, sin otra pantalla completa. */
 .rc-how {
   --how-dark: #28292c;
-  --how-mustard: #d5bd72;
+  --how-accent: #B8D6DF;
   --how-white: #f7f7f5;
   --how-silver: #d4d4d5;
   scroll-margin-top:90px;
@@ -33,7 +33,7 @@
 }
 .rc-how__eyebrow {
   margin: 0;
-  color: var(--how-mustard);
+  color: var(--how-accent);
   font-size: clamp(17px, 1.6vw, 23px);
   font-weight: 900;
   letter-spacing: .065em;
@@ -87,7 +87,7 @@
   padding: 5px 12px;
   min-width: 46px;
   border-radius: 9px;
-  background: var(--how-mustard);
+  background: var(--how-accent);
   color: #191a1c;
   font-size: 18px;
   font-weight: 900;
@@ -111,7 +111,7 @@
   font-weight: 650;
   line-height: 1.3;
 }
-.rc-how__steps:focus-visible { outline: 2px solid var(--how-mustard); outline-offset: 3px; }
+.rc-how__steps:focus-visible { outline: 2px solid var(--how-accent); outline-offset: 3px; }
 @media (min-width: 681px) and (max-width: 1010px) {
   .rc-how__inner { padding-inline: 22px; }
   .rc-how__step { grid-template-columns: 58px minmax(0, 1fr); gap: 10px; padding-inline: 15px; }

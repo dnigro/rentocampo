@@ -20,6 +20,7 @@ interface Props {
   userId: string;
   destinatarioId: string;
   mensajesIniciales: Mensaje[];
+  borradorConsulta?: boolean;
 }
 
 export default function MensajeHilo({
@@ -27,11 +28,16 @@ export default function MensajeHilo({
   userId,
   destinatarioId,
   mensajesIniciales,
+  borradorConsulta = false,
 }: Props) {
   const {country}=useTranslations();
   const tt=(es:string,pt:string)=>country==="BR"?pt:es;
   const [mensajes, setMensajes] = useState<Mensaje[]>(mensajesIniciales);
-  const [texto, setTexto] = useState("");
+  const [texto, setTexto] = useState(() =>
+    borradorConsulta
+      ? tt("Hola, me interesa este campo. ¿Podemos hablar?", "Olá, tenho interesse nesta propriedade rural. Podemos conversar?")
+      : "",
+  );
   const [enviando, setEnviando] = useState(false);
   const [error, setError] = useState("");
   const bottomRef = useRef<HTMLDivElement>(null);
@@ -219,22 +225,22 @@ export default function MensajeHilo({
       </div>
 
       {error && <p role="alert" className="mensaje-error">{error}</p>}
-      <form className="mensaje-form" onSubmit={handleEnviar}>
-        <input
-          type="text"
-          className="mensaje-input"
-          placeholder={tt("Escribí un mensaje...","Digite uma mensagem...")}
+      <form className="mensaje-compose" onSubmit={handleEnviar}>
+        <label htmlFor="mensaje-campo-texto" className="mensaje-compose-label">{tt("Tu mensaje", "Sua mensagem")}</label>
+        <textarea
+          id="mensaje-campo-texto"
+          className="mensaje-input mensaje-draft"
+          placeholder={tt("Escribí un mensaje...", "Digite uma mensagem...")}
           value={texto}
           onChange={(e) => setTexto(e.target.value)}
           disabled={enviando}
-          autoComplete="off"
+          maxLength={500}
+          rows={4}
         />
-        <button
-          type="submit"
-          className="mensaje-send"
-          disabled={!texto.trim() || enviando}
-        >
-          {enviando ? "..." : "↑"}
+        <div className="mensaje-compose-meta">{texto.length} / 500</div>
+        <p className="mensaje-compose-note">{tt("Tu mensaje se enviará cuando presiones Enviar mensaje.", "Sua mensagem será enviada quando você pressionar Enviar mensagem.")}</p>
+        <button type="submit" className="mensaje-compose-submit" disabled={!texto.trim() || enviando}>
+          {enviando ? tt("Enviando...", "Enviando...") : tt("Enviar mensaje", "Enviar mensagem")}
         </button>
       </form>
     </div>

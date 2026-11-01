@@ -66,7 +66,7 @@
 }
 .rc-landing .rcf-hero__eyebrow {
   margin-bottom: clamp(31px, 4.4vw, 58px);
-  color: #d5bd72;
+  color: #B8D6DF;
   font-size: clamp(20px, 2.0vw, 28px);
   font-weight: 900;
   letter-spacing: .02em;
@@ -162,7 +162,7 @@
   text-transform: uppercase;
 }
 .rc-landing .rcf-hero__metric-value {
-  color: #d5bd72;
+  color: #B8D6DF;
   font-size: clamp(45px,5.6vw,76px);
   font-weight: 900;
   letter-spacing: -.06em;
@@ -797,4 +797,30 @@ html[lang="en-US"] .rc-landing .rcf-hero__title { font-size: clamp(46px, 7vw, 94
   .rc-landing .rcf-hero__metric-label { font-size: clamp(10px, 1.2vw, 12px); }
   html[lang="pt-BR"] .rc-landing .rcf-hero__title { font-size: clamp(37px, 5.3vw, 49px); }
   html[lang="en-US"] .rc-landing .rcf-hero__title { font-size: clamp(40px, 5.7vw, 52px); }
+}
+
+/* CTA experimental: plata glaciar metalizada sobre negro mate. */
+.rc-landing .rcf-pill--light {
+  background: #B8D6DF !important;
+  color: #191a1c !important;
+  font-family: var(--font-rounded), var(--font-dm-sans), sans-serif;
+  font-weight: 900;
+  letter-spacing: .025em;
+}
+.rc-landing .rcf-pill--light:hover { background: #D2E7EC !important; }
+.rc-landing .rcf-pill--light:focus-visible { outline: 3px solid #fff; outline-offset: 4px; }
+@media (max-width: 640px) {
+  /* Foto más baja, pero el ganado sigue visible; texto y registro antes del scroll largo. */
+  .rc-landing .rcf-hero__photo { height: clamp(205px, 54vw, 278px); }
+  .rc-landing .rcf-hero__photo::after {
+    background: linear-gradient(180deg, rgba(25,26,28,0) 0%, rgba(25,26,28,.07) 48%, #191a1c 100%);
+  }
+  .rc-landing .rcf-hero__content { padding: clamp(215px, 58vw, 295px) 20px 32px; }
+  .rc-landing .rcf-hero__eyebrow { margin-bottom: 10px; }
+  .rc-landing .rcf-hero__title { font-size: clamp(33px, 8.7vw, 46px); line-height: 1.035; }
+  .rc-landing .rcf-hero__description { margin-top: 11px; font-size: clamp(17px, 4.35vw, 20px); }
+  .rc-landing .rcf-rule { margin-top: 14px; }
+  .rc-landing .rcf-actions { margin-top: 16px; gap: 10px; }
+  .rc-landing .rcf-actions .rcf-pill { min-height: 48px; padding: 11px 20px; }
+  .rc-landing .rcf-hero__proof { margin-top: 23px; }
 }

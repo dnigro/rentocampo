@@ -16,6 +16,6 @@ export default async function Page({params}:{params:Promise<{id:string}>}){
  <h1 style={{fontSize:26,margin:"18px 0"}}>Consultar: {c.titulo}</h1>
  {user.id===c.propietario_id?<p>Esta publicación es tuya.</p>:<>
  <p style={{color:"#555"}}>Escribí tu consulta. <strong>No se enviará nada hasta que pulses «Enviar».</strong></p>
- <MensajeHilo campoId={id} userId={user.id} destinatarioId={c.propietario_id} mensajesIniciales={iniciales}/>
+ <MensajeHilo campoId={id} userId={user.id} destinatarioId={c.propietario_id} mensajesIniciales={iniciales} borradorConsulta={iniciales.length === 0}/>
  </>}</div></LiteWorkflowLayout>
 }

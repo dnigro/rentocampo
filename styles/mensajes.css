@@ -503,3 +503,55 @@
     line-height: 1.15;
   }
 }
+
+/* Conversaciones: borrador visible y envío voluntario, sólo mediante submit. */
+.mensaje-compose {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 18px;
+  border: 1px solid #494b50;
+  border-radius: 16px;
+  background: #242528;
+  color: #f7f7f5;
+}
+.mensaje-compose-label { font-size: 18px; font-weight: 850; color: #f7f7f5; }
+.mensaje-compose .mensaje-draft {
+  box-sizing: border-box;
+  display: block;
+  width: 100%;
+  min-height: 112px;
+  max-width: 100%;
+  padding: 14px 15px;
+  border-radius: 13px;
+  border: 1px solid #B8D6DF;
+  background: #303134;
+  color: #fff;
+  font-size: 16px;
+  line-height: 1.5;
+  resize: vertical;
+}
+.mensaje-compose .mensaje-draft:focus-visible { outline: 2px solid #B8D6DF; outline-offset: 2px; }
+.mensaje-compose-meta { font-size: 12px; color: #c9c9ca; text-align: right; }
+.mensaje-compose-note {
+  margin: 0;
+  padding: 12px;
+  border-radius: 10px;
+  background: #303B3F;
+  color: #E4EDF0;
+  font-size: 13px;
+  line-height: 1.4;
+}
+.mensaje-compose-submit {
+  border: 0;
+  border-radius: 999px;
+  background: #B8D6DF;
+  color: #191a1c;
+  min-height: 48px;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 900;
+  cursor: pointer;
+}
+.mensaje-compose-submit:disabled { opacity: .52; cursor: not-allowed; }
+.mensaje-compose-submit:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
