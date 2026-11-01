@@ -33,7 +33,7 @@
 }
 
 .lite-regional-logo .lite-regional-initial {
-  color: #d2b84c;
+  color: #B8D6DF;
 }
 
 .lite-regional-controls {
@@ -74,7 +74,7 @@
 
 .lite-regional-country:focus-visible,
 .lite-regional-account:focus-visible {
-  outline: 3px solid #d2b84c;
+  outline: 3px solid #B8D6DF;
   outline-offset: 2px;
 }
 
