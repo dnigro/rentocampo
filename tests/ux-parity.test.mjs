@@ -179,3 +179,30 @@ test("field and service contact creates an editable draft only; no automatic POS
   assert.ok(fieldThread.includes('fetch("/api/mensajes"'));
   assert.ok(directThread.includes('fetch("/api/mensajes/directos"'));
 });
+
+test("Patagonia warm-white + navy + steel reference is enabled on web, mobile and Lite", () => {
+ const appLayout=read("app/layout.tsx");
+ const theme=read("styles/rc-patagonia-preview.css");
+ assert.ok(appLayout.includes('import "@/styles/rc-patagonia-preview.css"'));
+ assert.ok(appLayout.indexOf("brand-final.css")<appLayout.indexOf("rc-patagonia-preview.css"));
+ for (const [token,value] of Object.entries({
+   "--rc-patagonia-navy":"#11283F",
+   "--rc-patagonia-navy-deep":"#0B2035",
+   "--rc-patagonia-steel":"#779AB1",
+   "--rc-patagonia-steel-dark":"#365F7A",
+   "--rc-patagonia-ivory":"#F7F4EE"
+ })) assert.ok(theme.includes(token+": "+value),token+" missing");
+ assert.ok(theme.includes("clip-path: polygon(0 0, 69% 0, 43% 100%, 0 100%)"), "desktop dairy-photo diagonal");
+ assert.ok(theme.includes("background: var(--rc-patagonia-ivory)"), "warm white shell");
+ assert.ok(theme.includes("html body .rc-landing .rcf-hero__proof"), "full-width offer strip");
+ assert.ok(theme.includes("position: absolute"), "desktop proof positioning");
+ assert.ok(theme.includes("html body .rc-landing .rcf-pill--light"), "primary navy registration");
+ assert.ok(theme.includes("background: var(--rc-patagonia-navy) !important"), "primary CTA dark");
+ assert.ok(theme.includes("html body .rcLiteDirectHero__register"), "Lite shares navy register");
+ assert.ok(theme.includes("html body .rc-how__step"), "how-it-works retains large cards");
+ assert.ok(theme.includes("@media (max-width: 640px)"), "mobile cow-first composition");
+ assert.ok(theme.includes("height: clamp(205px, 54vw, 278px)"), "compact cows in mobile");
+ assert.ok(theme.includes("html body header.navbar"), "shared warm navigation");
+ assert.ok(theme.includes("html body footer.footer"), "shared navy footer");
+ assert.ok(!theme.includes("#d5bd72"), "no mustard overrides in new design layer");
+});
