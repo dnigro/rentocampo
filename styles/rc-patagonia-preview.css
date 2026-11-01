@@ -519,7 +519,7 @@ html body .lite-app :is(.btn-primary,.btn-submit,.lite-btn-primary):hover:not(:d
   border-color: #365F7A !important;
   color: #FFFFFF !important;
 }
-html body .app-shell :is(.filtro-chip.active,.filtro-chip[aria-pressed="true"],.tipo-option input:checked + .tipo-label,.mapa-paises button[aria-pressed="true"],.mapa-modos button[aria-pressed="true"]) {
+html body .app-shell :is(.filtro-chip.active,.filtro-chip[aria-pressed="true"],.mapa-paises button[aria-pressed="true"],.mapa-modos button[aria-pressed="true"]) {
   background: #11283F !important;
   color: #FFFFFF !important;
   border-color: #11283F !important;
@@ -561,3 +561,55 @@ html body .app-shell header.navbar .brand-clean-name {
 }
 html body .lite-regional-header { background: #F7F4EE !important; }
 html body .lite-regional-header :is(.lite-regional-logo,.lite-regional-initial,.lite-regional-account,.lite-regional-country-label) { color: #11283F !important; }
+
+/* Estados y acciones heredadas: evitar restos amarillos o negros sobre la nueva identidad. */
+html body header.navbar :is(.btn-primary,.listing-button),
+html body .app-shell header.navbar :is(.btn-primary,.listing-button),
+html body:has(.rc-landing) header.navbar :is(.btn-primary,.listing-button),
+html body .app-shell :is(.mensaje-send,.rc-map-after-filters,.btn-consultar,.favorito-accion,.mapa-panel-btn) {
+  background: #11283F !important;
+  background-color: #11283F !important;
+  border-color: #11283F !important;
+  color: #FFFFFF !important;
+  border-radius: 999px !important;
+}
+html body header.navbar :is(.btn-primary,.listing-button):hover,
+html body .app-shell header.navbar :is(.btn-primary,.listing-button):hover,
+html body .app-shell :is(.mensaje-send,.rc-map-after-filters,.btn-consultar,.mapa-panel-btn):hover:not(:disabled) {
+  background: #365F7A !important;
+  border-color: #365F7A !important;
+  color: #FFFFFF !important;
+}
+html body .app-shell :is(.auth-page-register,.perfil-section) .tipo-option input:checked + .tipo-label,
+html body .app-shell .servicio-option input:checked + span,
+html body .app-shell .perfil-role-option:has(input:checked) {
+  background: #DCE6EC !important;
+  border-color: #365F7A !important;
+  color: #11283F !important;
+  box-shadow: none !important;
+}
+html body .app-shell .auth-page-register .tipo-option input:checked + .tipo-label :is(.tipo-nombre,.tipo-desc,.tipo-emoji) {
+  color: #11283F !important;
+}
+html body .app-shell :is(.filtro-chip.active,.filtro-chip[aria-pressed="true"]) {
+  background: #11283F !important;
+  border-color: #11283F !important;
+  color: #FFFFFF !important;
+}
+html body header.navbar .navbar-country-switch :is(button.active,a.active) {
+  background: #DCE6EC !important;
+  color: #11283F !important;
+  border-color: #779AB1 !important;
+}
+html body .navbar-badge { background: #779AB1 !important; color: #0B2035 !important; }
+html body .demanda-cta { background: #DCE6EC !important; color: #11283F !important; }
+html body .app-shell .auth-page-register .tipo-option input:checked + .tipo-label:hover {
+  background: #C6DAE5 !important;
+}
+html body .app-shell :is(.auth-page,.auth-page-register) .btn-submit,
+html body .app-shell .servicios-btn-primary {
+  background: #11283F !important;
+  border-radius: 999px !important;
+  border-color: #11283F !important;
+  color: #FFFFFF !important;
+}
