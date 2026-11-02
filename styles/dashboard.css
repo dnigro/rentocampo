@@ -269,3 +269,45 @@ html body .app-shell .dashboard-return a:focus-visible {
   outline: 3px solid #779AB1;
   outline-offset: 3px;
 }
+
+/* RentoCampo reference v3: photographic diagonal hero, bright sky surfaces, real UI. */
+html body .app-shell .main-content{background:linear-gradient(180deg,#f4fbff 0%,#e8f5fc 65%,#f8fcff 100%);padding-bottom:48px}
+html body .app-shell .rc-reference-hero{position:relative;isolation:isolate;overflow:hidden;display:flex!important;align-items:center!important;justify-content:space-between!important;min-height:158px!important;margin:0 0 22px!important;padding:25px 34px!important;border:1px solid #a5d7ef!important;border-radius:19px!important;background:linear-gradient(110deg,#e8f8ff 0%,#bce8fc 53%,#8dd2f3 100%)!important;box-shadow:0 8px 20px #2873a51a!important}
+html body .app-shell .rc-reference-hero:before{content:"";position:absolute;z-index:-1;inset:0 0 0 47%;background-image:linear-gradient(90deg,#5bbce41a,#143e6015),url('/rentocampo-hero-campo-bn-1920x1080.webp');background-size:cover;background-position:center;clip-path:polygon(26% 0,100% 0,100% 100%,0 100%);filter:saturate(1.1)}
+html body .app-shell .rc-hero-cows:before{background-image:url('/image_vaca_pix.png');background-position:center 46%}
+html body .app-shell .rc-hero-services:before{background-image:url('/rentocampo-hero-campo-bn-1920x1080.webp');background-position:center}
+html body .app-shell .rc-hero-messages:before{background-image:url('/image_vaca_pix.png');background-position:center}
+html body .app-shell .rc-reference-hero:after{display:none!important}
+html body .app-shell .rc-reference-hero >div{position:relative;z-index:1;max-width:55%}
+html body .app-shell .rc-reference-hero :is(.dashboard-title,.page-title){font-family:var(--font-rounded),Arial,sans-serif!important;font-size:clamp(29px,3.5vw,46px)!important;font-weight:900!important;line-height:1.05!important;letter-spacing:-.045em!important;text-transform:none!important;color:#081e55!important;text-shadow:none!important;margin:0 0 8px!important}
+html body .app-shell .rc-reference-hero :is(.dashboard-subtitle,.page-subtitle,.rc-hero-caption){font-size:15px!important;font-weight:600!important;color:#123657!important;line-height:1.35!important;margin:0!important;max-width:380px}
+html body .app-shell .rc-reference-hero .badge-tipo{position:relative;z-index:1;align-self:flex-end;background:#fffdf5!important;color:#153858!important;border:1px solid #d7efff!important;box-shadow:0 3px 10px #165b8822}
+html body .app-shell .dashboard-page{max-width:1160px!important;padding:22px 16px 54px!important}
+html body .app-shell .dashboard-header{min-height:194px!important}
+html body .app-shell .dashboard-cards{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:14px!important;padding:0 12px}
+html body .app-shell .dash-card{min-height:145px!important;padding:22px 24px!important;border:1px solid #b7dcf2!important;border-radius:18px!important;background:linear-gradient(145deg,#fff 30%,#d9effc 100%)!important;box-shadow:0 5px 12px #276e9d20!important;gap:7px!important}
+html body .app-shell .dash-card-icon{display:flex!important;align-items:center!important;margin:0!important;color:#087fc0!important;font-size:28px!important;filter:none!important}
+html body .app-shell .dash-card-icon svg{width:34px!important;height:34px!important;stroke-width:2.6!important}
+html body .app-shell .dash-card-label{font-size:18px!important;font-weight:900!important;color:#081e55!important}
+html body .app-shell .dash-card-desc{font-size:13px!important;font-weight:500!important;color:#23465f!important}
+html body .app-shell .page-container{max-width:1160px!important}
+html body .app-shell .page-container>.page-header.rc-reference-hero{margin-top:14px!important}
+html body .app-shell .rc-reference-hero .btn-primary-lg{z-index:2;align-self:flex-end;box-shadow:0 4px 12px #085b8d30!important}
+html body .app-shell .perfil-page>.page-header.rc-reference-hero{justify-content:flex-start!important;text-align:left!important}
+html body .app-shell .perfil-page>.page-header.rc-reference-hero>div{width:auto!important}
+html body .app-shell .perfil-layout{max-width:1100px!important}
+html body .app-shell .perfil-avatar-panel{background:linear-gradient(125deg,#f3fbff,#dff2fd)!important}
+html body .app-shell .perfil-layout :is(.perfil-section,.perfil-role-option){border-radius:18px!important;border-color:#b9dcf1!important;box-shadow:0 4px 12px #1a64961a!important}
+html body .app-shell .perfil-layout .avatar-preview{width:112px!important;height:112px!important;border:4px solid #fff!important;box-shadow:0 0 0 3px #2ba3db!important}
+html body .app-shell .perfil-layout .perfil-section-title{font-size:19px!important;font-weight:900!important;color:#081e55!important}
+html body .app-shell .mensajes-container .hilos-lista{gap:10px!important}
+html body .app-shell .mensajes-container .hilo-item{border-radius:17px!important;background:linear-gradient(105deg,#fff,#e7f6ff)!important;border-color:#b6dff5!important;box-shadow:0 4px 12px #1b65951a!important}
+html body .app-shell .mensajes-container .hilo-nombre{font-size:16px!important;font-weight:850!important;color:#081e55!important}
+html body .app-shell .mensajes-container .hilo-preview{font-size:13px!important;color:#33536d!important}
+html body .app-shell .campo-form .form-section{background:linear-gradient(145deg,#fff,#f2faff)!important;border-color:#c4e3f4!important}
+html body .app-shell .campo-form .form-section-title{color:#082c65!important;font-weight:900!important}
+html body .app-shell .campo-form .form-actions{background:#e3f4ff!important}
+html body .app-shell .campo-card-admin{background:linear-gradient(100deg,#fff,#eaf7ff)!important;border:1px solid #c4e3f4!important;border-radius:18px!important;box-shadow:0 5px 15px #286d991c!important;overflow:hidden}
+html body .app-shell .campo-card-titulo{color:#082b63!important;font-weight:850!important}
+@media(max-width:800px){html body .app-shell .dashboard-cards{grid-template-columns:repeat(2,minmax(0,1fr))!important}html body .app-shell .rc-reference-hero{padding:23px!important}html body .app-shell .rc-reference-hero:before{inset:0 0 0 37%;opacity:.55}html body .app-shell .rc-reference-hero>div{max-width:72%}}
+@media(max-width:540px){html body .app-shell .dashboard-cards{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important;padding:0!important}html body .app-shell .dash-card{min-height:135px!important;padding:15px!important}html body .app-shell .dash-card-label{font-size:15px!important}html body .app-shell .dash-card-desc{font-size:12px!important}html body .app-shell .rc-reference-hero{min-height:140px!important;padding:18px!important;flex-direction:column;align-items:flex-start!important}html body .app-shell .rc-reference-hero>div{max-width:82%}html body .app-shell .rc-reference-hero:before{inset:0 0 0 32%;opacity:.4}html body .app-shell .rc-reference-hero .badge-tipo{align-self:flex-start;margin-top:12px}html body .app-shell .rc-reference-hero .btn-primary-lg{align-self:flex-start;margin-top:12px}html body .app-shell .rc-reference-hero :is(.dashboard-title,.page-title){font-size:30px!important}html body .app-shell .rc-reference-hero :is(.page-subtitle,.rc-hero-caption){font-size:13px!important}}
