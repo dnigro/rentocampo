@@ -35,11 +35,18 @@ begin
  if NEW.propietario_id is distinct from v_user then
    raise exception 'Owner mismatch' using errcode='42501';
  end if;
- if TG_OP = 'INSERT' then
-   v_activating := case when v_kind='campo' then NEW.status::text='activo' else NEW.activo end;
+ if v_kind = 'campo' then
+   if TG_OP = 'INSERT' then
+     v_activating := NEW.status::text = 'activo';
+   else
+     v_activating := NEW.status::text = 'activo' and OLD.status::text <> 'activo';
+   end if;
  else
-   v_activating := case when v_kind='campo' then NEW.status::text='activo' and OLD.status::text<>'activo'
-                        else NEW.activo and not OLD.activo end;
+   if TG_OP = 'INSERT' then
+     v_activating := NEW.activo;
+   else
+     v_activating := NEW.activo and not OLD.activo;
+   end if;
  end if;
  if not v_activating then return NEW; end if;
  select email_confirmed_at, created_at into v_confirmed,v_created
