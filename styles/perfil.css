@@ -1065,3 +1065,19 @@
   .perfil-onboarding-option strong { font-size: 17px; }
   .perfil-onboarding-option small { font-size: 13px; }
 }
+
+/* RentoCampo interna v2 — lenguaje visual celeste, sin alterar la lógica de perfil */
+.app-shell .perfil-page { max-width: 1240px; padding-top: 28px; }
+.perfil-layout { max-width: 1080px; gap: 16px; }
+.perfil-section { border: 1px solid #d7e8f2; border-radius: 20px; padding: 24px; background: #fff; box-shadow: 0 8px 26px rgba(12,54,82,.045); }
+.perfil-section-title { color: #102c46; font-size: 18px; border-bottom: 0; padding-bottom: 0; margin-bottom: 16px; }
+.perfil-role-option { border-color: #c9dfec; border-radius: 14px; background: #f7fbfe; }
+.perfil-role-option:has(input:checked) { border-color: #40bee7; background: #eaf8ff; }
+.perfil-role-option input { accent-color: #087eaf; }
+.perfil-role-option strong, .perfil-role-option small { color: #15344c; }
+.perfil-section .btn-primary-lg { background: #126e99; min-height: 44px; }
+.perfil-section .btn-primary-lg:hover { background: #0c5477; }
+.perfil-section .btn-secondary-lg { border-radius: 999px; border-color: #b6d9eb; color: #174c69; min-height: 44px; }
+.avatar-preview { border-color: #b8e4f7; background: #eaf8ff; }
+.servicios-profile-box { border: 1px solid #cfe7f2; border-left: 3px solid #45c4e8; background: #f5fbff; }
+@media (max-width: 640px) { .app-shell .perfil-page { padding: 20px 14px 48px; } .perfil-section { padding: 18px 16px; } }
