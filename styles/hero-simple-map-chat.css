@@ -169,3 +169,12 @@
 
 /* Match hero CTA sizing to the header's Publicar campo pill on desktop. */
 @media(min-width:851px){.rc-landing .rcsm-button{min-height:66px;padding:17px 26px;border-radius:999px;font-size:21px;line-height:1.15;font-weight:750}.rc-landing .rcsm-actions{gap:16px}}
+
+/* Unified CTA treatment across desktop, responsive web and Lite app. */
+.rcsm .rcsm-button{box-sizing:border-box;border-radius:999px;font-weight:750}
+@media(max-width:850px){
+.rcsm .rcsm-button{min-height:58px;padding:14px 22px;font-size:clamp(16px,4.3vw,20px)}
+.rcsm .rcsm-actions{gap:12px}
+}
+.rcLiteShell .rcsm .rcsm-button{min-height:58px;border-radius:999px}
+@media(min-width:851px){.rcLiteShell .rcsm .rcsm-button{min-height:66px;font-size:21px;padding:17px 26px}}
