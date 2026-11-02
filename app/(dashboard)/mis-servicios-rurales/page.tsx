@@ -23,9 +23,10 @@ export default async function MisServiciosRuralesPage() {
 
   return (
     <div className="page-container">
-      <div className="page-header">
+      <div className="page-header rc-reference-hero rc-hero-services">
         <div>
           <h1 className="page-title">{tt("Mis servicios rurales","Meus serviços rurais")}</h1>
+          <p className="page-subtitle">{tt("Gestioná tus servicios, editá publicaciones y sumá nuevos.","Gerencie seus serviços, edite anúncios e publique novos.")}</p>
         </div>
         <Link href="/mis-servicios-rurales/nuevo" className="btn-primary-lg">
           + {tt("Publicar nuevo servicio","Anunciar novo serviço")}
