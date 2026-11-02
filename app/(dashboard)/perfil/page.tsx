@@ -24,7 +24,7 @@ export default async function PerfilPage() {
 
   return (
     <div className="page-container perfil-page">
-      <div className="page-header">
+      <div className="page-header rc-reference-hero rc-hero-fields">
         <div>
           <h1 className="page-title">{tt("Mi perfil", "Meu perfil", "My profile")}</h1>
           <p className="page-subtitle">{user.user_metadata?.onboarding_pending_roles === true ? tt("Elegí cómo querés usar RentoCampo", "Escolha como deseja usar a RentoCampo", "Choose how you want to use RentoCampo") : tt("Editá tus datos personales", "Edite seus dados pessoais", "Manage your personal information")}</p>
