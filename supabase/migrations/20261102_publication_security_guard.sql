@@ -25,10 +25,9 @@ declare
  v_kind text := case when TG_TABLE_NAME = 'campos' then 'campo' else 'servicio' end;
  v_activating boolean;
 begin
- -- Trusted server migrations use an explicitly privileged database role.
- -- Browser-originated requests always have auth.uid().
+ -- Privileged service operations are exempt; user-originated writes require auth.uid().
  if v_user is null then
-   if current_user not in ('postgres','service_role') then
+   if current_setting('role', true) not in ('service_role','postgres') then
      raise exception 'Authentication required' using errcode='42501';
    end if;
    return NEW;
