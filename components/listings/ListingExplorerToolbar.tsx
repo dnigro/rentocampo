@@ -20,7 +20,7 @@ export default function ListingExplorerToolbar({
         {mapLabel} <span aria-hidden="true">↗</span>
       </Link>
       <ListingCountrySelector country={country} />
-      <Link className="rc-explorer-toolbar__related" href={relatedHref}>{relatedLabel}</Link>
+      <Link className="rc-explorer-toolbar__related rc-explorer-toolbar__button" href={relatedHref}>{relatedLabel}</Link>
     </nav>
   );
 }
