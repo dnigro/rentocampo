@@ -23,8 +23,9 @@ export default function SimpleMapChatHero({ lite = false }: { lite?: boolean }) 
         </div>
 
         <div className="rcsm-panel">
-          <p className="rcsm-eyebrow">{t("CAMPOS Y SERVICIOS", "TERRAS E SERVIÇOS", "LAND & SERVICES")}</p>
-          <h1 className="rcsm-title" id="rcsm-title"><span aria-hidden="true">+</span>{t("SIMPLE", "SIMPLES", "SIMPLE")}</h1>
+          <p className="rcsm-eyebrow">{t("TIERRAS QUE PRODUCEN FUTURO", "TERRAS QUE PRODUZEM FUTURO", "LAND THAT BUILDS THE FUTURE")}</p>
+          <h1 className="rcsm-title" id="rcsm-title">{t("Tu campo tiene potencial. Hacelo visible.", "Sua terra tem potencial. Dê visibilidade a ela.", "Your land has potential. Make it visible.")}</h1>
+          <p className="rcsm-description">{t("Conectamos propietarios con productores y servicios rurales que buscan la tierra indicada para crecer.", "Conectamos proprietários, produtores e serviços rurais para criar novas oportunidades.", "We connect landowners, producers and rural services to grow together.")}</p>
 
           <div className="rcsm-features" aria-label={t("Mapa y chat online", "Mapa e chat online", "Map and online chat")}>
             <div className="rcsm-feature">
@@ -45,11 +46,11 @@ export default function SimpleMapChatHero({ lite = false }: { lite?: boolean }) 
 
           <div className="rcsm-actions">
             <RegionalLink href={lite ? "/lite/cuenta/registro" : "/register"} className="rcsm-button rcsm-button--primary">
-              {t("REGISTRATE GRATIS", "CADASTRE-SE GRÁTIS", "SIGN UP FREE")}
+              {t("Registrate gratis", "Cadastre-se grátis", "Sign up free")}
             </RegionalLink>
             <RegionalLink href="/campos/mapa" className="rcsm-button rcsm-button--secondary">
               <MapPinned size={21} strokeWidth={2} aria-hidden="true" />
-              {t("Explorar el mapa", "Explorar o mapa", "Explore the map")}
+              {t("Explorar campos", "Explorar terras", "Explore land")}
             </RegionalLink>
           </div>
         </div>
