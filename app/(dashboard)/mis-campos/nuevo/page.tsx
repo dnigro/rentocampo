@@ -24,7 +24,7 @@ export default async function NuevoCampoPage({ searchParams }: { searchParams?: 
 
   return (
     <div className="page-container">
-      <div className="page-header">
+      <div className="page-header rc-reference-hero rc-hero-fields">
         <div>
           <h1 className="page-title">{tt("Publicar campo","Anunciar terra")}</h1>
           <p className="page-subtitle">
