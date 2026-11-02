@@ -226,3 +226,118 @@ html body .lite-app-footer { background: var(--rc-black) !important; }
     padding-block: 15px !important;
   }
 }
+
+/* ============================================================
+   RentoCampo / Internal experience 2026.11 — shared visual system
+   Scoped to app-shell to preserve homepage and Lite navigation.
+   ============================================================ */
+html body .app-shell {
+  --internal-ink:#112b43;--internal-blue:#2d6380;--internal-sky:#43c4e8;
+  --internal-tint:#eaf8fd;--internal-line:#d5e7ee;--internal-muted:#607787;
+}
+html body .app-shell .main-content {min-width:0;}
+html body .app-shell :is(.dashboard-page,.page-container,.mensajes-container,.perfil-page) {
+  width:min(1160px,calc(100% - 36px));max-width:1160px;margin-inline:auto;
+}
+html body .app-shell :is(.dashboard-title,.page-title,.perfil-title,.mensajes-title) {
+  color:var(--internal-ink)!important;letter-spacing:-.035em;
+}
+html body .app-shell :is(.dashboard-subtitle,.page-subtitle) {color:var(--internal-muted)!important;}
+/* Account home: an editorial header and a consistent 3-column card grid. */
+html body .app-shell .dashboard-page {padding:32px 16px 80px!important;}
+html body .app-shell .dashboard-header {
+  background:linear-gradient(115deg,#123149 0%,#285f7c 72%,#3eaccb 100%)!important;
+  border:1px solid #35718e!important;border-radius:26px!important;
+  min-height:160px!important;padding:32px 38px!important;margin-bottom:22px!important;
+  box-shadow:0 16px 38px rgba(17,43,67,.11)!important;
+}
+html body .app-shell .dashboard-header:after {opacity:.24;}
+html body .app-shell .dashboard-header .dashboard-title {color:white!important;font-size:clamp(30px,4vw,54px)!important;line-height:1.05!important;}
+html body .app-shell .dashboard-header .dashboard-subtitle {color:#d9f4ff!important;}
+html body .app-shell .dashboard-cards {grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:16px!important;}
+html body .app-shell .dash-card {
+  background:linear-gradient(145deg,#fff 60%,#f1faff)!important;
+  border:1px solid var(--internal-line)!important;border-radius:20px!important;
+  min-height:170px;padding:23px!important;
+  box-shadow:0 5px 22px rgba(17,43,67,.055)!important;
+}
+html body .app-shell .dash-card:hover {border-color:var(--internal-sky)!important;transform:translateY(-3px)!important;box-shadow:0 14px 32px rgba(22,106,144,.13)!important;}
+html body .app-shell .dash-card-label {color:var(--internal-ink)!important;font-size:19px!important;}
+html body .app-shell .dash-card-desc {color:var(--internal-muted)!important;font-size:13px!important;}
+/* Shared rounded action buttons, including navigation links. */
+html body .app-shell :is(.dashboard-return a,.btn-primary-lg,.btn-secondary-lg,.btn-action,.listing-button,.explorador-link-button) {
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  min-height:44px;border-radius:999px!important;padding:10px 20px!important;
+  font-weight:750!important;text-decoration:none!important;
+  transition:background .18s,border-color .18s,box-shadow .18s,transform .18s;
+}
+html body .app-shell :is(.btn-primary-lg,.dashboard-return a) {
+  background:#245b7a!important;border:1px solid #245b7a!important;color:#fff!important;
+}
+html body .app-shell :is(.btn-primary-lg,.dashboard-return a):hover {background:#17415c!important;border-color:#17415c!important;}
+html body .app-shell :is(.btn-secondary-lg,.btn-action) {background:#fff!important;border:1px solid #a8cddd!important;color:#17425e!important;}
+html body .app-shell :is(.btn-secondary-lg,.btn-action):hover {background:#eaf8fd!important;border-color:#43c4e8!important;}
+html body .app-shell :is(a,button,input,select,textarea):focus-visible {outline:3px solid #43c4e8!important;outline-offset:2px;}
+/* Profile and publishing forms: one continuous, legible editorial flow. */
+html body .app-shell :is(.perfil-layout,.campo-form,.servicio-form) {gap:0!important;}
+html body .app-shell :is(.perfil-section,.campo-form .form-section,.servicio-form .form-section) {
+  background:#fff!important;border:1px solid var(--internal-line)!important;
+  border-radius:0!important;box-shadow:none!important;margin-bottom:0!important;
+  padding:24px 30px!important;
+}
+html body .app-shell :is(.perfil-section,.campo-form .form-section,.servicio-form .form-section):first-of-type {
+  border-radius:22px 22px 0 0!important;
+}
+html body .app-shell :is(.perfil-section,.campo-form .form-section,.servicio-form .form-section)+:is(.perfil-section,.form-section) {border-top:0!important;}
+html body .app-shell :is(.perfil-section-title,.form-section-title,.form-section-copy) {
+  color:var(--internal-ink)!important;border-bottom:0!important;
+}
+html body .app-shell :is(.campo-form,.servicio-form) .form-section-title-editorial {
+  border-left:4px solid var(--internal-sky)!important;padding-left:14px!important;
+  margin-bottom:18px!important;
+}
+html body .app-shell :is(.form-input,.perfil-input,.campo-form input,.campo-form select,.campo-form textarea,.servicio-form input,.servicio-form select,.servicio-form textarea) {
+  border-radius:11px!important;border-color:#c7dbe5!important;background:#fbfdff!important;
+  min-height:44px;color:var(--internal-ink)!important;
+}
+html body .app-shell :is(.campo-form,.servicio-form) .form-actions {
+  background:#eaf8fd!important;border:1px solid var(--internal-line)!important;
+  border-radius:0 0 22px 22px!important;margin-top:0!important;
+  padding:20px 28px!important;display:flex;justify-content:flex-end;gap:12px;flex-wrap:wrap;
+}
+html body .app-shell .perfil-role-option {background:#f1faff!important;border:1px solid #bedce9!important;border-radius:14px!important;}
+/* Messages: light surfaces, clear conversation and compact composer. */
+html body .app-shell .mensajes-container {padding:28px 16px 72px!important;}
+html body .app-shell .hilos-lista {gap:12px!important;}
+html body .app-shell .hilo-item {border:1px solid var(--internal-line)!important;background:#fff!important;border-radius:18px!important;padding:17px!important;}
+html body .app-shell .hilo-item:hover {border-color:var(--internal-sky)!important;background:#f5fcff!important;}
+html body .app-shell .hilo-avatar {background:#dff4fc!important;color:#215e7a!important;}
+html body .app-shell :is(.hilo-nombre,.hilo-header-nombre) {color:var(--internal-ink)!important;}
+html body .app-shell .hilo-container {border:1px solid var(--internal-line)!important;border-radius:22px!important;box-shadow:0 12px 36px rgba(17,43,67,.07)!important;}
+html body .app-shell .mensaje-compose {background:#f1f9fd!important;border-color:#c9e3ed!important;color:var(--internal-ink)!important;}
+html body .app-shell .mensaje-compose-label {color:var(--internal-ink)!important;}
+html body .app-shell .mensaje-compose .mensaje-draft {background:white!important;color:var(--internal-ink)!important;border:1px solid #bdd9e7!important;}
+html body .app-shell .mensaje-compose-note {background:#dceff7!important;color:#31566b!important;}
+html body .app-shell .mensaje-compose-meta {color:#577587!important;}
+html body .app-shell .mensaje-compose-submit {background:#245b7a!important;color:#fff!important;}
+/* Public exploration: cross-links should look like actions, not text links. */
+html body .app-shell :is(.explorador-header,.listing-header) a[href="/campos"],
+html body .app-shell :is(.explorador-header,.listing-header) a[href="/servicios-rurales"],
+html body .app-shell a[href="/campos"].explorador-link,
+html body .app-shell a[href="/servicios-rurales"].explorador-link {
+  display:inline-flex!important;align-items:center;justify-content:center;
+  min-height:44px!important;padding:10px 22px!important;border-radius:999px!important;
+  background:#43c4e8!important;color:#102e42!important;text-decoration:none!important;font-weight:800!important;
+}
+@media(max-width:760px) {
+  html body .app-shell .dashboard-cards {grid-template-columns:repeat(2,minmax(0,1fr))!important;}
+  html body .app-shell .dashboard-header {padding:25px 20px!important;min-height:130px!important;}
+  html body .app-shell :is(.perfil-section,.campo-form .form-section,.servicio-form .form-section) {padding:19px 17px!important;}
+}
+@media(max-width:520px) {
+  html body .app-shell .dashboard-cards {grid-template-columns:1fr!important;}
+  html body .app-shell .dash-card {min-height:125px!important;}
+  html body .app-shell :is(.dashboard-page,.page-container,.mensajes-container,.perfil-page) {width:calc(100% - 24px);}
+  html body .app-shell :is(.campo-form,.servicio-form) .form-actions {padding:16px!important;}
+  html body .app-shell :is(.campo-form,.servicio-form) .form-actions > * {flex:1 1 100%;}
+}
