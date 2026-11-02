@@ -174,7 +174,7 @@ function NavbarContent() {
           {/* Acciones desktop */}
           <div className="navbar-actions navbar-desktop">
             <div className="navbar-country-switch" aria-label="Seleccionar país" style={{ background: "transparent", border: 0, padding: 0, gap: 8 }}>
-              <label htmlFor="navbar-pais-desktop" style={{ color: "#fff", fontSize: 12, fontWeight: 850, letterSpacing: ".05em", whiteSpace: "nowrap" }}>{regionalText(activeCountry, "PAÍS", "PAÍS", "COUNTRY")}</label>
+              <label htmlFor="navbar-pais-desktop" style={{ color: "#102b3d", fontSize: 12, fontWeight: 850, letterSpacing: ".05em", whiteSpace: "nowrap" }}>{regionalText(activeCountry, "PAÍS", "PAÍS", "COUNTRY")}</label>
               <div style={{ position: "relative" }}>
                 <button type="button" aria-label="Seleccionar país" aria-haspopup="listbox" aria-expanded={countryMenuOpen} disabled={!countrySelectReady} onClick={() => setCountryMenuOpen((open) => !open)} style={{ display: "flex", alignItems: "center", gap: 6, background: "#fff", color: "#111", border: 0, borderRadius: 20, padding: "9px 12px", fontWeight: 700, cursor: "pointer" }}>
                   {/* SVG flags render reliably on Windows, unlike emoji in native selects. */}
