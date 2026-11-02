@@ -7,12 +7,12 @@ import { COUNTRIES, isCountryCode } from "@/data/countries";
 export const dynamic = "force-dynamic";
 
 function Metric({ label, value, description, tone = "neutral" }: { label: string; value: number; description: string; tone?: "neutral" | "mustard" | "sage" | "blue" }) {
-  const backgrounds = { neutral: "bg-slate-50", mustard: "bg-cyan-50", sage: "bg-sky-50", blue: "bg-blue-50" };
+  const backgrounds = { neutral: "bg-white", mustard: "bg-white", sage: "bg-white", blue: "bg-white" };
   return (
-    <div className={`rounded-2xl border border-sky-100 shadow-sm p-4 sm:p-5 ${backgrounds[tone]}`}>
+    <div className={`rounded-xl border border-slate-200 p-4 sm:p-5 ${backgrounds[tone]}`}>
       <p className="text-xs font-semibold uppercase tracking-wide text-zinc-600">{label}</p>
-      <p className="mt-3 text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl">{value.toLocaleString("es-AR")}</p>
-      <p className="mt-2 text-xs leading-relaxed text-zinc-600">{description}</p>
+      <p className="mt-2 text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl">{value.toLocaleString("es-AR")}</p>
+      <p className="mt-1 text-xs leading-relaxed text-slate-500">{description}</p>
     </div>
   );
 }
@@ -89,7 +89,7 @@ export default async function GerencialPage() {
         <Metric label="Países con oferta" value={report.countries.filter((c) => c.activeLands + c.activeServices > 0).length} description="Campos o servicios reales" tone="sage" />
       </div>
 
-      <section className="mt-5 rounded-2xl border border-zinc-200 bg-white p-5">
+      <section className="mt-5 rounded-xl border border-slate-200 bg-white p-5">
         <div className="flex items-center justify-between gap-3"><h2 className="font-semibold text-zinc-900">Meta · 1.000 registros</h2><span className="text-lg font-bold tabular-nums">{progress.toLocaleString("es-AR", { maximumFractionDigits: 2 })}%</span></div>
         <div className="mt-3 h-3 overflow-hidden rounded-full bg-zinc-100"><div className="h-full rounded-full bg-amber-500" style={{ width: `${progress}%` }} /></div>
         <p className="mt-2 text-xs text-zinc-500">Solo usuarios externos confirmados.</p>
