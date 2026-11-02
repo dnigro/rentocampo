@@ -201,8 +201,8 @@ export default async function MensajesPage() {
     <div className="page-container mensajes-container">
       <MensajesRealtime userId={user.id} />
       <div className={`mensajes-page ${hilos.length === 0 ? "mensajes-page-vacia" : ""}`}>
-      <div className="page-header">
-        <h1 className="page-title">Mensajes</h1>
+      <div className="page-header rc-reference-hero rc-hero-messages">
+        <div><h1 className="page-title">✉ Mensajes</h1><p className="page-subtitle">Tus consultas y conversaciones.</p></div>
       </div>
 
       {hilos.length === 0 ? (
