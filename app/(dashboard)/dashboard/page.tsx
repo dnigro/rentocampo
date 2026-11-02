@@ -2,6 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { BarChart3, UserRound, Tractor, Heart, Mail, Wrench } from "lucide-react";
+import { BarChart3, UserRound, Tractor, Heart, Mail, Wrench } from "lucide-react";
 import "@/styles/dashboard.css";
 import { INTERNAL_TEST_EMAILS } from "@/lib/analytics/commercial-filters";
 import { cookies } from "next/headers";
