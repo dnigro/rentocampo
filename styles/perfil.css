@@ -1107,3 +1107,23 @@
 .app-shell .campo-form .form-section-number,.app-shell .servicio-publicacion-form .form-section-number{display:none!important}
 .app-shell .campo-form,.app-shell .servicio-publicacion-form{background:#fff!important;border:0!important;border-radius:0!important;box-shadow:none!important}
 @media(max-width:640px){.app-shell .perfil-page .avatar-preview{width:132px!important;height:132px!important}.app-shell .perfil-page .perfil-section{padding:16px 8px!important}}
+
+/* V5 corporate navy: profile and publishing, consistent with public home */
+.app-shell .perfil-page{max-width:1180px!important;background:transparent!important}
+.app-shell .perfil-page .perfil-layout{max-width:1080px!important;gap:8px!important}
+.app-shell .perfil-page .perfil-section{border-bottom:1px solid #dce1e5!important;padding:20px 12px!important}
+.app-shell .perfil-page .perfil-section-title{color:#1b344a!important;font-size:19px!important;font-weight:700!important}
+.app-shell .perfil-page .avatar-preview{width:192px!important;height:192px!important;border:3px solid #d5dce2!important;background:#f2f4f5!important;box-shadow:none!important}
+.app-shell .perfil-page .perfil-role-option{border:1px solid #d6dde2!important;background:#fafbfc!important;border-radius:9px!important}
+.app-shell .perfil-page .perfil-role-option:has(input:checked){border-color:#345a79!important;background:#eef2f5!important}
+.app-shell .perfil-page .perfil-role-option input{accent-color:#244e70!important}
+.app-shell .perfil-page .servicios-profile-box{border:1px solid #d9e0e5!important;border-left:3px solid #345a79!important;background:#f7f8f9!important}
+.app-shell .perfil-page .btn-primary-lg,.app-shell .campo-form .btn-primary-lg,.app-shell .servicio-publicacion-form .btn-primary-lg{background:#244e70!important;border-color:#244e70!important;color:#fff!important;border-radius:999px!important}
+.app-shell .perfil-page .btn-primary-lg:hover,.app-shell .campo-form .btn-primary-lg:hover,.app-shell .servicio-publicacion-form .btn-primary-lg:hover{background:#173750!important}
+.app-shell .perfil-page .btn-secondary-lg{border-color:#b9c6d0!important;color:#244e70!important;background:#fff!important}
+.app-shell .campo-form,.app-shell .servicio-publicacion-form{max-width:1040px!important;padding:clamp(12px,2vw,24px)!important}
+.app-shell .campo-form .form-section,.app-shell .servicio-publicacion-form .form-section{padding:14px 0!important;border-bottom:1px solid #e1e5e8!important}
+.app-shell .campo-form .form-section-title,.app-shell .servicio-publicacion-form .form-section-title{color:#1b344a!important;font-size:18px!important;font-weight:700!important;padding:4px 0 12px!important}
+.app-shell .campo-form .form-input,.app-shell .servicio-publicacion-form .form-input{background:#fff!important;border-color:#cfd8df!important}
+.app-shell .campo-form .form-input:focus,.app-shell .servicio-publicacion-form .form-input:focus{outline:2px solid #6d8ca5!important}
+@media(max-width:640px){.app-shell .perfil-page .avatar-preview{width:150px!important;height:150px!important}.app-shell .perfil-page .perfil-section{padding:16px 6px!important}}
