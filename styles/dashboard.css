@@ -329,3 +329,24 @@ html body .app-shell .perfil-layout .perfil-avatar-panel .avatar-info{align-item
 html body .app-shell .perfil-layout .perfil-section:not(.perfil-avatar-panel){grid-column:2!important}
 }
 @media(max-width:850px){html body .app-shell .page-container:has(.campo-card-admin) .campo-card-admin{grid-template-columns:110px minmax(0,1fr)!important}html body .app-shell .page-container:has(.campo-card-admin) .campo-card-actions{grid-column:1/-1!important;border-top:1px solid #cce5f5!important}html body .app-shell .page-container:has(.campo-card-admin) .campo-card-img{height:78px!important;min-height:78px!important}}
+
+/* RentoCampo V4 — executive, restrained internal UI */
+html body .app-shell .dashboard-page{max-width:1180px!important;padding:28px 24px 60px!important}
+html body .app-shell .dashboard-header{min-height:115px!important;padding:24px 30px!important;margin-bottom:18px!important;border:1px solid #e0e6e9!important;border-radius:12px!important;background:linear-gradient(110deg,#f8fafb,#e9f3f8)!important;box-shadow:none!important}
+html body .app-shell .dashboard-title{font-size:clamp(25px,2.5vw,34px)!important;font-weight:650!important;letter-spacing:-.035em!important;color:#152e3e!important}
+html body .app-shell .dashboard-cards{gap:12px!important}
+html body .app-shell .dash-card{min-height:126px!important;padding:20px!important;border:1px solid #e0e7eb!important;border-radius:12px!important;background:#fff!important;box-shadow:none!important;transition:border-color .2s,background .2s!important}
+html body .app-shell .dash-card:hover{border-color:#83bbd5!important;background:#f7fbfd!important;transform:none!important}
+html body .app-shell .dash-card-icon{color:#23769b!important}
+html body .app-shell .dash-card-icon svg{width:25px!important;height:25px!important}
+html body .app-shell .dash-card-label{font-size:16px!important;font-weight:650!important}
+html body .app-shell .dash-card-desc{font-size:12px!important;color:#647785!important}
+html body .app-shell .rc-reference-hero{border-radius:12px!important;box-shadow:none!important;background:linear-gradient(110deg,#f7f9fa,#e9f3f8)!important;border:1px solid #dce7ed!important;min-height:110px!important}
+html body .app-shell .rc-reference-hero .page-title{font-size:clamp(27px,3vw,36px)!important;font-weight:650!important;letter-spacing:-.035em!important}
+html body .app-shell .rc-reference-hero:before,html body .app-shell .rc-reference-hero:after{opacity:0!important}
+html body .app-shell .page-container .btn,html body .app-shell .page-container a[class*="explorar"],html body .app-shell .page-container a[class*="cta"]{border-radius:999px!important}
+html body .app-shell .page-container .perfil-section{border:0!important;border-bottom:1px solid #e3e9ed!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;padding:22px 12px!important}
+html body .app-shell .perfil-layout{gap:0!important;background:#fff!important;border:1px solid #e0e7eb!important;border-radius:14px!important;padding:12px 28px!important}
+html body .app-shell .perfil-role-option{border-radius:9px!important;background:#fff!important}
+html body .app-shell .perfil-role-option:has(input:checked){background:#f0f8fb!important;border-color:#8abdd4!important}
+@media(max-width:640px){html body .app-shell .dashboard-header{padding:20px!important}html body .app-shell .perfil-layout{padding:8px 12px!important}}
