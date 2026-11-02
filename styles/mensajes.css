@@ -555,3 +555,25 @@
 }
 .mensaje-compose-submit:disabled { opacity: .52; cursor: not-allowed; }
 .mensaje-compose-submit:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+
+/* Chat v4: separate scrolling conversation from a compact, non-overlaying composer. */
+html body .app-shell .hilo-container{display:grid!important;grid-template-rows:minmax(0,1fr) auto!important;height:min(720px,calc(100dvh - 245px))!important;min-height:460px!important;max-width:100%!important;overflow:hidden!important;border:1px solid #c4dfef!important;border-radius:22px!important;background:#fff!important;box-shadow:0 8px 25px #164a7412!important}
+html body .app-shell .hilo-mensajes{min-height:0!important;min-width:0!important;overflow-y:auto!important;overflow-x:hidden!important;overscroll-behavior:contain!important;scroll-padding-bottom:20px!important;display:flex!important;flex-direction:column!important;gap:12px!important;padding:22px 26px!important;background:linear-gradient(180deg,#f8fcff,#fff)!important}
+html body .app-shell .hilo-mensajes>div{flex-shrink:0!important}
+html body .app-shell .mensaje-row{margin:0!important;align-items:flex-end!important}
+html body .app-shell .mensaje-burbuja-wrap{max-width:min(76%,560px)!important}
+html body .app-shell .mensaje-burbuja{border-radius:17px!important;padding:11px 15px!important;font-size:14px!important;line-height:1.5!important;box-shadow:none!important}
+html body .app-shell .burbuja-mia{background:#096fa8!important;color:#fff!important;border-bottom-right-radius:5px!important}
+html body .app-shell .burbuja-otra{background:#e9f1f7!important;color:#183a50!important;border-bottom-left-radius:5px!important}
+html body .app-shell .mensaje-compose{position:relative!important;inset:auto!important;z-index:1!important;flex-shrink:0!important;display:grid!important;grid-template-columns:minmax(0,1fr) auto!important;align-items:end!important;gap:8px 12px!important;margin:0!important;padding:14px 18px!important;border:0!important;border-top:1px solid #cbe4f2!important;border-radius:0!important;background:#f2faff!important;color:#12324b!important;box-shadow:0 -5px 18px #1b70940b!important;transform:none!important}
+html body .app-shell .mensaje-compose-label{grid-column:1/-1!important;color:#173e59!important;font-size:13px!important;font-weight:800!important}
+html body .app-shell .mensaje-compose .mensaje-draft{grid-column:1!important;grid-row:2!important;min-height:50px!important;height:54px!important;max-height:120px!important;margin:0!important;padding:14px 16px!important;border:1px solid #b5d8eb!important;border-radius:15px!important;background:#fff!important;color:#18364b!important;font-size:14px!important;resize:vertical!important}
+html body .app-shell .mensaje-compose .mensaje-draft:focus{outline:2px solid #40bfe8!important;outline-offset:0!important}
+html body .app-shell .mensaje-compose-submit{grid-column:2!important;grid-row:2!important;min-height:50px!important;align-self:stretch!important;white-space:nowrap!important;padding:0 22px!important;border:0!important;border-radius:14px!important;background:linear-gradient(180deg,#16b5e5,#0675ae)!important;color:#fff!important;font-size:14px!important;font-weight:800!important;box-shadow:none!important}
+html body .app-shell .mensaje-compose-submit:disabled{background:#bdccd7!important;color:#f9fcff!important;opacity:1!important;box-shadow:none!important}
+html body .app-shell .mensaje-compose-meta{grid-column:1/-1!important;grid-row:3!important;text-align:right!important;font-size:11px!important;color:#6d8493!important}
+html body .app-shell .mensaje-compose-note{display:none!important}
+html body .app-shell .mensaje-error{margin:0!important;padding:8px 18px!important;background:#fff0ee!important;color:#9e2e2e!important}
+html body .app-shell .hilo-header{padding:14px 18px!important;margin-bottom:12px!important;border:1px solid #c5e1f1!important;border-radius:18px!important;background:linear-gradient(90deg,#f7fcff,#e0f4ff)!important}
+html body .app-shell .hilo-back{display:inline-flex!important;align-items:center!important;justify-content:center!important;min-height:38px!important;padding:8px 15px!important;border:1px solid #b4d8eb!important;border-radius:999px!important;background:#fff!important;color:#12547b!important;font-weight:800!important;text-decoration:none!important}
+@media(max-width:640px){html body .app-shell .hilo-container{height:min(650px,calc(100dvh - 180px))!important;min-height:390px!important}html body .app-shell .hilo-mensajes{padding:15px!important}html body .app-shell .mensaje-compose{padding:12px!important;gap:7px!important}html body .app-shell .mensaje-compose-submit{padding:0 12px!important;font-size:12px!important}html body .app-shell .mensaje-burbuja-wrap{max-width:88%!important}html body .app-shell .hilo-header{flex-wrap:wrap!important}}
