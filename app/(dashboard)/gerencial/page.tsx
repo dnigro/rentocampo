@@ -27,18 +27,20 @@ function Trend({ months }: { months: { month: string; registrations: number }[] 
     ...point, x: 35 + (i * 520) / Math.max(1, points.length - 1),
     y: 145 - (point.total / max) * 110,
   }));
+  const area = coordinates.length ? `${coordinates.map((p, i) => (i ? "L" : "M") + p.x + " " + p.y).join(" ")} L${coordinates.at(-1)?.x} 145 L35 145 Z` : "";
   const line = coordinates.map((p, i) => (i ? "L" : "M") + p.x + " " + p.y).join(" ");
   return (
-    <div className="rounded-2xl border border-sky-100 bg-white p-4 shadow-sm sm:p-5">
+    <div className="rounded-xl border border-slate-200 bg-white p-5">
       <div className="flex items-center justify-between gap-2">
         <h2 className="font-semibold text-zinc-900">Evolución de registros</h2>
         <span className="text-xs text-zinc-500">6 meses</span>
       </div>
-      <svg className="mt-3 block w-full max-h-[210px]" viewBox="0 0 590 185" role="img" aria-label="Línea de registros elegibles por mes de creación, acumulados dentro de los seis meses visibles">
-        <path d="M35 145 H555" fill="none" stroke="#e4e4e7" />
-        {coordinates.length > 0 && <path d={line} fill="none" stroke="#269bc4" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />}
+      <svg className="mt-3 block w-full h-auto" viewBox="0 0 590 185" role="img" aria-label="Línea de registros elegibles por mes de creación, acumulados dentro de los seis meses visibles">
+        {[35, 72, 109, 145].map(y => <path key={y} d={`M35 ${y} H555`} fill="none" stroke="#e7edf1" strokeDasharray="3 4" />)}
+        {area && <path d={area} fill="#d9eff8" fillOpacity=".7" />}
+        {coordinates.length > 0 && <path d={line} fill="none" stroke="#176e99" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />}
         {coordinates.map((p) => <g key={p.month}>
-          <circle cx={p.x} cy={p.y} r="4.5" fill="#269bc4" />
+          <circle cx={p.x} cy={p.y} r="4" fill="#176e99" />
           <text x={p.x} y={p.y - 11} textAnchor="middle" fontSize="12" fill="#27272a">{p.total}</text>
           <text x={p.x} y="168" textAnchor="middle" fontSize="11" fill="#71717a">{p.month.slice(5)}</text>
         </g>)}
@@ -95,7 +97,7 @@ export default async function GerencialPage() {
         <p className="mt-2 text-xs text-zinc-500">Solo usuarios externos confirmados.</p>
       </section>
 
-      <Trend months={report.months} />
+      <div className="mt-5 grid gap-4 lg:grid-cols-[minmax(0,1.8fr)_minmax(280px,1fr)]"><Trend months={report.months} /><section className="rounded-xl border border-slate-200 bg-white p-5"><h2 className="font-semibold text-slate-900">Composición de oferta</h2><p className="mt-1 text-xs text-slate-500">Publicaciones activas, excluyendo DEMO</p><div className="mt-6 flex items-center gap-5"><div className="h-28 w-28 shrink-0 rounded-full" style={{background:`conic-gradient(#176e99 0 ${100 * report.totals.activeLands / Math.max(1,report.totals.activeLands + report.totals.activeServices)}%, #72b9d5 0 100%)`}}><div className="relative left-4 top-4 flex h-20 w-20 items-center justify-center rounded-full bg-white text-lg font-semibold">{report.totals.activeLands + report.totals.activeServices}</div></div><div className="space-y-3 text-sm"><p><span className="mr-2 inline-block h-2 w-2 rounded-full bg-[#176e99]"/>Campos: <strong>{report.totals.activeLands}</strong></p><p><span className="mr-2 inline-block h-2 w-2 rounded-full bg-[#72b9d5]"/>Servicios: <strong>{report.totals.activeServices}</strong></p></div></div></section></div>
 
       <section className="mt-5 rounded-2xl border border-zinc-200 bg-white p-5">
         <h2 className="text-lg font-semibold text-zinc-900">Embudo de crecimiento</h2>
