@@ -178,3 +178,22 @@
 }
 .rcLiteShell .rcsm .rcsm-button{min-height:58px;border-radius:999px}
 @media(min-width:851px){.rcLiteShell .rcsm .rcsm-button{min-height:66px;font-size:21px;padding:17px 26px}}
+
+/* Approved matte steel-blue identity — shared component: desktop, mobile and Lite. */
+.rcsm{--rcsm-steel:#7c9fb5;--rcsm-deep:#102b3d}
+.rcsm-photo__image{filter:grayscale(1) contrast(1.12) brightness(.92)}
+.rcsm-photo::after,.rc-landing .rcsm-photo::after{
+ background:linear-gradient(90deg,rgba(12,34,48,.96) 0%,rgba(15,43,61,.89) 32%,rgba(16,43,61,.49) 58%,rgba(16,43,61,.08) 85%),linear-gradient(0deg,rgba(12,34,48,.36),transparent 55%);
+}
+.rcsm-eyebrow{color:#a7c8d9}
+.rcsm-feature__icon{color:#86c7e3}
+.rcsm-button--primary{background:#7c9fb5;color:#fff}
+.rcsm-button--primary:hover{background:#6c94ad}
+.rcsm-button--secondary{background:rgba(16,43,61,.46);border-color:#fff}
+.rcsm-button--secondary:hover{background:rgba(124,159,181,.25)}
+.rcsm-proof__item strong{color:#5f91ac}
+@media(max-width:850px){
+.rcsm-photo::after,.rc-landing .rcsm-photo::after{
+background:linear-gradient(90deg,rgba(12,34,48,.92),rgba(12,34,48,.56)),linear-gradient(0deg,rgba(12,34,48,.58),transparent 72%);
+}
+}
