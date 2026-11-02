@@ -2,7 +2,6 @@ import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { BarChart3, UserRound, Tractor, Heart, Mail, Wrench } from "lucide-react";
-import { BarChart3, UserRound, Tractor, Heart, Mail, Wrench } from "lucide-react";
 import "@/styles/dashboard.css";
 import { INTERNAL_TEST_EMAILS } from "@/lib/analytics/commercial-filters";
 import { cookies } from "next/headers";
@@ -38,7 +37,7 @@ export default async function DashboardPage() {
   const etiquetaPerfil = [
     esProductor ? tt("🌱 Productor", "🌱 Produtor") : null,
     esPropietario ? tt("🏡 Propietario", "🏡 Proprietário") : null,
-    esPrestador ? tt("<Wrench aria-hidden="true" /> Servicios rurales", "<Wrench aria-hidden="true" /> Serviços rurais") : null,
+    esPrestador ? tt("Servicios rurales", "Serviços rurais") : null,
   ].filter(Boolean).join(" · ");
 
   return (
