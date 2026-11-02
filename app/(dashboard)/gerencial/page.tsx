@@ -7,9 +7,9 @@ import { COUNTRIES, isCountryCode } from "@/data/countries";
 export const dynamic = "force-dynamic";
 
 function Metric({ label, value, description, tone = "neutral" }: { label: string; value: number; description: string; tone?: "neutral" | "mustard" | "sage" | "blue" }) {
-  const backgrounds = { neutral: "bg-zinc-100", mustard: "bg-amber-100", sage: "bg-emerald-50", blue: "bg-sky-100" };
+  const backgrounds = { neutral: "bg-slate-50", mustard: "bg-cyan-50", sage: "bg-sky-50", blue: "bg-blue-50" };
   return (
-    <div className={`rounded-2xl p-4 sm:p-5 ${backgrounds[tone]}`}>
+    <div className={`rounded-2xl border border-sky-100 shadow-sm p-4 sm:p-5 ${backgrounds[tone]}`}>
       <p className="text-xs font-semibold uppercase tracking-wide text-zinc-600">{label}</p>
       <p className="mt-3 text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl">{value.toLocaleString("es-AR")}</p>
       <p className="mt-2 text-xs leading-relaxed text-zinc-600">{description}</p>
@@ -29,16 +29,16 @@ function Trend({ months }: { months: { month: string; registrations: number }[] 
   }));
   const line = coordinates.map((p, i) => (i ? "L" : "M") + p.x + " " + p.y).join(" ");
   return (
-    <div className="rounded-2xl border border-zinc-200 bg-white p-4 sm:p-5">
+    <div className="rounded-2xl border border-sky-100 bg-white p-4 shadow-sm sm:p-5">
       <div className="flex items-center justify-between gap-2">
         <h2 className="font-semibold text-zinc-900">Evolución de registros</h2>
         <span className="text-xs text-zinc-500">6 meses</span>
       </div>
-      <svg className="mt-3 w-full" viewBox="0 0 590 185" role="img" aria-label="Línea de registros elegibles por mes de creación, acumulados dentro de los seis meses visibles">
+      <svg className="mt-3 block w-full max-h-[210px]" viewBox="0 0 590 185" role="img" aria-label="Línea de registros elegibles por mes de creación, acumulados dentro de los seis meses visibles">
         <path d="M35 145 H555" fill="none" stroke="#e4e4e7" />
-        {coordinates.length > 0 && <path d={line} fill="none" stroke="#ca8a04" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />}
+        {coordinates.length > 0 && <path d={line} fill="none" stroke="#269bc4" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />}
         {coordinates.map((p) => <g key={p.month}>
-          <circle cx={p.x} cy={p.y} r="4.5" fill="#ca8a04" />
+          <circle cx={p.x} cy={p.y} r="4.5" fill="#269bc4" />
           <text x={p.x} y={p.y - 11} textAnchor="middle" fontSize="12" fill="#27272a">{p.total}</text>
           <text x={p.x} y="168" textAnchor="middle" fontSize="11" fill="#71717a">{p.month.slice(5)}</text>
         </g>)}
@@ -72,7 +72,7 @@ export default async function GerencialPage() {
   const progress = Math.min(100, (report.totals.registrations / goal) * 100);
 
   return (
-    <section className="mx-auto max-w-6xl px-4 py-8 text-zinc-800 sm:px-6">
+    <section className="mx-auto max-w-6xl px-4 py-8 text-slate-800 sm:px-6 [&_h1]:text-[#112b43] [&_h2]:text-[#112b43] [&_details]:border-sky-100 [&_table]:bg-white">
       <header className="mb-6">
         <p className="text-xs font-bold uppercase tracking-[0.18em] text-zinc-500">RentoCampo / Growth 360° / Privado</p>
         <h1 className="mt-2 text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl">Tablero gerencial</h1>
