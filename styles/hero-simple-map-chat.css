@@ -126,3 +126,43 @@
     background: linear-gradient(90deg, rgba(247,246,242,.16), transparent 23%);
   }
 }
+
+/* Editorial hero — foto B/N, copy protagonista, mapa + chat sin tarjetas. */
+.rcsm{--rcsm-green:#397c17;--rcsm-navy:#f7f7f5;background:#171a18;color:#fff}
+.rcsm-layout{max-width:none;min-height:clamp(590px,76vh,790px);position:relative;display:block}
+.rcsm-photo{position:absolute;inset:0;min-height:0;height:100%;clip-path:none!important}
+.rcsm-photo__image{object-position:center 53%;filter:grayscale(1) contrast(1.14) brightness(.79)}
+.rcsm-photo::after,.rc-landing .rcsm-photo::after{background:linear-gradient(90deg,rgba(10,12,11,.91) 0%,rgba(10,12,11,.75) 37%,rgba(10,12,11,.18) 78%),linear-gradient(0deg,rgba(0,0,0,.42),transparent 45%)}
+.rcsm-panel,.rc-landing .rcsm-panel{position:relative;z-index:1;max-width:850px;min-height:clamp(590px,76vh,790px);padding:clamp(42px,6vw,88px) clamp(24px,5.2vw,90px);align-items:flex-start;text-align:left;justify-content:center}
+.rcsm-eyebrow{color:#b7d3a6;font-size:clamp(11px,1vw,14px);font-weight:700;letter-spacing:.2em;text-align:left;margin-bottom:20px}
+.rcsm-title{display:block;color:#fff;font-family:Arial,Helvetica,sans-serif;font-size:clamp(48px,5.8vw,91px);font-weight:950;line-height:.99;letter-spacing:-.055em;text-align:left;margin:0 0 20px;text-wrap:balance}
+.rcsm-description{font-size:clamp(17px,1.6vw,24px);line-height:1.3;max-width:640px;margin:0 0 22px;color:#f1f1ee}
+.rcsm-features{display:flex;gap:clamp(20px,3vw,45px);padding:0;border:0;border-radius:0;box-shadow:none;background:transparent;margin:0 0 22px}
+.rcsm-feature{flex-direction:row;justify-content:flex-start;text-align:left;padding:0;gap:12px}
+.rcsm-feature + .rcsm-feature{border-left:1px solid #a5aaa3;padding-left:clamp(16px,2vw,30px)}
+.rcsm-feature__icon{width:clamp(30px,3vw,43px);height:clamp(30px,3vw,43px);color:#83bc43}
+.rcsm-feature h2{font-size:clamp(15px,1.5vw,21px);color:#fff}
+.rcsm-feature p{font-size:clamp(12px,1.2vw,16px);color:#eee}
+.rcsm-actions{display:flex;flex-direction:row;flex-wrap:wrap;gap:14px;margin:0}
+.rcsm-button{width:auto;min-height:53px;padding:13px 27px;font-size:clamp(15px,1.3vw,19px);font-weight:750}
+.rcsm-button--primary{background:#397c17}
+.rcsm-button--primary:hover{background:#4b9325}
+.rcsm-button--secondary{background:rgba(10,10,10,.26);border:2px solid #fff}
+.rcsm-button--secondary:hover{background:rgba(255,255,255,.15)}
+.rcsm-proof{background:#f7f6f2}
+.rcsm-proof__item span{color:#153047}
+@media(max-width:850px){
+.rcsm-layout{min-height:680px}
+.rcsm-photo{height:100%;min-height:0}
+.rcsm-photo::after,.rc-landing .rcsm-photo::after{background:linear-gradient(90deg,rgba(8,10,9,.86),rgba(8,10,9,.48)),linear-gradient(0deg,rgba(0,0,0,.65),transparent 70%)}
+.rcsm-panel,.rc-landing .rcsm-panel{min-height:680px;padding:45px 22px;align-items:flex-start}
+.rcsm-title{font-size:clamp(44px,10vw,69px);margin-bottom:18px}
+.rcsm-description{font-size:17px}
+.rcsm-features{gap:12px;flex-wrap:wrap}
+.rcsm-feature + .rcsm-feature{padding-left:12px}
+.rcsm-feature__icon{width:32px;height:32px}
+.rcsm-feature h2{font-size:15px}
+.rcsm-feature p{font-size:12px}
+.rcsm-actions{width:100%;flex-direction:column}
+.rcsm-button{width:100%}
+}
