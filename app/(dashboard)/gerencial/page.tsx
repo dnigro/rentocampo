@@ -116,59 +116,26 @@ export default async function GerencialPage() {
         <div className="rounded-xl bg-zinc-700 p-4 text-white"><p className="text-xs uppercase tracking-wide text-zinc-200">03 · Productores</p><p className="mt-2 text-sm font-semibold">Conseguir consultas reales</p></div>
       </section>
 
-      <section className="mt-8 overflow-hidden rounded-2xl border border-zinc-200 bg-white">
-        <div className="border-b border-zinc-200 p-5">
-          <h2 className="text-lg font-semibold">Parque comercial por país</h2>
-          <p className="text-sm text-zinc-500">Desglose de los países desplegados, incluso sin actividad real.</p>
+      <section className="mt-7 rounded-xl border border-slate-200 bg-white p-5 sm:p-6">
+        <h2 className="text-lg font-semibold">Actividad comercial por país</h2>
+        <p className="mt-1 text-sm text-slate-500">Registros confirmados, campos y servicios activos. Solo mercados con actividad real.</p>
+        <div className="mt-6 space-y-5">
+          {report.countries.filter(c => c.registrations + c.activeLands + c.activeServices > 0).map(c => (
+            <div key={c.country} className="grid gap-2 sm:grid-cols-[160px_1fr_70px] sm:items-center">
+              <span className="text-sm font-semibold">{isCountryCode(c.country) ? COUNTRIES[c.country].name : c.country}</span>
+              <div className="flex h-4 overflow-hidden rounded bg-slate-100" title={`Registros: ${c.registrations}, campos: ${c.activeLands}, servicios: ${c.activeServices}`}>
+                <div className="bg-[#20546b]" style={{width:`${100*c.registrations/largest}%`}} />
+                <div className="bg-[#6e998a]" style={{width:`${100*c.activeLands/largest}%`}} />
+                <div className="bg-[#a6b6b8]" style={{width:`${100*c.activeServices/largest}%`}} />
+              </div>
+              <span className="text-right text-sm tabular-nums">{c.registrations+c.activeLands+c.activeServices}</span>
+            </div>
+          ))}
+          {report.countries.every(c => c.registrations+c.activeLands+c.activeServices === 0) && <p className="text-sm text-slate-500">Todavía no hay actividad comercial confirmada.</p>}
         </div>
-        <div className="overflow-x-auto">
-          <table className="w-full min-w-[610px] border-collapse text-sm">
-            <thead className="bg-zinc-50 text-xs uppercase tracking-wider text-zinc-500">
-              <tr><th className="px-5 py-4 text-left">País</th><th className="px-3 py-4 text-right">Registros</th><th className="px-3 py-4 text-right">Campos</th><th className="px-3 py-4 text-right">Servicios</th><th className="w-1/3 px-5 py-4 text-left">Actividad relativa</th></tr>
-            </thead>
-            <tbody>
-              {report.countries.map((c) => (
-                <tr key={c.country} className="border-t border-zinc-100">
-                  <td className="px-5 py-4 font-medium">{isCountryCode(c.country) ? COUNTRIES[c.country].name : c.country} <span className="text-xs text-zinc-400">{c.country}</span></td>
-                  <td className="px-3 py-4 text-right tabular-nums">{c.registrations}</td>
-                  <td className="px-3 py-4 text-right tabular-nums">{c.activeLands}</td>
-                  <td className="px-3 py-4 text-right tabular-nums">{c.activeServices}</td>
-                  <td className="px-5 py-4">
-                    <div className="h-2 rounded-full bg-zinc-100">
-                      <div className="h-2 rounded-full bg-zinc-500" style={{ width: `${100 * (c.registrations + c.activeLands + c.activeServices) / largest}%` }} />
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        <div className="mt-6 flex flex-wrap gap-5 border-t border-slate-100 pt-4 text-xs text-slate-600"><span>● Registros</span><span className="text-[#6e998a]">● Campos</span><span className="text-[#a6b6b8]">● Servicios</span></div>
       </section>
 
-      <details className="mt-5 overflow-hidden rounded-2xl border border-zinc-200 bg-white">
-        <summary className="cursor-pointer p-5 font-semibold text-zinc-900">Detalle mensual (opcional)</summary>
-        <div className="border-t border-zinc-200 p-5">
-          <h2 className="text-lg font-semibold">Altas de los últimos seis meses</h2>
-          <p className="text-sm text-zinc-500">Fecha de creación. En campos y servicios sólo incluye los que siguen activos; no representa el parque histórico al cierre de cada mes.</p>
-        </div>
-        <div className="overflow-x-auto">
-          <table className="w-full min-w-[520px] text-sm">
-            <thead className="bg-zinc-50 text-xs uppercase tracking-wider text-zinc-500">
-              <tr><th className="px-5 py-4 text-left">Mes</th><th className="px-5 py-4 text-right">Registros</th><th className="px-5 py-4 text-right">Campos</th><th className="px-5 py-4 text-right">Servicios</th></tr>
-            </thead>
-            <tbody>
-              {report.months.map((m) => (
-                <tr className="border-t border-zinc-100" key={m.month}>
-                  <td className="px-5 py-3 font-medium">{m.month}</td>
-                  <td className="px-5 py-3 text-right tabular-nums">{m.registrations}</td>
-                  <td className="px-5 py-3 text-right tabular-nums">{m.activeLands}</td>
-                  <td className="px-5 py-3 text-right tabular-nums">{m.activeServices}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </details>
       <p className="mt-5 text-xs text-zinc-500">Reporte gerencial privado: no altera registros, fichas, búsquedas ni datos de producción.</p>
     </section>
   );
