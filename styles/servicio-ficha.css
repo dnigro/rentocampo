@@ -66,3 +66,9 @@
 .app-shell .rc-detail.servicio-ficha .ficha-galeria{height:clamp(280px,43vw,520px);max-width:100%;margin-bottom:24px}
 .app-shell .rc-detail.servicio-ficha .galeria-principal img{object-fit:contain!important;object-position:center!important;filter:none!important;background:#f3f2ef}
 @media(max-width:768px){.app-shell .rc-detail.servicio-ficha .ficha-galeria{height:clamp(220px,65vw,360px)}}
+
+/* Make the service photo fill its viewer without cropping; remove unused empty pane. */
+.app-shell .rc-detail.servicio-ficha .ficha-galeria{height:auto!important;aspect-ratio:16/9!important;max-height:520px;overflow:hidden;border-radius:16px;background:#f0f0ed!important}
+.app-shell .rc-detail.servicio-ficha .ficha-galeria .galeria-principal{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:#f0f0ed}
+.app-shell .rc-detail.servicio-ficha .ficha-galeria .galeria-principal img{object-fit:contain!important;object-position:center!important}
+@media(max-width:768px){.app-shell .rc-detail.servicio-ficha .ficha-galeria{aspect-ratio:4/3!important;max-height:360px}}
