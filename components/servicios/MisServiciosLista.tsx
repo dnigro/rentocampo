@@ -4,13 +4,14 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
-import { servicioLabel } from "@/data/servicios-rurales";
+import { tituloServicioRural } from "@/data/servicios-rurales";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import type { ServicioRural } from "@/types";
 
 export type ServicioPublicacion = {
   id: string;
   servicios_rurales: string[];
+  nombre_comercial?: string | null;
   foto_url: string;
   provincia: string;
   localidad: string | null;
@@ -52,7 +53,7 @@ export default function MisServiciosLista({ publicaciones }: { publicaciones: Se
           <span className={`estado-badge ${pub.activo ? "estado-activo" : "estado-pausado"}`}>{pub.activo ? tt("Activo","Ativo") : tt("Pausado","Pausado")}</span>
         </div>
         <div className="campo-card-body">
-          <h2 className="campo-card-titulo">{rubros.slice(0,3).map((x)=>servicioLabel(x,country)).join(" · ")}</h2>
+          <h2 className="campo-card-titulo">{tituloServicioRural(rubros,country,pub.nombre_comercial)}</h2>
           <p className="campo-card-ubicacion">📍 {[pub.localidad,pub.provincia].filter(Boolean).join(", ")}</p>
           {pub.zona && <p className="campo-card-datos">{pub.zona}</p>}
         </div>
