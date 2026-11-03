@@ -10,7 +10,7 @@ import {
 import { COUNTRY_CODES, type CountryCode } from "@/data/countries";
 export { COUNTRY_CODES, type CountryCode };
 
-type AuthIdentity = CommercialIdentity & { id: string };
+type AuthIdentity = CommercialIdentity & { id: string; created_at: string };
 type ProfileRow = { id: string; country_code: string | null; created_at: string };
 type LandRow = {
   propietario_id: string; country_code: string | null;
@@ -35,7 +35,7 @@ async function loadCommercialData() {
     const { data, error } = await admin.auth.admin.listUsers({ page, perPage });
     if (error) throw error;
     users.push(...data.users.map((user) => ({
-      id: user.id, email: user.email, email_confirmed_at: user.email_confirmed_at,
+      id: user.id, email: user.email, email_confirmed_at: user.email_confirmed_at, created_at: user.created_at,
     })));
     if (data.users.length < perPage) break;
   }
@@ -84,7 +84,8 @@ export async function getCommercialStats() {
     const profile = byProfile.get(user.id);
     if (!profile) continue;
     byCountry.get(normalizeCountry(profile.country_code))!.registrations++;
-    const month = profile.created_at.slice(0, 7);
+    // Altas de registros según fecha de alta en Auth, no de creación tardía del perfil.
+    const month = user.created_at.slice(0, 7);
     const timeline = byMonth.get(month);
     if (timeline) timeline.registrations++;
   }
