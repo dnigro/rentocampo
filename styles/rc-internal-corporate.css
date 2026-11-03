@@ -589,7 +589,7 @@ html body .app-shell :is(.campo-form,.servicio-publicacion-form) .form-section-t
   letter-spacing:-.02em!important;color:#17384f!important;
 }
 html body .app-shell :is(.campo-form,.servicio-publicacion-form) .form-section-title-editorial .form-section-copy em{
-  font:600 inherit!important;font-style:normal!important;color:#637787!important;
+  font-family:var(--font-dm-sans),Arial,sans-serif!important;font-size:inherit!important;line-height:inherit!important;font-weight:600!important;font-style:normal!important;color:#637787!important;
 }
 html body .app-shell :is(.campo-form,.servicio-publicacion-form) .form-section-title-editorial .form-section-icon{
   display:inline-flex!important;align-items:center!important;justify-content:center!important;
