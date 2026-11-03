@@ -9,7 +9,7 @@ import Image from "next/image";
 import { Tractor, Sprout, Settings, Wrench, Warehouse, MapPin, BriefcaseBusiness } from "lucide-react";
 import { notFound, redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { servicioLabel } from "@/data/servicios-rurales";
+import { servicioLabel, tituloServicioRural } from "@/data/servicios-rurales";
 import type { ServicioRural } from "@/types";
 import "@/styles/servicios-rurales.css";
 import "@/styles/campos.css";
@@ -93,7 +93,7 @@ export default async function ServicioDetallePage({ params }: { params: Promise<
     if (label.includes("labor") || label.includes("mantenim")) return <Wrench aria-hidden="true" />;
     return <BriefcaseBusiness aria-hidden="true" />;
   };
-  const tituloCorto = rubros.slice(0, 2).map((item) => servicioLabel(item, pais)).join(" · ");
+  const tituloCorto = tituloServicioRural(rubros, pais);
   const nombre = perfil?.nombre ?? demo?.nombre ?? "Prestador rural";
   const provincia = publicacion?.provincia ?? demo?.provincia_servicio;
   const localidad = publicacion?.localidad ?? demo?.localidad_servicio;
@@ -132,14 +132,14 @@ export default async function ServicioDetallePage({ params }: { params: Promise<
         ← Volver al listado de servicios
       </Link>
 
-      <GaleriaCarrusel fotos={(Array.isArray(publicacion?.fotos_urls) && publicacion.fotos_urls.length ? publicacion.fotos_urls : [foto]).map((url:string,orden:number)=>({url,orden}))} titulo={titulo || nombre} />
+      <GaleriaCarrusel fotos={(Array.isArray(publicacion?.fotos_urls) && publicacion.fotos_urls.length ? publicacion.fotos_urls : [foto]).map((url:string,orden:number)=>({url,orden}))} titulo={titulo || tituloCorto} />
 
       <div className="ficha-body">
         <main className="ficha-main">
           <div className="ficha-tags">
             <span className="aptitud-tag">{esDemo ? tt("Servicio demo","Serviço demo") : tt("Servicio rural","Serviço rural")}</span>
           </div>
-          <h1 className="ficha-titulo">{tituloCorto || nombre}</h1>
+          <h1 className="ficha-titulo">{tituloCorto}</h1>
           {rubros.length > 0 && (
             <div className="rc-service-activities" aria-label={tt("Actividades ofrecidas","Atividades oferecidas")}>
               {rubros.map((item) => <span className="rc-service-activity" key={item}>{iconoRubro(item)}<span>{servicioLabel(item, pais)}</span></span>)}
