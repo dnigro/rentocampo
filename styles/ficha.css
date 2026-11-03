@@ -959,3 +959,33 @@
   .app-shell .rc-detail .dato-item { column-gap: 5px; }
   .app-shell .rc-detail .rc-service-activity { font-size: 11px; }
 }
+
+
+/* Características documentadas: grilla fluida sin huecos ni promesas no verificadas. */
+.app-shell .rc-detail .rc-feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 8px;
+  margin: 0 0 24px;
+}
+.app-shell .rc-detail .rc-feature-chip {
+  min-height: 76px;
+  padding: 11px 8px;
+  border: 1px solid #d5e2d9;
+  border-radius: 12px;
+  background: #f8faf8;
+  color: #10283e;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 650;
+}
+.app-shell .rc-detail .rc-feature-chip svg { width: 25px; height: 25px; stroke-width: 1.8; color: #21823d; }
+@media(max-width: 640px) {
+  .app-shell .rc-detail .rc-feature-grid { grid-template-columns: repeat(auto-fit, minmax(90px, 1fr)); gap: 7px; }
+  .app-shell .rc-detail .rc-feature-chip { min-height: 68px; font-size: 11px; }
+}
