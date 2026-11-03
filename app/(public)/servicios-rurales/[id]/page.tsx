@@ -4,6 +4,7 @@ import { resolveCountry } from "@/data/countries";
 import { regionalText } from "@/lib/i18n/regional";
 import Link from "next/link";
 import Image from "next/image";
+import { Tractor, Sprout, Settings, Wrench, Warehouse, MapPin, BriefcaseBusiness } from "lucide-react";
 import { notFound, redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { servicioLabel } from "@/data/servicios-rurales";
@@ -81,6 +82,15 @@ export default async function ServicioDetallePage({ params }: { params: Promise<
   const esDemo = Boolean(demo);
   const rubros = (publicacion?.servicios_rurales ?? demo?.servicios_rurales ?? []) as ServicioRural[];
   const titulo = rubros.map((item) => servicioLabel(item, pais)).join(" · ");
+  const iconoRubro = (item: ServicioRural) => {
+    const label = servicioLabel(item, pais).toLowerCase();
+    if (label.includes("cosech")) return <Tractor aria-hidden="true" />;
+    if (label.includes("siembr")) return <Sprout aria-hidden="true" />;
+    if (label.includes("maquin")) return <Settings aria-hidden="true" />;
+    if (label.includes("grano") || label.includes("acondicion")) return <Warehouse aria-hidden="true" />;
+    if (label.includes("labor") || label.includes("mantenim")) return <Wrench aria-hidden="true" />;
+    return <BriefcaseBusiness aria-hidden="true" />;
+  };
   const tituloCorto = rubros.slice(0, 2).map((item) => servicioLabel(item, pais)).join(" · ");
   const nombre = perfil?.nombre ?? demo?.nombre ?? "Prestador rural";
   const provincia = publicacion?.provincia ?? demo?.provincia_servicio;
@@ -132,21 +142,21 @@ export default async function ServicioDetallePage({ params }: { params: Promise<
           <h1 className="ficha-titulo">{tituloCorto || nombre}</h1>
           {rubros.length > 0 && (
             <div className="rc-service-activities" aria-label={tt("Actividades ofrecidas","Atividades oferecidas")}>
-              {rubros.map((item) => <span className="rc-service-activity" key={item}>{servicioLabel(item, pais)}</span>)}
+              {rubros.map((item) => <span className="rc-service-activity" key={item}>{iconoRubro(item)}<span>{servicioLabel(item, pais)}</span></span>)}
             </div>
           )}
           <p className="ficha-ubicacion">📍 {[localidad, provincia].filter(Boolean).join(", ")}</p>
 
           <div className="ficha-datos">
             <div className="dato-item">
-              <span className="dato-valor">{rubros.length}</span>
+              <BriefcaseBusiness className="rc-detail-icon" aria-hidden="true" /><span className="dato-valor">{rubros.length}</span>
               <span className="dato-label">{rubros.length === 1 ? tt("Actividad","Atividade") : tt("Actividades","Atividades")}</span>
             </div>
             {zona && (
               <>
                 <div className="dato-sep" />
                 <div className="dato-item">
-                  <span className="dato-valor">{zona}</span>
+                  <MapPin className="rc-detail-icon" aria-hidden="true" /><span className="dato-valor">{zona}</span>
                   <span className="dato-label">{tt("Zona de cobertura","Área de atendimento")}</span>
                 </div>
               </>
