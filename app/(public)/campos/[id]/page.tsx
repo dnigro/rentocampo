@@ -200,7 +200,6 @@ export default async function CampoFichaPage({ params }: PageProps) {
             {campoConPropietario.mejoras === "Sí" && (
               <span className="mejoras-tag">{tt("Con mejoras","Com benfeitorias")}</span>
             )}
-            <span className="disp-badge disp-a-convenir">{tt(disponibilidad,disponibilidad==="Disponible ahora"?"Disponível agora":disponibilidad==="Campaña próxima"?"Próxima safra":"A combinar")}</span>
           </div>
 
           <h1 className="ficha-titulo">{campoConPropietario.titulo}</h1>
