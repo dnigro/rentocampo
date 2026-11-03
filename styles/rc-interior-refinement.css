@@ -1,0 +1,321 @@
+/*
+ * RentoCampo · UAT refinamiento final 319.
+ * Sólo presentación: sin alteraciones de datos, rutas ni formularios.
+ * Naval navy + slate + silver; mobile-first 320px+
+ */
+:root {
+  --rc-ui-navy:#11283f;
+  --rc-ui-deep:#0f263b;
+  --rc-ui-blue:#315e7d;
+  --rc-ui-silver:#d8e2e9;
+  --rc-ui-mist:#f1f5f7;
+  --rc-ui-copy:#18394e;
+  --rc-ui-muted:#627889;
+}
+
+/* Regreso: no volver a mostrar una pastilla en blanco sin texto. */
+html body .app-shell .dashboard-return{
+  width:min(1200px,calc(100% - 32px))!important;
+  margin:0 auto!important;padding-top:19px!important;
+}
+html body .app-shell .dashboard-return a.rc-dashboard-return-btn,
+html body .app-shell .dashboard-return a.rc-dashboard-return-btn:link,
+html body .app-shell .dashboard-return a.rc-dashboard-return-btn:visited{
+  display:inline-flex!important;align-items:center!important;justify-content:center!important;
+  gap:8px!important;min-height:45px!important;min-width:0!important;
+  width:auto!important;padding:10px 19px!important;margin:0!important;
+  font:750 14px/1.25 var(--font-dm-sans),Arial,sans-serif!important;
+  letter-spacing:0!important;text-transform:none!important;text-decoration:none!important;
+  color:#fff!important;-webkit-text-fill-color:#fff!important;
+  background:#11283f!important;border:1px solid #11283f!important;
+  border-radius:999px!important;box-shadow:none!important;
+}
+html body .app-shell .dashboard-return a.rc-dashboard-return-btn :is(svg,span){
+  color:#fff!important;-webkit-text-fill-color:#fff!important;
+  stroke:#fff!important;fill:none;
+}
+html body .app-shell .dashboard-return a.rc-dashboard-return-btn:hover,
+html body .app-shell .dashboard-return a.rc-dashboard-return-btn:focus-visible{
+  background:#2a5270!important;border-color:#2a5270!important;color:#fff!important;
+}
+html body .app-shell a.page-back,
+html body .app-shell a.btn-volver,
+html body .app-shell a.btn-secondary-lg{
+  display:inline-flex!important;align-items:center!important;justify-content:center!important;
+  padding:10px 18px!important;min-height:44px!important;
+  border:1px solid #afc3d0!important;background:#fff!important;
+  color:var(--rc-ui-navy)!important;-webkit-text-fill-color:var(--rc-ui-navy)!important;
+  border-radius:999px!important;font-weight:750!important;text-decoration:none!important;
+}
+html body .app-shell a.page-back:hover,
+html body .app-shell a.btn-volver:hover{background:#e9f0f4!important}
+
+/* Conteo de campos y servicios: acción verdadera con desplazamiento al resultado. */
+html body a.rc-explorer-header__count-link,
+html body a.rc-explorer-header__count-link:link,
+html body a.rc-explorer-header__count-link:visited{
+  display:inline-flex!important;align-items:center!important;justify-content:center!important;
+  gap:10px!important;min-height:44px!important;
+  padding:9px 17px!important;border-radius:999px!important;
+  border:1px solid #173c57!important;background:var(--rc-ui-navy)!important;
+  color:#fff!important;-webkit-text-fill-color:#fff!important;
+  font:750 14px/1.2 var(--font-dm-sans),Arial,sans-serif!important;
+  text-decoration:none!important;cursor:pointer!important;
+}
+html body a.rc-explorer-header__count-link span{color:#fff!important}
+html body a.rc-explorer-header__count-link:hover{background:#315e7d!important}
+html body a.rc-explorer-header__count-link:focus-visible,
+html body .app-shell .dashboard-return a.rc-dashboard-return-btn:focus-visible{
+  outline:3px solid #779ab1!important;outline-offset:3px!important;
+}
+#rc-explorer-results{scroll-margin-top:95px}
+
+/* El encabezado de Mi Perfil deja de ser una franja fotográfica lateral. */
+html body .app-shell .perfil-page.page-container{max-width:1190px!important;background:transparent!important}
+html body .app-shell .perfil-page>.page-header{
+  width:100%;min-height:118px!important;
+  padding:25px 30px!important;
+  background:linear-gradient(115deg,#e6edf2 0%,#f3f6f8 100%)!important;
+  border:1px solid #d7e2e9!important;border-radius:14px!important;
+  box-shadow:none!important;
+}
+html body .app-shell .perfil-page>.page-header>div{
+  max-width:100%!important;text-align:left!important;
+}
+html body .app-shell .perfil-page>.page-header :is(.page-title,.page-subtitle){max-width:100%!important}
+html body .app-shell .perfil-page>.page-header .page-title{font-size:clamp(30px,3.6vw,46px)!important}
+
+/* Avatar compacto: no barra lateral, no foto gigante, ni bloques de alto innecesario. */
+html body .app-shell .perfil-page .perfil-layout>.perfil-avatar-panel{
+  display:grid!important;grid-template-columns:minmax(0,1fr) minmax(280px,360px)!important;
+  grid-auto-rows:auto!important;grid-column:1!important;
+  align-items:center!important;gap:20px!important;
+  padding:24px 27px!important;
+  background:#fff!important;border:1px solid #d8e2e9!important;
+  border-left:1px solid #d8e2e9!important;border-radius:14px!important;
+  box-shadow:none!important;position:static!important;
+}
+html body .app-shell .perfil-page .perfil-avatar-panel .perfil-photo-intro{
+  display:flex!important;align-items:flex-start!important;gap:0!important;
+  grid-column:1!important;grid-row:1!important;
+  width:100%!important;min-width:0!important;
+}
+html body .app-shell .perfil-page .perfil-avatar-panel .perfil-intro-icon{display:none!important}
+html body .app-shell .perfil-page .perfil-avatar-panel .perfil-photo-intro .perfil-section-title{
+  margin:0 0 6px!important;font-size:20px!important;
+  line-height:1.25!important;color:#17384f!important;
+}
+html body .app-shell .perfil-page .perfil-avatar-panel .perfil-photo-intro .perfil-section-description{
+  color:#647989!important;font-size:13px!important;line-height:1.5!important;margin:0!important;
+}
+html body .app-shell .perfil-page .perfil-avatar-panel .perfil-photo-column{
+  grid-column:2!important;grid-row:1!important;display:block!important;
+  min-width:0!important;width:100%!important;
+  padding:0!important;margin:0!important;border:0!important;
+}
+html body .app-shell .perfil-page .perfil-avatar-panel .perfil-photo-label{
+  margin:0 0 10px!important;color:#425d70!important;
+  font-size:12px!important;font-weight:750!important;
+}
+html body .app-shell .perfil-page .perfil-avatar-panel .avatar-editor{
+  display:flex!important;flex-direction:row!important;align-items:center!important;
+  justify-content:flex-start!important;flex-wrap:nowrap!important;gap:15px!important;
+}
+html body .app-shell .perfil-page .perfil-avatar-panel .avatar-preview{
+  width:84px!important;height:84px!important;
+  min-width:84px!important;min-height:84px!important;flex-shrink:0!important;
+  border:2px solid #c2d3df!important;border-radius:50%!important;
+  background:#e8eef3!important;
+}
+html body .app-shell .perfil-page .perfil-avatar-panel .avatar-info{
+  display:flex!important;flex-direction:column!important;align-items:flex-start!important;
+  gap:7px!important;min-width:0!important;width:auto!important;
+}
+html body .app-shell .perfil-page .perfil-avatar-panel .avatar-hint{
+  margin:0!important;font-size:11px!important;line-height:1.4!important;
+  color:#80909b!important;
+}
+html body .app-shell .perfil-page .perfil-avatar-panel .avatar-info button.btn-secondary-lg{
+  min-width:130px!important;width:auto!important;min-height:42px!important;
+  padding:9px 16px!important;
+}
+html body .app-shell .perfil-page .perfil-avatar-panel .btn-remove-avatar{
+  font-size:12px!important;margin-top:0!important;text-decoration:underline;
+}
+
+/* Formularios del perfil: misma superficie para datos, roles y seguridad. */
+html body .app-shell .perfil-page .perfil-layout>.perfil-section{
+  border:1px solid #d9e3e9!important;border-radius:13px!important;
+  background:#fff!important;box-shadow:none!important;
+}
+html body .app-shell .perfil-page .perfil-layout>.perfil-main-form{
+  padding:clamp(19px,2.8vw,32px)!important;
+}
+html body .app-shell .perfil-page .perfil-main-form .perfil-section-title{
+  font-size:clamp(20px,2.5vw,27px)!important;
+}
+html body .app-shell .perfil-page :is(input.form-input,select.form-input,textarea.form-input){
+  border:1px solid #bdceda!important;background:#fff!important;
+  color:#19384f!important;box-shadow:none!important;
+  border-radius:9px!important;min-height:45px!important;
+  font-size:14px!important;padding:11px 13px!important;
+}
+html body .app-shell .perfil-page :is(input.form-input,select.form-input,textarea.form-input):focus-visible{
+  border-color:#365f7a!important;outline:2px solid #afc6d6!important;outline-offset:1px!important;
+}
+html body .app-shell .perfil-page .perfil-role-option{
+  border:1px solid #d4e1e9!important;border-radius:10px!important;
+  background:#f6f9fb!important;padding:13px!important;min-height:85px!important;
+}
+html body .app-shell .perfil-page .perfil-role-option:has(input:checked){
+  background:#e9f0f5!important;border-color:#315e7d!important;
+}
+html body .app-shell .perfil-page .perfil-role-option strong{color:#16364f!important;font-size:14px!important}
+html body .app-shell .perfil-page .perfil-role-option small{color:#667b89!important;font-size:12px!important}
+html body .app-shell .perfil-page .form-actions{display:flex!important;justify-content:flex-end!important;gap:12px!important}
+html body .app-shell .perfil-page .perfil-main-form .btn-primary-lg{
+  background:#11283f!important;color:#fff!important;border:1px solid #11283f!important;
+}
+html body .app-shell .perfil-page .perfil-section :is(button.btn-primary-lg,button.btn-secondary-lg){
+  border-radius:999px!important;min-height:44px!important;
+  font-size:14px!important;font-weight:750!important;
+}
+
+/* Publicar campo / publicar servicio / editar: cajas bien definidas. */
+html body .app-shell form.campo-form{
+  width:min(100%,1080px)!important;max-width:1080px!important;
+  margin-inline:auto!important;
+  padding:clamp(14px,2.5vw,25px)!important;
+  display:flex!important;flex-direction:column!important;gap:14px!important;
+  background:#edf2f5!important;border:1px solid #d3e0e8!important;
+  border-radius:16px!important;box-shadow:none!important;
+}
+html body .app-shell form.campo-form>.form-section{
+  display:block!important;width:100%!important;min-width:0!important;
+  padding:clamp(17px,2.8vw,29px)!important;margin:0!important;
+  background:#fff!important;border:1px solid #d7e2e9!important;
+  border-radius:12px!important;box-shadow:none!important;
+}
+html body .app-shell form.campo-form .form-section-title-editorial{
+  display:flex!important;align-items:center!important;flex-wrap:wrap!important;
+  gap:9px!important;margin:0 0 19px!important;
+  padding:0 0 15px!important;border-bottom:1px solid #dce6ec!important;
+}
+html body .app-shell form.campo-form .form-section-title-editorial .form-section-copy{
+  color:#153750!important;
+  font:750 clamp(18px,2.1vw,23px)/1.2 var(--font-dm-sans),Arial,sans-serif!important;
+}
+html body .app-shell form.campo-form .form-section-title-editorial .form-section-copy em{
+  font-style:normal!important;color:#5d7484!important;
+}
+html body .app-shell form.campo-form .form-section-title-editorial .form-section-icon{
+  background:#e8f0f5!important;border:1px solid #dae6ed!important;
+  border-radius:8px!important;color:#315e7d!important;
+}
+html body .app-shell form.campo-form .form-field{
+  min-width:0!important;margin-bottom:15px!important;
+}
+html body .app-shell form.campo-form .form-label{
+  color:#244355!important;font:750 14px/1.35 var(--font-dm-sans),Arial,sans-serif!important;
+  margin-bottom:8px!important;
+}
+html body .app-shell form.campo-form :is(input.form-input,select.form-input,textarea.form-input){
+  min-height:46px!important;width:100%!important;max-width:100%!important;
+  padding:11px 13px!important;border:1px solid #becfdc!important;
+  border-radius:9px!important;color:#17384f!important;
+  background:#fff!important;font-size:14px!important;
+  box-shadow:0 1px 0 rgba(17,40,63,.025)!important;
+}
+html body .app-shell form.campo-form textarea.form-input{
+  min-height:100px!important;line-height:1.5!important;
+}
+html body .app-shell form.campo-form :is(input,select,textarea):focus-visible{
+  outline:2px solid #88aabd!important;outline-offset:1px!important;
+  border-color:#365f7a!important;
+}
+html body .app-shell form.campo-form .form-actions{
+  display:flex!important;justify-content:flex-end!important;align-items:center!important;
+  flex-wrap:wrap!important;gap:10px!important;margin:8px 0 2px!important;
+}
+html body .app-shell form.campo-form .form-actions :is(button,a){
+  min-height:46px!important;min-width:145px!important;
+  border-radius:999px!important;font-size:14px!important;font-weight:750!important;
+}
+html body .app-shell form.campo-form button.btn-primary-lg{
+  background:#11283f!important;border:1px solid #11283f!important;
+  color:#fff!important;-webkit-text-fill-color:#fff!important;
+}
+html body .app-shell form.campo-form button.btn-secondary-lg{
+  background:#fff!important;border:1px solid #b8cbd6!important;
+  color:#11283f!important;-webkit-text-fill-color:#11283f!important;
+}
+html body .app-shell :is(.campo-form,.servicio-publicacion-form) .form-hint{
+  color:#657b8a!important;font-size:12px!important;line-height:1.5!important;
+}
+html body .app-shell .main-content>.page-container:not(.perfil-page){
+  max-width:1200px!important;
+}
+
+/* Botones primarios internos y navegación nunca se vuelven transparentes. */
+html body .app-shell .main-content :is(.btn-primary-lg,.btn-submit,.btn-action-primary){
+  border-radius:999px!important;min-height:44px!important;
+}
+html body .app-shell .main-content a.btn-primary-lg:visited{
+  background:#11283f!important;color:#fff!important;-webkit-text-fill-color:#fff!important;
+}
+@media(max-width:900px){
+  html body .app-shell .perfil-page .perfil-layout>.perfil-avatar-panel{
+    grid-template-columns:minmax(0,1fr)!important;
+    gap:14px!important;padding:20px 21px!important;
+  }
+  html body .app-shell .perfil-page .perfil-avatar-panel .perfil-photo-intro{
+    grid-column:1!important;grid-row:1!important;
+  }
+  html body .app-shell .perfil-page .perfil-avatar-panel .perfil-photo-column{
+    grid-column:1!important;grid-row:2!important;
+    display:flex!important;align-items:center!important;gap:14px!important;
+  }
+  html body .app-shell .perfil-page .perfil-avatar-panel .perfil-photo-label{
+    display:none!important;
+  }
+  html body .app-shell .perfil-page .perfil-avatar-panel .avatar-editor{
+    gap:14px!important;
+  }
+}
+@media(max-width:640px){
+  html body .app-shell .perfil-page>.page-header{
+    padding:19px 19px!important;min-height:105px!important;
+  }
+  html body .app-shell .perfil-page .perfil-layout>.perfil-avatar-panel{
+    padding:18px!important;
+  }
+  html body .app-shell .perfil-page .perfil-avatar-panel .avatar-preview{
+    width:76px!important;height:76px!important;
+    min-width:76px!important;min-height:76px!important;
+  }
+  html body .app-shell .perfil-page .perfil-avatar-panel .perfil-photo-intro .perfil-section-title{
+    font-size:18px!important;
+  }
+  html body .app-shell form.campo-form{
+    padding:12px!important;gap:11px!important;
+    border-radius:12px!important;
+  }
+  html body .app-shell form.campo-form>.form-section{
+    padding:17px 15px!important;border-radius:10px!important;
+  }
+  html body .app-shell .perfil-page .perfil-main-form .perfil-role-options{
+    grid-template-columns:1fr!important;
+  }
+  html body .app-shell .dashboard-return{padding-top:13px!important}
+  html body a.rc-explorer-header__count-link{
+    margin-left:0!important;min-height:44px!important;
+  }
+}
+@media(max-width:340px){
+  html body .app-shell .perfil-page .perfil-avatar-panel .avatar-editor{
+    flex-wrap:wrap!important;
+  }
+  html body .app-shell .perfil-page .perfil-avatar-panel .avatar-info{
+    flex:1 1 145px!important;
+  }
+}
