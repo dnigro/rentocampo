@@ -1,0 +1,286 @@
+
+/* RentoCampo · Gerencial idea 5: Panel de decisión.
+   Dos vistas sin scroll interno; resúmenes compactos para móvil. */
+html body .app-shell .rc-decision-page{
+  width:min(100%,1060px);max-width:1060px;margin:0 auto;
+  padding:17px clamp(12px,2vw,28px) 32px;
+  font-family:var(--font-dm-sans),Arial,sans-serif;
+  color:#142f46;
+}
+html body .app-shell .rc-decision{
+  display:grid;gap:12px;min-width:0;
+}
+html body .app-shell .rc-decision *{box-sizing:border-box}
+html body .app-shell .rc-decision__header{
+  padding:15px 20px;border-radius:16px 16px 12px 12px;
+  background:linear-gradient(105deg,#102b43,#23516f);
+  color:white;display:flex;align-items:center;justify-content:space-between;gap:14px;
+}
+html body .app-shell .rc-decision__header>div{min-width:0}
+html body .app-shell .rc-decision__eyebrow{
+  font-size:10px;text-transform:uppercase;letter-spacing:.12em;
+  font-weight:800;color:#bdd0df;
+}
+html body .app-shell .rc-decision__header h1{
+  color:#fff!important;font-size:clamp(22px,2.7vw,30px)!important;
+  line-height:1.1!important;letter-spacing:-.04em!important;
+  font-weight:800!important;margin:4px 0 5px!important;
+}
+html body .app-shell .rc-decision__header p{
+  color:#d6e4ed!important;font-size:11px!important;line-height:1.35!important;
+  margin:0!important;
+}
+html body .app-shell .rc-decision__private{
+  display:flex;align-items:center;gap:5px;white-space:nowrap;
+  background:#2c5672;border:1px solid #5b7b92;border-radius:999px;
+  color:#e2f0f8;padding:6px 9px;font-size:10px;font-weight:750;
+}
+html body .app-shell .rc-decision__tabs{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:4px;padding:4px;border-radius:12px;border:1px solid #d4e2ea;
+  background:#eff3f6;
+}
+html body .app-shell .rc-decision__tabs button{
+  appearance:none;cursor:pointer;min-height:42px;border:0!important;
+  border-radius:9px!important;background:transparent!important;color:#5d788a!important;
+  font:800 13px/1.2 var(--font-dm-sans),Arial,sans-serif!important;
+  padding:10px 6px!important;box-shadow:none!important;
+}
+html body .app-shell .rc-decision__tabs button[aria-selected="true"]{
+  background:#173e5b!important;color:#fff!important;
+}
+html body .app-shell .rc-decision :is(button,select):focus-visible{
+  outline:2px solid #2c759c!important;outline-offset:2px;
+}
+html body .app-shell .rc-decision__view{display:grid;gap:11px;min-width:0}
+html body .app-shell .rc-decision__view-heading{
+  display:flex;align-items:flex-end;justify-content:space-between;gap:10px;
+  padding:0 2px;
+}
+html body .app-shell .rc-decision__kicker{
+  color:#54809b;font-size:10px;letter-spacing:.095em;font-weight:800;
+  display:inline-flex;align-items:center;gap:6px;
+}
+html body .app-shell .rc-decision__view-heading h2{
+  margin:3px 0 0!important;color:#13354e!important;
+  font-size:clamp(18px,2.3vw,23px)!important;
+  font-weight:820!important;line-height:1.18!important;letter-spacing:-.025em;
+}
+html body .app-shell .rc-decision__small-pill{
+  white-space:nowrap;font-size:10px;font-weight:800;color:#315e7d;
+  padding:7px 9px;border-radius:999px;background:#e7f0f5;border:1px solid #d3e1ea;
+}
+html body .app-shell .rc-decision__kpis{
+  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;
+}
+html body .app-shell .rc-decision__kpi{
+  background:#fff;border:1px solid #d2e0e9;border-radius:13px;
+  min-width:0;min-height:125px;padding:15px 17px;
+  display:flex;flex-direction:column;justify-content:center;gap:3px;
+}
+html body .app-shell .rc-decision__kpi-top{
+  display:flex;align-items:center;justify-content:space-between;gap:9px;margin-bottom:3px;
+}
+html body .app-shell .rc-decision__icon{
+  width:34px;height:34px;display:grid;place-items:center;
+  background:#eaf2f6;color:#315e7d;border-radius:9px;flex-shrink:0;
+}
+html body .app-shell .rc-decision__kpi-top>strong{
+  font-size:clamp(27px,3vw,37px);font-weight:830;line-height:1;
+  letter-spacing:-.035em;color:#163750;font-variant-numeric:tabular-nums;
+}
+html body .app-shell .rc-decision__kpi-title{
+  color:#24455d;font-size:13px;font-weight:800;line-height:1.2;
+}
+html body .app-shell .rc-decision__kpi small{
+  color:#748c9b;font-size:11px;line-height:1.35;
+}
+html body .app-shell .rc-decision__kpi--featured{background:#143b59;border-color:#143b59}
+html body .app-shell .rc-decision__kpi--featured :is(.rc-decision__kpi-top>strong,.rc-decision__kpi-title,small){color:#f0f6fa}
+html body .app-shell .rc-decision__kpi--featured .rc-decision__icon{background:#2b5470;color:#fff}
+html body .app-shell .rc-decision__data-note{
+  display:flex;align-items:center;gap:9px;
+  background:#e9f2f6;color:#315a72;border-radius:10px;
+  padding:11px 13px;font-size:11px;font-weight:650;line-height:1.35;
+}
+html body .app-shell .rc-decision__data-note svg{flex-shrink:0}
+html body .app-shell .rc-decision__mini-trend{
+  min-width:0;padding:13px 17px 10px;border:1px solid #d8e5ec;
+  border-radius:13px;background:#fff;
+}
+html body .app-shell .rc-decision__mini-head{
+  display:flex;align-items:center;justify-content:space-between;gap:9px;
+}
+html body .app-shell .rc-decision__mini-head h3{
+  margin:2px 0!important;font-size:14px!important;line-height:1.2!important;
+  font-weight:800!important;color:#214762!important;
+}
+html body .app-shell .rc-decision__mini-head>small{
+  color:#6c8797;font-size:10px;white-space:nowrap;
+}
+html body .app-shell .rc-decision__mini-bars{
+  display:flex;align-items:flex-end;justify-content:center;gap:30px;
+  margin:6px auto 0;height:97px;
+}
+html body .app-shell .rc-decision__mini-month{
+  width:48px;height:100%;display:flex;flex-direction:column;align-items:center;
+  gap:3px;justify-content:flex-end;color:#203f57;
+}
+html body .app-shell .rc-decision__mini-month strong{
+  font-size:11px;font-weight:800;font-variant-numeric:tabular-nums;
+}
+html body .app-shell .rc-decision__mini-track{
+  flex:1;width:35px;display:flex;flex-direction:column;justify-content:flex-end;
+  background:transparent;border-bottom:1px solid #d9e5ec;
+}
+html body .app-shell .rc-decision__mini-track span{
+  display:block;background:linear-gradient(180deg,#356e91,#6a94ab);
+  border-radius:5px 5px 0 0;
+}
+html body .app-shell .rc-decision__mini-month small{font-size:10px;color:#718b99}
+html body .app-shell .rc-decision__source,
+html body .app-shell .rc-decision__markets-note{
+  margin:0!important;color:#718796;font-size:10px;line-height:1.45;
+}
+html body .app-shell .rc-decision__country-picker{
+  display:flex;gap:8px;align-items:center;justify-content:space-between;
+  font-size:11px;font-weight:800;color:#54748a;
+}
+html body .app-shell .rc-decision__country-picker select{
+  min-width:0;max-width:76%;width:min(74%,335px);min-height:36px;
+  padding:6px 12px!important;border-radius:9px!important;
+  border:1px solid #b9ccda!important;background:#fff!important;color:#173c57!important;
+  font:750 12px var(--font-dm-sans),Arial,sans-serif!important;
+}
+html body .app-shell .rc-decision__country-card{
+  background:#fff;border:1px solid #d2e1e9;border-radius:13px;
+  padding:14px 16px;
+}
+html body .app-shell .rc-decision__country-title{
+  display:flex;justify-content:space-between;align-items:center;gap:10px;
+  margin-bottom:12px;
+}
+html body .app-shell .rc-decision__country-title strong{
+  font-size:16px;color:#193c55;font-weight:820;
+}
+html body .app-shell .rc-decision__country-title span{
+  font-size:10px;font-weight:760;color:#54748b;
+}
+html body .app-shell .rc-decision__country-track{
+  height:14px;display:flex;overflow:hidden;border-radius:99px;background:#e7edf1;
+}
+html body .app-shell .rc-decision__piece{height:100%;flex-shrink:0}
+html body .app-shell .rc-decision__piece--registrations{background:#285879}
+html body .app-shell .rc-decision__piece--lands{background:#829eaf}
+html body .app-shell .rc-decision__piece--services{background:#c4d5df}
+html body .app-shell .rc-decision__country-figures{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin-top:11px;
+}
+html body .app-shell .rc-decision__country-figures>div{
+  display:flex;align-items:center;gap:5px;min-width:0;
+  color:#506f83;font-size:11px;
+}
+html body .app-shell .rc-decision__country-figures strong{
+  color:#1c435d;font-size:17px;line-height:1;
+  font-weight:830;font-variant-numeric:tabular-nums;
+}
+html body .app-shell .rc-decision__dot{width:7px;height:7px;border-radius:3px;flex-shrink:0}
+html body .app-shell .rc-decision__dot--registrations{background:#285879}
+html body .app-shell .rc-decision__dot--lands{background:#829eaf}
+html body .app-shell .rc-decision__dot--services{background:#c4d5df}
+html body .app-shell .rc-decision__goal{
+  background:#fff;border:1px solid #d2e1e9;border-radius:13px;padding:13px 17px 12px;
+}
+html body .app-shell .rc-decision__goal-head{
+  display:flex;align-items:center;gap:7px;color:#315e7d;
+}
+html body .app-shell .rc-decision__goal-head h3{
+  color:#193c55!important;font-size:15px!important;line-height:1.2!important;
+  font-weight:800!important;margin:0!important;
+}
+html body .app-shell .rc-decision__goal-content{
+  display:flex;justify-content:center;align-items:center;
+  gap:clamp(20px,7vw,75px);margin-top:11px;
+}
+html body .app-shell .rc-decision__donut{
+  width:112px;height:112px;aspect-ratio:1;border-radius:50%;
+  display:grid;place-items:center;flex-shrink:0;
+}
+html body .app-shell .rc-decision__donut>div{
+  width:78%;height:78%;border-radius:50%;display:flex;flex-direction:column;
+  justify-content:center;align-items:center;background:#fff;
+}
+html body .app-shell .rc-decision__donut strong{
+  font-size:25px;font-weight:820;color:#133954;font-variant-numeric:tabular-nums;
+  letter-spacing:-.03em;
+}
+html body .app-shell .rc-decision__donut small{font-size:10px;color:#738c9b}
+html body .app-shell .rc-decision__goal-right{
+  display:flex;flex-direction:column;align-items:flex-start;
+  border-left:1px solid #d7e3ea;padding-left:clamp(17px,4vw,38px);
+}
+html body .app-shell .rc-decision__goal-right>span{
+  color:#68859a;font-size:12px;font-weight:750;
+}
+html body .app-shell .rc-decision__goal-right strong{
+  color:#163a54;font-size:clamp(31px,4vw,45px);font-weight:830;
+  letter-spacing:-.045em;line-height:1.1;
+  font-variant-numeric:tabular-nums;
+}
+html body .app-shell .rc-decision__goal-right small{
+  color:#6b8494;font-size:11px;line-height:1.3;
+}
+html body .app-shell .rc-decision__goal>p{
+  margin:6px 0 0!important;text-align:center;
+  color:#5c7c8f;font-size:11px;font-weight:750;
+}
+html body .app-shell .rc-decision__priority{
+  display:flex;align-items:center;gap:12px;border-radius:12px;
+  background:#164563;padding:13px 16px;color:#fff;
+}
+html body .app-shell .rc-decision__priority>svg{flex-shrink:0}
+html body .app-shell .rc-decision__priority>div{display:flex;flex-direction:column;gap:3px}
+html body .app-shell .rc-decision__priority strong{
+  color:#fff;font-size:13px;font-weight:820;
+}
+html body .app-shell .rc-decision__priority span{
+  color:#d9e9f2;font-size:11px;line-height:1.4;
+}
+@media(max-width:760px){
+  html body .app-shell .rc-decision__kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
+  html body .app-shell .rc-decision__kpi{min-height:110px;padding:12px 14px}
+  html body .app-shell .rc-decision__kpi-top>strong{font-size:33px}
+  html body .app-shell .rc-decision-page{padding:8px 12px 22px}
+  html body .app-shell .rc-decision{gap:9px}
+  html body .app-shell .rc-decision__header{padding:12px 14px}
+  html body .app-shell .rc-decision__tabs button{min-height:40px}
+  html body .app-shell .rc-decision__view{gap:9px}
+}
+@media(max-width:380px){
+  html body .app-shell .rc-decision__header h1{font-size:22px!important}
+  html body .app-shell .rc-decision__private{font-size:0;gap:0;padding:7px}
+  html body .app-shell .rc-decision__kpi{padding:11px}
+  html body .app-shell .rc-decision__kpi-top>strong{font-size:29px}
+  html body .app-shell .rc-decision__kpi-title{font-size:12px}
+  html body .app-shell .rc-decision__country-card{padding:12px}
+  html body .app-shell .rc-decision__country-figures>div{gap:3px;font-size:10px}
+  html body .app-shell .rc-decision__country-figures strong{font-size:14px}
+  html body .app-shell .rc-decision__goal{padding:12px}
+  html body .app-shell .rc-decision__donut{width:96px;height:96px}
+}
+@media(max-height:760px) and (max-width:760px){
+  html body .app-shell .rc-decision__header{padding:10px 13px}
+  html body .app-shell .rc-decision__header h1{font-size:21px!important}
+  html body .app-shell .rc-decision__kpi{min-height:96px;padding:10px 12px}
+  html body .app-shell .rc-decision__icon{width:30px;height:30px}
+  html body .app-shell .rc-decision__kpi-top>strong{font-size:29px}
+  html body .app-shell .rc-decision__mini-bars{height:72px}
+  html body .app-shell .rc-decision__mini-trend{padding:9px 13px}
+  html body .app-shell .rc-decision__donut{width:95px;height:95px}
+  html body .app-shell .rc-decision__goal-content{margin-top:6px}
+  html body .app-shell .rc-decision__goal{padding:10px 14px}
+  html body .app-shell .rc-decision__priority{padding:10px 14px}
+}
+@media(prefers-reduced-motion:reduce){
+  html body .app-shell .rc-decision *{scroll-behavior:auto!important}
+}
