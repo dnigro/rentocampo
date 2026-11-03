@@ -154,7 +154,7 @@ export default async function CampoFichaPage({ params }: PageProps) {
   };
 
   return (
-    <div className="ficha-container">
+    <div className="ficha-container rc-detail">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
