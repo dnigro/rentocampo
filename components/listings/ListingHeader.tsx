@@ -10,7 +10,6 @@ export default function ListingHeader({
   id,
   title,
   description,
-  count,
   eyebrow = "EXPLORÁ RENTO CAMPO",
 }: Props) {
   return (
