@@ -3,11 +3,12 @@
 import Image from "next/image";
 import { displayCountryName, COUNTRIES, COUNTRY_CODES_ALPHABETICAL, getCountrySubdivisions, resolveCountry, type CountryCode } from "@/data/countries";
 import { useRouter } from "next/navigation";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { Check, FileText, Images, MapPinned, UploadCloud, Wheat, Fence, Wifi, Handshake } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { SERVICIO_GRUPOS, servicioGrupoLabel, servicioLabel } from "@/data/servicios-rurales";
 import { regionalText } from "@/lib/i18n/regional";
+import { useRegionalCountry } from "@/lib/i18n/useRegionalCountry";
 import { type Profile, type RolPerfil, type ServicioRural } from "@/types";
 import GeocoderInput, { type LugarSeleccionado } from "@/components/campos/GeocoderInput";
 
@@ -40,6 +41,10 @@ export default function ServicioRuralForm({ profile, publicacion, initialCountry
     publicacion?.servicios_rurales ?? profile?.servicios_rurales ?? [],
   );
   const [country, setCountry] = useState<CountryCode>(resolveCountry(publicacion?.country_code ?? initialCountry, profile?.country_code));
+  const selectedRegion = useRegionalCountry();
+  useEffect(() => {
+    if (!publicacion && selectedRegion !== country) { setCountry(selectedRegion); setProvincia(""); setLocalidad(""); setZona(""); setUbicacion(""); }
+  }, [selectedRegion, publicacion, country]);
   const subdivisions = getCountrySubdivisions(country);
   const tt=(es:string,pt:string,en?:string)=>regionalText(country,es,pt,en);
   const [zona, setZona] = useState(publicacion?.zona ?? initialZona ?? profile?.zona_servicio ?? "");
