@@ -175,6 +175,9 @@ export default function ServicioRuralForm({ profile, publicacion, initialCountry
   return (
     <form className="campo-form servicio-publicacion-form rc-publish-form rc-publish-form--service" onSubmit={handleSubmit}>
       <div className="rc-publish-hero">
+        <span className="rc-publish-brand-mark">
+          <Image src="/icon-512.png" alt="Escudo oficial de RentoCampo" width={60} height={60} />
+        </span>
         <span className="rc-publish-eyebrow">RentoCampo · {tt("Servicios rurales","Serviços rurais","Rural services")}</span>
         <h1>{publicacion ? tt("Editar servicio","Editar serviço","Edit service") : tt("Publicar servicio","Anunciar serviço","List a service")}</h1>
         <p>{tt("Ofrecé tu trabajo al campo. Directo, simple y sin comisión.","Mostre seu trabalho ao campo. Direto, simples e sem comissão.","Offer your services directly, simply and commission-free.")}</p>
