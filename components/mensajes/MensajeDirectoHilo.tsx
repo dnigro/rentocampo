@@ -31,9 +31,12 @@ export default function MensajeDirectoHilo({ userId, destinatarioId, mensajesIni
   const [enviando, setEnviando] = useState(false);
   const [error, setError] = useState("");
   const bottomRef = useRef<HTMLDivElement>(null);
+  const messagesViewportRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    // Desplazar sólo el historial, nunca toda la página ni el formulario.
+    const viewport = messagesViewportRef.current;
+    if (viewport) viewport.scrollTo({ top: viewport.scrollHeight, behavior: "smooth" });
   }, [mensajes]);
 
   useEffect(() => {
@@ -122,7 +125,7 @@ export default function MensajeDirectoHilo({ userId, destinatarioId, mensajesIni
   }
 
   return <div className="hilo-container">
-    <div className="hilo-mensajes">
+    <div className="hilo-mensajes" ref={messagesViewportRef} role="log" aria-live="polite" aria-relevant="additions">
       {mensajes.length === 0 && <div className="hilo-vacio"><p>{tt("Iniciá la conversación.","Inicie uma conversa.")}</p></div>}
       {mensajes.map((mensaje) => <div className={`mensaje-row ${mensaje.remitente_id === userId ? "mensaje-mio" : "mensaje-otro"}`} key={mensaje.id}>
         <div className={`mensaje-burbuja ${mensaje.remitente_id === userId ? "burbuja-mia" : "burbuja-otra"}`}>{mensaje.contenido}</div>
@@ -132,7 +135,7 @@ export default function MensajeDirectoHilo({ userId, destinatarioId, mensajesIni
     {error && <p role="alert" className="mensaje-error">{error}</p>}
     <form className="mensaje-compose" onSubmit={enviar}>
       <label htmlFor="mensaje-directo-texto" className="mensaje-compose-label">{tt("Tu mensaje", "Sua mensagem")}</label>
-      <textarea id="mensaje-directo-texto" className="mensaje-input mensaje-draft" rows={4} maxLength={500}
+      <textarea id="mensaje-directo-texto" className="mensaje-input mensaje-draft" rows={2} maxLength={500}
         placeholder={tt("Escribí un mensaje...", "Digite uma mensagem...")} value={texto}
         onChange={(event) => setTexto(event.target.value)} disabled={enviando} />
       <div className="mensaje-compose-meta">{texto.length} / 500</div>
