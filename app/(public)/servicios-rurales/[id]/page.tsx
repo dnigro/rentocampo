@@ -81,6 +81,7 @@ export default async function ServicioDetallePage({ params }: { params: Promise<
   const esDemo = Boolean(demo);
   const rubros = (publicacion?.servicios_rurales ?? demo?.servicios_rurales ?? []) as ServicioRural[];
   const titulo = rubros.map((item) => servicioLabel(item, pais)).join(" · ");
+  const tituloCorto = rubros.slice(0, 2).map((item) => servicioLabel(item, pais)).join(" · ");
   const nombre = perfil?.nombre ?? demo?.nombre ?? "Prestador rural";
   const provincia = publicacion?.provincia ?? demo?.provincia_servicio;
   const localidad = publicacion?.localidad ?? demo?.localidad_servicio;
@@ -106,7 +107,7 @@ export default async function ServicioDetallePage({ params }: { params: Promise<
   } : null;
 
   return (
-    <div className="ficha-container servicio-ficha">
+    <div className="ficha-container servicio-ficha rc-detail">
       {serviceJsonLd && (
         <script
           type="application/ld+json"
@@ -128,7 +129,12 @@ export default async function ServicioDetallePage({ params }: { params: Promise<
           <div className="ficha-tags">
             <span className="aptitud-tag">{esDemo ? tt("Servicio demo","Serviço demo") : tt("Servicio rural","Serviço rural")}</span>
           </div>
-          <h1 className="ficha-titulo">{titulo || nombre}</h1>
+          <h1 className="ficha-titulo">{tituloCorto || nombre}</h1>
+          {rubros.length > 0 && (
+            <div className="rc-service-activities" aria-label={tt("Actividades ofrecidas","Atividades oferecidas")}>
+              {rubros.map((item) => <span className="rc-service-activity" key={item}>{servicioLabel(item, pais)}</span>)}
+            </div>
+          )}
           <p className="ficha-ubicacion">📍 {[localidad, provincia].filter(Boolean).join(", ")}</p>
 
           <div className="ficha-datos">
