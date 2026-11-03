@@ -23,7 +23,7 @@ test("web desktop, mobile and Lite share +SIMPLE with MAP and ONLINE CHAT", () =
   const css=read("styles/hero-simple-map-chat.css");
   assert.ok(web.includes("<SimpleMapChatHero />"), "web uses the shared hero");
   assert.ok(lite.includes("<SimpleMapChatHero lite />"), "Lite uses the same hero");
-  for(const text of ["CAMPOS Y SERVICIOS","SIMPLE","MAPA","CHAT ONLINE","Seleccioná la zona","Contactá en línea","REGISTRATE GRATIS","Explorar el mapa","0%","100%","COMISIÓN","CONTACTO DIRECTO"]) {
+  for(const text of ["TIERRAS QUE PRODUCEN FUTURO","Tu campo tiene potencial. Hacelo visible.","MAPA","CHAT ONLINE","Seleccioná la zona","Contactá en línea","Registrate gratis","Explorar campos","0%","100%","COMISIÓN","CONTACTO DIRECTO"]) {
     assert.ok(hero.includes(text), text+" is present");
   }
   assert.ok(hero.includes('href={lite ? "/lite/cuenta/registro" : "/register"}'));
@@ -35,7 +35,7 @@ test("web desktop, mobile and Lite share +SIMPLE with MAP and ONLINE CHAT", () =
   assert.ok(css.includes("grid-template-columns:1fr 1fr"));
   assert.ok(css.includes(".rcsm-button:focus-visible"));
   assert.ok(css.includes("prefers-reduced-motion"));
-  assert.ok(hero.includes("TERRAS E SERVIÇOS") && hero.includes("LAND & SERVICES"));
+  assert.ok(hero.includes("TERRAS QUE PRODUZEM FUTURO") && hero.includes("LAND THAT BUILDS THE FUTURE"));
 });
 
 test("desktop hero rotates to copy on left and cattle on right without changing mobile or Lite",()=>{
@@ -267,7 +267,8 @@ test("map footer never overlays the interactive map and list routes are rounded 
  assert.ok(css.includes("body:has(.mapa-page) footer.footer"));
  assert.ok(css.includes("height: clamp(530px, calc(100dvh - 170px), 840px)"));
  assert.ok(css.includes("border-radius: 999px"));
- assert.ok(back.includes('<Link href="/dashboard">Volver a Mi cuenta</Link>'));
+ assert.ok(back.includes('href="/dashboard" className="rc-dashboard-return-btn"'));
+ assert.ok(back.includes("Volver a mi cuenta"));
  assert.ok(backCss.includes("Navegación interior de Mi cuenta: botón cápsula"));
 });
 test("desktop landing is more compact with readable Patagonia FAQ",()=>{
@@ -292,4 +293,104 @@ test("desktop hero brings diagonal nearer to copy without changing mobile geomet
  assert.ok(theme.includes("min-height: 98px"));
  assert.ok(theme.includes("@media (max-width: 640px)"));
  assert.ok(theme.includes("height: clamp(205px, 54vw, 278px)"));
+});
+
+
+test("PR319 corporate interior preserves management data and keeps chat composer outside the scroll area",()=>{
+ const theme=read("styles/rc-internal-corporate.css");
+ const reportCss=read("styles/rc-management-report.css");
+ const report=read("app/(dashboard)/gerencial/page.tsx");
+ const dashboard=read("app/(dashboard)/dashboard/page.tsx");
+ const fieldForm=read("components/campos/CampoForm.tsx");
+ const serviceForm=read("components/servicios/ServicioRuralForm.tsx");
+ const messages=[
+   read("components/mensajes/MensajeHilo.tsx"),
+   read("components/mensajes/MensajeDirectoHilo.tsx"),
+ ];
+ assert.ok(read("app/layout.tsx").includes('import "@/styles/rc-internal-corporate.css";'));
+ assert.match(theme,/\.perfil-page>/);
+ assert.match(theme,/\.form-section-title-editorial/);
+ assert.match(theme,/\.rc-explorer-toolbar/);
+ assert.match(theme,/\.hilo-mensajes>div/);
+ assert.match(theme,/flex:0 0 auto!important/);
+ assert.match(theme,/overflow-y:auto!important/);
+ assert.match(report,/getCommercialStats\(\)/);
+ assert.match(report,/INTERNAL_TEST_EMAILS/);
+ assert.match(report,/rc-gerencial__metric/);
+ assert.match(report,/rc-gerencial__table-scroll/);
+ assert.ok(report.includes("rc-management-report.css"));
+ assert.match(reportCss,/\.rc-gerencial__country-active/);
+ assert.match(dashboard,/from "lucide-react"/);
+ assert.match(fieldForm,/className="campo-form"/);
+ assert.match(serviceForm,/className="campo-form servicio-publicacion-form"/);
+ for(const chat of messages){
+   assert.match(chat,/ref=\{messagesViewportRef\}/);
+   assert.match(chat,/viewport\.scrollTo\(/);
+   assert.doesNotMatch(chat,/bottomRef\.current\?\.scrollIntoView/);
+   assert.match(chat,/className="mensaje-compose"/);
+   assert.match(chat,/rows=\{2\}/);
+   assert.match(chat,/type="submit"/);
+ }
+});
+
+
+test("PR319 mobile polish: actionable result count, readable back button and zebra bars", () => {
+ const report = read("app/(dashboard)/gerencial/page.tsx");
+ const reportCss = read("styles/rc-management-report.css");
+ const header = read("components/listings/ListingHeader.tsx");
+ const campos = read("components/campos/CamposListing.tsx");
+ const servicios = read("app/(public)/servicios-rurales/page.tsx");
+ const returnLink = read("components/layout/DashboardReturn.tsx");
+ const polish = read("styles/rc-interior-refinement.css");
+ const appLayout = read("app/layout.tsx");
+ assert.ok(header.includes('href="#rc-explorer-results"'));
+ assert.ok(header.includes('rc-explorer-header__count-link'));
+ assert.ok(campos.includes('id="rc-explorer-results"'));
+ assert.ok(servicios.includes('id="rc-explorer-results"'));
+ assert.ok(returnLink.includes("rc-dashboard-return-btn"));
+ assert.ok(returnLink.includes("ArrowLeft"));
+ assert.ok(polish.includes("a.rc-dashboard-return-btn"));
+ assert.ok(polish.includes("-webkit-text-fill-color:#fff!important"));
+ assert.ok(polish.includes("form.campo-form>.form-section"));
+ assert.ok(polish.includes("border-left:1px solid #d8e2e9!important"));
+ assert.ok(appLayout.includes('rc-interior-refinement.css'));
+ assert.ok(report.includes('rc-gerencial__mobile-countries'));
+ assert.ok(report.includes('rc-gerencial__country-bar-row'));
+ assert.ok(report.includes("c.activeLands"));
+ assert.ok(report.includes("c.activeServices"));
+ assert.ok(reportCss.includes("rc-gerencial__country-bar-row:nth-child(even)"));
+ assert.ok(reportCss.includes("rc-gerencial__table-scroll{display:none!important}"));
+});
+
+test("PR319 executive country control, professional inbox and mobile account card",()=>{
+ const navbar=read("components/layout/Navbar.tsx");
+ const navCss=read("styles/rc-nav-inbox.css");
+ const inbox=read("app/(dashboard)/mensajes/page.tsx");
+ const report=read("app/(dashboard)/gerencial/page.tsx");
+ const controller=read("components/gerencial/GerencialExplorador.tsx");
+ const growthCss=read("styles/rc-growth-visual.css");
+ const root=read("app/layout.tsx");
+ assert.ok(navbar.includes('rc-mobile-drawer__account'));
+ assert.ok(navbar.includes('user ? "/dashboard" : "/login"'));
+ assert.ok(navbar.includes('rc-mobile-drawer__close'));
+ assert.ok(navCss.includes('rentocampo-hero-campo-bn-1920x1080.webp'));
+ assert.ok(navCss.includes('.rc-inbox__'));
+ assert.ok(root.includes('rc-nav-inbox.css'));
+ assert.ok(inbox.includes('rc-inbox__header'));
+ assert.ok(inbox.includes('hilo-no-leido'));
+ assert.ok(inbox.includes('rc-inbox__type'));
+ assert.ok(inbox.includes('rc-inbox__own'));
+ assert.ok(report.includes('<GerencialExplorador countries={report.countries} months={report.months} totals={report.totals} />'));
+ assert.ok(report.includes('rc-gerencial__legacy-details'));
+ assert.ok(report.includes('getCommercialStats()'));
+ assert.ok(report.includes('INTERNAL_TEST_EMAILS'));
+ assert.ok(controller.includes('useState("ALL")'));
+ assert.ok(controller.includes('<option value="ALL">'));
+ assert.ok(controller.includes('countries.map((c)'));
+ assert.ok(controller.includes('rc-growth__kpi'));
+ assert.ok(controller.includes('rc-growth__stack'));
+ assert.ok(controller.includes('inactiveCountries.map'));
+ assert.ok(controller.includes('shownCountries'));
+ assert.ok(growthCss.includes('rc-growth__visuals'));
+ assert.ok(growthCss.includes('rc-gerencial__legacy-details'));
 });

@@ -28,7 +28,7 @@ test("pt-BR and Spanish catalogs have matching message keys", () => {
 
 test("regional hero gives equivalent ES/PT/EN product messaging and zero commission",()=>{
  const styles=read("styles/hero-simple-map-chat.css");
- for(const phrase of ["CAMPOS Y SERVICIOS","TERRAS E SERVIÇOS","LAND & SERVICES","SIMPLE", "SIMPLES","MAPA","CHAT ONLINE","ONLINE CHAT","Seleccioná la zona","Escolha a região","Select an area","Contactá en línea","Converse online","Connect online","0%</strong>","100%</strong>"]) {
+ for(const phrase of ["TIERRAS QUE PRODUCEN FUTURO","TERRAS QUE PRODUZEM FUTURO","LAND THAT BUILDS THE FUTURE","Tu campo tiene potencial. Hacelo visible.","Sua terra tem potencial. Dê visibilidade a ela.","Your land has potential. Make it visible.","MAPA","CHAT ONLINE","ONLINE CHAT","Seleccioná la zona","Escolha a região","Select an area","Contactá en línea","Converse online","Connect online","0%</strong>","100%</strong>"]) {
    assert.ok(hero.includes(phrase), "missing translated feature: "+phrase);
  }
  assert.ok(hero.includes('href={lite ? "/lite/cuenta/registro" : "/register"}'));
@@ -70,7 +70,7 @@ test("localized hero CTA stays prominent on desktop, mobile and Lite",()=>{
  const lite=read("app/lite/page.tsx");
  assert.ok(hero.includes('className="rcsm-button rcsm-button--primary"'));
  assert.ok(hero.includes('className="rcsm-button rcsm-button--secondary"'));
- for(const phrase of ["REGISTRATE GRATIS","CADASTRE-SE GRÁTIS","SIGN UP FREE","Explorar el mapa","Explorar o mapa","Explore the map"])assert.ok(hero.includes(phrase));
+ for(const phrase of ["Registrate gratis","Cadastre-se grátis","Sign up free","Explorar campos","Explorar terras","Explore land"])assert.ok(hero.includes(phrase));
  assert.ok(css.includes("border-radius:100px"));
  assert.ok(css.includes("@media(max-width:850px)"));
  assert.ok(css.includes("@media(max-width:350px)"));
@@ -225,7 +225,7 @@ test("responsive simple map/chat hero and FAQ share the design with Lite",()=>{
  const faq=read("components/landing/LandingFAQ.tsx");
  const css=read("styles/hero-simple-map-chat.css");
  const lite=read("app/lite/page.tsx");
- for(const phrase of ["CAMPOS Y SERVICIOS","TERRAS E SERVIÇOS","LAND & SERVICES","MAPA","CHAT ONLINE","0%</strong>","100%</strong>"])assert.ok(hero.includes(phrase));
+ for(const phrase of ["TIERRAS QUE PRODUCEN FUTURO","TERRAS QUE PRODUZEM FUTURO","LAND THAT BUILDS THE FUTURE","MAPA","CHAT ONLINE","0%</strong>","100%</strong>"])assert.ok(hero.includes(phrase));
  assert.ok(webHome.includes("<SimpleMapChatHero />"));
  assert.ok(lite.includes("<SimpleMapChatHero lite />"));
  assert.ok(css.includes(".rcsm-photo__image"));

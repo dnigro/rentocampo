@@ -112,7 +112,7 @@ export default async function CamposListing({ params, titulo, descripcion, soloA
             <CampoFiltros key={pais} filtrosActivos={{ ...params, pais }} />
           </ListingFiltersPanel>
         <div className="explorador-contenido">
-          <section className="explorador-resultados">
+          <section className="explorador-resultados" id="rc-explorer-results">
             {campos && campos.length > 0 ? (
               <>
                 <div className="campos-explorador-grid">

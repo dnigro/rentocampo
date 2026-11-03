@@ -41,10 +41,13 @@ export default function MensajeHilo({
   const [enviando, setEnviando] = useState(false);
   const [error, setError] = useState("");
   const bottomRef = useRef<HTMLDivElement>(null);
+  const messagesViewportRef = useRef<HTMLDivElement>(null);
   const [supabase] = useState(createClient);
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    // Desplazar sólo el historial, nunca toda la página ni el formulario.
+    const viewport = messagesViewportRef.current;
+    if (viewport) viewport.scrollTo({ top: viewport.scrollHeight, behavior: "smooth" });
   }, [mensajes]);
 
   useEffect(() => {
@@ -172,7 +175,7 @@ export default function MensajeHilo({
 
   return (
     <div className="hilo-container">
-      <div className="hilo-mensajes">
+      <div className="hilo-mensajes" ref={messagesViewportRef} role="log" aria-live="polite" aria-relevant="additions">
         {mensajes.length === 0 && (
           <div className="hilo-vacio">
             <p>{tt("No hay mensajes todavía. Iniciá la conversación.","Ainda não há mensagens. Inicie uma conversa.")}</p>
@@ -235,7 +238,7 @@ export default function MensajeHilo({
           onChange={(e) => setTexto(e.target.value)}
           disabled={enviando}
           maxLength={500}
-          rows={4}
+          rows={2}
         />
         <div className="mensaje-compose-meta">{texto.length} / 500</div>
         <p className="mensaje-compose-note">{tt("Tu mensaje se enviará cuando presiones Enviar mensaje.", "Sua mensagem será enviada quando você pressionar Enviar mensagem.")}</p>

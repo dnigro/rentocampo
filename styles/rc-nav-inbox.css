@@ -1,0 +1,216 @@
+/* RentoCampo · PR319: menú mobile e inbox corporativos
+   Usa sólo assets rurales existentes. Layouts aislados del home/hero.
+ */
+.mobile-menu .mobile-menu-inner.rc-mobile-drawer{
+  width:min(420px,92vw)!important;max-width:92vw!important;
+  padding:0 0 max(24px,env(safe-area-inset-bottom))!important;
+  overflow-x:hidden!important;overflow-y:auto!important;
+  background:#f5f7f8!important;color:#122e45!important;
+  box-shadow:-16px 0 55px rgba(5,25,42,.23)!important;
+  overscroll-behavior:contain;
+}
+.mobile-menu .rc-mobile-drawer__head{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:18px 21px;background:#fff;border-bottom:1px solid #dbe4e9;
+  min-height:76px;
+}
+.mobile-menu .rc-mobile-drawer__wordmark{
+  display:block;max-width:190px;color:#11283f!important;
+}
+.mobile-menu .rc-mobile-drawer__close{
+  border:1px solid #d2dfe8;background:#f3f6f8;color:#11283f;
+  display:grid;place-items:center;height:39px;width:39px;
+  border-radius:999px;cursor:pointer;
+}
+.mobile-menu .rc-mobile-drawer__close:focus-visible{outline:2px solid #315e7d;outline-offset:2px}
+.mobile-menu .rc-mobile-drawer__account{
+  margin:16px 16px 14px;min-height:226px;
+  position:relative;overflow:hidden;border-radius:14px;
+  display:flex;align-items:flex-end;
+  background:
+    linear-gradient(95deg,rgba(11,32,53,.96) 0%,rgba(16,43,67,.90) 50%,rgba(16,43,67,.35) 100%),
+    url("/rentocampo-hero-campo-bn-1920x1080.webp") right center/cover no-repeat;
+  border:1px solid #36566d;color:#fff;
+}
+.mobile-menu .rc-mobile-drawer__account-copy{
+  padding:21px;width:100%;position:relative;z-index:1;
+}
+.mobile-menu .rc-mobile-drawer__eyebrow{
+  color:#b8cfdb;font-size:10px;letter-spacing:.12em;font-weight:800;
+}
+.mobile-menu .rc-mobile-drawer__account-copy strong{
+  color:#fff;display:block;font-size:23px;line-height:1.12;
+  margin-top:7px;font-weight:780;letter-spacing:-.025em;
+}
+.mobile-menu .rc-mobile-drawer__account-copy p{
+  color:#e0e9ee;font-size:13px;line-height:1.4;
+  margin:9px 0 17px;max-width:285px;
+}
+.mobile-menu .rc-mobile-drawer__account-btn,
+.mobile-menu .rc-mobile-drawer__account-btn:visited{
+  display:inline-flex;align-items:center;justify-content:center;gap:9px;
+  min-height:44px;padding:10px 16px;
+  color:#11283f!important;-webkit-text-fill-color:#11283f!important;
+  text-decoration:none;background:#fff!important;
+  border:1px solid #e0e8ee;border-radius:999px;
+  font-size:13px;font-weight:780;box-shadow:none;
+}
+.mobile-menu .rc-mobile-drawer__account-btn:hover{background:#e7f0f5!important}
+.mobile-menu .rc-mobile-drawer__account-btn svg{stroke:#11283f}
+.mobile-menu .rc-mobile-drawer .mobile-menu-nav{
+  padding:0 15px 20px!important;gap:3px;
+}
+.mobile-menu .rc-mobile-drawer .mobile-menu-link{
+  min-height:48px;padding:12px 15px!important;margin:0!important;
+  font-weight:650!important;font-size:15px!important;
+  color:#16354d!important;background:transparent!important;
+  border-radius:10px!important;
+}
+.mobile-menu .rc-mobile-drawer .mobile-menu-link:hover{
+  background:#e7eef3!important;color:#102c44!important;
+}
+.mobile-menu .rc-mobile-drawer .mobile-menu-sep{
+  margin:11px 0!important;border-color:#d8e2e9!important;
+}
+.mobile-menu .rc-mobile-drawer .mobile-menu-btn,
+.mobile-menu .rc-mobile-drawer .mobile-menu-btn:link,
+.mobile-menu .rc-mobile-drawer .mobile-menu-btn:visited{
+  background:#11283f!important;color:#fff!important;
+  -webkit-text-fill-color:#fff!important;
+  border:1px solid #11283f!important;
+  border-radius:999px!important;
+  min-height:48px!important;padding:12px 17px!important;
+  text-align:center!important;font-size:14px!important;
+  font-weight:750!important;text-decoration:none!important;
+}
+.mobile-menu .rc-mobile-drawer .mobile-menu-logout{
+  color:#6f303b!important;border:1px solid #efdce1!important;
+  background:#fff!important;
+}
+/* Inbox: cada hilo se lee de un vistazo. */
+html body .app-shell .mensajes-container.rc-inbox{
+  max-width:1140px!important;margin:0 auto!important;
+  padding:26px clamp(16px,3vw,34px) 70px!important;
+}
+html body .app-shell .rc-inbox .rc-inbox__header{
+  display:flex!important;flex-direction:row!important;
+  align-items:center!important;justify-content:space-between!important;
+  gap:16px!important;min-height:0!important;margin:0 0 19px!important;
+  padding:24px clamp(18px,3vw,34px)!important;
+  background:linear-gradient(115deg,#e7eef3,#f5f8fa)!important;
+  border:1px solid #d7e2e9!important;border-radius:13px!important;
+}
+html body .app-shell .rc-inbox .rc-inbox__header>div:first-child{min-width:0!important;max-width:100%!important}
+html body .app-shell .rc-inbox .rc-inbox__header h1{
+  margin:3px 0 4px!important;font:780 clamp(29px,3.8vw,43px)/1.12 var(--font-dm-sans),Arial,sans-serif!important;
+  letter-spacing:-.04em!important;color:#11283f!important;
+  text-transform:none!important;
+}
+html body .app-shell .rc-inbox__eyebrow{font-size:10px!important;font-weight:800!important;letter-spacing:.10em!important;color:#365f7a!important}
+html body .app-shell .rc-inbox__subtitle{font-size:13px!important;line-height:1.45!important;color:#61788a!important}
+html body .app-shell .rc-inbox__stats{display:flex;gap:9px;flex-wrap:wrap;justify-content:flex-end}
+html body .app-shell .rc-inbox__stats span{
+  display:inline-flex;align-items:center;gap:6px;white-space:nowrap;
+  min-height:35px;padding:7px 11px;border:1px solid #c9d9e3;
+  background:#fff;border-radius:999px;color:#36566a;font-size:12px;font-weight:700;
+}
+html body .app-shell .rc-inbox__stats .rc-inbox__unread{
+  border-color:#a7bfd0;background:#e7f0f5;color:#12354d;
+}
+html body .app-shell .rc-inbox .rc-inbox__list{
+  display:grid!important;gap:10px!important;max-width:none!important;
+}
+html body .app-shell .rc-inbox .rc-inbox__item{
+  position:relative!important;display:flex!important;align-items:center!important;
+  width:100%!important;gap:15px!important;padding:15px 19px!important;
+  min-height:111px!important;border:1px solid #d7e2e9!important;
+  border-radius:12px!important;background:#fff!important;
+  color:#11283f!important;box-shadow:none!important;
+  text-decoration:none!important;transform:none!important;
+}
+html body .app-shell .rc-inbox .rc-inbox__item:hover{
+  background:#f2f7fa!important;border-color:#89abc1!important;transform:none!important;
+}
+html body .app-shell .rc-inbox .rc-inbox__item.hilo-no-leido{
+  border-left:4px solid #315e7d!important;background:#f0f6f9!important;
+}
+html body .app-shell .rc-inbox .rc-inbox__item .hilo-media{
+  width:78px!important;height:76px!important;min-width:78px!important;flex:0 0 78px!important;
+  border-radius:9px!important;
+}
+html body .app-shell .rc-inbox .rc-inbox__item .hilo-campo-foto{
+  width:100%!important;height:100%!important;object-fit:cover!important;
+}
+html body .app-shell .rc-inbox .rc-inbox__item .hilo-body{
+  min-width:0!important;flex:1 1 auto!important;display:flex!important;flex-direction:column!important;
+  gap:5px!important;
+}
+html body .app-shell .rc-inbox .rc-inbox__item .hilo-top{
+  display:flex!important;align-items:center!important;justify-content:space-between!important;gap:10px!important;
+}
+html body .app-shell .rc-inbox .rc-inbox__item .hilo-nombre{
+  color:#11283f!important;font-weight:780!important;font-size:16px!important;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+html body .app-shell .rc-inbox .rc-inbox__item .hilo-fecha{
+  margin-left:auto!important;flex-shrink:0!important;font-size:11px!important;color:#84939e!important;
+}
+html body .app-shell .rc-inbox .rc-inbox__item .hilo-campo{
+  display:block!important;min-width:0!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important;
+  color:#3c6077!important;font-size:12px!important;line-height:1.45!important;
+}
+html body .app-shell .rc-inbox__type{
+  display:inline-flex;margin-right:8px;padding:3px 6px;
+  background:#e9f1f6;color:#315e7d;
+  font-size:9px;font-weight:800;letter-spacing:.07em;
+  border-radius:5px;vertical-align:middle;
+}
+html body .app-shell .rc-inbox .rc-inbox__item .hilo-preview{
+  margin:0!important;line-height:1.4!important;color:#778b99!important;
+  font-size:13px!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;
+}
+html body .app-shell .rc-inbox__own{font-weight:800;color:#365f7a}
+html body .app-shell .rc-inbox__arrow{flex-shrink:0;color:#365f7a}
+html body .app-shell .rc-inbox .rc-inbox__item .hilo-nuevo{
+  flex-shrink:0;max-width:90px;font-size:10px!important;color:#12354d!important;
+  background:#e1edf4!important;border-radius:999px;padding:6px 8px!important;
+}
+/* Burbujas y composer: lectura cómoda en móviles sin superposición. */
+html body .app-shell .hilo-container{border-radius:13px!important}
+html body .app-shell .hilo-mensajes{scroll-padding-bottom:32px!important}
+html body .app-shell .mensaje-compose{
+  border-top:1px solid #d8e3e9!important;
+  background:#f1f5f7!important;
+}
+html body .app-shell .mensaje-compose textarea.mensaje-draft{background:#fff!important}
+@media(max-width:700px){
+  .mobile-menu .mobile-menu-inner.rc-mobile-drawer{width:min(405px,94vw)!important;max-width:94vw!important}
+  html body .app-shell .rc-inbox .rc-inbox__header{
+    flex-direction:column!important;align-items:stretch!important;padding:18px!important;
+  }
+  html body .app-shell .rc-inbox__stats{justify-content:flex-start}
+  html body .app-shell .rc-inbox .rc-inbox__item{
+    padding:12px 11px!important;min-height:95px!important;gap:11px!important;
+  }
+  html body .app-shell .rc-inbox .rc-inbox__item .hilo-media{
+    width:64px!important;height:64px!important;min-width:64px!important;flex-basis:64px!important;
+  }
+  html body .app-shell .rc-inbox .rc-inbox__item .hilo-nombre{font-size:14px!important}
+  html body .app-shell .rc-inbox .rc-inbox__item .hilo-fecha{font-size:10px!important}
+  html body .app-shell .rc-inbox .rc-inbox__item .hilo-campo{font-size:11px!important}
+  html body .app-shell .rc-inbox .rc-inbox__item .hilo-preview{font-size:12px!important}
+  html body .app-shell .rc-inbox__arrow{display:none!important}
+  html body .app-shell .rc-inbox .rc-inbox__item .hilo-nuevo{
+    position:absolute;right:10px;bottom:5px;max-width:none!important;
+    padding:3px 6px!important;font-size:9px!important;
+  }
+  html body .app-shell .rc-inbox .rc-inbox__item.hilo-no-leido .hilo-preview{padding-right:36px!important}
+  html body .app-shell .mensajes-container.rc-inbox{padding:16px 12px 54px!important}
+}
+@media(max-width:350px){
+  html body .app-shell .rc-inbox .rc-inbox__item .hilo-media{
+    width:52px!important;height:57px!important;min-width:52px!important;flex-basis:52px!important;
+  }
+  .mobile-menu .rc-mobile-drawer__account-copy{padding:17px}
+}
+@media(prefers-reduced-motion:reduce){.mobile-menu .rc-mobile-drawer{animation:none!important}}

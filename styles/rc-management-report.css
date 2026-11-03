@@ -1,0 +1,217 @@
+/* RentoCampo · Informe ejecutivo corporativo — PR #319.
+ * Presentación única para métricas reales y autorizadas; datos y seguridad intactos.
+ */
+html body .app-shell .rc-gerencial{
+  width:min(100%,1280px)!important;max-width:1280px!important;
+  margin:0 auto!important;padding:28px clamp(14px,3vw,38px) 88px!important;
+  color:#142f43!important;font-family:var(--font-dm-sans),Arial,sans-serif!important;
+}
+html body .app-shell .rc-gerencial__header{
+  position:relative;isolation:isolate;overflow:hidden;
+  padding:30px clamp(22px,4vw,44px)!important;
+  margin:0 0 20px!important;border-radius:14px;
+  background:linear-gradient(115deg,#102c44 0%,#1e4762 70%,#52758a 100%)!important;
+  color:#fff!important;box-shadow:none!important;
+}
+html body .app-shell .rc-gerencial__header::after{
+  content:"";position:absolute;inset:0 0 0 58%;z-index:-1;
+  background:linear-gradient(90deg,#1e4762,rgba(30,71,98,.20)),url("/rentocampo-hero-campo-bn-1920x1080.webp") center/cover no-repeat;
+  opacity:.55;clip-path:polygon(20% 0,100% 0,100% 100%,0 100%);
+}
+html body .app-shell .rc-gerencial__header :is(h1,p){
+  position:relative;z-index:1;color:#fff!important;max-width:610px;
+}
+html body .app-shell .rc-gerencial__header h1{
+  margin:9px 0!important;font-size:clamp(29px,3.6vw,48px)!important;
+  line-height:1.08!important;font-weight:750!important;letter-spacing:-.04em!important;
+}
+html body .app-shell .rc-gerencial__header p:first-child{
+  color:#cadce8!important;font-size:11px!important;
+}
+html body .app-shell .rc-gerencial__header p:last-child{
+  color:#d7e2eb!important;margin-top:10px!important;
+}
+html body .app-shell .rc-gerencial__metrics{
+  display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:12px!important;
+}
+html body .app-shell .rc-gerencial__metric{
+  position:relative;overflow:hidden;min-width:0;min-height:145px;
+  display:flex;flex-direction:column;justify-content:flex-start;
+  border:1px solid #d9e3e9!important;border-radius:12px!important;
+  padding:19px 21px!important;background:#fff!important;box-shadow:none!important;
+}
+html body .app-shell .rc-gerencial__metric::before{
+  content:"";position:absolute;inset:0 auto 0 0;width:4px;background:#365f7a;
+}
+html body .app-shell .rc-gerencial__metric-label{
+  font-size:11px!important;letter-spacing:.09em!important;font-weight:800!important;
+  color:#607486!important;line-height:1.4!important;
+}
+html body .app-shell .rc-gerencial__metric-value{
+  margin:11px 0 4px!important;color:#11283f!important;font-size:clamp(30px,3vw,43px)!important;
+  line-height:1.12!important;font-weight:800!important;font-variant-numeric:tabular-nums;
+}
+html body .app-shell .rc-gerencial__metric p:last-child{
+  margin-top:auto!important;font-size:12px!important;color:#647785!important;line-height:1.4!important;
+}
+html body .app-shell .rc-gerencial :is(.rc-gerencial__goal,.rc-gerencial__trend,.rc-gerencial__countries,.rc-gerencial__monthly){
+  border:1px solid #d9e3e9!important;border-radius:13px!important;
+  background:#fff!important;box-shadow:none!important;overflow:hidden;
+}
+html body .app-shell .rc-gerencial__goal{
+  margin-top:16px!important;padding:20px 24px!important;
+}
+html body .app-shell .rc-gerencial__goal h2,
+html body .app-shell .rc-gerencial__trend h2,
+html body .app-shell .rc-gerencial__countries h2{
+  color:#193b55!important;font-weight:750!important;letter-spacing:-.02em!important;
+}
+html body .app-shell .rc-gerencial__goal .bg-slate-600{
+  background:#315e7d!important;
+}
+html body .app-shell .rc-gerencial__trend{
+  margin-top:16px!important;padding:22px 24px!important;
+}
+html body .app-shell .rc-gerencial__trend svg{
+  display:block;width:100%;height:auto;margin-top:14px!important;max-height:290px;
+}
+html body .app-shell .rc-gerencial__stage{
+  background:#f3f6f8!important;border:1px solid #d9e3e9!important;
+  border-radius:9px!important;padding:14px 10px!important;
+}
+html body .app-shell .rc-gerencial__stage p:first-child{
+  font-size:23px!important;color:#193b55!important;font-variant-numeric:tabular-nums;
+}
+html body .app-shell .rc-gerencial__priorities{
+  gap:10px!important;margin-top:17px!important;
+}
+html body .app-shell .rc-gerencial__priorities>div{
+  padding:17px 20px!important;border-radius:10px!important;
+  background:#123049!important;border:1px solid #244e6c!important;color:#fff!important;
+}
+html body .app-shell .rc-gerencial__priorities>div:nth-child(2){background:#234b67!important}
+html body .app-shell .rc-gerencial__priorities>div:nth-child(3){background:#365f7a!important}
+html body .app-shell .rc-gerencial__priorities p{color:#e7eef3!important}
+html body .app-shell .rc-gerencial__countries{margin-top:20px!important}
+html body .app-shell .rc-gerencial__countries>div:first-child{
+  padding:24px!important;border-bottom:1px solid #d9e3e9!important;
+}
+html body .app-shell .rc-gerencial__countries>div:first-child h2{
+  font-size:22px!important;line-height:1.25!important;
+}
+html body .app-shell .rc-gerencial__countries>div:first-child p{
+  margin-top:6px!important;color:#647785!important;font-size:13px!important;
+}
+html body .app-shell .rc-gerencial__table-scroll{
+  max-width:100%;overflow-x:auto!important;scrollbar-width:thin;scrollbar-color:#b6c6d0 #eff3f6;
+}
+html body .app-shell .rc-gerencial__table{
+  width:100%!important;min-width:675px!important;border-collapse:collapse!important;
+  font-variant-numeric:tabular-nums;
+}
+html body .app-shell .rc-gerencial__table th{
+  position:sticky;top:0;z-index:1;
+  padding:14px 16px!important;background:#eaf0f4!important;
+  color:#415d70!important;font-size:11px!important;letter-spacing:.055em!important;
+  font-weight:800!important;white-space:nowrap!important;
+}
+html body .app-shell .rc-gerencial__table td{
+  padding:15px 16px!important;border-bottom:1px solid #e6edf1!important;
+  color:#264052!important;vertical-align:middle!important;
+}
+html body .app-shell .rc-gerencial__table tbody tr:nth-child(even){background:#f8fafb!important}
+html body .app-shell .rc-gerencial__table tbody tr.rc-gerencial__country-active{
+  background:#edf4f8!important;
+}
+html body .app-shell .rc-gerencial__table tbody tr.rc-gerencial__country-active td:first-child{
+  border-left:3px solid #315e7d!important;font-weight:750!important;
+}
+html body .app-shell .rc-gerencial__table td:first-child{white-space:nowrap!important}
+html body .app-shell .rc-gerencial__table td .bg-slate-600{background:#315e7d!important}
+html body .app-shell .rc-gerencial__monthly{
+  margin-top:16px!important;
+}
+html body .app-shell .rc-gerencial__monthly>summary{
+  color:#193b55!important;font-weight:750!important;
+}
+@media(max-width:900px){
+  html body .app-shell .rc-gerencial__metrics{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  }
+}
+@media(max-width:640px){
+  html body .app-shell .rc-gerencial{
+    padding:18px 12px 62px!important;
+  }
+  html body .app-shell .rc-gerencial__header{padding:24px 20px!important;border-radius:12px!important}
+  html body .app-shell .rc-gerencial__header::after{inset:0 0 0 68%;opacity:.22}
+  html body .app-shell .rc-gerencial__header h1{font-size:32px!important}
+  html body .app-shell .rc-gerencial__metric{
+    min-height:125px!important;padding:14px 13px!important;
+  }
+  html body .app-shell .rc-gerencial__metric-value{font-size:30px!important}
+  html body .app-shell .rc-gerencial__metric-label{font-size:10px!important}
+  html body .app-shell .rc-gerencial__goal,
+  html body .app-shell .rc-gerencial__trend{padding:17px 15px!important}
+  html body .app-shell .rc-gerencial__countries>div:first-child{padding:18px 16px!important}
+  html body .app-shell .rc-gerencial__table th,
+  html body .app-shell .rc-gerencial__table td{padding:13px 12px!important}
+}
+@media(prefers-reduced-motion:reduce){
+  html body .app-shell .rc-gerencial *{scroll-behavior:auto!important}
+}
+
+/* Parque comercial: zebra con barras; en móvil sustituye la tabla horizontal cortada. */
+html body .app-shell .rc-gerencial__mobile-countries{display:none}
+html body .app-shell .rc-gerencial__table tbody tr:nth-child(odd){background:#fff!important}
+html body .app-shell .rc-gerencial__table tbody tr:nth-child(even){background:#edf2f5!important}
+html body .app-shell .rc-gerencial__table tbody tr.rc-gerencial__country-active{
+  background:#e0ebf2!important;
+}
+html body .app-shell .rc-gerencial__table th{border-bottom:1px solid #cad9e3!important}
+html body .app-shell .rc-gerencial__table tbody tr:hover{background:#e3edf3!important}
+html body .app-shell .rc-gerencial__country-bar-heading{
+  display:flex;align-items:center;justify-content:space-between;gap:14px;
+  font:600 14px/1.35 var(--font-dm-sans),Arial,sans-serif;color:#15384e;
+}
+html body .app-shell .rc-gerencial__country-bar-heading strong{
+  min-width:0;overflow-wrap:anywhere;font-size:15px;font-weight:750;
+}
+html body .app-shell .rc-gerencial__country-bar-heading>span{
+  flex-shrink:0;color:#80909b;font-size:11px;font-weight:700;
+}
+html body .app-shell .rc-gerencial__country-bar-track{
+  height:7px;margin:10px 0 9px;overflow:hidden;border-radius:999px;background:#dbe4e9;
+}
+html body .app-shell .rc-gerencial__country-bar-track>span{
+  display:block;height:100%;border-radius:999px;background:#285575;
+}
+html body .app-shell .rc-gerencial__country-bar-metrics{
+  display:flex;justify-content:space-between;gap:9px;
+  color:#576d7c;font-size:12px;font-weight:600;
+}
+html body .app-shell .rc-gerencial__country-bar-metrics span{
+  display:inline-flex;align-items:center;gap:5px;white-space:nowrap;
+}
+html body .app-shell .rc-gerencial__country-bar-metrics strong{
+  color:#123149;font-size:14px;font-weight:800;font-variant-numeric:tabular-nums;
+}
+@media(max-width:700px){
+  html body .app-shell .rc-gerencial__table-scroll{display:none!important}
+  html body .app-shell .rc-gerencial__mobile-countries{display:block!important;width:100%}
+  html body .app-shell .rc-gerencial__country-bar-row{
+    display:block;padding:13px 16px 14px;min-width:0;
+    border-bottom:1px solid #dce5eb;background:#fff;
+  }
+  html body .app-shell .rc-gerencial__country-bar-row:nth-child(even){background:#eef3f6}
+  html body .app-shell .rc-gerencial__country-bar-row--active{
+    border-left:3px solid #285575;padding-left:13px;background:#e7eff5!important;
+  }
+  html body .app-shell .rc-gerencial__country-bar-track{margin-top:8px;margin-bottom:8px}
+  html body .app-shell .rc-gerencial__country-bar-metrics{gap:4px;font-size:11px}
+}
+@media(max-width:340px){
+  html body .app-shell .rc-gerencial__country-bar-metrics span{flex-direction:column;align-items:flex-start;gap:1px}
+  html body .app-shell .rc-gerencial__country-bar-metrics strong{font-size:15px}
+}
+@media(min-width:701px){html body .app-shell .rc-gerencial__mobile-countries{display:none!important}}

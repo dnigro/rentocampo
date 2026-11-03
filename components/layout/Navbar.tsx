@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { ArrowRight, X, UserRound } from "lucide-react";
 import { useRouter, usePathname } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { Suspense, useEffect, useState } from "react";
@@ -295,9 +296,30 @@ function NavbarContent() {
       {menuAbierto && (
         <div id="navbar-mobile-menu" className="mobile-menu" onClick={() => setMenuAbierto(false)}>
           <div
-            className="mobile-menu-inner"
+            className="mobile-menu-inner rc-mobile-drawer"
             onClick={(e) => e.stopPropagation()}
+            role="dialog"
+            aria-label={regionalText(activeCountry, "Menú de RentoCampo", "Menu da RentoCampo", "RentoCampo menu")}
+            aria-modal="true"
           >
+            <div className="rc-mobile-drawer__head">
+              <BrandWordmark className="rc-mobile-drawer__wordmark" />
+              <button type="button" className="rc-mobile-drawer__close" onClick={() => setMenuAbierto(false)} aria-label="Cerrar menú">
+                <X size={21} aria-hidden="true" />
+              </button>
+            </div>
+            <div className="rc-mobile-drawer__account">
+              <div className="rc-mobile-drawer__account-copy">
+                <span className="rc-mobile-drawer__eyebrow">{regionalText(activeCountry, "TU ESPACIO RURAL", "SEU ESPAÇO RURAL", "YOUR RURAL SPACE")}</span>
+                <strong>{user ? regionalText(activeCountry, "Tu cuenta RentoCampo", "Sua conta RentoCampo", "Your RentoCampo account") : regionalText(activeCountry, "Ingresá a tu cuenta", "Entre na sua conta", "Sign in to your account")}</strong>
+                <p>{regionalText(activeCountry, "Gestioná campos, servicios y mensajes desde un solo lugar.", "Gerencie terras, serviços e mensagens em um só lugar.", "Manage land, services and messages in one place.")}</p>
+                <Link href={user ? "/dashboard" : "/login"} onClick={() => setMenuAbierto(false)} className="rc-mobile-drawer__account-btn">
+                  <UserRound size={17} aria-hidden="true" />
+                  {user ? regionalText(activeCountry, "Ir a mi cuenta", "Ir para minha conta", "Go to my account") : regionalText(activeCountry, "Ingresar", "Entrar", "Sign in")}
+                  <ArrowRight size={16} aria-hidden="true" />
+                </Link>
+              </div>
+            </div>
             <nav
               className="mobile-menu-nav"
               onClick={() => setMenuAbierto(false)}

@@ -17,7 +17,7 @@ export default function ListingExplorerToolbar({
   return (
     <nav className="rc-explorer-toolbar" aria-label={ariaLabel}>
       <Link className="rc-explorer-toolbar__map" href={mapHref}>
-        {mapLabel} <span aria-hidden="true">↗</span>
+        {mapLabel}
       </Link>
       <ListingCountrySelector country={country} />
       <Link className="rc-explorer-toolbar__related" href={relatedHref}>{relatedLabel}</Link>

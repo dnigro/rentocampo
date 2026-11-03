@@ -1,0 +1,614 @@
+/*
+ * PR #319 — interior editorial corporativo, acotado a las pantallas de producto.
+ * Paleta aprobada del home: azul marino, azul petróleo, grises suaves.
+ * No modifica la portada, los datos, los permisos ni el flujo del chat.
+ */
+:root {
+  --rc-ins-navy:#11283f;
+  --rc-ins-navy-hover:#234761;
+  --rc-ins-steel:#365f7a;
+  --rc-ins-ink:#19354b;
+  --rc-ins-muted:#647482;
+  --rc-ins-paper:#f3f5f6;
+  --rc-ins-line:#d8e1e7;
+}
+/* Perfil desktop, web móvil y editor App Lite (mismo PerfilForm). */
+html body :is(.app-shell,.lite-app) .perfil-page.page-container{
+  max-width:1220px!important;
+  width:100%;
+  margin-inline:auto!important;
+  padding:clamp(20px,3vw,40px) clamp(16px,3.5vw,48px) 76px!important;
+  background:transparent!important;
+  color:var(--rc-ins-ink);
+}
+html body :is(.app-shell,.lite-app) .perfil-page>.page-header{
+  text-align:left!important;justify-content:flex-start!important;
+  padding:0 0 22px!important;margin:0 auto 25px!important;
+  border-bottom:1px solid var(--rc-ins-line)!important;
+}
+html body :is(.app-shell,.lite-app) .perfil-page>.page-header>div{text-align:left!important}
+html body :is(.app-shell,.lite-app) .perfil-page .page-title{
+  font-family:var(--font-dm-sans),Arial,sans-serif!important;
+  font-weight:700!important;font-size:clamp(34px,3.6vw,52px)!important;
+  line-height:1.08!important;letter-spacing:-.04em!important;
+  text-transform:none!important;color:var(--rc-ins-navy)!important;
+}
+html body :is(.app-shell,.lite-app) .perfil-page .page-subtitle{
+  font-size:clamp(15px,1.3vw,17px)!important;color:var(--rc-ins-muted)!important;
+}
+html body :is(.app-shell,.lite-app) .perfil-page .perfil-layout{
+  display:grid!important;grid-template-columns:minmax(230px,300px) minmax(0,1fr)!important;
+  gap:18px!important;align-items:start;max-width:none!important;
+}
+html body :is(.app-shell,.lite-app) .perfil-page .perfil-layout>.perfil-avatar-panel{
+  grid-column:1!important;grid-row:1!important;display:block!important;
+  position:static!important;padding:22px!important;
+  background:#eef2f4!important;border-left:3px solid var(--rc-ins-steel)!important;
+}
+html body :is(.app-shell,.lite-app) .perfil-page .perfil-layout>.perfil-main-form{
+  grid-column:2!important;grid-row:1!important;padding:28px!important;
+}
+html body :is(.app-shell,.lite-app) .perfil-page .perfil-layout>.perfil-section:not(.perfil-avatar-panel):not(.perfil-main-form){
+  grid-column:2!important;grid-row:auto!important;
+}
+html body :is(.app-shell,.lite-app) .perfil-page .perfil-section{
+  background:#fff!important;border:1px solid var(--rc-ins-line)!important;
+  border-radius:12px!important;box-shadow:none!important;
+}
+html body :is(.app-shell,.lite-app) .perfil-page .perfil-section-title{
+  display:block;font-family:var(--font-dm-sans),Arial,sans-serif!important;
+  font-weight:750!important;font-size:clamp(19px,1.9vw,25px)!important;
+  line-height:1.25!important;letter-spacing:-.02em!important;
+  text-transform:none!important;color:var(--rc-ins-navy)!important;
+  border:0!important;padding:0!important;margin:0 0 12px!important;
+}
+html body :is(.app-shell,.lite-app) .perfil-page .perfil-section-description{
+  color:var(--rc-ins-muted)!important;font-size:14px!important;line-height:1.5!important;
+}
+html body :is(.app-shell,.lite-app) .perfil-page .perfil-avatar-panel .avatar-editor{
+  flex-direction:column!important;align-items:flex-start!important;gap:16px!important;
+  justify-content:flex-start!important;
+}
+html body :is(.app-shell,.lite-app) .perfil-page .avatar-preview{
+  width:104px!important;height:104px!important;flex-shrink:0;
+  border:2px solid var(--rc-ins-line)!important;background:#e1e8ed!important;
+  box-shadow:none!important;
+}
+html body :is(.app-shell,.lite-app) .perfil-page .avatar-info{
+  width:100%!important;min-width:0!important;align-items:flex-start!important;
+}
+html body :is(.app-shell,.lite-app) .perfil-page .perfil-role-options{
+  display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:10px!important;
+}
+html body :is(.app-shell,.lite-app) .perfil-page .perfil-role-option{
+  padding:14px!important;min-height:96px!important;background:#f8fafb!important;
+  border:1px solid var(--rc-ins-line)!important;border-radius:9px!important;
+}
+html body :is(.app-shell,.lite-app) .perfil-page .perfil-role-option:has(input:checked){
+  background:#eaf1f5!important;border-color:var(--rc-ins-steel)!important;
+}
+html body :is(.app-shell,.lite-app) .perfil-page .perfil-role-option input{accent-color:var(--rc-ins-navy)!important}
+html body :is(.app-shell,.lite-app) .perfil-page .perfil-role-option strong{color:var(--rc-ins-navy)!important;font-size:15px!important}
+html body :is(.app-shell,.lite-app) .perfil-page .perfil-role-option small{color:var(--rc-ins-muted)!important}
+html body :is(.app-shell,.lite-app) .perfil-page .form-label{color:var(--rc-ins-ink)!important;font-size:14px!important;font-weight:700!important}
+html body :is(.app-shell,.lite-app) .perfil-page :is(.form-input,.form-textarea){
+  min-height:46px!important;background:#fff!important;color:var(--rc-ins-ink)!important;
+  border:1px solid #c9d5de!important;border-radius:8px!important;box-shadow:none!important;
+}
+html body :is(.app-shell,.lite-app) .perfil-page :is(.form-input,.form-textarea):focus-visible{
+  outline:2px solid var(--rc-ins-steel)!important;outline-offset:1px!important;
+}
+html body :is(.app-shell,.lite-app) .perfil-page .form-hint{color:var(--rc-ins-muted)!important}
+html body :is(.app-shell,.lite-app) .perfil-page :is(button.btn-primary-lg,button.btn-secondary-lg){
+  min-height:46px!important;width:auto!important;min-width:150px!important;
+  padding:10px 20px!important;border-radius:999px!important;
+  font:700 15px/1.25 var(--font-dm-sans),Arial,sans-serif!important;
+  text-transform:none!important;letter-spacing:0!important;box-shadow:none!important;
+}
+html body :is(.app-shell,.lite-app) .perfil-page button.btn-primary-lg{
+  background:var(--rc-ins-navy)!important;border:1px solid var(--rc-ins-navy)!important;color:#fff!important;
+}
+html body :is(.app-shell,.lite-app) .perfil-page button.btn-primary-lg:hover:not(:disabled){
+  background:var(--rc-ins-navy-hover)!important;
+}
+html body :is(.app-shell,.lite-app) .perfil-page button.btn-secondary-lg{
+  background:#fff!important;border:1px solid #aebfcb!important;color:var(--rc-ins-navy)!important;
+}
+html body :is(.app-shell,.lite-app) .perfil-page button.btn-secondary-lg:hover:not(:disabled){
+  background:#e8eff3!important;border-color:var(--rc-ins-steel)!important;
+}
+html body :is(.app-shell,.lite-app) .perfil-page .perfil-danger-zone{
+  border-color:#e4d5d4!important;background:#fffafa!important;
+}
+html body :is(.app-shell,.lite-app) .perfil-page .perfil-danger-zone .perfil-section-title{
+  color:#832d32!important;
+}
+/* Dashboard: navegación en tarjetas sobrias, sin números ornamentales ni emojis enormes. */
+html body .app-shell .dashboard-page{max-width:1180px!important;padding:24px clamp(16px,3vw,40px) 72px!important}
+html body .app-shell .dashboard-header{
+  min-height:0!important;background:#edf2f5!important;border:1px solid var(--rc-ins-line)!important;
+  border-left:4px solid var(--rc-ins-steel)!important;border-radius:12px!important;
+  padding:25px clamp(20px,3vw,36px)!important;margin-bottom:22px!important;
+  color:var(--rc-ins-ink)!important;
+}
+html body .app-shell .dashboard-title{
+  font:700 clamp(30px,3vw,46px)/1.12 var(--font-dm-sans),Arial,sans-serif!important;
+  text-transform:none!important;letter-spacing:-.035em!important;color:var(--rc-ins-navy)!important;
+}
+html body .app-shell .dashboard-header .badge-tipo{
+  background:#fff!important;color:var(--rc-ins-navy)!important;
+  border:1px solid #b8c9d5!important;border-radius:999px!important;
+}
+html body .app-shell .dashboard-cards{
+  display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:14px!important;
+}
+html body .app-shell .dashboard-cards .dash-card{
+  min-height:155px!important;padding:22px!important;justify-content:flex-start!important;
+  border:1px solid var(--rc-ins-line)!important;background:#fff!important;
+  border-radius:12px!important;box-shadow:none!important;transform:none!important;
+}
+html body .app-shell .dashboard-cards .dash-card::before{display:none!important;content:none!important}
+html body .app-shell .dashboard-cards .dash-card:hover{
+  border-color:var(--rc-ins-steel)!important;background:#f0f5f8!important;
+}
+html body .app-shell .dashboard-cards .dash-card-icon{
+  font-size:29px!important;min-height:34px!important;margin-bottom:10px!important;
+  filter:grayscale(1)!important;
+}
+html body .app-shell .dashboard-cards .dash-card-label{
+  color:var(--rc-ins-navy)!important;font-size:20px!important;font-weight:750!important;
+}
+html body .app-shell .dashboard-cards .dash-card-desc{
+  color:var(--rc-ins-muted)!important;font-size:14px!important;
+}
+/* Formularios de publicación y páginas de gestión. */
+html body .app-shell .campo-form,
+html body .app-shell .servicio-publicacion-form{
+  max-width:1080px!important;margin-inline:auto!important;padding:24px!important;
+  background:#fff!important;border:1px solid var(--rc-ins-line)!important;border-radius:12px!important;
+  box-shadow:none!important;
+}
+html body .app-shell :is(.campo-form,.servicio-publicacion-form) .form-section{
+  background:#fff!important;border:0!important;border-bottom:1px solid var(--rc-ins-line)!important;
+  border-radius:0!important;box-shadow:none!important;padding:20px 0!important;
+}
+html body .app-shell :is(.campo-form,.servicio-publicacion-form) .form-section-title{
+  background:transparent!important;color:var(--rc-ins-navy)!important;
+  font:750 21px/1.3 var(--font-dm-sans),Arial,sans-serif!important;
+  border:0!important;text-transform:none!important;
+}
+html body .app-shell :is(.campo-form,.servicio-publicacion-form) .form-section-number{display:none!important}
+html body .app-shell .main-content>.page-container:not(.perfil-page) .btn-primary-lg{
+  min-height:46px!important;background:var(--rc-ins-navy)!important;color:#fff!important;
+  border:1px solid var(--rc-ins-navy)!important;border-radius:999px!important;
+  padding:10px 22px!important;font-size:15px!important;letter-spacing:0!important;
+  text-transform:none!important;
+}
+html body .app-shell .main-content>.page-container:not(.perfil-page) .page-title{
+  color:var(--rc-ins-navy)!important;
+  font-family:var(--font-dm-sans),Arial,sans-serif!important;
+  text-transform:none!important;
+}
+/* Conversaciones: contenedores limpios; no mover el composer ni alterar el envío. */
+html body .app-shell .mensajes-container :is(.hilo-item,.mensajes-empty-state){
+  border:1px solid var(--rc-ins-line)!important;background:#fff!important;
+  border-radius:12px!important;box-shadow:none!important;
+}
+html body .app-shell .mensajes-container .hilo-item:hover{
+  background:#f0f5f8!important;border-color:var(--rc-ins-steel)!important;
+}
+html body .app-shell .mensajes-container :is(.hilo-nombre,.hilo-header-nombre,.mensajes-empty-state h2){
+  color:var(--rc-ins-navy)!important;
+}
+html body .app-shell .mensajes-container .mensajes-empty-icon{
+  background:#e8eff3!important;color:var(--rc-ins-steel)!important;
+}
+/* Barra explorar: Ver en mapa y Explorar servicios/campos tienen la misma altura. */
+html body .app-shell .rc-explorer-toolbar{
+  align-items:center!important;gap:12px!important;
+  border-bottom:1px solid var(--rc-ins-line)!important;
+}
+html body .app-shell .rc-explorer-toolbar :is(a.rc-explorer-toolbar__map,a.rc-explorer-toolbar__related){
+  display:inline-flex!important;align-items:center!important;justify-content:center!important;
+  min-height:48px!important;min-width:0;padding:11px 20px!important;
+  margin:0!important;border:1px solid var(--rc-ins-navy)!important;border-radius:999px!important;
+  font:750 14px/1.2 var(--font-dm-sans),Arial,sans-serif!important;
+  text-align:center!important;text-decoration:none!important;white-space:normal!important;
+}
+html body .app-shell .rc-explorer-toolbar a.rc-explorer-toolbar__map{
+  background:var(--rc-ins-navy)!important;color:#fff!important;
+}
+html body .app-shell .rc-explorer-toolbar a.rc-explorer-toolbar__related{
+  margin-left:auto!important;background:#fff!important;color:var(--rc-ins-navy)!important;
+}
+html body .app-shell .rc-explorer-toolbar a:hover{background:#dfeaf0!important;color:var(--rc-ins-navy)!important}
+html body .app-shell .rc-explorer-toolbar .rc-explorer-country select{
+  min-height:48px!important;border:1px solid #b7c8d3!important;
+  border-radius:999px!important;color:var(--rc-ins-navy)!important;background:#fff!important;
+}
+/* Inicio App Lite: solo pantalla de perfil, sin alterar el resto de Lite. */
+html body .lite-app .rc-lite-profile{
+  max-width:900px!important;margin-inline:auto!important;min-height:85dvh!important;
+  background:var(--rc-ins-paper)!important;color:var(--rc-ins-navy)!important;
+  padding:24px clamp(16px,4vw,30px) 108px!important;
+}
+html body .lite-app .rc-lite-profile__title{
+  font:750 clamp(31px,6vw,42px)/1.12 var(--font-dm-sans),Arial,sans-serif!important;
+  letter-spacing:-.04em!important;color:var(--rc-ins-navy)!important;
+}
+html body .lite-app .rc-lite-profile__subtitle,
+html body .lite-app .rc-lite-profile__hint{color:var(--rc-ins-muted)!important}
+html body .lite-app .rc-lite-profile__eyebrow{color:var(--rc-ins-steel)!important}
+html body .lite-app .rc-lite-profile__photo{height:166px!important;border-radius:12px!important}
+html body .lite-app .rc-lite-profile__links{gap:10px!important}
+html body .lite-app .rc-lite-profile__link{
+  background:#fff!important;border:1px solid var(--rc-ins-line)!important;
+  color:var(--rc-ins-navy)!important;border-radius:10px!important;
+  font-size:16px!important;font-weight:750!important;padding:15px 18px!important;
+}
+html body .lite-app .rc-lite-profile__link:hover{
+  background:#ecf3f7!important;border-color:var(--rc-ins-steel)!important;
+}
+html body .lite-app .rc-lite-profile .rc-lite-account{
+  background:#fff!important;border:1px solid var(--rc-ins-line)!important;
+  border-radius:10px!important;box-shadow:none!important;
+}
+html body .lite-app .rc-lite-profile .rc-lite-account button{
+  border:1px solid var(--rc-ins-steel)!important;border-radius:999px!important;
+  color:var(--rc-ins-navy)!important;
+}
+html body .lite-app .rc-lite-profile__nav{
+  background:#fff!important;border-top:1px solid var(--rc-ins-line)!important;
+  color:var(--rc-ins-navy)!important;
+}
+@media(max-width:900px){
+  html body :is(.app-shell,.lite-app) .perfil-page .perfil-layout{
+    grid-template-columns:1fr!important;
+  }
+  html body :is(.app-shell,.lite-app) .perfil-page .perfil-layout>.perfil-avatar-panel,
+  html body :is(.app-shell,.lite-app) .perfil-page .perfil-layout>.perfil-main-form,
+  html body :is(.app-shell,.lite-app) .perfil-page .perfil-layout>.perfil-section:not(.perfil-avatar-panel):not(.perfil-main-form){
+    grid-column:1!important;grid-row:auto!important;
+  }
+  html body :is(.app-shell,.lite-app) .perfil-page .perfil-layout>.perfil-avatar-panel{
+    padding:20px!important;
+  }
+  html body :is(.app-shell,.lite-app) .perfil-page .perfil-avatar-panel .avatar-editor{
+    flex-direction:row!important;align-items:center!important;
+  }
+}
+@media(max-width:700px){
+  html body .app-shell .dashboard-cards{grid-template-columns:1fr!important}
+  html body .app-shell .dashboard-header{padding:20px!important;flex-direction:column-reverse!important}
+  html body :is(.app-shell,.lite-app) .perfil-page .perfil-layout>.perfil-main-form{padding:20px!important}
+  html body :is(.app-shell,.lite-app) .perfil-page .perfil-role-options{
+    grid-template-columns:1fr!important;
+  }
+  html body .app-shell .rc-explorer-toolbar a.rc-explorer-toolbar__related{
+    width:100%!important;margin:0!important;
+  }
+  html body .app-shell .rc-explorer-toolbar :is(a.rc-explorer-toolbar__map,.rc-explorer-country){
+    flex:1 1 155px!important;
+  }
+}
+@media(max-width:400px){
+  html body :is(.app-shell,.lite-app) .perfil-page .perfil-avatar-panel .avatar-editor{
+    flex-direction:column!important;align-items:flex-start!important;
+  }
+  html body .app-shell .rc-explorer-toolbar :is(a.rc-explorer-toolbar__map,.rc-explorer-country){
+    flex:1 1 100%!important;
+  }
+}
+
+
+/* PR #319 — ajuste editorial siguiendo la matriz aprobada. */
+/* En la navegación interna los encabezados usan foto real y densidad compacta. */
+html body .app-shell .dashboard-header{
+  background:
+    linear-gradient(98deg,#e9f1f5 0%,#edf3f6 46%,rgba(237,243,246,.84) 69%,rgba(237,243,246,.25) 100%),
+    url("/rentocampo-hero-campo-bn-1920x1080.webp") right 42% / cover no-repeat!important;
+  border-color:#ccdbe4!important;
+}
+html body .app-shell .dashboard-header .badge-tipo{
+  padding:9px 14px!important;font-size:12px!important;font-weight:750!important;
+}
+html body .app-shell .dashboard-cards .dash-card{
+  gap:4px!important;min-height:140px!important;
+  padding:20px 22px!important;
+  border-color:#d2dfe7!important;
+  background:#fff!important;
+}
+html body .app-shell .dashboard-cards .dash-card-icon{
+  width:40px!important;height:40px!important;
+  display:grid!important;place-items:center!important;
+  color:#315e7d!important;background:#eaf1f5!important;
+  border-radius:9px!important;filter:none!important;margin-bottom:11px!important;
+}
+html body .app-shell .dashboard-cards .dash-card-icon svg{
+  width:23px!important;height:23px!important;stroke:#315e7d!important;
+  stroke-width:1.85!important;
+}
+html body .app-shell .dashboard-cards .dash-card-label{font-size:19px!important;line-height:1.25!important}
+html body .app-shell .dashboard-cards .dash-card-desc{font-size:13px!important;line-height:1.4!important}
+html body .app-shell .dashboard-return a{
+  color:#244e6c!important;font-size:14px!important;
+  min-height:42px!important;padding:9px 16px!important;
+  border-radius:999px!important;border:1px solid #b9ccd7!important;
+  background:#fff!important;text-decoration:none!important;
+}
+html body .app-shell .dashboard-return a:hover{
+  background:#eaf1f5!important;color:#11283f!important;
+}
+/* Formularios: títulos tipográficos controlados, entradas y grupos con ritmo visual. */
+html body .app-shell :is(.campo-form,.servicio-publicacion-form) :is(.form-section-title,.form-section-heading){
+  font-family:var(--font-dm-sans),Arial,sans-serif!important;
+  font-size:clamp(18px,2.1vw,24px)!important;line-height:1.28!important;
+  font-weight:750!important;letter-spacing:-.025em!important;text-transform:none!important;
+  background:transparent!important;color:#18374f!important;
+  border:0!important;box-shadow:none!important;
+}
+html body .app-shell :is(.campo-form,.servicio-publicacion-form) :is(.form-input,.form-select,.form-textarea,textarea,input,select):not([type="checkbox"]):not([type="radio"]):not([type="hidden"]):not([type="file"]){
+  max-width:100%;min-width:0;
+  border-color:#bfced8!important;border-radius:9px!important;
+  background:#fff!important;color:#19354b!important;
+  box-shadow:none!important;
+}
+html body .app-shell :is(.campo-form,.servicio-publicacion-form) :is(input,textarea,select):focus-visible{
+  outline:2px solid #365f7a!important;outline-offset:1px!important;
+}
+html body .app-shell :is(.campo-form,.servicio-publicacion-form) .form-label{
+  font-family:var(--font-dm-sans),Arial,sans-serif!important;font-weight:700!important;
+  font-size:14px!important;color:#1b394f!important;
+}
+html body .app-shell :is(.campo-form,.servicio-publicacion-form) .form-hint{
+  color:#647785!important;font-size:12px!important;line-height:1.45!important;
+}
+html body .app-shell .main-content>.page-container:not(.perfil-page)>.page-header{
+  border-bottom:1px solid #d5e0e7!important;margin-bottom:24px!important;
+}
+html body .app-shell .main-content>.page-container:not(.perfil-page)>.page-header .page-title{
+  font-family:var(--font-dm-sans),Arial,sans-serif!important;
+  font-size:clamp(30px,3.4vw,44px)!important;line-height:1.12!important;
+  font-weight:760!important;letter-spacing:-.035em!important;
+  text-transform:none!important;
+}
+html body .app-shell .main-content>.page-container:not(.perfil-page)>.page-header .page-subtitle{
+  color:#687c8c!important;font-size:clamp(14px,1.35vw,16px)!important;
+}
+/* Listados de gestión. Conservan rutas, permisos y estados. */
+html body .app-shell .campo-card-admin,
+html body .app-shell .servicio-card,
+html body .app-shell .empty-state,
+html body .app-shell .role-gate-card{
+  background:#fff!important;border:1px solid #d4e0e8!important;border-radius:12px!important;
+  box-shadow:none!important;
+}
+html body .app-shell .campo-card-admin :is(.campo-card-titulo,.campo-card-datos){
+  color:#15384f!important;
+}
+html body .app-shell .campo-card-admin :is(.btn-action,a.btn-action),
+html body .app-shell .campo-card-actions :is(a,button){
+  border-radius:999px!important;
+  border:1px solid #b7cbd7!important;
+  background:#fff!important;color:#183a53!important;
+  text-transform:none!important;
+}
+html body .app-shell .campo-card-actions :is(a,button):hover{
+  border-color:#365f7a!important;background:#e8f0f5!important;
+}
+html body .app-shell .rc-explorer-header .explorador-title{
+  font-family:var(--font-dm-sans),Arial,sans-serif!important;
+  font-weight:760!important;font-size:clamp(31px,4vw,51px)!important;
+  text-transform:none!important;
+}
+/* Mensajería: el scroll queda SOLO dentro del historial. El editor no flota ni tapa burbujas. */
+html body .app-shell .hilo-container{
+  height:clamp(540px,72dvh,820px)!important;
+  min-height:0!important;max-width:1080px!important;
+  display:flex!important;flex-direction:column!important;
+  overflow:hidden!important;isolation:isolate;
+  background:#fff!important;border:1px solid #d3e0e8!important;
+  border-radius:13px!important;box-shadow:none!important;
+}
+html body .app-shell .hilo-mensajes{
+  flex:1 1 auto!important;min-height:155px!important;
+  width:100%;overflow-y:auto!important;overflow-x:hidden!important;
+  padding:22px 22px 26px!important;scrollbar-gutter:stable;
+  overscroll-behavior:contain;scroll-padding-bottom:24px;
+  background:#fff!important;
+}
+html body .app-shell .hilo-mensajes .mensaje-row{
+  max-width:100%;min-width:0;flex-shrink:0!important;
+}
+html body .app-shell .hilo-mensajes .mensaje-burbuja-wrap{
+  max-width:min(75%,620px)!important;
+}
+html body .app-shell .mensaje-burbuja{
+  white-space:pre-wrap;overflow-wrap:anywhere;
+  border-radius:15px!important;font-size:14px!important;line-height:1.5!important;
+  padding:11px 15px!important;
+}
+html body .app-shell .mensaje-burbuja.burbuja-mia{
+  background:#244f70!important;color:#fff!important;
+  border-bottom-right-radius:5px!important;
+}
+html body .app-shell .mensaje-burbuja.burbuja-otra{
+  background:#edf2f5!important;color:#18384e!important;
+  border-bottom-left-radius:5px!important;
+}
+html body .app-shell .mensaje-compose{
+  position:relative!important;inset:auto!important;z-index:1!important;
+  flex:0 0 auto!important;min-width:0!important;max-width:100%!important;
+  display:grid!important;grid-template-columns:minmax(0,1fr) minmax(124px,auto)!important;
+  gap:7px 12px!important;margin:0!important;padding:13px 17px!important;
+  border:0!important;border-top:1px solid #d6e2e9!important;
+  border-radius:0!important;background:#f4f7f9!important;color:#19384f!important;
+  box-shadow:none!important;
+}
+html body .app-shell .mensaje-compose-label{
+  grid-column:1 / -1!important;margin:0!important;
+  color:#19384f!important;font:750 13px/1.3 var(--font-dm-sans),Arial,sans-serif!important;
+}
+html body .app-shell .mensaje-compose textarea.mensaje-draft{
+  grid-column:1!important;grid-row:2!important;align-self:stretch!important;
+  box-sizing:border-box!important;min-width:0!important;
+  width:100%!important;min-height:62px!important;max-height:115px!important;
+  padding:12px 14px!important;border:1px solid #b9cdda!important;
+  border-radius:10px!important;background:#fff!important;
+  color:#19384f!important;font:500 15px/1.4 var(--font-dm-sans),Arial,sans-serif!important;
+  resize:vertical!important;
+}
+html body .app-shell .mensaje-compose textarea.mensaje-draft:focus-visible{
+  outline:2px solid #315e7d!important;outline-offset:1px!important;
+}
+html body .app-shell .mensaje-compose-meta{
+  grid-column:1!important;grid-row:3!important;justify-self:end!important;
+  color:#687b88!important;font-size:11px!important;
+}
+html body .app-shell .mensaje-compose-note{
+  grid-column:1 / -1!important;grid-row:4!important;
+  padding:0!important;margin:0!important;background:transparent!important;
+  color:#61788a!important;font-size:11px!important;line-height:1.35!important;
+}
+html body .app-shell .mensaje-compose button.mensaje-compose-submit{
+  grid-column:2!important;grid-row:2!important;
+  align-self:stretch!important;min-width:124px!important;min-height:58px!important;
+  padding:12px 18px!important;border:1px solid #11283f!important;
+  border-radius:10px!important;background:#11283f!important;
+  color:#fff!important;font:750 14px/1.25 var(--font-dm-sans),Arial,sans-serif!important;
+  text-transform:none!important;letter-spacing:0!important;
+  box-shadow:none!important;
+}
+html body .app-shell .mensaje-compose button.mensaje-compose-submit:disabled{
+  background:#d4dce1!important;border-color:#d4dce1!important;
+  color:#5b6f7d!important;opacity:1!important;cursor:not-allowed!important;
+}
+html body .app-shell .mensaje-compose button.mensaje-compose-submit:hover:not(:disabled){
+  background:#244e6e!important;border-color:#244e6e!important;
+}
+html body .app-shell .hilo-header{
+  flex-wrap:wrap!important;gap:12px!important;
+  border-bottom:1px solid #d6e2e9!important;margin-bottom:16px!important;
+}
+html body .app-shell .hilo-header :is(.hilo-header-nombre,.hilo-header-campo){
+  color:#153851!important;
+}
+html body .app-shell .hilo-header .hilo-back{
+  display:inline-flex;align-items:center;
+  min-height:38px;padding:8px 13px;border:1px solid #c1d0d8;
+  border-radius:999px;color:#234960!important;background:#fff;
+}
+/* Prioridad: pantalla táctil 320-430 px y App Lite compartida. */
+@media(max-width:700px){
+  html body .app-shell .dashboard-header{
+    min-height:150px!important;
+    background:linear-gradient(97deg,#e9f1f5 0%,rgba(237,243,246,.91) 70%,rgba(237,243,246,.60) 100%),
+      url("/rentocampo-hero-campo-bn-1920x1080.webp") right center/cover no-repeat!important;
+  }
+  html body .app-shell .dashboard-cards{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important;
+  }
+  html body .app-shell .dashboard-cards .dash-card{
+    padding:15px!important;min-height:136px!important;
+  }
+  html body .app-shell .dashboard-cards .dash-card-label{font-size:16px!important}
+  html body .app-shell .dashboard-cards .dash-card-desc{font-size:12px!important}
+  html body .app-shell .hilo-container{height:clamp(540px,73dvh,760px)!important}
+  html body .app-shell .hilo-mensajes{padding:17px 13px 22px!important}
+  html body .app-shell .hilo-mensajes .mensaje-burbuja-wrap{max-width:86%!important}
+  html body .app-shell .mensaje-compose{
+    padding:12px!important;grid-template-columns:minmax(0,1fr) 112px!important;gap:6px 9px!important;
+  }
+  html body .app-shell .mensaje-compose button.mensaje-compose-submit{
+    min-width:112px!important;min-height:54px!important;padding:9px!important;
+  }
+  html body .app-shell :is(.campo-form,.servicio-publicacion-form){padding:16px!important}
+}
+@media(max-width:350px){
+  html body .app-shell .dashboard-cards{grid-template-columns:1fr!important}
+  html body .app-shell .mensaje-compose{grid-template-columns:minmax(0,1fr)!important}
+  html body .app-shell .mensaje-compose button.mensaje-compose-submit{
+    grid-column:1!important;grid-row:5!important;min-height:45px!important;
+  }
+}
+
+
+/* Cabeceras editoriales internas: una misma familia para perfiles y formularios. */
+html body .app-shell .perfil-page>.page-header,
+html body .app-shell .main-content>.page-container:not(.perfil-page)>.page-header{
+  position:relative!important;overflow:hidden!important;
+  padding:24px 28px!important;
+  min-height:120px!important;
+  margin-bottom:22px!important;
+  background:
+    linear-gradient(95deg,#e7eff4 0%,#edf3f6 49%,rgba(237,243,246,.90) 66%,rgba(237,243,246,.25) 100%),
+    url("/rentocampo-hero-campo-bn-1920x1080.webp") right center/cover no-repeat!important;
+  border:1px solid #d1e0e8!important;
+  border-radius:12px!important;
+  align-items:center!important;
+}
+html body .app-shell .perfil-page>.page-header>div,
+html body .app-shell .main-content>.page-container:not(.perfil-page)>.page-header>div{
+  position:relative!important;z-index:1!important;max-width:78%!important;
+}
+html body .app-shell .perfil-page>.page-header .page-title,
+html body .app-shell .main-content>.page-container:not(.perfil-page)>.page-header .page-title{
+  color:#102e47!important;
+}
+html body .app-shell .perfil-page>.page-header .page-subtitle,
+html body .app-shell .main-content>.page-container:not(.perfil-page)>.page-header .page-subtitle{
+  color:#435e70!important;
+}
+html body .app-shell .hilo-mensajes>div{
+  flex-shrink:0!important;
+}
+@media(max-width:700px){
+  html body .app-shell .perfil-page>.page-header,
+  html body .app-shell .main-content>.page-container:not(.perfil-page)>.page-header{
+    min-height:112px!important;padding:17px 18px!important;
+    background:
+      linear-gradient(95deg,#e7eff4 0%,rgba(237,243,246,.96) 67%,rgba(237,243,246,.7) 100%),
+      url("/rentocampo-hero-campo-bn-1920x1080.webp") right center/cover no-repeat!important;
+    border-radius:11px!important;
+  }
+  html body .app-shell .perfil-page>.page-header>div,
+  html body .app-shell .main-content>.page-container:not(.perfil-page)>.page-header>div{
+    max-width:100%!important;
+  }
+}
+
+
+/* Tipografía editorial sin itálicas decorativas en títulos de formulario. */
+html body .app-shell :is(.campo-form,.servicio-publicacion-form) .form-section-title-editorial{
+  display:flex!important;align-items:center!important;flex-wrap:wrap!important;
+  gap:10px!important;border-bottom:1px solid #d9e3e9!important;
+  padding:0 0 13px!important;margin:0 0 19px!important;
+}
+html body .app-shell :is(.campo-form,.servicio-publicacion-form) .form-section-title-editorial .form-section-copy{
+  font:750 clamp(18px,2.1vw,23px)/1.3 var(--font-dm-sans),Arial,sans-serif!important;
+  letter-spacing:-.02em!important;color:#17384f!important;
+}
+html body .app-shell :is(.campo-form,.servicio-publicacion-form) .form-section-title-editorial .form-section-copy em{
+  font-family:var(--font-dm-sans),Arial,sans-serif!important;font-size:inherit!important;line-height:inherit!important;font-weight:600!important;font-style:normal!important;color:#637787!important;
+}
+html body .app-shell :is(.campo-form,.servicio-publicacion-form) .form-section-title-editorial .form-section-icon{
+  display:inline-flex!important;align-items:center!important;justify-content:center!important;
+  min-height:34px!important;width:34px!important;
+  background:#eaf1f5!important;color:#315e7d!important;
+  border:1px solid #d5e0e8!important;border-radius:9px!important;
+}
+html body .app-shell :is(.campo-form,.servicio-publicacion-form) .form-section-title-editorial .form-section-icon svg{
+  width:19px!important;height:19px!important;stroke:#315e7d!important;
+}
+html body .app-shell :is(.campo-form,.servicio-publicacion-form) :is(button.btn-primary-lg,button.btn-secondary-lg,button.btn-submit){
+  min-height:48px!important;width:auto!important;max-width:100%!important;
+  padding:11px 22px!important;border-radius:999px!important;
+  font:750 14px/1.3 var(--font-dm-sans),Arial,sans-serif!important;
+  text-transform:none!important;letter-spacing:0!important;
+}
+html body .app-shell :is(.campo-form,.servicio-publicacion-form) :is(button.btn-primary-lg,button.btn-submit){
+  color:#fff!important;background:#11283f!important;border:1px solid #11283f!important;
+}
+html body .app-shell :is(.campo-form,.servicio-publicacion-form) button.btn-secondary-lg{
+  color:#11283f!important;background:#fff!important;border:1px solid #b5c9d5!important;
+}
