@@ -1466,3 +1466,12 @@
   .rc-regions-showcase__card p { margin-bottom: 16px; }
   .rc-regions-showcase__action { font-size: 11px; }
 }
+
+/* Results counter is a matching navy button aligned with Explore controls. */
+.rc-explorer-toolbar__count,.rc-explorer-toolbar__count:visited{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:48px;padding:12px 24px;border-radius:999px;border:1px solid #102a43;background:#102a43;color:#fff;text-decoration:none;font-size:14px;font-weight:800;white-space:nowrap}
+.rc-explorer-toolbar__count:hover{background:#244760;color:#fff}
+.rc-explorer-toolbar__map,.rc-explorer-toolbar__map:visited,.rc-explorer-toolbar__related,.rc-explorer-toolbar__related:visited{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:12px 24px;border:1px solid #102a43;border-radius:999px;background:#102a43;color:#fff;text-decoration:none;font-size:14px;font-weight:800;white-space:nowrap;margin:0}
+.rc-explorer-toolbar__related,.rc-explorer-toolbar__related:visited{margin-left:auto;background:transparent;color:#102a43}
+.rc-explorer-toolbar__related:hover{background:#102a43;color:#fff}
+.rc-explorer-toolbar__count{margin-left:0}
+@media(max-width:700px){.rc-explorer-toolbar__count{flex:1 1 auto}.rc-explorer-toolbar__related{width:auto;flex:1 1 auto;text-align:center}}

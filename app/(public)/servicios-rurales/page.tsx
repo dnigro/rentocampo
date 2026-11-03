@@ -16,6 +16,7 @@ import DemandaZonasPanel from "@/components/campos/DemandaZonasPanel";
 import { regionalPublicationHref, regionalPublicationLabel } from "@/lib/publicacion-regional";
 import "@/styles/explorador.css";
 import "@/styles/servicios-rurales.css";
+import "@/styles/campos.css";
 
 const SITE_URL = "https://rentocampo.com";
 
@@ -210,6 +211,7 @@ export default async function ServiciosRuralesPage({
 
         <ListingExplorerToolbar
           country={pais}
+          count={pais==="US"?`${prestadores.length} providers found`:pais==="BR"?`${prestadores.length} prestadores encontrados`:`${prestadores.length} prestadores encontrados`}
           mapHref={`/campos/mapa?${mapParams.toString()}`}
           mapLabel={tt("Ver en mapa", "Ver no mapa")}
           relatedHref={`/campos?pais=${pais}`}
@@ -236,69 +238,22 @@ export default async function ServiciosRuralesPage({
               {prestadores.map((prestador) => {
                 const servicios = prestador.servicios_rurales ?? [];
                 return (
-                  <article className="prestador-card" data-demo={prestador.is_demo ? "true" : "false"} key={`${prestador.is_demo ? "demo" : "real"}-${prestador.publicacion_id ?? prestador.id}`}>
-                    {prestador.service_photo_url && (
-                      <div className="prestador-card__image">
-                        <Image
-                          src={prestador.service_photo_url}
-                          alt={`${prestador.nombre} · servicios rurales`}
-                          width={900}
-                          height={580}
-                        />
+                  <article className="campo-card-pub servicio-campo-card" data-demo={prestador.is_demo ? "true" : "false"} key={`${prestador.is_demo ? "demo" : "real"}-${prestador.publicacion_id ?? prestador.id}`}>
+                    <Link href={prestador.is_demo ? demoServiceRegisterHref(pais, Boolean(user)) : prestador.publicacion_id ? `/servicios-rurales/${prestador.publicacion_id}` : `/servicios-rurales?prestador=${prestador.id}`} className="campo-card-pub-img-link" aria-label={`Ver ficha de ${prestador.nombre}`}>
+                      <div className="campo-card-pub-img">
+                        {prestador.service_photo_url ? <Image src={prestador.service_photo_url} alt={`${prestador.nombre} · servicios rurales`} fill sizes="(max-width:720px) 100vw, (max-width:1100px) 50vw, 33vw" /> : <div className="campo-card-pub-placeholder">🌿</div>}
                       </div>
-                    )}
-
-                    <div className="prestador-card__top">
-                      <span className="prestador-card__badge">
-                        {prestador.is_demo ? "DEMO" : tt("SERVICIO RURAL","SERVIÇO RURAL")}
-                      </span>
-                      <span className="prestador-card__provincia">
-                        {prestador.provincia_servicio}
-                      </span>
-                    </div>
-
-                    <h3>{prestador.nombre}</h3>
-                    <p className="prestador-card__ubicacion">
-                      📍 {[prestador.localidad_servicio, prestador.provincia_servicio]
-                        .filter(Boolean)
-                        .join(", ")}
-                    </p>
-
-                    <div className="prestador-card__tags">
-                      {servicios.slice(0, 4).map((item) => (
-                        <span key={item}>{servicioLabel(item,pais)}</span>
-                      ))}
-                      {servicios.length > 4 && <span>+{servicios.length - 4}</span>}
-                    </div>
-
-                    {prestador.zona_servicio && (
-                      <p className="prestador-card__zona">
-                        <strong>{tt("Zona:", "Região:")}</strong> {prestador.zona_servicio}
-                      </p>
-                    )}
-
-                    {prestador.bio && (
-                      <p className="prestador-card__bio">{prestador.bio}</p>
-                    )}
-
-                    <div className="prestador-card__actions">
-                      {prestador.is_demo ? (
-                        <Link href={demoServiceRegisterHref(pais, Boolean(user))}>
-                          {regionalPublicationLabel({ country: pais, kind: "servicio", authenticated: Boolean(user) })} →
-                        </Link>
-                      ) : user?.id === prestador.id ? (
-                        <span className="prestador-card__own">
-                          {tt("Este servicio es tuyo", "Este serviço é seu")}
-                        </span>
-                      ) : !user ? (
-                        <Link href="/login?next=/servicios-rurales">
-                          {tt("Ingresá para consultar →", "Entre para consultar →")}
-                        </Link>
-                      ) : (
-                        <Link href={prestador.publicacion_id ? `/servicios-rurales/${prestador.publicacion_id}` : `/servicios-rurales?prestador=${prestador.id}`}>
-                          {tt("Ver ficha →", "Ver anúncio →")}
-                        </Link>
-                      )}
+                    </Link>
+                    <div className="campo-card-pub-body">
+                      <div className="campo-card-pub-top">
+                        {prestador.is_demo && <span className="aptitud-tag">DEMO</span>}
+                        <span className="aptitud-tag">{tt("Servicio rural","Serviço rural")}</span>
+                        <span className="operacion-tag">{prestador.provincia_servicio}</span>
+                      </div>
+                      <Link className="campo-card-pub-titulo-link" href={prestador.is_demo ? demoServiceRegisterHref(pais, Boolean(user)) : prestador.publicacion_id ? `/servicios-rurales/${prestador.publicacion_id}` : `/servicios-rurales?prestador=${prestador.id}`}><h3 className="campo-card-pub-titulo">{prestador.nombre}</h3></Link>
+                      <p className="campo-card-pub-ubicacion">📍 {[prestador.localidad_servicio,prestador.provincia_servicio].filter(Boolean).join(", ")}</p>
+                      <div className="servicio-campo-card__tags">{servicios.slice(0,3).map(item=><span className="aptitud-tag" key={item}>{servicioLabel(item,pais)}</span>)}{servicios.length>3 && <span className="aptitud-tag">+${servicios.length-3}</span>}</div>
+                      <div className="campo-card-pub-footer"><span className="campo-precio-consultar">{prestador.zona_servicio ? `${tt("Zona","Região")}: ${prestador.zona_servicio}` : tt("Contacto directo","Contato direto")}</span></div>
                     </div>
                   </article>
                 );

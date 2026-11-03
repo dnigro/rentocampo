@@ -1,3 +1,5 @@
+import GaleriaCarrusel from "@/components/campos/GaleriaCarrusel";
+import "@/styles/carrusel.css";
 import { demoServiceRegisterHref } from "@/data/visible-demo-services";
 import type { Metadata } from "next";
 import { resolveCountry } from "@/data/countries";
@@ -62,7 +64,7 @@ export default async function ServicioDetallePage({ params }: { params: Promise<
   const { data: { user } } = await supabase.auth.getUser();
 
   const { data: publicacion } = await supabase.from("servicios_publicaciones")
-    .select("id, propietario_id, servicios_rurales, foto_url, provincia, localidad, zona, detalle, activo, country_code")
+    .select("id, propietario_id, servicios_rurales, foto_url, fotos_urls, provincia, localidad, zona, detalle, activo, country_code")
     .eq("id", id).eq("activo", true).maybeSingle();
 
   const { data: demo } = !publicacion
@@ -126,13 +128,11 @@ export default async function ServicioDetallePage({ params }: { params: Promise<
           }}
         />
       )}
-      <Link href={`/campos/mapa?vista=servicios&pais=${pais}`} className="servicio-ficha-volver">
-        ← Volver al mapa de servicios
+      <Link href={`/servicios-rurales?pais=${pais}`} className="servicio-ficha-volver">
+        ← Volver al listado de servicios
       </Link>
 
-      <div className="servicio-ficha-galeria">
-        <Image src={foto} alt={titulo || nombre} fill sizes="(max-width: 768px) 100vw, 1180px" priority />
-      </div>
+      <GaleriaCarrusel fotos={(Array.isArray(publicacion?.fotos_urls) && publicacion.fotos_urls.length ? publicacion.fotos_urls : [foto]).map((url:string,orden:number)=>({url,orden}))} titulo={titulo || nombre} />
 
       <div className="ficha-body">
         <main className="ficha-main">

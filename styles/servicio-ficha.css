@@ -43,3 +43,32 @@
 .servicio-ficha-galeria { height: clamp(220px, 25vw, 320px); max-width: 960px; margin-left: auto; margin-right: auto; }
 .servicio-ficha-galeria img { filter: grayscale(1) contrast(1.07); object-fit: contain; }
 @media (max-width: 768px) { .servicio-ficha-galeria { height: 230px; max-width: 100%; } }
+
+/* Detail: keep the same sharp photo as the list card, without monochrome or contain letterboxing. */
+.app-shell .servicio-ficha .servicio-ficha-galeria{height:clamp(260px,30vw,420px);max-width:1180px;background:#e8e8e4;border-radius:16px}
+.app-shell .servicio-ficha .servicio-ficha-galeria img{object-fit:cover!important;object-position:center center!important;filter:none!important}
+.app-shell .servicio-ficha .ficha-seccion-titulo{font-size:clamp(20px,2vw,25px)!important;line-height:1.25}
+.app-shell .servicio-ficha .ficha-descripcion{font-size:clamp(16px,1.25vw,18px)!important;line-height:1.8!important;color:#24374a!important;white-space:pre-line;overflow-wrap:anywhere}
+.app-shell .servicio-ficha .servicio-ficha-volver{background:#102a43;color:#fff;border:1px solid #102a43;border-radius:999px;font-size:14px;padding:12px 24px}
+.app-shell .servicio-ficha .servicio-ficha-cta{background:#102a43;color:#fff;border-radius:999px;font-size:14px;text-transform:none}
+@media(max-width:768px){.app-shell .servicio-ficha .servicio-ficha-galeria{height:clamp(230px,55vw,340px)}.app-shell .servicio-ficha .ficha-descripcion{font-size:16px!important;line-height:1.7!important}}
+
+/* Full image in detail: preserve the entire composition at its natural 16:9 ratio. */
+.app-shell .servicio-ficha .servicio-ficha-galeria{width:100%;max-width:1180px;aspect-ratio:16/9;height:auto!important;min-height:0!important;background:#f3f2ef}
+.app-shell .servicio-ficha .servicio-ficha-galeria img{object-fit:contain!important;object-position:center center!important;filter:none!important}
+@media(max-width:768px){.app-shell .servicio-ficha .servicio-ficha-galeria{aspect-ratio:16/9;height:auto!important}}
+
+/* Override rc-detail gallery's fixed-height rules from ficha.css, which were cropping the photo. */
+.app-shell .rc-detail.servicio-ficha .servicio-ficha-galeria{width:100%;height:auto!important;aspect-ratio:16 / 9!important;max-width:none;min-height:0!important;overflow:hidden;position:relative}
+.app-shell .rc-detail.servicio-ficha .servicio-ficha-galeria img{object-fit:contain!important;object-position:center!important;filter:none!important}
+
+/* Reuse the exact land-detail viewer layout, but show the full image on service detail. */
+.app-shell .rc-detail.servicio-ficha .ficha-galeria{height:clamp(280px,43vw,520px);max-width:100%;margin-bottom:24px}
+.app-shell .rc-detail.servicio-ficha .galeria-principal img{object-fit:contain!important;object-position:center!important;filter:none!important;background:#f3f2ef}
+@media(max-width:768px){.app-shell .rc-detail.servicio-ficha .ficha-galeria{height:clamp(220px,65vw,360px)}}
+
+/* Make the service photo fill its viewer without cropping; remove unused empty pane. */
+.app-shell .rc-detail.servicio-ficha .ficha-galeria{height:auto!important;aspect-ratio:16/9!important;max-height:520px;overflow:hidden;border-radius:16px;background:#f0f0ed!important}
+.app-shell .rc-detail.servicio-ficha .ficha-galeria .galeria-principal{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:#f0f0ed}
+.app-shell .rc-detail.servicio-ficha .ficha-galeria .galeria-principal img{object-fit:contain!important;object-position:center!important}
+@media(max-width:768px){.app-shell .rc-detail.servicio-ficha .ficha-galeria{aspect-ratio:4/3!important;max-height:360px}}

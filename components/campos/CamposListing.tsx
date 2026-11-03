@@ -96,6 +96,7 @@ export default async function CamposListing({ params, titulo, descripcion, soloA
 
       <ListingExplorerToolbar
         country={pais}
+        count={pais==="US"?`${count} listings found`:pais==="BR"?`${count} terras encontradas`:`${count} campos encontrados`}
         mapHref={`/campos/mapa?${mapParams}`}
         mapLabel={tt("Ver en mapa", "Ver no mapa")}
         relatedHref={`/servicios-rurales?pais=${pais}`}

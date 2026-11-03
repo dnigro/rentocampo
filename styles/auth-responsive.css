@@ -91,3 +91,73 @@ html body .app-shell .auth-page-login .auth-title {
 @media (max-width: 360px) {
   html body .app-shell .auth-page-login .auth-title { font-size: 33px !important; }
 }
+
+/* Unified RentoCampo auth: navy, matte gray, compact premium card.
+   Overrides legacy editorial and full-width registration variants. */
+html body .app-shell .auth-page-login,
+html body .app-shell .auth-page-register{
+  display:flex!important;flex-direction:column;align-items:center;justify-content:center;
+  width:100%!important;max-width:none!important;min-height:calc(100dvh - 190px);
+  padding:clamp(24px,5vw,56px) 16px!important;margin:0 auto!important;
+  background:#f5f4f1!important;box-sizing:border-box;
+}
+html body .app-shell .auth-page-login::before,
+html body .app-shell .auth-page-register::before{display:none!important;content:none!important}
+html body .app-shell .auth-page-login .auth-card,
+html body .app-shell .auth-page-register .auth-card{
+  display:block!important;width:min(100%,540px)!important;max-width:540px!important;
+  padding:clamp(24px,4vw,42px)!important;margin:0 auto!important;
+  border:1px solid #dce1e4!important;border-radius:22px!important;
+  background:#fff!important;box-shadow:0 14px 38px rgba(16,42,67,.055)!important;
+  box-sizing:border-box;
+}
+html body .app-shell .auth-page-login .auth-header,
+html body .app-shell .auth-page-register .auth-header{margin:0 0 26px!important;text-align:left!important}
+html body .app-shell .auth-page-login .auth-title,
+html body .app-shell .auth-page-register .auth-title{
+  font-family:inherit!important;font-size:clamp(30px,5vw,42px)!important;
+  font-weight:750!important;line-height:1.12!important;letter-spacing:-.035em!important;
+  text-transform:none!important;color:#102a43!important;margin:0!important;
+}
+html body .app-shell .auth-page-login .auth-title::before,
+html body .app-shell .auth-page-login .auth-title::after,
+html body .app-shell .auth-page-register .auth-title::before,
+html body .app-shell .auth-page-register .auth-title::after{content:none!important;display:none!important}
+html body .app-shell .auth-page-login .auth-form,
+html body .app-shell .auth-page-register .auth-form{display:flex;flex-direction:column;gap:17px}
+html body .app-shell .auth-page-login .form-field,
+html body .app-shell .auth-page-register .form-field{margin:0!important;min-width:0}
+html body .app-shell .auth-page-login .form-label,
+html body .app-shell .auth-page-register .form-label{display:block;margin-bottom:8px!important;font-size:14px!important;font-weight:700!important;color:#102a43!important}
+html body .app-shell .auth-page-login .form-input,
+html body .app-shell .auth-page-register .form-input{
+  display:block;width:100%!important;max-width:100%!important;min-height:52px!important;
+  padding:12px 16px!important;border:1px solid #cdd6dd!important;border-radius:12px!important;
+  background:#fff!important;color:#102a43!important;box-sizing:border-box!important;
+  font-size:16px!important;box-shadow:none!important;
+}
+html body .app-shell .auth-page-login .form-input:focus,
+html body .app-shell .auth-page-register .form-input:focus{outline:2px solid #376582!important;outline-offset:1px!important;border-color:#376582!important}
+html body .app-shell .auth-page-login .btn-submit,
+html body .app-shell .auth-page-register .btn-submit{
+  width:100%!important;min-height:54px!important;border:0!important;border-radius:999px!important;
+  background:#102a43!important;color:#fff!important;font-size:16px!important;
+  font-weight:750!important;text-transform:none!important;cursor:pointer;margin-top:5px!important;
+}
+html body .app-shell .auth-page-login .btn-submit:hover,
+html body .app-shell .auth-page-register .btn-submit:hover{background:#244760!important}
+html body .app-shell .auth-page-login .auth-footer,
+html body .app-shell .auth-page-register .auth-footer{
+  text-align:center!important;margin:24px 0 0!important;padding:20px 0 0!important;
+  border-top:1px solid #e7eaed!important;font-size:14px!important;color:#526171!important
+}
+html body .app-shell .auth-page-login .auth-footer a,
+html body .app-shell .auth-page-register .auth-footer a{color:#102a43!important;font-weight:750!important}
+html body .app-shell .auth-page-register .form-hint{display:block;margin-top:7px;color:#65727c;font-size:12px;line-height:1.45}
+html body .app-shell .auth-page-register .register-terms{font-size:13px;line-height:1.5}
+@media(max-width:600px){
+ html body .app-shell .auth-page-login,
+ html body .app-shell .auth-page-register{min-height:0;padding:22px 12px!important}
+ html body .app-shell .auth-page-login .auth-card,
+ html body .app-shell .auth-page-register .auth-card{padding:25px 20px!important;border-radius:18px!important}
+}
