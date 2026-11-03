@@ -25,7 +25,10 @@ export default function SimpleMapChatHero({ lite = false }: { lite?: boolean }) 
         <div className="rcsm-panel">
           <p className="rcsm-eyebrow">{t("TIERRAS QUE PRODUCEN FUTURO", "TERRAS QUE PRODUZEM FUTURO", "LAND THAT BUILDS THE FUTURE")}</p>
           <h1 className="rcsm-title" id="rcsm-title">{t("Tu campo tiene potencial. Hacelo visible.", "Sua terra tem potencial. Dê visibilidade a ela.", "Your land has potential. Make it visible.")}</h1>
-          <p className="rcsm-description">{t("Conectamos propietarios con productores y servicios rurales que buscan la tierra indicada para crecer.", "Conectamos proprietários, produtores e serviços rurais para criar novas oportunidades.", "We connect landowners, producers and rural services to grow together.")}</p>
+          <p className="rcsm-description rcsm-description--audience">
+            <strong className="rcsm-description__audience">{t("PRODUCTORES Y SERVICIOS RURALES", "PRODUTORES E SERVIÇOS RURAIS", "PRODUCERS AND RURAL SERVICES")}</strong>
+            <span className="rcsm-description__invite">{t("¡SUMATE!", "PARTICIPE!", "JOIN US!")}</span>
+          </p>
 
           <div className="rcsm-features" aria-label={t("Mapa y chat online", "Mapa e chat online", "Map and online chat")}>
             <div className="rcsm-feature">
