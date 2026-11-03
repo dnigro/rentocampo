@@ -24,7 +24,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   const supabase = await createClient();
   const { data: publicacion } = await supabase
     .from("servicios_publicaciones")
-    .select("id, servicios_rurales, provincia, localidad, detalle, activo, country_code")
+    .select("id, servicios_rurales, nombre_comercial, provincia, localidad, detalle, activo, country_code")
     .eq("id", id)
     .eq("activo", true)
     .maybeSingle();
@@ -39,7 +39,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
 
   const rubros = ((publicacion.servicios_rurales ?? []) as ServicioRural[])
     .map((item) => servicioLabel(item, resolveCountry(publicacion.country_code)));
-  const actividad = rubros.slice(0, 2).join(" y ") || "Servicios rurales";
+  const actividad = tituloServicioRural(publicacion.servicios_rurales as ServicioRural[], resolveCountry(publicacion.country_code), publicacion.nombre_comercial);
   const ubicacion = [publicacion.localidad, publicacion.provincia].filter(Boolean).join(", ");
   const title = `${actividad}${ubicacion ? ` en ${ubicacion}` : ""} | RentoCampo`;
   const description = publicacion.detalle?.trim()
@@ -63,7 +63,7 @@ export default async function ServicioDetallePage({ params }: { params: Promise<
   const { data: { user } } = await supabase.auth.getUser();
 
   const { data: publicacion } = await supabase.from("servicios_publicaciones")
-    .select("id, propietario_id, servicios_rurales, foto_url, fotos_urls, provincia, localidad, zona, detalle, activo, country_code")
+    .select("id, propietario_id, servicios_rurales, nombre_comercial, foto_url, fotos_urls, provincia, localidad, zona, detalle, activo, country_code")
     .eq("id", id).eq("activo", true).maybeSingle();
 
   const { data: demo } = !publicacion
@@ -92,7 +92,7 @@ export default async function ServicioDetallePage({ params }: { params: Promise<
     if (label.includes("labor") || label.includes("mantenim")) return <Wrench aria-hidden="true" />;
     return <BriefcaseBusiness aria-hidden="true" />;
   };
-  const tituloCorto = tituloServicioRural(rubros, pais);
+  const tituloCorto = tituloServicioRural(rubros, pais, publicacion?.nombre_comercial);
   const nombre = perfil?.nombre ?? demo?.nombre ?? "Prestador rural";
   const provincia = publicacion?.provincia ?? demo?.provincia_servicio;
   const localidad = publicacion?.localidad ?? demo?.localidad_servicio;
@@ -107,7 +107,7 @@ export default async function ServicioDetallePage({ params }: { params: Promise<
   const serviceJsonLd = !esDemo ? {
     "@context": "https://schema.org",
     "@type": "Service",
-    name: titulo || "Servicio rural",
+    name: tituloCorto,
     description: descripcion || undefined,
     url: `${SITE_URL}/servicios-rurales/${id}`,
     provider: perfil?.nombre ? { "@type": "Person", name: perfil.nombre } : undefined,
@@ -131,7 +131,7 @@ export default async function ServicioDetallePage({ params }: { params: Promise<
         ← Volver al listado de servicios
       </Link>
 
-      <GaleriaCarrusel fotos={(Array.isArray(publicacion?.fotos_urls) && publicacion.fotos_urls.length ? publicacion.fotos_urls : [foto]).map((url:string,orden:number)=>({url,orden}))} titulo={titulo || tituloCorto} />
+      <GaleriaCarrusel fotos={(Array.isArray(publicacion?.fotos_urls) && publicacion.fotos_urls.length ? publicacion.fotos_urls : [foto]).map((url:string,orden:number)=>({url,orden}))} titulo={tituloCorto} />
 
       <div className="ficha-body">
         <main className="ficha-main">
