@@ -612,3 +612,135 @@ html body .app-shell :is(.campo-form,.servicio-publicacion-form) :is(button.btn-
 html body .app-shell :is(.campo-form,.servicio-publicacion-form) button.btn-secondary-lg{
   color:#11283f!important;background:#fff!important;border:1px solid #b5c9d5!important;
 }
+
+
+/* Mobile cuenta: acceso directo compacto; ícono y texto centrados en una sola fila. */
+@media (max-width:700px) {
+  html body .app-shell .main-content .dashboard-page .dashboard-cards {
+    display:grid!important;
+    grid-template-columns:minmax(0,1fr)!important;
+    gap:9px!important;
+  }
+  html body .app-shell .main-content .dashboard-page .dashboard-cards .dash-card {
+    display:grid!important;
+    grid-template-columns:56px minmax(0,1fr)!important;
+    grid-template-rows:auto auto!important;
+    align-items:center!important;
+    align-content:center!important;
+    justify-content:initial!important;
+    column-gap:15px!important;
+    row-gap:3px!important;
+    padding:13px 16px!important;
+    min-height:94px!important;
+    max-height:none!important;
+    border-radius:12px!important;
+  }
+  html body .app-shell .main-content .dashboard-page .dashboard-cards .dash-card-icon {
+    grid-column:1!important;
+    grid-row:1 / span 2!important;
+    display:grid!important;
+    place-items:center!important;
+    align-self:center!important;
+    justify-self:center!important;
+    width:56px!important;
+    height:56px!important;
+    min-height:56px!important;
+    margin:0!important;
+    padding:0!important;
+    border-radius:12px!important;
+    background:#e9f1f6!important;
+    color:#315e7d!important;
+  }
+  html body .app-shell .main-content .dashboard-page .dashboard-cards .dash-card-icon svg {
+    display:block!important;
+    width:31px!important;
+    height:31px!important;
+    flex-shrink:0!important;
+    stroke:#315e7d!important;
+    stroke-width:1.9!important;
+  }
+  html body .app-shell .main-content .dashboard-page .dashboard-cards .dash-card-label {
+    grid-column:2!important;
+    grid-row:1!important;
+    align-self:end!important;
+    max-width:100%!important;
+    margin:0!important;
+    font-size:17px!important;
+    font-weight:780!important;
+    line-height:1.22!important;
+  }
+  html body .app-shell .main-content .dashboard-page .dashboard-cards .dash-card-desc {
+    grid-column:2!important;
+    grid-row:2!important;
+    align-self:start!important;
+    max-width:100%!important;
+    margin:0!important;
+    font-size:12px!important;
+    line-height:1.35!important;
+  }
+}
+
+
+/* Perfil de usuario: distribución consistente en desktop y tablet.
+   La vista móvil reutiliza los ajustes compactos precedentes. */
+@media (min-width:701px) {
+  html body .app-shell .main-content .dashboard-page .dashboard-cards {
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    gap:13px!important;
+  }
+  html body .app-shell .main-content .dashboard-page .dashboard-cards .dash-card {
+    display:grid!important;
+    grid-template-columns:56px minmax(0,1fr)!important;
+    grid-template-rows:auto auto!important;
+    align-items:center!important;
+    align-content:center!important;
+    justify-content:initial!important;
+    column-gap:16px!important;
+    row-gap:4px!important;
+    min-height:114px!important;
+    padding:18px 20px!important;
+    border-radius:12px!important;
+  }
+  html body .app-shell .main-content .dashboard-page .dashboard-cards .dash-card-icon {
+    grid-column:1!important;
+    grid-row:1 / span 2!important;
+    display:grid!important;
+    place-items:center!important;
+    align-self:center!important;
+    justify-self:center!important;
+    width:56px!important;
+    height:56px!important;
+    min-height:56px!important;
+    margin:0!important;
+    padding:0!important;
+    background:#e9f1f6!important;
+    color:#315e7d!important;
+    border-radius:12px!important;
+    filter:none!important;
+  }
+  html body .app-shell .main-content .dashboard-page .dashboard-cards .dash-card-icon svg{
+    width:31px!important;
+    height:31px!important;
+    stroke:#315e7d!important;
+    stroke-width:1.9!important;
+  }
+  html body .app-shell .main-content .dashboard-page .dashboard-cards .dash-card-label {
+    grid-column:2!important;
+    grid-row:1!important;
+    align-self:end!important;
+    margin:0!important;
+    max-width:100%!important;
+    line-height:1.22!important;
+    font-size:18px!important;
+    font-weight:780!important;
+  }
+  html body .app-shell .main-content .dashboard-page .dashboard-cards .dash-card-desc {
+    grid-column:2!important;
+    grid-row:2!important;
+    align-self:start!important;
+    margin:0!important;
+    max-width:100%!important;
+    line-height:1.35!important;
+    font-size:13px!important;
+  }
+}
