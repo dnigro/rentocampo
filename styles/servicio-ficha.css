@@ -57,3 +57,7 @@
 .app-shell .servicio-ficha .servicio-ficha-galeria{width:100%;max-width:1180px;aspect-ratio:16/9;height:auto!important;min-height:0!important;background:#f3f2ef}
 .app-shell .servicio-ficha .servicio-ficha-galeria img{object-fit:contain!important;object-position:center center!important;filter:none!important}
 @media(max-width:768px){.app-shell .servicio-ficha .servicio-ficha-galeria{aspect-ratio:16/9;height:auto!important}}
+
+/* Override rc-detail gallery's fixed-height rules from ficha.css, which were cropping the photo. */
+.app-shell .rc-detail.servicio-ficha .servicio-ficha-galeria{width:100%;height:auto!important;aspect-ratio:16 / 9!important;max-width:none;min-height:0!important;overflow:hidden;position:relative}
+.app-shell .rc-detail.servicio-ficha .servicio-ficha-galeria img{object-fit:contain!important;object-position:center!important;filter:none!important}
