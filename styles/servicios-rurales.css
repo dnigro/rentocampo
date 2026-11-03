@@ -731,3 +731,8 @@
 .servicio-fotos-item{min-width:0;display:flex;flex-direction:column;gap:6px}
 .servicio-fotos-item .servicio-foto-preview{display:block;width:100%;height:145px;object-fit:contain;background:#eef1f2;border-radius:12px}
 .servicio-fotos-item button{align-self:flex-start}
+
+/* Prevent inherited decorative accents from crossing the service CTA. */
+.prestador-card__actions{position:relative;isolation:isolate;background:transparent!important;background-image:none!important;overflow:visible;min-height:52px;align-items:center}
+.prestador-card__actions::before,.prestador-card__actions::after,.prestador-card__actions a::before,.prestador-card__actions a::after{content:none!important;display:none!important}
+.prestador-card__actions a{position:relative;z-index:2;flex:none;border:0!important;border-radius:999px!important;background:#102a43!important;background-image:none!important;color:#fff!important;text-transform:none!important;box-shadow:none!important}
