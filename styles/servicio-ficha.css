@@ -52,3 +52,8 @@
 .app-shell .servicio-ficha .servicio-ficha-volver{background:#102a43;color:#fff;border:1px solid #102a43;border-radius:999px;font-size:14px;padding:12px 24px}
 .app-shell .servicio-ficha .servicio-ficha-cta{background:#102a43;color:#fff;border-radius:999px;font-size:14px;text-transform:none}
 @media(max-width:768px){.app-shell .servicio-ficha .servicio-ficha-galeria{height:clamp(230px,55vw,340px)}.app-shell .servicio-ficha .ficha-descripcion{font-size:16px!important;line-height:1.7!important}}
+
+/* Full image in detail: preserve the entire composition at its natural 16:9 ratio. */
+.app-shell .servicio-ficha .servicio-ficha-galeria{width:100%;max-width:1180px;aspect-ratio:16/9;height:auto!important;min-height:0!important;background:#f3f2ef}
+.app-shell .servicio-ficha .servicio-ficha-galeria img{object-fit:contain!important;object-position:center center!important;filter:none!important}
+@media(max-width:768px){.app-shell .servicio-ficha .servicio-ficha-galeria{aspect-ratio:16/9;height:auto!important}}
