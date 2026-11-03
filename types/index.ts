@@ -22,6 +22,10 @@ export type ServicioRural =
   | "veterinaria"
   | "agronomia"
   | "seguros_financiacion"
+  | "construcciones"
+  | "electricidad_iluminacion"
+  | "tecnologia_automatizacion"
+  | "conectividad_monitoreo"
   | "otro";
 
 export type AptitudCampo =
