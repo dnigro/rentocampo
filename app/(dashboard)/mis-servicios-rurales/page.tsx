@@ -17,7 +17,7 @@ export default async function MisServiciosRuralesPage() {
 
   const { data: publicaciones } = await supabase
     .from("servicios_publicaciones")
-    .select("id, servicios_rurales, foto_url, provincia, localidad, zona, activo")
+    .select("id, servicios_rurales, nombre_comercial, foto_url, provincia, localidad, zona, activo")
     .eq("propietario_id", user.id)
     .order("created_at", { ascending: false });
 

@@ -5,11 +5,10 @@ import type { Metadata } from "next";
 import { resolveCountry } from "@/data/countries";
 import { regionalText } from "@/lib/i18n/regional";
 import Link from "next/link";
-import Image from "next/image";
 import { Tractor, Sprout, Settings, Wrench, Warehouse, MapPin, BriefcaseBusiness } from "lucide-react";
 import { notFound, redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { servicioLabel } from "@/data/servicios-rurales";
+import { servicioLabel, tituloServicioRural } from "@/data/servicios-rurales";
 import type { ServicioRural } from "@/types";
 import "@/styles/servicios-rurales.css";
 import "@/styles/campos.css";
@@ -25,7 +24,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   const supabase = await createClient();
   const { data: publicacion } = await supabase
     .from("servicios_publicaciones")
-    .select("id, servicios_rurales, provincia, localidad, detalle, activo, country_code")
+    .select("id, servicios_rurales, nombre_comercial, provincia, localidad, detalle, activo, country_code")
     .eq("id", id)
     .eq("activo", true)
     .maybeSingle();
@@ -38,9 +37,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
     };
   }
 
-  const rubros = ((publicacion.servicios_rurales ?? []) as ServicioRural[])
-    .map((item) => servicioLabel(item, resolveCountry(publicacion.country_code)));
-  const actividad = rubros.slice(0, 2).join(" y ") || "Servicios rurales";
+  const actividad = tituloServicioRural(publicacion.servicios_rurales as ServicioRural[], resolveCountry(publicacion.country_code), publicacion.nombre_comercial);
   const ubicacion = [publicacion.localidad, publicacion.provincia].filter(Boolean).join(", ");
   const title = `${actividad}${ubicacion ? ` en ${ubicacion}` : ""} | RentoCampo`;
   const description = publicacion.detalle?.trim()
@@ -64,7 +61,7 @@ export default async function ServicioDetallePage({ params }: { params: Promise<
   const { data: { user } } = await supabase.auth.getUser();
 
   const { data: publicacion } = await supabase.from("servicios_publicaciones")
-    .select("id, propietario_id, servicios_rurales, foto_url, fotos_urls, provincia, localidad, zona, detalle, activo, country_code")
+    .select("id, propietario_id, servicios_rurales, nombre_comercial, foto_url, fotos_urls, provincia, localidad, zona, detalle, activo, country_code")
     .eq("id", id).eq("activo", true).maybeSingle();
 
   const { data: demo } = !publicacion
@@ -83,7 +80,6 @@ export default async function ServicioDetallePage({ params }: { params: Promise<
   const tt=(es:string,pt:string)=>regionalText(pais,es,pt);
   const esDemo = Boolean(demo);
   const rubros = (publicacion?.servicios_rurales ?? demo?.servicios_rurales ?? []) as ServicioRural[];
-  const titulo = rubros.map((item) => servicioLabel(item, pais)).join(" · ");
   const iconoRubro = (item: ServicioRural) => {
     const label = servicioLabel(item, pais).toLowerCase();
     if (label.includes("cosech")) return <Tractor aria-hidden="true" />;
@@ -93,7 +89,7 @@ export default async function ServicioDetallePage({ params }: { params: Promise<
     if (label.includes("labor") || label.includes("mantenim")) return <Wrench aria-hidden="true" />;
     return <BriefcaseBusiness aria-hidden="true" />;
   };
-  const tituloCorto = rubros.slice(0, 2).map((item) => servicioLabel(item, pais)).join(" · ");
+  const tituloCorto = tituloServicioRural(rubros, pais, publicacion?.nombre_comercial);
   const nombre = perfil?.nombre ?? demo?.nombre ?? "Prestador rural";
   const provincia = publicacion?.provincia ?? demo?.provincia_servicio;
   const localidad = publicacion?.localidad ?? demo?.localidad_servicio;
@@ -108,7 +104,7 @@ export default async function ServicioDetallePage({ params }: { params: Promise<
   const serviceJsonLd = !esDemo ? {
     "@context": "https://schema.org",
     "@type": "Service",
-    name: titulo || "Servicio rural",
+    name: tituloCorto,
     description: descripcion || undefined,
     url: `${SITE_URL}/servicios-rurales/${id}`,
     provider: perfil?.nombre ? { "@type": "Person", name: perfil.nombre } : undefined,
@@ -132,14 +128,14 @@ export default async function ServicioDetallePage({ params }: { params: Promise<
         ← Volver al listado de servicios
       </Link>
 
-      <GaleriaCarrusel fotos={(Array.isArray(publicacion?.fotos_urls) && publicacion.fotos_urls.length ? publicacion.fotos_urls : [foto]).map((url:string,orden:number)=>({url,orden}))} titulo={titulo || nombre} />
+      <GaleriaCarrusel fotos={(Array.isArray(publicacion?.fotos_urls) && publicacion.fotos_urls.length ? publicacion.fotos_urls : [foto]).map((url:string,orden:number)=>({url,orden}))} titulo={tituloCorto} />
 
       <div className="ficha-body">
         <main className="ficha-main">
           <div className="ficha-tags">
             <span className="aptitud-tag">{esDemo ? tt("Servicio demo","Serviço demo") : tt("Servicio rural","Serviço rural")}</span>
           </div>
-          <h1 className="ficha-titulo">{tituloCorto || nombre}</h1>
+          <h1 className="ficha-titulo">{tituloCorto}</h1>
           {rubros.length > 0 && (
             <div className="rc-service-activities" aria-label={tt("Actividades ofrecidas","Atividades oferecidas")}>
               {rubros.map((item) => <span className="rc-service-activity" key={item}>{iconoRubro(item)}<span>{servicioLabel(item, pais)}</span></span>)}

@@ -5,7 +5,7 @@ import { cookies } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
 import { resolveCountry } from "@/data/countries";
 import { translate } from "@/lib/i18n/messages";
-import { servicioLabel } from "@/data/servicios-rurales";
+import { tituloServicioRural } from "@/data/servicios-rurales";
 import type { ServicioRural } from "@/types";
 
 export default async function LiteServiciosListado() {
@@ -14,7 +14,7 @@ export default async function LiteServiciosListado() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   const { data, error } = await supabase.from("servicios_publicaciones")
-    .select("id,servicios_rurales,provincia,localidad,zona,activo,country_code")
+    .select("id,servicios_rurales,nombre_comercial,provincia,localidad,zona,activo,country_code")
     .eq("activo",true).eq("country_code",pais).limit(60);
   const { data:demos } = await supabase.from("demo_servicios_rurales")
     .select("id,nombre,servicios_rurales,provincia_servicio,localidad_servicio,zona_servicio,imagen_url")
@@ -23,7 +23,7 @@ export default async function LiteServiciosListado() {
   return <section style={{display:"grid",gap:12,margin:"24px 0"}}>
     <h2 style={{fontSize:22}}>{t("services.available")} ({(data?.length??0)+(demos?.length??0)})</h2>
     {(data??[]).map(s=><Link key={s.id} href={`/lite/servicios/${s.id}`} style={{padding:18,borderRadius:15,background:"#fff",border:"1px solid #ddd",color:"#222",textDecoration:"none"}}>
-      <strong style={{fontSize:18}}>{s.servicios_rurales?.map((v: ServicioRural)=>servicioLabel(v,pais)).join(" · ")||t("services.service")}</strong>
+      <strong style={{fontSize:18}}>{tituloServicioRural(s.servicios_rurales as ServicioRural[],pais,s.nombre_comercial)}</strong>
       <p style={{color:"#666"}}>{[s.localidad,s.provincia].filter(Boolean).join(", ")}</p><span style={{float:"right"}}>{t("fields.viewDetails")}</span>
     </Link>)}
     {(demos??[]).map(s=><Link key={s.id} href={demoServiceRegisterHref(pais, Boolean(user))} style={{padding:18,borderRadius:15,background:"#fff",border:"1px solid #ddd",color:"#222",textDecoration:"none"}}>

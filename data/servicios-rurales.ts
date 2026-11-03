@@ -55,6 +55,14 @@ export function servicioLabel(value: ServicioRural, country: string): string {
   return country === "BR" ? SERVICIO_LABEL_BR[value] ?? value : country === "US" ? SERVICIO_LABEL_US[value] ?? value : SERVICIO_LABEL[value] ?? value;
 }
 
+/** Título público de la publicación: nunca usar el nombre de la cuenta como título. */
+export function tituloServicioRural(servicios: readonly ServicioRural[] | null | undefined, country: string, nombreComercial?: string | null): string {
+  const nombre = nombreComercial?.trim();
+  if (nombre) return nombre;
+  const titulo = (servicios ?? []).slice(0, 2).map((servicio) => servicioLabel(servicio, country)).join(" · ");
+  return titulo || (country === "BR" ? "Serviço rural" : country === "US" ? "Rural service" : "Servicio rural");
+}
+
 /** Agrupación editorial; se guardan los mismos códigos en servicios_rurales[].
  * Los primeros valores existentes siguen siendo válidos para publicaciones anteriores.
  */

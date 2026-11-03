@@ -82,7 +82,12 @@ export default function CampoForm({
   );
   const selectedRegion = useRegionalCountry();
   useEffect(() => {
-    if (!campoId) setForm(prev => prev.country_code === selectedRegion ? prev : { ...prev, country_code: selectedRegion, provincia: "", departamento: "", localidad: "", ubicacion: "", moneda: selectedRegion === "BR" ? "BRL" : COUNTRIES[selectedRegion].currency as MonedaCampo });
+    if (campoId) return;
+    // La región proviene de un estado global externo: sincronizar luego del render.
+    const timeout = window.setTimeout(() => {
+      setForm(prev => prev.country_code === selectedRegion ? prev : { ...prev, country_code: selectedRegion, provincia: "", departamento: "", localidad: "", ubicacion: "", moneda: selectedRegion === "BR" ? "BRL" : COUNTRIES[selectedRegion].currency as MonedaCampo });
+    }, 0);
+    return () => window.clearTimeout(timeout);
   }, [selectedRegion, campoId]);
   const countryCode: CountryCode = form.country_code ?? "AR";
   const country = COUNTRIES[countryCode];

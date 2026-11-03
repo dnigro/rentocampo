@@ -5,7 +5,7 @@ import { COUNTRIES, resolveCountry } from "@/data/countries";
 import Link from "next/link";
 import Image from "next/image";
 import { createClient } from "@/lib/supabase/server";
-import { SERVICIOS_RURALES, servicioLabel } from "@/data/servicios-rurales";
+import { SERVICIOS_RURALES, servicioLabel, tituloServicioRural } from "@/data/servicios-rurales";
 import { regionalText } from "@/lib/i18n/regional";
 import type { ServicioRural } from "@/types";
 import ListingHeader from "@/components/listings/ListingHeader";
@@ -64,7 +64,7 @@ export async function generateMetadata({ searchParams }: { searchParams: Promise
 type Prestador = {
   id: string;
   publicacion_id?: string;
-  nombre: string;
+  titulo: string;
   bio?: string | null;
   avatar_url?: string | null;
   service_photo_url?: string | null;
@@ -139,19 +139,13 @@ export default async function ServiciosRuralesPage({
 
   const { data: publicaciones } = await supabase
     .from("servicios_publicaciones")
-    .select("id, propietario_id, servicios_rurales, foto_url, provincia, localidad, zona, activo, country_code")
+    .select("id, propietario_id, servicios_rurales, nombre_comercial, foto_url, provincia, localidad, zona, activo, country_code")
     .eq("activo", true)
     .eq("country_code", pais);
 
-  const ownerIds = [...new Set((publicaciones ?? []).map((p) => p.propietario_id))];
-  const { data: owners } = ownerIds.length
-    ? await supabase.from("profiles").select("id, nombre").in("id", ownerIds)
-    : { data: [] as { id: string; nombre: string }[] };
-  const ownerMap = new Map((owners ?? []).map((o) => [o.id, o.nombre]));
-
   const publicacionesPrestadores: Prestador[] = (publicaciones ?? [])
     .filter((p) => (!provincia || p.provincia === provincia) && (!servicioValido || (p.servicios_rurales ?? []).includes(servicioValido)))
-    .map((p) => ({ id: p.propietario_id, publicacion_id: p.id, nombre: ownerMap.get(p.propietario_id) ?? "Prestador rural", service_photo_url: p.foto_url, servicios_rurales: p.servicios_rurales ?? [], zona_servicio: p.zona, provincia_servicio: p.provincia, localidad_servicio: p.localidad, is_demo: false }));
+    .map((p) => ({ id: p.propietario_id, publicacion_id: p.id, titulo: tituloServicioRural(p.servicios_rurales, pais, p.nombre_comercial), service_photo_url: p.foto_url, servicios_rurales: p.servicios_rurales ?? [], zona_servicio: p.zona, provincia_servicio: p.provincia, localidad_servicio: p.localidad, is_demo: false }));
 
   const prestadores: Prestador[] = [
     ...publicacionesPrestadores,
@@ -159,6 +153,7 @@ export default async function ServiciosRuralesPage({
       .filter((item) => esServicioDemoVisible(item.id))
       .map((item) => ({
         ...item,
+        titulo: tituloServicioRural(item.servicios_rurales, pais),
         avatar_url: null,
         service_photo_url: item.imagen_url || "/demo-servicio-veterinaria.jpg",
         is_demo: true,
@@ -239,9 +234,9 @@ export default async function ServiciosRuralesPage({
                 const servicios = prestador.servicios_rurales ?? [];
                 return (
                   <article className="campo-card-pub servicio-campo-card" data-demo={prestador.is_demo ? "true" : "false"} key={`${prestador.is_demo ? "demo" : "real"}-${prestador.publicacion_id ?? prestador.id}`}>
-                    <Link href={prestador.is_demo ? demoServiceRegisterHref(pais, Boolean(user)) : prestador.publicacion_id ? `/servicios-rurales/${prestador.publicacion_id}` : `/servicios-rurales?prestador=${prestador.id}`} className="campo-card-pub-img-link" aria-label={`Ver ficha de ${prestador.nombre}`}>
+                    <Link href={prestador.is_demo ? demoServiceRegisterHref(pais, Boolean(user)) : prestador.publicacion_id ? `/servicios-rurales/${prestador.publicacion_id}` : `/servicios-rurales?prestador=${prestador.id}`} className="campo-card-pub-img-link" aria-label={`Ver ficha de ${prestador.titulo}`}>
                       <div className="campo-card-pub-img">
-                        {prestador.service_photo_url ? <Image src={prestador.service_photo_url} alt={`${prestador.nombre} · servicios rurales`} fill sizes="(max-width:720px) 100vw, (max-width:1100px) 50vw, 33vw" /> : <div className="campo-card-pub-placeholder">🌿</div>}
+                        {prestador.service_photo_url ? <Image src={prestador.service_photo_url} alt={`${prestador.titulo} · servicios rurales`} fill sizes="(max-width:720px) 100vw, (max-width:1100px) 50vw, 33vw" /> : <div className="campo-card-pub-placeholder">🌿</div>}
                       </div>
                     </Link>
                     <div className="campo-card-pub-body">
@@ -250,9 +245,9 @@ export default async function ServiciosRuralesPage({
                         <span className="aptitud-tag">{tt("Servicio rural","Serviço rural")}</span>
                         <span className="operacion-tag">{prestador.provincia_servicio}</span>
                       </div>
-                      <Link className="campo-card-pub-titulo-link" href={prestador.is_demo ? demoServiceRegisterHref(pais, Boolean(user)) : prestador.publicacion_id ? `/servicios-rurales/${prestador.publicacion_id}` : `/servicios-rurales?prestador=${prestador.id}`}><h3 className="campo-card-pub-titulo">{prestador.nombre}</h3></Link>
+                      <Link className="campo-card-pub-titulo-link" href={prestador.is_demo ? demoServiceRegisterHref(pais, Boolean(user)) : prestador.publicacion_id ? `/servicios-rurales/${prestador.publicacion_id}` : `/servicios-rurales?prestador=${prestador.id}`}><h3 className="campo-card-pub-titulo">{prestador.titulo}</h3></Link>
                       <p className="campo-card-pub-ubicacion">📍 {[prestador.localidad_servicio,prestador.provincia_servicio].filter(Boolean).join(", ")}</p>
-                      <div className="servicio-campo-card__tags">{servicios.slice(0,3).map(item=><span className="aptitud-tag" key={item}>{servicioLabel(item,pais)}</span>)}{servicios.length>3 && <span className="aptitud-tag">+${servicios.length-3}</span>}</div>
+                      <div className="servicio-campo-card__tags">{servicios.slice(0,3).map(item=><span className="aptitud-tag" key={item}>{servicioLabel(item,pais)}</span>)}{servicios.length>3 && <span className="aptitud-tag">+{servicios.length-3}</span>}</div>
                       <div className="campo-card-pub-footer"><span className="campo-precio-consultar">{prestador.zona_servicio ? `${tt("Zona","Região")}: ${prestador.zona_servicio}` : tt("Contacto directo","Contato direto")}</span></div>
                     </div>
                   </article>

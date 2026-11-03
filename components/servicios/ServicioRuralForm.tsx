@@ -16,6 +16,7 @@ interface ServicioInicial {
   id: string;
   country_code?: CountryCode;
   servicios_rurales: ServicioRural[];
+  nombre_comercial?: string | null;
   foto_url: string;
   fotos_urls?: string[] | null;
   provincia: string;
@@ -43,9 +44,6 @@ export default function ServicioRuralForm({ profile, publicacion, initialCountry
   );
   const [country, setCountry] = useState<CountryCode>(resolveCountry(publicacion?.country_code ?? initialCountry, profile?.country_code));
   const selectedRegion = useRegionalCountry();
-  useEffect(() => {
-    if (!publicacion && selectedRegion !== country) { setCountry(selectedRegion); setProvincia(""); setLocalidad(""); setZona(""); setUbicacion(""); }
-  }, [selectedRegion, publicacion, country]);
   const subdivisions = getCountrySubdivisions(country);
   const tt=(es:string,pt:string,en?:string)=>regionalText(country,es,pt,en);
   const [zona, setZona] = useState(publicacion?.zona ?? initialZona ?? profile?.zona_servicio ?? "");
@@ -54,6 +52,7 @@ export default function ServicioRuralForm({ profile, publicacion, initialCountry
   const [ubicacion, setUbicacion] = useState([publicacion?.localidad, publicacion?.provincia].filter(Boolean).join(", "));
   const [latitud, setLatitud] = useState<number | undefined>(publicacion?.latitud ?? undefined);
   const [longitud, setLongitud] = useState<number | undefined>(publicacion?.longitud ?? undefined);
+  const [nombreComercial, setNombreComercial] = useState(publicacion?.nombre_comercial ?? "");
   const [detalle, setDetalle] = useState(publicacion?.detalle ?? "");
   const [photos, setPhotos] = useState<{url:string;file?:File}[]>(() => {
     const saved = Array.isArray(publicacion?.fotos_urls) && publicacion.fotos_urls.length ? publicacion.fotos_urls : [publicacion?.foto_url ?? profile?.service_photo_url ?? ""];
@@ -61,6 +60,21 @@ export default function ServicioRuralForm({ profile, publicacion, initialCountry
   });
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (publicacion || selectedRegion === country) return;
+    // Evitar actualizaciones sincrónicas de estado dentro del efecto.
+    const timeout = window.setTimeout(() => {
+      setCountry(selectedRegion);
+      setProvincia("");
+      setLocalidad("");
+      setZona("");
+      setUbicacion("");
+      setLatitud(undefined);
+      setLongitud(undefined);
+    }, 0);
+    return () => window.clearTimeout(timeout);
+  }, [selectedRegion, publicacion, country]);
 
   // La primera categoría seleccionada se guarda como principal sin cambiar el esquema SQL.
   function toggleServicio(servicio: ServicioRural) {
@@ -124,6 +138,7 @@ export default function ServicioRuralForm({ profile, publicacion, initialCountry
         propietario_id: profile?.id,
         country_code: country,
         servicios_rurales: servicios,
+        nombre_comercial: nombreComercial.trim() || null,
         foto_url: resolvedPhotos[0],
         fotos_urls: resolvedPhotos,
         zona: zona || null,
@@ -176,6 +191,28 @@ export default function ServicioRuralForm({ profile, publicacion, initialCountry
       </div>
       <div className="form-section">
         <h2 className="form-section-title form-section-title-editorial"><span className="form-section-number">01</span><span className="form-section-icon" aria-hidden="true"><FileText size={24} strokeWidth={1.8} /></span><span className="form-section-copy"><span>{tt("Información","Informações")}</span> <em>{tt("del servicio","do serviço")}</em></span></h2>
+      <div className="form-field">
+        <label className="form-label" htmlFor="servicio-nombre-comercial">
+          {tt("Nombre comercial del servicio (opcional)","Nome comercial do serviço (opcional)","Business name (optional)")}
+        </label>
+        <input
+          id="servicio-nombre-comercial"
+          className="form-input"
+          type="text"
+          maxLength={100}
+          value={nombreComercial}
+          onChange={(e) => setNombreComercial(e.target.value)}
+          placeholder={tt("Ej.: CIAFFONI AGRODRONE","Ex.: CIAFFONI AGRODRONE","E.g. CIAFFONI AGRODRONE")}
+          autoComplete="organization"
+        />
+        <p className="form-hint">
+          {tt(
+            "Se verá como título en el mapa y las fichas. Si lo dejás vacío, mostraremos las actividades que ofrecés.",
+            "Aparece como título no mapa e nos anúncios. Se ficar em branco, mostraremos as atividades oferecidas.",
+            "Shown as the title on the map and listing cards. Leave it blank to display your service activities."
+          )}
+        </p>
+      </div>
       <div className="form-field">
         <label className="form-label">
           {tt("¿Qué servicios ofrecés?","Quais serviços você oferece?")} <span className="required">*</span>
