@@ -2,13 +2,13 @@
 
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
-import { useCountry } from "@/components/providers/CountryProvider";
+import { useRegionalCountry } from "@/lib/i18n/useRegionalCountry";
 import { regionalText } from "@/lib/i18n/regional";
 import { usePathname } from "next/navigation";
 
 export default function DashboardReturn() {
   const pathname = usePathname();
-  const { country } = useCountry();
+  const country = useRegionalCountry();
   const backLabel = regionalText(country, "Volver a mi cuenta", "Voltar à minha conta", "Back to my account");
 
   if (pathname === "/dashboard") return null;
