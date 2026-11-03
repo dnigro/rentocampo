@@ -3,9 +3,70 @@ import heroTambo from "@/public/rentocampo-hero-campo-bn-1920x1080.webp";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
+import { ArrowUpRight, FilePenLine, MapPinned, MessageCircle, PlusCircle, UserRound, Wrench } from "lucide-react";
 import { resolveCountry } from "@/data/countries";
 import { regionalText } from "@/lib/i18n/regional";
 import LiteHeader from "@/components/lite/LiteHeader";
 import LiteProfilePanel from "@/components/lite/LiteProfilePanel";
-import {createClient} from "@/lib/supabase/server";
-export default async function Page(){const country=resolveCountry((await cookies()).get("rentocampo_country")?.value);const tt=(es:string,pt:string)=>regionalText(country,es,pt);const supabase=await createClient();const {data:{user}}=await supabase.auth.getUser();if(user?.user_metadata?.onboarding_pending_roles === true) redirect("/lite/perfil/editar");return <><LiteHeader/><main className="rc-lite-profile" style={{minHeight:"100dvh",background:"#f7f7f5",color:"#222",fontFamily:"Arial,sans-serif",padding:"24px 22px"}}><div className="rc-lite-profile__eyebrow" style={{marginTop:24,fontSize:12,letterSpacing:3,color:"#777"}}>{tt("RED FEDERAL","REDE REGIONAL")}</div><h1 className="rc-lite-profile__title" style={{fontSize:36,letterSpacing:-1.5,marginBottom:8}}>{tt("Mi perfil","Meu perfil")}</h1><p className="rc-lite-profile__subtitle" style={{color:"#777",lineHeight:1.5}}>{tt("Tus publicaciones, mensajes y datos","Seus anúncios, mensagens e dados")}</p><div className="rc-lite-profile__photo" style={{height:190,borderRadius:18,margin:"30px 0",position:"relative",overflow:"hidden"}}><Image src={heroTambo} alt="Tambo de RentoCampo con vacas en el campo" fill sizes="(max-width: 520px) 100vw, 520px" style={{objectFit:"cover",objectPosition:"65% center",filter:"grayscale(1) contrast(1.1) brightness(.73)"}}/></div><LiteProfilePanel/><p className="rc-lite-profile__hint" style={{fontSize:16,lineHeight:1.6}}>{user?tt("Administrá tu cuenta y publicaciones.","Gerencie sua conta e seus anúncios."):tt("Ingresá o creá tu cuenta para publicar y administrar.","Entre ou crie sua conta para anunciar e gerenciar.")}</p><section className="rc-lite-profile__links" style={{display:"grid",gap:12,margin:"20px 0 110px"}}>{user?<>{/* Opciones para usuarios autenticados */}<Link className="rc-lite-profile__link" href="/lite/perfil/editar" style={{padding:"18px 20px",background:"#fff",border:"1px solid #ddd",borderRadius:12,textDecoration:"none",color:"#222",fontWeight:800,fontSize:18,display:"block"}}>{tt("Editar mi perfil","Editar meu perfil")} <span style={{float:"right"}}>↗</span></Link><Link className="rc-lite-profile__link" href="/lite/campos/publicar" style={{padding:"18px 20px",background:"#fff",border:"1px solid #ddd",borderRadius:12,textDecoration:"none",color:"#222",fontWeight:800,fontSize:18,display:"block"}}>{tt("Publicar campo","Anunciar terra")} <span style={{float:"right"}}>↗</span></Link><Link className="rc-lite-profile__link" href="/lite/servicios/publicar" style={{padding:"18px 20px",background:"#fff",border:"1px solid #ddd",borderRadius:12,textDecoration:"none",color:"#222",fontWeight:800,fontSize:18,display:"block"}}>{tt("Publicar servicio","Anunciar serviço")} <span style={{float:"right"}}>↗</span></Link><Link className="rc-lite-profile__link" href="/lite/campos/mis-publicaciones" style={{padding:"18px 20px",background:"#fff",border:"1px solid #ddd",borderRadius:12,textDecoration:"none",color:"#222",fontWeight:800,fontSize:18,display:"block"}}>{tt("Mis publicaciones","Meus anúncios")} <span style={{float:"right"}}>↗</span></Link><Link className="rc-lite-profile__link" href="/lite/servicios/mis-publicaciones" style={{padding:"18px 20px",background:"#fff",border:"1px solid #ddd",borderRadius:12,textDecoration:"none",color:"#222",fontWeight:800,fontSize:18,display:"block"}}>{tt("Mis servicios","Meus serviços")} <span style={{float:"right"}}>↗</span></Link><Link className="rc-lite-profile__link" href="/lite/perfil/mensajes" style={{padding:"18px 20px",background:"#fff",border:"1px solid #ddd",borderRadius:12,textDecoration:"none",color:"#222",fontWeight:800,fontSize:18,display:"block"}}>{tt("Mis mensajes","Minhas mensagens")} <span style={{float:"right"}}>↗</span></Link></>:null}</section><nav className="rc-lite-profile__nav" style={{position:"fixed",bottom:0,left:0,right:0,background:"white",display:"flex",justifyContent:"space-around",padding:18,borderTop:"1px solid #ddd"}}><Link href="/lite">{tt("Inicio","Início")}</Link><Link href="/lite/campos">{tt("Campos","Terras")}</Link><Link href="/lite/servicios">{tt("Servicios","Serviços")}</Link><Link href="/lite/perfil">Perfil</Link></nav></main></>}
+import { createClient } from "@/lib/supabase/server";
+import "@/styles/rc-lite-profile-cards.css";
+
+export default async function Page() {
+  const country = resolveCountry((await cookies()).get("rentocampo_country")?.value);
+  const tt = (es: string, pt: string) => regionalText(country, es, pt);
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (user?.user_metadata?.onboarding_pending_roles === true) {
+    redirect("/lite/perfil/editar");
+  }
+
+  const links = [
+    { href: "/lite/perfil/editar", title: tt("Editar mi perfil", "Editar meu perfil"), description: tt("Datos y configuración", "Dados e configurações"), Icon: UserRound },
+    { href: "/lite/campos/publicar", title: tt("Publicar campo", "Anunciar terra"), description: tt("Nueva publicación", "Novo anúncio"), Icon: PlusCircle },
+    { href: "/lite/servicios/publicar", title: tt("Publicar servicio", "Anunciar serviço"), description: tt("Nueva oferta rural", "Nova oferta rural"), Icon: Wrench },
+    { href: "/lite/campos/mis-publicaciones", title: tt("Mis publicaciones", "Meus anúncios"), description: tt("Gestionar campos", "Gerenciar terras"), Icon: MapPinned },
+    { href: "/lite/servicios/mis-publicaciones", title: tt("Mis servicios", "Meus serviços"), description: tt("Gestionar ofertas", "Gerenciar ofertas"), Icon: FilePenLine },
+    { href: "/lite/perfil/mensajes", title: tt("Mis mensajes", "Minhas mensagens"), description: tt("Consultas y contactos", "Consultas e contatos"), Icon: MessageCircle },
+  ];
+
+  return (
+    <>
+      <LiteHeader />
+      <main className="rc-lite-profile">
+        <div className="rc-lite-profile__eyebrow">{tt("MI CUENTA", "MINHA CONTA")}</div>
+        <h1 className="rc-lite-profile__title">{tt("Mi perfil", "Meu perfil")}</h1>
+        <p className="rc-lite-profile__subtitle">{tt("Tus publicaciones, mensajes y datos", "Seus anúncios, mensagens e dados")}</p>
+        <div className="rc-lite-profile__photo">
+          <Image src={heroTambo} alt={tt("Paisaje rural de RentoCampo", "Paisagem rural da RentoCampo")} fill sizes="(max-width:520px) 100vw, 520px"
+            style={{ objectFit: "cover", objectPosition: "65% center", filter: "grayscale(1) contrast(1.1) brightness(.73)" }} />
+        </div>
+        <LiteProfilePanel />
+        <p className="rc-lite-profile__hint">
+          {user
+            ? tt("Administrá tu cuenta y publicaciones.", "Gerencie sua conta e seus anúncios.")
+            : tt("Ingresá o creá tu cuenta para publicar y administrar.", "Entre ou crie sua conta para anunciar e gerenciar.")}
+        </p>
+        {user && (
+          <section className="rc-lite-profile__links" aria-label={tt("Accesos a mi cuenta", "Acessos à minha conta")}>
+            {links.map(({ href, title, description, Icon }) => (
+              <Link key={href} href={href} className="rc-lite-profile__link">
+                <span className="rc-lite-profile__link-icon"><Icon size={28} strokeWidth={1.85} aria-hidden="true" /></span>
+                <span className="rc-lite-profile__link-body">
+                  <strong>{title}</strong>
+                  <small>{description}</small>
+                </span>
+                <ArrowUpRight className="rc-lite-profile__link-arrow" size={19} aria-hidden="true" />
+              </Link>
+            ))}
+          </section>
+        )}
+        <nav className="rc-lite-profile__nav" aria-label={tt("Navegación Lite", "Navegação Lite")}>
+          <Link href="/lite">{tt("Inicio", "Início")}</Link>
+          <Link href="/lite/campos">{tt("Campos", "Terras")}</Link>
+          <Link href="/lite/servicios">{tt("Servicios", "Serviços")}</Link>
+          <Link href="/lite/perfil" aria-current="page">Perfil</Link>
+        </nav>
+      </main>
+    </>
+  );
+}
