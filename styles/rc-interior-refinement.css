@@ -87,7 +87,7 @@ html body .app-shell .perfil-page>.page-header .page-title{font-size:clamp(30px,
 
 /* Avatar compacto: no barra lateral, no foto gigante, ni bloques de alto innecesario. */
 html body .app-shell .perfil-page .perfil-layout>.perfil-avatar-panel{
-  display:grid!important;grid-template-columns:minmax(0,1fr) minmax(280px,360px)!important;
+  display:grid!important;grid-template-columns:minmax(0,1fr)!important;
   grid-auto-rows:auto!important;grid-column:1!important;
   align-items:center!important;gap:20px!important;
   padding:24px 27px!important;
@@ -109,7 +109,7 @@ html body .app-shell .perfil-page .perfil-avatar-panel .perfil-photo-intro .perf
   color:#647989!important;font-size:13px!important;line-height:1.5!important;margin:0!important;
 }
 html body .app-shell .perfil-page .perfil-avatar-panel .perfil-photo-column{
-  grid-column:2!important;grid-row:1!important;display:block!important;
+  grid-column:1!important;grid-row:2!important;display:block!important;
   min-width:0!important;width:100%!important;
   padding:0!important;margin:0!important;border:0!important;
 }
