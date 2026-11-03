@@ -23,7 +23,7 @@ test("web desktop, mobile and Lite share +SIMPLE with MAP and ONLINE CHAT", () =
   const css=read("styles/hero-simple-map-chat.css");
   assert.ok(web.includes("<SimpleMapChatHero />"), "web uses the shared hero");
   assert.ok(lite.includes("<SimpleMapChatHero lite />"), "Lite uses the same hero");
-  for(const text of ["TIERRAS QUE PRODUCEN FUTURO","Tu campo tiene potencial. Hacelo visible.","MAPA","CHAT ONLINE","Seleccioná la zona","Contactá en línea","Registrate gratis","Explorar campos","0%","100%","COMISIÓN","CONTACTO DIRECTO"]) {
+  for(const text of ["TIERRAS QUE PRODUCEN FUTURO","Tu tierra tiene valor.","MAPA","CHAT ONLINE","Seleccioná la zona","Contactá en línea","Registrate gratis","Explorar campos","0%","100%","COMISIÓN","CONTACTO DIRECTO"]) {
     assert.ok(hero.includes(text), text+" is present");
   }
   assert.ok(hero.includes('href={lite ? "/lite/cuenta/registro" : "/register"}'));
@@ -36,6 +36,7 @@ test("web desktop, mobile and Lite share +SIMPLE with MAP and ONLINE CHAT", () =
   assert.ok(css.includes(".rcsm-button:focus-visible"));
   assert.ok(css.includes("prefers-reduced-motion"));
   assert.ok(hero.includes("TERRAS QUE PRODUZEM FUTURO") && hero.includes("LAND THAT BUILDS THE FUTURE"));
+  assert.ok(hero.includes('<br />') && hero.includes("Ponela en el mapa."), "separate invitation line in Spanish");
   for (const copy of ["PRODUCTORES Y SERVICIOS RURALES","PRODUTORES E SERVIÇOS RURAIS","PRODUCERS AND RURAL SERVICES","¡SUMATE!","PARTICIPE!","JOIN US!"]) {
     assert.ok(hero.includes(copy), "regional audience copy missing: "+copy);
   }

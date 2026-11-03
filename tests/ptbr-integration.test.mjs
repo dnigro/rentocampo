@@ -27,8 +27,11 @@ test("pt-BR and Spanish catalogs have matching message keys", () => {
 });
 
 test("regional hero gives equivalent ES/PT/EN product messaging and zero commission",()=>{
+ const hero=read("components/landing/SimpleMapChatHero.tsx");
+ assert.ok(hero.includes("Ponela en el mapa.") && hero.includes("Coloque-a no mapa.") && hero.includes("Put it on the map."));
+ assert.ok(hero.includes('<br />'), "hero title has deliberate two-sentence line break");
  const styles=read("styles/hero-simple-map-chat.css");
- for(const phrase of ["TIERRAS QUE PRODUCEN FUTURO","TERRAS QUE PRODUZEM FUTURO","LAND THAT BUILDS THE FUTURE","Tu campo tiene potencial. Hacelo visible.","Sua terra tem potencial. Dê visibilidade a ela.","Your land has potential. Make it visible.","MAPA","CHAT ONLINE","ONLINE CHAT","Seleccioná la zona","Escolha a região","Select an area","Contactá en línea","Converse online","Connect online","0%</strong>","100%</strong>"]) {
+ for(const phrase of ["TIERRAS QUE PRODUCEN FUTURO","TERRAS QUE PRODUZEM FUTURO","LAND THAT BUILDS THE FUTURE","Tu tierra tiene valor.","Sua terra tem valor.","Your land has value.","MAPA","CHAT ONLINE","ONLINE CHAT","Seleccioná la zona","Escolha a região","Select an area","Contactá en línea","Converse online","Connect online","0%</strong>","100%</strong>"]) {
    assert.ok(hero.includes(phrase), "missing translated feature: "+phrase);
  }
  assert.ok(hero.includes('href={lite ? "/lite/cuenta/registro" : "/register"}'));
