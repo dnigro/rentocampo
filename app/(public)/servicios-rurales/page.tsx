@@ -239,14 +239,14 @@ export default async function ServiciosRuralesPage({
                 return (
                   <article className="prestador-card" data-demo={prestador.is_demo ? "true" : "false"} key={`${prestador.is_demo ? "demo" : "real"}-${prestador.publicacion_id ?? prestador.id}`}>
                     {prestador.service_photo_url && (
-                      <div className="prestador-card__image">
+                      <Link href={prestador.is_demo ? demoServiceRegisterHref(pais, Boolean(user)) : prestador.publicacion_id ? `/servicios-rurales/${prestador.publicacion_id}` : `/servicios-rurales?prestador=${prestador.id}`} className="prestador-card__image" aria-label={`Ver ficha de ${prestador.nombre}`}>
                         <Image
                           src={prestador.service_photo_url}
                           alt={`${prestador.nombre} · servicios rurales`}
                           width={900}
                           height={580}
                         />
-                      </div>
+                      </Link>
                     )}
 
                     <div className="prestador-card__top">
@@ -258,7 +258,7 @@ export default async function ServiciosRuralesPage({
                       </span>
                     </div>
 
-                    <h3>{prestador.nombre}</h3>
+                    <h3><Link className="prestador-card__title-link" href={prestador.is_demo ? demoServiceRegisterHref(pais, Boolean(user)) : prestador.publicacion_id ? `/servicios-rurales/${prestador.publicacion_id}` : `/servicios-rurales?prestador=${prestador.id}`}>{prestador.nombre}</Link></h3>
                     <p className="prestador-card__ubicacion">
                       📍 {[prestador.localidad_servicio, prestador.provincia_servicio]
                         .filter(Boolean)
@@ -287,17 +287,9 @@ export default async function ServiciosRuralesPage({
                         <Link href={demoServiceRegisterHref(pais, Boolean(user))}>
                           {regionalPublicationLabel({ country: pais, kind: "servicio", authenticated: Boolean(user) })} →
                         </Link>
-                      ) : user?.id === prestador.id ? (
-                        <span className="prestador-card__own">
-                          {tt("Este servicio es tuyo", "Este serviço é seu")}
-                        </span>
-                      ) : !user ? (
-                        <Link href="/login?next=/servicios-rurales">
-                          {tt("Ingresá para consultar →", "Entre para consultar →")}
-                        </Link>
                       ) : (
                         <Link href={prestador.publicacion_id ? `/servicios-rurales/${prestador.publicacion_id}` : `/servicios-rurales?prestador=${prestador.id}`}>
-                          {tt("Ver ficha →", "Ver anúncio →")}
+                          {tt("Ver ficha", "Ver anúncio")}
                         </Link>
                       )}
                     </div>
