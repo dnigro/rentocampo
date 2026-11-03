@@ -24,7 +24,7 @@ export default function SimpleMapChatHero({ lite = false }: { lite?: boolean }) 
 
         <div className="rcsm-panel">
           <p className="rcsm-eyebrow">{t("TIERRAS QUE PRODUCEN FUTURO", "TERRAS QUE PRODUZEM FUTURO", "LAND THAT BUILDS THE FUTURE")}</p>
-          <h1 className="rcsm-title" id="rcsm-title">{t("Tu campo tiene potencial. Hacelo visible.", "Sua terra tem potencial. Dê visibilidade a ela.", "Your land has potential. Make it visible.")}</h1>
+          <h1 className="rcsm-title" id="rcsm-title">{t("Tu tierra tiene valor.", "Sua terra tem valor.", "Your land has value.")}<br />{t("Ponela en el mapa.", "Coloque-a no mapa.", "Put it on the map.")}</h1>
           <p className="rcsm-description rcsm-description--audience">
             <strong className="rcsm-description__audience">{t("PRODUCTORES Y SERVICIOS RURALES", "PRODUTORES E SERVIÇOS RURAIS", "PRODUCERS AND RURAL SERVICES")}</strong>
             <span className="rcsm-description__invite">{t("¡SUMATE!", "PARTICIPE!", "JOIN US!")}</span>
