@@ -531,3 +531,48 @@ html body .app-shell .hilo-header .hilo-back{
     grid-column:1!important;grid-row:5!important;min-height:45px!important;
   }
 }
+
+
+/* Cabeceras editoriales internas: una misma familia para perfiles y formularios. */
+html body .app-shell .perfil-page>.page-header,
+html body .app-shell .main-content>.page-container:not(.perfil-page)>.page-header{
+  position:relative!important;overflow:hidden!important;
+  padding:24px 28px!important;
+  min-height:120px!important;
+  margin-bottom:22px!important;
+  background:
+    linear-gradient(95deg,#e7eff4 0%,#edf3f6 49%,rgba(237,243,246,.90) 66%,rgba(237,243,246,.25) 100%),
+    url("/rentocampo-hero-campo-bn-1920x1080.webp") right center/cover no-repeat!important;
+  border:1px solid #d1e0e8!important;
+  border-radius:12px!important;
+  align-items:center!important;
+}
+html body .app-shell .perfil-page>.page-header>div,
+html body .app-shell .main-content>.page-container:not(.perfil-page)>.page-header>div{
+  position:relative!important;z-index:1!important;max-width:78%!important;
+}
+html body .app-shell .perfil-page>.page-header .page-title,
+html body .app-shell .main-content>.page-container:not(.perfil-page)>.page-header .page-title{
+  color:#102e47!important;
+}
+html body .app-shell .perfil-page>.page-header .page-subtitle,
+html body .app-shell .main-content>.page-container:not(.perfil-page)>.page-header .page-subtitle{
+  color:#435e70!important;
+}
+html body .app-shell .hilo-mensajes>div{
+  flex-shrink:0!important;
+}
+@media(max-width:700px){
+  html body .app-shell .perfil-page>.page-header,
+  html body .app-shell .main-content>.page-container:not(.perfil-page)>.page-header{
+    min-height:112px!important;padding:17px 18px!important;
+    background:
+      linear-gradient(95deg,#e7eff4 0%,rgba(237,243,246,.96) 67%,rgba(237,243,246,.7) 100%),
+      url("/rentocampo-hero-campo-bn-1920x1080.webp") right center/cover no-repeat!important;
+    border-radius:11px!important;
+  }
+  html body .app-shell .perfil-page>.page-header>div,
+  html body .app-shell .main-content>.page-container:not(.perfil-page)>.page-header>div{
+    max-width:100%!important;
+  }
+}
