@@ -736,3 +736,14 @@
 .prestador-card__actions{position:relative;isolation:isolate;background:transparent!important;background-image:none!important;overflow:visible;min-height:52px;align-items:center}
 .prestador-card__actions::before,.prestador-card__actions::after,.prestador-card__actions a::before,.prestador-card__actions a::after{content:none!important;display:none!important}
 .prestador-card__actions a{position:relative;z-index:2;flex:none;border:0!important;border-radius:999px!important;background:#102a43!important;background-image:none!important;color:#fff!important;text-transform:none!important;box-shadow:none!important}
+
+/* Service listings use the same card system as Campos, not the legacy prestador card. */
+.servicios-prestadores-grid{grid-template-columns:repeat(2,minmax(0,1fr));align-items:stretch}
+.servicio-campo-card{min-width:0;height:100%;overflow:hidden}
+.servicio-campo-card .campo-card-pub-img-link{display:block}
+.servicio-campo-card .campo-card-pub-img{position:relative;overflow:hidden}
+.servicio-campo-card .campo-card-pub-img img{object-fit:cover}
+.servicio-campo-card__tags{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0}
+.servicio-campo-card__tags .aptitud-tag{font-size:11px}
+.servicio-campo-card .campo-card-pub-footer{margin-top:auto}
+@media(max-width:720px){.servicios-prestadores-grid{grid-template-columns:1fr}}
