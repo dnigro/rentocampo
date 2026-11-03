@@ -56,7 +56,9 @@ export function servicioLabel(value: ServicioRural, country: string): string {
 }
 
 /** Título público de la publicación: nunca usar el nombre de la cuenta como título. */
-export function tituloServicioRural(servicios: readonly ServicioRural[] | null | undefined, country: string): string {
+export function tituloServicioRural(servicios: readonly ServicioRural[] | null | undefined, country: string, nombreComercial?: string | null): string {
+  const nombre = nombreComercial?.trim();
+  if (nombre) return nombre;
   const titulo = (servicios ?? []).slice(0, 2).map((servicio) => servicioLabel(servicio, country)).join(" · ");
   return titulo || (country === "BR" ? "Serviço rural" : country === "US" ? "Rural service" : "Servicio rural");
 }
