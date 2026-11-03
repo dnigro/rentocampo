@@ -139,13 +139,13 @@ export default async function ServiciosRuralesPage({
 
   const { data: publicaciones } = await supabase
     .from("servicios_publicaciones")
-    .select("id, propietario_id, servicios_rurales, foto_url, provincia, localidad, zona, activo, country_code")
+    .select("id, propietario_id, servicios_rurales, nombre_comercial, foto_url, provincia, localidad, zona, activo, country_code")
     .eq("activo", true)
     .eq("country_code", pais);
 
   const publicacionesPrestadores: Prestador[] = (publicaciones ?? [])
     .filter((p) => (!provincia || p.provincia === provincia) && (!servicioValido || (p.servicios_rurales ?? []).includes(servicioValido)))
-    .map((p) => ({ id: p.propietario_id, publicacion_id: p.id, titulo: tituloServicioRural(p.servicios_rurales, pais), service_photo_url: p.foto_url, servicios_rurales: p.servicios_rurales ?? [], zona_servicio: p.zona, provincia_servicio: p.provincia, localidad_servicio: p.localidad, is_demo: false }));
+    .map((p) => ({ id: p.propietario_id, publicacion_id: p.id, titulo: tituloServicioRural(p.servicios_rurales, pais, p.nombre_comercial), service_photo_url: p.foto_url, servicios_rurales: p.servicios_rurales ?? [], zona_servicio: p.zona, provincia_servicio: p.provincia, localidad_servicio: p.localidad, is_demo: false }));
 
   const prestadores: Prestador[] = [
     ...publicacionesPrestadores,
