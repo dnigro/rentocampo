@@ -64,7 +64,7 @@ export default async function ServicioDetallePage({ params }: { params: Promise<
   const { data: { user } } = await supabase.auth.getUser();
 
   const { data: publicacion } = await supabase.from("servicios_publicaciones")
-    .select("id, propietario_id, servicios_rurales, foto_url, provincia, localidad, zona, detalle, activo, country_code")
+    .select("id, propietario_id, servicios_rurales, foto_url, fotos_urls, provincia, localidad, zona, detalle, activo, country_code")
     .eq("id", id).eq("activo", true).maybeSingle();
 
   const { data: demo } = !publicacion
@@ -132,7 +132,7 @@ export default async function ServicioDetallePage({ params }: { params: Promise<
         ← Volver al listado de servicios
       </Link>
 
-      <GaleriaCarrusel fotos={[{ url: foto, orden: 0 }]} titulo={titulo || nombre} />
+      <GaleriaCarrusel fotos={(Array.isArray(publicacion?.fotos_urls) && publicacion.fotos_urls.length ? publicacion.fotos_urls : [foto]).map((url:string,orden:number)=>({url,orden}))} titulo={titulo || nombre} />
 
       <div className="ficha-body">
         <main className="ficha-main">
