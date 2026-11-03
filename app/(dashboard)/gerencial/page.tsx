@@ -120,6 +120,29 @@ export default async function GerencialPage() {
           <h2 className="text-lg font-semibold">Parque comercial por país</h2>
           <p className="text-sm text-zinc-500">Desglose de los países desplegados, incluso sin actividad real.</p>
         </div>
+        <div className="rc-gerencial__mobile-countries" role="list" aria-label="Actividad comercial por país">
+          {report.countries.map((c) => {
+            const total = c.registrations + c.activeLands + c.activeServices;
+            const countryName = isCountryCode(c.country) ? COUNTRIES[c.country].name : c.country;
+            const flag = isCountryCode(c.country) ? COUNTRIES[c.country].flag : "🌎";
+            return (
+              <div className={`rc-gerencial__country-bar-row ${total > 0 ? "rc-gerencial__country-bar-row--active" : ""}`} role="listitem" key={c.country}>
+                <div className="rc-gerencial__country-bar-heading">
+                  <strong>{flag} {countryName}</strong>
+                  <span>{c.country}</span>
+                </div>
+                <div className="rc-gerencial__country-bar-track" aria-label={`Actividad relativa de ${countryName}: ${total}`}>
+                  <span style={{ width: `${(total / largest) * 100}%` }} />
+                </div>
+                <div className="rc-gerencial__country-bar-metrics">
+                  <span>Registros <strong>{c.registrations}</strong></span>
+                  <span>Campos <strong>{c.activeLands}</strong></span>
+                  <span>Servicios <strong>{c.activeServices}</strong></span>
+                </div>
+              </div>
+            );
+          })}
+        </div>
         <div className="rc-gerencial__table-scroll overflow-x-auto" role="region" aria-label="Parque comercial por país" tabIndex={0}>
           <table className="rc-gerencial__table w-full min-w-[610px] border-collapse text-sm">
             <thead className="bg-zinc-50 text-xs uppercase tracking-wider text-zinc-500">
