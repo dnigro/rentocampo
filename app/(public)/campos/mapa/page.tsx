@@ -64,7 +64,7 @@ export default async function MapaPage({
 
   const { data: publicacionesServicios } = await supabase
     .from("servicios_publicaciones")
-    .select("id, propietario_id, servicios_rurales, foto_url, provincia, localidad, zona, activo, country_code, latitud, longitud")
+    .select("id, propietario_id, servicios_rurales, nombre_comercial, foto_url, provincia, localidad, zona, activo, country_code, latitud, longitud")
     .eq("activo", true)
     .eq("country_code", selectedCountry);
 
@@ -80,7 +80,7 @@ export default async function MapaPage({
     ...(publicacionesServicios ?? []).map((publicacion) => ({
       id: publicacion.propietario_id,
       publicacion_id: publicacion.id,
-      titulo: tituloServicioRural(publicacion.servicios_rurales, selectedCountry),
+      titulo: tituloServicioRural(publicacion.servicios_rurales, selectedCountry, publicacion.nombre_comercial),
       country_code: publicacion.country_code as CountryCode,
       bio: undefined,
       avatar_url: undefined,
