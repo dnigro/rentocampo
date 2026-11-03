@@ -230,7 +230,7 @@ export default async function ServiciosRuralesPage({
                 servicioInicial={servicioValido}
               />
             </ListingFiltersPanel>
-            <div className="rc-explorer-grid__results">
+            <div className="rc-explorer-grid__results" id="rc-explorer-results">
           {prestadores.length > 0 ? (
             <div className="servicios-prestadores-grid">
               {prestadores.map((prestador) => {
