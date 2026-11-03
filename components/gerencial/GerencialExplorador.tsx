@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { BarChart3, Globe2, MapPinned, UsersRound, Wrench, TrendingUp } from "lucide-react";
+import { BarChart3, Globe2, MapPinned, TrendingUp, UsersRound, Wrench, Target, ShieldCheck } from "lucide-react";
 import { COUNTRIES, isCountryCode } from "@/data/countries";
 
 type CountryStats = {
@@ -12,241 +12,183 @@ type CountryStats = {
 };
 type MonthStats = { month: string; registrations: number; activeLands: number; activeServices: number };
 type Totals = { registrations: number; activeLands: number; activeServices: number };
+type Panel = "resumen" | "mercados";
 
-function countryName(code: string) {
-  return isCountryCode(code) ? COUNTRIES[code].name : code;
-}
-function countryFlag(code: string) {
-  return isCountryCode(code) ? COUNTRIES[code].flag : "🌎";
-}
-function formatNumber(value: number) {
-  return value.toLocaleString("es-AR");
-}
-function percent(value: number, max: number) {
-  return max > 0 ? Math.min(100, Math.max(0, 100 * value / max)) : 0;
-}
+const format = (value: number) => value.toLocaleString("es-AR");
+const nameOf = (code: string) => isCountryCode(code) ? COUNTRIES[code].name : code;
+const flagOf = (code: string) => isCountryCode(code) ? COUNTRIES[code].flag : "🌎";
+const totalOf = (row: CountryStats) => row.registrations + row.activeLands + row.activeServices;
+const goal = 1000;
 
 export default function GerencialExplorador({
-  countries, months, totals,
+  countries, months, totals, updatedAt,
 }: {
   countries: CountryStats[];
   months: MonthStats[];
   totals: Totals;
+  updatedAt: string;
 }) {
-  const [selected, setSelected] = useState("ALL");
-  const [showAllCountries, setShowAllCountries] = useState(false);
-  const sorted = useMemo(
-    () => [...countries].sort((a,b) =>
-      (b.registrations + b.activeLands + b.activeServices) -
-      (a.registrations + a.activeLands + a.activeServices) ||
-      countryName(a.country).localeCompare(countryName(b.country), "es")),
-    [countries]
+  const [panel, setPanel] = useState<Panel>("resumen");
+  const [countryCode, setCountryCode] = useState("ALL");
+
+  const ordered = useMemo(() =>
+    [...countries].sort((a, b) => totalOf(b) - totalOf(a) ||
+      nameOf(a.country).localeCompare(nameOf(b.country), "es")),
+    [countries],
   );
-  const current = countries.find((c) => c.country === selected);
-  const all = selected === "ALL";
-  const numbers = all ? totals : {
-    registrations: current?.registrations ?? 0,
-    activeLands: current?.activeLands ?? 0,
-    activeServices: current?.activeServices ?? 0,
-  };
-  const activeCountries = sorted.filter((c) => c.registrations + c.activeLands + c.activeServices > 0);
-  const inactiveCountries = sorted.filter((c) => c.registrations + c.activeLands + c.activeServices === 0);
-  const maxRegistrations = Math.max(1, ...sorted.map((c) => c.registrations));
-  const maxLands = Math.max(1, ...sorted.map((c) => c.activeLands));
-  const maxServices = Math.max(1, ...sorted.map((c) => c.activeServices));
-  const shownCountries = all
-    ? (showAllCountries ? sorted : sorted.slice(0, Math.max(5, activeCountries.length)))
-    : current ? [current] : [];
-  const progress = percent(totals.registrations, 1000);
-  const countryShare = percent(current?.registrations ?? 0, totals.registrations);
-  const monthlyMax = Math.max(1, ...months.flatMap((m) => [m.registrations, m.activeLands, m.activeServices]));
-  const metricMax = Math.max(1, numbers.registrations, numbers.activeLands, numbers.activeServices);
-  const activity = numbers.registrations + numbers.activeLands + numbers.activeServices;
+  const active = ordered.filter((c) => totalOf(c) > 0);
+  const country = countryCode === "ALL"
+    ? (active[0] ?? ordered[0])
+    : ordered.find((c) => c.country === countryCode);
+  const shown: CountryStats = country ?? { country: "AR", registrations: 0, activeLands: 0, activeServices: 0 };
+
+  const activeCount = active.length;
+  const inactiveCount = countries.length - activeCount;
+  const publicationTotal = totals.activeLands + totals.activeServices;
+  const progress = Math.min(100, (totals.registrations / goal) * 100);
+  const remaining = Math.max(0, goal - totals.registrations);
+  const selectedSum = totalOf(shown);
+  const recentMonths = months.slice(-3);
+  const maxMonth = Math.max(1, ...recentMonths.map((m) => m.registrations));
+
+  const cards = [
+    { label: "Registros", value: totals.registrations, description: "Correos confirmados", Icon: UsersRound },
+    { label: "Campos", value: totals.activeLands, description: "Publicaciones activas", Icon: MapPinned },
+    { label: "Servicios", value: totals.activeServices, description: "Publicaciones activas", Icon: Wrench },
+    { label: "Países con actividad", value: activeCount, description: "De " + countries.length + " mercados", Icon: Globe2, featured: true },
+  ];
 
   return (
-    <div className="rc-growth" aria-label="Panel visual gerencial">
-      <div className="rc-growth__controls">
-        <div className="rc-growth__heading">
-          <span className="rc-growth__eyebrow"><Globe2 size={15} aria-hidden="true" /> Visión comercial</span>
-          <h2>{all ? "Todos los países" : countryName(selected)}</h2>
-          <p>{all ? "Resumen regional de las oportunidades reales." : "Actividad real de este mercado."}</p>
+    <div className="rc-decision" aria-label="Panel de decisión de RentoCampo">
+      <header className="rc-decision__header">
+        <div>
+          <span className="rc-decision__eyebrow">RentoCampo · Growth 360°</span>
+          <h1>Reporte gerencial</h1>
+          <p>Actividad comercial real · actualizado {new Date(updatedAt).toLocaleString("es-AR", {
+            timeZone: "America/Argentina/Buenos_Aires", dateStyle: "short", timeStyle: "short"
+          })}</p>
         </div>
-        <label className="rc-growth__select">
-          <span>País</span>
-          <select value={selected} onChange={(e) => setSelected(e.target.value)} aria-label="Seleccionar país del reporte">
-            <option value="ALL">🌎 Todos los países</option>
-            {countries.map((c) => (
-              <option value={c.country} key={c.country}>{countryFlag(c.country)} {countryName(c.country)}</option>
-            ))}
-          </select>
-        </label>
+        <span className="rc-decision__private"><ShieldCheck size={15} aria-hidden="true" /> Privado</span>
+      </header>
+
+      <div className="rc-decision__tabs" role="tablist" aria-label="Secciones del reporte">
+        <button type="button" role="tab" id="rc-decision-tab-summary"
+          aria-selected={panel === "resumen"} aria-controls="rc-decision-summary"
+          onClick={() => setPanel("resumen")}>Resumen</button>
+        <button type="button" role="tab" id="rc-decision-tab-markets"
+          aria-selected={panel === "mercados"} aria-controls="rc-decision-markets"
+          onClick={() => setPanel("mercados")}>Análisis comercial</button>
       </div>
 
-      <div className="rc-growth__kpis">
-        <div className="rc-growth__kpi">
-          <span className="rc-growth__kpi-icon"><UsersRound size={21} aria-hidden="true" /></span>
-          <span className="rc-growth__kpi-label">Registros</span>
-          <strong>{formatNumber(numbers.registrations)}</strong>
-          <small>Cuentas externas con correo confirmado</small>
-        </div>
-        <div className="rc-growth__kpi">
-          <span className="rc-growth__kpi-icon"><MapPinned size={21} aria-hidden="true" /></span>
-          <span className="rc-growth__kpi-label">Campos publicados</span>
-          <strong>{formatNumber(numbers.activeLands)}</strong>
-          <small>Publicaciones activas, sin DEMO</small>
-        </div>
-        <div className="rc-growth__kpi">
-          <span className="rc-growth__kpi-icon"><Wrench size={21} aria-hidden="true" /></span>
-          <span className="rc-growth__kpi-label">Servicios publicados</span>
-          <strong>{formatNumber(numbers.activeServices)}</strong>
-          <small>Publicaciones activas, sin DEMO</small>
-        </div>
-        <div className="rc-growth__kpi rc-growth__kpi--accent">
-          <span className="rc-growth__kpi-icon"><Globe2 size={21} aria-hidden="true" /></span>
-          <span className="rc-growth__kpi-label">{all ? "Países con actividad" : "Estado del mercado"}</span>
-          <strong>{all ? formatNumber(activeCountries.length) : activity > 0 ? "Activo" : "0"}</strong>
-          <small>{all ? `de ${countries.length} mercados` : activity > 0 ? "Tiene registros u oferta" : "Sin actividad registrada"}</small>
-        </div>
-      </div>
-
-      <div className="rc-growth__visuals">
-        <section className="rc-growth__panel rc-growth__composition" aria-label="Comparación de indicadores comerciales">
-          <div className="rc-growth__panel-head">
-            <div>
-              <span className="rc-growth__panel-kicker"><BarChart3 size={15} aria-hidden="true" /> Distribución comercial</span>
-              <h3>Registros y publicaciones activas</h3>
-            </div>
+      {panel === "resumen" ? (
+        <section className="rc-decision__view" id="rc-decision-summary" role="tabpanel"
+          aria-labelledby="rc-decision-tab-summary">
+          <div className="rc-decision__view-heading">
+            <div><span className="rc-decision__kicker"><BarChart3 size={15} /> TABLERO</span>
+              <h2>Estado del negocio</h2></div>
+            <span className="rc-decision__small-pill">{activeCount} / {countries.length} países</span>
           </div>
-          <p className="rc-growth__subnote">Comparación de cantidades; los registros son usuarios, los campos y servicios son publicaciones.</p>
-          {([
-            { name: "Registros", value: numbers.registrations, kind: "registrations" },
-            { name: "Campos", value: numbers.activeLands, kind: "lands" },
-            { name: "Servicios", value: numbers.activeServices, kind: "services" },
-          ] as const).map((item) => (
-            <div className="rc-growth__composition-row" key={item.kind}>
-              <div className="rc-growth__composition-label"><span>{item.name}</span><strong>{formatNumber(item.value)}</strong></div>
-              <div className="rc-growth__composition-track" role="img" aria-label={item.name + ": " + item.value}>
-                <span className={"rc-growth__fill rc-growth__fill--" + item.kind} style={{ width: percent(item.value, metricMax) + "%" }} />
-              </div>
-            </div>
-          ))}
-        </section>
-        <section className="rc-growth__panel rc-growth__goal" aria-label="Progreso y participación">
-          <span className="rc-growth__panel-kicker"><TrendingUp size={15} aria-hidden="true" /> Meta comercial</span>
-          <h3>{all ? "Objetivo: 1.000 registros" : "Peso del mercado"}</h3>
-          <div className="rc-growth__goal-score">
-            <strong>{(all ? progress : countryShare).toLocaleString("es-AR", { maximumFractionDigits: 1 })}%</strong>
-            <span>{all ? "de la meta" : "de los registros globales"}</span>
-          </div>
-          <div className="rc-growth__goal-track" role="progressbar"
-            aria-valuemin={0} aria-valuemax={100} aria-valuenow={all ? progress : countryShare}>
-            <span style={{ width: (all ? progress : countryShare) + "%" }} />
-          </div>
-          <div className="rc-growth__goal-meta">
-            <span>{all ? formatNumber(totals.registrations) + " registrados" : formatNumber(numbers.registrations) + " del país"}</span>
-            <strong>{all ? formatNumber(Math.max(0, 1000 - totals.registrations)) + " pendientes" : formatNumber(totals.registrations) + " globales"}</strong>
-          </div>
-        </section>
-      </div>
-
-      <section className="rc-growth__panel rc-growth__zebra" aria-label="Actividad por país en barras horizontales y filas alternadas">
-        <div className="rc-growth__panel-head">
-          <div>
-            <span className="rc-growth__panel-kicker"><Globe2 size={15} aria-hidden="true" /> Mercados</span>
-            <h3>Parque comercial por país</h3>
-          </div>
-          <small>{activeCountries.length} con actividad / {countries.length} países</small>
-        </div>
-        <div className="rc-growth__legend" aria-label="Referencias de color">
-          <span><i className="rc-growth__legend-registrations" /> Registros</span>
-          <span><i className="rc-growth__legend-lands" /> Campos</span>
-          <span><i className="rc-growth__legend-services" /> Servicios</span>
-        </div>
-        <div className="rc-growth__zebra-list">
-          {shownCountries.map((c, i) => {
-            const total = c.registrations + c.activeLands + c.activeServices;
-            return (
-              <div className={"rc-growth__zebra-row" + (i % 2 ? " rc-growth__zebra-row--alt" : "") + (total > 0 ? " rc-growth__zebra-row--active" : "")} key={c.country}>
-                <div className="rc-growth__zebra-name">
-                  <strong>{countryFlag(c.country)} {countryName(c.country)}</strong>
-                  <small>{total ? "Con actividad" : "Sin actividad registrada"}</small>
+          <div className="rc-decision__kpis">
+            {cards.map(({label,value,description,Icon,featured}) => (
+              <div key={label} className={"rc-decision__kpi" + (featured ? " rc-decision__kpi--featured" : "")}>
+                <div className="rc-decision__kpi-top">
+                  <span className="rc-decision__icon"><Icon size={23} strokeWidth={1.9} aria-hidden="true" /></span>
+                  <strong>{format(value)}</strong>
                 </div>
-                <div className="rc-growth__zebra-bars">
-                  {([
-                    { label: "Registros", value: c.registrations, kind: "registrations", max: maxRegistrations },
-                    { label: "Campos", value: c.activeLands, kind: "lands", max: maxLands },
-                    { label: "Servicios", value: c.activeServices, kind: "services", max: maxServices },
-                  ] as const).map((m) => (
-                    <div key={m.kind} className="rc-growth__zebra-metric">
-                      <span className="rc-growth__zebra-metric-label">{m.label}</span>
-                      <div className="rc-growth__zebra-track" role="img" aria-label={m.label + ": " + m.value}>
-                        <span className={"rc-growth__fill rc-growth__fill--" + m.kind} style={{ width: percent(m.value, m.max) + "%" }} />
-                      </div>
-                      <strong>{formatNumber(m.value)}</strong>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            );
-          })}
-        </div>
-        {all && shownCountries.length < sorted.length && (
-          <button className="rc-growth__expand" type="button" onClick={() => setShowAllCountries(true)}>
-            Ver los {sorted.length} países · {inactiveCountries.length} sin actividad
-          </button>
-        )}
-        {all && showAllCountries && sorted.length > 5 && (
-          <button className="rc-growth__expand" type="button" onClick={() => setShowAllCountries(false)}>Mostrar vista resumida</button>
-        )}
-      </section>
-
-      {all && (
-        <section className="rc-growth__panel rc-growth__monthly">
-          <div className="rc-growth__panel-head">
-            <div>
-              <span className="rc-growth__panel-kicker"><TrendingUp size={15} aria-hidden="true" /> Evolución</span>
-              <h3>Altas · últimos seis meses</h3>
-            </div>
-            <small>Todos los países</small>
-          </div>
-          <div className="rc-growth__legend" aria-hidden="true">
-            <span><i className="rc-growth__legend-registrations" /> Registros</span>
-            <span><i className="rc-growth__legend-lands" /> Campos</span>
-            <span><i className="rc-growth__legend-services" /> Servicios</span>
-          </div>
-          <div className="rc-growth__monthly-chart" role="img" aria-label="Barras verticales de altas de registros y publicaciones activas por mes">
-            {months.map((m) => (
-              <div className="rc-growth__monthly-group" key={m.month}>
-                <div className="rc-growth__monthly-columns">
-                  {([
-                    { label: "Registros", value: m.registrations, kind: "registrations" },
-                    { label: "Campos", value: m.activeLands, kind: "lands" },
-                    { label: "Servicios", value: m.activeServices, kind: "services" },
-                  ] as const).map((v) => (
-                    <div key={v.kind} className={"rc-growth__monthly-column rc-growth__fill--" + v.kind}
-                      style={{ height: (v.value ? Math.max(6, (100 * v.value) / monthlyMax) : 0) + "%" }}
-                      title={m.month + " · " + v.label + ": " + v.value} />
-                  ))}
-                </div>
-                <strong>{m.month.slice(5)}</strong>
+                <span className="rc-decision__kpi-title">{label}</span>
+                <small>{description}</small>
               </div>
             ))}
           </div>
-          <p className="rc-growth__subnote">Altas según fecha de creación. Campos y servicios: sólo publicaciones que siguen activas; no es el histórico de bajas.</p>
-          <details className="rc-growth__monthly-detail">
-            <summary>Ver valores exactos por mes</summary>
-            <div className="rc-growth__monthly-table-wrap">
-              <table className="rc-growth__monthly-table">
-                <thead><tr><th>Mes</th><th>Registros</th><th>Campos</th><th>Servicios</th></tr></thead>
-                <tbody>{months.map((m) => <tr key={m.month}>
-                  <td>{m.month}</td><td>{m.registrations}</td><td>{m.activeLands}</td><td>{m.activeServices}</td>
-                </tr>)}</tbody>
-              </table>
+          <div className="rc-decision__data-note"><ShieldCheck size={17} aria-hidden="true" />
+            Sin cuentas internas ni publicaciones DEMO. Registros y publicaciones son unidades distintas.
+          </div>
+          <div className="rc-decision__mini-trend">
+            <div className="rc-decision__mini-head">
+              <div><span className="rc-decision__kicker"><TrendingUp size={15} /> EVOLUCIÓN</span>
+                <h3>Nuevos registros por mes</h3></div>
+              <small>Últimos 3 meses</small>
             </div>
-          </details>
+            <div className="rc-decision__mini-bars" role="img"
+              aria-label={"Altas mensuales: " + recentMonths.map((m) => m.month + ": " + m.registrations).join(", ")}>
+              {recentMonths.map((m) => (
+                <div className="rc-decision__mini-month" key={m.month}>
+                  <strong>{m.registrations}</strong>
+                  <div className="rc-decision__mini-track">
+                    <span style={{ height: (m.registrations ? Math.max(10, m.registrations / maxMonth * 100) : 0) + "%" }} />
+                  </div>
+                  <small>{new Date(m.month + "-01T12:00:00Z").toLocaleDateString("es-AR", {
+                    month: "short", timeZone: "UTC"
+                  })}</small>
+                </div>
+              ))}
+            </div>
+          </div>
+          <p className="rc-decision__source">Fuente: Supabase producción · Sólo lectura · Visitas y chats aún sin medición conectada.</p>
+        </section>
+      ) : (
+        <section className="rc-decision__view rc-decision__view--markets" id="rc-decision-markets"
+          role="tabpanel" aria-labelledby="rc-decision-tab-markets">
+          <div className="rc-decision__view-heading">
+            <div><span className="rc-decision__kicker"><Globe2 size={15} /> MERCADOS</span>
+              <h2>Comparativo por país</h2></div>
+            <span className="rc-decision__small-pill">{activeCount} con actividad</span>
+          </div>
+          <label className="rc-decision__country-picker">
+            <span>País</span>
+            <select value={countryCode} onChange={(e) => setCountryCode(e.target.value)}>
+              <option value="ALL">🌎 Principal mercado activo</option>
+              {countries.map((c) => (
+                <option key={c.country} value={c.country}>{flagOf(c.country)} {nameOf(c.country)}</option>
+              ))}
+            </select>
+          </label>
+
+          <div className="rc-decision__country-card">
+            <div className="rc-decision__country-title">
+              <strong>{flagOf(shown.country)} {nameOf(shown.country)}</strong>
+              <span>{selectedSum > 0 ? "Con actividad" : "Sin actividad"}</span>
+            </div>
+            <div className="rc-decision__country-track" role="img"
+              aria-label={nameOf(shown.country) + ": " + shown.registrations + " registros, " + shown.activeLands + " campos y " + shown.activeServices + " servicios"}>
+              <span className="rc-decision__piece rc-decision__piece--registrations"
+                style={{ width: (selectedSum ? shown.registrations / selectedSum * 100 : 0) + "%" }} />
+              <span className="rc-decision__piece rc-decision__piece--lands"
+                style={{ width: (selectedSum ? shown.activeLands / selectedSum * 100 : 0) + "%" }} />
+              <span className="rc-decision__piece rc-decision__piece--services"
+                style={{ width: (selectedSum ? shown.activeServices / selectedSum * 100 : 0) + "%" }} />
+            </div>
+            <div className="rc-decision__country-figures">
+              <div><i className="rc-decision__dot rc-decision__dot--registrations" /><strong>{format(shown.registrations)}</strong><span>Registros</span></div>
+              <div><i className="rc-decision__dot rc-decision__dot--lands" /><strong>{format(shown.activeLands)}</strong><span>Campos</span></div>
+              <div><i className="rc-decision__dot rc-decision__dot--services" /><strong>{format(shown.activeServices)}</strong><span>Servicios</span></div>
+            </div>
+          </div>
+
+          <div className="rc-decision__goal">
+            <div className="rc-decision__goal-head"><TrendingUp size={17} aria-hidden="true" />
+              <h3>Avance global a 1.000 registros</h3></div>
+            <div className="rc-decision__goal-content">
+              <div className="rc-decision__donut"
+                style={{ background: "conic-gradient(#285879 " + progress + "%, #e1eaf0 0)" }}
+                role="img" aria-label={progress.toLocaleString("es-AR", { maximumFractionDigits: 1 }) + "% de la meta"}>
+                <div><strong>{progress.toLocaleString("es-AR", { maximumFractionDigits: 1 })}%</strong><small>meta</small></div>
+              </div>
+              <div className="rc-decision__goal-right">
+                <span>Faltan</span><strong>{format(remaining)}</strong>
+                <small>para alcanzar la meta</small>
+              </div>
+            </div>
+            <p>{format(totals.registrations)} de 1.000 registros confirmados</p>
+          </div>
+          <div className="rc-decision__priority">
+            <Target size={25} strokeWidth={1.7} aria-hidden="true" />
+            <div><strong>Prioridad comercial</strong>
+              <span>Captar campos reales y sumar servicios activos.</span></div>
+          </div>
+          <p className="rc-decision__markets-note">{inactiveCount} países sin actividad. Seleccionalos en el filtro para ver sus indicadores. Oferta activa total: {format(publicationTotal)} publicaciones.</p>
         </section>
       )}
-      <p className="rc-growth__footnote">Registros con correo confirmado y perfil. Campos y servicios publicados activos, sin DEMO ni cuentas internas. Visitas y chats no conectados; no se muestran estimaciones.</p>
     </div>
   );
 }
