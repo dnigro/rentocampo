@@ -210,6 +210,7 @@ export default async function ServiciosRuralesPage({
 
         <ListingExplorerToolbar
           country={pais}
+          count={pais==="US"?`${prestadores.length} providers found`:pais==="BR"?`${prestadores.length} prestadores encontrados`:`${prestadores.length} prestadores encontrados`}
           mapHref={`/campos/mapa?${mapParams.toString()}`}
           mapLabel={tt("Ver en mapa", "Ver no mapa")}
           relatedHref={`/campos?pais=${pais}`}
