@@ -4,6 +4,7 @@ import ListingCountrySelector from "@/components/listings/ListingCountrySelector
 
 interface Props {
   country: CountryCode;
+  count: string;
   mapHref: string;
   mapLabel: string;
   relatedHref: string;
@@ -12,7 +13,7 @@ interface Props {
 }
 
 export default function ListingExplorerToolbar({
-  country, mapHref, mapLabel, relatedHref, relatedLabel, ariaLabel,
+  country, count, mapHref, mapLabel, relatedHref, relatedLabel, ariaLabel,
 }: Props) {
   return (
     <nav className="rc-explorer-toolbar" aria-label={ariaLabel}>
@@ -21,6 +22,7 @@ export default function ListingExplorerToolbar({
       </Link>
       <ListingCountrySelector country={country} />
       <Link className="rc-explorer-toolbar__related" href={relatedHref}>{relatedLabel}</Link>
+      <a className="rc-explorer-toolbar__count" href="#rc-explorer-results" aria-label={count}>{count}<span aria-hidden="true">↓</span></a>
     </nav>
   );
 }
