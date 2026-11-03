@@ -47,7 +47,7 @@ interface Props {
 interface ServicioPin {
   id: string;
   publicacion_id?: string;
-  nombre: string;
+  titulo: string;
   country_code?: CountryCode;
   bio?: string;
   avatar_url?: string;
@@ -253,7 +253,7 @@ export default function CampoMapa({
           })
             .addTo(serviciosGroup)
             .bindTooltip(
-              `${prestador.nombre} · ${tt("Servicios rurales", "Serviços rurais")}${prestador.is_demo ? " · DEMO" : ""}`,
+              `${prestador.titulo} · ${tt("Servicios rurales", "Serviços rurais")}${prestador.is_demo ? " · DEMO" : ""}`,
             )
             .on("click", () => {
               setSelectedCampo(null);
@@ -558,7 +558,7 @@ export default function CampoMapa({
             <div className="mapa-servicio-foto">
               <Image
                 src={selectedServicio.service_photo_url}
-                alt={`${selectedServicio.nombre} · servicio rural`}
+                alt={`${selectedServicio.titulo} · servicio rural`}
                 width={640}
                 height={360}
               />
@@ -567,7 +567,7 @@ export default function CampoMapa({
           <p className="mapa-panel-aptitud mapa-panel-aptitud-servicio">
             {selectedServicio.is_demo ? tt("SERVICIO DEMO","SERVIÇO DEMO") : tt("Servicios rurales","Serviços rurais")}
           </p>
-          <h3 className="mapa-panel-titulo">{selectedServicio.nombre}</h3>
+          <h3 className="mapa-panel-titulo">{selectedServicio.titulo}</h3>
           <p className="mapa-panel-ubicacion">
             {[
               selectedServicio.localidad_servicio,
