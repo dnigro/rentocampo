@@ -61,3 +61,8 @@
 /* Override rc-detail gallery's fixed-height rules from ficha.css, which were cropping the photo. */
 .app-shell .rc-detail.servicio-ficha .servicio-ficha-galeria{width:100%;height:auto!important;aspect-ratio:16 / 9!important;max-width:none;min-height:0!important;overflow:hidden;position:relative}
 .app-shell .rc-detail.servicio-ficha .servicio-ficha-galeria img{object-fit:contain!important;object-position:center!important;filter:none!important}
+
+/* Reuse the exact land-detail viewer layout, but show the full image on service detail. */
+.app-shell .rc-detail.servicio-ficha .ficha-galeria{height:clamp(280px,43vw,520px);max-width:100%;margin-bottom:24px}
+.app-shell .rc-detail.servicio-ficha .galeria-principal img{object-fit:contain!important;object-position:center!important;filter:none!important;background:#f3f2ef}
+@media(max-width:768px){.app-shell .rc-detail.servicio-ficha .ficha-galeria{height:clamp(220px,65vw,360px)}}
