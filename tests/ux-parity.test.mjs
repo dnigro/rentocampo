@@ -293,3 +293,41 @@ test("desktop hero brings diagonal nearer to copy without changing mobile geomet
  assert.ok(theme.includes("@media (max-width: 640px)"));
  assert.ok(theme.includes("height: clamp(205px, 54vw, 278px)"));
 });
+
+
+test("PR319 corporate interior preserves management data and keeps chat composer outside the scroll area",()=>{
+ const theme=read("styles/rc-internal-corporate.css");
+ const reportCss=read("styles/rc-management-report.css");
+ const report=read("app/(dashboard)/gerencial/page.tsx");
+ const dashboard=read("app/(dashboard)/dashboard/page.tsx");
+ const fieldForm=read("components/campos/CampoForm.tsx");
+ const serviceForm=read("components/servicios/ServicioRuralForm.tsx");
+ const messages=[
+   read("components/mensajes/MensajeHilo.tsx"),
+   read("components/mensajes/MensajeDirectoHilo.tsx"),
+ ];
+ assert.match(read("app/layout.tsx"),/import "@\\/styles\\/rc-internal-corporate\\.css"/);
+ assert.match(theme,/\.perfil-page>/);
+ assert.match(theme,/\.form-section-title-editorial/);
+ assert.match(theme,/\.rc-explorer-toolbar/);
+ assert.match(theme,/\.hilo-mensajes>div/);
+ assert.match(theme,/flex:0 0 auto!important/);
+ assert.match(theme,/overflow-y:auto!important/);
+ assert.match(report,/getCommercialStats\(\)/);
+ assert.match(report,/INTERNAL_TEST_EMAILS/);
+ assert.match(report,/rc-gerencial__metric/);
+ assert.match(report,/rc-gerencial__table-scroll/);
+ assert.match(report,/rc-management-report\\.css/);
+ assert.match(reportCss,/\.rc-gerencial__country-active/);
+ assert.match(dashboard,/from "lucide-react"/);
+ assert.match(fieldForm,/className="campo-form"/);
+ assert.match(serviceForm,/className="campo-form servicio-publicacion-form"/);
+ for(const chat of messages){
+   assert.match(chat,/ref=\{messagesViewportRef\}/);
+   assert.match(chat,/viewport\.scrollTo\(/);
+   assert.doesNotMatch(chat,/bottomRef\.current\?\.scrollIntoView/);
+   assert.match(chat,/className="mensaje-compose"/);
+   assert.match(chat,/rows=\{2\}/);
+   assert.match(chat,/type="submit"/);
+ }
+});
