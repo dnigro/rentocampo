@@ -23,7 +23,7 @@ test("web desktop, mobile and Lite share +SIMPLE with MAP and ONLINE CHAT", () =
   const css=read("styles/hero-simple-map-chat.css");
   assert.ok(web.includes("<SimpleMapChatHero />"), "web uses the shared hero");
   assert.ok(lite.includes("<SimpleMapChatHero lite />"), "Lite uses the same hero");
-  for(const text of ["CAMPOS Y SERVICIOS","SIMPLE","MAPA","CHAT ONLINE","Seleccioná la zona","Contactá en línea","REGISTRATE GRATIS","Explorar el mapa","0%","100%","COMISIÓN","CONTACTO DIRECTO"]) {
+  for(const text of ["TIERRAS QUE PRODUCEN FUTURO","Tu campo tiene potencial. Hacelo visible.","MAPA","CHAT ONLINE","Seleccioná la zona","Contactá en línea","Registrate gratis","Explorar campos","0%","100%","COMISIÓN","CONTACTO DIRECTO"]) {
     assert.ok(hero.includes(text), text+" is present");
   }
   assert.ok(hero.includes('href={lite ? "/lite/cuenta/registro" : "/register"}'));
@@ -35,7 +35,7 @@ test("web desktop, mobile and Lite share +SIMPLE with MAP and ONLINE CHAT", () =
   assert.ok(css.includes("grid-template-columns:1fr 1fr"));
   assert.ok(css.includes(".rcsm-button:focus-visible"));
   assert.ok(css.includes("prefers-reduced-motion"));
-  assert.ok(hero.includes("TERRAS E SERVIÇOS") && hero.includes("LAND & SERVICES"));
+  assert.ok(hero.includes("TERRAS QUE PRODUZEM FUTURO") && hero.includes("LAND THAT BUILDS THE FUTURE"));
 });
 
 test("desktop hero rotates to copy on left and cattle on right without changing mobile or Lite",()=>{
