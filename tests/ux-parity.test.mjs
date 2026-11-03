@@ -36,6 +36,10 @@ test("web desktop, mobile and Lite share +SIMPLE with MAP and ONLINE CHAT", () =
   assert.ok(css.includes(".rcsm-button:focus-visible"));
   assert.ok(css.includes("prefers-reduced-motion"));
   assert.ok(hero.includes("TERRAS QUE PRODUZEM FUTURO") && hero.includes("LAND THAT BUILDS THE FUTURE"));
+  for (const copy of ["PRODUCTORES Y SERVICIOS RURALES","PRODUTORES E SERVIÇOS RURAIS","PRODUCERS AND RURAL SERVICES","¡SUMATE!","PARTICIPE!","JOIN US!"]) {
+    assert.ok(hero.includes(copy), "regional audience copy missing: "+copy);
+  }
+  assert.ok(css.includes(".rcsm-description__audience") && css.includes(".rcsm-description__invite"), "responsive subordinate hero hierarchy");
 });
 
 test("desktop hero rotates to copy on left and cattle on right without changing mobile or Lite",()=>{
