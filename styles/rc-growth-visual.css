@@ -190,3 +190,174 @@ html body .app-shell .rc-gerencial__legacy-details[open]{padding-bottom:16px}
   html body .app-shell .rc-growth__panel-head h3{font-size:18px}
   html body .app-shell .rc-growth__visuals{gap:11px}
 }
+
+
+/* Gerencial V3 · matriz zebra responsive y gráfica comparativa, 03/11/2026 */
+html body .app-shell .rc-growth__visuals{
+  grid-template-columns:minmax(0,1.7fr) minmax(245px,.9fr);
+}
+html body .app-shell .rc-growth__subnote{
+  font-size:12px;color:#6a8191;line-height:1.55;margin:0 0 20px!important;
+}
+html body .app-shell .rc-growth__composition-row{margin-top:17px}
+html body .app-shell .rc-growth__composition-label{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  margin-bottom:7px;font-size:13px;font-weight:700;color:#36576d;
+}
+html body .app-shell .rc-growth__composition-label strong{
+  color:#123149;font-size:18px;font-weight:800;font-variant-numeric:tabular-nums;
+}
+html body .app-shell .rc-growth__composition-track{
+  height:14px;background:#e9eff3;border-radius:99px;overflow:hidden;
+}
+html body .app-shell .rc-growth__fill{height:100%;display:block;border-radius:99px}
+html body .app-shell .rc-growth__fill--registrations{background:#285879}
+html body .app-shell .rc-growth__fill--lands{background:#86a0af}
+html body .app-shell .rc-growth__fill--services{background:#bdccd4}
+html body .app-shell .rc-growth__goal{
+  display:flex;flex-direction:column;justify-content:center;
+  background:#e8f0f5!important;
+}
+html body .app-shell .rc-growth__goal h3{
+  margin:7px 0 16px;font-size:20px;color:#15374f;font-weight:800;line-height:1.25;
+}
+html body .app-shell .rc-growth__goal-score{
+  display:flex;flex-direction:column;gap:1px;margin-bottom:15px;
+}
+html body .app-shell .rc-growth__goal-score strong{
+  color:#14364e;font-size:clamp(36px,5vw,58px);line-height:1.05;
+  letter-spacing:-.045em;font-weight:820;font-variant-numeric:tabular-nums;
+}
+html body .app-shell .rc-growth__goal-score span{font-size:12px;color:#637e90}
+html body .app-shell .rc-growth__goal-track{
+  height:10px;background:#cad9e3;border-radius:99px;overflow:hidden;
+}
+html body .app-shell .rc-growth__goal-track span{
+  display:block;height:100%;background:#285879;border-radius:99px;min-width:0;
+}
+html body .app-shell .rc-growth__goal-meta{
+  display:flex;justify-content:space-between;gap:8px;margin-top:13px;
+  font-size:11px;color:#5f7b8e;
+}
+html body .app-shell .rc-growth__goal-meta strong{font-weight:800;color:#244e6a}
+html body .app-shell .rc-growth__zebra{padding:22px 0!important}
+html body .app-shell .rc-growth__zebra>.rc-growth__panel-head,
+html body .app-shell .rc-growth__zebra>.rc-growth__legend{padding:0 23px}
+html body .app-shell .rc-growth__zebra>.rc-growth__panel-head{margin-bottom:12px}
+html body .app-shell .rc-growth__zebra>.rc-growth__legend{margin-bottom:14px}
+html body .app-shell .rc-growth__zebra-list{border-top:1px solid #dde6ec}
+html body .app-shell .rc-growth__zebra-row{
+  display:grid;grid-template-columns:minmax(140px,210px) minmax(0,1fr);
+  gap:20px;align-items:center;padding:15px 23px;
+  border-bottom:1px solid #dce6eb;background:#fff;
+}
+html body .app-shell .rc-growth__zebra-row--alt{background:#edf3f7}
+html body .app-shell .rc-growth__zebra-row--active{
+  box-shadow:inset 4px 0 #315e7d;background:#e6f0f5;
+}
+html body .app-shell .rc-growth__zebra-name{min-width:0}
+html body .app-shell .rc-growth__zebra-name strong{
+  display:block;font-size:14px;font-weight:800;color:#153950;
+}
+html body .app-shell .rc-growth__zebra-name small{
+  display:block;color:#7b909e;font-size:10px;margin-top:3px;
+}
+html body .app-shell .rc-growth__zebra-bars{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;
+}
+html body .app-shell .rc-growth__zebra-metric{
+  display:grid;grid-template-columns:minmax(0,1fr) auto;
+  gap:5px 8px;align-items:center;min-width:0;
+}
+html body .app-shell .rc-growth__zebra-metric-label{
+  grid-column:1/-1;font-size:10px;font-weight:700;color:#5b7687;
+}
+html body .app-shell .rc-growth__zebra-track{
+  height:9px;background:#dfe8ed;border-radius:99px;overflow:hidden;min-width:0;
+}
+html body .app-shell .rc-growth__zebra-metric strong{
+  font-size:14px;font-weight:800;font-variant-numeric:tabular-nums;color:#17384f;
+  min-width:18px;text-align:right;
+}
+html body .app-shell .rc-growth__expand{
+  margin:14px 23px 0;padding:10px 15px;border:1px solid #b6cbd7;
+  border-radius:9px;background:#fff;color:#275776;
+  font:750 12px var(--font-dm-sans),Arial,sans-serif;cursor:pointer;
+}
+html body .app-shell .rc-growth__expand:hover{background:#eaf2f6}
+html body .app-shell .rc-growth__expand:focus-visible{
+  outline:2px solid #315e7d;outline-offset:2px;
+}
+html body .app-shell .rc-growth__monthly-chart{
+  display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:9px;
+  border-bottom:1px solid #d9e5eb;margin:18px 0 18px;
+  padding:0 2px 0;height:204px;
+}
+html body .app-shell .rc-growth__monthly-group{
+  display:flex;min-width:0;flex-direction:column;justify-content:flex-end;
+  align-items:center;gap:9px;
+}
+html body .app-shell .rc-growth__monthly-group>strong{
+  font-size:11px;color:#6c8595;font-weight:750;
+}
+html body .app-shell .rc-growth__monthly-columns{
+  height:172px;width:100%;display:flex;align-items:flex-end;justify-content:center;
+  gap:4px;border-bottom:1px solid #ccdce5;
+}
+html body .app-shell .rc-growth__monthly-column{
+  width:min(24%,24px);min-width:4px;border-radius:4px 4px 0 0;
+  transition:height .2s ease;
+}
+html body .app-shell .rc-growth__monthly-detail{
+  border-top:1px solid #e2eaf0;padding-top:13px;margin-top:17px;
+}
+html body .app-shell .rc-growth__monthly-detail summary{
+  color:#315e7d;font-size:12px;font-weight:800;cursor:pointer;
+}
+html body .app-shell .rc-growth__monthly-table-wrap{max-width:100%;overflow-x:auto;margin-top:12px}
+html body .app-shell .rc-growth__monthly-table{
+  border-collapse:collapse;width:100%;font-size:12px;color:#24465e;
+}
+html body .app-shell .rc-growth__monthly-table th{
+  background:#e2edf4;text-align:left;padding:9px;font-weight:800;
+}
+html body .app-shell .rc-growth__monthly-table td{
+  padding:9px;border-bottom:1px solid #e1e9ee;font-variant-numeric:tabular-nums;
+}
+html body .app-shell .rc-growth__monthly-table tbody tr:nth-child(even){background:#f0f5f8}
+@media(max-width:900px){
+ html body .app-shell .rc-growth__visuals{grid-template-columns:1fr}
+}
+@media(max-width:640px){
+ html body .app-shell .rc-growth__zebra{padding:17px 0!important}
+ html body .app-shell .rc-growth__zebra>.rc-growth__panel-head,
+ html body .app-shell .rc-growth__zebra>.rc-growth__legend{padding:0 15px}
+ html body .app-shell .rc-growth__zebra>.rc-growth__panel-head{
+   align-items:flex-start;gap:7px;
+ }
+ html body .app-shell .rc-growth__zebra>.rc-growth__panel-head small{
+   white-space:normal;text-align:right;font-size:10px;max-width:82px;
+ }
+ html body .app-shell .rc-growth__zebra-row{
+   grid-template-columns:1fr;gap:11px;padding:13px 15px;
+ }
+ html body .app-shell .rc-growth__zebra-name{
+   display:flex;justify-content:space-between;gap:8px;align-items:baseline;
+ }
+ html body .app-shell .rc-growth__zebra-name strong{font-size:13px}
+ html body .app-shell .rc-growth__zebra-name small{
+   text-align:right;font-size:10px;max-width:100px;
+ }
+ html body .app-shell .rc-growth__zebra-bars{gap:11px}
+ html body .app-shell .rc-growth__zebra-metric-label{font-size:10px}
+ html body .app-shell .rc-growth__zebra-metric strong{font-size:13px}
+ html body .app-shell .rc-growth__expand{margin:12px 15px 0}
+ html body .app-shell .rc-growth__monthly-chart{gap:4px;height:180px}
+ html body .app-shell .rc-growth__monthly-columns{height:146px;gap:2px}
+ html body .app-shell .rc-growth__monthly-column{min-width:3px}
+ html body .app-shell .rc-growth__subnote{font-size:11px}
+ html body .app-shell .rc-growth__goal-score strong{font-size:43px}
+}
+@media(prefers-reduced-motion:reduce){
+ html body .app-shell .rc-growth__monthly-column{transition:none}
+}
