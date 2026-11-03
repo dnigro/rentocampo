@@ -331,3 +331,32 @@ test("PR319 corporate interior preserves management data and keeps chat composer
    assert.match(chat,/type="submit"/);
  }
 });
+
+
+test("PR319 mobile polish: actionable result count, readable back button and zebra bars", () => {
+ const report = read("app/(dashboard)/gerencial/page.tsx");
+ const reportCss = read("styles/rc-management-report.css");
+ const header = read("components/listings/ListingHeader.tsx");
+ const campos = read("components/campos/CamposListing.tsx");
+ const servicios = read("app/(public)/servicios-rurales/page.tsx");
+ const returnLink = read("components/layout/DashboardReturn.tsx");
+ const polish = read("styles/rc-interior-refinement.css");
+ const appLayout = read("app/layout.tsx");
+ assert.ok(header.includes('href="#rc-explorer-results"'));
+ assert.ok(header.includes('rc-explorer-header__count-link'));
+ assert.ok(campos.includes('id="rc-explorer-results"'));
+ assert.ok(servicios.includes('id="rc-explorer-results"'));
+ assert.ok(returnLink.includes("rc-dashboard-return-btn"));
+ assert.ok(returnLink.includes("ArrowLeft"));
+ assert.ok(polish.includes("a.rc-dashboard-return-btn"));
+ assert.ok(polish.includes("-webkit-text-fill-color:#fff!important"));
+ assert.ok(polish.includes("form.campo-form>.form-section"));
+ assert.ok(polish.includes("border-left:1px solid #d8e2e9!important"));
+ assert.ok(appLayout.includes('rc-interior-refinement.css'));
+ assert.ok(report.includes('rc-gerencial__mobile-countries'));
+ assert.ok(report.includes('rc-gerencial__country-bar-row'));
+ assert.ok(report.includes("c.activeLands"));
+ assert.ok(report.includes("c.activeServices"));
+ assert.ok(reportCss.includes("rc-gerencial__country-bar-row:nth-child(even)"));
+ assert.ok(reportCss.includes("rc-gerencial__table-scroll{display:none!important}"));
+});
