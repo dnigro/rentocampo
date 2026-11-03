@@ -3,7 +3,9 @@ import { createClient } from "@/lib/supabase/server";
 import { INTERNAL_TEST_EMAILS } from "@/lib/analytics/commercial-filters";
 import { getCommercialStats } from "@/lib/analytics/commercial-stats";
 import { COUNTRIES, isCountryCode } from "@/data/countries";
+import GerencialExplorador from "@/components/gerencial/GerencialExplorador";
 import "@/styles/rc-management-report.css";
+import "@/styles/rc-growth-visual.css";
 
 export const dynamic = "force-dynamic";
 
@@ -81,6 +83,10 @@ export default async function GerencialPage() {
         <p className="mt-1 text-xs text-zinc-500">Actualizado: {new Date(report.updatedAt).toLocaleString("es-AR", { timeZone: "America/Argentina/Buenos_Aires" })} (Argentina)</p>
       </header>
 
+      <GerencialExplorador countries={report.countries} months={report.months} totals={report.totals} />
+
+      <details className="rc-gerencial__legacy-details">
+        <summary>Ver datos detallados y tablas completas</summary>
       <div className="rc-gerencial__metrics grid grid-cols-2 gap-3 lg:grid-cols-3">
         <Metric label="Registros confirmados" value={report.totals.registrations} description="Cuentas externas elegibles" tone="blue" />
         <Metric label="Campos reales" value={report.totals.activeLands} description="Activos, sin DEMO" tone="sage" />
@@ -190,6 +196,7 @@ export default async function GerencialPage() {
             </tbody>
           </table>
         </div>
+      </details>
       </details>
       <p className="mt-5 text-xs text-zinc-500">Reporte gerencial privado: no altera registros, fichas, búsquedas ni datos de producción.</p>
     </section>
