@@ -43,3 +43,12 @@
 .servicio-ficha-galeria { height: clamp(220px, 25vw, 320px); max-width: 960px; margin-left: auto; margin-right: auto; }
 .servicio-ficha-galeria img { filter: grayscale(1) contrast(1.07); object-fit: contain; }
 @media (max-width: 768px) { .servicio-ficha-galeria { height: 230px; max-width: 100%; } }
+
+/* Detail: keep the same sharp photo as the list card, without monochrome or contain letterboxing. */
+.app-shell .servicio-ficha .servicio-ficha-galeria{height:clamp(260px,30vw,420px);max-width:1180px;background:#e8e8e4;border-radius:16px}
+.app-shell .servicio-ficha .servicio-ficha-galeria img{object-fit:cover!important;object-position:center center!important;filter:none!important}
+.app-shell .servicio-ficha .ficha-seccion-titulo{font-size:clamp(20px,2vw,25px)!important;line-height:1.25}
+.app-shell .servicio-ficha .ficha-descripcion{font-size:clamp(16px,1.25vw,18px)!important;line-height:1.8!important;color:#24374a!important;white-space:pre-line;overflow-wrap:anywhere}
+.app-shell .servicio-ficha .servicio-ficha-volver{background:#102a43;color:#fff;border:1px solid #102a43;border-radius:999px;font-size:14px;padding:12px 24px}
+.app-shell .servicio-ficha .servicio-ficha-cta{background:#102a43;color:#fff;border-radius:999px;font-size:14px;text-transform:none}
+@media(max-width:768px){.app-shell .servicio-ficha .servicio-ficha-galeria{height:clamp(230px,55vw,340px)}.app-shell .servicio-ficha .ficha-descripcion{font-size:16px!important;line-height:1.7!important}}
