@@ -28,7 +28,8 @@ test("pt-BR and Spanish catalogs have matching message keys", () => {
 
 test("regional hero gives equivalent ES/PT/EN product messaging and zero commission",()=>{
  const hero=read("components/landing/SimpleMapChatHero.tsx");
- assert.ok(hero.includes("Agregala en el mapa, chateá en línea.") && hero.includes("Adicione-a ao mapa, converse online.") && hero.includes("Add it to the map, chat online."));
+ assert.ok(hero.includes("Agregala al mapa.") && hero.includes("Adicione-a ao mapa.") && hero.includes("Add it to the map."));
+ assert.ok(hero.includes("Chateá en línea.") && hero.includes("Converse online.") && hero.includes("Chat online."));
  assert.ok(hero.includes('<br />'), "hero title has deliberate two-sentence line break");
  const styles=read("styles/hero-simple-map-chat.css");
  for(const phrase of ["TIERRAS QUE PRODUCEN FUTURO","TERRAS QUE PRODUZEM FUTURO","LAND THAT BUILDS THE FUTURE","Tu tierra tiene valor.","Sua terra tem valor.","Your land has value.","MAPA","CHAT ONLINE","ONLINE CHAT","Seleccioná la zona","Escolha a região","Select an area","Contactá en línea","Converse online","Connect online","0%</strong>","100%</strong>"]) {
