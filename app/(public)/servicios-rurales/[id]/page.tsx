@@ -1,3 +1,5 @@
+import GaleriaCarrusel from "@/components/campos/GaleriaCarrusel";
+import "@/styles/carrusel.css";
 import { demoServiceRegisterHref } from "@/data/visible-demo-services";
 import type { Metadata } from "next";
 import { resolveCountry } from "@/data/countries";
@@ -130,9 +132,7 @@ export default async function ServicioDetallePage({ params }: { params: Promise<
         ← Volver al mapa de servicios
       </Link>
 
-      <div className="servicio-ficha-galeria">
-        <Image src={foto} alt={titulo || nombre} fill sizes="(max-width: 768px) 100vw, 1180px" priority />
-      </div>
+      <GaleriaCarrusel fotos={[{ url: foto, orden: 0 }]} titulo={titulo || nombre} />
 
       <div className="ficha-body">
         <main className="ficha-main">
