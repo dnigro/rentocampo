@@ -725,3 +725,9 @@
 .prestador-card__actions a:hover{background:#244760;color:#fff}
 .prestador-card__title-link{color:inherit;text-decoration:none}
 .prestador-card__title-link:hover{text-decoration:underline}
+
+/* Multi-image service publisher (up to eight photos). */
+.servicio-fotos-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;margin:12px 0}
+.servicio-fotos-item{min-width:0;display:flex;flex-direction:column;gap:6px}
+.servicio-fotos-item .servicio-foto-preview{display:block;width:100%;height:145px;object-fit:contain;background:#eef1f2;border-radius:12px}
+.servicio-fotos-item button{align-self:flex-start}
