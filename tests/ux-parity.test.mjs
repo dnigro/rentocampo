@@ -306,7 +306,7 @@ test("PR319 corporate interior preserves management data and keeps chat composer
    read("components/mensajes/MensajeHilo.tsx"),
    read("components/mensajes/MensajeDirectoHilo.tsx"),
  ];
- assert.match(read("app/layout.tsx"),/import "@\\/styles\\/rc-internal-corporate\\.css"/);
+ assert.ok(read("app/layout.tsx").includes('import "@/styles/rc-internal-corporate.css";'));
  assert.match(theme,/\.perfil-page>/);
  assert.match(theme,/\.form-section-title-editorial/);
  assert.match(theme,/\.rc-explorer-toolbar/);
@@ -317,7 +317,7 @@ test("PR319 corporate interior preserves management data and keeps chat composer
  assert.match(report,/INTERNAL_TEST_EMAILS/);
  assert.match(report,/rc-gerencial__metric/);
  assert.match(report,/rc-gerencial__table-scroll/);
- assert.match(report,/rc-management-report\\.css/);
+ assert.ok(report.includes("rc-management-report.css"));
  assert.match(reportCss,/\.rc-gerencial__country-active/);
  assert.match(dashboard,/from "lucide-react"/);
  assert.match(fieldForm,/className="campo-form"/);
