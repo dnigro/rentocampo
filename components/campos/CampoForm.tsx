@@ -81,7 +81,7 @@ export default function CampoForm({
   );
   const countryCode: CountryCode = form.country_code ?? "AR";
   const country = COUNTRIES[countryCode];
-  const tt=(es:string,pt:string)=>regionalText(countryCode,es,pt);
+  const tt=(es:string,pt:string,en?:string)=>regionalText(countryCode,es,pt,en);
   const subdivisiones =
     getCountrySubdivisions(countryCode);
 
