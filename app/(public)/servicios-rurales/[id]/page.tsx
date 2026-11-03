@@ -5,7 +5,6 @@ import type { Metadata } from "next";
 import { resolveCountry } from "@/data/countries";
 import { regionalText } from "@/lib/i18n/regional";
 import Link from "next/link";
-import Image from "next/image";
 import { Tractor, Sprout, Settings, Wrench, Warehouse, MapPin, BriefcaseBusiness } from "lucide-react";
 import { notFound, redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
