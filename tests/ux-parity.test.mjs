@@ -343,14 +343,14 @@ test("PR319 corporate interior preserves management data and keeps chat composer
 test("PR319 mobile polish: actionable result count, readable back button and zebra bars", () => {
  const report = read("app/(dashboard)/gerencial/page.tsx");
  const reportCss = read("styles/rc-management-report.css");
- const header = read("components/listings/ListingHeader.tsx");
+ const toolbar = read("components/listings/ListingExplorerToolbar.tsx");
  const campos = read("components/campos/CamposListing.tsx");
  const servicios = read("app/(public)/servicios-rurales/page.tsx");
  const returnLink = read("components/layout/DashboardReturn.tsx");
  const polish = read("styles/rc-interior-refinement.css");
  const appLayout = read("app/layout.tsx");
- assert.ok(header.includes('href="#rc-explorer-results"'));
- assert.ok(header.includes('rc-explorer-header__count-link'));
+ assert.ok(toolbar.includes('href="#rc-explorer-results"'));
+ assert.ok(toolbar.includes('rc-explorer-toolbar__count'));
  assert.ok(campos.includes('id="rc-explorer-results"'));
  assert.ok(servicios.includes('id="rc-explorer-results"'));
  assert.ok(returnLink.includes("rc-dashboard-return-btn"));
