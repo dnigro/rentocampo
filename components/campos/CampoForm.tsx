@@ -258,6 +258,9 @@ export default function CampoForm({
   return (
     <form className="campo-form rc-publish-form rc-publish-form--field" onSubmit={(e) => e.preventDefault()}>
       <div className="rc-publish-hero">
+        <span className="rc-publish-brand-mark">
+          <Image src="/icon-512.png" alt="Escudo oficial de RentoCampo" width={60} height={60} />
+        </span>
         <span className="rc-publish-eyebrow">RentoCampo · {tt("Tierras rurales", "Terras rurais")}</span>
         <h1>{campoId ? tt("Editar campo", "Editar propriedade") : tt("Publicar campo", "Anunciar terra")}</h1>
         <p>{tt("Tu tierra tiene valor. Agregala al mapa y conectá directo.", "Sua terra tem valor. Adicione-a ao mapa e conecte-se diretamente.")}</p>
