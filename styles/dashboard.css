@@ -269,3 +269,12 @@ html body .app-shell .dashboard-return a:focus-visible {
   outline: 3px solid #779AB1;
   outline-offset: 3px;
 }
+
+/* Dashboard: tres filas lógicas, dos tarjetas por fila en escritorio. */
+.app-shell .dashboard-cards { grid-template-columns: repeat(2,minmax(0,1fr)); }
+.app-shell .dashboard-cards .dash-card { min-height: 156px; }
+@media(max-width:600px) { .app-shell .dashboard-cards { grid-template-columns: 1fr; } }
+
+/* Dashboard: exact 2-column desktop layout, overriding shared styles. */
+.app-shell .main-content .dashboard-page .dashboard-cards{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:16px!important}
+@media(max-width:600px){.app-shell .main-content .dashboard-page .dashboard-cards{grid-template-columns:minmax(0,1fr)!important}}

@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { FileText, Images, MapPinned, Sprout, WalletCards, Check, ImagePlus } from "lucide-react";
@@ -10,6 +10,7 @@ import { displayCountryName, COUNTRIES, COUNTRY_CODES_ALPHABETICAL, getCountrySu
 import type { CampoFormData, MonedaCampo } from "@/types";
 import { trackEvent } from "@/lib/analytics";
 import { regionalText } from "@/lib/i18n/regional";
+import { useRegionalCountry } from "@/lib/i18n/useRegionalCountry";
 import { FREE_PUBLICATIONS_ENABLED } from "@/lib/commercial/free-publications";
 import GeocoderInput, {
   type LugarSeleccionado,
@@ -79,9 +80,13 @@ export default function CampoForm({
   const [lugarGeocodificado, setLugarGeocodificado] = useState(
     initialData?.localidad ?? "",
   );
+  const selectedRegion = useRegionalCountry();
+  useEffect(() => {
+    if (!campoId) setForm(prev => prev.country_code === selectedRegion ? prev : { ...prev, country_code: selectedRegion, provincia: "", departamento: "", localidad: "", ubicacion: "", moneda: selectedRegion === "BR" ? "BRL" : COUNTRIES[selectedRegion].currency as MonedaCampo });
+  }, [selectedRegion, campoId]);
   const countryCode: CountryCode = form.country_code ?? "AR";
   const country = COUNTRIES[countryCode];
-  const tt=(es:string,pt:string)=>regionalText(countryCode,es,pt);
+  const tt=(es:string,pt:string,en?:string)=>regionalText(countryCode,es,pt,en);
   const subdivisiones =
     getCountrySubdivisions(countryCode);
 
