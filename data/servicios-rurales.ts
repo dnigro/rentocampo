@@ -12,6 +12,10 @@ export const SERVICIOS_RURALES: Array<{ value: ServicioRural; label: string }> =
   { value: "silos_almacenamiento", label: "Silos y almacenamiento" },
   { value: "acondicionamiento_granos", label: "Acondicionamiento de granos" },
   { value: "riego", label: "Riego y agua" },
+  { value: "construcciones", label: "Construcciones rurales" },
+  { value: "electricidad_iluminacion", label: "Electricidad e iluminación" },
+  { value: "tecnologia_automatizacion", label: "Tecnología y automatización" },
+  { value: "conectividad_monitoreo", label: "Conectividad y monitoreo" },
   { value: "alambrados", label: "Alambrados e infraestructura" },
   { value: "veterinaria", label: "Veterinaria y sanidad" },
   { value: "agronomia", label: "Agronomía y asesoramiento" },
@@ -29,7 +33,9 @@ const SERVICIO_LABEL_BR: Record<ServicioRural,string> = {
   transporte: "Transporte e logística", hoteleria_vacuna: "Confinamento bovino",
   granja: "Granjas e produção animal", silos_almacenamiento: "Silos e armazenagem",
   acondicionamiento_granos: "Beneficiamento de grãos", riego: "Irrigação e água",
-  alambrados: "Cercas e infraestrutura", veterinaria: "Veterinária e saúde animal",
+  alambrados: "Cercas e infraestrutura", construcciones: "Construções rurais",
+  electricidad_iluminacion: "Eletricidade e iluminação", tecnologia_automatizacion: "Tecnologia e automação",
+  conectividad_monitoreo: "Conectividade e monitoramento", veterinaria: "Veterinária e saúde animal",
   agronomia: "Agronomia e consultoria", seguros_financiacion: "Seguros e financiamento",
   otro: "Outro serviço rural",
 };
@@ -39,12 +45,58 @@ const SERVICIO_LABEL_US: Record<ServicioRural, string> = {
   transporte: "Transportation and logistics", hoteleria_vacuna: "Cattle boarding",
   granja: "Animal farming", silos_almacenamiento: "Grain storage",
   acondicionamiento_granos: "Grain conditioning", riego: "Irrigation and water",
-  alambrados: "Fencing and infrastructure", veterinaria: "Veterinary care",
+  alambrados: "Fencing and infrastructure", construcciones: "Rural construction",
+  electricidad_iluminacion: "Electrical work and lighting", tecnologia_automatizacion: "Technology and automation",
+  conectividad_monitoreo: "Connectivity and monitoring", veterinaria: "Veterinary care",
   agronomia: "Agronomy and advisory", seguros_financiacion: "Insurance and financing",
   otro: "Other rural services",
 };
 export function servicioLabel(value: ServicioRural, country: string): string {
   return country === "BR" ? SERVICIO_LABEL_BR[value] ?? value : country === "US" ? SERVICIO_LABEL_US[value] ?? value : SERVICIO_LABEL[value] ?? value;
+}
+
+/** Agrupación editorial; se guardan los mismos códigos en servicios_rurales[].
+ * Los primeros valores existentes siguen siendo válidos para publicaciones anteriores.
+ */
+export const SERVICIO_GRUPOS: ReadonlyArray<{
+  key: string;
+  es: string;
+  pt: string;
+  en: string;
+  values: readonly ServicioRural[];
+}> = [
+  {
+    key: "produccion",
+    es: "Producción agrícola y ganadera",
+    pt: "Produção agrícola e pecuária",
+    en: "Farming and livestock",
+    values: ["siembra", "cosecha", "pulverizacion", "fertilizacion", "maquinaria", "hoteleria_vacuna", "granja"],
+  },
+  {
+    key: "infraestructura",
+    es: "Infraestructura rural",
+    pt: "Infraestrutura rural",
+    en: "Rural infrastructure",
+    values: ["alambrados", "construcciones", "silos_almacenamiento", "acondicionamiento_granos", "riego"],
+  },
+  {
+    key: "tecnologia",
+    es: "Tecnología y energía rural",
+    pt: "Tecnologia e energia rural",
+    en: "Rural technology and energy",
+    values: ["electricidad_iluminacion", "tecnologia_automatizacion", "conectividad_monitoreo"],
+  },
+  {
+    key: "profesionales",
+    es: "Servicios profesionales y logística",
+    pt: "Serviços profissionais e logística",
+    en: "Professional services and logistics",
+    values: ["agronomia", "veterinaria", "transporte", "seguros_financiacion", "otro"],
+  },
+];
+
+export function servicioGrupoLabel(group: (typeof SERVICIO_GRUPOS)[number], country: string): string {
+  return country === "BR" ? group.pt : country === "US" ? group.en : group.es;
 }
 
 export const CENTROS_PROVINCIA: Record<string, [number, number]> = {
