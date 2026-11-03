@@ -336,26 +336,11 @@ function NavbarContent() {
                   {regionalText(activeCountry, "Cerrar sesión", "Sair da conta", "Log out")}
                 </button>
               ) : (
-                <>
-                  <Link href="/campos" className="mobile-menu-link">
-                    🌾 {regionalText(activeCountry, "Campos", "Terras")}
-                  </Link>
-                  <Link href="/servicios-rurales" className="mobile-menu-link">
-                    🚜 {regionalText(activeCountry, "Servicios rurales", "Serviços rurais")}
-                  </Link>
-                  <Link href="/#como-funciona" className="mobile-menu-link" onClick={() => {
-                    if (pathname === "/") document.getElementById("como-funciona")?.scrollIntoView({ behavior: "smooth" });
-                  }}>
-                    ℹ️ {regionalText(activeCountry, "Cómo funciona", "Como funciona")}
-                  </Link>
-                  <div className="mobile-menu-sep" />
-                  <Link href="/login" className="mobile-menu-link">
-                    {regionalText(activeCountry, "Ingresar", "Entrar")}
-                  </Link>
-                  <Link href={`/register?pais=${activeCountry}&tipo=propietario`} className="mobile-menu-btn">
-                    {regionalText(activeCountry, "Publicar campo gratis", "Anunciar gratuitamente")}
-                  </Link>
-                </>
+                // El CTA de ingreso ya está en la tarjeta superior.
+                // Para visitantes solo queda la acción principal de publicar.
+                <Link href={`/register?pais=${activeCountry}&tipo=propietario`} className="mobile-menu-btn">
+                  {regionalText(activeCountry, "Publicar campo gratis", "Anunciar gratuitamente", "List land for free")}
+                </Link>
               )}
             </nav>
           </div>
