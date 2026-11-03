@@ -36,7 +36,7 @@ test("web desktop, mobile and Lite share +SIMPLE with MAP and ONLINE CHAT", () =
   assert.ok(css.includes(".rcsm-button:focus-visible"));
   assert.ok(css.includes("prefers-reduced-motion"));
   assert.ok(hero.includes("TERRAS QUE PRODUZEM FUTURO") && hero.includes("LAND THAT BUILDS THE FUTURE"));
-  assert.ok(hero.includes('<br />') && hero.includes("Ponela en el mapa."), "separate invitation line in Spanish");
+  assert.ok(hero.includes('<br />') && hero.includes("Agregala en el mapa, chateá en línea."), "separate invitation line in Spanish");
   for (const copy of ["PRODUCTORES Y SERVICIOS RURALES","PRODUTORES E SERVIÇOS RURAIS","PRODUCERS AND RURAL SERVICES","¡SUMATE!","PARTICIPE!","JOIN US!"]) {
     assert.ok(hero.includes(copy), "regional audience copy missing: "+copy);
   }
