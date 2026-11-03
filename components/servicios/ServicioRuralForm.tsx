@@ -43,9 +43,6 @@ export default function ServicioRuralForm({ profile, publicacion, initialCountry
   );
   const [country, setCountry] = useState<CountryCode>(resolveCountry(publicacion?.country_code ?? initialCountry, profile?.country_code));
   const selectedRegion = useRegionalCountry();
-  useEffect(() => {
-    if (!publicacion && selectedRegion !== country) { setCountry(selectedRegion); setProvincia(""); setLocalidad(""); setZona(""); setUbicacion(""); }
-  }, [selectedRegion, publicacion, country]);
   const subdivisions = getCountrySubdivisions(country);
   const tt=(es:string,pt:string,en?:string)=>regionalText(country,es,pt,en);
   const [zona, setZona] = useState(publicacion?.zona ?? initialZona ?? profile?.zona_servicio ?? "");
@@ -61,6 +58,21 @@ export default function ServicioRuralForm({ profile, publicacion, initialCountry
   });
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (publicacion || selectedRegion === country) return;
+    // Evitar actualizaciones sincrónicas de estado dentro del efecto.
+    const timeout = window.setTimeout(() => {
+      setCountry(selectedRegion);
+      setProvincia("");
+      setLocalidad("");
+      setZona("");
+      setUbicacion("");
+      setLatitud(undefined);
+      setLongitud(undefined);
+    }, 0);
+    return () => window.clearTimeout(timeout);
+  }, [selectedRegion, publicacion, country]);
 
   // La primera categoría seleccionada se guarda como principal sin cambiar el esquema SQL.
   function toggleServicio(servicio: ServicioRural) {
