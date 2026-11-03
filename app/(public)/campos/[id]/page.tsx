@@ -5,7 +5,7 @@ import { regionalText } from "@/lib/i18n/regional";
 import { regionalPublicationHref, regionalPublicationLabel } from "@/lib/publicacion-regional";
 import type { Metadata } from "next";
 import Image from "next/image";
-import { LandPlot, Sprout, ChartNoAxesColumnIncreasing, Wrench } from "lucide-react";
+import { LandPlot, Sprout, ChartNoAxesColumnIncreasing, Wrench, Droplets, House, Warehouse, Trees, Wifi, Route, Fence, Zap, Mountain, CheckCircle2 } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import ConsultaButton from "@/components/campos/ConsultaButton";
@@ -126,6 +126,22 @@ export default async function CampoFichaPage({ params }: PageProps) {
       : "Campaña próxima"
     : "A convenir";
 
+  // Atributos visibles solo cuando el propietario los menciona expresamente.
+  // No se infieren instalaciones a partir de fotos ni de la ubicación.
+  const detalles = [campoConPropietario.descripcion, campoConPropietario.ambiente].filter(Boolean).join(" ").toLowerCase();
+  const caracteristicas = [
+    { re: /\\barroyos?\\b/, label: tt("Arroyo", "Córrego"), icon: Droplets },
+    { re: /\\b(?:dos|2) casas?\\b/, label: tt("2 casas", "2 casas"), icon: House },
+    { re: /\\b(?:una|1) casas?\\b/, label: tt("Casa", "Casa"), icon: House },
+    { re: /\\bgalp[oó]n(?:es)?\\b/, label: tt("Galpón", "Galpão"), icon: Warehouse },
+    { re: /\\bmonte(?:s)?\\b/, label: tt("Monte", "Bosque"), icon: Trees },
+    { re: /\\binternet\\b|\\bwi[- ]?fi\\b/, label: "Internet", icon: Wifi },
+    { re: /\\bbuen(?:os)? accesos?\\b|\\bmuy buen acceso\\b/, label: tt("Buen acceso", "Bom acesso"), icon: Route },
+    { re: /\\balambrad[oa]s?\\b/, label: tt("Alambrado", "Cercamento"), icon: Fence },
+    { re: /\\b(?:luz|energ[ií]a) el[eé]ctrica\\b/, label: tt("Luz eléctrica", "Energia elétrica"), icon: Zap },
+    { re: /\\bsierras?\\b/, label: tt("Sierras", "Serras"), icon: Mountain },
+  ].filter(({ re }) => re.test(detalles));
+
   const placeJsonLd = {
     "@context": "https://schema.org",
     "@type": "Place",
@@ -221,6 +237,7 @@ export default async function CampoFichaPage({ params }: PageProps) {
               <>
                 <div className="dato-sep" />
                 <div className="dato-item">
+                  <ChartNoAxesColumnIncreasing className="rc-detail-icon" aria-hidden="true" />
                   <span className="dato-valor">
                     {campoConPropietario.rendimiento_estimado} qq/ha
                   </span>
@@ -237,6 +254,17 @@ export default async function CampoFichaPage({ params }: PageProps) {
               <span className="dato-label">{tt("Mejoras","Benfeitorias")}</span>
             </div>
           </div>
+
+          {caracteristicas.length > 0 && (
+            <div className="rc-feature-grid" aria-label={tt("Características publicadas", "Características anunciadas")}>
+              {caracteristicas.map(({ label, icon: Icon }) => (
+                <div className="rc-feature-chip" key={label}>
+                  <Icon aria-hidden="true" />
+                  <span>{label}</span>
+                </div>
+              ))}
+            </div>
+          )}
 
           {/* Descripción */}
           {campoConPropietario.descripcion && (
