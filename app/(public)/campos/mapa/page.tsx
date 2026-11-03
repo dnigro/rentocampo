@@ -1,7 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import Link from "next/link";
 import CampoMapa from "@/components/campos/CampoMapa";
-import { SERVICIOS_RURALES } from "@/data/servicios-rurales";
+import { SERVICIOS_RURALES, tituloServicioRural } from "@/data/servicios-rurales";
 import { campoFilterParams } from "@/lib/campos/filter-params";
 import type { CamposSearchParams } from "@/components/campos/CamposListing";
 import { resolveCountry, type CountryCode } from "@/data/countries";
@@ -68,12 +68,6 @@ export default async function MapaPage({
     .eq("activo", true)
     .eq("country_code", selectedCountry);
 
-  const ownerIds = [...new Set((publicacionesServicios ?? []).map((p) => p.propietario_id))];
-  const { data: owners } = ownerIds.length
-    ? await supabase.from("profiles").select("id, nombre").in("id", ownerIds)
-    : { data: [] as { id: string; nombre: string }[] };
-  const ownerMap = new Map((owners ?? []).map((o) => [o.id, o.nombre]));
-
   const { data: serviciosDemo } = await supabase
     .from("demo_servicios_rurales")
     .select(
@@ -86,7 +80,7 @@ export default async function MapaPage({
     ...(publicacionesServicios ?? []).map((publicacion) => ({
       id: publicacion.propietario_id,
       publicacion_id: publicacion.id,
-      nombre: ownerMap.get(publicacion.propietario_id) ?? tt("Prestador rural","Prestador rural"),
+      titulo: tituloServicioRural(publicacion.servicios_rurales, selectedCountry),
       country_code: publicacion.country_code as CountryCode,
       bio: undefined,
       avatar_url: undefined,
@@ -103,6 +97,7 @@ export default async function MapaPage({
       .filter((prestador) => esServicioDemoVisible(String(prestador.id)))
       .map((prestador) => ({
         ...prestador,
+        titulo: tituloServicioRural(prestador.servicios_rurales, selectedCountry),
         avatar_url: undefined,
         service_photo_url: prestador.imagen_url || "/demo-servicio-veterinaria.jpg",
         is_demo: true,
