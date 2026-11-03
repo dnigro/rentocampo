@@ -247,7 +247,7 @@ export default async function ServiciosRuralesPage({
                       </div>
                       <Link className="campo-card-pub-titulo-link" href={prestador.is_demo ? demoServiceRegisterHref(pais, Boolean(user)) : prestador.publicacion_id ? `/servicios-rurales/${prestador.publicacion_id}` : `/servicios-rurales?prestador=${prestador.id}`}><h3 className="campo-card-pub-titulo">{prestador.titulo}</h3></Link>
                       <p className="campo-card-pub-ubicacion">📍 {[prestador.localidad_servicio,prestador.provincia_servicio].filter(Boolean).join(", ")}</p>
-                      <div className="servicio-campo-card__tags">{servicios.slice(0,3).map(item=><span className="aptitud-tag" key={item}>{servicioLabel(item,pais)}</span>)}{servicios.length>3 && <span className="aptitud-tag">+${servicios.length-3}</span>}</div>
+                      <div className="servicio-campo-card__tags">{servicios.slice(0,3).map(item=><span className="aptitud-tag" key={item}>{servicioLabel(item,pais)}</span>)}{servicios.length>3 && <span className="aptitud-tag">+{servicios.length-3}</span>}</div>
                       <div className="campo-card-pub-footer"><span className="campo-precio-consultar">{prestador.zona_servicio ? `${tt("Zona","Região")}: ${prestador.zona_servicio}` : tt("Contacto directo","Contato direto")}</span></div>
                     </div>
                   </article>
