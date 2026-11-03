@@ -5,6 +5,7 @@ import { regionalText } from "@/lib/i18n/regional";
 import { regionalPublicationHref, regionalPublicationLabel } from "@/lib/publicacion-regional";
 import type { Metadata } from "next";
 import Image from "next/image";
+import { LandPlot, Sprout, ChartNoAxesColumnIncreasing, Wrench } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import ConsultaButton from "@/components/campos/ConsultaButton";
@@ -202,6 +203,7 @@ export default async function CampoFichaPage({ params }: PageProps) {
           {/* Datos clave */}
           <div className="ficha-datos">
             <div className="dato-item">
+              <LandPlot className="rc-detail-icon" aria-hidden="true" />
               <span className="dato-valor">
                 {campoConPropietario.hectareas.toLocaleString(countryCode==="BR"?"pt-BR":"es-AR")}
               </span>
@@ -209,6 +211,7 @@ export default async function CampoFichaPage({ params }: PageProps) {
             </div>
             <div className="dato-sep" />
             <div className="dato-item">
+              <Sprout className="rc-detail-icon" aria-hidden="true" />
               <span className="dato-valor">
                 {localizeAptitud(campoConPropietario.aptitud)}
               </span>
@@ -227,6 +230,7 @@ export default async function CampoFichaPage({ params }: PageProps) {
             )}
             <div className="dato-sep" />
             <div className="dato-item">
+              <Wrench className="rc-detail-icon" aria-hidden="true" />
               <span className="dato-valor">
                 {campoConPropietario.mejoras === "Sí" ? tt("Sí","Sim") : tt("No","Não")}
               </span>
