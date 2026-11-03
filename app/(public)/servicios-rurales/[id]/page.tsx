@@ -128,8 +128,8 @@ export default async function ServicioDetallePage({ params }: { params: Promise<
           }}
         />
       )}
-      <Link href={`/campos/mapa?vista=servicios&pais=${pais}`} className="servicio-ficha-volver">
-        ← Volver al mapa de servicios
+      <Link href={`/servicios-rurales?pais=${pais}`} className="servicio-ficha-volver">
+        ← Volver al listado de servicios
       </Link>
 
       <GaleriaCarrusel fotos={[{ url: foto, orden: 0 }]} titulo={titulo || nombre} />
