@@ -327,8 +327,8 @@ test("PR319 corporate interior preserves management data and keeps chat composer
  assert.ok(report.includes("rc-management-report.css"));
  assert.match(reportCss,/\.rc-gerencial__country-active/);
  assert.match(dashboard,/from "lucide-react"/);
- assert.match(fieldForm,/className="campo-form"/);
- assert.match(serviceForm,/className="campo-form servicio-publicacion-form"/);
+ assert.match(fieldForm,/className="campo-form rc-publish-form rc-publish-form--field"/);
+ assert.match(serviceForm,/className="campo-form servicio-publicacion-form rc-publish-form rc-publish-form--service"/);
  for(const chat of messages){
    assert.match(chat,/ref=\{messagesViewportRef\}/);
    assert.match(chat,/viewport\.scrollTo\(/);
@@ -399,4 +399,39 @@ test("PR319 executive country control, professional inbox and mobile account car
  assert.ok(controller.includes('shownCountries'));
  assert.ok(growthCss.includes('rc-growth__visuals'));
  assert.ok(growthCss.includes('rc-gerencial__legacy-details'));
+});
+
+test("publication forms share approved navy editorial cards without disrupting data workflows",()=>{
+ const field=read("components/campos/CampoForm.tsx");
+ const service=read("components/servicios/ServicioRuralForm.tsx");
+ const catalog=read("data/servicios-rurales.ts");
+ const types=read("types/index.ts");
+ const css=read("styles/rc-publication-forms.css");
+ const root=read("app/layout.tsx");
+ assert.ok(root.includes('rc-publication-forms.css'));
+ for(const form of [field,service]){
+   assert.ok(form.includes("rc-publish-hero"),"shared hero");
+   assert.ok(form.includes("rc-publish-brand-mark"),"official logo");
+   assert.ok(form.includes('src="/icon-512.png"'),"official shield file");
+   assert.ok(form.includes("rc-publish-photo-guide"),"upload guidance");
+ }
+ assert.ok(field.includes("rc-publish-choice-row"));
+ assert.ok(field.includes('name="operacion"'),"existing operation payload intact");
+ assert.ok(field.includes('name="aptitud"'),"existing land aptitude payload intact");
+ assert.ok(field.includes('handleSubmit(e, "borrador")'),"save draft remains");
+ assert.ok(field.includes('handleSubmit(e, "activo")'),"publish remains");
+ assert.ok(service.includes("SERVICIO_GRUPOS.map"));
+ assert.ok(service.includes("elegirPrincipal"),"primary category selection");
+ assert.ok(service.includes("servicios.slice(1)"),"complementary tags");
+ assert.ok(service.includes('supabase.from("servicios_publicaciones")'),"unchanged storage");
+ assert.ok(catalog.includes("Electricidad e iluminación"));
+ assert.ok(catalog.includes("Tecnología y automatización"));
+ assert.ok(catalog.includes("Conectividad y monitoreo"));
+ for(const key of ["electricidad_iluminacion","tecnologia_automatizacion","conectividad_monitoreo","construcciones"]){
+   assert.ok(catalog.includes(key));
+   assert.ok(types.includes(key));
+ }
+ assert.ok(css.includes("@media(max-width:620px)"),"mobile treatment");
+ assert.ok(css.includes("rc-publish-chip"),"tactile grouped categories");
+ assert.ok(css.includes("rc-publish-choice"),"field operation choices");
 });
