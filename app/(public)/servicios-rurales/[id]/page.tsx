@@ -37,8 +37,6 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
     };
   }
 
-  const rubros = ((publicacion.servicios_rurales ?? []) as ServicioRural[])
-    .map((item) => servicioLabel(item, resolveCountry(publicacion.country_code)));
   const actividad = tituloServicioRural(publicacion.servicios_rurales as ServicioRural[], resolveCountry(publicacion.country_code), publicacion.nombre_comercial);
   const ubicacion = [publicacion.localidad, publicacion.provincia].filter(Boolean).join(", ");
   const title = `${actividad}${ubicacion ? ` en ${ubicacion}` : ""} | RentoCampo`;
@@ -82,7 +80,6 @@ export default async function ServicioDetallePage({ params }: { params: Promise<
   const tt=(es:string,pt:string)=>regionalText(pais,es,pt);
   const esDemo = Boolean(demo);
   const rubros = (publicacion?.servicios_rurales ?? demo?.servicios_rurales ?? []) as ServicioRural[];
-  const titulo = rubros.map((item) => servicioLabel(item, pais)).join(" · ");
   const iconoRubro = (item: ServicioRural) => {
     const label = servicioLabel(item, pais).toLowerCase();
     if (label.includes("cosech")) return <Tractor aria-hidden="true" />;
