@@ -3,6 +3,7 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
+import { ArrowUpRight, Mail, MailCheck } from "lucide-react";
 import MensajesRealtime from "@/components/mensajes/MensajesRealtime";
 import { isMissingMensajesDirectosLeido } from "@/lib/supabase/mensajes-directos";
 import "@/styles/mensajes.css";
@@ -198,11 +199,21 @@ export default async function MensajesPage() {
   );
 
   return (
-    <div className="page-container mensajes-container">
+    <div className="page-container mensajes-container rc-inbox">
       <MensajesRealtime userId={user.id} />
       <div className={`mensajes-page ${hilos.length === 0 ? "mensajes-page-vacia" : ""}`}>
-      <div className="page-header">
-        <h1 className="page-title">Mensajes</h1>
+      <div className="page-header rc-inbox__header">
+        <div>
+          <p className="rc-inbox__eyebrow">MI CUENTA / MENSAJES</p>
+          <h1 className="page-title">Conversaciones</h1>
+          <p className="rc-inbox__subtitle">Campos, servicios y contactos en un solo lugar.</p>
+        </div>
+        <div className="rc-inbox__stats" aria-label="Resumen de conversaciones">
+          <span><MailCheck size={16} aria-hidden="true" /> {hilos.length} conversaciones</span>
+          <span className={hilos.some((h) => h.noLeidos > 0) ? "rc-inbox__unread" : ""}>
+            <Mail size={16} aria-hidden="true" /> {hilos.reduce((total, h) => total + h.noLeidos, 0)} sin leer
+          </span>
+        </div>
       </div>
 
       {hilos.length === 0 ? (
@@ -212,7 +223,7 @@ export default async function MensajesPage() {
           <p>Cuando alguien te escriba, la conversación aparecerá acá.</p>
         </div>
       ) : (
-        <div className="hilos-lista">
+        <div className="hilos-lista rc-inbox__list" aria-label="Lista de conversaciones">
           {hilos.map((hilo) => {
             const campo = hilo.campo;
             const esDirecto = campo === null;
@@ -230,7 +241,7 @@ export default async function MensajesPage() {
               <Link
                 key={hilo.id}
                 href={campo ? `/mensajes/${campo.id}` : `/mensajes/direct/${otroUsuario?.id}`}
-                className={`hilo-item ${noLeido ? "hilo-no-leido" : ""}`}
+                className={`hilo-item rc-inbox__item ${noLeido ? "hilo-no-leido" : ""}`}
               >
                 <div className={`hilo-media ${esDirecto ? "hilo-media-directo" : ""}`}>
                   {fotoCampo ? (
@@ -285,13 +296,15 @@ export default async function MensajesPage() {
                     </span>
                   </div>
                   <span className="hilo-campo">
+                    <span className="rc-inbox__type">{esDirecto ? "SERVICIO / DIRECTO" : "CAMPO"}</span>
                     {campo?.titulo ?? "Conversación directa"}
                   </span>
                   <p className="hilo-preview">
-                    {esRemitente ? "Vos: " : ""}
+                    {esRemitente && <strong className="rc-inbox__own">Vos: </strong>}
                     {hilo.contenido}
                   </p>
                 </div>
+                <ArrowUpRight className="rc-inbox__arrow" size={19} aria-hidden="true" />
                 {noLeido && (
                   <span className="hilo-nuevo">
                     {hilo.noLeidos} mensaje{hilo.noLeidos === 1 ? "" : "s"} sin leer
