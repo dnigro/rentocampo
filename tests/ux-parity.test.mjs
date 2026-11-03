@@ -361,3 +361,36 @@ test("PR319 mobile polish: actionable result count, readable back button and zeb
  assert.ok(reportCss.includes("rc-gerencial__country-bar-row:nth-child(even)"));
  assert.ok(reportCss.includes("rc-gerencial__table-scroll{display:none!important}"));
 });
+
+test("PR319 executive country control, professional inbox and mobile account card",()=>{
+ const navbar=read("components/layout/Navbar.tsx");
+ const navCss=read("styles/rc-nav-inbox.css");
+ const inbox=read("app/(dashboard)/mensajes/page.tsx");
+ const report=read("app/(dashboard)/gerencial/page.tsx");
+ const controller=read("components/gerencial/GerencialExplorador.tsx");
+ const growthCss=read("styles/rc-growth-visual.css");
+ const root=read("app/layout.tsx");
+ assert.ok(navbar.includes('rc-mobile-drawer__account'));
+ assert.ok(navbar.includes('user ? "/dashboard" : "/login"'));
+ assert.ok(navbar.includes('rc-mobile-drawer__close'));
+ assert.ok(navCss.includes('rentocampo-hero-campo-bn-1920x1080.webp'));
+ assert.ok(navCss.includes('.rc-inbox__'));
+ assert.ok(root.includes('rc-nav-inbox.css'));
+ assert.ok(inbox.includes('rc-inbox__header'));
+ assert.ok(inbox.includes('hilo-no-leido'));
+ assert.ok(inbox.includes('rc-inbox__type'));
+ assert.ok(inbox.includes('rc-inbox__own'));
+ assert.ok(report.includes('<GerencialExplorador countries={report.countries} months={report.months} totals={report.totals} />'));
+ assert.ok(report.includes('rc-gerencial__legacy-details'));
+ assert.ok(report.includes('getCommercialStats()'));
+ assert.ok(report.includes('INTERNAL_TEST_EMAILS'));
+ assert.ok(controller.includes('useState("ALL")'));
+ assert.ok(controller.includes('<option value="ALL">'));
+ assert.ok(controller.includes('countries.map((c)'));
+ assert.ok(controller.includes('rc-growth__kpi'));
+ assert.ok(controller.includes('rc-growth__stack'));
+ assert.ok(controller.includes('inactiveCountries.map'));
+ assert.ok(controller.includes('shownCountries'));
+ assert.ok(growthCss.includes('rc-growth__visuals'));
+ assert.ok(growthCss.includes('rc-gerencial__legacy-details'));
+});
