@@ -118,7 +118,7 @@ test('web/mobile/Lite have localized map/chat and 0% commission with country-awa
  assert.equal(COUNTRY_CODES.length,19);
  assert.ok(web.includes('<SimpleMapChatHero />'));
  assert.ok(lite.includes('<SimpleMapChatHero lite />'));
- for(const phrase of ['CAMPOS Y SERVICIOS','TERRAS E SERVIÇOS','LAND & SERVICES',
+ for(const phrase of ['TIERRAS QUE PRODUCEN FUTURO','TERRAS QUE PRODUZEM FUTURO','LAND THAT BUILDS THE FUTURE',
    'MAPA','CHAT ONLINE','ONLINE CHAT','Seleccioná la zona','Escolha a região','Select an area',
    'Contactá en línea','Converse online','Connect online','0%</strong>','100%</strong>','COMISIÓN','COMISSÃO','COMMISSION','CONTACTO DIRECTO','CONTATO DIRETO','DIRECT CONTACT']){
    assert.ok(hero.includes(phrase), 'missing localized hero copy: '+phrase);
