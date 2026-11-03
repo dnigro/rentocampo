@@ -20,7 +20,9 @@ export default function ListingHeader({
         <h1 id={id} className="explorador-title">{title}</h1>
         {description && <p className="rc-explorer-header__description">{description}</p>}
       </div>
-      <span className="rc-explorer-header__count" role="status" aria-live="polite">{count}</span>
+      <a className="rc-explorer-header__count rc-explorer-header__count-link" href="#rc-explorer-results" aria-label={`Ver resultados: ${count}`}>
+        <span>{count}</span><span aria-hidden="true">↓</span>
+      </a>
     </header>
   );
 }
