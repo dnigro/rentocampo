@@ -1,0 +1,301 @@
+/*
+ * PR #319 — interior editorial corporativo, acotado a las pantallas de producto.
+ * Paleta aprobada del home: azul marino, azul petróleo, grises suaves.
+ * No modifica la portada, los datos, los permisos ni el flujo del chat.
+ */
+:root {
+  --rc-ins-navy:#11283f;
+  --rc-ins-navy-hover:#234761;
+  --rc-ins-steel:#365f7a;
+  --rc-ins-ink:#19354b;
+  --rc-ins-muted:#647482;
+  --rc-ins-paper:#f3f5f6;
+  --rc-ins-line:#d8e1e7;
+}
+/* Perfil desktop, web móvil y editor App Lite (mismo PerfilForm). */
+html body :is(.app-shell,.lite-app) .perfil-page.page-container{
+  max-width:1220px!important;
+  width:100%;
+  margin-inline:auto!important;
+  padding:clamp(20px,3vw,40px) clamp(16px,3.5vw,48px) 76px!important;
+  background:transparent!important;
+  color:var(--rc-ins-ink);
+}
+html body :is(.app-shell,.lite-app) .perfil-page>.page-header{
+  text-align:left!important;justify-content:flex-start!important;
+  padding:0 0 22px!important;margin:0 auto 25px!important;
+  border-bottom:1px solid var(--rc-ins-line)!important;
+}
+html body :is(.app-shell,.lite-app) .perfil-page>.page-header>div{text-align:left!important}
+html body :is(.app-shell,.lite-app) .perfil-page .page-title{
+  font-family:var(--font-dm-sans),Arial,sans-serif!important;
+  font-weight:700!important;font-size:clamp(34px,3.6vw,52px)!important;
+  line-height:1.08!important;letter-spacing:-.04em!important;
+  text-transform:none!important;color:var(--rc-ins-navy)!important;
+}
+html body :is(.app-shell,.lite-app) .perfil-page .page-subtitle{
+  font-size:clamp(15px,1.3vw,17px)!important;color:var(--rc-ins-muted)!important;
+}
+html body :is(.app-shell,.lite-app) .perfil-page .perfil-layout{
+  display:grid!important;grid-template-columns:minmax(230px,300px) minmax(0,1fr)!important;
+  gap:18px!important;align-items:start;max-width:none!important;
+}
+html body :is(.app-shell,.lite-app) .perfil-page .perfil-layout>.perfil-avatar-panel{
+  grid-column:1!important;grid-row:1!important;display:block!important;
+  position:static!important;padding:22px!important;
+  background:#eef2f4!important;border-left:3px solid var(--rc-ins-steel)!important;
+}
+html body :is(.app-shell,.lite-app) .perfil-page .perfil-layout>.perfil-main-form{
+  grid-column:2!important;grid-row:1!important;padding:28px!important;
+}
+html body :is(.app-shell,.lite-app) .perfil-page .perfil-layout>.perfil-section:not(.perfil-avatar-panel):not(.perfil-main-form){
+  grid-column:2!important;grid-row:auto!important;
+}
+html body :is(.app-shell,.lite-app) .perfil-page .perfil-section{
+  background:#fff!important;border:1px solid var(--rc-ins-line)!important;
+  border-radius:12px!important;box-shadow:none!important;
+}
+html body :is(.app-shell,.lite-app) .perfil-page .perfil-section-title{
+  display:block;font-family:var(--font-dm-sans),Arial,sans-serif!important;
+  font-weight:750!important;font-size:clamp(19px,1.9vw,25px)!important;
+  line-height:1.25!important;letter-spacing:-.02em!important;
+  text-transform:none!important;color:var(--rc-ins-navy)!important;
+  border:0!important;padding:0!important;margin:0 0 12px!important;
+}
+html body :is(.app-shell,.lite-app) .perfil-page .perfil-section-description{
+  color:var(--rc-ins-muted)!important;font-size:14px!important;line-height:1.5!important;
+}
+html body :is(.app-shell,.lite-app) .perfil-page .perfil-avatar-panel .avatar-editor{
+  flex-direction:column!important;align-items:flex-start!important;gap:16px!important;
+  justify-content:flex-start!important;
+}
+html body :is(.app-shell,.lite-app) .perfil-page .avatar-preview{
+  width:104px!important;height:104px!important;flex-shrink:0;
+  border:2px solid var(--rc-ins-line)!important;background:#e1e8ed!important;
+  box-shadow:none!important;
+}
+html body :is(.app-shell,.lite-app) .perfil-page .avatar-info{
+  width:100%!important;min-width:0!important;align-items:flex-start!important;
+}
+html body :is(.app-shell,.lite-app) .perfil-page .perfil-role-options{
+  display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:10px!important;
+}
+html body :is(.app-shell,.lite-app) .perfil-page .perfil-role-option{
+  padding:14px!important;min-height:96px!important;background:#f8fafb!important;
+  border:1px solid var(--rc-ins-line)!important;border-radius:9px!important;
+}
+html body :is(.app-shell,.lite-app) .perfil-page .perfil-role-option:has(input:checked){
+  background:#eaf1f5!important;border-color:var(--rc-ins-steel)!important;
+}
+html body :is(.app-shell,.lite-app) .perfil-page .perfil-role-option input{accent-color:var(--rc-ins-navy)!important}
+html body :is(.app-shell,.lite-app) .perfil-page .perfil-role-option strong{color:var(--rc-ins-navy)!important;font-size:15px!important}
+html body :is(.app-shell,.lite-app) .perfil-page .perfil-role-option small{color:var(--rc-ins-muted)!important}
+html body :is(.app-shell,.lite-app) .perfil-page .form-label{color:var(--rc-ins-ink)!important;font-size:14px!important;font-weight:700!important}
+html body :is(.app-shell,.lite-app) .perfil-page :is(.form-input,.form-textarea){
+  min-height:46px!important;background:#fff!important;color:var(--rc-ins-ink)!important;
+  border:1px solid #c9d5de!important;border-radius:8px!important;box-shadow:none!important;
+}
+html body :is(.app-shell,.lite-app) .perfil-page :is(.form-input,.form-textarea):focus-visible{
+  outline:2px solid var(--rc-ins-steel)!important;outline-offset:1px!important;
+}
+html body :is(.app-shell,.lite-app) .perfil-page .form-hint{color:var(--rc-ins-muted)!important}
+html body :is(.app-shell,.lite-app) .perfil-page :is(button.btn-primary-lg,button.btn-secondary-lg){
+  min-height:46px!important;width:auto!important;min-width:150px!important;
+  padding:10px 20px!important;border-radius:999px!important;
+  font:700 15px/1.25 var(--font-dm-sans),Arial,sans-serif!important;
+  text-transform:none!important;letter-spacing:0!important;box-shadow:none!important;
+}
+html body :is(.app-shell,.lite-app) .perfil-page button.btn-primary-lg{
+  background:var(--rc-ins-navy)!important;border:1px solid var(--rc-ins-navy)!important;color:#fff!important;
+}
+html body :is(.app-shell,.lite-app) .perfil-page button.btn-primary-lg:hover:not(:disabled){
+  background:var(--rc-ins-navy-hover)!important;
+}
+html body :is(.app-shell,.lite-app) .perfil-page button.btn-secondary-lg{
+  background:#fff!important;border:1px solid #aebfcb!important;color:var(--rc-ins-navy)!important;
+}
+html body :is(.app-shell,.lite-app) .perfil-page button.btn-secondary-lg:hover:not(:disabled){
+  background:#e8eff3!important;border-color:var(--rc-ins-steel)!important;
+}
+html body :is(.app-shell,.lite-app) .perfil-page .perfil-danger-zone{
+  border-color:#e4d5d4!important;background:#fffafa!important;
+}
+html body :is(.app-shell,.lite-app) .perfil-page .perfil-danger-zone .perfil-section-title{
+  color:#832d32!important;
+}
+/* Dashboard: navegación en tarjetas sobrias, sin números ornamentales ni emojis enormes. */
+html body .app-shell .dashboard-page{max-width:1180px!important;padding:24px clamp(16px,3vw,40px) 72px!important}
+html body .app-shell .dashboard-header{
+  min-height:0!important;background:#edf2f5!important;border:1px solid var(--rc-ins-line)!important;
+  border-left:4px solid var(--rc-ins-steel)!important;border-radius:12px!important;
+  padding:25px clamp(20px,3vw,36px)!important;margin-bottom:22px!important;
+  color:var(--rc-ins-ink)!important;
+}
+html body .app-shell .dashboard-title{
+  font:700 clamp(30px,3vw,46px)/1.12 var(--font-dm-sans),Arial,sans-serif!important;
+  text-transform:none!important;letter-spacing:-.035em!important;color:var(--rc-ins-navy)!important;
+}
+html body .app-shell .dashboard-header .badge-tipo{
+  background:#fff!important;color:var(--rc-ins-navy)!important;
+  border:1px solid #b8c9d5!important;border-radius:999px!important;
+}
+html body .app-shell .dashboard-cards{
+  display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:14px!important;
+}
+html body .app-shell .dashboard-cards .dash-card{
+  min-height:155px!important;padding:22px!important;justify-content:flex-start!important;
+  border:1px solid var(--rc-ins-line)!important;background:#fff!important;
+  border-radius:12px!important;box-shadow:none!important;transform:none!important;
+}
+html body .app-shell .dashboard-cards .dash-card::before{display:none!important;content:none!important}
+html body .app-shell .dashboard-cards .dash-card:hover{
+  border-color:var(--rc-ins-steel)!important;background:#f0f5f8!important;
+}
+html body .app-shell .dashboard-cards .dash-card-icon{
+  font-size:29px!important;min-height:34px!important;margin-bottom:10px!important;
+  filter:grayscale(1)!important;
+}
+html body .app-shell .dashboard-cards .dash-card-label{
+  color:var(--rc-ins-navy)!important;font-size:20px!important;font-weight:750!important;
+}
+html body .app-shell .dashboard-cards .dash-card-desc{
+  color:var(--rc-ins-muted)!important;font-size:14px!important;
+}
+/* Formularios de publicación y páginas de gestión. */
+html body .app-shell .campo-form,
+html body .app-shell .servicio-publicacion-form{
+  max-width:1080px!important;margin-inline:auto!important;padding:24px!important;
+  background:#fff!important;border:1px solid var(--rc-ins-line)!important;border-radius:12px!important;
+  box-shadow:none!important;
+}
+html body .app-shell :is(.campo-form,.servicio-publicacion-form) .form-section{
+  background:#fff!important;border:0!important;border-bottom:1px solid var(--rc-ins-line)!important;
+  border-radius:0!important;box-shadow:none!important;padding:20px 0!important;
+}
+html body .app-shell :is(.campo-form,.servicio-publicacion-form) .form-section-title{
+  background:transparent!important;color:var(--rc-ins-navy)!important;
+  font:750 21px/1.3 var(--font-dm-sans),Arial,sans-serif!important;
+  border:0!important;text-transform:none!important;
+}
+html body .app-shell :is(.campo-form,.servicio-publicacion-form) .form-section-number{display:none!important}
+html body .app-shell .main-content>.page-container:not(.perfil-page) .btn-primary-lg{
+  min-height:46px!important;background:var(--rc-ins-navy)!important;color:#fff!important;
+  border:1px solid var(--rc-ins-navy)!important;border-radius:999px!important;
+  padding:10px 22px!important;font-size:15px!important;letter-spacing:0!important;
+  text-transform:none!important;
+}
+html body .app-shell .main-content>.page-container:not(.perfil-page) .page-title{
+  color:var(--rc-ins-navy)!important;
+  font-family:var(--font-dm-sans),Arial,sans-serif!important;
+  text-transform:none!important;
+}
+/* Conversaciones: contenedores limpios; no mover el composer ni alterar el envío. */
+html body .app-shell .mensajes-container :is(.hilo-item,.mensajes-empty-state){
+  border:1px solid var(--rc-ins-line)!important;background:#fff!important;
+  border-radius:12px!important;box-shadow:none!important;
+}
+html body .app-shell .mensajes-container .hilo-item:hover{
+  background:#f0f5f8!important;border-color:var(--rc-ins-steel)!important;
+}
+html body .app-shell .mensajes-container :is(.hilo-nombre,.hilo-header-nombre,.mensajes-empty-state h2){
+  color:var(--rc-ins-navy)!important;
+}
+html body .app-shell .mensajes-container .mensajes-empty-icon{
+  background:#e8eff3!important;color:var(--rc-ins-steel)!important;
+}
+/* Barra explorar: Ver en mapa y Explorar servicios/campos tienen la misma altura. */
+html body .app-shell .rc-explorer-toolbar{
+  align-items:center!important;gap:12px!important;
+  border-bottom:1px solid var(--rc-ins-line)!important;
+}
+html body .app-shell .rc-explorer-toolbar :is(a.rc-explorer-toolbar__map,a.rc-explorer-toolbar__related){
+  display:inline-flex!important;align-items:center!important;justify-content:center!important;
+  min-height:48px!important;min-width:0;padding:11px 20px!important;
+  margin:0!important;border:1px solid var(--rc-ins-navy)!important;border-radius:999px!important;
+  font:750 14px/1.2 var(--font-dm-sans),Arial,sans-serif!important;
+  text-align:center!important;text-decoration:none!important;white-space:normal!important;
+}
+html body .app-shell .rc-explorer-toolbar a.rc-explorer-toolbar__map{
+  background:var(--rc-ins-navy)!important;color:#fff!important;
+}
+html body .app-shell .rc-explorer-toolbar a.rc-explorer-toolbar__related{
+  margin-left:auto!important;background:#fff!important;color:var(--rc-ins-navy)!important;
+}
+html body .app-shell .rc-explorer-toolbar a:hover{background:#dfeaf0!important;color:var(--rc-ins-navy)!important}
+html body .app-shell .rc-explorer-toolbar .rc-explorer-country select{
+  min-height:48px!important;border:1px solid #b7c8d3!important;
+  border-radius:999px!important;color:var(--rc-ins-navy)!important;background:#fff!important;
+}
+/* Inicio App Lite: solo pantalla de perfil, sin alterar el resto de Lite. */
+html body .lite-app .rc-lite-profile{
+  max-width:900px!important;margin-inline:auto!important;min-height:85dvh!important;
+  background:var(--rc-ins-paper)!important;color:var(--rc-ins-navy)!important;
+  padding:24px clamp(16px,4vw,30px) 108px!important;
+}
+html body .lite-app .rc-lite-profile__title{
+  font:750 clamp(31px,6vw,42px)/1.12 var(--font-dm-sans),Arial,sans-serif!important;
+  letter-spacing:-.04em!important;color:var(--rc-ins-navy)!important;
+}
+html body .lite-app .rc-lite-profile__subtitle,
+html body .lite-app .rc-lite-profile__hint{color:var(--rc-ins-muted)!important}
+html body .lite-app .rc-lite-profile__eyebrow{color:var(--rc-ins-steel)!important}
+html body .lite-app .rc-lite-profile__photo{height:166px!important;border-radius:12px!important}
+html body .lite-app .rc-lite-profile__links{gap:10px!important}
+html body .lite-app .rc-lite-profile__link{
+  background:#fff!important;border:1px solid var(--rc-ins-line)!important;
+  color:var(--rc-ins-navy)!important;border-radius:10px!important;
+  font-size:16px!important;font-weight:750!important;padding:15px 18px!important;
+}
+html body .lite-app .rc-lite-profile__link:hover{
+  background:#ecf3f7!important;border-color:var(--rc-ins-steel)!important;
+}
+html body .lite-app .rc-lite-profile .rc-lite-account{
+  background:#fff!important;border:1px solid var(--rc-ins-line)!important;
+  border-radius:10px!important;box-shadow:none!important;
+}
+html body .lite-app .rc-lite-profile .rc-lite-account button{
+  border:1px solid var(--rc-ins-steel)!important;border-radius:999px!important;
+  color:var(--rc-ins-navy)!important;
+}
+html body .lite-app .rc-lite-profile__nav{
+  background:#fff!important;border-top:1px solid var(--rc-ins-line)!important;
+  color:var(--rc-ins-navy)!important;
+}
+@media(max-width:900px){
+  html body :is(.app-shell,.lite-app) .perfil-page .perfil-layout{
+    grid-template-columns:1fr!important;
+  }
+  html body :is(.app-shell,.lite-app) .perfil-page .perfil-layout>.perfil-avatar-panel,
+  html body :is(.app-shell,.lite-app) .perfil-page .perfil-layout>.perfil-main-form,
+  html body :is(.app-shell,.lite-app) .perfil-page .perfil-layout>.perfil-section:not(.perfil-avatar-panel):not(.perfil-main-form){
+    grid-column:1!important;grid-row:auto!important;
+  }
+  html body :is(.app-shell,.lite-app) .perfil-page .perfil-layout>.perfil-avatar-panel{
+    padding:20px!important;
+  }
+  html body :is(.app-shell,.lite-app) .perfil-page .perfil-avatar-panel .avatar-editor{
+    flex-direction:row!important;align-items:center!important;
+  }
+}
+@media(max-width:700px){
+  html body .app-shell .dashboard-cards{grid-template-columns:1fr!important}
+  html body .app-shell .dashboard-header{padding:20px!important;flex-direction:column-reverse!important}
+  html body :is(.app-shell,.lite-app) .perfil-page .perfil-layout>.perfil-main-form{padding:20px!important}
+  html body :is(.app-shell,.lite-app) .perfil-page .perfil-role-options{
+    grid-template-columns:1fr!important;
+  }
+  html body .app-shell .rc-explorer-toolbar a.rc-explorer-toolbar__related{
+    width:100%!important;margin:0!important;
+  }
+  html body .app-shell .rc-explorer-toolbar :is(a.rc-explorer-toolbar__map,.rc-explorer-country){
+    flex:1 1 155px!important;
+  }
+}
+@media(max-width:400px){
+  html body :is(.app-shell,.lite-app) .perfil-page .perfil-avatar-panel .avatar-editor{
+    flex-direction:column!important;align-items:flex-start!important;
+  }
+  html body .app-shell .rc-explorer-toolbar :is(a.rc-explorer-toolbar__map,.rc-explorer-country){
+    flex:1 1 100%!important;
+  }
+}
