@@ -322,52 +322,33 @@ function NavbarContent() {
             </div>
             <nav
               className="mobile-menu-nav"
+              aria-label={regionalText(activeCountry, "Navegación de cuenta", "Navegação da conta", "Account navigation")}
               onClick={() => setMenuAbierto(false)}
             >
-              <Link href="/campos" className="mobile-menu-link">
-                🌾 {regionalText(activeCountry, "Campos", "Terras")}
-              </Link>
-              <Link href="/servicios-rurales" className="mobile-menu-link">
-                🚜 {regionalText(activeCountry, "Servicios rurales", "Serviços rurais")}
-              </Link>
-              <Link href="/#como-funciona" className="mobile-menu-link" onClick={() => {
-                if (pathname === "/") document.getElementById("como-funciona")?.scrollIntoView({ behavior: "smooth" });
-              }}>
-                ℹ️ {regionalText(activeCountry, "Cómo funciona", "Como funciona")}
-              </Link>
-              
-
-              <div className="mobile-menu-sep" />
-
               {user ? (
-                <>
-                  <Link href="/dashboard" className="mobile-menu-link">
-                    👤 {regionalText(activeCountry, "Mi cuenta", "Minha conta")}
-                  </Link>
-                  <Link href="/mensajes" className="mobile-menu-link">
-                    💬 {regionalText(activeCountry, "Mensajes", "Mensagens")}
-                    {noLeidos > 0 && (
-                      <span className="mobile-badge">{noLeidos}</span>
-                    )}
-                  </Link>
-                  <Link href="/favoritos" className="mobile-menu-link">
-                    ❤️ Favoritos
-                  </Link>
-                  <Link href="/perfil" className="mobile-menu-link">
-                    ⚙️ {regionalText(activeCountry, "Mi perfil", "Meu perfil")}
-                  </Link>
-
-                  <div className="mobile-menu-sep" />
-
-                  <button
-                    onClick={handleLogout}
-                    className="mobile-menu-link mobile-menu-logout"
-                  >
-                    {regionalText(activeCountry, "Cerrar sesión", "Sair da conta")}
-                  </button>
-                </>
+                // Las opciones de navegación ya viven dentro de Mi cuenta.
+                // Evitamos duplicarlas en el desplegable de usuarios logueados.
+                <button
+                  type="button"
+                  onClick={handleLogout}
+                  className="mobile-menu-link mobile-menu-logout"
+                >
+                  {regionalText(activeCountry, "Cerrar sesión", "Sair da conta", "Log out")}
+                </button>
               ) : (
                 <>
+                  <Link href="/campos" className="mobile-menu-link">
+                    🌾 {regionalText(activeCountry, "Campos", "Terras")}
+                  </Link>
+                  <Link href="/servicios-rurales" className="mobile-menu-link">
+                    🚜 {regionalText(activeCountry, "Servicios rurales", "Serviços rurais")}
+                  </Link>
+                  <Link href="/#como-funciona" className="mobile-menu-link" onClick={() => {
+                    if (pathname === "/") document.getElementById("como-funciona")?.scrollIntoView({ behavior: "smooth" });
+                  }}>
+                    ℹ️ {regionalText(activeCountry, "Cómo funciona", "Como funciona")}
+                  </Link>
+                  <div className="mobile-menu-sep" />
                   <Link href="/login" className="mobile-menu-link">
                     {regionalText(activeCountry, "Ingresar", "Entrar")}
                   </Link>
