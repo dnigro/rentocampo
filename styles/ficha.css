@@ -946,3 +946,16 @@
   .app-shell .rc-detail .ficha-seccion-titulo { font-size: 17px !important; }
   .app-shell .rc-detail .ficha-descripcion { font-size: 14px !important; }
 }
+
+
+/* Íconos de las fichas: datos publicados, sin atributos inventados. */
+.app-shell .rc-detail .dato-item { display: grid; grid-template-columns: auto 1fr; column-gap: 8px; align-items: center; }
+.app-shell .rc-detail .rc-detail-icon { grid-row: 1 / span 2; width: 22px; height: 22px; color: #248044; stroke-width: 1.9; }
+.app-shell .rc-detail .dato-valor, .app-shell .rc-detail .dato-label { grid-column: 2; }
+.app-shell .rc-detail .rc-service-activity { display: inline-flex; align-items: center; gap: 7px; }
+.app-shell .rc-detail .rc-service-activity svg { width: 19px; height: 19px; flex-shrink: 0; stroke-width: 1.8; color: #278347; }
+@media(max-width: 640px) {
+  .app-shell .rc-detail .rc-detail-icon { width: 19px; height: 19px; }
+  .app-shell .rc-detail .dato-item { column-gap: 5px; }
+  .app-shell .rc-detail .rc-service-activity { font-size: 11px; }
+}
