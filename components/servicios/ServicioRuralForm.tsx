@@ -17,6 +17,7 @@ interface ServicioInicial {
   country_code?: CountryCode;
   servicios_rurales: ServicioRural[];
   foto_url: string;
+  fotos_urls?: string[] | null;
   provincia: string;
   localidad?: string | null;
   zona?: string | null;
@@ -54,8 +55,10 @@ export default function ServicioRuralForm({ profile, publicacion, initialCountry
   const [latitud, setLatitud] = useState<number | undefined>(publicacion?.latitud ?? undefined);
   const [longitud, setLongitud] = useState<number | undefined>(publicacion?.longitud ?? undefined);
   const [detalle, setDetalle] = useState(publicacion?.detalle ?? "");
-  const [photoPreview, setPhotoPreview] = useState(publicacion?.foto_url ?? profile?.service_photo_url ?? "");
-  const [photoFile, setPhotoFile] = useState<File | null>(null);
+  const [photos, setPhotos] = useState<{url:string;file?:File}[]>(() => {
+    const saved = Array.isArray(publicacion?.fotos_urls) && publicacion.fotos_urls.length ? publicacion.fotos_urls : [publicacion?.foto_url ?? profile?.service_photo_url ?? ""];
+    return saved.filter(Boolean).slice(0,8).map(url => ({url}));
+  });
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
 
@@ -73,20 +76,15 @@ export default function ServicioRuralForm({ profile, publicacion, initialCountry
   }
 
   function handlePhotoChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    setPhotoFile(file);
-    setPhotoPreview((previous) => { if (previous.startsWith("blob:")) URL.revokeObjectURL(previous); return URL.createObjectURL(file); });
+    const files = Array.from(e.target.files ?? []);
+    const remaining = 8 - photos.length;
+    if (files.length > remaining) setError(tt("Podés subir hasta 8 imágenes.","Você pode enviar até 8 imagens.","You can upload up to 8 photos."));
+    setPhotos(previous => [...previous, ...files.slice(0,Math.max(0,remaining)).filter(file=>file.type.startsWith("image/")).map(file=>({file,url:URL.createObjectURL(file)}))]);
     e.target.value = "";
   }
 
-  function removePhoto() {
-    setPhotoPreview((previous) => {
-      if (previous.startsWith("blob:")) URL.revokeObjectURL(previous);
-      return "";
-    });
-    setPhotoFile(null);
-    if (photoInputRef.current) photoInputRef.current.value = "";
+  function removePhoto(index:number) {
+    setPhotos(previous => previous.filter((photo,i)=>{if(i===index && photo.url.startsWith("blob:")) URL.revokeObjectURL(photo.url);return i!==index;}));
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -98,7 +96,7 @@ export default function ServicioRuralForm({ profile, publicacion, initialCountry
       return;
     }
 
-    if (!photoPreview && !photoFile) {
+    if (!photos.length) {
       setError(tt("Subí una foto clara y real del servicio que ofrecés.","Envie uma foto real e nítida do serviço que oferece."));
       return;
     }
@@ -111,34 +109,23 @@ export default function ServicioRuralForm({ profile, publicacion, initialCountry
     setSaving(true);
 
     try {
-      let resolvedPhotoUrl = photoPreview;
-
-      if (photoFile) {
+      const resolvedPhotos:string[] = [];
+      for (const photo of photos) {
+        if (!photo.file) { resolvedPhotos.push(photo.url); continue; }
         const body = new FormData();
-        body.set("file", photoFile);
-        const response = await fetch("/api/profile/service-photo", {
-          method: "POST",
-          body,
-        });
+        body.set("file",photo.file);
+        const response = await fetch("/api/profile/service-photo",{method:"POST",body});
         const result = await response.json();
-        if (!response.ok || !result.url) {
-          throw new Error(result.error ?? tt("No se pudo subir la foto del servicio","Não foi possível enviar a foto do serviço"));
-        }
-
-        // Persistimos la URL pública devuelta por Storage, no el blob: local
-        // usado solamente para el preview del navegador.
-        resolvedPhotoUrl = result.url;
-        setPhotoPreview(result.url);
-        setPhotoFile(null);
+        if (!response.ok || !result.url) throw new Error(result.error ?? tt("No se pudo subir la foto del servicio","Não foi possível enviar a foto do serviço"));
+        resolvedPhotos.push(result.url);
       }
-
-      if (!resolvedPhotoUrl) throw new Error(tt("La foto del servicio es obligatoria.","A foto do serviço é obrigatória."));
-
+      if (!resolvedPhotos.length) throw new Error(tt("La foto del servicio es obligatoria.","A foto do serviço é obrigatória."));
       const payload = {
         propietario_id: profile?.id,
         country_code: country,
         servicios_rurales: servicios,
-        foto_url: resolvedPhotoUrl,
+        foto_url: resolvedPhotos[0],
+        fotos_urls: resolvedPhotos,
         zona: zona || null,
         provincia,
         localidad: localidad || null,
@@ -264,35 +251,20 @@ export default function ServicioRuralForm({ profile, publicacion, initialCountry
             <div><strong>{tt("Mostrá tu servicio con una foto real", "Mostre seu serviço com uma foto real", "Show your real work")}</strong>
             <small>{tt("Una imagen clara genera más confianza.", "Uma imagem clara transmite confiança.", "A clear photo builds trust.")}</small></div>
           </div>
-          {photoPreview ? (
-            <Image
-              src={photoPreview}
-              alt={tt("Foto de tu servicio rural","Foto do seu serviço rural")}
-              width={900}
-              height={580}
-              className="servicio-foto-preview"
-            />
-          ) : (
-            <div className="servicio-foto-placeholder">
-              📷 {tt("Subí una foto real que represente tu trabajo","Envie uma foto real que represente seu trabalho")}
-            </div>
-          )}
-          <button
-            type="button"
-            className="btn-secondary-lg rc-publish-photo-button"
-            onClick={() => photoInputRef.current?.click()}
-          >
-            <UploadCloud size={18} aria-hidden="true" /> {photoPreview ? tt("Cambiar foto","Trocar foto","Change photo") : tt("Seleccionar foto","Selecionar foto","Choose photo")}
+          <div className="servicio-fotos-grid">
+            {photos.map((photo,index)=>(<div className="servicio-fotos-item" key={photo.url}>
+              <Image src={photo.url} alt={tt("Imagen del servicio","Imagem do serviço","Service photo")+` ${index+1}`} width={360} height={240} className="servicio-foto-preview" unoptimized={photo.url.startsWith("blob:")} />
+              <button type="button" className="btn-secondary-lg" onClick={()=>removePhoto(index)}>{tt("Eliminar","Excluir","Remove")}</button>
+            </div>))}
+          </div>
+          <button type="button" className="btn-secondary-lg rc-publish-photo-button" disabled={photos.length>=8} onClick={()=>photoInputRef.current?.click()}>
+            <UploadCloud size={18} aria-hidden="true" /> {tt("Agregar imágenes","Adicionar imagens","Add photos")} ({photos.length}/8)
           </button>
-          {photoPreview && (
-            <button type="button" className="btn-secondary-lg" onClick={removePhoto}>
-              {tt("Eliminar foto","Excluir foto")}
-            </button>
-          )}
           <input
             ref={photoInputRef}
             type="file"
             accept="image/*"
+            multiple
             style={{ display: "none" }}
             onChange={handlePhotoChange}
           />
