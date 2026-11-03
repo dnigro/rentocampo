@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
-import { FileText, Images, MapPinned, Sprout, WalletCards } from "lucide-react";
+import { FileText, Images, MapPinned, Sprout, WalletCards, Check, ImagePlus } from "lucide-react";
 import { displayCountryName, COUNTRIES, COUNTRY_CODES_ALPHABETICAL, getCountrySubdivisions, type CountryCode } from "@/data/countries";
 import type { CampoFormData, MonedaCampo } from "@/types";
 import { trackEvent } from "@/lib/analytics";
@@ -256,7 +256,15 @@ export default function CampoForm({
   }
 
   return (
-    <form className="campo-form" onSubmit={(e) => e.preventDefault()}>
+    <form className="campo-form rc-publish-form rc-publish-form--field" onSubmit={(e) => e.preventDefault()}>
+      <div className="rc-publish-hero">
+        <span className="rc-publish-brand-mark">
+          <Image src="/icon-512.png" alt="Escudo oficial de RentoCampo" width={60} height={60} />
+        </span>
+        <span className="rc-publish-eyebrow">RentoCampo · {tt("Tierras rurales", "Terras rurais")}</span>
+        <h1>{campoId ? tt("Editar campo", "Editar propriedade") : tt("Publicar campo", "Anunciar terra")}</h1>
+        <p>{tt("Tu tierra tiene valor. Agregala al mapa y conectá directo.", "Sua terra tem valor. Adicione-a ao mapa e conecte-se diretamente.")}</p>
+      </div>
       {!FREE_PUBLICATIONS_ENABLED && <div className="campo-plan-status">
         <div>
           <span className="campo-plan-kicker">{tt("Tu plan","Seu plano")}</span>
@@ -468,9 +476,23 @@ export default function CampoForm({
             <label className="form-label">
               {tt("Aptitud","Aptidão")} <span className="required">*</span>
             </label>
+            <div className="rc-publish-choice-row" role="group" aria-label={tt("Aptitud", "Aptidão")}>
+              {APTITUDES.map((a) => (
+                <button
+                  type="button"
+                  key={a.value}
+                  className={`rc-publish-choice${form.aptitud === a.value ? " is-selected" : ""}`}
+                  aria-pressed={form.aptitud === a.value}
+                  onClick={() => setForm((prev) => ({...prev, aptitud:a.value as CampoFormData["aptitud"]}))}
+                >
+                  {countryCode==="BR"?({agricola:"Agrícola",ganadera:"Pecuária",mixta:"Mista",forestal:"Florestal",otro:"Outro"} as Record<string,string>)[a.value]??a.label:a.label}
+                  {form.aptitud === a.value && <Check size={15} aria-hidden="true" />}
+                </button>
+              ))}
+            </div>
             <select
               name="aptitud"
-              className="form-input form-select"
+              className="form-input form-select rc-publish-hidden-native"
               value={form.aptitud}
               onChange={handleChange}
             >
@@ -536,7 +558,24 @@ export default function CampoForm({
           <label className="form-label">
             {tt("Tipo de operación","Tipo de operação")} <span className="required">*</span>
           </label>
-          <div className="rc-operation-select">
+          <div className="rc-publish-choice-row" role="group" aria-label={tt("Tipo de operación", "Tipo de operação")}>
+            {([
+              ["alquiler", tt("Alquiler","Arrendamento")],
+              ["venta", tt("Venta","Venda")],
+              ["ambas", tt("Alquiler y venta","Arrendamento e venda")],
+            ] as const).map(([value,label]) => (
+              <button
+                type="button"
+                key={value}
+                className={`rc-publish-choice${form.operacion === value ? " is-selected" : ""}`}
+                aria-pressed={form.operacion === value}
+                onClick={() => setForm((prev) => ({...prev, operacion:value}))}
+              >
+                {label} {form.operacion === value && <Check size={16} aria-hidden="true" />}
+              </button>
+            ))}
+          </div>
+          <div className="rc-operation-select rc-publish-hidden-native">
             <select
               name="operacion"
               aria-label={tt("Tipo de operación","Tipo de operação")}
@@ -614,6 +653,13 @@ export default function CampoForm({
           <span className="form-section-hint">{tt("(máx. 8)","(máx. 8)")}</span>
         </h2>
 
+        <div className="rc-publish-photo-guide rc-publish-photo-guide--field">
+          <ImagePlus size={23} aria-hidden="true" />
+          <div>
+            <strong>{tt("Subí fotos reales de tu campo", "Envie fotos reais da propriedade")}</strong>
+            <small>{tt("Hasta 8 imágenes. La primera será la foto principal.", "Até 8 imagens. A primeira será a capa.")}</small>
+          </div>
+        </div>
         <div className="fotos-grid">
           {fotos.map((foto, i) => (
             <div key={i} className="foto-thumb">
@@ -642,7 +688,7 @@ export default function CampoForm({
               onClick={() => fileInputRef.current?.click()}
               disabled={uploading}
             >
-              <span className="foto-add-icon">+</span>
+              <span className="foto-add-icon"><ImagePlus size={26} aria-hidden="true" /></span>
               <span className="foto-add-label">
                 {uploading ? tt("Subiendo...","Enviando...") : tt("Agregar foto","Adicionar foto")}
               </span>

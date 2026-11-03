@@ -4,9 +4,9 @@ import Image from "next/image";
 import { displayCountryName, COUNTRIES, COUNTRY_CODES_ALPHABETICAL, getCountrySubdivisions, resolveCountry, type CountryCode } from "@/data/countries";
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
-import { FileText, Images, MapPinned } from "lucide-react";
+import { Check, FileText, Images, MapPinned, UploadCloud, Wheat, Fence, Wifi, Handshake } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
-import { SERVICIOS_RURALES, servicioLabel } from "@/data/servicios-rurales";
+import { SERVICIO_GRUPOS, servicioGrupoLabel, servicioLabel } from "@/data/servicios-rurales";
 import { regionalText } from "@/lib/i18n/regional";
 import { type Profile, type RolPerfil, type ServicioRural } from "@/types";
 import GeocoderInput, { type LugarSeleccionado } from "@/components/campos/GeocoderInput";
@@ -41,7 +41,7 @@ export default function ServicioRuralForm({ profile, publicacion, initialCountry
   );
   const [country, setCountry] = useState<CountryCode>(resolveCountry(publicacion?.country_code ?? initialCountry, profile?.country_code));
   const subdivisions = getCountrySubdivisions(country);
-  const tt=(es:string,pt:string)=>regionalText(country,es,pt);
+  const tt=(es:string,pt:string,en?:string)=>regionalText(country,es,pt,en);
   const [zona, setZona] = useState(publicacion?.zona ?? initialZona ?? profile?.zona_servicio ?? "");
   const [provincia, setProvincia] = useState(publicacion?.provincia ?? profile?.provincia_servicio ?? "");
   const [localidad, setLocalidad] = useState(publicacion?.localidad ?? profile?.localidad_servicio ?? "");
@@ -54,12 +54,17 @@ export default function ServicioRuralForm({ profile, publicacion, initialCountry
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
 
+  // La primera categoría seleccionada se guarda como principal sin cambiar el esquema SQL.
   function toggleServicio(servicio: ServicioRural) {
     setServicios((actuales) =>
       actuales.includes(servicio)
         ? actuales.filter((item) => item !== servicio)
         : [...actuales, servicio],
     );
+  }
+
+  function elegirPrincipal(servicio: ServicioRural) {
+    setServicios((actuales) => [servicio, ...actuales.filter((item) => item !== servicio)]);
   }
 
   function handlePhotoChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -168,7 +173,15 @@ export default function ServicioRuralForm({ profile, publicacion, initialCountry
   }
 
   return (
-    <form className="campo-form servicio-publicacion-form" onSubmit={handleSubmit}>
+    <form className="campo-form servicio-publicacion-form rc-publish-form rc-publish-form--service" onSubmit={handleSubmit}>
+      <div className="rc-publish-hero">
+        <span className="rc-publish-brand-mark">
+          <Image src="/icon-512.png" alt="Escudo oficial de RentoCampo" width={60} height={60} />
+        </span>
+        <span className="rc-publish-eyebrow">RentoCampo · {tt("Servicios rurales","Serviços rurais","Rural services")}</span>
+        <h1>{publicacion ? tt("Editar servicio","Editar serviço","Edit service") : tt("Publicar servicio","Anunciar serviço","List a service")}</h1>
+        <p>{tt("Ofrecé tu trabajo al campo. Directo, simple y sin comisión.","Mostre seu trabalho ao campo. Direto, simples e sem comissão.","Offer your services directly, simply and commission-free.")}</p>
+      </div>
       <div className="form-section">
         <h2 className="form-section-title form-section-title-editorial"><span className="form-section-number">01</span><span className="form-section-icon" aria-hidden="true"><FileText size={24} strokeWidth={1.8} /></span><span className="form-section-copy"><span>{tt("Información","Informações")}</span> <em>{tt("del servicio","do serviço")}</em></span></h2>
       <div className="form-field">
@@ -178,17 +191,58 @@ export default function ServicioRuralForm({ profile, publicacion, initialCountry
         <p className="form-hint">
           {tt("Elegí uno o varios rubros. Estos son los que verán los usuarios en tu publicación.","Escolha uma ou mais categorias. Elas aparecerão no seu anúncio.")}
         </p>
-        <div className="servicios-options">
-          {SERVICIOS_RURALES.map((servicio) => (
-            <label className="servicio-option" key={servicio.value}>
-              <input
-                type="checkbox"
-                checked={servicios.includes(servicio.value)}
-                onChange={() => toggleServicio(servicio.value)}
-              />
-              <span>{servicioLabel(servicio.value,country)}</span>
-            </label>
+        <div className="rc-publish-groups">
+          {SERVICIO_GRUPOS.map((group) => (
+            <section className="rc-publish-group" key={group.key} aria-label={servicioGrupoLabel(group, country)}>
+              <div className="rc-publish-group-title">
+                <span className="rc-publish-group-icon" aria-hidden="true">
+                  {group.key === "produccion" ? <Wheat size={22} /> : group.key === "infraestructura" ? <Fence size={22} /> : group.key === "tecnologia" ? <Wifi size={22} /> : <Handshake size={22} />}
+                </span>
+                <strong>{servicioGrupoLabel(group, country)}</strong>
+              </div>
+              <div className="rc-publish-chips">
+                {group.values.map((value) => (
+                  <label className={`rc-publish-chip${servicios.includes(value) ? " is-selected" : ""}`} key={value}>
+                    <input
+                      type="checkbox"
+                      checked={servicios.includes(value)}
+                      onChange={() => toggleServicio(value)}
+                    />
+                    <span>{servicioLabel(value, country)}</span>
+                    {servicios.includes(value) && <Check size={14} aria-hidden="true" />}
+                  </label>
+                ))}
+              </div>
+            </section>
           ))}
+        </div>
+        <div className="rc-publish-selected">
+          <label className="rc-publish-primary">
+            <span className="form-label">{tt("Categoría principal", "Categoria principal", "Main category")}</span>
+            <select
+              className="form-input form-select"
+              aria-label={tt("Categoría principal", "Categoria principal", "Main category")}
+              value={servicios[0] ?? ""}
+              onChange={(e) => elegirPrincipal(e.target.value as ServicioRural)}
+              disabled={servicios.length === 0}
+            >
+              {servicios.length === 0 && <option value="">{tt("Elegí un servicio", "Selecione um serviço", "Select a service")}</option>}
+              {servicios.map((value) => (
+                <option key={value} value={value}>{servicioLabel(value,country)}</option>
+              ))}
+            </select>
+          </label>
+          <div>
+            <span className="form-label">{tt("Servicios complementarios", "Serviços complementares", "Additional services")}</span>
+            <div className="rc-publish-selected-tags">
+              {servicios.length < 2 && <small>{tt("Podés sumar otros rubros arriba.", "Você pode adicionar outras categorias acima.", "You can add more categories above.")}</small>}
+              {servicios.slice(1).map((value) => (
+                <button type="button" key={value} className="rc-publish-selected-tag" onClick={() => toggleServicio(value)} aria-label={tt("Quitar", "Remover", "Remove") + " " + servicioLabel(value,country)}>
+                  {servicioLabel(value,country)} <span aria-hidden="true">×</span>
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
 
@@ -200,6 +254,11 @@ export default function ServicioRuralForm({ profile, publicacion, initialCountry
         <label className="form-label">{tt("Foto de tu servicio","Foto do seu serviço")} <span className="required">*</span></label>
         <p className="form-hint">{tt("Subí una foto clara y real de tu trabajo. Una buena imagen ayuda a que los productores entiendan rápidamente qué servicio ofrecés.","Envie uma foto nítida e real do seu trabalho. Uma boa imagem ajuda os produtores a entender seu serviço.")}</p>
         <div className="servicio-foto-editor">
+          <div className="rc-publish-photo-guide">
+            <Images size={23} aria-hidden="true" />
+            <div><strong>{tt("Mostrá tu servicio con una foto real", "Mostre seu serviço com uma foto real", "Show your real work")}</strong>
+            <small>{tt("Una imagen clara genera más confianza.", "Uma imagem clara transmite confiança.", "A clear photo builds trust.")}</small></div>
+          </div>
           {photoPreview ? (
             <Image
               src={photoPreview}
@@ -215,10 +274,10 @@ export default function ServicioRuralForm({ profile, publicacion, initialCountry
           )}
           <button
             type="button"
-            className="btn-secondary-lg"
+            className="btn-secondary-lg rc-publish-photo-button"
             onClick={() => photoInputRef.current?.click()}
           >
-            {photoPreview ? tt("Cambiar foto","Trocar foto") : tt("Subir foto","Enviar foto")}
+            <UploadCloud size={18} aria-hidden="true" /> {photoPreview ? tt("Cambiar foto","Trocar foto","Change photo") : tt("Seleccionar foto","Selecionar foto","Choose photo")}
           </button>
           {photoPreview && (
             <button type="button" className="btn-secondary-lg" onClick={removePhoto}>
