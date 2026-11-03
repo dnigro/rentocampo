@@ -5,7 +5,7 @@ import { regionalText } from "@/lib/i18n/regional";
 import { regionalPublicationHref, regionalPublicationLabel } from "@/lib/publicacion-regional";
 import type { Metadata } from "next";
 import Image from "next/image";
-import { LandPlot, Sprout, ChartNoAxesColumnIncreasing, Wrench, Droplets, House, Warehouse, Trees, Wifi, Route, Fence, Zap, Mountain, CheckCircle2 } from "lucide-react";
+import { LandPlot, Sprout, ChartNoAxesColumnIncreasing, Wrench, Droplets, House, Warehouse, Trees, Wifi, Route, Fence, Zap, Mountain } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import ConsultaButton from "@/components/campos/ConsultaButton";
@@ -119,12 +119,6 @@ export default async function CampoFichaPage({ params }: PageProps) {
     forestal: "Forestal",
     otro: "Otro",
   };
-
-  const disponibilidad = campoConPropietario.disponibilidad_desde
-    ? new Date(campoConPropietario.disponibilidad_desde) <= new Date()
-      ? "Disponible ahora"
-      : "Campaña próxima"
-    : "A convenir";
 
   // Atributos visibles solo cuando el propietario los menciona expresamente.
   // No se infieren instalaciones a partir de fotos ni de la ubicación.
