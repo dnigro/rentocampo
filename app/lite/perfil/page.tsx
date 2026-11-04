@@ -3,7 +3,8 @@ import heroTambo from "@/public/rentocampo-hero-campo-bn-1920x1080.webp";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
-import { ArrowUpRight, FilePenLine, MapPinned, MessageCircle, PlusCircle, UserRound, Wrench } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
+import ActionIcon, { type ActionIconName } from "@/components/ui/ActionIcon";
 import { resolveCountry } from "@/data/countries";
 import { regionalText } from "@/lib/i18n/regional";
 import LiteHeader from "@/components/lite/LiteHeader";
@@ -21,12 +22,12 @@ export default async function Page() {
   }
 
   const links = [
-    { href: "/lite/perfil/editar", title: tt("Editar mi perfil", "Editar meu perfil"), description: tt("Datos y configuración", "Dados e configurações"), Icon: UserRound },
-    { href: "/lite/campos/publicar", title: tt("Publicar campo", "Anunciar terra"), description: tt("Nueva publicación", "Novo anúncio"), Icon: PlusCircle },
-    { href: "/lite/servicios/publicar", title: tt("Publicar servicio", "Anunciar serviço"), description: tt("Nueva oferta rural", "Nova oferta rural"), Icon: Wrench },
-    { href: "/lite/campos/mis-publicaciones", title: tt("Mis publicaciones", "Meus anúncios"), description: tt("Gestionar campos", "Gerenciar terras"), Icon: MapPinned },
-    { href: "/lite/servicios/mis-publicaciones", title: tt("Mis servicios", "Meus serviços"), description: tt("Gestionar ofertas", "Gerenciar ofertas"), Icon: FilePenLine },
-    { href: "/lite/perfil/mensajes", title: tt("Mis mensajes", "Minhas mensagens"), description: tt("Consultas y contactos", "Consultas e contatos"), Icon: MessageCircle },
+    { href: "/lite/perfil/editar", title: tt("Editar mi perfil", "Editar meu perfil"), description: tt("Datos y configuración", "Dados e configurações"), icon: "profile" as ActionIconName },
+    { href: "/lite/campos/publicar", title: tt("Publicar campo", "Anunciar terra"), description: tt("Nueva publicación", "Novo anúncio"), icon: "fields" as ActionIconName },
+    { href: "/lite/servicios/publicar", title: tt("Publicar servicio", "Anunciar serviço"), description: tt("Nueva oferta rural", "Nova oferta rural"), icon: "services" as ActionIconName },
+    { href: "/lite/campos/mis-publicaciones", title: tt("Mis publicaciones", "Meus anúncios"), description: tt("Gestionar campos", "Gerenciar terras"), icon: "fields" as ActionIconName },
+    { href: "/lite/servicios/mis-publicaciones", title: tt("Mis servicios", "Meus serviços"), description: tt("Gestionar ofertas", "Gerenciar ofertas"), icon: "services" as ActionIconName },
+    { href: "/lite/perfil/mensajes", title: tt("Mis mensajes", "Minhas mensagens"), description: tt("Consultas y contactos", "Consultas e contatos"), icon: "messages" as ActionIconName },
   ];
 
   return (
@@ -48,9 +49,9 @@ export default async function Page() {
         </p>
         {user && (
           <section className="rc-lite-profile__links" aria-label={tt("Accesos a mi cuenta", "Acessos à minha conta")}>
-            {links.map(({ href, title, description, Icon }) => (
+            {links.map(({ href, title, description, icon }) => (
               <Link key={href} href={href} className="rc-lite-profile__link">
-                <span className="rc-lite-profile__link-icon"><Icon size={28} strokeWidth={1.85} aria-hidden="true" /></span>
+                <span className="rc-lite-profile__link-icon"><ActionIcon name={icon} /></span>
                 <span className="rc-lite-profile__link-body">
                   <strong>{title}</strong>
                   <small>{description}</small>
