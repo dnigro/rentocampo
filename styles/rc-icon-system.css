@@ -1,0 +1,141 @@
+/*
+ * RentoCampo · Iconografía premium v1 (03/11/2026).
+ * Cubre desktop, web móvil y App Lite.
+ * Afecta íconos de interfaz, nunca el escudo RC, favicon, banderas,
+ * marcadores de mapas, imágenes o logotipos.
+ */
+:root{
+  --rc-icon-ink:#285879;
+  --rc-icon-muted:#5d7e92;
+  --rc-icon-surface:#e6f0f5;
+  --rc-icon-border:#d1e1e9;
+}
+/* Grosor único para la familia Lucide sin alterar su geometría o dimensión funcional. */
+html body svg.lucide{
+  stroke-width:2.1;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  flex-shrink:0;
+}
+/* Accesos principales: originales y centrados, con aspecto de producto. */
+html body .app-shell .main-content .dashboard-page .dashboard-cards .dash-card-icon,
+html body .lite-app .rc-lite-profile__link-icon{
+  background:var(--rc-icon-surface)!important;
+  border:1px solid var(--rc-icon-border)!important;
+  border-radius:12px!important;
+  color:var(--rc-icon-ink)!important;
+  filter:none!important;
+  overflow:visible!important;
+}
+html body .app-shell .main-content .dashboard-page .dashboard-cards .dash-card-icon svg{
+  display:block!important;
+  width:38px!important;height:38px!important;
+  color:var(--rc-icon-ink)!important;
+  stroke:currentColor!important;
+  stroke-width:2.2!important;
+  flex-shrink:0!important;
+}
+html body .lite-app .rc-lite-profile__link-icon svg{
+  display:block!important;
+  width:36px!important;height:36px!important;
+  stroke:currentColor!important;
+  stroke-width:2.2!important;
+  flex-shrink:0!important;
+}
+/* Misma semántica cromática entre las dos versiones de tarjetas. */
+html body .app-shell .main-content .dashboard-page .dashboard-cards .dash-card:hover .dash-card-icon,
+html body .lite-app .rc-lite-profile__link:hover .rc-lite-profile__link-icon{
+  background:#dcebf3!important;
+  border-color:#b4cddc!important;
+}
+/* Navegación: los mensajes y los accesos mantienen tamaño legible. */
+html body .navbar-mensajes svg{
+  display:block;
+  width:23px;height:23px;
+  stroke-width:2.15;
+}
+html body .navbar .hamburguesa{
+  display:inline-flex;align-items:center;justify-content:center;
+}
+html body .navbar .hamburguesa svg{
+  display:block;flex:none;stroke-width:2.2;
+}
+html body .mobile-menu .rc-mobile-drawer__close svg,
+html body .mobile-menu .rc-mobile-drawer__account-btn svg{
+  stroke-width:2.2;
+}
+html body .app-shell .dashboard-return a svg{
+  display:block;flex-shrink:0;
+  width:18px;height:18px;stroke-width:2.2;
+}
+/* Las acciones de listado usan los mismos indicadores para mapa y lista. */
+html body .app-shell .rc-explorer-toolbar :is(a.rc-explorer-toolbar__map,a.rc-explorer-toolbar__related){
+  gap:9px!important;
+}
+html body .app-shell .rc-explorer-toolbar :is(a.rc-explorer-toolbar__map,a.rc-explorer-toolbar__related) svg{
+  display:block!important;
+  width:19px!important;height:19px!important;
+  flex-shrink:0!important;stroke-width:2.2!important;
+}
+/* Formularios, rubros, galería: mejor contraste sin agrandar el componente. */
+html body :is(.app-shell,.lite-app) :is(.form-section-icon,.rc-publish-group-icon,.foto-add-icon) svg{
+  stroke-width:2.2!important;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+html body .app-shell .rc-publish-form .rc-publish-group-icon{
+  border:1px solid #d1e1e9!important;
+  border-radius:10px!important;
+  color:var(--rc-icon-ink)!important;
+  background:var(--rc-icon-surface)!important;
+}
+html body .app-shell .rc-publish-form .rc-publish-group-icon svg{
+  width:24px;height:24px;
+}
+/* Portada y explicación compartida: se conserva la composición y se refuerza el pictograma. */
+html body .rcsm .rcsm-feature__icon{
+  color:#315e7d!important;
+  stroke-width:2.15!important;
+  stroke-linecap:round;stroke-linejoin:round;
+}
+html body .rc-how .rc-how__icon{
+  stroke-width:2.15!important;
+  stroke-linecap:round;stroke-linejoin:round;
+}
+html body .rc-process-icon svg{
+  stroke-linecap:round;stroke-linejoin:round;
+  stroke-width:2.1;
+}
+/* Secciones de datos y cuadro de mando. */
+html body .app-shell .rc-decision :is(.rc-decision__icon,.rc-decision__kicker,.rc-decision__goal-head,.rc-decision__priority) svg{
+  stroke-width:2.1;
+}
+html body .app-shell .rc-decision__icon{
+  display:grid;place-items:center;
+  background:var(--rc-icon-surface);
+  color:var(--rc-icon-ink);
+}
+/* Footer sobre azul marino: claridad sin competir con la marca. */
+html body footer.footer .footer-col-title svg{
+  color:#c2d7e3!important;
+  stroke-width:2.1!important;
+  width:20px;height:20px;
+}
+@media(max-width:700px){
+  html body .app-shell .main-content .dashboard-page .dashboard-cards .dash-card-icon svg{
+    width:36px!important;height:36px!important;
+  }
+  html body .app-shell .rc-explorer-toolbar :is(a.rc-explorer-toolbar__map,a.rc-explorer-toolbar__related) svg{
+    width:18px!important;height:18px!important;
+  }
+}
+@media(max-width:380px){
+  html body .app-shell .main-content .dashboard-page .dashboard-cards .dash-card-icon svg,
+  html body .lite-app .rc-lite-profile__link-icon svg{
+    width:33px!important;height:33px!important;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  html body .app-shell .dashboard-cards .dash-card-icon,
+  html body .lite-app .rc-lite-profile__link-icon{transition:none!important}
+}
