@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, X, UserRound } from "lucide-react";
+import { ArrowRight, ChevronDown, Menu, MessagesSquare, X, UserRound } from "lucide-react";
 import { useRouter, usePathname } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { Suspense, useEffect, useState } from "react";
@@ -181,7 +181,7 @@ function NavbarContent() {
                   {/* SVG flags render reliably on Windows, unlike emoji in native selects. */}
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={`/flags/${activeCountry.toLowerCase()}.svg`} alt="" width={24} height={18} style={{ objectFit: "cover" }} />
-                  {activeCountry} <span aria-hidden="true">⌄</span>
+                  {activeCountry} <ChevronDown size={16} strokeWidth={2.1} aria-hidden="true" />
                 </button>
                 {countryMenuOpen && (
                   <>
@@ -211,15 +211,7 @@ function NavbarContent() {
                     noLeidos > 0 ? `Mensajes, ${noLeidos} sin leer` : "Mensajes"
                   }
                 >
-                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                    <path
-                      d="M17.5 12.5C17.5 13.163 17.2366 13.7989 16.7678 14.2678C16.2989 14.7366 15.663 15 15 15H5L2.5 17.5V5C2.5 4.33696 2.76339 3.70107 3.23223 3.23223C3.70107 2.76339 4.33696 2.5 5 2.5H15C15.663 2.5 16.2989 2.76339 16.7678 3.23223C17.2366 3.70107 17.5 4.33696 17.5 5V12.5Z"
-                      stroke="currentColor"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
+                  <MessagesSquare size={22} strokeWidth={2.15} aria-hidden="true" />
                   {noLeidos > 0 && (
                     <span className="navbar-badge">
                       {noLeidos > 9 ? "9+" : noLeidos}
@@ -265,15 +257,7 @@ function NavbarContent() {
                   noLeidos > 0 ? `Mensajes, ${noLeidos} sin leer` : "Mensajes"
                 }
               >
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                  <path
-                    d="M17.5 12.5C17.5 13.163 17.2366 13.7989 16.7678 14.2678C16.2989 14.7366 15.663 15 15 15H5L2.5 17.5V5C2.5 4.33696 2.76339 3.70107 3.23223 3.23223C3.70107 2.76339 4.33696 2.5 5 2.5H15C15.663 2.5 16.2989 2.76339 16.7678 3.23223C17.2366 3.70107 17.5 4.33696 17.5 5V12.5Z"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
+                <MessagesSquare size={22} strokeWidth={2.15} aria-hidden="true" />
                 {noLeidos > 0 && (
                   <span className="navbar-badge">
                     {noLeidos > 9 ? "9+" : noLeidos}
@@ -286,7 +270,7 @@ function NavbarContent() {
               onClick={() => setMenuAbierto((p) => !p)}
               aria-label="Menú"
             >
-              {menuAbierto ? "✕" : "☰"}
+              {menuAbierto ? <X size={24} strokeWidth={2.15} aria-hidden="true" /> : <Menu size={24} strokeWidth={2.15} aria-hidden="true" />}
             </button>
           </div>
         </div>

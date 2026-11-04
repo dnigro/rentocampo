@@ -1,7 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { BarChart3, UserRound, MapPinned, Wrench, Heart, MessageCircle } from "lucide-react";
+import ActionIcon from "@/components/ui/ActionIcon";
 import "@/styles/dashboard.css";
 import { INTERNAL_TEST_EMAILS } from "@/lib/analytics/commercial-filters";
 import { cookies } from "next/headers";
@@ -56,37 +56,37 @@ export default async function DashboardPage() {
       <div className="dashboard-cards">
         {canViewCommercialReport && (
           <Link href="/gerencial" className="dash-card" aria-label={tt("Abrir reporte gerencial por país", "Abrir relatório gerencial por país")}>
-            <span className="dash-card-icon"><BarChart3 size={30} strokeWidth={1.7} aria-hidden="true" /></span>
+            <span className="dash-card-icon"><ActionIcon name="report" /></span>
             <span className="dash-card-label">{tt("Reporte gerencial", "Relatório gerencial")}</span>
             <span className="dash-card-desc">{tt("Registros, campos y servicios reales por país", "Cadastros, terras e serviços reais por país")}</span>
           </Link>
         )}
         <Link href="/perfil" className="dash-card">
-          <span className="dash-card-icon"><UserRound size={30} strokeWidth={1.7} aria-hidden="true" /></span>
+          <span className="dash-card-icon"><ActionIcon name="profile" /></span>
           <span className="dash-card-label">{tt("Mi perfil", "Meu perfil")}</span>
           <span className="dash-card-desc">{tt("Datos y configuración", "Dados e configurações")}</span>
         </Link>
         {(esProductor || esPropietario) && (
           <Link href="/mis-campos" className="dash-card">
-            <span className="dash-card-icon"><MapPinned size={30} strokeWidth={1.7} aria-hidden="true" /></span>
+            <span className="dash-card-icon"><ActionIcon name="fields" /></span>
             <span className="dash-card-label">{tt("Mis campos", "Minhas terras")}</span>
             <span className="dash-card-desc">{tt("Publicar y gestionar", "Anunciar e gerenciar")}</span>
           </Link>
         )}
         {esPrestador && (
           <Link href="/mis-servicios-rurales" className="dash-card">
-            <span className="dash-card-icon"><Wrench size={30} strokeWidth={1.7} aria-hidden="true" /></span>
+            <span className="dash-card-icon"><ActionIcon name="services" /></span>
             <span className="dash-card-label">{tt("Mis servicios rurales", "Meus serviços rurais")}</span>
             <span className="dash-card-desc">{tt("Publicar y gestionar", "Anunciar e gerenciar")}</span>
           </Link>
         )}
         <Link href="/favoritos" className="dash-card">
-          <span className="dash-card-icon"><Heart size={30} strokeWidth={1.7} aria-hidden="true" /></span>
+          <span className="dash-card-icon"><ActionIcon name="favorites" /></span>
           <span className="dash-card-label">{tt("Favoritos", "Favoritos")}</span>
           <span className="dash-card-desc">{tt("Campos guardados", "Terras salvas")}</span>
         </Link>
         <Link href="/mensajes" className="dash-card">
-          <span className="dash-card-icon"><MessageCircle size={30} strokeWidth={1.7} aria-hidden="true" /></span>
+          <span className="dash-card-icon"><ActionIcon name="messages" /></span>
           <span className="dash-card-label">{tt("Mensajes", "Mensagens")}</span>
           <span className="dash-card-desc">{tt("Mis consultas", "Minhas consultas")}</span>
         </Link>
