@@ -226,3 +226,88 @@ html body .lite-app-footer { background: var(--rc-black) !important; }
     padding-block: 15px !important;
   }
 }
+
+
+/* Header home SEO 2026: marca RC + azul profundo, sin alterar las barras oscuras
+   de interiores ni la navegación de App Lite. */
+html body header.navbar .navbar-brand-icon,
+html body .app-shell header.navbar .navbar-brand-icon {
+  display:block; width:37px; height:41px; max-width:none; flex:0 0 auto; object-fit:contain;
+}
+html body header.navbar .navbar-brand-title,
+html body .app-shell header.navbar .navbar-brand-title {
+  display:block; font-size:clamp(23px,2.4vw,34px); font-weight:900;
+  line-height:1.06; letter-spacing:-.055em; white-space:nowrap;
+  color:#c7c7c9 !important;
+}
+html body header.navbar.navbar--home,
+html body .app-shell header.navbar.navbar--home {
+  height:auto !important;
+  background:#edf1f5 !important;
+  border-bottom:1px solid #d1dbe5 !important;
+  box-shadow:0 5px 20px rgba(16,37,58,.06);
+}
+html body header.navbar.navbar--home .navbar-brand-title,
+html body .app-shell header.navbar.navbar--home .navbar-brand-title {
+  color:#182b3e !important;
+}
+html body header.navbar.navbar--home :is(.nav-link,.btn-ghost,.navbar-mensajes,.hamburguesa,.navbar-mobile-account),
+html body .app-shell header.navbar.navbar--home :is(.nav-link,.btn-ghost,.navbar-mensajes,.hamburguesa,.navbar-mobile-account) {
+  color:#182b3e !important;
+}
+html body header.navbar.navbar--home :is(.nav-link,.btn-ghost):hover,
+html body .app-shell header.navbar.navbar--home :is(.nav-link,.btn-ghost):hover {
+  background:#dce5ee !important; color:#182b3e !important;
+}
+html body header.navbar.navbar--home .navbar-country-switch-mobile {
+  background:transparent !important; border:0 !important;
+}
+html body header.navbar.navbar--home .navbar-logo { gap:9px; min-width:0; }
+html body header.navbar.navbar--home .navbar-inner { gap:clamp(10px,1.7vw,25px); max-width:1370px; }
+html body header.navbar.navbar--home .navbar-register-btn {
+  display:inline-flex; align-items:center; justify-content:center; white-space:nowrap;
+  padding:10px 17px; min-height:42px; border-radius:999px;
+  background:#182b3e !important; color:#fff !important;
+  font-weight:850; font-size:13px; text-decoration:none; line-height:1.15;
+  box-shadow:0 3px 12px rgba(16,43,70,.13);
+}
+html body header.navbar.navbar--home .navbar-register-btn:hover { background:#2d4c69 !important; }
+html body header.navbar.navbar--home a.btn-primary {
+  background:#e2ebf3 !important; border:1px solid #b7c7d6 !important;
+  color:#182b3e !important; font-weight:800 !important;
+}
+html body header.navbar.navbar--home a.btn-primary:hover {
+  background:#cddce9 !important; border-color:#9db6ca !important;
+}
+html body header.navbar.navbar--home :is(a,button,select):focus-visible {
+  outline:2px solid #315f87 !important; outline-offset:3px;
+}
+html body header.navbar .navbar-mobile-signup-row { display:none; }
+@media (max-width:900px) {
+  html body header.navbar.navbar--home .navbar-inner { height:64px; padding:0 12px; justify-content:space-between; }
+  html body header.navbar.navbar--home .navbar-brand-icon { width:31px; height:35px; }
+  html body header.navbar.navbar--home .navbar-brand-title { font-size:clamp(19px,3.8vw,27px); }
+  html body header.navbar.navbar--home .navbar-mobile-right { margin-left:auto; gap:5px; min-width:0; }
+  html body header.navbar.navbar--home .navbar-mobile-account { display:none; }
+  html body header.navbar.navbar--home .navbar-mobile-signup-row {
+    display:flex; justify-content:center; padding:0 12px 9px;
+  }
+  html body header.navbar.navbar--home .navbar-mobile-signup {
+    display:flex; align-items:center; justify-content:center;
+    width:100%; max-width:520px; min-height:39px;
+    padding:9px 15px; border-radius:999px;
+    background:#182b3e; color:#fff !important;
+    font-size:12px; font-weight:900; letter-spacing:.02em;
+    text-decoration:none; text-align:center;
+  }
+  html body header.navbar.navbar--home .navbar-mobile-signup:hover { background:#2d4c69; }
+}
+@media (max-width:430px) {
+  html body header.navbar.navbar--home .navbar-inner { gap:6px; padding:0 8px; }
+  html body header.navbar.navbar--home .navbar-logo { gap:5px; }
+  html body header.navbar.navbar--home .navbar-brand-icon { width:27px; height:31px; }
+  html body header.navbar.navbar--home .navbar-brand-title { font-size:clamp(17px,5vw,21px); }
+  html body header.navbar.navbar--home .navbar-country-switch-mobile select { min-width:67px !important; max-width:78px; padding:5px 3px !important; font-size:11px; }
+  html body header.navbar.navbar--home .navbar-country-switch-mobile label { display:none; }
+  html body header.navbar.navbar--home .hamburguesa { width:34px; height:34px; padding:4px; }
+}
