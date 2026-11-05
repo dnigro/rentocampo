@@ -1,121 +1,221 @@
+import Image from "next/image";
 import Link from "next/link";
+import { ArrowUpRight, LandPlot, MapPinned, MessageCircle, Tractor } from "lucide-react";
 
 type Market = "US" | "BR";
+type Action = "land" | "listLand" | "services" | "offerServices";
 
 const copy = {
   US: {
     lang: "en-US",
-    market: "United States",
+    region: "United States",
+    language: "EN",
+    switchLanguage: "PT · Brasil",
+    switchRegion: "BR" as const,
     eyebrow: "FARMLAND · FARMERS · RURAL SERVICES",
-    title: "Your land has value. Put it on the map.",
-    intro: "RentoCampo connects landowners, farmers and rural service providers. Explore land opportunities, list your property or offer agricultural services. Find each other on the map and chat directly.",
-    benefit: "0% commission · Direct contact",
-    primary: "List your farmland for free",
-    secondary: "Explore farmland",
-    services: "Browse rural services",
-    section: "A simpler way to connect in rural areas.",
+    title: "Farmland and rural services. Direct connections.",
+    intro: "Find land to rent or buy, list your property, or offer agricultural services. Choose a location on the map and talk directly with people in the rural sector.",
+    zeroLabel: "COMMISSION",
+    directLabel: "DIRECT CONTACT",
+    listLand: "List your land for free",
+    offerServices: "Offer rural services",
+    exploreLand: "Explore farmland",
+    exploreServices: "Find rural services",
+    actionIntro: "What brings you here?",
+    actionTitle: "One place. More rural opportunities.",
     cards: [
-      { title: "Explore the map", text: "Choose the region that matters to you and discover available listings." },
-      { title: "Connect directly", text: "Use RentoCampo's online chat to speak with the person behind a listing." },
-      { title: "Offer rural services", text: "Show farmers where you work and which agricultural services you provide." },
+      {
+        target: "land" as const,
+        title: "I'm looking for farmland",
+        description: "Explore rural properties and search by state or location.",
+        cta: "Browse farmland",
+      },
+      {
+        target: "listLand" as const,
+        title: "I own land",
+        description: "Put your rural property on the map and receive inquiries directly.",
+        cta: "Create a free listing",
+      },
+      {
+        target: "services" as const,
+        title: "I need rural services",
+        description: "Find agricultural contractors and service providers by region.",
+        cta: "Browse services",
+      },
     ],
-    detailsTitle: "Made for landowners, farmers and rural contractors",
-    details: "Whether you have land to offer, are looking for a property or work in the rural sector, you can create an account and connect with others. Listings and contacts are free during this growth stage. RentoCampo does not take a commission on agreements between users.",
-    provider: "Offer your services",
-    back: "Argentina · Español",
-    other: "Brasil · Português",
+    howTitle: "Simple from start to finish",
+    steps: [
+      { title: "Choose your area", description: "Browse farmland and rural services on the map." },
+      { title: "Find a connection", description: "Review available listings or create your own." },
+      { title: "Chat directly", description: "Contact the person behind the listing. No middlemen." },
+    ],
     faqTitle: "How does RentoCampo work?",
-    faq: "Search farmland or rural services, choose an area and contact the publisher via chat. Landowners and service providers can register and publish. Any lease, sale or service agreement is arranged directly between the parties.",
+    faq: "RentoCampo connects landowners, farmers and rural service providers. Registration, listings and contact are free at this stage. Any rental, sale or service agreement is arranged directly between users. Availability depends on the listings published in each region.",
+    back: "Argentina · Español",
+    photoLabel: "RURAL CONNECTIONS",
   },
   BR: {
     lang: "pt-BR",
-    market: "Brasil",
+    region: "Brasil",
+    language: "PT",
+    switchLanguage: "EN · United States",
+    switchRegion: "US" as const,
     eyebrow: "TERRAS · PRODUTORES · SERVIÇOS RURAIS",
-    title: "Sua terra tem valor. Coloque-a no mapa.",
-    intro: "A RentoCampo conecta proprietários de terras, produtores e prestadores de serviços rurais. Procure oportunidades, anuncie sua propriedade ou ofereça serviços agrícolas. Encontre pessoas no mapa e converse diretamente.",
-    benefit: "0% de comissão · Contato direto",
-    primary: "Anunciar minha terra grátis",
-    secondary: "Explorar terras",
-    services: "Buscar serviços rurais",
-    section: "Uma forma mais simples de conectar o campo.",
+    title: "Terras e serviços rurais. Contato direto.",
+    intro: "Encontre terras para arrendamento ou venda, anuncie sua propriedade ou ofereça serviços agrícolas. Escolha a região no mapa e converse diretamente com pessoas do campo.",
+    zeroLabel: "COMISSÃO",
+    directLabel: "CONTATO DIRETO",
+    listLand: "Anunciar minha terra grátis",
+    offerServices: "Oferecer serviços rurais",
+    exploreLand: "Explorar terras",
+    exploreServices: "Buscar serviços rurais",
+    actionIntro: "O que você procura?",
+    actionTitle: "Um lugar. Mais oportunidades no campo.",
     cards: [
-      { title: "Explore o mapa", text: "Selecione a região de seu interesse e descubra os anúncios disponíveis." },
-      { title: "Converse diretamente", text: "Use o chat da RentoCampo para falar com quem publicou o anúncio." },
-      { title: "Ofereça serviços rurais", text: "Mostre onde você atua e quais serviços agrícolas oferece aos produtores." },
+      {
+        target: "land" as const,
+        title: "Procuro terras",
+        description: "Explore propriedades rurais por estado ou localização.",
+        cta: "Buscar terras",
+      },
+      {
+        target: "listLand" as const,
+        title: "Tenho uma propriedade",
+        description: "Coloque sua terra no mapa e receba consultas diretamente.",
+        cta: "Anunciar grátis",
+      },
+      {
+        target: "services" as const,
+        title: "Preciso de serviços",
+        description: "Encontre prestadores de serviços agrícolas por região.",
+        cta: "Buscar serviços",
+      },
     ],
-    detailsTitle: "Para proprietários, produtores e prestadores de serviços",
-    details: "Se você tem terra para oferecer, procura uma propriedade ou trabalha no setor rural, pode criar sua conta e se conectar. Anúncios e contatos são gratuitos nesta etapa de crescimento. A RentoCampo não cobra comissão pelos acordos entre usuários.",
-    provider: "Oferecer meus serviços",
-    back: "Argentina · Español",
-    other: "United States · English",
+    howTitle: "Simples do começo ao fim",
+    steps: [
+      { title: "Escolha a região", description: "Explore terras e serviços rurais no mapa." },
+      { title: "Encontre oportunidades", description: "Consulte anúncios ou publique sua oferta." },
+      { title: "Converse diretamente", description: "Fale com quem anunciou, sem intermediários." },
+    ],
     faqTitle: "Como funciona a RentoCampo?",
-    faq: "Busque terras ou serviços rurais, escolha uma região e entre em contato pelo chat. Proprietários e prestadores podem criar uma conta e anunciar. Os acordos de arrendamento, venda ou contratação são feitos diretamente entre as partes.",
+    faq: "A RentoCampo conecta proprietários de terras, produtores e prestadores de serviços rurais. Cadastro, anúncios e contatos são gratuitos nesta etapa. Acordos de arrendamento, venda ou serviços são feitos diretamente entre usuários. A disponibilidade depende dos anúncios publicados em cada região.",
+    back: "Argentina · Español",
+    photoLabel: "CONEXÕES NO CAMPO",
   },
+} as const;
+
+const cardIcons = {
+  land: LandPlot,
+  listLand: MapPinned,
+  services: Tractor,
 } as const;
 
 export default function RegionalLanding({ market }: { market: Market }) {
   const t = copy[market];
-  const target = "pais=" + market;
-  const fields = "/campos?" + target;
-  const services = "/servicios-rurales?" + target;
-  const owner = "/register?" + target + "&tipo=propietario";
-  const provider = "/register?" + target + "&tipo=prestador";
+  const params = "pais=" + market;
+  const links: Record<Action, string> = {
+    land: "/campos?" + params,
+    listLand: "/register?" + params + "&tipo=propietario",
+    services: "/servicios-rurales?" + params,
+    offerServices: "/register?" + params + "&tipo=prestador",
+  };
 
   return (
-    <main lang={t.lang} className="min-h-screen bg-[#edf1f5] text-[#172638]">
-      <header className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-5 py-6 md:px-8">
-        <Link href="/" className="text-2xl font-extrabold tracking-tight text-[#1a2c42]" aria-label="RentoCampo home">RentoCampo</Link>
-        <nav aria-label={market === "US" ? "Navigation" : "Navegação"} className="flex flex-wrap items-center gap-4 text-sm font-semibold">
-          <Link href={fields} className="hover:underline">{t.secondary}</Link>
-          <Link href={services} className="hover:underline">{t.services}</Link>
-          <Link href={market === "US" ? "/br" : "/us"} className="rounded-full border border-[#acbacb] px-3 py-2 hover:bg-white">{t.other}</Link>
+    <main lang={t.lang} className="min-h-screen bg-[#e9edf1] text-[#1b2b3c]">
+      <header className="mx-auto max-w-6xl px-4 pt-3 pb-3 sm:px-6 md:px-8 md:py-4">
+        <div className="flex items-center justify-between gap-3">
+          <Link href="/" className="flex min-w-0 items-center gap-2.5" aria-label="RentoCampo">
+            <Image src="/icon-512.png" alt="" width={37} height={37} className="h-9 w-9 shrink-0 rounded-lg object-contain" />
+            <span className="text-[22px] font-extrabold tracking-[-.06em] text-[#182a3b] sm:text-2xl">RentoCampo</span>
+          </Link>
+          <nav className="hidden items-center gap-6 text-[13px] font-bold text-[#263c52] md:flex" aria-label={market === "US" ? "Main navigation" : "Navegação principal"}>
+            <Link href={links.land} className="hover:underline">{t.exploreLand}</Link>
+            <Link href={links.services} className="hover:underline">{t.exploreServices}</Link>
+          </nav>
+          <div className="flex shrink-0 items-center gap-2">
+            <span className="hidden rounded-full bg-[#d7dfe7] px-3 py-2 text-xs font-extrabold text-[#233950] sm:inline">{t.region}</span>
+            <Link href={t.switchRegion === "US" ? "/us" : "/br"}
+              className="rounded-full border border-[#b2c0ce] bg-white px-3 py-2 text-[12px] font-extrabold whitespace-nowrap text-[#263d54] hover:bg-[#f6f8fa]"
+              lang={t.switchRegion === "US" ? "en-US" : "pt-BR"}>{t.switchLanguage}</Link>
+          </div>
+        </div>
+        <nav className="mt-3 flex items-center gap-6 border-t border-[#d3dbe4] pt-3 text-[13px] font-bold text-[#263c52] md:hidden" aria-label={market === "US" ? "Explore RentoCampo" : "Explorar RentoCampo"}>
+          <Link href={links.land}>{t.exploreLand}</Link>
+          <Link href={links.services}>{t.exploreServices}</Link>
         </nav>
       </header>
 
-      <section className="mx-auto max-w-6xl px-4 pb-5 md:px-8">
-        <div className="overflow-hidden rounded-[28px] bg-[#172738] px-6 py-14 text-white shadow-xl md:px-14 md:py-20"
-          style={{ backgroundImage: "linear-gradient(92deg,rgba(16,31,47,.99) 0%,rgba(16,31,47,.93) 55%,rgba(16,31,47,.60) 100%),url('/rentocampo-hero-campo-bn-1920x1080.webp')", backgroundSize: "cover", backgroundPosition: "center" }}>
-          <p className="text-xs font-extrabold uppercase tracking-[.18em] text-[#b8c9dc]">{t.eyebrow}</p>
-          <h1 className="mt-5 max-w-3xl text-4xl font-black leading-tight tracking-tight md:text-6xl">{t.title}</h1>
-          <p className="mt-6 max-w-2xl text-base leading-7 text-[#e6edf5] md:text-lg">{t.intro}</p>
-          <p className="mt-5 text-sm font-extrabold uppercase tracking-wider text-[#dce6f1]">{t.benefit}</p>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <Link href={owner} className="inline-flex min-h-12 items-center justify-center rounded-full bg-white px-6 py-3 text-center font-bold text-[#182a3d] hover:bg-[#dae7f4]">{t.primary}</Link>
-            <Link href={fields} className="inline-flex min-h-12 items-center justify-center rounded-full border border-white/60 px-6 py-3 text-center font-bold text-white hover:bg-white/10">{t.secondary}</Link>
+      <section className="mx-auto max-w-6xl px-3 sm:px-6 md:px-8" aria-label={t.region}>
+        <div className="grid overflow-hidden rounded-[24px] bg-[#182a3b] text-white shadow-[0_12px_30px_rgba(20,36,52,.11)] md:min-h-[440px] md:grid-cols-[minmax(0,1.13fr)_minmax(0,.87fr)]">
+          <div className="order-2 px-6 py-7 sm:px-9 sm:py-9 md:order-1 md:px-10 md:py-12 lg:px-13">
+            <p className="text-[10px] font-extrabold tracking-[.15em] text-[#b7c9da] sm:text-xs">{t.eyebrow}</p>
+            <h1 className="mt-3 max-w-xl text-[31px] leading-[1.12] font-extrabold tracking-[-.045em] text-white sm:text-4xl lg:text-[46px]">{t.title}</h1>
+            <p className="mt-4 max-w-xl text-[14px] leading-[1.65] text-[#e5ebf1] sm:text-[16px]">{t.intro}</p>
+            <div className="mt-5 flex items-center gap-4 border-t border-white/20 pt-4">
+              <div className="flex items-baseline gap-2">
+                <strong className="text-3xl leading-none font-black text-white">0%</strong>
+                <span className="text-[10px] font-extrabold tracking-wider text-[#ccd7e3]">{t.zeroLabel}</span>
+              </div>
+              <span className="h-8 w-px bg-white/30" aria-hidden="true" />
+              <div className="flex items-center gap-2 text-xs font-bold text-[#dce5ed]">
+                <MessageCircle aria-hidden="true" size={19} strokeWidth={1.8} />
+                {t.directLabel}
+              </div>
+            </div>
+            <div className="mt-5 flex flex-col gap-2.5 sm:flex-row">
+              <Link href={links.listLand} className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-white px-5 py-3 text-center text-[13px] font-extrabold text-[#1d3044] transition-colors hover:bg-[#e5edf6]">{t.listLand} <ArrowUpRight aria-hidden="true" size={17}/></Link>
+              <Link href={links.offerServices} className="inline-flex min-h-11 items-center justify-center rounded-full border border-[#aab9c8] px-5 py-3 text-center text-[13px] font-extrabold text-white transition-colors hover:bg-white/10">{t.offerServices}</Link>
+            </div>
+          </div>
+          <div className="relative order-1 h-[180px] overflow-hidden md:order-2 md:h-auto md:min-h-[440px] md:[clip-path:polygon(13%_0,100%_0,100%_100%,0_100%)]">
+            <Image src="/image_vaca_pix.png" alt={market === "US" ? "Cattle grazing on rural farmland" : "Gado em uma propriedade rural"} fill priority sizes="(max-width: 767px) 100vw, 40vw" className="object-cover object-center grayscale contrast-[1.08]" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#132437]/50 via-transparent to-[#132437]/5" aria-hidden="true" />
+            <span className="absolute bottom-4 left-5 text-[10px] font-extrabold tracking-[.18em] text-white drop-shadow md:bottom-7 md:left-10">{t.photoLabel}</span>
           </div>
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-5 py-12 md:px-8" aria-labelledby="regional-steps">
-        <h2 id="regional-steps" className="max-w-3xl text-2xl font-black tracking-tight md:text-3xl">{t.section}</h2>
-        <div className="mt-7 grid gap-4 md:grid-cols-3">
-          {t.cards.map((item, index) => (
-            <article key={item.title} className="rounded-2xl border border-[#d5dee8] bg-white p-6 shadow-sm">
-              <span className="text-sm font-black text-[#637a96]">0{index + 1}</span>
-              <h3 className="mt-3 text-xl font-bold">{item.title}</h3>
-              <p className="mt-3 text-sm leading-6 text-[#43566b]">{item.text}</p>
-            </article>
-          ))}
+      <section className="mx-auto max-w-6xl px-4 py-10 sm:px-6 md:px-8 md:py-14" aria-labelledby="regional-options">
+        <p className="text-[11px] font-extrabold tracking-[.13em] text-[#6d7f90]">{t.actionIntro.toUpperCase()}</p>
+        <h2 id="regional-options" className="mt-2 text-[26px] font-extrabold tracking-[-.035em] sm:text-3xl">{t.actionTitle}</h2>
+        <div className="mt-5 grid gap-3 sm:grid-cols-3">
+          {t.cards.map((card) => {
+            const Icon = cardIcons[card.target];
+            return (
+              <Link key={card.target} href={links[card.target]} className="group flex flex-col rounded-2xl border border-[#d1dbe5] bg-white p-5 shadow-sm transition-shadow hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#274c73]">
+                <Icon aria-hidden="true" size={25} strokeWidth={1.7} className="text-[#456582]"/>
+                <h3 className="mt-3 text-[17px] font-extrabold tracking-tight">{card.title}</h3>
+                <p className="mt-2 flex-1 text-[13px] leading-6 text-[#506276]">{card.description}</p>
+                <span className="mt-4 inline-flex items-center gap-1 text-[13px] font-extrabold text-[#274765]">{card.cta}<ArrowUpRight size={16} aria-hidden="true"/></span>
+              </Link>
+            );
+          })}
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-5 pb-14 md:px-8">
-        <div className="rounded-2xl bg-white p-7 md:p-10">
-          <h2 className="max-w-3xl text-2xl font-black tracking-tight">{t.detailsTitle}</h2>
-          <p className="mt-4 max-w-4xl leading-7 text-[#45576b]">{t.details}</p>
-          <div className="mt-6 flex flex-wrap gap-3">
-            <Link href={provider} className="rounded-full bg-[#263f59] px-6 py-3 font-bold text-white hover:bg-[#385778]">{t.provider}</Link>
-            <Link href={services} className="rounded-full border border-[#a9b9c9] px-6 py-3 font-bold text-[#263f59] hover:bg-[#eef2f7]">{t.services}</Link>
+      <section className="border-y border-[#d5dfe8] bg-[#f5f7f9]">
+        <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 md:px-8 md:py-12">
+          <h2 className="text-2xl font-extrabold tracking-[-.035em]">{t.howTitle}</h2>
+          <div className="mt-6 grid gap-5 sm:grid-cols-3">
+            {t.steps.map((step, index) => (
+              <div key={step.title} className="border-l-[3px] border-[#647e9a] pl-4">
+                <span className="text-[12px] font-extrabold text-[#65809a]">0{index + 1}</span>
+                <h3 className="mt-1 text-[16px] font-extrabold">{step.title}</h3>
+                <p className="mt-2 text-[13px] leading-6 text-[#506276]">{step.description}</p>
+              </div>
+            ))}
           </div>
         </div>
-        <div className="mt-9 max-w-4xl">
-          <h2 className="text-xl font-extrabold">{t.faqTitle}</h2>
-          <p className="mt-3 leading-7 text-[#43566b]">{t.faq}</p>
-        </div>
       </section>
-      <footer className="border-t border-[#cfd8e2] px-5 py-7 text-center text-sm text-[#475d72]">
-        <Link href="/" className="font-bold hover:underline">{t.back}</Link>
-        <span className="mx-3" aria-hidden="true">·</span>
+
+      <section className="mx-auto max-w-6xl px-4 py-10 sm:px-6 md:px-8 md:py-12">
+        <h2 className="text-xl font-extrabold">{t.faqTitle}</h2>
+        <p className="mt-3 max-w-4xl text-[14px] leading-7 text-[#485d70]">{t.faq}</p>
+      </section>
+
+      <footer className="border-t border-[#d1dce6] px-4 py-6 text-center text-[13px] text-[#536779]">
+        <Link href="/" className="font-extrabold text-[#1e3951] hover:underline">{t.back}</Link>
+        <span aria-hidden="true" className="mx-3">·</span>
         RentoCampo © 2026
       </footer>
     </main>
