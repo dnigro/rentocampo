@@ -232,9 +232,11 @@ function NavbarContent() {
                 <Link href="/login" className="btn-ghost">
                   {regionalText(activeCountry, "Ingresar", "Entrar", "Sign in")}
                 </Link>
+                {pathname === "/" && (
                 <Link href={`/register?pais=${activeCountry}`} className="navbar-register-btn">
                   {regionalText(activeCountry, "REGISTRATE GRATIS", "CADASTRE-SE GRÁTIS", "SIGN UP FREE")}
                 </Link>
+                )}
                 <Link href={`/register?pais=${activeCountry}&tipo=propietario`} className="btn-primary">
                   {regionalText(activeCountry, "Publicar campo", "Anunciar terra")}
                 </Link>
