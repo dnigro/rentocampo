@@ -6,6 +6,7 @@ import RegionalLink from "@/components/layout/RegionalLink";
 import { useRegionalCountry } from "@/lib/i18n/useRegionalCountry";
 import { regionalText } from "@/lib/i18n/regional";
 import "@/styles/hero-simple-map-chat.css";
+import HomePremiumHero from "@/components/landing/HomePremiumHero";
 
 /**
  * Misma propuesta en home desktop, web móvil y App Lite.
@@ -14,6 +15,8 @@ import "@/styles/hero-simple-map-chat.css";
 export default function SimpleMapChatHero({ lite = false }: { lite?: boolean }) {
   const country = useRegionalCountry();
   const t = (es: string, pt: string, en: string) => regionalText(country, es, pt, en);
+
+  if (!lite) return <HomePremiumHero country={country} />;
 
   return (
     <section className="rcsm" id="hero" aria-labelledby="rcsm-title">
