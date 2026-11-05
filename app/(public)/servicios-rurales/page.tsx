@@ -45,7 +45,7 @@ type SearchParams = {
 export async function generateMetadata({ searchParams }: { searchParams: Promise<SearchParams> }): Promise<Metadata> {
   const params = await searchParams;
   const pais = resolveCountry(params.pais, (await cookies()).get("rentocampo_country")?.value);
-  const title = pais === "US" ? "Rural Contractors & Farm Services in the USA | RentoCampo"
+  const title = pais === "US" ? "Rural Services in the United States | RentoCampo"
     : pais === "BR" ? "Serviços rurais e prestadores no Brasil | RentoCampo"
     : pais === "AR" ? "Servicios rurales y contratistas en Argentina | RentoCampo"
     : `Servicios rurales en ${COUNTRIES[pais].name} | RentoCampo`;
