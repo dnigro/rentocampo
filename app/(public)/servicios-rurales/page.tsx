@@ -175,7 +175,7 @@ export default async function ServiciosRuralesPage({
         name: `${pais==="BR"?"Serviços rurais no":"Servicios rurales en"} ${COUNTRIES[pais].name}`,
         description:
           "Contratistas y prestadores de servicios rurales por especialidad y zona.",
-        url,
+        url: pais === "AR" ? `${SITE_URL}/servicios-rurales` : `${SITE_URL}/servicios-rurales?pais=${pais}`,
       },
       {
         "@type": "FAQPage",
