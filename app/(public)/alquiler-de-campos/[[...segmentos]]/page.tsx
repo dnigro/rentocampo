@@ -39,7 +39,7 @@ function resolveCategoria(segmentos: string[] = []) {
     return {
       filtros: { provincia },
       titulo: `Alquiler de campos en ${provincia}`,
-      descripcion: `Explorá campos en alquiler en ${provincia}, filtrá por aptitud y conversá directamente con sus propietarios.`,
+      descripcion: `Buscá campos en alquiler en ${provincia}. Explorá campos agrícolas y ganaderos, compará hectáreas y ubicación, y contactá directamente al propietario sin comisiones.`,
       canonical: `/alquiler-de-campos/${segmento}`,
     };
   }

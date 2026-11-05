@@ -94,6 +94,8 @@ export default function Footer() {
           © {new Date().getFullYear()} RentoCampo. {t("Todos los derechos reservados.", "Todos os direitos reservados.")}
         </span>
         <nav className="footer-bottom-links" aria-label="Información legal">
+          <Link href="/us" className="footer-bottom-link" lang="en">United States</Link>
+          <Link href="/br" className="footer-bottom-link" lang="pt-BR">Brasil</Link>
           <Link href="/terminos-y-condiciones" className="footer-bottom-link">
             {t("Términos y condiciones", "Termos e condições")}
           </Link>

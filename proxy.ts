@@ -3,6 +3,14 @@ import { NextResponse, type NextRequest } from "next/server";
 import { getSupabasePublicConfig } from "@/lib/supabase/config";
 
 export async function proxy(request: NextRequest) {
+  // Las landings regionales tienen idioma estable para visitantes y Googlebot,
+  // sin cambiar de forma persistente la preferencia de país del usuario.
+  if (request.nextUrl.pathname === "/us") {
+    request.cookies.set("rentocampo_country", "US");
+  } else if (request.nextUrl.pathname === "/br") {
+    request.cookies.set("rentocampo_country", "BR");
+  }
+
   let supabaseResponse = NextResponse.next({ request });
   const { url, key } = getSupabasePublicConfig();
 
