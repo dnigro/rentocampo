@@ -18,6 +18,7 @@ const copy = {
     zeroLabel: "COMMISSION",
     directLabel: "DIRECT CONTACT",
     listLand: "List your land for free",
+    register: "Sign up free",
     offerServices: "Offer rural services",
     exploreLand: "Explore farmland",
     exploreServices: "Find rural services",
@@ -66,6 +67,7 @@ const copy = {
     zeroLabel: "COMISSÃO",
     directLabel: "CONTATO DIRETO",
     listLand: "Anunciar minha terra grátis",
+    register: "Cadastre-se grátis",
     offerServices: "Oferecer serviços rurais",
     exploreLand: "Explorar terras",
     exploreServices: "Buscar serviços rurais",
@@ -113,6 +115,7 @@ const cardIcons = {
 export default function RegionalLanding({ market }: { market: Market }) {
   const t = copy[market];
   const params = "pais=" + market;
+  const register = "/register?" + params;
   const links: Record<Action, string> = {
     land: "/campos?" + params,
     listLand: "/register?" + params + "&tipo=propietario",
@@ -125,8 +128,8 @@ export default function RegionalLanding({ market }: { market: Market }) {
       <header className="mx-auto max-w-6xl px-4 pt-3 pb-3 sm:px-6 md:px-8 md:py-4">
         <div className="flex items-center justify-between gap-3">
           <Link href="/" className="flex min-w-0 items-center gap-2.5" aria-label="RentoCampo">
-            <Image src="/icon-512.png" alt="" width={37} height={37} className="h-9 w-9 shrink-0 rounded-lg object-contain" />
-            <span className="text-[22px] font-extrabold tracking-[-.06em] text-[#182a3b] sm:text-2xl">RentoCampo</span>
+            <Image src="/lite-logo.svg" alt="" width={37} height={41} className="h-9 w-9 shrink-0 object-contain" />
+            <span className="text-[21px] font-black tracking-[-.05em] text-[#182B3E] sm:text-2xl">RentoCampo</span>
           </Link>
           <nav className="hidden items-center gap-6 text-[13px] font-bold text-[#263c52] md:flex" aria-label={market === "US" ? "Main navigation" : "Navegação principal"}>
             <Link href={links.land} className="hover:underline">{t.exploreLand}</Link>
@@ -135,14 +138,16 @@ export default function RegionalLanding({ market }: { market: Market }) {
           <div className="flex shrink-0 items-center gap-2">
             <span className="hidden rounded-full bg-[#d7dfe7] px-3 py-2 text-xs font-extrabold text-[#233950] sm:inline">{t.region}</span>
             <Link href={t.switchRegion === "US" ? "/us" : "/br"}
-              className="rounded-full border border-[#b2c0ce] bg-white px-3 py-2 text-[12px] font-extrabold whitespace-nowrap text-[#263d54] hover:bg-[#f6f8fa]"
+              className="rounded-full border border-[#b2c0ce] bg-white px-3 py-2 text-[11px] font-extrabold whitespace-nowrap text-[#263d54] hover:bg-[#f6f8fa]"
               lang={t.switchRegion === "US" ? "en-US" : "pt-BR"}>{t.switchLanguage}</Link>
+            <Link href={register} className="hidden min-h-10 items-center justify-center rounded-full bg-[#182B3E] px-4 py-2 text-center text-[12px] font-extrabold text-white hover:bg-[#30506b] md:inline-flex">{t.register}</Link>
           </div>
         </div>
         <nav className="mt-3 flex items-center gap-6 border-t border-[#d3dbe4] pt-3 text-[13px] font-bold text-[#263c52] md:hidden" aria-label={market === "US" ? "Explore RentoCampo" : "Explorar RentoCampo"}>
           <Link href={links.land}>{t.exploreLand}</Link>
           <Link href={links.services}>{t.exploreServices}</Link>
         </nav>
+        <Link href={register} className="mt-3 flex min-h-10 items-center justify-center rounded-full bg-[#182B3E] px-4 py-2 text-center text-[12px] font-extrabold text-white hover:bg-[#30506b] md:hidden">{t.register}</Link>
       </header>
 
       <section className="mx-auto max-w-6xl px-3 sm:px-6 md:px-8" aria-label={t.region}>
