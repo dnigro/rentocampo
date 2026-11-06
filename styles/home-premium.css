@@ -625,3 +625,20 @@
   .rcp-home__button--register {min-height:47px;}
   .rcp-home__buttons > .rcp-home__map-link {min-height:43px;padding:8px 13px;}
 }
+
+
+/* TEXTO HERO AJUSTADO 06/11
+   Evita que las dos frases alcancen el corte diagonal. */
+@media (min-width:901px) {
+  .rcp-home__description,
+  .rcp-home__direct {
+    width:100%;
+    max-width:540px;
+    text-wrap:pretty;
+  }
+  .rcp-home__direct {margin-top:5px;}
+}
+@media (min-width:901px) and (max-width:1199px) {
+  .rcp-home__description,
+  .rcp-home__direct {max-width:475px;}
+}
