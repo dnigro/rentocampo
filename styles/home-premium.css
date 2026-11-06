@@ -1,98 +1,324 @@
-/* RentoCampo · portada web premium responsive, independiente de Lite. */
-.rcp-home { --rcp-ink:#1b2b3c; --rcp-navy:#182b3e; --rcp-muted:#51657a; color:var(--rcp-ink); background:#e9edf1; font-family:var(--font-dm-sans),Arial,sans-serif; }
-.rcp-home * {box-sizing:border-box}
-.rcp-home__frame{max-width:1350px;margin:0 auto;padding:20px clamp(13px,3.3vw,44px) 0}
-.rcp-home__hero{position:relative;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);min-height:475px;overflow:hidden;border-radius:27px;background:var(--rcp-navy);color:#fff;box-shadow:0 12px 35px rgba(25,39,53,.12)}
-.rcp-home__content{z-index:1;grid-column:1;grid-row:1;padding:clamp(28px,3.8vw,57px) clamp(27px,3.8vw,54px) 35px;display:flex;flex-direction:column;justify-content:center;min-width:0}
-.rcp-home__visual{position:relative;grid-column:2;grid-row:1;min-height:475px;overflow:hidden;background:#475562;clip-path:polygon(12% 0,100% 0,100% 100%,0% 100%)}
-.rcp-home__image{object-fit:cover;object-position:center;filter:grayscale(1) contrast(1.08) brightness(.82)}
-.rcp-home__visual-fade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(24,43,62,.25),transparent 35%),linear-gradient(0deg,rgba(24,43,62,.32),transparent 45%);pointer-events:none}
-.rcp-home__eyebrow{margin:0;color:#bed0df;font-size:clamp(10px,.95vw,13px);font-weight:800;letter-spacing:.13em;line-height:1.5}
-.rcp-home__title{margin:17px 0 0;color:#fff;font-size:clamp(33px,3.3vw,51px);font-weight:850;letter-spacing:-.054em;line-height:1.1;text-wrap:balance}
-.rcp-home__title span{display:block;color:#e6eef5}
-.rcp-home__description{max-width:610px;margin:17px 0 0;color:#e2eaf1;font-size:clamp(14px,1.22vw,17px);line-height:1.6}
-.rcp-home__proof{display:flex;align-items:center;flex-wrap:wrap;gap:15px;margin-top:20px;padding-top:15px;border-top:1px solid rgba(255,255,255,.19);font-size:11px;font-weight:800;letter-spacing:.045em;color:#d7e2ec}
-.rcp-home__proof-metric{display:flex;align-items:center;gap:7px}
-.rcp-home__proof-metric strong{color:white;font-size:30px;letter-spacing:-.05em;line-height:1}
-.rcp-home__proof-divider{height:27px;width:1px;background:rgba(255,255,255,.32)}
-.rcp-home__proof-contact{display:inline-flex;align-items:center;gap:8px}
-.rcp-home__buttons{display:flex;flex-wrap:wrap;gap:9px;margin-top:20px}
-.rcp-home__button{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:45px;max-width:100%;padding:12px 16px;border-radius:999px;text-decoration:none!important;text-align:center;font-weight:850;line-height:1.25;font-size:clamp(11px,.95vw,13px);letter-spacing:.01em;transition:background .15s ease,border-color .15s ease}
-.rcp-home__button--register{background:#f5f7f8;color:#162d43!important;border:1px solid #f5f7f8}
-.rcp-home__button--register:hover{background:#dfe9f1}
-.rcp-home__button--outline{background:transparent;color:#fff!important;border:1px solid #91a9bd}
-.rcp-home__button--outline:hover{background:rgba(255,255,255,.1)}
-.rcp-home a:focus-visible{outline:3px solid #b4d6f3;outline-offset:3px}
-.rcp-home__choices{max-width:1320px;margin:0 auto;padding:clamp(24px,3.4vw,45px) clamp(17px,4vw,54px) 37px}
-.rcp-home__choices-heading{display:flex;align-items:flex-end;flex-wrap:wrap;column-gap:30px;row-gap:6px}
-.rcp-home__choices-kicker{width:100%;margin:0;color:#61788d;font-size:11px;font-weight:900;letter-spacing:.12em}
-.rcp-home__choices-heading h2{margin:4px 0 0;color:#1b2c3d;font-size:clamp(24px,2.6vw,33px);letter-spacing:-.04em;line-height:1.12;font-weight:850}
-.rcp-home__choices-heading>p:last-child{margin:4px 0 1px;color:#506477;font-size:14px}
-.rcp-home__choice-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:22px}
-.rcp-home__choice{display:flex;flex-direction:column;align-items:flex-start;min-width:0;min-height:185px;padding:22px;border:1px solid #d2dce6;border-radius:19px;background:#fff;color:#1c3146!important;text-decoration:none!important;box-shadow:0 4px 12px rgba(33,56,80,.035);transition:box-shadow .16s ease,transform .16s ease}
-.rcp-home__choice:hover{box-shadow:0 12px 24px rgba(33,56,80,.12);transform:translateY(-2px)}
-.rcp-home__choice-icon{color:#42637f}
-.rcp-home__choice h3{margin:12px 0 0;font-size:clamp(16px,1.45vw,19px);font-weight:850;letter-spacing:-.025em}
-.rcp-home__choice p{margin:7px 0 12px;flex:1;color:#4e6275;font-size:13px;line-height:1.52}
-.rcp-home__choice span{display:inline-flex;align-items:center;gap:5px;color:#2b506c;font-size:13px;font-weight:850}
-.rcp-home__explore{display:flex;justify-content:center;margin-top:20px}
-.rcp-home__map-link{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:43px;padding:10px 18px;border:1px solid #b7c6d4;border-radius:999px;color:#1f405d!important;background:#f7f9fa;text-decoration:none!important;font-size:13px;font-weight:800}
-.rcp-home__map-link:hover{background:#dce7f0}
-@media(max-width:900px){
- .rcp-home__hero{grid-template-columns:minmax(0,1.13fr) minmax(0,.87fr);min-height:0}
- .rcp-home__content{padding:30px 25px 32px}
- .rcp-home__visual{min-height:440px}
- .rcp-home__title{font-size:clamp(28px,4vw,43px)}
- .rcp-home__buttons{gap:8px}
- .rcp-home__button{padding:11px 13px}
+/* RentoCampo: diseño editorial claro del 06/11/2026.
+   Solo home web. App Lite, formularios y navegación conservan su implementación. */
+.rcp-home {
+  --rcp-ink:#122d46;
+  --rcp-paper:#f9f7f4;
+  --rcp-silver:#e6e3e0;
+  color:var(--rcp-ink);
+  background:var(--rcp-paper);
+  font-family:var(--font-dm-sans),Arial,sans-serif;
 }
-@media(max-width:700px){
- .rcp-home__frame{padding:10px 12px 0}
- .rcp-home__hero{display:flex;flex-direction:column;border-radius:22px}
- .rcp-home__visual{order:0;display:block;flex:none;min-height:0;height:clamp(140px,42vw,218px);clip-path:none}
- .rcp-home__image{object-position:center 54%}
- .rcp-home__visual-fade{background:linear-gradient(0deg,rgba(24,43,62,.45),transparent 65%)}
- .rcp-home__content{order:1;padding:22px 20px 24px}
- .rcp-home__eyebrow{font-size:10px;letter-spacing:.115em}
- .rcp-home__title{font-size:clamp(27px,7.7vw,36px);margin-top:11px}
- .rcp-home__description{font-size:13px;line-height:1.55;margin-top:13px}
- .rcp-home__proof{margin-top:15px;padding-top:12px;font-size:10px;gap:12px}
- .rcp-home__proof-metric strong{font-size:27px}
- .rcp-home__buttons{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin-top:16px}
- .rcp-home__button{min-width:0;min-height:43px;padding:10px 8px;font-size:11px;letter-spacing:0}
- .rcp-home__button--register{grid-column:1 / -1;font-size:13px}
- .rcp-home__choices{padding:27px 16px 32px}
- .rcp-home__choices-heading h2{font-size:26px}
- .rcp-home__choices-heading>p:last-child{font-size:13px}
- .rcp-home__choice-grid{grid-template-columns:1fr;gap:10px;margin-top:16px}
- .rcp-home__choice{min-height:0;padding:16px 18px}
- .rcp-home__choice h3{margin-top:8px;font-size:17px}
- .rcp-home__choice p{margin:4px 0 8px;font-size:12px}
- .rcp-home__choice-icon{width:23px;height:23px}
- .rcp-home__explore{margin-top:14px}
+.rcp-home *, .rcp-home *::before, .rcp-home *::after {box-sizing:border-box;}
+.rcp-home a:focus-visible {outline:3px solid #2c668d;outline-offset:4px;}
+
+/* El zoom:80% es legado de un experimento de densidad. No usarlo en la home. */
+@media(min-width:1024px) {
+  html:has(.rc-landing) {zoom:1;}
 }
 
-/* Home desktop: títulos con más presencia y azul con profundidad, sin afectar móvil. */
+.rcp-home__frame {
+  width:100%;
+  max-width:1780px;
+  margin:0 auto;
+  padding:clamp(12px,1.65vw,26px) clamp(12px,1.65vw,26px) 0;
+}
+.rcp-home__hero {
+  position:relative;
+  isolation:isolate;
+  min-height:clamp(430px,31vw,550px);
+  overflow:hidden;
+  border-radius:clamp(15px,1.25vw,22px);
+  background:
+    radial-gradient(ellipse 55% 90% at 30% 60%,#fbf9f6 0%,#f5f1ec 73%,transparent 100%),
+    linear-gradient(100deg,#f6f2ed 0%,#f3f0ec 58%,#d7d6d3 100%);
+  box-shadow:0 1px 0 rgba(22,43,62,.06);
+}
+
+/* Fotografía central, delimitada por dos diagonales; NO hay botones a la derecha. */
+.rcp-home__visual {
+  position:absolute;
+  z-index:0;
+  top:0;
+  bottom:0;
+  left:42%;
+  width:47%;
+  overflow:hidden;
+  background:#c6c8c7;
+  clip-path:polygon(32% 0%,100% 0%,76% 100%,0% 100%);
+}
+.rcp-home__image {
+  object-fit:cover;
+  object-position:84% 49%;
+  filter:grayscale(1) contrast(1.07) brightness(1.01);
+}
+.rcp-home__content {
+  position:relative;
+  z-index:1;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  justify-content:center;
+  min-height:inherit;
+  width:min(61%,900px);
+  padding:clamp(30px,3.1vw,55px) clamp(22px,4.0vw,75px);
+}
+.rcp-home__eyebrow {
+  margin:0 0 9px;
+  font-size:clamp(13px,.95vw,16px);
+  line-height:1.3;
+  font-weight:900;
+  letter-spacing:.045em;
+  color:var(--rcp-ink);
+}
+.rcp-home__title {
+  margin:0;
+  font-size:clamp(42px,3.5vw,68px);
+  line-height:1.055;
+  font-weight:900;
+  letter-spacing:-.052em;
+  color:#102b43;
+  text-wrap:balance;
+}
+.rcp-home__title span {display:block;color:#102b43;}
+.rcp-home__description {
+  max-width:700px;
+  margin:clamp(13px,1.15vw,22px) 0 0;
+  color:#27323c;
+  font-size:clamp(18px,1.22vw,22px);
+  line-height:1.43;
+  font-weight:500;
+}
+.rcp-home__direct {
+  margin:3px 0 0;
+  color:#102e48;
+  font-weight:800;
+  line-height:1.38;
+  font-size:clamp(18px,1.22vw,22px);
+}
+.rcp-home__proof {
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:clamp(13px,1.4vw,25px);
+  margin-top:clamp(16px,1.3vw,24px);
+  color:#102e48;
+  font-size:clamp(12px,.98vw,16px);
+  line-height:1.2;
+  font-weight:850;
+}
+.rcp-home__proof-metric {display:inline-flex;align-items:center;gap:9px;white-space:nowrap;}
+.rcp-home__proof-metric strong {
+  font-size:clamp(35px,3vw,50px);
+  line-height:1;
+  font-weight:900;
+  letter-spacing:-.06em;
+}
+.rcp-home__proof-divider {height:35px;width:1px;background:#52697a;flex:none;}
+.rcp-home__proof-contact {display:inline-flex;align-items:center;gap:10px;white-space:nowrap;}
+.rcp-home__buttons {
+  display:flex;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:clamp(9px,1vw,18px);
+  margin-top:clamp(13px,1.1vw,21px);
+}
+.rcp-home__button {
+  display:inline-flex;
+  justify-content:center;
+  align-items:center;
+  gap:10px;
+  max-width:100%;
+  min-height:50px;
+  padding:11px clamp(14px,1.5vw,25px);
+  border:1.5px solid #102b43;
+  border-radius:999px;
+  font-size:clamp(12px,.97vw,16px);
+  font-weight:850;
+  line-height:1.23;
+  text-align:center;
+  white-space:nowrap;
+  text-decoration:none!important;
+  transition:background-color .15s ease, box-shadow .15s ease;
+}
+.rcp-home__button--register {color:#fff!important;background:#103451;border-color:#103451;}
+.rcp-home__button--register:hover {background:#235676;box-shadow:0 5px 15px rgba(18,47,72,.17);}
+.rcp-home__button--outline {color:#142d43!important;background:rgba(255,255,255,.55);}
+.rcp-home__button--outline:hover {background:#fff;box-shadow:0 5px 15px rgba(18,47,72,.1);}
+
+/* Segundo bloque equilibrado: tres cards con imágenes, sin navegación repetida. */
+.rcp-home__choices {
+  width:100%;
+  max-width:1780px;
+  margin:0 auto;
+  padding:clamp(22px,2.2vw,39px) clamp(14px,2.1vw,36px) clamp(31px,3vw,55px);
+}
+.rcp-home__choices-heading {
+  display:grid;
+  grid-template-columns:minmax(35px,1fr) auto minmax(35px,1fr);
+  align-items:center;
+  gap:clamp(13px,2.4vw,44px);
+  margin:0 0 clamp(19px,2vw,31px);
+}
+.rcp-home__heading-rule {display:block;height:1px;background:#afb7bd;}
+.rcp-home__choices-heading h2 {
+  margin:0;
+  font-size:clamp(29px,3.1vw,55px);
+  font-weight:900;
+  letter-spacing:-.048em;
+  line-height:1.15;
+  text-align:center;
+  color:#102b43;
+}
+.rcp-home__choice-grid {
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:clamp(14px,1.6vw,27px);
+}
+.rcp-home__choice {
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  min-width:0;
+  overflow:hidden;
+  min-height:255px;
+  border:1px solid #e5e4e2;
+  border-radius:clamp(14px,1.1vw,21px);
+  background:#fff;
+  box-shadow:0 7px 24px rgba(41,45,52,.095);
+  color:#142e46!important;
+  text-decoration:none!important;
+  transition:transform .2s ease, box-shadow .2s ease;
+}
+.rcp-home__choice:hover {transform:translateY(-3px);box-shadow:0 14px 29px rgba(35,47,59,.16);}
+.rcp-home__choice-info {
+  display:grid;
+  grid-template-columns:clamp(33px,3vw,53px) minmax(0,1fr) 40px;
+  gap:clamp(8px,1.2vw,22px);
+  align-items:start;
+  width:100%;
+  min-height:145px;
+  padding:clamp(19px,2vw,31px) clamp(17px,2vw,32px) 16px;
+}
+.rcp-home__choice-icon {color:#173d5e;width:clamp(30px,2.7vw,45px);height:clamp(30px,2.7vw,45px);margin-top:2px;}
+.rcp-home__choice-copy {min-width:0;}
+.rcp-home__choice h3 {
+  margin:0;
+  color:#102b43;
+  font-size:clamp(21px,1.7vw,29px);
+  font-weight:850;
+  line-height:1.18;
+  letter-spacing:-.035em;
+}
+.rcp-home__choice p {
+  margin:8px 0 0;
+  color:#2e3943;
+  font-size:clamp(15px,1.18vw,19px);
+  line-height:1.38;
+  font-weight:480;
+}
+.rcp-home__choice-arrow {
+  display:grid;
+  place-items:center;
+  width:40px;
+  height:40px;
+  align-self:center;
+  border-radius:50%;
+  background:#f1f2f3;
+  color:#102e48;
+}
+.rcp-home__choice-photo {
+  position:relative;
+  min-height:100px;
+  flex:1;
+  overflow:hidden;
+  background:#d5d3d0;
+}
+.rcp-home__choice-photo-image {
+  object-fit:cover;
+  object-position:center 53%;
+  filter:grayscale(1) sepia(.12) brightness(.99) contrast(1.03);
+  transition:transform .2s ease;
+}
+.rcp-home__choice:hover .rcp-home__choice-photo-image {transform:scale(1.025);}
+
+/* El contenido inferior usa el ancho de pantalla, sin columnas relegadas a la izquierda. */
 @media (min-width:901px) {
-  .rcp-home__hero {
-    background-color:#11273b;
-    background-image:
-      radial-gradient(ellipse 85% 110% at 15% 95%,rgba(45,112,167,.52) 0%,rgba(24,66,108,.29) 48%,rgba(16,40,63,0) 83%),
-      linear-gradient(115deg,#112438 5%,#193c5e 56%,#245579 100%);
+  html body .rc-landing .rc-how--web .rc-how__inner {
+    width:100%;
+    max-width:1710px;
+    padding:32px clamp(26px,4vw,72px) 38px;
   }
-  .rcp-home__title {
-    font-size:clamp(39px,3.82vw,59px);
-    line-height:1.09;
-    letter-spacing:-.048em;
+  html body .rc-landing .rc-how--web .rc-how__step {min-height:141px;}
+  html body .rc-landing .rc-how--web .rc-how__step-copy h3 {font-size:clamp(21px,1.75vw,30px);}
+  html body .rc-landing .rc-how--web .rc-how__step-copy p {font-size:clamp(16px,1.3vw,20px);}
+  html body .rc-landing .rcf-faq__container {
+    width:100%;
+    max-width:1600px;
+    grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);
+    gap:clamp(38px,5vw,95px);
+    padding-inline:clamp(28px,4vw,72px);
   }
-  .rcp-home__description {
-    font-size:clamp(16px,1.42vw,19px);
-    line-height:1.58;
-    max-width:650px;
+  html body .rc-landing .rcf-faq__question {font-size:clamp(19px,1.55vw,24px);}
+  html body .rc-landing .rcf-faq__subtitle {font-size:clamp(17px,1.2vw,21px);}
+  html body:has(.rc-landing) footer.footer .footer-inner,
+  html body:has(.rc-landing) footer.footer .footer-bottom {max-width:1570px;}
+  html body:has(.rc-landing) footer.footer .footer-desc,
+  html body:has(.rc-landing) footer.footer .footer-link {font-size:clamp(13px,1vw,16px);line-height:1.55;}
+  html body:has(.rc-landing) footer.footer .footer-col-title {font-size:clamp(14px,1vw,17px);}
+}
+@media(max-width:1190px) and (min-width:701px) {
+  .rcp-home__hero {min-height:470px;}
+  .rcp-home__content {width:66%;padding:27px 31px;}
+  .rcp-home__visual {left:43%;width:50%;}
+  .rcp-home__title {font-size:clamp(36px,3.7vw,49px);}
+  .rcp-home__description,.rcp-home__direct {font-size:clamp(16px,1.5vw,19px);}
+  .rcp-home__button {min-height:45px;font-size:12px;padding:10px 14px;}
+  .rcp-home__choice-info {grid-template-columns:35px minmax(0,1fr) 34px;gap:9px;padding:18px 14px;}
+  .rcp-home__choice h3 {font-size:clamp(17px,1.7vw,21px);}
+  .rcp-home__choice p {font-size:14px;}
+  .rcp-home__choice-arrow {width:33px;height:33px;}
+}
+@media(max-width:700px) {
+  .rcp-home__frame {padding:9px 10px 0;}
+  .rcp-home__hero {display:flex;flex-direction:column;min-height:0;border-radius:17px;}
+  .rcp-home__visual {
+    position:relative;
+    order:0;
+    inset:auto;
+    left:auto;
+    top:auto;
+    width:100%;
+    height:clamp(190px,48vw,270px);
+    flex:none;
+    clip-path:none;
   }
-  .rcp-home__visual-fade {
-    background:
-      linear-gradient(90deg,rgba(24,52,77,.38),transparent 36%),
-      linear-gradient(0deg,rgba(24,43,62,.29),transparent 46%);
-  }
+  .rcp-home__image {object-position:80% 45%;}
+  .rcp-home__content {order:1;width:100%;min-height:0;padding:24px 18px 29px;}
+  .rcp-home__eyebrow {font-size:12px;margin-bottom:8px;}
+  .rcp-home__title {font-size:clamp(34px,8.3vw,46px);}
+  .rcp-home__description {font-size:16px;line-height:1.47;margin-top:14px;}
+  .rcp-home__direct {font-size:16px;line-height:1.47;margin-top:5px;}
+  .rcp-home__proof {gap:11px;font-size:12px;margin-top:15px;}
+  .rcp-home__proof-metric strong {font-size:32px;}
+  .rcp-home__proof-divider {height:27px;}
+  .rcp-home__proof-contact {gap:6px;white-space:normal;}
+  .rcp-home__buttons {display:grid;grid-template-columns:1fr 1fr;gap:9px;width:100%;margin-top:17px;}
+  .rcp-home__button {min-height:45px;font-size:11px;padding:9px 6px;white-space:normal;}
+  .rcp-home__button--register {grid-column:1/-1;font-size:14px;}
+  .rcp-home__choices {padding:28px 14px 34px;}
+  .rcp-home__choices-heading {gap:11px;grid-template-columns:minmax(15px,1fr) auto minmax(15px,1fr);}
+  .rcp-home__choices-heading h2 {font-size:clamp(26px,6.7vw,36px);}
+  .rcp-home__choice-grid {grid-template-columns:1fr;gap:13px;}
+  .rcp-home__choice {min-height:0;}
+  .rcp-home__choice-info {min-height:111px;padding:19px 17px;grid-template-columns:34px minmax(0,1fr) 35px;gap:12px;}
+  .rcp-home__choice-icon {width:32px;height:32px;}
+  .rcp-home__choice h3 {font-size:21px;}
+  .rcp-home__choice p {font-size:15px;}
+  .rcp-home__choice-arrow {width:34px;height:34px;}
+  .rcp-home__choice-photo {flex:none;min-height:103px;}
+}
+@media(min-width:701px) and (max-width:900px) {
+  .rcp-home__choices {padding-inline:23px;}
+  .rcp-home__choice-grid {grid-template-columns:repeat(2,minmax(0,1fr));}
+  .rcp-home__choice:last-child {grid-column:1/-1;}
 }
