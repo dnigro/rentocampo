@@ -92,7 +92,48 @@
   }
   .rcp-home__visual-fade {
     background:
-      linear-gradient(90deg,rgba(24,52,77,.38),transparent 36%),
-      linear-gradient(0deg,rgba(24,43,62,.29),transparent 46%);
+      linear-gradient(0deg,rgba(26,34,36,.35),transparent 50%),
+      linear-gradient(90deg,rgba(27,40,43,.2),transparent 50%);
   }
+}
+
+/* HERO PREVIEW 2026-11-06: foto ampliada y fundido sin corte diagonal.
+   Solo escritorio web; no modifica los formularios, App Lite ni los enlaces. */
+.rcp-home__direct {
+  max-width:610px;
+  margin:7px 0 0;
+  color:#f3ece2;
+  font-size:clamp(14px,1.23vw,17px);
+  font-weight:760;
+  line-height:1.45;
+}
+@media (min-width:901px) {
+  .rcp-home__hero {
+    background-color:#1c2c32;
+    background-image:
+      radial-gradient(ellipse 62% 83% at 0% 100%,rgba(145,94,59,.55) 0%,rgba(115,80,60,.22) 42%,transparent 84%),
+      linear-gradient(112deg,#172b33 0%,#253940 52%,#28373a 100%);
+  }
+  .rcp-home__visual {
+    position:absolute;
+    inset:0 0 0 37%;
+    grid-column:auto;
+    grid-row:auto;
+    min-height:0;
+    clip-path:none;
+    background:transparent;
+    -webkit-mask-image:linear-gradient(90deg,transparent 0%,rgba(0,0,0,.12) 12%,rgba(0,0,0,.7) 28%,#000 45%);
+    mask-image:linear-gradient(90deg,transparent 0%,rgba(0,0,0,.12) 12%,rgba(0,0,0,.7) 28%,#000 45%);
+  }
+  .rcp-home__image {
+    object-position:58% center;
+    filter:grayscale(1) contrast(1.08) brightness(.83) sepia(.08);
+  }
+  .rcp-home__title span {color:#ead8bd;}
+  .rcp-home__content {position:relative;z-index:2;}
+  .rcp-home__description {margin-top:18px;}
+  .rcp-home__direct {font-size:clamp(16px,1.4vw,19px);}
+}
+@media(max-width:700px) {
+  .rcp-home__direct {font-size:13px;margin-top:6px;}
 }
