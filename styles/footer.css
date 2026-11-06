@@ -1,9 +1,10 @@
-/* RentoCampo · Footer universal, compacto y responsive.
+/* Footer 305: estructura única en home, páginas internas y App Lite web.
+   RentoCampo · Footer universal, compacto y responsive.
    Misma estructura y marca en home, mapa, fichas, formularios, cuentas y regiones. */
 html body footer.footer {
   box-sizing:border-box;
   width:100%; min-width:0;
-  background:#191a1c; color:#c7c7c9;
+  background: #0B2035; color: #DCE6EC;
   border-top:1px solid #454649;
   padding:23px clamp(16px,3.2vw,42px) 0;
 }
@@ -37,7 +38,7 @@ html body footer.footer .footer-brand-name {
 }
 html body footer.footer .footer-desc {
   max-width:255px; margin:0; font-size:12px; line-height:1.48;
-  font-weight:450; color:#c7c7c9 !important;
+  font-weight:450; color: #DCE6EC !important;
 }
 html body footer.footer .footer-col-title {
   display:flex; align-items:center; gap:7px;
@@ -59,7 +60,7 @@ html body footer.footer .footer-link {
 }
 html body footer.footer .footer-link:hover,
 html body footer.footer .footer-bottom-link:hover {
-  color:#fff !important; text-decoration:underline;
+  color: #B0CAD8 !important; text-decoration:underline;
 }
 html body footer.footer .footer-socials {
   display:flex; flex-wrap:wrap; align-items:center;
@@ -106,13 +107,15 @@ html body footer.footer .footer-bottom-link {
 }
 @media(max-width:850px) {
   html body footer.footer .footer-inner {
-    grid-template-columns:repeat(2,minmax(0,1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap:23px 20px;
   }
 }
 @media(max-width:600px) {
   html body footer.footer { padding:19px 17px 0; }
   html body footer.footer .footer-inner { gap:17px 13px; padding-bottom:17px; }
+  html body footer.footer .footer-col--services,
+  html body footer.footer .footer-col--contact { grid-column: auto; }
   html body footer.footer .footer-brand { grid-column:1 / -1; }
   html body footer.footer .footer-brand-icon { width:29px; height:32px; flex-basis:29px; }
   html body footer.footer .footer-brand-name { font-size:22px; }
