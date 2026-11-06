@@ -75,3 +75,22 @@ test("service groups retain all original service IDs without duplicates", () => 
   assert.deepEqual([...grouped].sort(), [...registered].sort());
   assert.equal(new Set(grouped).size, grouped.length);
 });
+
+test("publication forms have a single consistent return button to their own listing", () => {
+  const nav = read("components/layout/DashboardReturn.tsx");
+  const newField = read("app/(dashboard)/mis-campos/nuevo/page.tsx");
+  const editField = read("app/(dashboard)/mis-campos/[id]/editar/page.tsx");
+  const newService = read("app/(dashboard)/mis-servicios-rurales/nuevo/page.tsx");
+  const editService = read("app/(dashboard)/mis-servicios-rurales/[id]/editar/page.tsx");
+
+  assert.match(nav, /pathname === "\/mis-campos\/nuevo"/);
+  assert.match(nav, /pathname === "\/mis-servicios-rurales\/nuevo"/);
+  assert.match(nav, /"\/mis-campos"/);
+  assert.match(nav, /"\/mis-servicios-rurales"/);
+  assert.match(nav, /Volver a Mis campos/);
+  assert.match(nav, /Volver a Mis servicios rurales/);
+  assert.match(nav, /className="rc-dashboard-return-btn"/);
+  for (const page of [newField, editField, newService, editService]) {
+    assert.doesNotMatch(page, /className="(?:page-back|back-link)"/);
+  }
+});
