@@ -4,6 +4,7 @@ import Image from "next/image";
 
 import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { errorTextoPublico } from "@/lib/publication-content-guard";
 import { createClient } from "@/lib/supabase/client";
 import { FileText, Images, MapPinned, Sprout, WalletCards, Check, ImagePlus } from "lucide-react";
 import { displayCountryName, COUNTRIES, COUNTRY_CODES_ALPHABETICAL, getCountrySubdivisions, type CountryCode } from "@/data/countries";
@@ -176,6 +177,18 @@ export default function CampoForm({
     e.preventDefault();
     setError("");
 
+    for (const [key, label, max, required] of [
+      ["titulo", tt("Título", "Título", "Title"), 100, true],
+      ["descripcion", tt("Descripción", "Descrição", "Description"), 2500, false],
+      ["departamento", tt("Departamento", "Município", "District"), 120, false],
+      ["localidad", tt("Localidad", "Cidade", "Town"), 120, false],
+      ["ambiente", tt("Suelo", "Solo", "Soil"), 250, false],
+      ["rendimiento_estimado", tt("Rendimiento", "Produtividade", "Yield"), 120, false],
+    ] as const) {
+      const message = errorTextoPublico(form[key], label, { required, min: required ? 5 : 0, max });
+      if (message) { setError(message); return; }
+    }
+
     if (form.titulo.trim().length < 5) {
       setError(tt("Escribí un título descriptivo de al menos 5 caracteres para la ficha del campo.", "Escreva um título com pelo menos 5 caracteres para o anúncio.", "Enter a descriptive farmland title with at least 5 characters."));
       return;
@@ -315,7 +328,7 @@ export default function CampoForm({
         </div>
       )}
 
-      {error && <div className="form-error">{error}</div>}
+      {error && <div className="form-error" role="alert" aria-live="polite">{error}</div>}
 
       {/* Información básica */}
       <div className="form-section">
@@ -351,8 +364,9 @@ export default function CampoForm({
             value={form.descripcion ?? ""}
             onChange={handleChange}
             rows={4}
+            maxLength={2500}
           />
-          <p className="form-hint">{tt("Contá el uso actual, accesos, agua, infraestructura y condiciones de alquiler o venta. Evitá poner teléfonos: el contacto se hace por el chat.", "Descreva o uso atual, acessos, água, infraestrutura e condições de arrendamento ou venda. O contato é pelo chat.", "Describe current use, access, water, buildings and lease or sale conditions. Contact happens through chat.")}</p>
+          <p className="form-hint">{tt("Contá el uso, accesos, agua y condiciones. No escribas teléfono, email, redes ni links: los contactos se hacen por chat.", "Descreva uso, acesso, água e condições. Não inclua telefone, e-mail, redes ou links: o contato é pelo chat.", "Describe use, access, water and conditions. Do not add phone numbers, emails, social handles or links; contact happens through chat.")}</p>
         </div>
       </div>
 
@@ -457,6 +471,7 @@ export default function CampoForm({
               placeholder={tt("Ej: Marcos Juárez","Ex.: Campinas")}
               value={form.departamento ?? ""}
               onChange={handleChange}
+              maxLength={120}
             />
           </div>
         </div>
@@ -470,6 +485,7 @@ export default function CampoForm({
             placeholder={tt("Ej: Corral de Bustos","Ex.: Ribeirão Preto")}
             value={form.localidad ?? ""}
             onChange={handleChange}
+            maxLength={120}
           />
         </div>
       </div>
@@ -541,6 +557,7 @@ export default function CampoForm({
               placeholder={tt("Ej: Agrícola típico, suelos profundos","Ex.: Solo fértil e profundo")}
               value={form.ambiente ?? ""}
               onChange={handleChange}
+              maxLength={250}
             />
           </div>
           <div className="form-field">
@@ -552,6 +569,7 @@ export default function CampoForm({
               placeholder={tt("Ej: 35", "Ex.: 35")}
               value={form.rendimiento_estimado ?? ""}
               onChange={handleChange}
+              maxLength={120}
             />
           </div>
         </div>

@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { errorTextoPublico } from "@/lib/publication-content-guard";
 
 import { useState, useRef } from "react";
 import { createClient } from "@/lib/supabase/client";
@@ -81,6 +82,9 @@ export default function PerfilForm({ profile, email, country }: Props) {
 
   async function handleSavePerfil(e: React.FormEvent) {
     e.preventDefault();
+    const nameErr = errorTextoPublico(form.nombre, tt("Nombre", "Nome", "Name"), { required: true, min: 2, max: 120 });
+    const bioErr = errorTextoPublico(form.bio, tt("Descripción", "Descrição", "Bio"), { max: 700 });
+    if (nameErr || bioErr) { setError(nameErr ?? bioErr ?? ""); return; }
     setSaving(true);
     setError("");
     setSuccessMsg("");

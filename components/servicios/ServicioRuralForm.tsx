@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { displayCountryName, COUNTRIES, COUNTRY_CODES_ALPHABETICAL, getCountrySubdivisions, resolveCountry, type CountryCode } from "@/data/countries";
 import { useRouter } from "next/navigation";
+import { errorTextoPublico } from "@/lib/publication-content-guard";
 import { useRef, useState, useEffect } from "react";
 import { Check, FileText, Images, MapPinned, UploadCloud, Wheat, Fence, Wifi, Handshake, Beef } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
@@ -116,6 +117,16 @@ export default function ServicioRuralForm({ profile, publicacion, initialCountry
       return;
     }
 
+    for (const [value, label, max, required] of [
+      [nombreComercial, tt("Título", "Título", "Title"), 100, true],
+      [detalle, tt("Descripción", "Descrição", "Description"), 2500, false],
+      [zona, tt("Zona", "Área", "Area"), 200, false],
+      [localidad, tt("Localidad", "Cidade", "Town"), 120, false],
+    ] as const) {
+      const message = errorTextoPublico(value, label, { required, min: required ? 5 : 0, max });
+      if (message) { setError(message); return; }
+    }
+
     if (!servicios.length) {
       setError(tt("Elegí al menos un servicio rural.","Selecione pelo menos um serviço rural."));
       return;
@@ -159,10 +170,13 @@ export default function ServicioRuralForm({ profile, publicacion, initialCountry
         longitud,
         detalle: detalle || null,
       };
-      const { error: saveError } = publicacion
-        ? await supabase.from("servicios_publicaciones").update(payload).eq("id", publicacion.id).eq("propietario_id", profile?.id)
-        : await supabase.from("servicios_publicaciones").insert(payload);
-      if (saveError) throw saveError;
+      const response = await fetch("/api/servicios/publicar", {
+        method: publicacion ? "PATCH" : "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(publicacion ? { id: publicacion.id, form: payload } : payload),
+      });
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.error ?? tt("No se pudo guardar el servicio.", "Não foi possível salvar o serviço.", "Could not save your service."));
 
       const roles = (profile?.roles ?? ["productor"]) as RolPerfil[];
       const rolesActualizados = roles.includes("prestador")
@@ -218,13 +232,13 @@ export default function ServicioRuralForm({ profile, publicacion, initialCountry
           value={nombreComercial}
           onChange={(e) => setNombreComercial(e.target.value)}
           placeholder={tt("Ej.: Cosecha y siembra · Agroservicios López","Ex.: Colheita e plantio · Agroserviços Silva","E.g. Harvesting and planting · Farm Services")}
-          autoComplete="organization"
+          autoComplete="off"
         />
         <p id="servicio-nombre-ayuda" className="form-hint">
           {tt(
-            "Este será el título visible en el mapa, los listados y la ficha. Podés usar el nombre de tu emprendimiento o describir brevemente el servicio; no hace falta tener una empresa registrada.",
-            "Este será o título exibido no mapa, nas listas e na ficha. Use o nome do negócio ou descreva o serviço; não é necessário ter uma empresa registrada.",
-            "This title appears on the map, search results and your listing. Use your business name or a short description of your work; a registered company name isn't required."
+            "Este título aparecerá en el mapa y las fichas. No agregues teléfono, email, redes ni links: el contacto se hace por chat.",
+            "Este título aparecerá no mapa e na ficha. Não inclua telefone, e-mail, redes sociais ou links; o contato é pelo chat.",
+            "This title appears on the map and listing. Don't add phones, emails, social handles or links; use the chat."
           )}
         </p>
       </div>
@@ -384,6 +398,7 @@ export default function ServicioRuralForm({ profile, publicacion, initialCountry
           <input
             className="form-input"
             value={localidad}
+            maxLength={120}
             onChange={(e) => setLocalidad(e.target.value)}
             placeholder={tt("Ej: Rafaela","Ex.: Campinas")}
           />
@@ -395,6 +410,7 @@ export default function ServicioRuralForm({ profile, publicacion, initialCountry
         <input
           className="form-input"
           value={zona}
+          maxLength={200}
           onChange={(e) => setZona(e.target.value)}
           placeholder={tt("Ej.: Rafaela, Esperanza y zona rural cercana","Ex.: Campinas e municípios vizinhos","E.g. Austin and nearby rural areas")}
         />
@@ -407,7 +423,7 @@ export default function ServicioRuralForm({ profile, publicacion, initialCountry
       <div className="form-field">
         <label className="form-label">{tt("Descripción del trabajo que ofrecés","Descrição do serviço oferecido","Describe the services you offer")}</label>
         <p className="form-hint">{tt("Contá qué incluye el servicio, con qué equipo trabajás y cómo coordinás disponibilidad. El contacto se realiza por el chat.", "Explique o serviço, equipamentos e disponibilidade. O contato é feito pelo chat.", "Explain what you provide, equipment and availability. People contact you through the platform chat.")}</p>
-        <textarea className="form-input form-textarea" rows={5} value={detalle} onChange={(e) => setDetalle(e.target.value)} placeholder={tt("Ej.: Realizo siembra directa y cosecha. Tengo equipo propio, trabajo por campaña y coordino fechas por mensaje.","Ex.: Realizo plantio direto e colheita com equipamentos próprios; combino datas por mensagem.","E.g. I provide planting and harvesting with my equipment and arrange schedules by message.")} />
+        <textarea className="form-input form-textarea" rows={5} maxLength={2500} value={detalle} onChange={(e) => setDetalle(e.target.value)} placeholder={tt("Ej.: Realizo siembra directa y cosecha. Tengo equipo propio, trabajo por campaña y coordino fechas por mensaje.","Ex.: Realizo plantio direto e colheita com equipamentos próprios; combino datas por mensagem.","E.g. I provide planting and harvesting with my equipment and arrange schedules by message.")} />
       </div>
 
       </div>

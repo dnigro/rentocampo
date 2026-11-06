@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import { errorTextoPublico } from "@/lib/publication-content-guard";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 import { displayCountryName, COUNTRIES, COUNTRY_CODES_ALPHABETICAL, type CountryCode } from "@/data/countries";
@@ -46,6 +47,13 @@ export default function RegisterForm({ initialCountry: paisInicial }: { initialC
     setError("");
     setAccountExists(false);
     setLoading(true);
+
+    const nameError = errorTextoPublico(form.nombre, tt("Nombre", "Nome", "Name"), { required: true, min: 2, max: 120 });
+    if (nameError) {
+      setError(nameError);
+      setLoading(false);
+      return;
+    }
 
     if (form.password.length < 6) {
       trackEvent("registro_error", { motivo: "password_corta", rol: "pendiente", pais: form.country_code });
