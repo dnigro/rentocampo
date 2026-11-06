@@ -116,7 +116,6 @@ const cardIcons = {
 export default function RegionalLanding({ market }: { market: Market }) {
   const t = copy[market];
   const params = "pais=" + market;
-  const register = "/register?" + params;
   const links: Record<Action, string> = {
     land: "/campos?" + params,
     listLand: "/register?" + params + "&tipo=propietario",
@@ -141,14 +140,12 @@ export default function RegionalLanding({ market }: { market: Market }) {
             <Link href={t.switchRegion === "US" ? "/us" : "/br"}
               className="rounded-full border border-[#b2c0ce] bg-white px-3 py-2 text-[11px] font-extrabold whitespace-nowrap text-[#263d54] hover:bg-[#f6f8fa]"
               lang={t.switchRegion === "US" ? "en-US" : "pt-BR"}>{t.switchLanguage}</Link>
-            <Link href={register} className="hidden min-h-10 items-center justify-center rounded-full bg-[#182B3E] px-4 py-2 text-center text-[12px] font-extrabold text-white hover:bg-[#30506b] md:inline-flex">{t.register}</Link>
           </div>
         </div>
         <nav className="mt-3 flex items-center gap-6 border-t border-[#d3dbe4] pt-3 text-[13px] font-bold text-[#263c52] md:hidden" aria-label={market === "US" ? "Explore RentoCampo" : "Explorar RentoCampo"}>
           <Link href={links.land}>{t.exploreLand}</Link>
           <Link href={links.services}>{t.exploreServices}</Link>
         </nav>
-        <Link href={register} className="mt-3 flex min-h-10 items-center justify-center rounded-full bg-[#182B3E] px-4 py-2 text-center text-[12px] font-extrabold text-white hover:bg-[#30506b] md:hidden">{t.register}</Link>
       </header>
 
       <section className="mx-auto max-w-6xl px-3 sm:px-6 md:px-8" aria-label={t.region}>

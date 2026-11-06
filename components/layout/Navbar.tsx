@@ -232,12 +232,7 @@ function NavbarContent() {
                 <Link href="/login" className="btn-ghost">
                   {regionalText(activeCountry, "Ingresar", "Entrar", "Sign in")}
                 </Link>
-                <Link href={`/register?pais=${activeCountry}`} className="navbar-register-btn">
-                  {regionalText(activeCountry, "REGISTRATE GRATIS", "CADASTRE-SE GRÁTIS", "SIGN UP FREE")}
-                </Link>
-                <Link href={`/register?pais=${activeCountry}&tipo=propietario`} className="btn-primary">
-                  {regionalText(activeCountry, "Publicar campo", "Anunciar terra")}
-                </Link>
+
               </>
             )}
           </div>
@@ -279,13 +274,7 @@ function NavbarContent() {
             </button>
           </div>
         </div>
-        {!user && (
-          <div className="navbar-mobile-signup-row">
-            <Link href={`/register?pais=${activeCountry}`} className="navbar-mobile-signup">
-              {regionalText(activeCountry, "REGISTRATE GRATIS", "CADASTRE-SE GRÁTIS", "SIGN UP FREE")}
-            </Link>
-          </div>
-        )}
+
       </header>
 
       {/* Menú mobile overlay */}
