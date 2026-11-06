@@ -21,7 +21,7 @@ export default async function DashboardLayout({
   return (
     <div className="app-shell">
       <Navbar />
-      <main className="main-content">
+      <main className="main-content account-workspace">
         <DashboardReturn />
         {children}
       </main>
