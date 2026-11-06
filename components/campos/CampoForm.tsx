@@ -175,6 +175,19 @@ export default function CampoForm({
   ) {
     e.preventDefault();
     setError("");
+
+    if (form.titulo.trim().length < 5) {
+      setError(tt("Escribí un título descriptivo de al menos 5 caracteres para la ficha del campo.", "Escreva um título com pelo menos 5 caracteres para o anúncio.", "Enter a descriptive farmland title with at least 5 characters."));
+      return;
+    }
+    if (!Number.isFinite(form.hectareas) || form.hectareas <= 0) {
+      setError(tt("Ingresá una superficie en hectáreas mayor que cero.", "Informe uma área em hectares maior que zero.", "Enter a land area greater than zero hectares."));
+      return;
+    }
+    if (form.precio !== undefined && (!Number.isFinite(form.precio) || form.precio <= 0)) {
+      setError(tt("Si indicás un precio, debe ser mayor que cero. Si es a convenir, dejá el campo vacío.", "Se informar um preço, use um valor maior que zero. Caso seja a combinar, deixe em branco.", "If you enter a price, it must be greater than zero. Leave it blank if negotiable."));
+      return;
+    }
     setSaving(true);
 
     if (!form.titulo || !form.ubicacion || !form.provincia || !form.hectareas || !form.aptitud) {
