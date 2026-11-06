@@ -51,6 +51,6 @@ export default async function MensajeDirectoPage({
     <div className="hilo-header"><Link href="/mensajes" className="hilo-back">← Mensajes</Link>
       <div className="hilo-header-info"><div className="hilo-header-avatar">{contacto.avatar_url ? <Image src={contacto.avatar_url} alt={contacto.nombre} width={40} height={40} /> : <span>{contacto.nombre?.[0]?.toUpperCase()}</span>}</div><p className="hilo-header-nombre">{contacto.nombre}</p></div>
     </div>
-    <MensajeDirectoHilo userId={user.id} destinatarioId={usuarioId} mensajesIniciales={mensajesIniciales} borradorServicio={borrador === "servicio" && mensajesIniciales.length === 0} />
+    <MensajeDirectoHilo key={usuarioId} userId={user.id} destinatarioId={usuarioId} mensajesIniciales={mensajesIniciales} borradorServicio={borrador === "servicio" && mensajesIniciales.length === 0} />
   </div>;
 }

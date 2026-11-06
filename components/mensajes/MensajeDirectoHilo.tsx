@@ -115,6 +115,7 @@ export default function MensajeDirectoHilo({ userId, destinatarioId, mensajesIni
         return siguientes;
       });
       setTexto("");
+      window.dispatchEvent(new Event("mensajes:actualizar"));
       trackEvent("enviar_mensaje", { tipo: "directo" });
     } catch (cause) {
       console.error("Error enviando mensaje directo:", cause);

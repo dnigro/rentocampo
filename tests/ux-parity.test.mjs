@@ -375,7 +375,7 @@ test("PR319 mobile polish: actionable result count, readable back button and zeb
 test("PR319 executive country control, professional inbox and mobile account card",()=>{
  const navbar=read("components/layout/Navbar.tsx");
  const navCss=read("styles/rc-nav-inbox.css");
- const inbox=read("app/(dashboard)/mensajes/page.tsx");
+ const inbox=read("components/mensajes/InboxShell.tsx");
  const report=read("app/(dashboard)/gerencial/page.tsx");
  const controller=read("components/gerencial/GerencialExplorador.tsx");
  const growthCss=read("styles/rc-growth-visual.css");
@@ -387,7 +387,7 @@ test("PR319 executive country control, professional inbox and mobile account car
  assert.ok(navCss.includes('.rc-inbox__'));
  assert.ok(root.includes('rc-nav-inbox.css'));
  assert.ok(inbox.includes('rc-inbox__header'));
- assert.ok(inbox.includes('hilo-no-leido'));
+ assert.ok(inbox.includes('inbox-thread--unread'));
  assert.ok(inbox.includes('rc-inbox__type'));
  assert.ok(inbox.includes('rc-inbox__own'));
  assert.ok(report.includes('<GerencialExplorador countries={report.countries} months={report.months} totals={report.totals} />'));

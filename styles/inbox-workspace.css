@@ -1,0 +1,41 @@
+/* Shared inbox for desktop, responsive web and App Lite. */
+html body :is(.app-shell,.lite-app) .inbox-workspace{--ink:#142f45;--line:#dce4eb;display:grid;grid-template-columns:minmax(270px,340px) minmax(0,1fr);width:calc(100% - 32px);max-width:1320px;height:clamp(540px,76dvh,850px);margin:20px auto 48px;background:#fff;border:1px solid var(--line);border-radius:22px;overflow:hidden;color:var(--ink);box-shadow:0 12px 36px #152f4510}
+html body :is(.app-shell,.lite-app) .inbox-workspace *{box-sizing:border-box}
+.inbox-sidebar{min-width:0;display:flex;flex-direction:column;border-right:1px solid var(--line);background:#fff;overflow:hidden}
+.inbox-sidebar .rc-inbox__header{display:flex;align-items:center;justify-content:space-between;padding:25px 22px 18px;gap:12px}
+.inbox-eyebrow{font-size:10px;letter-spacing:.13em;color:#59748b;font-weight:700}
+.inbox-sidebar h1{font-size:27px;line-height:1.2;margin:6px 0 0;letter-spacing:-.04em}
+.inbox-count,.inbox-unread{background:#e9f0f6;color:#205a89;border-radius:20px;padding:4px 9px;font-size:12px;font-weight:700}
+.inbox-search{display:flex;gap:9px;align-items:center;margin:0 18px 16px;padding:10px 12px;border:1px solid var(--line);border-radius:12px;color:#62788a;background:#f7f9fb}
+.inbox-search input{min-width:0;width:100%;background:transparent;border:0;outline:0;font:inherit;font-size:13px;color:var(--ink)}
+.inbox-search:focus-within{outline:2px solid #3978a7;outline-offset:2px}
+.inbox-filters{display:flex;gap:8px;padding:0 18px 18px;border-bottom:1px solid var(--line)}
+.inbox-filters button{font:inherit;font-size:12px;font-weight:600;border:1px solid var(--line);background:#fff;color:#526a7e;border-radius:10px;min-height:38px;padding:8px 12px;cursor:pointer}
+.inbox-filters button[aria-pressed=true]{background:#eaf1f7;border-color:#b9cddd;color:#164b74}
+.inbox-threads{overflow-y:auto;flex:1;min-height:0}
+.inbox-thread{position:relative;display:flex;gap:12px;padding:20px 18px;border-bottom:1px solid #e9eef2;text-decoration:none;color:inherit;align-items:center}
+.inbox-thread:hover{background:#f6f9fb}.inbox-thread[aria-current=page]{background:#edf3f8;box-shadow:inset 3px 0 #276997}
+.inbox-avatar{width:46px;height:46px;flex:0 0 46px;border-radius:50%;display:grid;place-items:center;background:#e8eef3;color:#285575;font-weight:700;overflow:hidden}
+.inbox-avatar img{width:100%;height:100%;object-fit:cover}.inbox-thread-body{min-width:0;flex:1;display:flex;flex-direction:column;gap:6px}
+.inbox-thread-top{display:flex;gap:8px;align-items:baseline}.inbox-thread-top strong{font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}.inbox-thread-top time{font-size:10px;color:#667d8f;white-space:nowrap}
+.inbox-thread .rc-inbox__type,.inbox-preview{display:block;font-size:12px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;color:#657c90}.inbox-thread .rc-inbox__type{color:#3a607c}.inbox-thread--unread strong{color:#105a91}.inbox-unread{position:absolute;right:14px;bottom:14px;background:#205f8d;color:white;font-size:10px}.inbox-thread--unread .inbox-preview{padding-right:25px}
+.inbox-chat{min-width:0;min-height:0;display:flex;flex-direction:column;background:#fbfcfd;overflow:hidden}
+.inbox-welcome,.inbox-list-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:14px;padding:30px;color:#6a8194;flex:1}.inbox-welcome h2{font-size:22px;color:#203f57;max-width:350px;margin:6px 0 0}.inbox-welcome p{max-width:340px;font-size:14px;line-height:1.7;margin:0}.inbox-list-empty{padding:35px 24px;font-size:13px}
+html body :is(.app-shell,.lite-app) .inbox-workspace .inbox-chat>.page-container{padding:0!important;max-width:none!important;width:100%!important;margin:0!important;display:flex;flex-direction:column;min-height:0;flex:1}
+html body :is(.app-shell,.lite-app) .inbox-workspace .hilo-header{margin:0!important;padding:20px 24px!important;background:#fff!important;border:0!important;border-bottom:1px solid var(--line)!important;flex-shrink:0;min-width:0}
+html body :is(.app-shell,.lite-app) .inbox-workspace .hilo-header-info{min-width:0}.inbox-workspace .hilo-header-info>div:last-child{min-width:0}.inbox-workspace .hilo-header-campo{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%}
+html body :is(.app-shell,.lite-app) .inbox-workspace .hilo-header .hilo-back{display:none!important}
+html body :is(.app-shell,.lite-app) .inbox-workspace .hilo-container{flex:1;min-height:0!important;height:auto!important;border:0!important;border-radius:0!important;box-shadow:none!important;background:#fbfcfd!important}
+html body :is(.app-shell,.lite-app) .inbox-workspace .hilo-mensajes{min-height:0;padding:24px!important;background:#fbfcfd!important}
+html body :is(.app-shell,.lite-app) .inbox-workspace .mensaje-row{margin-bottom:14px!important}
+html body :is(.app-shell,.lite-app) .inbox-workspace .mensaje-burbuja{padding:13px 17px!important;border:1px solid #dce5ed!important;border-radius:18px!important;line-height:1.6!important;white-space:pre-wrap;max-width:100%;color:#203e55!important}
+html body :is(.app-shell,.lite-app) .inbox-workspace .burbuja-mia{background:#e7eff7!important;border-bottom-right-radius:5px!important}
+html body :is(.app-shell,.lite-app) .inbox-workspace .burbuja-otra{background:#fff!important;border-bottom-left-radius:5px!important}
+html body :is(.app-shell,.lite-app) .inbox-workspace .mensaje-hora{color:#698094!important}.inbox-workspace .mensaje-burbuja-wrap{min-width:0}
+html body :is(.app-shell,.lite-app) .inbox-workspace .mensaje-compose{display:grid!important;grid-template-columns:minmax(0,1fr) auto!important;gap:8px!important;padding:14px 18px!important;border:0!important;border-top:1px solid var(--line)!important;border-radius:0!important;background:#fff!important;flex-shrink:0}
+html body :is(.app-shell,.lite-app) .inbox-workspace .mensaje-compose-label{font-size:12px!important;color:#4c6579!important;grid-column:1/-1}
+html body :is(.app-shell,.lite-app) .inbox-workspace .mensaje-compose .mensaje-draft{grid-column:1;grid-row:2;min-height:52px!important;max-height:130px;border:1px solid #cddbe5!important;background:#f9fbfc!important;color:#18364c!important;border-radius:12px!important;padding:12px!important;font-size:16px!important}
+html body :is(.app-shell,.lite-app) .inbox-workspace .mensaje-compose-submit{grid-column:2!important;grid-row:2!important;align-self:end;background:#245f8c!important;color:#fff!important;border-radius:12px!important;font-size:13px!important;min-height:52px!important;padding:10px 16px!important}
+html body :is(.app-shell,.lite-app) .inbox-workspace .mensaje-compose-meta{color:#6c8191!important;font-size:10px!important}.inbox-workspace .mensaje-compose-note{display:none!important}
+.inbox-workspace :is(a,button,textarea):focus-visible{outline:2px solid #367aaf!important;outline-offset:-3px}.inbox-mobile-back{display:none}.inbox-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+@media(max-width:760px){html body :is(.app-shell,.lite-app) .inbox-workspace{display:flex;width:calc(100% - 16px);height:calc(100dvh - 200px);min-height:440px;margin:10px auto 24px;border-radius:16px}.inbox-sidebar{width:100%;border:0}.inbox-chat{display:none}.inbox-workspace--open .inbox-sidebar{display:none}.inbox-workspace--open .inbox-chat{display:flex;flex:1}.inbox-mobile-back{display:flex;align-items:center;gap:8px;min-height:44px;padding:10px 16px;background:#fff;color:#275b82;text-decoration:none;font-size:13px;border-bottom:1px solid var(--line)}html body :is(.app-shell,.lite-app) .inbox-workspace .hilo-header{padding:14px!important}html body :is(.app-shell,.lite-app) .inbox-workspace .hilo-mensajes{padding:16px 12px!important}html body :is(.app-shell,.lite-app) .inbox-workspace .mensaje-burbuja-wrap{max-width:86%!important}html body :is(.app-shell,.lite-app) .inbox-workspace .mensaje-compose{padding:12px!important;gap:6px!important}html body :is(.app-shell,.lite-app) .inbox-workspace .mensaje-compose-submit{padding:8px 10px!important;font-size:11px!important}.inbox-workspace .hilo-header-nombre{font-size:14px!important}}
