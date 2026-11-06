@@ -499,3 +499,47 @@
   .rcp-home__direct {font-size:clamp(15px,1.35vw,18px);}
   .rcp-home__button--register {min-height:54px;font-size:17px;}
 }
+
+
+/* MAPA BAJO REGISTRO 06/11 — segundo CTA dentro del hero, no bajo tarjetas. */
+.rcp-home__buttons {
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  flex-wrap:nowrap;
+  gap:10px;
+}
+.rcp-home__buttons .rcp-home__map-link {
+  width:clamp(267px,21vw,360px);
+  max-width:100%;
+  min-height:49px;
+  margin:0;
+  padding:10px 14px;
+  background:#fffefd;
+  border-color:#8ca7ba;
+  color:#123e5c!important;
+  font-size:clamp(13px,.98vw,17px);
+  white-space:normal;
+  box-shadow:none;
+}
+.rcp-home__buttons .rcp-home__map-link:hover {background:#eaf3f8;}
+@media(min-width:901px) {
+  .rcp-home__hero {min-height:clamp(465px,29vw,535px);}
+  .rcp-home__buttons {margin-top:12px;gap:8px;}
+  .rcp-home__button--register {min-height:55px;}
+  .rcp-home__proof {margin-top:11px;}
+}
+@media(min-width:701px) and (max-width:900px) {
+  .rcp-home__buttons {gap:9px;}
+  .rcp-home__buttons .rcp-home__map-link {min-height:46px;width:265px;font-size:13px;}
+}
+@media(max-width:700px) {
+  .rcp-home__buttons {width:100%;display:flex;gap:10px;}
+  .rcp-home__buttons .rcp-home__map-link {
+    width:100%;
+    max-width:100%;
+    min-height:48px;
+    font-size:14px;
+    padding:10px 15px;
+  }
+}
