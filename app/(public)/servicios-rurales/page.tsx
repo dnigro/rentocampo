@@ -54,6 +54,30 @@ export async function generateMetadata({ searchParams }: { searchParams: Promise
   const url = pais === "AR" ? `${SITE_URL}/servicios-rurales` : `${SITE_URL}/servicios-rurales?pais=${pais}`;
   const hasFilters = Boolean(params.provincia || params.servicio);
   const hasExplicitCountry = Boolean(params.pais);
+  const eligibleForIndex = !hasFilters && (pais === "AR" || hasExplicitCountry);
+  // Las páginas de búsqueda siguen abiertas al usuario, pero no se indexan
+  // como resultados reales hasta que haya al menos un servicio publicado.
+  // Sólo aplicar noindex si comprobamos que no hay servicios reales.
+  let hasRealServices = true;
+  if (eligibleForIndex) {
+    try {
+      const supabase = await createClient();
+      const { data, error } = await supabase
+        .from("servicios_publicaciones")
+        .select("id")
+        .eq("activo", true)
+        .eq("country_code", pais);
+      if (!error) {
+        hasRealServices = (data ?? []).some((servicio) =>
+          !servicio.id.startsWith("10000000-") &&
+          !servicio.id.startsWith("20000000-") &&
+          !esServicioDemoVisible(servicio.id),
+        );
+      }
+    } catch {
+      // Evitar desindexaciones accidentales por errores transitorios.
+    }
+  }
   return {
     ...baseMetadata,
     title,
@@ -63,7 +87,7 @@ export async function generateMetadata({ searchParams }: { searchParams: Promise
         ? "Encontre prestadores de serviços rurais, máquinas agrícolas, plantio e colheita por região. Contato direto, sem intermediários nem comissão."
         : `Encontrá contratistas de cosecha, siembra, maquinaria y otros servicios rurales en ${COUNTRIES[pais].name}. Contactá directamente sin comisión.`,
     alternates: { canonical: url },
-    robots: { index: !hasFilters && (pais === "AR" || hasExplicitCountry), follow: true },
+    robots: { index: eligibleForIndex && hasRealServices, follow: true },
     openGraph: { ...baseMetadata.openGraph, title, url, locale: COUNTRIES[pais].locale.replace("-", "_") },
   };
 }
