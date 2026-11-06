@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import ServicioRuralForm from "@/components/servicios/ServicioRuralForm";
@@ -23,10 +22,6 @@ export default async function NuevoServicioRuralPage({ searchParams }: { searchP
 
   return (
     <div className="page-container perfil-page">
-      <Link href="/mis-servicios-rurales" className="page-back">
-        ← Volver a Mis servicios rurales
-      </Link>
-
       <div className="page-header">
         <div>
           <h1 className="page-title">
