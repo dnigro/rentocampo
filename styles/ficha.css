@@ -1025,3 +1025,37 @@
   .app-shell .rc-detail.servicio-ficha .rc-service-activities { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 7px; }
   .app-shell .rc-detail.servicio-ficha .rc-service-activity { min-height: 78px; font-size: 11px; padding: 9px 6px; }
 }
+
+
+/* Botón de regreso consistente entre fichas de campos y servicios. */
+.app-shell .rc-detail.servicio-ficha .servicio-ficha-volver {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  min-height: 48px;
+  padding: 12px 24px;
+  margin: 0 0 14px;
+  border: 1px solid #376582;
+  border-radius: 999px;
+  background: #376582;
+  color: #fff;
+  font-size: 13px;
+  line-height: 1.25;
+  font-weight: 750;
+  text-decoration: none;
+  transition: background-color .15s ease, border-color .15s ease;
+}
+.app-shell .rc-detail.servicio-ficha .servicio-ficha-volver:hover,
+.app-shell .rc-detail.servicio-ficha .servicio-ficha-volver:focus-visible {
+  background: #254d67;
+  border-color: #254d67;
+  color: #fff;
+}
+.app-shell .rc-detail.servicio-ficha .servicio-ficha-volver:focus-visible {
+  outline: 3px solid #91c3d7;
+  outline-offset: 2px;
+}
+@media (max-width: 640px) {
+  .app-shell .rc-detail.servicio-ficha .servicio-ficha-volver { min-height: 44px; padding: 11px 18px; }
+}
