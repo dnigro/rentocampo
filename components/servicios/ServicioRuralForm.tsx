@@ -4,9 +4,9 @@ import Image from "next/image";
 import { displayCountryName, COUNTRIES, COUNTRY_CODES_ALPHABETICAL, getCountrySubdivisions, resolveCountry, type CountryCode } from "@/data/countries";
 import { useRouter } from "next/navigation";
 import { useRef, useState, useEffect } from "react";
-import { Check, FileText, Images, MapPinned, UploadCloud, Wheat, Fence, Wifi, Handshake } from "lucide-react";
+import { Check, FileText, Images, MapPinned, UploadCloud, Wheat, Fence, Wifi, Handshake, Beef } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
-import { SERVICIO_GRUPOS, servicioGrupoLabel, servicioLabel } from "@/data/servicios-rurales";
+import { SERVICIO_GRUPOS, servicioGrupoLabel, servicioGrupoDescripcion, servicioLabel } from "@/data/servicios-rurales";
 import { regionalText } from "@/lib/i18n/regional";
 import { useRegionalCountry } from "@/lib/i18n/useRegionalCountry";
 import { type Profile, type RolPerfil, type ServicioRural } from "@/types";
@@ -38,6 +38,7 @@ export default function ServicioRuralForm({ profile, publicacion, initialCountry
   const router = useRouter();
   const [supabase] = useState(createClient);
   const photoInputRef = useRef<HTMLInputElement>(null);
+  const nombreInputRef = useRef<HTMLInputElement>(null);
 
   const [servicios, setServicios] = useState<ServicioRural[]>(
     publicacion?.servicios_rurales ?? profile?.servicios_rurales ?? [],
@@ -105,6 +106,16 @@ export default function ServicioRuralForm({ profile, publicacion, initialCountry
     e.preventDefault();
     setError("");
 
+    if (nombreComercial.trim().length < 5) {
+      setError(tt(
+        "Escribí un título de al menos 5 caracteres para tu publicación.",
+        "Informe um título com pelo menos 5 caracteres para seu anúncio.",
+        "Enter a listing title with at least 5 characters.",
+      ));
+      nombreInputRef.current?.focus();
+      return;
+    }
+
     if (!servicios.length) {
       setError(tt("Elegí al menos un servicio rural.","Selecione pelo menos um serviço rural."));
       return;
@@ -138,7 +149,7 @@ export default function ServicioRuralForm({ profile, publicacion, initialCountry
         propietario_id: profile?.id,
         country_code: country,
         servicios_rurales: servicios,
-        nombre_comercial: nombreComercial.trim() || null,
+        nombre_comercial: nombreComercial.trim(),
         foto_url: resolvedPhotos[0],
         fotos_urls: resolvedPhotos,
         zona: zona || null,
@@ -186,30 +197,34 @@ export default function ServicioRuralForm({ profile, publicacion, initialCountry
           <Image src="/icon-512.png" alt="Escudo oficial de RentoCampo" width={60} height={60} />
         </span>
         <span className="rc-publish-eyebrow">RentoCampo · {tt("Servicios rurales","Serviços rurais","Rural services")}</span>
-        <h1>{publicacion ? tt("Editar servicio","Editar serviço","Edit service") : tt("Publicar servicio","Anunciar serviço","List a service")}</h1>
-        <p>{tt("Ofrecé tu trabajo al campo. Directo, simple y sin comisión.","Mostre seu trabalho ao campo. Direto, simples e sem comissão.","Offer your services directly, simply and commission-free.")}</p>
+        <h1>{publicacion ? tt("Editar servicios rurales","Editar serviços rurais","Edit rural services") : tt("Publicá tus servicios rurales","Anuncie seus serviços rurais","List your rural services")}</h1>
+        <p>{tt("Contá qué hacés, elegí tus actividades y marcá dónde trabajás. Tu publicación aparece en el mapa y en las fichas, sin comisiones.","Descreva seu trabalho, selecione suas atividades e indique onde atende. Seu anúncio aparece no mapa e nas fichas, sem comissão.","Describe your work, select your services and mark the areas you serve. Your listing appears on the map and in search, with zero commission.")}</p>
       </div>
       <div className="form-section">
         <h2 className="form-section-title form-section-title-editorial"><span className="form-section-number">01</span><span className="form-section-icon" aria-hidden="true"><FileText size={24} strokeWidth={1.8} /></span><span className="form-section-copy"><span>{tt("Información","Informações")}</span> <em>{tt("del servicio","do serviço")}</em></span></h2>
       <div className="form-field">
         <label className="form-label" htmlFor="servicio-nombre-comercial">
-          {tt("Nombre comercial del servicio (opcional)","Nome comercial do serviço (opcional)","Business name (optional)")}
+          {tt("Título de la publicación","Título do anúncio","Listing title")} <span className="required">*</span>
         </label>
         <input
           id="servicio-nombre-comercial"
+          ref={nombreInputRef}
           className="form-input"
           type="text"
+          minLength={5}
           maxLength={100}
+          required
+          aria-describedby="servicio-nombre-ayuda"
           value={nombreComercial}
           onChange={(e) => setNombreComercial(e.target.value)}
-          placeholder={tt("Ej.: CIAFFONI AGRODRONE","Ex.: CIAFFONI AGRODRONE","E.g. CIAFFONI AGRODRONE")}
+          placeholder={tt("Ej.: Cosecha y siembra · Agroservicios López","Ex.: Colheita e plantio · Agroserviços Silva","E.g. Harvesting and planting · Farm Services")}
           autoComplete="organization"
         />
-        <p className="form-hint">
+        <p id="servicio-nombre-ayuda" className="form-hint">
           {tt(
-            "Se verá como título en el mapa y las fichas. Si lo dejás vacío, mostraremos las actividades que ofrecés.",
-            "Aparece como título no mapa e nos anúncios. Se ficar em branco, mostraremos as atividades oferecidas.",
-            "Shown as the title on the map and listing cards. Leave it blank to display your service activities."
+            "Este será el título visible en el mapa, los listados y la ficha. Podés usar el nombre de tu emprendimiento o describir brevemente el servicio; no hace falta tener una empresa registrada.",
+            "Este será o título exibido no mapa, nas listas e na ficha. Use o nome do negócio ou descreva o serviço; não é necessário ter uma empresa registrada.",
+            "This title appears on the map, search results and your listing. Use your business name or a short description of your work; a registered company name isn't required."
           )}
         </p>
       </div>
@@ -218,16 +233,19 @@ export default function ServicioRuralForm({ profile, publicacion, initialCountry
           {tt("¿Qué servicios ofrecés?","Quais serviços você oferece?")} <span className="required">*</span>
         </label>
         <p className="form-hint">
-          {tt("Elegí uno o varios rubros. Estos son los que verán los usuarios en tu publicación.","Escolha uma ou mais categorias. Elas aparecerão no seu anúncio.")}
+          {tt("Elegí las tareas que realmente ofrecés. Podés marcar varias; luego indicá cuál es tu actividad principal.","Selecione os serviços que você realmente oferece. É possível marcar vários e escolher a atividade principal.","Choose the work you actually offer. Select several if needed and mark your main service.")}
         </p>
         <div className="rc-publish-groups">
           {SERVICIO_GRUPOS.map((group) => (
             <section className="rc-publish-group" key={group.key} aria-label={servicioGrupoLabel(group, country)}>
               <div className="rc-publish-group-title">
                 <span className="rc-publish-group-icon" aria-hidden="true">
-                  {group.key === "produccion" ? <Wheat size={22} /> : group.key === "infraestructura" ? <Fence size={22} /> : group.key === "tecnologia" ? <Wifi size={22} /> : <Handshake size={22} />}
+                  {group.key === "agricultura" ? <Wheat size={22} /> : group.key === "ganaderia" ? <Beef size={22} /> : group.key === "infraestructura" ? <Fence size={22} /> : group.key === "tecnologia" ? <Wifi size={22} /> : <Handshake size={22} />}
                 </span>
-                <strong>{servicioGrupoLabel(group, country)}</strong>
+                <span className="rc-publish-group-copy">
+                  <strong>{servicioGrupoLabel(group, country)}</strong>
+                  <small>{servicioGrupoDescripcion(group, country)}</small>
+                </span>
               </div>
               <div className="rc-publish-chips">
                 {group.values.map((value) => (
@@ -247,7 +265,7 @@ export default function ServicioRuralForm({ profile, publicacion, initialCountry
         </div>
         <div className="rc-publish-selected">
           <label className="rc-publish-primary">
-            <span className="form-label">{tt("Categoría principal", "Categoria principal", "Main category")}</span>
+            <span className="form-label">{tt("Actividad principal", "Atividade principal", "Main service")}</span>
             <select
               className="form-input form-select"
               aria-label={tt("Categoría principal", "Categoria principal", "Main category")}
@@ -262,7 +280,7 @@ export default function ServicioRuralForm({ profile, publicacion, initialCountry
             </select>
           </label>
           <div>
-            <span className="form-label">{tt("Servicios complementarios", "Serviços complementares", "Additional services")}</span>
+            <span className="form-label">{tt("Otras actividades seleccionadas", "Outras atividades selecionadas", "Other selected services")}</span>
             <div className="rc-publish-selected-tags">
               {servicios.length < 2 && <small>{tt("Podés sumar otros rubros arriba.", "Você pode adicionar outras categorias acima.", "You can add more categories above.")}</small>}
               {servicios.slice(1).map((value) => (
@@ -323,7 +341,7 @@ export default function ServicioRuralForm({ profile, publicacion, initialCountry
         </select>
       </div>
       <div className="form-field">
-        <label className="form-label">{tt("Buscar zona de servicio en el mapa","Buscar área de atendimento no mapa")} <span className="required">*</span></label>
+        <label className="form-label">{tt("Ubicá tu zona de trabajo en el mapa","Localize sua área de atendimento no mapa","Select your work area on the map")} <span className="required">*</span></label>
         <GeocoderInput
           key={country}
           countryCode={country}
@@ -337,6 +355,7 @@ export default function ServicioRuralForm({ profile, publicacion, initialCountry
             if (lugar.localidad) setLocalidad(lugar.localidad);
           }}
         />
+        <p className="form-hint">{tt("Buscá una ciudad o punto de referencia y seleccioná un resultado. No necesitás publicar tu dirección exacta.", "Busque uma cidade ou ponto de referência e selecione um resultado. Não é necessário informar seu endereço exato.", "Search for a town or landmark and select a result. You don't need to publish your exact address.")}</p>
         {typeof latitud === "number" && typeof longitud === "number" && (
           <span className="geocoder-coords">✓ {tt("Ubicación seleccionada:","Localização selecionada:")} {latitud.toFixed(4)}, {longitud.toFixed(4)}</span>
         )}
@@ -361,7 +380,7 @@ export default function ServicioRuralForm({ profile, publicacion, initialCountry
         </div>
 
         <div className="form-field">
-          <label className="form-label">{tt("Localidad de referencia","Cidade de referência")}</label>
+          <label className="form-label">{tt("Ciudad o localidad de referencia","Cidade ou município de referência","Reference town or city")}</label>
           <input
             className="form-input"
             value={localidad}
@@ -372,12 +391,12 @@ export default function ServicioRuralForm({ profile, publicacion, initialCountry
       </div>
 
       <div className="form-field">
-        <label className="form-label">{tt("Zona donde trabajás","Área onde você atende")}</label>
+        <label className="form-label">{tt("¿Hasta dónde ofrecés el servicio?","Qual é sua área de atendimento?","Which areas do you serve?")}</label>
         <input
           className="form-input"
           value={zona}
           onChange={(e) => setZona(e.target.value)}
-          placeholder={tt("Ej: Rafaela y cuenca lechera","Ex.: Campinas e região")}
+          placeholder={tt("Ej.: Rafaela, Esperanza y zona rural cercana","Ex.: Campinas e municípios vizinhos","E.g. Austin and nearby rural areas")}
         />
       </div>
 
@@ -386,8 +405,9 @@ export default function ServicioRuralForm({ profile, publicacion, initialCountry
       <div className="form-section">
         <h2 className="form-section-title form-section-title-editorial"><span className="form-section-number">04</span><span className="form-section-copy"><span>{tt("Detalles","Detalhes")}</span> <em>{tt("del servicio","do serviço")}</em></span></h2>
       <div className="form-field">
-        <label className="form-label">{tt("Detalles del servicio","Detalhes do serviço")}</label>
-        <textarea className="form-input form-textarea" rows={5} value={detalle} onChange={(e) => setDetalle(e.target.value)} placeholder={tt("Contá qué incluye el servicio, equipamiento, experiencia, disponibilidad u otra información útil para el productor.","Descreva o serviço, equipamentos, experiência, disponibilidade e outras informações úteis para o produtor.")} />
+        <label className="form-label">{tt("Descripción del trabajo que ofrecés","Descrição do serviço oferecido","Describe the services you offer")}</label>
+        <p className="form-hint">{tt("Contá qué incluye el servicio, con qué equipo trabajás y cómo coordinás disponibilidad. El contacto se realiza por el chat.", "Explique o serviço, equipamentos e disponibilidade. O contato é feito pelo chat.", "Explain what you provide, equipment and availability. People contact you through the platform chat.")}</p>
+        <textarea className="form-input form-textarea" rows={5} value={detalle} onChange={(e) => setDetalle(e.target.value)} placeholder={tt("Ej.: Realizo siembra directa y cosecha. Tengo equipo propio, trabajo por campaña y coordino fechas por mensaje.","Ex.: Realizo plantio direto e colheita com equipamentos próprios; combino datas por mensagem.","E.g. I provide planting and harvesting with my equipment and arrange schedules by message.")} />
       </div>
 
       </div>
