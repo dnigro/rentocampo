@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { ArrowRight, LandPlot, MessagesSquare, Tractor, UserRound, UserRoundPlus } from "lucide-react";
+import { ArrowUpRight, LandPlot, MapPinned, MessagesSquare, Tractor, UserRoundPlus } from "lucide-react";
 import RegionalLink from "@/components/layout/RegionalLink";
 import { regionalText } from "@/lib/i18n/regional";
 import type { CountryCode } from "@/data/countries";
@@ -15,33 +15,36 @@ export default function HomePremiumHero({ country }: { country: CountryCode }) {
 
   const choices = [
     {
-      title: t("Campos", "Terras", "Farmland"),
+      title: t("Busco un campo", "Procuro terras", "I’m looking for farmland"),
       description: t(
-        "Buscá, explorá y conectá.",
-        "Busque, explore e conecte-se.",
-        "Search, explore and connect."
+        "Explorá tierras disponibles y elegí la zona en el mapa.",
+        "Explore as terras disponíveis e escolha uma região no mapa.",
+        "Explore available farmland and choose an area on the map."
       ),
+      cta: t("Explorar campos", "Explorar terras", "Explore farmland"),
       href: "/campos",
       Icon: LandPlot,
     },
     {
-      title: t("Productores", "Produtores", "Farmers"),
+      title: t("Tengo un campo", "Tenho uma propriedade", "I own farmland"),
       description: t(
-        "Conectá y generá oportunidades.",
-        "Conecte-se e crie oportunidades.",
-        "Connect and discover opportunities."
+        "Publicá tu tierra y recibí consultas directamente.",
+        "Anuncie sua propriedade e receba contatos diretamente.",
+        "List your land and receive inquiries directly."
       ),
-      href: "/register?tipo=productor",
-      Icon: UserRound,
+      cta: t("Publicar campo", "Anunciar terra", "List farmland"),
+      href: "/register?tipo=propietario",
+      Icon: MapPinned,
     },
     {
-      title: t("Servicios rurales", "Serviços rurais", "Rural services"),
+      title: t("Ofrezco servicios", "Ofereço serviços", "I offer rural services"),
       description: t(
-        "Ofrecé o contratá servicios.",
-        "Ofereça ou contrate serviços.",
-        "Offer or hire rural services."
+        "Mostrá qué hacés y en qué zonas trabajás.",
+        "Mostre seus serviços e as regiões onde você trabalha.",
+        "Show what you do and where you work."
       ),
-      href: "/servicios-rurales",
+      cta: t("Ofrecer servicios", "Oferecer serviços", "Offer services"),
+      href: "/register?tipo=prestador",
       Icon: Tractor,
     },
   ] as const;
@@ -98,12 +101,6 @@ export default function HomePremiumHero({ country }: { country: CountryCode }) {
                 <UserRoundPlus aria-hidden="true" size={20} strokeWidth={2} />
                 {t("REGISTRATE GRATIS", "CADASTRE-SE GRÁTIS", "SIGN UP FREE")}
               </RegionalLink>
-              <RegionalLink href="/register?tipo=propietario" fallbackCountry={country} className="rcp-home__button rcp-home__button--outline">
-                {t("PUBLICAR CAMPO", "ANUNCIAR TERRA", "LIST FARMLAND")}
-              </RegionalLink>
-              <RegionalLink href="/register?tipo=prestador" fallbackCountry={country} className="rcp-home__button rcp-home__button--outline">
-                {t("OFRECER SERVICIOS", "OFERECER SERVIÇOS", "OFFER SERVICES")}
-              </RegionalLink>
             </div>
           </div>
         </div>
@@ -111,21 +108,32 @@ export default function HomePremiumHero({ country }: { country: CountryCode }) {
 
       <section className="rcp-home__choices" aria-labelledby="rcp-home-options-title">
         <div className="rcp-home__choices-heading">
-          <span className="rcp-home__heading-rule" aria-hidden="true" />
-          <h2 id="rcp-home-options-title">{t("¿Qué necesitás hoy?", "O que você procura?", "What brings you here?")}</h2>
-          <span className="rcp-home__heading-rule" aria-hidden="true" />
+          <p className="rcp-home__choices-kicker">
+            {t("EL CAMPO. SIN VUELTAS.", "O CAMPO. SEM COMPLICAÇÕES.", "RURAL CONNECTIONS. MADE SIMPLE.")}
+          </p>
+          <div className="rcp-home__choices-heading-line">
+            <h2 id="rcp-home-options-title">{t("¿Qué necesitás hoy?", "O que você procura?", "What brings you here?")}</h2>
+            <p>{t("Elegí cómo querés usar RentoCampo.", "Escolha como usar a RentoCampo.", "Choose how you want to use RentoCampo.")}</p>
+          </div>
         </div>
         <div className="rcp-home__choice-grid">
-          {choices.map(({ title, description, href, Icon }) => (
+          {choices.map(({ title, description, cta, href, Icon }) => (
             <RegionalLink key={title} href={href} fallbackCountry={country} className="rcp-home__choice">
-              <Icon className="rcp-home__choice-icon" strokeWidth={1.7} size={36} aria-hidden="true" />
+              <Icon className="rcp-home__choice-icon" strokeWidth={1.85} size={31} aria-hidden="true" />
               <div className="rcp-home__choice-copy">
                 <h3>{title}</h3>
                 <p>{description}</p>
+                <span className="rcp-home__choice-cta">{cta} <ArrowUpRight size={17} aria-hidden="true" /></span>
               </div>
-              <span className="rcp-home__choice-arrow" aria-hidden="true"><ArrowRight size={22} /></span>
             </RegionalLink>
           ))}
+        </div>
+        <div className="rcp-home__explore">
+          <RegionalLink href="/campos/mapa" fallbackCountry={country} className="rcp-home__map-link">
+            <MapPinned aria-hidden="true" size={21} />
+            {t("Explorar oportunidades en el mapa", "Explorar oportunidades no mapa", "Explore opportunities on the map")}
+            <ArrowUpRight aria-hidden="true" size={17} />
+          </RegionalLink>
         </div>
       </section>
     </div>
