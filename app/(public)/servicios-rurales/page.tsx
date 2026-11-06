@@ -5,7 +5,6 @@ import { COUNTRIES, resolveCountry } from "@/data/countries";
 import Link from "next/link";
 import Image from "next/image";
 import { createClient } from "@/lib/supabase/server";
-import { createAdminClient } from "@/lib/supabase/admin";
 import { SERVICIOS_RURALES, servicioLabel, tituloServicioRural } from "@/data/servicios-rurales";
 import { regionalText } from "@/lib/i18n/regional";
 import type { ServicioRural } from "@/types";
@@ -58,19 +57,26 @@ export async function generateMetadata({ searchParams }: { searchParams: Promise
   const eligibleForIndex = !hasFilters && (pais === "AR" || hasExplicitCountry);
   // Las páginas de búsqueda siguen abiertas al usuario, pero no se indexan
   // como resultados reales hasta que haya al menos un servicio publicado.
-  let hasRealServices = false;
+  // Sólo aplicar noindex si comprobamos que no hay servicios reales.
+  let hasRealServices = true;
   if (eligibleForIndex) {
-    const admin = createAdminClient();
-    const { data, error } = await admin
-      .from("servicios_publicaciones")
-      .select("id")
-      .eq("activo", true)
-      .eq("country_code", pais);
-    hasRealServices = !error && (data ?? []).some((servicio) =>
-      !servicio.id.startsWith("10000000-") &&
-      !servicio.id.startsWith("20000000-") &&
-      !esServicioDemoVisible(servicio.id),
-    );
+    try {
+      const supabase = await createClient();
+      const { data, error } = await supabase
+        .from("servicios_publicaciones")
+        .select("id")
+        .eq("activo", true)
+        .eq("country_code", pais);
+      if (!error) {
+        hasRealServices = (data ?? []).some((servicio) =>
+          !servicio.id.startsWith("10000000-") &&
+          !servicio.id.startsWith("20000000-") &&
+          !esServicioDemoVisible(servicio.id),
+        );
+      }
+    } catch {
+      // Evitar desindexaciones accidentales por errores transitorios.
+    }
   }
   return {
     ...baseMetadata,
