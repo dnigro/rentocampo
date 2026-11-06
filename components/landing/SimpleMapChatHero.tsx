@@ -6,7 +6,6 @@ import RegionalLink from "@/components/layout/RegionalLink";
 import { useRegionalCountry } from "@/lib/i18n/useRegionalCountry";
 import { regionalText } from "@/lib/i18n/regional";
 import "@/styles/hero-simple-map-chat.css";
-import HomePremiumHero from "@/components/landing/HomePremiumHero";
 
 /**
  * Misma propuesta en home desktop, web móvil y App Lite.
@@ -16,8 +15,6 @@ export default function SimpleMapChatHero({ lite = false }: { lite?: boolean }) 
   const country = useRegionalCountry();
   const t = (es: string, pt: string, en: string) => regionalText(country, es, pt, en);
 
-  if (!lite) return <HomePremiumHero country={country} />;
-
   return (
     <section className="rcsm" id="hero" aria-labelledby="rcsm-title">
       <div className="rcsm-layout">
@@ -26,12 +23,35 @@ export default function SimpleMapChatHero({ lite = false }: { lite?: boolean }) 
         </div>
 
         <div className="rcsm-panel">
-          <p className="rcsm-eyebrow">{t("TIERRAS QUE PRODUCEN FUTURO", "TERRAS QUE PRODUZEM FUTURO", "LAND THAT BUILDS THE FUTURE")}</p>
-          <h1 className="rcsm-title" id="rcsm-title"><span className="rcsm-title__first-line">{t("Tu tierra tiene valor.", "Sua terra tem valor.", "Your land has value.")}</span><br />{t("Agregala al mapa.", "Adicione-a ao mapa.", "Add it to the map.")}<br />{t("Chateá en línea.", "Converse online.", "Chat online.")}</h1>
-          <p className="rcsm-description rcsm-description--audience">
-            <strong className="rcsm-description__audience">{t("PRODUCTORES Y SERVICIOS RURALES", "PRODUTORES E SERVIÇOS RURAIS", "PRODUCERS AND RURAL SERVICES")}</strong>
-            <span className="rcsm-description__invite">{t("¡SUMATE!", "PARTICIPE!", "JOIN US!")}</span>
-          </p>
+          <p className="rcsm-eyebrow">{lite
+            ? t("TIERRAS QUE PRODUCEN FUTURO", "TERRAS QUE PRODUZEM FUTURO", "LAND THAT BUILDS THE FUTURE")
+            : t("CAMPOS · PRODUCTORES · SERVICIOS RURALES", "TERRAS · PRODUTORES · SERVIÇOS RURAIS", "FARMLAND · FARMERS · RURAL SERVICES")}</p>
+          <h1 className="rcsm-title" id="rcsm-title">
+            <span className="rcsm-title__first-line">{t("Tu tierra tiene valor.", "Sua terra tem valor.", "Your land has value.")}</span>
+            <br />
+            {lite ? (
+              <>{t("Agregala al mapa.", "Adicione-a ao mapa.", "Add it to the map.")}<br />{t("Chateá en línea.", "Converse online.", "Chat online.")}</>
+            ) : t("Agregala en el mapa.", "Adicione-a ao mapa.", "Add it to the map.")}
+          </h1>
+          {lite ? (
+            <p className="rcsm-description rcsm-description--audience">
+              <strong className="rcsm-description__audience">{t("PRODUCTORES Y SERVICIOS RURALES", "PRODUTORES E SERVIÇOS RURAIS", "PRODUCERS AND RURAL SERVICES")}</strong>
+              <span className="rcsm-description__invite">{t("¡SUMATE!", "PARTICIPE!", "JOIN US!")}</span>
+            </p>
+          ) : (
+            <div className="rcsm-editorial-copy">
+              <p>{t(
+                "Buscá, publicá y conectá con productores y servicios rurales.",
+                "Busque, anuncie e conecte-se com produtores e serviços rurais.",
+                "Discover, list and connect with farmers and rural services."
+              )}</p>
+              <p className="rcsm-editorial-copy__direct">{t(
+                "Mapa y chat online para hablar directo, sin intermediarios.",
+                "Mapa e chat online para conversar diretamente, sem intermediários.",
+                "Map and online chat to connect directly, without middlemen."
+              )}</p>
+            </div>
+          )}
 
           <div className="rcsm-features" aria-label={t("Mapa y chat online", "Mapa e chat online", "Map and online chat")}>
             <div className="rcsm-feature">
