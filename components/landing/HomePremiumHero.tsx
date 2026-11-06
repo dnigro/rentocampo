@@ -1,13 +1,13 @@
 import Image from "next/image";
-import { ArrowRight, LandPlot, MapPinned, MessagesSquare, Tractor, UserRoundPlus } from "lucide-react";
+import { ArrowRight, LandPlot, MessagesSquare, Tractor, UserRound, UserRoundPlus } from "lucide-react";
 import RegionalLink from "@/components/layout/RegionalLink";
 import { regionalText } from "@/lib/i18n/regional";
 import type { CountryCode } from "@/data/countries";
 import "@/styles/home-premium.css";
 
 /**
- * Portada web editorial claro/carbón, diseño aprobado el 6/11/2026.
- * Imagen rural central entre diagonales, sin accesos duplicados a la derecha.
+ * Variante minimalista web del 6/11/2026, con fotografía B/N a la derecha.
+ * Tres accesos de texto sin imágenes secundarias ni elementos duplicados.
  * App Lite conserva SimpleMapChatHero(lite=true), sin modificar sus flujos.
  */
 export default function HomePremiumHero({ country }: { country: CountryCode }) {
@@ -17,34 +17,31 @@ export default function HomePremiumHero({ country }: { country: CountryCode }) {
     {
       title: t("Campos", "Terras", "Farmland"),
       description: t(
-        "Buscá, explorá y conectá con campos en todo el país.",
-        "Busque, explore e conecte-se com propriedades em todo o país.",
-        "Discover and connect with available farmland."
+        "Buscá, explorá y conectá.",
+        "Busque, explore e conecte-se.",
+        "Search, explore and connect."
       ),
       href: "/campos",
-      image: "/image_trigo_pix.png",
       Icon: LandPlot,
     },
     {
-      title: t("Tengo un campo", "Tenho uma propriedade", "I own farmland"),
+      title: t("Productores", "Produtores", "Farmers"),
       description: t(
-        "Publicá tu campo y conectá directo con interesados.",
-        "Anuncie sua propriedade e converse diretamente com interessados.",
-        "List your land and connect directly with interested people."
+        "Conectá y generá oportunidades.",
+        "Conecte-se e crie oportunidades.",
+        "Connect and discover opportunities."
       ),
-      href: "/register?tipo=propietario",
-      image: "/hero-campo.jpeg",
-      Icon: MapPinned,
+      href: "/register?tipo=productor",
+      Icon: UserRound,
     },
     {
-      title: t("Ofrezco servicios", "Ofereço serviços", "I offer rural services"),
+      title: t("Servicios rurales", "Serviços rurais", "Rural services"),
       description: t(
-        "Publicá tus servicios rurales y potenciá tu trabajo.",
-        "Anuncie seus serviços rurais e amplie suas oportunidades.",
-        "List your rural services and reach more customers."
+        "Ofrecé o contratá servicios.",
+        "Ofereça ou contrate serviços.",
+        "Offer or hire rural services."
       ),
-      href: "/register?tipo=prestador",
-      image: "/image_truck_pix.png",
+      href: "/servicios-rurales",
       Icon: Tractor,
     },
   ] as const;
@@ -59,7 +56,7 @@ export default function HomePremiumHero({ country }: { country: CountryCode }) {
               alt=""
               fill
               priority
-              sizes="(max-width: 700px) 100vw, 46vw"
+              sizes="(max-width: 700px) 100vw, 60vw"
               className="rcp-home__image"
             />
           </div>
@@ -119,19 +116,14 @@ export default function HomePremiumHero({ country }: { country: CountryCode }) {
           <span className="rcp-home__heading-rule" aria-hidden="true" />
         </div>
         <div className="rcp-home__choice-grid">
-          {choices.map(({ title, description, href, image, Icon }) => (
+          {choices.map(({ title, description, href, Icon }) => (
             <RegionalLink key={title} href={href} fallbackCountry={country} className="rcp-home__choice">
-              <div className="rcp-home__choice-info">
-                <Icon className="rcp-home__choice-icon" strokeWidth={1.8} size={34} aria-hidden="true" />
-                <div className="rcp-home__choice-copy">
-                  <h3>{title}</h3>
-                  <p>{description}</p>
-                </div>
-                <span className="rcp-home__choice-arrow" aria-hidden="true"><ArrowRight size={21} /></span>
+              <Icon className="rcp-home__choice-icon" strokeWidth={1.7} size={36} aria-hidden="true" />
+              <div className="rcp-home__choice-copy">
+                <h3>{title}</h3>
+                <p>{description}</p>
               </div>
-              <div className="rcp-home__choice-photo" aria-hidden="true">
-                <Image src={image} alt="" fill sizes="(max-width: 700px) 100vw, 33vw" className="rcp-home__choice-photo-image" />
-              </div>
+              <span className="rcp-home__choice-arrow" aria-hidden="true"><ArrowRight size={22} /></span>
             </RegionalLink>
           ))}
         </div>
