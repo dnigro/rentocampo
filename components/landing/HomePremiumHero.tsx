@@ -74,9 +74,16 @@ export default function HomePremiumHero({ country }: { country: CountryCode }) {
             </h1>
             <p className="rcp-home__description">
               {t(
-                "Buscá, publicá y conectá con productores y servicios rurales. Mapa y chat online para hablar directamente, sin intermediarios.",
-                "Busque, anuncie e conecte-se com produtores e prestadores de serviços rurais. Mapa e chat online para conversar diretamente, sem intermediários.",
-                "Discover farmland, post listings and connect with farmers and rural services. Use the map and online chat to connect directly."
+                "Buscá, publicá y conectá con productores y servicios rurales.",
+                "Busque, anuncie e conecte-se com produtores e prestadores de serviços rurais.",
+                "Discover farmland, post listings and connect with farmers and rural services."
+              )}
+            </p>
+            <p className="rcp-home__direct">
+              {t(
+                "Mapa y chat online para hablar directo, sin intermediarios.",
+                "Mapa e chat online para conversar diretamente, sem intermediários.",
+                "Map and online chat to connect directly, without intermediaries."
               )}
             </p>
             <div className="rcp-home__proof" aria-label={t("Sin comisión y contacto directo", "Sem comissão e contato direto", "Zero commission and direct contact")}>
