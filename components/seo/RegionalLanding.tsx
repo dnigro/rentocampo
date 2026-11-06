@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import Footer from "@/components/layout/Footer";
 import { ArrowUpRight, LandPlot, MapPinned, MessageCircle, Tractor } from "lucide-react";
 
 type Market = "US" | "BR";
@@ -218,11 +219,7 @@ export default function RegionalLanding({ market }: { market: Market }) {
         <p className="mt-3 max-w-4xl text-[14px] leading-7 text-[#485d70]">{t.faq}</p>
       </section>
 
-      <footer className="border-t border-[#d1dce6] px-4 py-6 text-center text-[13px] text-[#536779]">
-        <Link href="/" className="font-extrabold text-[#1e3951] hover:underline">{t.back}</Link>
-        <span aria-hidden="true" className="mx-3">·</span>
-        RentoCampo © 2026
-      </footer>
+      <Footer countryOverride={market} />
     </main>
   );
 }

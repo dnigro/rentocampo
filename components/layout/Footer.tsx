@@ -2,72 +2,75 @@
 
 import RegionalLink from "@/components/layout/RegionalLink";
 import Link from "next/link";
+import Image from "next/image";
 import { Tractor, House, Sprout, Mail } from "lucide-react";
 import "@/styles/footer.css";
-import BrandWordmark from "@/components/layout/BrandWordmark";
+import type { CountryCode } from "@/data/countries";
 import { regionalText } from "@/lib/i18n/regional";
 import { useRegionalCountry } from "@/lib/i18n/useRegionalCountry";
 
-export default function Footer() {
-  const country = useRegionalCountry();
-  const t = (es: string, pt: string) => regionalText(country, es, pt);
+export default function Footer({ countryOverride }: { countryOverride?: CountryCode } = {}) {
+  const detectedCountry = useRegionalCountry();
+  const country = countryOverride ?? detectedCountry;
+  const t = (es: string, pt: string, en?: string) => regionalText(country, es, pt, en);
   return (
     <footer className="footer">
       <div className="footer-inner">
         <div className="footer-brand">
-          <Link href="/" className="footer-logo">
-            <BrandWordmark className="brand-wordmark-footer" />
+          <Link href="/" className="footer-logo" aria-label="RentoCampo, inicio">
+            <Image src="/lite-logo.svg" width={31} height={34} alt="" className="footer-brand-icon" />
+            <span className="footer-brand-name">RentoCampo</span>
           </Link>
           <p className="footer-desc">
-            {t("Tierra, productores y servicios rurales conectados en la región.", "Terras, produtores e serviços rurais conectados na região.")}
+            {t("El campo, sin vueltas. Buscá, publicá y conectá.", "O campo, sem complicações. Busque, anuncie e conecte-se.", "Rural connections, made simple. Search, list and connect.")}
           </p>
         </div>
 
         <div className="footer-col">
-          <h4 className="footer-col-title"><Tractor aria-hidden="true" />{t("Productores", "Produtores")}</h4>
+          <h4 className="footer-col-title"><Tractor aria-hidden="true" />{t("Productores", "Produtores", "Farmers")}</h4>
           <nav className="footer-nav">
             <Link href="/alquiler-de-campos" className="footer-link">
-              {t("Alquiler de campos", "Arrendamento rural")}
+              {t("Alquiler de campos", "Arrendamento rural", "Farmland rentals")}
             </Link>
             <Link href="/campos/mapa" className="footer-link">
-              {t("Ver mapa", "Ver mapa")}
+              {t("Ver mapa", "Ver mapa", "View map")}
             </Link>
             <RegionalLink href="/register?tipo=productor" fallbackCountry={country} className="footer-link">
-              {t("Cómo alquilar", "Como arrendar")}
+              {t("Cómo alquilar", "Como arrendar", "How to rent")}
             </RegionalLink>
           </nav>
         </div>
 
         <div className="footer-col">
-          <h4 className="footer-col-title"><House aria-hidden="true" />{t("Propietarios", "Proprietários")}</h4>
+          <h4 className="footer-col-title"><House aria-hidden="true" />{t("Propietarios", "Proprietários", "Landowners")}</h4>
           <nav className="footer-nav">
             <RegionalLink href="/register?tipo=propietario" fallbackCountry={country} className="footer-link">
-              {t("Publicar un campo", "Anunciar terra")}
+              {t("Publicar un campo", "Anunciar terra", "List farmland")}
             </RegionalLink>
             <Link href="/mis-campos" className="footer-link">
-              {t("Panel del propietario", "Painel do proprietário")}
+              {t("Panel del propietario", "Painel do proprietário", "Landowner dashboard")}
             </Link>
             <RegionalLink href="/register?tipo=propietario" fallbackCountry={country} className="footer-link">
-              {t("Cómo publicar", "Como anunciar")}
+              {t("Cómo publicar", "Como anunciar", "How to list")}
             </RegionalLink>
           </nav>
         </div>
 
         <div className="footer-col footer-col--services">
-          <h4 className="footer-col-title"><Sprout aria-hidden="true" />{t("Servicios rurales", "Serviços rurais")}</h4>
+          <h4 className="footer-col-title"><Sprout aria-hidden="true" />{t("Servicios rurales", "Serviços rurais", "Rural services")}</h4>
           <nav className="footer-nav footer-nav--services">
-            <Link href="/servicios-rurales" className="footer-link">{t("Buscar servicios", "Buscar serviços")}</Link>
-            <Link href="/campos/mapa?vista=servicios" className="footer-link">{t("Ver mapa de servicios", "Ver mapa de serviços")}</Link>
+            <Link href="/servicios-rurales" className="footer-link">{t("Buscar servicios", "Buscar serviços", "Find services")}</Link>
+            <Link href="/campos/mapa?vista=servicios" className="footer-link">{t("Ver mapa de servicios", "Ver mapa de serviços", "Services map")}</Link>
             <RegionalLink href="/register?tipo=prestador" fallbackCountry={country} className="footer-link">
-              {t("Ofrecer mis servicios", "Oferecer meus serviços")}
+              {t("Ofrecer mis servicios", "Oferecer meus serviços", "Offer services")}
             </RegionalLink>
           </nav>
         </div>
 
         <div className="footer-col footer-col--contact">
-          <h4 className="footer-col-title"><Mail aria-hidden="true" />{t("Contacto", "Contato")}</h4>
+          <h4 className="footer-col-title"><Mail aria-hidden="true" />{t("Contacto", "Contato", "Contact")}</h4>
           <nav className="footer-nav">
-            <Link href="/alianzas" className="footer-link">{t("Alianzas rurales", "Parcerias rurais")}</Link>
+            <Link href="/alianzas" className="footer-link">{t("Alianzas rurales", "Parcerias rurais", "Rural partnerships")}</Link>
             <a href="mailto:hola@rentocampo.com" className="footer-link">hola@rentocampo.com</a>
           </nav>
           <div className="footer-socials" aria-label="Redes sociales">
@@ -91,13 +94,13 @@ export default function Footer() {
 
       <div className="footer-bottom">
         <span>
-          © {new Date().getFullYear()} RentoCampo. {t("Todos los derechos reservados.", "Todos os direitos reservados.")}
+          © {new Date().getFullYear()} RentoCampo. {t("Todos los derechos reservados.", "Todos os direitos reservados.", "All rights reserved.")}
         </span>
         <nav className="footer-bottom-links" aria-label="Información legal">
           <Link href="/us" className="footer-bottom-link" lang="en">United States</Link>
           <Link href="/br" className="footer-bottom-link" lang="pt-BR">Brasil</Link>
           <Link href="/terminos-y-condiciones" className="footer-bottom-link">
-            {t("Términos y condiciones", "Termos e condições")}
+            {t("Términos y condiciones", "Termos e condições", "Terms and conditions")}
           </Link>
         </nav>
       </div>
