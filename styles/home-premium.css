@@ -315,3 +315,96 @@
   .rcp-home__explore {margin-top:16px;}
   .rcp-home__map-link {width:100%;max-width:360px;font-size:12px;}
 }
+
+
+/* HOME ACCESIBLE 06-11 — jerarquía y legibilidad sin alterar cortes rectos.
+   Afecta solamente la portada web, no la App Lite ni páginas internas. */
+.rcp-home__hero {min-height:clamp(490px,36vw,630px);}
+.rcp-home__eyebrow {font-size:clamp(12px,1.06vw,17px);}
+.rcp-home__title {font-size:clamp(43px,4.25vw,76px);line-height:1.1;}
+.rcp-home__description,
+.rcp-home__direct {font-size:clamp(17px,1.45vw,23px);line-height:1.5;}
+.rcp-home__proof {font-size:clamp(12px,1.0vw,15px);}
+.rcp-home__button {min-height:55px;font-size:clamp(13px,1.08vw,17px);}
+.rcp-home__choices {padding-top:clamp(30px,2.75vw,46px);padding-bottom:clamp(33px,3.1vw,51px);}
+.rcp-home__choices-kicker {font-size:clamp(12px,.96vw,15px);}
+.rcp-home__choices-heading h2 {font-size:clamp(30px,2.75vw,45px);}
+.rcp-home__choices-heading>p:last-child {font-size:clamp(15px,1.23vw,19px);}
+.rcp-home__choice {min-height:190px;}
+.rcp-home__choice-icon {width:34px;height:34px;}
+.rcp-home__choice h3 {font-size:clamp(19px,1.51vw,25px);}
+.rcp-home__choice p {font-size:clamp(15px,1.18vw,19px);line-height:1.5;}
+.rcp-home__choice span {font-size:clamp(15px,1.18vw,18px);}
+.rcp-home__map-link {min-height:52px;font-size:clamp(14px,1.14vw,17px);}
+
+/* Menú: elevar los enlaces que se veían demasiado pequeños en desktop. */
+@media(min-width:1321px) {
+ html body:has(.rc-landing) header.navbar.navbar--home .navbar-links .nav-link {font-size:16px;line-height:1.35;}
+ html body:has(.rc-landing) header.navbar.navbar--home .navbar-actions .btn-ghost {font-size:15px;}
+}
+@media(min-width:901px) and (max-width:1320px) {
+ html body:has(.rc-landing) header.navbar.navbar--home .navbar-links .nav-link {font-size:clamp(13px,1.18vw,15px);}
+ html body:has(.rc-landing) header.navbar.navbar--home .navbar-actions .btn-ghost {font-size:14px;}
+}
+
+/* Cómo funciona — solo variante web. */
+html body .rc-landing .rc-how--web .rc-how__eyebrow {font-size:clamp(19px,1.75vw,26px);}
+html body .rc-landing .rc-how--web .rc-how__step {min-height:145px;}
+html body .rc-landing .rc-how--web .rc-how__step-copy h3 {font-size:clamp(22px,2.25vw,34px);line-height:1.2;}
+html body .rc-landing .rc-how--web .rc-how__step-copy p {font-size:clamp(17px,1.5vw,21px);line-height:1.4;}
+
+/* FAQ y footer: el contenido secundario también tiene que poder leerse. */
+html body .rc-landing .rcf-faq__eyebrow {font-size:clamp(13px,1.1vw,16px);}
+html body .rc-landing .rcf-faq__subtitle {font-size:clamp(17px,1.48vw,21px);line-height:1.52;}
+html body .rc-landing .rcf-faq__question {font-size:clamp(19px,1.62vw,24px);line-height:1.42;min-height:76px;}
+html body .rc-landing .rcf-faq__answer p {font-size:clamp(16px,1.25vw,19px);line-height:1.55;}
+html body:has(.rc-landing) footer.footer .footer-inner,
+html body:has(.rc-landing) footer.footer .footer-bottom {max-width:1420px;}
+html body:has(.rc-landing) footer.footer .footer-inner {
+ grid-template-columns:minmax(230px,1.32fr) repeat(4,minmax(0,1fr));
+ gap:clamp(17px,2.3vw,32px);
+}
+html body:has(.rc-landing) footer.footer .footer-col-title {font-size:clamp(14px,1.03vw,16px);line-height:1.4;}
+html body:has(.rc-landing) footer.footer .footer-desc,
+html body:has(.rc-landing) footer.footer .footer-link {font-size:clamp(13px,.95vw,15px);line-height:1.55;}
+html body:has(.rc-landing) footer.footer .footer-bottom,
+html body:has(.rc-landing) footer.footer .footer-bottom-link {font-size:clamp(12px,.9vw,14px);line-height:1.5;}
+
+@media(min-width:701px) and (max-width:1050px) {
+ .rcp-home__hero {min-height:485px;}
+ .rcp-home__title {font-size:clamp(38px,4.5vw,54px);}
+ .rcp-home__description,.rcp-home__direct {font-size:clamp(16px,1.85vw,20px);}
+ .rcp-home__button {min-height:49px;font-size:14px;padding:11px 15px;}
+ .rcp-home__choice h3 {font-size:19px;}
+ .rcp-home__choice p,.rcp-home__choice span {font-size:15px;}
+}
+@media(max-width:1170px) {
+ html body:has(.rc-landing) footer.footer .footer-inner {grid-template-columns:repeat(4,minmax(0,1fr));}
+}
+@media(max-width:850px) {
+ html body:has(.rc-landing) footer.footer .footer-inner {grid-template-columns:repeat(2,minmax(0,1fr));}
+}
+@media(max-width:700px) {
+ .rcp-home__hero {min-height:0;}
+ .rcp-home__title {font-size:clamp(33px,8.1vw,45px);}
+ .rcp-home__description,.rcp-home__direct {font-size:16px;line-height:1.5;}
+ .rcp-home__eyebrow {font-size:12px;}
+ .rcp-home__proof {font-size:12px;}
+ .rcp-home__button {min-height:49px;font-size:12px;padding:11px 8px;}
+ .rcp-home__button--register {font-size:15px;}
+ .rcp-home__choices-heading h2 {font-size:31px;}
+ .rcp-home__choices-heading>p:last-child {font-size:15px;}
+ .rcp-home__choice {min-height:0;}
+ .rcp-home__choice h3 {font-size:20px;}
+ .rcp-home__choice p,.rcp-home__choice span {font-size:15px;}
+ .rcp-home__map-link {font-size:14px;}
+ html body .rc-landing .rc-how--web .rc-how__step {min-height:125px;}
+ html body .rc-landing .rc-how--web .rc-how__step-copy h3 {font-size:clamp(20px,5vw,27px);}
+ html body .rc-landing .rc-how--web .rc-how__step-copy p {font-size:clamp(15px,3.9vw,18px);}
+ html body .rc-landing .rcf-faq__question {font-size:19px;}
+ html body:has(.rc-landing) footer.footer .footer-desc,
+ html body:has(.rc-landing) footer.footer .footer-link {font-size:14px;}
+ html body:has(.rc-landing) footer.footer .footer-col-title {font-size:15px;}
+ html body:has(.rc-landing) footer.footer .footer-bottom,
+ html body:has(.rc-landing) footer.footer .footer-bottom-link {font-size:12px;}
+}
