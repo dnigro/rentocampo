@@ -56,7 +56,7 @@ html body footer.footer .footer-link {
   display:block; min-width:0;
   font-size:12px; font-weight:500; line-height:1.45;
   color:#c7c7c9 !important; text-decoration:none;
-  overflow-wrap:anywhere;
+  overflow-wrap: anywhere;
 }
 html body footer.footer .footer-link:hover,
 html body footer.footer .footer-bottom-link:hover {
