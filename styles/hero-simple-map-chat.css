@@ -310,7 +310,7 @@ background:linear-gradient(90deg,rgba(12,34,48,.92),rgba(12,34,48,.56)),linear-g
 .rc-landing .rcsm-proof__item strong {color:#e9d2b2;}
 .rc-landing .rcsm-proof__item span {color:#f6f1e9;}
 .rc-landing .rcsm-proof__separator {background:rgba(255,255,255,.3);}
-.rc-landing + .rc-how--web {
+.rc-landing > .rc-how--web {
   background:#2a3234;
   border-top:0;
 }
