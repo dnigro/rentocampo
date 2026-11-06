@@ -93,3 +93,70 @@ test("ambos formularios pasan por validaciones de servidor y el header no duplic
   assert.match(form, /fetch\("\/api\/servicios\/publicar"/);
   assert.doesNotMatch(form, /supabase\.from\("servicios_publicaciones"\)/);
 });
+
+
+function loadServiceApi(userId, writeSpy) {
+  const mockClient = {
+    auth: { getUser: async () => ({ data: { user: userId ? { id: userId } : null } }) },
+    from(table) {
+      assert.equal(table, "servicios_publicaciones");
+      return {
+        async insert(row) {
+          writeSpy.push({ action: "insert", row });
+          return { error: null };
+        },
+        update(row) {
+          writeSpy.push({ action: "update", row });
+          const query = {
+            eq() { return query; },
+            select() { return query; },
+            async maybeSingle() { return { data: { id: "a".repeat(36) }, error: null }; },
+          };
+          return query;
+        },
+      };
+    },
+  };
+  const mocks = {
+    "next/server": { NextResponse: { json: (body, init = {}) => ({ body, status: init.status ?? 200 }) } },
+    "@/lib/supabase/server": { createClient: async () => mockClient },
+    "@/data/countries": { isCountryCode: code => ["AR", "US", "BR"].includes(code) },
+    "@/data/servicios-rurales": { SERVICIOS_RURALES: ["cosecha", "siembra"].map(value => ({ value })) },
+    "@/lib/publication-content-guard": { errorServicioPublico },
+  };
+  const apiExports = {};
+  const apiCode = ts.transpileModule(source("app/api/servicios/publicar/route.ts"), {
+    compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 },
+  }).outputText;
+  runInNewContext(apiCode, { exports: apiExports, require: name => {
+    assert.ok(name in mocks, "unexpected import: " + name);
+    return mocks[name];
+  }});
+  return apiExports;
+}
+
+test("la API de servicios requiere sesión y bloquea entradas inválidas", async () => {
+  const writes = [];
+  const anonymous = loadServiceApi(null, writes);
+  const denied = await anonymous.POST({ json: async () => servicioValido });
+  assert.equal(denied.status, 401);
+  const owner = loadServiceApi("owner-123", writes);
+  const rejected = await owner.POST({ json: async () => ({ ...servicioValido, detalle: "llamame al +54 11 1234-5678" }) });
+  assert.equal(rejected.status, 400);
+  assert.equal(writes.length, 0, "invalid listings should not reach storage");
+});
+
+test("API asigna el dueño autenticado e impide que el cliente se imponga como propietario", async () => {
+  const writes = [];
+  const api = loadServiceApi("owner-123", writes);
+  const response = await api.POST({ json: async () => ({ ...servicioValido, propietario_id: "other-user" }) });
+  assert.equal(response.status, 201);
+  assert.equal(writes.length, 1);
+  assert.equal(writes[0].row.propietario_id, "owner-123");
+  assert.equal(writes[0].row.nombre_comercial, "Agroservicios Norte");
+
+  const updated = await api.PATCH({ json: async () => ({ id: "a".repeat(36), form: servicioValido }) });
+  assert.equal(updated.status, 200);
+  assert.equal(writes[1].action, "update");
+  assert.equal("propietario_id" in writes[1].row, false);
+});
