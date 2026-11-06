@@ -311,3 +311,23 @@ html body header.navbar .navbar-mobile-signup-row { display:none; }
   html body header.navbar.navbar--home .navbar-country-switch-mobile label { display:none; }
   html body header.navbar.navbar--home .hamburguesa { width:34px; height:34px; padding:4px; }
 }
+
+
+/* El diseño de home se usa ahora en todas las rutas web.
+   Evita que la navegación ocupe varias líneas en pantallas desktop intermedias. */
+@media (min-width:901px) and (max-width:1320px) {
+  html body header.navbar.navbar--home .navbar-inner {
+    gap:clamp(7px,1vw,14px); padding-inline:clamp(10px,1.3vw,20px);
+  }
+  html body header.navbar.navbar--home .navbar-brand-title { font-size:clamp(20px,2vw,27px); }
+  html body header.navbar.navbar--home .navbar-brand-icon { width:30px; height:34px; }
+  html body header.navbar.navbar--home .navbar-links { gap:0; }
+  html body header.navbar.navbar--home .navbar-links .nav-link { font-size:clamp(11px,1.1vw,14px); padding:7px clamp(4px,.65vw,9px); }
+  html body header.navbar.navbar--home .navbar-actions { gap:5px; }
+  html body header.navbar.navbar--home .navbar-actions .btn-ghost { font-size:12px; padding:7px; }
+  html body header.navbar.navbar--home .navbar-actions .navbar-register-btn { padding:9px 11px; font-size:11px; }
+}
+@media (min-width:901px) and (max-width:1050px) {
+  html body header.navbar.navbar--home .navbar-links .nav-link:nth-child(3) { display:none; }
+  html body header.navbar.navbar--home .navbar-actions .navbar-country-switch label { display:none; }
+}

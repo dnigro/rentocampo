@@ -151,7 +151,7 @@ function NavbarContent() {
 
   return (
     <>
-      <header className={`navbar ${pathname === "/" ? "navbar--home" : ""}`}>
+      <header className="navbar navbar--home">
         <div className="navbar-inner">
           <Link href="/" className="navbar-logo" aria-label="RentoCampo - inicio">
             <Image src="/lite-logo.svg" alt="" width={37} height={41} priority className="navbar-brand-icon" />
@@ -232,11 +232,9 @@ function NavbarContent() {
                 <Link href="/login" className="btn-ghost">
                   {regionalText(activeCountry, "Ingresar", "Entrar", "Sign in")}
                 </Link>
-                {pathname === "/" && (
                 <Link href={`/register?pais=${activeCountry}`} className="navbar-register-btn">
                   {regionalText(activeCountry, "REGISTRATE GRATIS", "CADASTRE-SE GRÁTIS", "SIGN UP FREE")}
                 </Link>
-                )}
                 <Link href={`/register?pais=${activeCountry}&tipo=propietario`} className="btn-primary">
                   {regionalText(activeCountry, "Publicar campo", "Anunciar terra")}
                 </Link>
@@ -247,7 +245,7 @@ function NavbarContent() {
           {/* Header mobile: país a la izquierda, menú de usuario al extremo derecho */}
           <div className="navbar-mobile-right">
             <div className="navbar-country-switch navbar-country-switch-mobile" aria-label="Seleccionar país" style={{ gap: 6 }}>
-              <label htmlFor="navbar-pais-mobile" style={{ color: pathname === "/" ? "#182B3E" : "#fff", fontSize: 11, fontWeight: 850, letterSpacing: ".04em", whiteSpace: "nowrap" }}>{regionalText(activeCountry, "PAÍS", "PAÍS", "COUNTRY")}</label>
+              <label htmlFor="navbar-pais-mobile" style={{ color: "#182B3E", fontSize: 11, fontWeight: 850, letterSpacing: ".04em", whiteSpace: "nowrap" }}>{regionalText(activeCountry, "PAÍS", "PAÍS", "COUNTRY")}</label>
               <select id="navbar-pais-mobile" aria-label="Seleccionar país" disabled={!countrySelectReady} value={activeCountry} onChange={(event) => cambiarPais(event.target.value as CountryCode)} style={{ background: "#fff", color: "#111", borderRadius: "20px", padding: "7px", fontWeight: 700, minWidth: 84 }}>
                 {COUNTRY_CODES_ALPHABETICAL.map((code) => <option key={code} value={code}>{COUNTRIES[code].flag} {code}</option>)}
               </select>
