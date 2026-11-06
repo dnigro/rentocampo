@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import ServicioRuralForm from "@/components/servicios/ServicioRuralForm";
@@ -16,7 +15,6 @@ export default async function EditarServicioPage({ params }: { params: Promise<{
   ]);
   if (!publicacion) notFound();
   return <div className="page-container">
-    <Link href="/mis-servicios-rurales" className="back-link">← Volver a Mis servicios rurales</Link>
     <div className="page-header"><div><h1 className="page-title">Editar servicio rural</h1></div></div>
     <ServicioRuralForm profile={profile} publicacion={publicacion} />
   </div>;

@@ -175,6 +175,19 @@ export default function CampoForm({
   ) {
     e.preventDefault();
     setError("");
+
+    if (form.titulo.trim().length < 5) {
+      setError(tt("Escribí un título descriptivo de al menos 5 caracteres para la ficha del campo.", "Escreva um título com pelo menos 5 caracteres para o anúncio.", "Enter a descriptive farmland title with at least 5 characters."));
+      return;
+    }
+    if (!Number.isFinite(form.hectareas) || form.hectareas <= 0) {
+      setError(tt("Ingresá una superficie en hectáreas mayor que cero.", "Informe uma área em hectares maior que zero.", "Enter a land area greater than zero hectares."));
+      return;
+    }
+    if (form.precio !== undefined && (!Number.isFinite(form.precio) || form.precio <= 0)) {
+      setError(tt("Si indicás un precio, debe ser mayor que cero. Si es a convenir, dejá el campo vacío.", "Se informar um preço, use um valor maior que zero. Caso seja a combinar, deixe em branco.", "If you enter a price, it must be greater than zero. Leave it blank if negotiable."));
+      return;
+    }
     setSaving(true);
 
     if (!form.titulo || !form.ubicacion || !form.provincia || !form.hectareas || !form.aptitud) {
@@ -314,29 +327,32 @@ export default function CampoForm({
 
         <div className="form-field">
           <label className="form-label">
-            {tt("Título del campo","Título da propriedade")} <span className="required">*</span>
+            {tt("Título de la publicación del campo","Título do anúncio da propriedade","Farmland listing title")} <span className="required">*</span>
           </label>
           <input
             name="titulo"
             type="text"
             className="form-input"
-            placeholder={tt("Ej: Campo agrícola en Marcos Juárez","Ex.: Fazenda agrícola em São Paulo")}
+            placeholder={tt("Ej.: Campo agrícola de 240 ha en Marcos Juárez","Ex.: Fazenda agrícola de 240 ha em São Paulo","E.g. 240-hectare farm near Austin")}
             value={form.titulo}
             onChange={handleChange}
             required
+            maxLength={100}
           />
+          <p className="form-hint">{tt("Este primer campo será el título visible en el mapa, los listados y la ficha. Describí la propiedad, no pongas tu nombre personal.", "Este primeiro campo será o título exibido no mapa, nas listas e na ficha. Descreva a propriedade, não use seu nome pessoal.", "This will be the public title on the map, search results and listing. Describe the property, not your personal name.")}</p>
         </div>
 
         <div className="form-field">
-          <label className="form-label">{tt("Descripción","Descrição")}</label>
+          <label className="form-label">{tt("Descripción del campo","Descrição da propriedade","Farmland description")}</label>
           <textarea
             name="descripcion"
             className="form-input form-textarea"
-            placeholder={tt("Describí las características principales del campo, accesos, infraestructura...","Descreva as características da propriedade, acessos, infraestrutura...")}
+            placeholder={tt("Ej.: Campo agrícola con acceso por camino rural, agua disponible y mejoras. Ideal para producción extensiva.","Ex.: Fazenda agrícola com estrada rural, água e benfeitorias.","E.g. Productive farmland with road access, water and improvements.")}
             value={form.descripcion ?? ""}
             onChange={handleChange}
             rows={4}
           />
+          <p className="form-hint">{tt("Contá el uso actual, accesos, agua, infraestructura y condiciones de alquiler o venta. Evitá poner teléfonos: el contacto se hace por el chat.", "Descreva o uso atual, acessos, água, infraestrutura e condições de arrendamento ou venda. O contato é pelo chat.", "Describe current use, access, water, buildings and lease or sale conditions. Contact happens through chat.")}</p>
         </div>
       </div>
 
@@ -378,7 +394,7 @@ export default function CampoForm({
         </div>
 
         <div className="form-field">
-          <label className="form-label">{tt("Buscar ubicación en el mapa","Buscar localização no mapa")}</label>
+          <label className="form-label">{tt("Elegí la ubicación aproximada en el mapa","Selecione a localização aproximada no mapa","Choose an approximate location on the map")} <span className="required">*</span></label>
           <GeocoderInput
             countryCode={countryCode}
             valorInicial={lugarGeocodificado}
@@ -405,7 +421,7 @@ export default function CampoForm({
             </span>
           ) : (
             <span className="geocoder-hint">
-              {tt("Buscá la localidad o dirección más cercana al campo para que aparezca en el mapa.","Busque a cidade ou endereço mais próximo da propriedade para exibi-la no mapa.")}
+              {tt("Buscá una localidad o punto cercano y seleccioná un resultado. No hace falta exponer la dirección exacta del campo.", "Busque uma cidade ou ponto próximo e selecione um resultado. Não é necessário divulgar o endereço exato.", "Search for a nearby town and select a result. You don\u0027t need to reveal the exact address.")}
             </span>
           )}
         </div>
@@ -432,7 +448,7 @@ export default function CampoForm({
           </div>
           <div className="form-field">
             <label className="form-label">
-              {countryCode === "BR" ? "Município / Região" : countryCode === "UY" ? "Zona / Sección" : "Departamento / Partido"}
+              {countryCode === "BR" ? "Município / Região" : countryCode === "US" ? "Condado (county)" : countryCode === "UY" ? "Zona / Sección" : "Departamento / Partido"}
             </label>
             <input
               name="departamento"
@@ -469,7 +485,7 @@ export default function CampoForm({
         <div className="form-row">
           <div className="form-field">
             <label className="form-label">
-              {tt("Hectáreas","Hectares")} <span className="required">*</span>
+              {tt("Superficie total (hectáreas)","Área total (hectares)","Total area (hectares)")} <span className="required">*</span>
             </label>
             <input
               name="hectareas"
@@ -484,7 +500,7 @@ export default function CampoForm({
           </div>
           <div className="form-field">
             <label className="form-label">
-              {tt("Aptitud","Aptidão")} <span className="required">*</span>
+              {tt("Uso principal del campo","Uso principal da propriedade","Main land use")} <span className="required">*</span>
             </label>
             <div className="rc-publish-choice-row" role="group" aria-label={tt("Aptitud", "Aptidão")}>
               {APTITUDES.map((a) => (
@@ -495,7 +511,7 @@ export default function CampoForm({
                   aria-pressed={form.aptitud === a.value}
                   onClick={() => setForm((prev) => ({...prev, aptitud:a.value as CampoFormData["aptitud"]}))}
                 >
-                  {countryCode==="BR"?({agricola:"Agrícola",ganadera:"Pecuária",mixta:"Mista",forestal:"Florestal",otro:"Outro"} as Record<string,string>)[a.value]??a.label:a.label}
+                  {countryCode==="BR"?({agricola:"Agricultura",ganadera:"Pecuária",mixta:"Agrícola e pecuária",forestal:"Florestal",otro:"Outro"} as Record<string,string>)[a.value]??a.label:countryCode==="US"?({agricola:"Cropland",ganadera:"Livestock",mixta:"Mixed use",forestal:"Forestry",otro:"Other"} as Record<string,string>)[a.value]??a.label:({agricola:"Agrícola",ganadera:"Ganadero",mixta:"Agrícola y ganadero",forestal:"Forestal",otro:"Otro"} as Record<string,string>)[a.value]??a.label}
                   {form.aptitud === a.value && <Check size={15} aria-hidden="true" />}
                 </button>
               ))}
@@ -517,7 +533,7 @@ export default function CampoForm({
 
         <div className="form-row">
           <div className="form-field">
-            <label className="form-label">{tt("Ambiente / Suelo","Ambiente / Solo")}</label>
+            <label className="form-label">{tt("Tipo de suelo y ambiente (opcional)","Solo e ambiente (opcional)","Soil and environment (optional)")}</label>
             <input
               name="ambiente"
               type="text"
@@ -528,7 +544,7 @@ export default function CampoForm({
             />
           </div>
           <div className="form-field">
-            <label className="form-label">{tt("Rendimiento estimado (qq/ha)","Produtividade estimada (qq/ha)")}</label>
+            <label className="form-label">{tt("Rendimiento agrícola orientativo (qq/ha)","Produtividade agrícola estimada (qq/ha)","Estimated crop yield (quintals/ha)")}</label>
             <input
               name="rendimiento_estimado"
               type="text"
@@ -607,7 +623,7 @@ export default function CampoForm({
 
         <div className="form-row">
           <div className="form-field form-field-price">
-            <label className="form-label">{tt("Precio total estimado","Preço total estimado")}</label>
+            <label className="form-label">{tt("Precio total orientativo (opcional)","Preço total de referência (opcional)","Estimated total price (optional)")}</label>
             <div className="input-with-prefix">
               <select
                 name="moneda"
@@ -635,9 +651,10 @@ export default function CampoForm({
                 min={0}
               />
             </div>
+            <p className="form-hint">{tt("Ingresá el monto total que querés mostrar. Si calculás por hectárea, por mes o por campaña, explicalo en la descripción para evitar confusiones.", "Informe o valor total que deseja exibir. Se o preço é por hectare, mês ou safra, explique na descrição.", "Enter the total amount you want displayed. Explain any per-hectare, monthly or seasonal pricing in the description.")}</p>
           </div>
           <div className="form-field">
-            <label className="form-label">{tt("Disponibilidad","Disponibilidade")}</label>
+            <label className="form-label">{tt("¿Cuándo está disponible?","Quando estará disponível?","When is the land available?")}</label>
             <select
               name="disponibilidad"
               className="form-input form-select"
@@ -650,6 +667,7 @@ export default function CampoForm({
                 </option>
               ))}
             </select>
+            <p className="form-hint">{tt("Elegí si está disponible ahora, en la próxima campaña o si la fecha se acuerda con el interesado.", "Indique se está disponível agora, na próxima safra ou em data a combinar.", "Choose available now, next season or a date to be agreed upon.")}</p>
           </div>
         </div>
       </div>

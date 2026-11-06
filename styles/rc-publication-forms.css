@@ -275,3 +275,13 @@ html body .app-shell .rc-publish-form :is(.rc-publish-photo-button,.foto-add,.rc
 @media(prefers-reduced-motion:reduce){
   html body .app-shell .rc-publish-form button{transition:none!important}
 }
+
+/* Claridad de rubros y ayudas de publicación: mobile y desktop. */
+html body .app-shell .rc-publish-form .rc-publish-group-copy {display:flex;flex-direction:column;gap:4px;min-width:0}
+html body .app-shell .rc-publish-form .rc-publish-group-copy strong {font-size:13px;line-height:1.3;color:#11283f}
+html body .app-shell .rc-publish-form .rc-publish-group-copy small {display:block;font-size:11px;line-height:1.35;font-weight:500;color:#597184}
+html body .app-shell .rc-publish-form .form-hint {line-height:1.5}
+@media(max-width:700px){
+  html body .app-shell .rc-publish-form .rc-publish-group-copy small {font-size:11px}
+  html body .app-shell .rc-publish-form .rc-publish-group {gap:9px}
+}

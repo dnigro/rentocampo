@@ -71,20 +71,39 @@ export const SERVICIO_GRUPOS: ReadonlyArray<{
   es: string;
   pt: string;
   en: string;
+  descriptionEs: string;
+  descriptionPt: string;
+  descriptionEn: string;
   values: readonly ServicioRural[];
 }> = [
   {
-    key: "produccion",
-    es: "Producción agrícola y ganadera",
-    pt: "Produção agrícola e pecuária",
-    en: "Farming and livestock",
-    values: ["siembra", "cosecha", "pulverizacion", "fertilizacion", "maquinaria", "hoteleria_vacuna", "granja"],
+    key: "agricultura",
+    es: "Trabajos agrícolas",
+    pt: "Operações agrícolas",
+    en: "Crop and field operations",
+    descriptionEs: "Preparación, siembra, cuidado y cosecha de cultivos.",
+    descriptionPt: "Plantio, manejo e colheita de lavouras.",
+    descriptionEn: "Planting, crop care, harvesting and machinery.",
+    values: ["siembra", "cosecha", "pulverizacion", "fertilizacion", "maquinaria"],
+  },
+  {
+    key: "ganaderia",
+    es: "Ganadería y producción animal",
+    pt: "Pecuária e produção animal",
+    en: "Livestock and animal production",
+    descriptionEs: "Cuidado, alojamiento y producción de animales.",
+    descriptionPt: "Manejo, alojamento e produção animal.",
+    descriptionEn: "Animal husbandry, cattle boarding and veterinary care.",
+    values: ["hoteleria_vacuna", "granja", "veterinaria"],
   },
   {
     key: "infraestructura",
-    es: "Infraestructura rural",
-    pt: "Infraestrutura rural",
-    en: "Rural infrastructure",
+    es: "Infraestructura, agua y granos",
+    pt: "Infraestrutura, água e grãos",
+    en: "Infrastructure, water and grain",
+    descriptionEs: "Obras rurales, riego, cercos y manejo de granos.",
+    descriptionPt: "Construções rurais, irrigação, cercas e grãos.",
+    descriptionEn: "Fencing, rural buildings, irrigation and grain facilities.",
     values: ["alambrados", "construcciones", "silos_almacenamiento", "acondicionamiento_granos", "riego"],
   },
   {
@@ -92,19 +111,29 @@ export const SERVICIO_GRUPOS: ReadonlyArray<{
     es: "Tecnología y energía rural",
     pt: "Tecnologia e energia rural",
     en: "Rural technology and energy",
+    descriptionEs: "Electricidad, automatización, conectividad y monitoreo.",
+    descriptionPt: "Eletricidade, automação, conectividade e monitoramento.",
+    descriptionEn: "Electrical work, automation, connectivity and monitoring.",
     values: ["electricidad_iluminacion", "tecnologia_automatizacion", "conectividad_monitoreo"],
   },
   {
     key: "profesionales",
-    es: "Servicios profesionales y logística",
-    pt: "Serviços profissionais e logística",
-    en: "Professional services and logistics",
-    values: ["agronomia", "veterinaria", "transporte", "seguros_financiacion", "otro"],
+    es: "Logística y asesoramiento",
+    pt: "Logística e consultoria",
+    en: "Logistics and professional services",
+    descriptionEs: "Transporte, agronomía, seguros y otros servicios.",
+    descriptionPt: "Transporte, agronomia, seguros e outros serviços.",
+    descriptionEn: "Transport, agronomy, insurance and other rural services.",
+    values: ["transporte", "agronomia", "seguros_financiacion", "otro"],
   },
 ];
 
 export function servicioGrupoLabel(group: (typeof SERVICIO_GRUPOS)[number], country: string): string {
   return country === "BR" ? group.pt : country === "US" ? group.en : group.es;
+}
+
+export function servicioGrupoDescripcion(group: (typeof SERVICIO_GRUPOS)[number], country: string): string {
+  return country === "BR" ? group.descriptionPt : country === "US" ? group.descriptionEn : group.descriptionEs;
 }
 
 export const CENTROS_PROVINCIA: Record<string, [number, number]> = {
