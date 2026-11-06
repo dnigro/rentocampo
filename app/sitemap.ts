@@ -22,18 +22,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: SITE_URL, alternates: languageAlternates, changeFrequency: "weekly", priority: 1 },
     { url: `${SITE_URL}/us`, alternates: languageAlternates, changeFrequency: "weekly", priority: 0.8 },
     { url: `${SITE_URL}/br`, alternates: languageAlternates, changeFrequency: "weekly", priority: 0.8 },
-    { url: `${SITE_URL}/campos`, changeFrequency: "daily", priority: 0.9 },
-    { url: `${SITE_URL}/campos/mapa`, changeFrequency: "daily", priority: 0.8 },
-    {
-      url: `${SITE_URL}/alquiler-de-campos`,
-      changeFrequency: "daily",
-      priority: 0.9,
-    },
-    {
-      url: `${SITE_URL}/servicios-rurales`,
-      changeFrequency: "weekly",
-      priority: 0.9,
-    },
+    // Los catálogos se agregan debajo solamente cuando existen avisos reales.
+    // Los filtros y mapas siguen enlazados desde la UI, no necesitan sitemap.
   ];
 
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -103,6 +93,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   return [
     ...staticRoutes,
+    ...(camposReales.some((campo) => campo.country_code === "AR")
+      ? [{ url: `${SITE_URL}/campos`, changeFrequency: "daily" as const, priority: 0.9 }]
+      : []),
+    ...(alquileres.length
+      ? [{ url: `${SITE_URL}/alquiler-de-campos`, changeFrequency: "daily" as const, priority: 0.9 }]
+      : []),
+    ...(serviciosReales.some((servicio) => servicio.country_code === "AR")
+      ? [{ url: `${SITE_URL}/servicios-rurales`, changeFrequency: "weekly" as const, priority: 0.9 }]
+      : []),
     ...paisesConCampos.map((pais) => ({
       url: `${SITE_URL}/campos?pais=${pais}`,
       changeFrequency: "daily" as const,
