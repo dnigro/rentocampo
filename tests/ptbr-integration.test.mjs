@@ -63,10 +63,12 @@ test("Brazil remains blocked from the Argentine paid checkout", () => {
 });
 
 test("field and service forms have localized Brazilian labels", () => {
-  assert.match(fieldForm, /Preço total estimado/);
+  assert.match(fieldForm, /Preço total de referência/);
+  assert.match(fieldForm, /Título do anúncio da propriedade/);
   assert.match(fieldForm, /Anunciar terra/);
+  assert.match(serviceForm, /Título do anúncio/);
   assert.match(serviceForm, /Quais serviços você oferece/);
-  assert.match(serviceForm, /Anunciar serviço/);
+  assert.match(serviceForm, /Anuncie seus serviços rurais/);
 });
 
 test("localized hero CTA stays prominent on desktop, mobile and Lite",()=>{
