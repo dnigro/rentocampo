@@ -299,3 +299,19 @@ test("mobile/desktop reuse the black-and-white cattle image without obsolete vid
  assert.ok(css.includes("filter:grayscale(1)"));
  assert.ok(!hero.includes("rcHomeVideo__player"));
 });
+
+
+test("regional SEO keeps hreflang and does not require admin credentials or deindex on query failures", () => {
+  const fields = read("app/(public)/campos/page.tsx");
+  const services = read("app/(public)/servicios-rurales/page.tsx");
+  const sitemap = read("app/sitemap.ts");
+  for (const page of [fields, services]) {
+    assert.doesNotMatch(page, /createAdminClient/);
+    assert.match(page, /let hasReal\w+ = true/);
+    assert.match(page, /if \(!error\)/);
+    assert.match(page, /robots: \{ index: eligibleForIndex && hasReal\w+, follow: true \}/);
+  }
+  assert.match(sitemap, /"en-US":/);
+  assert.match(sitemap, /"pt-BR":/);
+  assert.match(sitemap, /esServicioDemoVisible\(servicio\.id\)/);
+});
