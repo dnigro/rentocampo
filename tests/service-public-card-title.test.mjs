@@ -32,7 +32,7 @@ test("public service cards show the publication activity, never the profile name
   assert.match(detail, /className="propietario-nombre">\{nombre\}/);
 });
 
-test("optional business name is persisted and used in every service presentation", () => {
+test("public listing title is mandatory for new service publications while legacy fallback stays", () => {
   const form = read("components/servicios/ServicioRuralForm.tsx");
   const catalog = read("app/(public)/servicios-rurales/page.tsx");
   const mapPage = read("app/(public)/campos/mapa/page.tsx");
@@ -45,10 +45,13 @@ test("optional business name is persisted and used in every service presentation
   const migration = read("supabase/migrations/20261103222252_nombre_comercial_opcional_servicios.sql");
 
   assert.match(migration, /add column if not exists nombre_comercial varchar\(100\)/i);
-  assert.match(form, /Nombre comercial del servicio \(opcional\)/);
+  assert.match(form, /Título de la publicación/);
+  assert.match(form, /nombreComercial\.trim\(\)\.length < 5/);
+  assert.match(form, /required\s+aria-describedby="servicio-nombre-ayuda"/);
+  assert.doesNotMatch(form, /Nombre comercial del servicio \(opcional\)/);
   assert.match(form, /maxLength=\{100\}/);
   assert.match(form, /value=\{nombreComercial\}/);
-  assert.match(form, /nombre_comercial: nombreComercial\.trim\(\) \|\| null/);
+  assert.match(form, /nombre_comercial: nombreComercial\.trim\(\)/);
   assert.match(form, /nombre_comercial\?: string \| null/);
   assert.match(taxonomy, /const nombre = nombreComercial\?\.trim\(\)/);
   assert.match(taxonomy, /if \(nombre\) return nombre/);
@@ -60,4 +63,15 @@ test("optional business name is persisted and used in every service presentation
   assert.match(lite, /tituloServicioRural\(s\.servicios_rurales as ServicioRural\[\],pais,s\.nombre_comercial\)/);
   assert.match(liteDetail, /tituloServicioRural\(s\.servicios_rurales as ServicioRural\[\],s\.country_code,s\.nombre_comercial\)/);
   assert.match(detail, /name: tituloCorto/);
+});
+
+test("service groups retain all original service IDs without duplicates", () => {
+  const source = read("data/servicios-rurales.ts");
+  const start = source.indexOf("export const SERVICIO_GRUPOS:");
+  const end = source.indexOf("export function servicioGrupoLabel", start);
+  const grouped = [...source.slice(start, end).matchAll(/values:\s*\[([^\]]+)\]/g)]
+    .flatMap(m => [...m[1].matchAll(/"([a-z_]+)"/g)].map(x => x[1]));
+  const registered = [...source.matchAll(/\{ value: "([a-z_]+)", label:/g)].map(x => x[1]);
+  assert.deepEqual([...grouped].sort(), [...registered].sort());
+  assert.equal(new Set(grouped).size, grouped.length);
 });
