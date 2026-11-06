@@ -137,3 +137,127 @@
 @media(max-width:700px) {
   .rcp-home__direct {font-size:13px;margin-top:6px;}
 }
+
+/* Hero y caminos de uso en una sola composición, sin tarjetas flotantes.
+   Desktop/tablet: la fotografía se funde con el encabezado; los caminos
+   son una franja continua dentro del mismo contenedor redondeado. */
+.rcp-home__choices {
+  position:relative;
+  z-index:3;
+  grid-column:1 / -1;
+  grid-row:2;
+  max-width:none;
+  margin:0;
+  padding:21px clamp(25px,3.8vw,54px) 24px;
+  background:linear-gradient(106deg,#1a2a2e 0%,#24363a 56%,#2e3838 100%);
+  border-top:1px solid rgba(236,220,199,.15);
+  color:#f6f0e7;
+}
+.rcp-home__choices-heading {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px 20px;
+}
+.rcp-home__choices-heading-text {
+  display:flex;
+  flex-wrap:wrap;
+  align-items:baseline;
+  gap:4px 16px;
+  min-width:0;
+}
+.rcp-home__choices-kicker {
+  width:100%;
+  margin:0;
+  color:#d1b69c;
+  font-size:10px;
+  letter-spacing:.13em;
+}
+.rcp-home__choices-heading h2 {
+  margin:2px 0 0;
+  color:#fff9f0;
+  font-size:clamp(20px,2.05vw,27px);
+}
+.rcp-home__choices-heading-text > p:last-child {
+  margin:0;
+  color:#d2dcdd;
+  font-size:12px;
+}
+.rcp-home__explore {margin:0;flex:none;justify-content:flex-end;}
+.rcp-home__map-link {
+  min-height:37px;
+  padding:8px 14px;
+  border-color:rgba(233,221,205,.45);
+  background:rgba(255,255,255,.06);
+  color:#f5e9d8!important;
+  font-size:11px;
+}
+.rcp-home__map-link:hover {background:rgba(255,255,255,.15);}
+.rcp-home__choice-grid {
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:0;
+  margin-top:16px;
+  padding-top:12px;
+  border-top:1px solid rgba(255,255,255,.14);
+}
+.rcp-home__choice {
+  min-height:119px;
+  padding:6px 23px 6px;
+  border:0;
+  border-radius:0;
+  background:transparent;
+  color:#fff8ef!important;
+  box-shadow:none;
+}
+.rcp-home__choice:first-child {padding-left:0;}
+.rcp-home__choice:not(:first-child) {border-left:1px solid rgba(255,255,255,.18);}
+.rcp-home__choice:hover {background:rgba(255,255,255,.055);box-shadow:none;transform:none;}
+.rcp-home__choice-icon {color:#dfc2a2;width:23px;height:23px;}
+.rcp-home__choice h3 {margin-top:7px;color:#fffaf4;font-size:clamp(15px,1.2vw,17px);}
+.rcp-home__choice p {margin:5px 0 7px;color:#d1dbdc;font-size:12px;line-height:1.43;}
+.rcp-home__choice span {color:#f1d2ad;font-size:12px;font-weight:850;}
+
+@media (min-width:701px) {
+  .rcp-home__hero {grid-template-rows:minmax(450px,auto) auto;}
+  .rcp-home__visual {
+    position:relative;
+    inset:auto;
+    grid-column:1 / -1;
+    grid-row:1;
+    z-index:0;
+    min-height:450px;
+    margin-left:37%;
+    clip-path:none;
+    -webkit-mask-image:linear-gradient(90deg,transparent 0%,rgba(0,0,0,.12) 12%,rgba(0,0,0,.7) 28%,#000 45%);
+    mask-image:linear-gradient(90deg,transparent 0%,rgba(0,0,0,.12) 12%,rgba(0,0,0,.7) 28%,#000 45%);
+  }
+  .rcp-home__content {grid-column:1;grid-row:1;z-index:2;}
+}
+@media (min-width:701px) and (max-width:950px) {
+  .rcp-home__choices {padding:17px 22px 21px;}
+  .rcp-home__choice {padding:8px 14px;}
+  .rcp-home__choice:first-child {padding-left:0;}
+  .rcp-home__choices-heading-text > p:last-child {font-size:11px;}
+  .rcp-home__map-link {font-size:10px;padding:8px 11px;}
+}
+@media (max-width:700px) {
+  .rcp-home__hero {display:flex;flex-direction:column;}
+  .rcp-home__visual {
+    order:0;
+    margin:0;
+    -webkit-mask-image:none;
+    mask-image:none;
+  }
+  .rcp-home__content {order:1;}
+  .rcp-home__choices {order:2;width:100%;padding:20px 20px 22px;}
+  .rcp-home__choices-heading {align-items:flex-start;flex-direction:column;gap:12px;}
+  .rcp-home__choices-heading h2 {font-size:22px;}
+  .rcp-home__choices-heading-text > p:last-child {font-size:12px;}
+  .rcp-home__explore {margin:0;justify-content:flex-start;}
+  .rcp-home__choice-grid {grid-template-columns:1fr;gap:0;margin-top:14px;padding-top:0;}
+  .rcp-home__choice {min-height:0;padding:13px 0;}
+  .rcp-home__choice:first-child {padding-left:0;}
+  .rcp-home__choice:not(:first-child) {border-left:0;border-top:1px solid rgba(255,255,255,.14);}
+  .rcp-home__choice h3 {font-size:16px;}
+  .rcp-home__choice p {font-size:12px;margin:4px 0 7px;}
+}
