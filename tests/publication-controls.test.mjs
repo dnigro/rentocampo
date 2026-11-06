@@ -33,6 +33,7 @@ const campoValido = {
 };
 
 const servicioValido = {
+  country_code: "AR",
   nombre_comercial: "Agroservicios Norte",
   detalle: "Trabajo de cosecha y siembra con maquinaria propia y cobertura regional.",
   zona: "Rafaela y localidades cercanas",
