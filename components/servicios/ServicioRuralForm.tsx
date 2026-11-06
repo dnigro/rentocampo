@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation";
 import { errorTextoPublico } from "@/lib/publication-content-guard";
 import { useRef, useState, useEffect } from "react";
 import { Check, FileText, Images, MapPinned, UploadCloud, Wheat, Fence, Wifi, Handshake, Beef } from "lucide-react";
-import { createClient } from "@/lib/supabase/client";
 import { SERVICIO_GRUPOS, servicioGrupoLabel, servicioGrupoDescripcion, servicioLabel } from "@/data/servicios-rurales";
 import { regionalText } from "@/lib/i18n/regional";
 import { useRegionalCountry } from "@/lib/i18n/useRegionalCountry";
@@ -37,7 +36,6 @@ interface Props {
 
 export default function ServicioRuralForm({ profile, publicacion, initialCountry, initialZona }: Props) {
   const router = useRouter();
-  const [supabase] = useState(createClient);
   const photoInputRef = useRef<HTMLInputElement>(null);
   const nombreInputRef = useRef<HTMLInputElement>(null);
 
