@@ -5,6 +5,7 @@ import { COUNTRIES, resolveCountry } from "@/data/countries";
 import Link from "next/link";
 import Image from "next/image";
 import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { SERVICIOS_RURALES, servicioLabel, tituloServicioRural } from "@/data/servicios-rurales";
 import { regionalText } from "@/lib/i18n/regional";
 import type { ServicioRural } from "@/types";
@@ -54,6 +55,23 @@ export async function generateMetadata({ searchParams }: { searchParams: Promise
   const url = pais === "AR" ? `${SITE_URL}/servicios-rurales` : `${SITE_URL}/servicios-rurales?pais=${pais}`;
   const hasFilters = Boolean(params.provincia || params.servicio);
   const hasExplicitCountry = Boolean(params.pais);
+  const eligibleForIndex = !hasFilters && (pais === "AR" || hasExplicitCountry);
+  // Las páginas de búsqueda siguen abiertas al usuario, pero no se indexan
+  // como resultados reales hasta que haya al menos un servicio publicado.
+  let hasRealServices = false;
+  if (eligibleForIndex) {
+    const admin = createAdminClient();
+    const { data, error } = await admin
+      .from("servicios_publicaciones")
+      .select("id")
+      .eq("activo", true)
+      .eq("country_code", pais);
+    hasRealServices = !error && (data ?? []).some((servicio) =>
+      !servicio.id.startsWith("10000000-") &&
+      !servicio.id.startsWith("20000000-") &&
+      !esServicioDemoVisible(servicio.id),
+    );
+  }
   return {
     ...baseMetadata,
     title,
@@ -63,7 +81,7 @@ export async function generateMetadata({ searchParams }: { searchParams: Promise
         ? "Encontre prestadores de serviços rurais, máquinas agrícolas, plantio e colheita por região. Contato direto, sem intermediários nem comissão."
         : `Encontrá contratistas de cosecha, siembra, maquinaria y otros servicios rurales en ${COUNTRIES[pais].name}. Contactá directamente sin comisión.`,
     alternates: { canonical: url },
-    robots: { index: !hasFilters && (pais === "AR" || hasExplicitCountry), follow: true },
+    robots: { index: eligibleForIndex && hasRealServices, follow: true },
     openGraph: { ...baseMetadata.openGraph, title, url, locale: COUNTRIES[pais].locale.replace("-", "_") },
   };
 }

@@ -2,15 +2,26 @@ import type { MetadataRoute } from "next";
 import { createClient } from "@supabase/supabase-js";
 import { APTITUD_SEO, SITE_URL, slugify } from "@/lib/seo/campos";
 import { seleccionarCamposPublicos } from "@/lib/campos/visible-fields";
+import { esServicioDemoVisible } from "@/data/visible-demo-services";
 import { COUNTRY_CODES } from "@/data/countries";
 
 export const revalidate = 3600;
 
+// Declaración recíproca y estable de los tres mercados indexables.
+const languageAlternates = {
+  languages: {
+    "es-AR": SITE_URL,
+    "en-US": `${SITE_URL}/us`,
+    "pt-BR": `${SITE_URL}/br`,
+    "x-default": SITE_URL,
+  },
+};
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticRoutes: MetadataRoute.Sitemap = [
-    { url: SITE_URL, changeFrequency: "weekly", priority: 1 },
-    { url: `${SITE_URL}/us`, changeFrequency: "weekly", priority: 0.8 },
-    { url: `${SITE_URL}/br`, changeFrequency: "weekly", priority: 0.8 },
+    { url: SITE_URL, alternates: languageAlternates, changeFrequency: "weekly", priority: 1 },
+    { url: `${SITE_URL}/us`, alternates: languageAlternates, changeFrequency: "weekly", priority: 0.8 },
+    { url: `${SITE_URL}/br`, alternates: languageAlternates, changeFrequency: "weekly", priority: 0.8 },
     { url: `${SITE_URL}/campos`, changeFrequency: "daily", priority: 0.9 },
     { url: `${SITE_URL}/campos/mapa`, changeFrequency: "daily", priority: 0.8 },
     {
@@ -59,7 +70,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   );
   // Unlike illustrative demo profiles, these are published real services.
   const serviciosReales = (servicios ?? []).filter(
-    (servicio) => Boolean(servicio.id) && !servicio.id.startsWith("20000000-"),
+    (servicio) =>
+      Boolean(servicio.id) &&
+      !servicio.id.startsWith("10000000-") &&
+      !servicio.id.startsWith("20000000-") &&
+      !esServicioDemoVisible(servicio.id),
   );
   const paisesConCampos = [...new Set(
     camposReales.map((campo) => campo.country_code).filter((pais) => pais && pais !== "AR"),
