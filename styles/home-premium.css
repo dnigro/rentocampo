@@ -642,3 +642,86 @@
   .rcp-home__description,
   .rcp-home__direct {max-width:475px;}
 }
+
+
+/* HERO LECTURA PLUS 06/11 — portada: más volumen sin invadir la diagonal.
+   Se conserva el diseño minimalista, el orden vertical de los CTA y la
+   visibilidad de «¿Qué necesitás hoy?» en desktop. */
+@media (min-width:1200px) {
+  .rcp-home__hero {
+    min-height:clamp(478px,28.3vw,523px);
+  }
+  .rcp-home__content {
+    padding-top:15px;
+    padding-bottom:15px;
+    width:min(59%,1030px);
+  }
+  .rcp-home__eyebrow {
+    font-size:clamp(15px,.99vw,18px);
+    margin-bottom:7px;
+  }
+  .rcp-home__title {
+    font-size:clamp(48px,3.46vw,65px);
+    line-height:1.035;
+  }
+  .rcp-home__description,
+  .rcp-home__direct {
+    max-width:560px;
+    font-size:clamp(19px,1.25vw,23px);
+    line-height:1.4;
+    text-wrap:pretty;
+  }
+  .rcp-home__description {margin-top:12px;}
+  .rcp-home__direct {margin-top:5px;}
+  .rcp-home__proof {
+    margin-top:12px;
+    font-size:clamp(15px,1.03vw,18px);
+    gap:12px 20px;
+  }
+  .rcp-home__proof-metric strong {font-size:clamp(40px,2.65vw,50px);}
+  .rcp-home__proof-contact svg {width:25px;height:25px;}
+  .rcp-home__buttons {margin-top:13px;gap:9px;}
+  .rcp-home__buttons > .rcp-home__button--register,
+  .rcp-home__buttons > .rcp-home__map-link {
+    width:clamp(345px,24vw,425px);
+    max-width:100%;
+  }
+  .rcp-home__button--register {
+    min-height:61px;
+    padding:12px 25px;
+    font-size:clamp(19px,1.29vw,23px);
+  }
+  .rcp-home__button--register svg {width:29px;height:29px;}
+  .rcp-home__buttons > .rcp-home__map-link {
+    min-height:55px;
+    padding:11px 20px;
+    font-size:clamp(17px,1.17vw,21px);
+    white-space:nowrap;
+  }
+  .rcp-home__buttons > .rcp-home__map-link svg:first-child {width:25px;height:25px;}
+}
+@media (min-width:901px) and (max-width:1199px) {
+  .rcp-home__hero {min-height:475px;}
+  .rcp-home__title {font-size:clamp(43px,4.3vw,53px);}
+  .rcp-home__description {font-size:18px;max-width:475px;line-height:1.42;}
+  .rcp-home__direct {font-size:18px;max-width:475px;line-height:1.4;}
+  .rcp-home__eyebrow {font-size:14px;}
+  .rcp-home__proof {font-size:14px;}
+  .rcp-home__proof-metric strong {font-size:42px;}
+  .rcp-home__buttons > .rcp-home__button--register,
+  .rcp-home__buttons > .rcp-home__map-link {width:330px;max-width:100%;}
+  .rcp-home__button--register {min-height:55px;font-size:18px;}
+  .rcp-home__buttons > .rcp-home__map-link {min-height:51px;font-size:16px;white-space:nowrap;}
+}
+@media (min-width:701px) and (max-width:900px) {
+  .rcp-home__button--register {min-height:52px;font-size:16px;}
+  .rcp-home__buttons > .rcp-home__map-link {min-height:49px;font-size:14px;}
+}
+@media (max-width:700px) {
+  .rcp-home__description,.rcp-home__direct {font-size:17px;line-height:1.45;}
+  .rcp-home__proof {font-size:13px;}
+  .rcp-home__buttons > .rcp-home__button--register,
+  .rcp-home__buttons > .rcp-home__map-link {width:100%;max-width:100%;}
+  .rcp-home__button--register {min-height:58px;font-size:18px;}
+  .rcp-home__buttons > .rcp-home__map-link {min-height:53px;font-size:16px;white-space:nowrap;}
+}
