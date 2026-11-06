@@ -273,7 +273,11 @@ test("map footer never overlays the interactive map and list routes are rounded 
  assert.ok(css.includes("body:has(.mapa-page) footer.footer"));
  assert.ok(css.includes("height: clamp(530px, calc(100dvh - 170px), 840px)"));
  assert.ok(css.includes("border-radius: 999px"));
- assert.ok(back.includes('href="/dashboard" className="rc-dashboard-return-btn"'));
+ assert.ok(back.includes('className="rc-dashboard-return-btn"'));
+ assert.ok(back.includes('href={returnHref}'));
+ assert.ok(back.includes('"/dashboard"'));
+ assert.ok(back.includes('"/mis-campos"'));
+ assert.ok(back.includes('"/mis-servicios-rurales"'));
  assert.ok(back.includes("Volver a mi cuenta"));
  assert.ok(backCss.includes("Navegación interior de Mi cuenta: botón cápsula"));
 });
