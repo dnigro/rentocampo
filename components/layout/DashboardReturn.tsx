@@ -9,13 +9,33 @@ import { usePathname } from "next/navigation";
 export default function DashboardReturn() {
   const pathname = usePathname();
   const country = useRegionalCountry();
-  const backLabel = regionalText(country, "Volver a mi cuenta", "Voltar à minha conta", "Back to my account");
+  // Formulario de alta o edición: retorno al listado correcto, sin botón duplicado.
+  const isCampoForm =
+    pathname === "/mis-campos/nuevo" ||
+    /^\/mis-campos\/[^/]+\/editar\/?$/.test(pathname);
+  const isServicioForm =
+    pathname === "/mis-servicios-rurales/nuevo" ||
+    /^\/mis-servicios-rurales\/[^/]+\/editar\/?$/.test(pathname);
+
+  const returnHref = isCampoForm
+    ? "/mis-campos"
+    : isServicioForm
+      ? "/mis-servicios-rurales"
+      : "/dashboard";
+  const backLabel = isCampoForm
+    ? regionalText(country, "Volver a Mis campos", "Voltar aos meus campos", "Back to my fields")
+    : isServicioForm
+      ? regionalText(country, "Volver a Mis servicios rurales", "Voltar aos meus serviços rurais", "Back to my rural services")
+      : regionalText(country, "Volver a mi cuenta", "Voltar à minha conta", "Back to my account");
 
   if (pathname === "/dashboard") return null;
 
   return (
     <nav className="dashboard-return" aria-label={backLabel}>
-      <Link href="/dashboard" className="rc-dashboard-return-btn"><ArrowLeft size={17} aria-hidden="true" /><span>{backLabel}</span></Link>
+      <Link href={returnHref} className="rc-dashboard-return-btn">
+        <ArrowLeft size={17} aria-hidden="true" />
+        <span>{backLabel}</span>
+      </Link>
     </nav>
   );
 }
