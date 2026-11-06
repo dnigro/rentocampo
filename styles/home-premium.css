@@ -71,3 +71,28 @@
  .rcp-home__choice-icon{width:23px;height:23px}
  .rcp-home__explore{margin-top:14px}
 }
+
+/* Home desktop: títulos con más presencia y azul con profundidad, sin afectar móvil. */
+@media (min-width:901px) {
+  .rcp-home__hero {
+    background-color:#11273b;
+    background-image:
+      radial-gradient(ellipse 85% 110% at 15% 95%,rgba(45,112,167,.52) 0%,rgba(24,66,108,.29) 48%,rgba(16,40,63,0) 83%),
+      linear-gradient(115deg,#112438 5%,#193c5e 56%,#245579 100%);
+  }
+  .rcp-home__title {
+    font-size:clamp(39px,3.82vw,59px);
+    line-height:1.09;
+    letter-spacing:-.048em;
+  }
+  .rcp-home__description {
+    font-size:clamp(16px,1.42vw,19px);
+    line-height:1.58;
+    max-width:650px;
+  }
+  .rcp-home__visual-fade {
+    background:
+      linear-gradient(90deg,rgba(24,52,77,.38),transparent 36%),
+      linear-gradient(0deg,rgba(24,43,62,.29),transparent 46%);
+  }
+}
