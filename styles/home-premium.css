@@ -408,3 +408,117 @@ html body:has(.rc-landing) footer.footer .footer-bottom-link {font-size:clamp(12
  html body:has(.rc-landing) footer.footer .footer-bottom,
  html body:has(.rc-landing) footer.footer .footer-bottom-link {font-size:12px;}
 }
+
+
+/* HOME FULL-WIDTH 06-11 — equilibrio real para monitores desktop.
+   La web arrastraba html{zoom:.8} de un experimento de densidad;
+   se neutraliza SOLO cuando existe la portada RentoCampo. */
+@media (min-width:1024px) {
+  html:has(.rc-landing) {zoom:1;}
+}
+/* En pantallas anchas no concentrar todo el contenido en 1/2 página. */
+@media (min-width:901px) {
+  .rcp-home__content {
+    max-width:2140px;
+    padding-inline:clamp(35px,4.8vw,122px);
+  }
+  .rcp-home__hero {
+    min-height:clamp(540px,38vw,680px);
+  }
+  .rcp-home__visual {inset-inline-start:45%;}
+  .rcp-home__title {
+    max-width:min(58vw,1100px);
+    font-size:clamp(54px,4.15vw,86px);
+    line-height:1.09;
+  }
+  .rcp-home__description,
+  .rcp-home__direct {
+    max-width:min(58vw,980px);
+    font-size:clamp(20px,1.45vw,26px);
+    line-height:1.53;
+  }
+  .rcp-home__proof {max-width:min(57vw,940px);font-size:clamp(14px,1.02vw,17px);}
+  .rcp-home__button {min-height:60px;font-size:clamp(15px,1.06vw,19px);padding:14px clamp(20px,1.6vw,29px);}
+  .rcp-home__choices {
+    padding:clamp(40px,3vw,65px) clamp(36px,5vw,130px) clamp(42px,3.4vw,72px);
+  }
+  .rcp-home__choices-heading,
+  .rcp-home__choice-grid,
+  .rcp-home__explore {
+    width:100%;
+    max-width:2050px;
+    margin-inline:auto;
+  }
+  .rcp-home__choices-kicker {font-size:clamp(14px,1vw,18px);}
+  .rcp-home__choices-heading h2 {font-size:clamp(36px,2.85vw,53px);}
+  .rcp-home__choices-heading>p:last-child {font-size:clamp(17px,1.26vw,23px);}
+  .rcp-home__choice-grid {gap:clamp(20px,1.7vw,36px);margin-top:clamp(25px,2.1vw,38px);}
+  .rcp-home__choice {min-height:225px;padding:clamp(25px,2.2vw,41px);}
+  .rcp-home__choice-icon {width:40px;height:40px;}
+  .rcp-home__choice h3 {font-size:clamp(22px,1.54vw,30px);}
+  .rcp-home__choice p {font-size:clamp(18px,1.16vw,22px);line-height:1.5;}
+  .rcp-home__choice span {font-size:clamp(17px,1.13vw,21px);}
+  .rcp-home__explore {margin-top:27px;}
+  .rcp-home__map-link {min-height:57px;font-size:clamp(16px,1.15vw,21px);padding:13px 27px;}
+  html body .rc-landing .rc-how--web .rc-how__inner {
+    max-width:2050px;
+    width:100%;
+    padding:clamp(38px,3vw,60px) clamp(36px,5vw,125px);
+  }
+  html body .rc-landing .rc-how--web .rc-how__steps {width:100%;}
+  html body .rc-landing .rc-how--web .rc-how__step {min-height:155px;gap:clamp(14px,1.8vw,32px);}
+  html body .rc-landing .rc-how--web .rc-how__step-copy h3 {font-size:clamp(24px,2.0vw,36px);}
+  html body .rc-landing .rc-how--web .rc-how__step-copy p {font-size:clamp(19px,1.4vw,24px);}
+  html body .rc-landing .rcf-faq__container {
+    max-width:2050px;
+    width:100%;
+    grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);
+    gap:clamp(45px,5.2vw,115px);
+    padding-inline:clamp(36px,5vw,125px);
+  }
+  html body .rc-landing .rcf-faq__question {font-size:clamp(21px,1.55vw,27px);min-height:85px;}
+  html body .rc-landing .rcf-faq__subtitle {font-size:clamp(20px,1.32vw,24px);}
+  html body .rc-landing .rcf-faq__answer p {font-size:clamp(18px,1.2vw,22px);}
+  html body:has(.rc-landing) footer.footer .footer-inner,
+  html body:has(.rc-landing) footer.footer .footer-bottom {max-width:2050px;}
+  html body:has(.rc-landing) footer.footer .footer-inner {
+    grid-template-columns:minmax(250px,1.35fr) repeat(4,minmax(0,1fr));
+    gap:clamp(24px,2.8vw,56px);
+    padding-bottom:29px;
+  }
+  html body:has(.rc-landing) footer.footer {padding:35px clamp(36px,5vw,125px) 0;}
+  html body:has(.rc-landing) footer.footer .footer-col-title {font-size:clamp(16px,1.1vw,20px);}
+  html body:has(.rc-landing) footer.footer .footer-link,
+  html body:has(.rc-landing) footer.footer .footer-desc {font-size:clamp(15px,1.0vw,19px);line-height:1.55;}
+  html body:has(.rc-landing) footer.footer .footer-bottom,
+  html body:has(.rc-landing) footer.footer .footer-bottom-link {font-size:clamp(14px,.9vw,17px);}
+  html body:has(.rc-landing) header.navbar.navbar--home .navbar-inner {
+    max-width:2050px!important;
+    padding-inline:clamp(35px,4.5vw,110px)!important;
+  }
+  html body:has(.rc-landing) header.navbar.navbar--home .navbar-links .nav-link {font-size:clamp(15px,1.1vw,19px);}
+  html body:has(.rc-landing) header.navbar.navbar--home .navbar-actions .btn-ghost {font-size:clamp(15px,1.05vw,18px);}
+}
+/* Desktop intermedio: conservar proporciones y no tapar vacas con el copy. */
+@media(min-width:901px) and (max-width:1279px) {
+  .rcp-home__hero {min-height:515px;}
+  .rcp-home__visual {inset-inline-start:43%;}
+  .rcp-home__title {font-size:clamp(43px,4.3vw,55px);max-width:62vw;}
+  .rcp-home__description,.rcp-home__direct {font-size:clamp(17px,1.7vw,21px);max-width:61vw;}
+  .rcp-home__button {min-height:52px;font-size:14px;padding:11px 16px;}
+  .rcp-home__choice-grid {gap:16px;}
+  .rcp-home__choice {min-height:205px;padding:23px;}
+  .rcp-home__choice h3 {font-size:21px;}
+  .rcp-home__choice p,.rcp-home__choice span {font-size:16px;}
+  html body .rc-landing .rc-how--web .rc-how__step-copy h3 {font-size:24px;}
+  html body .rc-landing .rc-how--web .rc-how__step-copy p {font-size:17px;}
+  html body:has(.rc-landing) footer.footer .footer-inner {
+    grid-template-columns:repeat(4,minmax(0,1fr));
+    gap:20px;
+  }
+  html body:has(.rc-landing) footer.footer .footer-brand {grid-column:1/-1;}
+}
+@media(max-width:900px) {
+  /* No forzar el layout ancho en teléfonos/tablets. */
+  .rcp-home__hero {min-height:0;}
+}
