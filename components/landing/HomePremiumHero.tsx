@@ -101,6 +101,11 @@ export default function HomePremiumHero({ country }: { country: CountryCode }) {
                 <UserRoundPlus aria-hidden="true" size={20} strokeWidth={2} />
                 {t("REGISTRATE GRATIS", "CADASTRE-SE GRÁTIS", "SIGN UP FREE")}
               </RegionalLink>
+              <RegionalLink href="/campos/mapa" fallbackCountry={country} className="rcp-home__map-link">
+                <MapPinned aria-hidden="true" size={21} />
+                {t("Explorar oportunidades en el mapa", "Explorar oportunidades no mapa", "Explore opportunities on the map")}
+                <ArrowUpRight aria-hidden="true" size={17} />
+              </RegionalLink>
             </div>
           </div>
         </div>
@@ -127,13 +132,6 @@ export default function HomePremiumHero({ country }: { country: CountryCode }) {
               </div>
             </RegionalLink>
           ))}
-        </div>
-        <div className="rcp-home__explore">
-          <RegionalLink href="/campos/mapa" fallbackCountry={country} className="rcp-home__map-link">
-            <MapPinned aria-hidden="true" size={21} />
-            {t("Explorar oportunidades en el mapa", "Explorar oportunidades no mapa", "Explore opportunities on the map")}
-            <ArrowUpRight aria-hidden="true" size={17} />
-          </RegionalLink>
         </div>
       </section>
     </div>
