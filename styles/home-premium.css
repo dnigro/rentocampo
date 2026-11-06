@@ -543,3 +543,24 @@
     padding:10px 15px;
   }
 }
+
+
+/* MAPA CTA UNA LÍNEA 06/11: tamaño y ancho iguales a REGISTRATE. */
+.rcp-home__buttons > .rcp-home__button--register,
+.rcp-home__buttons > .rcp-home__map-link {
+  width:clamp(270px,22vw,375px);
+  min-width:0;
+  max-width:100%;
+}
+.rcp-home__buttons > .rcp-home__map-link {
+  white-space:nowrap;
+  flex-wrap:nowrap;
+  font-size:clamp(14px,1.05vw,17px);
+  font-weight:850;
+}
+.rcp-home__buttons > .rcp-home__map-link svg {flex:none;}
+@media(max-width:700px) {
+  .rcp-home__buttons > .rcp-home__button--register,
+  .rcp-home__buttons > .rcp-home__map-link {width:100%;}
+  .rcp-home__buttons > .rcp-home__map-link {font-size:14px;}
+}
