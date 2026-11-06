@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { errorCampoPublico } from "@/lib/publication-content-guard";
 import { FREE_PUBLICATIONS_ENABLED } from "@/lib/commercial/free-publications";
 import { createClient } from "@/lib/supabase/server";
 import { createClient as createAdminClient } from "@supabase/supabase-js";
@@ -93,6 +94,11 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Datos inválidos" }, { status: 400 });
   }
 
+  const publicError = errorCampoPublico(form);
+  if (publicError) {
+    return NextResponse.json({ error: publicError, code: "invalid_public_content" }, { status: 400 });
+  }
+
   if (estado === "activo") {
     const quota = await getLandQuotaStatus(context.user.id);
     if (!quota.canPublish) {
@@ -163,6 +169,11 @@ export async function PATCH(request: Request) {
 
   if (!campoId || !form) {
     return NextResponse.json({ error: "Datos inválidos" }, { status: 400 });
+  }
+
+  const publicError = errorCampoPublico(form);
+  if (publicError) {
+    return NextResponse.json({ error: publicError, code: "invalid_public_content" }, { status: 400 });
   }
 
   const { data: existing } = await context.admin
