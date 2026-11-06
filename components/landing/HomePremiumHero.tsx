@@ -104,17 +104,24 @@ export default function HomePremiumHero({ country }: { country: CountryCode }) {
               </RegionalLink>
             </div>
           </div>
-        </div>
-      </section>
 
-      <section className="rcp-home__choices" aria-labelledby="rcp-home-options-title">
-        <div className="rcp-home__choices-heading">
-          <p className="rcp-home__choices-kicker">
-            {t("EL CAMPO. SIN VUELTAS.", "O CAMPO. SEM COMPLICAÇÕES.", "RURAL CONNECTIONS. MADE SIMPLE.")}
-          </p>
-          <h2 id="rcp-home-options-title">{t("¿Qué necesitás hoy?", "O que você procura?", "What brings you here?")}</h2>
-          <p>{t("Elegí cómo querés usar RentoCampo.", "Escolha como quer usar a RentoCampo.", "Choose how you'd like to use RentoCampo.")}</p>
-        </div>
+          <section className="rcp-home__choices" aria-labelledby="rcp-home-options-title">
+            <div className="rcp-home__choices-heading">
+              <div className="rcp-home__choices-heading-text">
+                <p className="rcp-home__choices-kicker">
+                  {t("EL CAMPO. SIN VUELTAS.", "O CAMPO. SEM COMPLICAÇÕES.", "RURAL CONNECTIONS. MADE SIMPLE.")}
+                </p>
+                <h2 id="rcp-home-options-title">{t("¿Qué necesitás hoy?", "O que você procura?", "What brings you here?")}</h2>
+                <p>{t("Elegí cómo querés usar RentoCampo.", "Escolha como quer usar a RentoCampo.", "Choose how you'd like to use RentoCampo.")}</p>
+              </div>
+              <div className="rcp-home__explore">
+                <RegionalLink href="/campos/mapa" fallbackCountry={country} className="rcp-home__map-link">
+                  <MapPinned aria-hidden="true" size={19} />
+                  {t("Explorar oportunidades en el mapa", "Explorar oportunidades no mapa", "Explore opportunities on the map")}
+                  <ArrowUpRight aria-hidden="true" size={16} />
+                </RegionalLink>
+              </div>
+            </div>
         <div className="rcp-home__choice-grid">
           {actions.map(({ title, description, cta, href, Icon }) => (
             <RegionalLink key={title} href={href} fallbackCountry={country} className="rcp-home__choice">
@@ -125,12 +132,7 @@ export default function HomePremiumHero({ country }: { country: CountryCode }) {
             </RegionalLink>
           ))}
         </div>
-        <div className="rcp-home__explore">
-          <RegionalLink href="/campos/mapa" fallbackCountry={country} className="rcp-home__map-link">
-            <MapPinned aria-hidden="true" size={19} />
-            {t("Explorar oportunidades en el mapa", "Explorar oportunidades no mapa", "Explore opportunities on the map")}
-            <ArrowUpRight aria-hidden="true" size={16} />
-          </RegionalLink>
+          </section>
         </div>
       </section>
     </div>
