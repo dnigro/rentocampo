@@ -286,3 +286,154 @@
   .rcp-home__choice p {font-size:15px;margin-top:4px;}
   .rcp-home__choice-arrow {width:34px;height:34px;}
 }
+
+
+/* APROBADO 06 NOV: REGISTRO ÚNICO y bloque simple de 3 opciones.
+   Continúa el hero minimalista existente sin fotos duplicadas. */
+.rcp-home__buttons {margin-top:clamp(19px,1.8vw,31px);}
+.rcp-home__button--register {
+  min-width:clamp(270px,22vw,375px);
+  min-height:clamp(58px,4.05vw,70px);
+  padding:15px clamp(25px,2.4vw,44px);
+  font-size:clamp(17px,1.32vw,23px);
+  font-weight:900;
+  box-shadow:0 3px 7px rgba(20,44,65,.06);
+}
+.rcp-home__button--register svg {width:clamp(24px,1.85vw,32px);height:clamp(24px,1.85vw,32px);flex:none;}
+.rcp-home__choices {
+  max-width:none;
+  margin:0;
+  padding:clamp(31px,2.6vw,51px) clamp(20px,4.5vw,95px) clamp(25px,2.45vw,46px);
+  background:linear-gradient(180deg,#e5eff6 0%,#e3edf4 100%);
+}
+.rcp-home__choices-heading,
+.rcp-home__choice-grid,
+.rcp-home__explore {
+  width:100%;
+  max-width:1620px;
+  margin-left:auto;
+  margin-right:auto;
+}
+.rcp-home__choices-heading {
+  display:block;
+  margin-bottom:clamp(18px,1.45vw,27px);
+}
+.rcp-home__choices-kicker {
+  margin:0 0 5px;
+  color:#557792;
+  font-size:clamp(12px,.96vw,16px);
+  line-height:1.4;
+  font-weight:850;
+  letter-spacing:.11em;
+}
+.rcp-home__choices-heading-line {
+  display:flex;
+  align-items:baseline;
+  flex-wrap:wrap;
+  gap:9px clamp(15px,2vw,34px);
+}
+.rcp-home__choices-heading h2 {
+  color:#102e46;
+  font-size:clamp(30px,2.75vw,47px);
+  text-align:left;
+  line-height:1.1;
+  letter-spacing:-.05em;
+}
+.rcp-home__choices-heading-line p {
+  color:#4d6a82;
+  margin:0;
+  padding-left:clamp(12px,1.8vw,28px);
+  border-left:1px solid rgba(70,105,128,.4);
+  font-size:clamp(15px,1.12vw,19px);
+  line-height:1.45;
+  font-weight:550;
+}
+.rcp-home__choice-grid {
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:clamp(14px,1.3vw,23px);
+}
+.rcp-home__choice {
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  justify-content:flex-start;
+  gap:0;
+  min-height:clamp(190px,12.5vw,225px);
+  padding:clamp(20px,1.55vw,28px);
+  border:1px solid #ccd9e4;
+  border-radius:clamp(13px,1.1vw,18px);
+  box-shadow:0 3px 12px rgba(39,68,96,.045);
+  background:#fff;
+  transition:transform .17s ease,box-shadow .17s ease;
+}
+.rcp-home__choice:hover {box-shadow:0 8px 23px rgba(32,60,84,.12);transform:translateY(-2px);}
+.rcp-home__choice-icon {width:34px;height:34px;color:#2c5a7c;flex:none;margin:0 0 8px;}
+.rcp-home__choice-copy {display:flex;flex-direction:column;align-items:flex-start;flex:1;width:100%;min-width:0;}
+.rcp-home__choice h3 {
+  margin:0;
+  color:#14334e;
+  font-size:clamp(20px,1.48vw,26px);
+  line-height:1.19;
+  font-weight:850;
+}
+.rcp-home__choice p {
+  color:#536b82;
+  font-size:clamp(15px,1.07vw,18px);
+  line-height:1.43;
+  margin:7px 0 11px;
+  flex:1;
+}
+.rcp-home__choice-cta {
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  color:#1c537a;
+  font-size:clamp(14px,1.04vw,17px);
+  line-height:1.3;
+  font-weight:850;
+}
+.rcp-home__explore {display:flex;justify-content:center;margin-top:clamp(15px,1.2vw,23px);}
+.rcp-home__map-link {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:11px;
+  min-height:49px;
+  padding:10px 22px;
+  border:1px solid #809fb8;
+  border-radius:999px;
+  background:#f7fafc;
+  color:#163f5e!important;
+  text-align:center;
+  text-decoration:none!important;
+  font-size:clamp(14px,1.06vw,18px);
+  font-weight:850;
+  line-height:1.3;
+  transition:background .16s ease;
+}
+.rcp-home__map-link:hover {background:#fff;}
+
+@media (max-width:1190px) and (min-width:701px) {
+  .rcp-home__button--register {min-width:265px;min-height:57px;font-size:17px;padding:12px 22px;}
+  .rcp-home__choice {padding:20px;min-height:195px;}
+  .rcp-home__choice h3 {font-size:20px;}
+  .rcp-home__choice p {font-size:15px;}
+  .rcp-home__choice-cta {font-size:14px;}
+}
+@media (max-width:700px) {
+  .rcp-home__buttons {display:flex;}
+  .rcp-home__button--register {width:100%;min-width:0;min-height:57px;padding:13px 20px;font-size:17px;}
+  .rcp-home__button--register svg {width:25px;height:25px;}
+  .rcp-home__choices {padding:25px 17px 32px;}
+  .rcp-home__choices-kicker {font-size:12px;margin-bottom:6px;}
+  .rcp-home__choices-heading-line {display:block;}
+  .rcp-home__choices-heading h2 {font-size:clamp(28px,7.6vw,36px);}
+  .rcp-home__choices-heading-line p {margin-top:8px;padding-left:0;border-left:0;font-size:15px;}
+  .rcp-home__choice-grid {grid-template-columns:1fr;gap:12px;}
+  .rcp-home__choice {min-height:0;padding:20px;}
+  .rcp-home__choice-icon {width:31px;height:31px;margin-bottom:8px;}
+  .rcp-home__choice h3 {font-size:21px;}
+  .rcp-home__choice p {font-size:15px;margin:6px 0 12px;}
+  .rcp-home__choice-cta {font-size:15px;}
+  .rcp-home__map-link {width:100%;max-width:390px;min-height:50px;font-size:14px;}
+}
