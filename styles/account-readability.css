@@ -1,3 +1,4 @@
+@layer account-readability {
 /* Shared readable scale. Keep labels, captions and actions legible on every account surface. */
 html body :is(.app-shell,.lite-app) .account-workspace.account-workspace{
   --account-body:17px;--account-secondary:15px;--account-caption:14px;
@@ -43,4 +44,74 @@ html body .publication-dialog .publication-dialog-eyebrow{font-size:14px}
  html body :is(.app-shell,.lite-app) .account-workspace.account-workspace .inbox-unread{font-size:13px}
  html body .app-shell .account-workspace.account-workspace .rc-decision__country-picker{flex-wrap:wrap;gap:8px}
  html body .app-shell .account-workspace.account-workspace .rc-decision__country-picker select{max-width:100%;width:100%;min-height:44px}
+}
+
+}
+/* Important declarations in this named layer outrank the legacy unlayered
+   important rules, including the highly specific mobile dashboard selectors. */
+@layer account-readability {
+  html body :is(.app-shell,.lite-app) .account-workspace.account-workspace.account-workspace { --account-body:18px; }
+  html body :is(.app-shell,.lite-app) .account-workspace.account-workspace.account-workspace .dashboard-cards {
+    display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:20px!important;
+  }
+  html body :is(.app-shell,.lite-app) .account-workspace.account-workspace.account-workspace .dashboard-cards .dash-card {
+    display:grid!important;grid-template-columns:76px minmax(0,1fr)!important;
+    grid-template-rows:auto auto!important;column-gap:20px!important;row-gap:6px!important;
+    align-content:center!important;align-items:center!important;min-height:158px!important;
+    padding:24px!important;min-width:0!important;
+  }
+  html body :is(.app-shell,.lite-app) .account-workspace.account-workspace.account-workspace :is(.dash-card-icon,.rc-lite-profile__link-icon) {
+    display:grid!important;place-items:center!important;width:76px!important;height:76px!important;
+    min-height:76px!important;grid-column:1!important;grid-row:1/3!important;margin:0!important;padding:0!important;
+  }
+  html body :is(.app-shell,.lite-app) .account-workspace.account-workspace.account-workspace :is(.dash-card-icon,.rc-lite-profile__link-icon) svg {width:54px!important;height:54px!important}
+  html body :is(.app-shell,.lite-app) .account-workspace.account-workspace.account-workspace .dash-card-label {
+    grid-column:2!important;grid-row:1!important;align-self:end!important;font-size:26px!important;
+    font-weight:750!important;line-height:1.2!important;max-width:100%!important;margin:0!important;overflow-wrap:anywhere;
+  }
+  html body :is(.app-shell,.lite-app) .account-workspace.account-workspace.account-workspace .dash-card-desc {
+    grid-column:2!important;grid-row:2!important;align-self:start!important;font-size:18px!important;
+    line-height:1.5!important;max-width:100%!important;margin:0!important;
+  }
+  html body :is(.app-shell,.lite-app) .account-workspace.account-workspace.account-workspace .dashboard-title {font-size:48px!important;line-height:1.15!important}
+  html body :is(.app-shell,.lite-app) .account-workspace.account-workspace.account-workspace .badge-tipo {font-size:17px!important;line-height:1.4!important;white-space:normal!important}
+  html body :is(.app-shell,.lite-app) .account-workspace.account-workspace.account-workspace :is(.form-label,.form-input,.form-hint,.avatar-hint,.perfil-photo-label,.perfil-role-option,.perfil-role-option strong) {font-size:18px!important;line-height:1.5!important}
+  html body :is(.app-shell,.lite-app) .account-workspace.account-workspace.account-workspace .perfil-section-title {font-size:28px!important;line-height:1.3!important}
+  html body :is(.app-shell,.lite-app) .account-workspace.account-workspace.account-workspace .perfil-section-description {font-size:18px!important;line-height:1.5!important}
+  html body :is(.app-shell,.lite-app) .account-workspace.account-workspace.account-workspace .perfil-page .perfil-layout {grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:20px!important}
+  html body :is(.app-shell,.lite-app) .account-workspace.account-workspace.account-workspace .perfil-page .perfil-layout>.perfil-avatar-panel {
+    grid-column:1/-1!important;grid-row:auto!important;display:grid!important;
+    grid-template-columns:minmax(0,1fr) minmax(320px,1fr)!important;gap:28px!important;
+    padding:24px!important;align-items:center!important;
+  }
+  html body :is(.app-shell,.lite-app) .account-workspace.account-workspace.account-workspace .perfil-photo-intro {grid-column:1!important;grid-row:1!important}
+  html body :is(.app-shell,.lite-app) .account-workspace.account-workspace.account-workspace .perfil-photo-column {grid-column:2!important;grid-row:1!important}
+  html body :is(.app-shell,.lite-app) .account-workspace.account-workspace.account-workspace .perfil-avatar-panel .avatar-preview {width:104px!important;height:104px!important;flex-shrink:0}
+  html body :is(.app-shell,.lite-app) .account-workspace.account-workspace.account-workspace .perfil-page .perfil-layout>.perfil-main-form {
+    grid-column:1/-1!important;grid-row:auto!important;display:grid!important;
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:20px!important;
+  }
+  html body :is(.app-shell,.lite-app) .account-workspace.account-workspace.account-workspace .perfil-page .perfil-layout>.perfil-section:not(.perfil-avatar-panel):not(.perfil-main-form) {grid-column:1!important;grid-row:auto!important}
+  html body :is(.app-shell,.lite-app) .account-workspace.account-workspace.account-workspace .perfil-page .perfil-layout>.perfil-danger-zone {grid-column:2!important;grid-row:auto!important}
+  html body :is(.app-shell,.lite-app) .account-workspace.account-workspace.account-workspace .perfil-page :is(.form-input,.btn-primary-lg,.btn-secondary-lg) {min-height:52px!important}
+  html body :is(.app-shell,.lite-app) .account-workspace.account-workspace.account-workspace .perfil-intro-icon {display:none!important}
+  html body :is(.app-shell,.lite-app) .account-workspace.account-workspace.account-workspace .rc-lite-profile__link {font-size:24px!important;line-height:1.35!important;min-height:130px!important;gap:20px!important}
+  @media(max-width:1100px) {
+    html body :is(.app-shell,.lite-app) .account-workspace.account-workspace.account-workspace .dashboard-cards {grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  }
+  @media(max-width:700px) {
+    html body :is(.app-shell,.lite-app) .account-workspace.account-workspace.account-workspace .dashboard-cards {grid-template-columns:minmax(0,1fr)!important;gap:14px!important}
+    html body :is(.app-shell,.lite-app) .account-workspace.account-workspace.account-workspace .dashboard-cards .dash-card {grid-template-columns:64px minmax(0,1fr)!important;padding:20px!important;column-gap:16px!important;min-height:126px!important}
+    html body :is(.app-shell,.lite-app) .account-workspace.account-workspace.account-workspace :is(.dash-card-icon,.rc-lite-profile__link-icon) {width:64px!important;height:64px!important;min-height:64px!important}
+    html body :is(.app-shell,.lite-app) .account-workspace.account-workspace.account-workspace :is(.dash-card-icon,.rc-lite-profile__link-icon) svg {width:46px!important;height:46px!important}
+    html body :is(.app-shell,.lite-app) .account-workspace.account-workspace.account-workspace .dash-card-label {font-size:23px!important}
+    html body :is(.app-shell,.lite-app) .account-workspace.account-workspace.account-workspace .dash-card-desc {font-size:17px!important}
+    html body :is(.app-shell,.lite-app) .account-workspace.account-workspace.account-workspace .dashboard-title {font-size:36px!important}
+    html body :is(.app-shell,.lite-app) .account-workspace.account-workspace.account-workspace .perfil-page .perfil-layout {grid-template-columns:minmax(0,1fr)!important}
+    html body :is(.app-shell,.lite-app) .account-workspace.account-workspace.account-workspace .perfil-page .perfil-layout>.perfil-avatar-panel {grid-template-columns:minmax(0,1fr)!important;gap:18px!important}
+    html body :is(.app-shell,.lite-app) .account-workspace.account-workspace.account-workspace .perfil-photo-column {grid-column:1!important;grid-row:2!important}
+    html body :is(.app-shell,.lite-app) .account-workspace.account-workspace.account-workspace .perfil-page .perfil-layout>.perfil-main-form {grid-template-columns:minmax(0,1fr)!important}
+    html body :is(.app-shell,.lite-app) .account-workspace.account-workspace.account-workspace .perfil-page .perfil-layout>.perfil-danger-zone {grid-column:1!important}
+    html body :is(.app-shell,.lite-app) .account-workspace.account-workspace.account-workspace :is(.form-label,.form-input,.form-hint,.avatar-hint,.perfil-photo-label,.perfil-role-option,.perfil-role-option strong) {font-size:17px!important}
+  }
 }
