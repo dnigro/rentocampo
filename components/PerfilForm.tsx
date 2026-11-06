@@ -355,6 +355,7 @@ export default function PerfilForm({ profile, email, country }: Props) {
               className="form-input"
               value={form.nombre}
               onChange={handleChange}
+              maxLength={120}
               required
             />
           </div>
@@ -367,6 +368,8 @@ export default function PerfilForm({ profile, email, country }: Props) {
               placeholder={tt("Ej: +54 9 11 1234-5678","Ex.: +55 11 91234-5678")}
               value={form.telefono}
               onChange={handleChange}
+              inputMode="tel"
+              maxLength={25}
             />
           </div>
         </div>
@@ -385,10 +388,12 @@ export default function PerfilForm({ profile, email, country }: Props) {
             placeholder={tt("Contá brevemente quién sos y tu experiencia...","Conte brevemente sobre você e sua experiência...")}
             value={form.bio}
             onChange={handleChange}
+            maxLength={700}
             rows={3}
           />
         </div>
 
+        <p className="form-hint">{tt("La descripción no debe incluir teléfonos, emails, redes ni links. Tu teléfono se guarda en el campo anterior.", "Não coloque telefone, e-mail, redes ou links na descrição. Seu telefone deve ficar no campo próprio.", "Do not include phone numbers, emails, social handles or links in your bio. Use the phone field.")}</p>
         <div className="form-actions">
           <button type="submit" className="btn-primary-lg" disabled={saving}>
             {saving ? tt("Guardando...","Salvando...") : tt("Guardar cambios","Salvar alterações")}

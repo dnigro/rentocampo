@@ -328,7 +328,7 @@ export default function CampoForm({
         </div>
       )}
 
-      {error && <div className="form-error" role="alert" aria-live="polite">{error}</div>}
+      {error && <div className="form-error">{error}</div>}
 
       {/* Información básica */}
       <div className="form-section">
@@ -666,7 +666,8 @@ export default function CampoForm({
                 placeholder={tt("Ej: 320","Ex.: 320")}
                 value={form.precio ?? ""}
                 onChange={handleChange}
-                min={0}
+                min={0.01}
+                step="any"
               />
             </div>
             <p className="form-hint">{tt("Ingresá el monto total que querés mostrar. Si calculás por hectárea, por mes o por campaña, explicalo en la descripción para evitar confusiones.", "Informe o valor total que deseja exibir. Se o preço é por hectare, mês ou safra, explique na descrição.", "Enter the total amount you want displayed. Explain any per-hectare, monthly or seasonal pricing in the description.")}</p>
@@ -753,6 +754,7 @@ export default function CampoForm({
       </div>
 
       {/* Acciones */}
+      {error && <div className="form-error" role="alert" aria-live="polite">{error}</div>}
       <div className="form-actions">
         <button
           type="button"

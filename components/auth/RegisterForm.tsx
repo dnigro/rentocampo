@@ -209,6 +209,7 @@ export default function RegisterForm({ initialCountry: paisInicial }: { initialC
               onChange={handleChange}
               required
               autoComplete="name"
+              maxLength={120}
             />
           </div>
 
