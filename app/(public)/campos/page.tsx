@@ -3,7 +3,7 @@ import { COUNTRIES, resolveCountry } from "@/data/countries";
 import type { Metadata } from "next";
 import CamposListing, { type CamposSearchParams } from "@/components/campos/CamposListing";
 import { SITE_URL } from "@/lib/seo/campos";
-import { createAdminClient } from "@/lib/supabase/admin";
+import { createClient } from "@/lib/supabase/server";
 import "@/styles/campos.css";
 import "@/styles/explorador.css";
 
@@ -15,17 +15,25 @@ export async function generateMetadata({ searchParams }: { searchParams: Promise
   const eligibleForIndex = !hasFilters && (pais === "AR" || Boolean(params.pais));
   // Evitar indexar catálogos construidos solamente con fichas DEMO.
   // Las páginas /us y /br siguen indexables y los filtros siguen operativos.
-  let hasRealListings = false;
+  // Sólo desindexar cuando se confirma que el catálogo no tiene ofertas reales.
+  // Si la consulta falla temporalmente, conservar su indexación existente.
+  let hasRealListings = true;
   if (eligibleForIndex) {
-    const admin = createAdminClient();
-    const { data, error } = await admin
-      .from("campos")
-      .select("id, titulo")
-      .eq("status", "activo")
-      .eq("country_code", pais);
-    hasRealListings = !error && (data ?? []).some((campo) =>
-      !campo.id.startsWith("20000000-") && !/\bDEMO\b/i.test(campo.titulo ?? ""),
-    );
+    try {
+      const supabase = await createClient();
+      const { data, error } = await supabase
+        .from("campos")
+        .select("id, titulo")
+        .eq("status", "activo")
+        .eq("country_code", pais);
+      if (!error) {
+        hasRealListings = (data ?? []).some((campo) =>
+          !campo.id.startsWith("20000000-") && !/\bDEMO\b/i.test(campo.titulo ?? ""),
+        );
+      }
+    } catch {
+      // No desindexar una URL por un fallo transitorio de lectura.
+    }
   }
   return {
     title: pais === "US" ? "Farmland for Rent and Sale in the United States | RentoCampo" : pais === "BR" ? "Arrendamento rural e fazendas no Brasil | RentoCampo" : `Alquiler de campos y tierras en ${COUNTRIES[pais].name} | RentoCampo`,
