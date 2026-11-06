@@ -1,6 +1,6 @@
 import GaleriaCarrusel from "@/components/campos/GaleriaCarrusel";
 import "@/styles/carrusel.css";
-import { demoServiceRegisterHref } from "@/data/visible-demo-services";
+import { demoServiceRegisterHref, esServicioDemoVisible } from "@/data/visible-demo-services";
 import type { Metadata } from "next";
 import { resolveCountry } from "@/data/countries";
 import { regionalText } from "@/lib/i18n/regional";
@@ -45,10 +45,15 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
     : `Encontrá ${actividad.toLowerCase()}${ubicacion ? ` en ${ubicacion}` : ""} y contactá directamente al prestador en RentoCampo.`;
   const url = `${SITE_URL}/servicios-rurales/${id}`;
 
+  const esPublicacionDemo =
+    id.startsWith("10000000-") ||
+    id.startsWith("20000000-") ||
+    esServicioDemoVisible(id);
+
   return {
     title,
     description,
-    robots: { index: true, follow: true },
+    robots: { index: !esPublicacionDemo, follow: true },
     alternates: { canonical: url },
     openGraph: { title, description, url, type: "website" },
   };
