@@ -103,7 +103,7 @@ export default function HomePremiumHero({ country }: { country: CountryCode }) {
               </RegionalLink>
               <RegionalLink href="/campos/mapa" fallbackCountry={country} className="rcp-home__map-link">
                 <MapPinned aria-hidden="true" size={21} />
-                {t("Explorar oportunidades en el mapa", "Explorar oportunidades no mapa", "Explore opportunities on the map")}
+                {t("EXPLORAR MAPA", "EXPLORAR MAPA", "EXPLORE MAP")}
                 <ArrowUpRight aria-hidden="true" size={17} />
               </RegionalLink>
             </div>
