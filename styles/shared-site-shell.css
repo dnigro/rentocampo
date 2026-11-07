@@ -1,13 +1,13 @@
 /* A single blue shell on home, public, account, authentication and Lite routes. */
 @layer shared-site-shell {
   html body header.navbar, html body footer.footer {background:#0b2035!important;color:#f5f8fb!important;border-color:#28475e!important;box-shadow:none!important;width:100%!important;box-sizing:border-box!important}
-  html body header.navbar {height:92px!important;min-height:92px!important;padding:0!important}
+  html body header.navbar {height:112px!important;min-height:112px!important;padding:0!important}
   html body header.navbar .navbar-inner {width:100%!important;max-width:1536px!important;height:100%!important;margin:0 auto!important;padding:0 48px!important;gap:28px!important;box-sizing:border-box!important}
   html body header.navbar .navbar-logo {gap:10px!important;min-width:0!important}
-  html body header.navbar .navbar-brand-title {font-size:34px!important;line-height:1.1!important;font-weight:750!important;color:#fff!important;-webkit-text-fill-color:#fff!important;white-space:nowrap!important}
-  html body header.navbar .navbar-brand-icon {width:40px!important;height:44px!important;object-fit:contain!important;flex-shrink:0!important}
+  html body header.navbar .navbar-brand-title {font-size:42px!important;line-height:1.1!important;font-weight:750!important;color:#fff!important;-webkit-text-fill-color:#fff!important;white-space:nowrap!important}
+  html body header.navbar .navbar-brand-icon {width:48px!important;height:53px!important;object-fit:contain!important;flex-shrink:0!important}
   html body header.navbar :is(.nav-link,.btn-ghost,.navbar-mensajes,.navbar-mobile-account,.hamburguesa), html body header.navbar .navbar-country-switch>label {color:#f5f8fb!important;-webkit-text-fill-color:#f5f8fb!important}
-  html body header.navbar :is(.nav-link,.btn-ghost) {font-size:18px!important;line-height:1.35!important;padding:10px 12px!important;min-height:44px!important;white-space:nowrap!important}
+  html body header.navbar :is(.nav-link,.btn-ghost) {font-size:21px!important;line-height:1.35!important;padding:10px 12px!important;min-height:44px!important;white-space:nowrap!important}
   html body header.navbar .navbar-links {gap:8px!important;flex:1!important}
   html body header.navbar :is(.navbar-actions,.navbar-desktop){gap:10px!important}
   html body header.navbar :is(.btn-ghost,.navbar-mensajes,.navbar-mobile-account,.hamburguesa){background:transparent!important;border-color:transparent!important}
@@ -27,8 +27,8 @@
   html body footer.footer :is(a,button):focus-visible {outline:2px solid #b9d9ed!important;outline-offset:3px!important}
   @media(max-width:1200px) {
     html body header.navbar .navbar-inner {padding:0 24px!important;gap:16px!important}
-    html body header.navbar .navbar-brand-title {font-size:28px!important}
-    html body header.navbar :is(.nav-link,.btn-ghost) {font-size:16px!important;padding:8px!important}
+    html body header.navbar .navbar-brand-title {font-size:32px!important}
+    html body header.navbar :is(.nav-link,.btn-ghost) {font-size:18px!important;padding:8px!important}
   }
   @media(max-width:1000px) {
     html body header.navbar :is(.navbar-links,.navbar-desktop){display:none!important}
