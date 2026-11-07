@@ -318,15 +318,21 @@ export default function ServicioRuralForm({ profile, publicacion, initialCountry
             <div><strong>{tt("Mostrá tu servicio con una foto real", "Mostre seu serviço com uma foto real", "Show your real work")}</strong>
             <small>{tt("Una imagen clara genera más confianza.", "Uma imagem clara transmite confiança.", "A clear photo builds trust.")}</small></div>
           </div>
-          <div className="servicio-fotos-grid">
-            {photos.map((photo,index)=>(<div className="servicio-fotos-item" key={photo.url}>
-              <Image src={photo.url} alt={tt("Imagen del servicio","Imagem do serviço","Service photo")+` ${index+1}`} width={360} height={240} className="servicio-foto-preview" unoptimized={photo.url.startsWith("blob:")} />
-              <button type="button" className="btn-secondary-lg" onClick={()=>removePhoto(index)}>{tt("Eliminar","Excluir","Remove")}</button>
-            </div>))}
+          <div className="fotos-grid">
+            {photos.map((photo, index) => (
+              <div className="foto-thumb" key={photo.url}>
+                <Image src={photo.url} alt={tt("Imagen del servicio", "Imagem do serviço", "Service photo") + ` ${index + 1}`} width={320} height={240} unoptimized={photo.url.startsWith("blob:")} />
+                <button type="button" className="foto-remove" onClick={() => removePhoto(index)} title={tt("Eliminar foto", "Excluir foto", "Remove photo")} aria-label={tt("Eliminar foto", "Excluir foto", "Remove photo") + ` ${index + 1}`}>×</button>
+                {index === 0 && <span className="foto-principal">{tt("Principal", "Principal", "Main")}</span>}
+              </div>
+            ))}
+            {photos.length < 8 && (
+              <button type="button" className="foto-add" onClick={() => photoInputRef.current?.click()}>
+                <span className="foto-add-icon"><Images size={26} aria-hidden="true" /></span>
+                <span className="foto-add-label">{tt("Agregar foto", "Adicionar foto", "Add photo")}</span>
+              </button>
+            )}
           </div>
-          <button type="button" className="btn-secondary-lg rc-publish-photo-button" disabled={photos.length>=8} onClick={()=>photoInputRef.current?.click()}>
-            <UploadCloud size={18} aria-hidden="true" /> {tt("Agregar imágenes","Adicionar imagens","Add photos")} ({photos.length}/8)
-          </button>
           <input
             ref={photoInputRef}
             type="file"
