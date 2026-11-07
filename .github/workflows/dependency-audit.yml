@@ -1,0 +1,74 @@
+name: Dependency security audit
+
+on:
+  pull_request:
+  workflow_dispatch:
+  schedule:
+    - cron: "19 9 * * 1"
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    name: Inventory npm vulnerabilities (read-only)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout without persisted credentials
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Audit production dependencies
+        run: npm audit --omit=dev --json > audit-production.json || true
+
+      - name: Audit all dependencies
+        run: npm audit --json > audit-all.json || true
+
+      - name: Summarize vulnerability inventory
+        shell: bash
+        run: |
+          node <<'NODE'
+          const fs = require("node:fs");
+          const scopes = [["Production", "audit-production.json"], ["All", "audit-all.json"]];
+          const summary = ["# npm security inventory", "", "Read-only audit. Review critical and high vulnerabilities and test upgrades before merging.", ""];
+          for (const [label, path] of scopes) {
+            let report;
+            try { report = JSON.parse(fs.readFileSync(path, "utf8")); }
+            catch (err) {
+              console.error(label + ": audit output could not be parsed", err.message);
+              process.exitCode = 1;
+              continue;
+            }
+            if (report.error) {
+              console.error(label + ": npm audit failed", JSON.stringify(report.error));
+              process.exitCode = 1;
+              continue;
+            }
+            const counts = report.metadata?.vulnerabilities ?? {};
+            const found = Object.entries(report.vulnerabilities ?? {})
+              .sort((a, b) => ["critical","high","moderate","low"].indexOf(a[1].severity) -
+                               ["critical","high","moderate","low"].indexOf(b[1].severity));
+            summary.push("## " + label, "", "Severity counts: " + JSON.stringify(counts), "",
+              "| Dependency | Severity | Direct | Advisory |", "| --- | --- | --- | --- |");
+            for (const [name, item] of found) {
+              const advisory = (item.via ?? []).find(x => typeof x === "object" && x.url);
+              const url = advisory?.url ?? "";
+              const title = advisory?.title?.replace(/[|\n\r]/g, " ") ?? "transitive";
+              summary.push("| " + name.replaceAll("|","") + " | " + item.severity +
+                " | " + (item.isDirect ? "yes" : "no") + " | " +
+                (url ? "[" + title + "](" + url + ")" : title) + " |");
+            }
+            summary.push("");
+            console.log(label + ": " + JSON.stringify(counts));
+            console.log(found.map(([name, item]) => item.severity + " " + name +
+              (item.isDirect ? " (direct)" : " (transitive)")).join("\n"));
+          }
+          fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, summary.join("\n") + "\n");
+          NODE
