@@ -1,7 +1,7 @@
 /* RentoCampo · alianzas institucionales, azul carbón y grises mate */
 .rc-partners{--rc-navy:#0b2035;--rc-blue:#153b57;--rc-line:#d5e1e9;--rc-muted:#536b7e;background:#f4f6f8;color:#18374e;font:18px/1.65 var(--font-dm-sans),Arial,sans-serif}
 .rc-partners *{box-sizing:border-box;min-width:0}
-.rc-partners-container{width:min(1320px,calc(100% - 72px));margin-inline:auto}
+.rc-partners-container{width:min(1440px,calc(100% - 96px));margin-inline:auto}
 .rc-partners-hero{position:relative;isolation:isolate;overflow:hidden;padding:clamp(40px,5vw,72px) 0;background:linear-gradient(112deg,#0b2035 0%,#153a56 62%,#294f6a 100%);color:#e8f0f5}
 .rc-partners-hero:after{content:"";position:absolute;z-index:-1;pointer-events:none;right:-9%;top:-28%;width:46%;height:155%;transform:skewX(-24deg);border-left:1px solid #7796a8;background:linear-gradient(112deg,#ffffff03,#ffffff10)}
 .rc-partners-eyebrow{display:flex;align-items:center;gap:12px;margin:0 0 16px;color:#52748c;font-size:15px;font-weight:800;letter-spacing:.075em;line-height:1.5;text-transform:uppercase}
