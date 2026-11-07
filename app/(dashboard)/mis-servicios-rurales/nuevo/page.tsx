@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import ServicioRuralForm from "@/components/servicios/ServicioRuralForm";
 import { resolveCountry } from "@/data/countries";
 import "@/styles/perfil.css";
@@ -14,8 +15,7 @@ export default async function NuevoServicioRuralPage({ searchParams }: { searchP
 
   if (!user) redirect("/login");
 
-  const { data: profile } = await supabase
-    .from("profiles")
+  const { data: profile } = await createAdminClient().from("profiles")
     .select("*")
     .eq("id", user.id)
     .single();
