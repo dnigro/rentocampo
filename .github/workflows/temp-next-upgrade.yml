@@ -1,3 +1,4 @@
+# Only runs on the dedicated internal security patch branch.
 name: Temporary trusted Next.js lockfile upgrade
 
 on:
