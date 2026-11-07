@@ -115,3 +115,11 @@ html body .publication-dialog .publication-dialog-eyebrow{font-size:14px}
     html body :is(.app-shell,.lite-app) .account-workspace.account-workspace.account-workspace :is(.form-label,.form-input,.form-hint,.avatar-hint,.perfil-photo-label,.perfil-role-option,.perfil-role-option strong) {font-size:17px!important}
   }
 }
+@layer account-readability {
+  html body :is(.app-shell,.lite-app) .account-workspace.account-workspace.account-workspace .perfil-avatar-panel .avatar-preview{width:184px!important;height:184px!important;flex:0 0 184px!important}
+  html body :is(.app-shell,.lite-app) .account-workspace.account-workspace.account-workspace .perfil-avatar-panel .avatar-preview img{width:100%!important;height:100%!important;object-fit:cover!important}
+  html body :is(.app-shell,.lite-app) .account-workspace.account-workspace.account-workspace .perfil-avatar-panel .avatar-editor{gap:24px!important}
+  html body :is(.app-shell,.lite-app) .account-workspace.account-workspace.account-workspace .perfil-avatar-panel .avatar-info{min-width:0;flex:1 1 210px}
+  html body :is(.app-shell,.lite-app) .account-workspace.account-workspace.account-workspace .perfil-avatar-panel .btn-remove-avatar{display:flex!important;align-items:center!important;justify-content:center!important;font:600 18px/1.4 var(--font-dm-sans),Arial,sans-serif!important;min-height:48px!important;padding:10px 18px!important;margin-top:12px!important;border:1px solid #d9b4b4!important;border-radius:12px!important;background:#fff7f7!important;color:#9c3030!important;text-decoration:none!important;cursor:pointer!important}
+  @media(max-width:700px){html body :is(.app-shell,.lite-app) .account-workspace.account-workspace.account-workspace .perfil-avatar-panel .avatar-preview{width:152px!important;height:152px!important;flex-basis:152px!important}}
+}

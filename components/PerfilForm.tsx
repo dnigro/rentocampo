@@ -223,8 +223,8 @@ export default function PerfilForm({ profile, email, country }: Props) {
               <Image
                 src={avatarPreview}
                 alt="Avatar"
-                width={80}
-                height={80}
+                width={192}
+                height={192}
                 unoptimized={avatarPreview.startsWith("blob:")}
               />
             ) : (
