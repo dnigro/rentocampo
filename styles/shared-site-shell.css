@@ -97,3 +97,21 @@ html body :is(.app-shell,.lite-app) :is(.campo-form,.servicio-publicacion-form,.
 html body :is(.app-shell,.lite-app) :is(.campo-form,.servicio-publicacion-form,.rc-publish-form) .fotos-grid > :is(.foto-add,.foto-thumb){width:100%!important;height:auto!important;min-height:0!important;max-height:120px!important;aspect-ratio:4/3!important;align-self:start!important}
 html body :is(.app-shell,.lite-app) :is(.campo-form,.servicio-publicacion-form,.rc-publish-form) .fotos-grid > .foto-thumb img{width:100%!important;height:100%!important;object-fit:cover!important}
 @media(max-width:420px){html body :is(.app-shell,.lite-app) :is(.campo-form,.servicio-publicacion-form,.rc-publish-form) .fotos-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+
+/* Unlayered canonical header: layered !important declarations lose to legacy
+   unlayered !important rules. Match the Home's full-size navigation everywhere. */
+@media(min-width:1001px){
+  html body header.navbar.navbar--home,
+  html body .app-shell header.navbar.navbar--home{height:clamp(112px,8.1vw,150px)!important;min-height:clamp(112px,8.1vw,150px)!important;padding:0!important;background:#0b2035!important}
+  html body header.navbar.navbar--home .navbar-inner,
+  html body .app-shell header.navbar.navbar--home .navbar-inner{height:100%!important;max-width:1920px!important;width:100%!important;padding-inline:clamp(24px,3.7vw,70px)!important;gap:clamp(18px,2vw,36px)!important;box-sizing:border-box!important}
+  html body header.navbar.navbar--home .navbar-brand-title,
+  html body .app-shell header.navbar.navbar--home .navbar-brand-title{font-size:clamp(40px,3.15vw,58px)!important;line-height:1.08!important;white-space:nowrap!important}
+  html body header.navbar.navbar--home .navbar-brand-icon,
+  html body .app-shell header.navbar.navbar--home .navbar-brand-icon{width:clamp(44px,3.4vw,64px)!important;height:clamp(49px,3.8vw,70px)!important}
+  html body header.navbar.navbar--home :is(.nav-link,.btn-ghost),
+  html body .app-shell header.navbar.navbar--home :is(.nav-link,.btn-ghost){font-size:clamp(19px,1.58vw,29px)!important;line-height:1.3!important;font-weight:750!important;min-height:48px!important}
+  html body header.navbar.navbar--home .navbar-country-switch>label{font-size:clamp(13px,1vw,18px)!important}
+  html body header.navbar.navbar--home .navbar-country-switch :is(select,button[aria-haspopup=listbox]){font-size:clamp(15px,1.1vw,20px)!important;min-height:48px!important}
+  html body header.navbar.navbar--home .navbar-mensajes svg{width:clamp(26px,1.8vw,34px)!important;height:clamp(26px,1.8vw,34px)!important}
+}
