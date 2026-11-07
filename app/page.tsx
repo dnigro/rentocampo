@@ -3,7 +3,6 @@ import { redirect } from "next/navigation";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import LandingPageContent from "@/components/landing/LandingPageContent";
-import "@/styles/public.css";
 
 export const metadata: Metadata = {
   title: "RentoCampo | Alquiler de campos y servicios rurales sin comisión",
