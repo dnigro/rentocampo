@@ -5,7 +5,7 @@ import { displayCountryName, COUNTRIES, COUNTRY_CODES_ALPHABETICAL, getCountrySu
 import { useRouter } from "next/navigation";
 import { errorTextoPublico } from "@/lib/publication-content-guard";
 import { useRef, useState, useEffect } from "react";
-import { Check, FileText, Images, MapPinned, UploadCloud, Wheat, Fence, Wifi, Handshake, Beef } from "lucide-react";
+import { Check, FileText, Images, MapPinned, Wheat, Fence, Wifi, Handshake, Beef } from "lucide-react";
 import { SERVICIO_GRUPOS, servicioGrupoLabel, servicioGrupoDescripcion, servicioLabel } from "@/data/servicios-rurales";
 import { regionalText } from "@/lib/i18n/regional";
 import { useRegionalCountry } from "@/lib/i18n/useRegionalCountry";
