@@ -15,7 +15,7 @@ export async function POST(request: Request) {
   const formData = await request.formData();
   const file = formData.get("file");
   const extension = file instanceof File ? safeImageExtension(file, MAX_AVATAR_BYTES) : null;
-  if (!extension) {
+  if (!(file instanceof File) || !extension) {
     return NextResponse.json({ error: "Elegí una imagen de hasta 2 MB" }, { status: 400 });
   }
 
