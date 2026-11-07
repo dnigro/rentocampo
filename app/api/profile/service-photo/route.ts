@@ -19,7 +19,7 @@ export async function POST(request: Request) {
   const file = formData.get("file");
 
   const extension = file instanceof File ? safeImageExtension(file, MAX_SERVICE_PHOTO_BYTES) : null;
-  if (!extension) {
+  if (!(file instanceof File) || !extension) {
     return NextResponse.json(
       { error: "Elegí una imagen de hasta 4 MB" },
       { status: 400 },
