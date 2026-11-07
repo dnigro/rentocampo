@@ -285,3 +285,13 @@ html body .app-shell .rc-publish-form .form-hint {line-height:1.5}
   html body .app-shell .rc-publish-form .rc-publish-group-copy small {font-size:11px}
   html body .app-shell .rc-publish-form .rc-publish-group {gap:9px}
 }
+
+/* Servicios: la misma galería y controles de fotografía que Publicar campo. */
+html body .app-shell .rc-publish-form .servicio-foto-editor .fotos-grid{width:100%!important;flex:0 0 auto!important;align-self:flex-start!important;margin:12px 0!important}
+html body .app-shell .rc-publish-form .servicio-foto-editor .foto-thumb img{width:100%!important;height:100%!important;object-fit:cover!important}
+html body .app-shell .rc-publish-form .servicio-foto-editor .foto-remove{width:32px!important;height:32px!important;font-size:23px!important}
+html body .app-shell .rc-publish-form .servicio-foto-editor .foto-add-label{font-size:15px!important;color:#315e7d!important;font-weight:800!important}
+
+/* Avoid an empty service gallery stretching to the full form width. */
+html body .app-shell .rc-publish-form .servicio-foto-editor{align-items:flex-start!important;align-content:flex-start!important;height:auto!important;min-height:0!important}
+html body .app-shell .rc-publish-form .servicio-foto-editor .fotos-grid{grid-template-columns:repeat(auto-fill,minmax(128px,160px))!important;grid-auto-rows:max-content!important;min-height:0!important;height:auto!important;align-content:start!important;justify-content:start!important}

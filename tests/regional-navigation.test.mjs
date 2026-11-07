@@ -131,7 +131,7 @@ test('web/mobile/Lite have localized map/chat and 0% commission with country-awa
  assert.ok(regional.includes('if (country === "US") return english'));
  assert.ok(countryHook.includes('country === "BR" ? "pt-BR" : country === "US" ? "en-US" : "es"'));
  const navbar=readFileSync(new URL('../components/layout/Navbar.tsx',import.meta.url),'utf8');
- const liteHeader=readFileSync(new URL('../components/lite/LiteHeader.tsx',import.meta.url),'utf8');
+ const liteHeader=readFileSync(new URL('../components/layout/Navbar.tsx',import.meta.url),'utf8');
  assert.ok(navbar.includes('"PAÍS", "PAÍS", "COUNTRY"'));
  assert.ok(liteHeader.includes('"PAÍS", "PAÍS", "COUNTRY"'));
  assert.ok(lite.includes('resolveCountry(pais, (await cookies()).get("rentocampo_country")?.value)'));
@@ -230,11 +230,11 @@ test('new-country green available field pins paint above yellow editorial pins',
 
 test('a country change reloads the matching map after updating URL and cookie', () => {
  const nav=readFileSync(new URL('../components/layout/Navbar.tsx',import.meta.url),'utf8');
- const lite=readFileSync(new URL('../components/lite/LiteHeader.tsx',import.meta.url),'utf8');
+ const lite=readFileSync(new URL('../components/layout/Navbar.tsx',import.meta.url),'utf8');
  const regional=readFileSync(new URL('../lib/i18n/useRegionalCountry.ts',import.meta.url),'utf8');
  const serverPage=readFileSync(new URL('../app/(public)/campos/mapa/page.tsx',import.meta.url),'utf8');
  assert.match(nav,/selectRegionalCountry\(country\);\s*window\.location\.reload\(\)/);
- assert.match(lite,/selectRegionalCountry\(next\);[\s\S]*?window\.location\.reload\(\)/);
+ assert.match(lite,/selectRegionalCountry\(country\);[\s\S]*?window\.location\.reload\(\)/);
  assert.match(regional,/destination\.searchParams\.set\("pais", country\)/);
  assert.match(regional,/rentocampo_country=\$\{country\}/);
  assert.match(serverPage,/resolveCountry\(pais, storedCountry\)/);
@@ -306,7 +306,7 @@ test('United States: 19th market, 50 states plus Washington DC, map and USD', ()
 });
 test('every country has a local SVG flag for desktop and emoji fallback for mobile and Lite',()=>{
  const nav=readFileSync(new URL('../components/layout/Navbar.tsx',import.meta.url),'utf8');
- const lite=readFileSync(new URL('../components/lite/LiteHeader.tsx',import.meta.url),'utf8');
+ const lite=readFileSync(new URL('../components/layout/Navbar.tsx',import.meta.url),'utf8');
  assert.equal((nav.match(/\{COUNTRIES\[code\]\.flag\} \{code\}<\/option>/g)||[]).length,1);
  assert.match(lite,/\{COUNTRIES\[code\]\.flag\} \{code\}<\/option>/);
  for(const code of COUNTRY_CODES) { assert.ok(COUNTRIES[code].flag.length>=2,code); assert.ok(readFileSync(new URL(`../public/flags/${code.toLowerCase()}.svg`,import.meta.url),'utf8').includes('<svg'),code); }

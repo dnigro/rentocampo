@@ -1,3 +1,4 @@
+import EliminarPublicacion from "@/components/publicaciones/EliminarPublicacion";
 import { notFound, redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import ServicioRuralForm from "@/components/servicios/ServicioRuralForm";
@@ -17,5 +18,6 @@ export default async function EditarServicioPage({ params }: { params: Promise<{
   return <div className="page-container">
     <div className="page-header"><div><h1 className="page-title">Editar servicio rural</h1></div></div>
     <ServicioRuralForm profile={profile} publicacion={publicacion} />
+    <div className="publication-edit-delete"><EliminarPublicacion id={id} titulo={publicacion.nombre_comercial || "Servicio rural"} tipo="servicio" returnTo="/mis-servicios-rurales" /></div>
   </div>;
 }

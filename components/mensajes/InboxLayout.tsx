@@ -1,0 +1,199 @@
+import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
+import { redirect } from "next/navigation";
+import InboxShell from "@/components/mensajes/InboxShell";
+import { isMissingMensajesDirectosLeido } from "@/lib/supabase/mensajes-directos";
+import "@/styles/mensajes.css";
+
+interface PerfilHilo {
+  id: string;
+  nombre: string;
+  avatar_url: string | null;
+}
+
+interface CampoHilo {
+  id: string;
+  titulo: string;
+  provincia: string;
+  fotos: { url: string; orden: number | null }[];
+}
+
+interface Hilo {
+  id: string;
+  contenido: string;
+  created_at: string;
+  leido: boolean;
+  remitente_id: string;
+  destinatario_id: string;
+  campo: CampoHilo | null;
+  remitente: PerfilHilo | null;
+  destinatario: PerfilHilo | null;
+  noLeidos: number;
+}
+
+interface MensajeDirectoResumen {
+  id: string;
+  contenido: string;
+  created_at: string;
+  leido: boolean;
+  remitente_id: string;
+  destinatario_id: string;
+}
+
+function relationValue<T>(value: T | T[] | null): T | null {
+  return Array.isArray(value) ? (value[0] ?? null) : value;
+}
+
+export default async function InboxLayout({ children }: { children: React.ReactNode }) {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) redirect("/login");
+
+  // Traer último mensaje de cada campo donde participó el usuario
+  const [mensajesResult, mensajesDirectosResult] = await Promise.all([
+    supabase
+      .from("mensajes")
+      .select(
+        `
+      id,
+      contenido,
+      created_at,
+      leido,
+      remitente_id,
+      destinatario_id,
+      campo:campos(id, titulo, provincia, fotos:campos_fotos(url, orden)),
+      remitente:profiles!mensajes_remitente_id_fkey(id, nombre, avatar_url),
+      destinatario:profiles!mensajes_destinatario_id_fkey(id, nombre, avatar_url)
+    `,
+      )
+      .or(`remitente_id.eq.${user.id},destinatario_id.eq.${user.id}`)
+      .order("created_at", { ascending: false }),
+    supabase
+      .from("mensajes_directos")
+      .select("id, contenido, created_at, leido, remitente_id, destinatario_id")
+      .or(`remitente_id.eq.${user.id},destinatario_id.eq.${user.id}`)
+      .order("created_at", { ascending: false }),
+  ]);
+  const { data: mensajes } = mensajesResult;
+  let mensajesDirectos = mensajesDirectosResult.data as
+    | MensajeDirectoResumen[]
+    | null;
+  let mensajesDirectosError = mensajesDirectosResult.error;
+
+  if (isMissingMensajesDirectosLeido(mensajesDirectosError)) {
+    const fallback = await supabase
+      .from("mensajes_directos")
+      .select("id, contenido, created_at, remitente_id, destinatario_id")
+      .or(`remitente_id.eq.${user.id},destinatario_id.eq.${user.id}`)
+      .order("created_at", { ascending: false });
+
+    mensajesDirectos = (fallback.data ?? []).map((mensaje) => ({
+      ...mensaje,
+      leido: true,
+    }));
+    mensajesDirectosError = fallback.error;
+  }
+
+  if (mensajesDirectosError) {
+    console.error("Error cargando mensajes directos:", mensajesDirectosError);
+  }
+
+  const idsPerfilesDirectos = Array.from(
+    new Set(
+      (mensajesDirectos ?? []).flatMap((mensaje) => [
+        mensaje.remitente_id,
+        mensaje.destinatario_id,
+      ]),
+    ),
+  );
+  const admin = createAdminClient();
+  const { data: perfilesDirectos } = idsPerfilesDirectos.length
+    ? await admin
+        .from("profiles")
+        .select("id, nombre, avatar_url")
+        .in("id", idsPerfilesDirectos)
+    : { data: [] };
+  const perfilesPorId = new Map(
+    (perfilesDirectos ?? []).map((perfil) => [perfil.id, perfil]),
+  );
+
+  // Agrupar por campo y sumar las conversaciones directas de servicios rurales.
+  const hilosMap = new Map<string, Hilo>();
+  for (const m of mensajes ?? []) {
+    const campo = relationValue(
+      m.campo as unknown as CampoHilo | CampoHilo[] | null,
+    );
+    const remitente = relationValue(
+      m.remitente as unknown as PerfilHilo | PerfilHilo[] | null,
+    );
+    const destinatario = relationValue(
+      m.destinatario as unknown as PerfilHilo | PerfilHilo[] | null,
+    );
+    const campoId = campo?.id;
+    const otroId = m.remitente_id === user.id ? m.destinatario_id : m.remitente_id;
+    const clave = campoId ? `campo:${campoId}` : `directo:${otroId}`;
+    if (!hilosMap.has(clave)) {
+      hilosMap.set(clave, {
+        ...m,
+        campo,
+        remitente,
+        destinatario,
+        noLeidos: 0,
+      });
+    }
+  }
+  for (const m of mensajesDirectos ?? []) {
+    const otroId = m.remitente_id === user.id ? m.destinatario_id : m.remitente_id;
+    const clave = `directo:${otroId}`;
+    if (hilosMap.has(clave)) continue;
+
+    hilosMap.set(clave, {
+      ...m,
+      campo: null,
+      remitente: perfilesPorId.get(m.remitente_id) ?? null,
+      destinatario: perfilesPorId.get(m.destinatario_id) ?? null,
+      noLeidos: 0,
+    });
+  }
+
+  const noLeidosPorHilo = new Map<string, number>();
+  for (const mensaje of mensajes ?? []) {
+    if (mensaje.leido || mensaje.destinatario_id !== user.id) continue;
+    const campo = relationValue(
+      mensaje.campo as unknown as CampoHilo | CampoHilo[] | null,
+    );
+    const otroId =
+      mensaje.remitente_id === user.id
+        ? mensaje.destinatario_id
+        : mensaje.remitente_id;
+    const clave = campo?.id ? `campo:${campo.id}` : `directo:${otroId}`;
+    noLeidosPorHilo.set(clave, (noLeidosPorHilo.get(clave) ?? 0) + 1);
+  }
+  for (const mensaje of mensajesDirectos ?? []) {
+    if (mensaje.leido || mensaje.destinatario_id !== user.id) continue;
+    const otroId =
+      mensaje.remitente_id === user.id
+        ? mensaje.destinatario_id
+        : mensaje.remitente_id;
+    const clave = `directo:${otroId}`;
+    noLeidosPorHilo.set(clave, (noLeidosPorHilo.get(clave) ?? 0) + 1);
+  }
+
+  const hilos = Array.from(hilosMap.values()).map((hilo) => {
+    const otroId =
+      hilo.remitente_id === user.id
+        ? hilo.destinatario_id
+        : hilo.remitente_id;
+    const clave = hilo.campo?.id
+      ? `campo:${hilo.campo.id}`
+      : `directo:${otroId}`;
+    return { ...hilo, noLeidos: noLeidosPorHilo.get(clave) ?? 0 };
+  }).sort(
+    (a, b) =>
+      new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
+  );
+
+  return <InboxShell hilos={hilos} userId={user.id}>{children}</InboxShell>;
+}

@@ -126,6 +126,7 @@ export default function MensajeHilo({
 
       const mensaje: Mensaje = { ...result.mensaje, remitente: null };
       setMensajes((prev) => prev.some((item) => item.id === mensaje.id) ? prev : [...prev, mensaje]);
+      window.dispatchEvent(new Event("mensajes:actualizar"));
       trackEvent("enviar_mensaje", { tipo: campoId ? "campo" : "general" });
     } catch (cause) {
       console.error("Error enviando mensaje:", cause);

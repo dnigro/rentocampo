@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import Link from "@/components/layout/SiteLink";
 import Image from "next/image";
 import { ArrowRight, ChevronDown, Menu, MessagesSquare, X, UserRound } from "lucide-react";
 import { useRouter, usePathname } from "next/navigation";
@@ -20,6 +20,7 @@ function NavbarContent() {
   const [countryMenuOpen, setCountryMenuOpen] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
+  const lite = pathname.startsWith("/lite");
   const activeCountry = useRegionalCountry();
   const [supabase] = useState(createClient);
 
@@ -143,11 +144,11 @@ function NavbarContent() {
   async function handleLogout() {
     await supabase.auth.signOut();
     setMenuAbierto(false);
-    router.push("/");
+    router.push(lite ? "/lite" : "/");
     router.refresh();
   }
 
-  const enMensajes = pathname?.startsWith("/mensajes");
+  const enMensajes = pathname.startsWith(lite ? "/lite/perfil/mensajes" : "/mensajes");
 
   return (
     <>

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import Link from "@/components/layout/SiteLink";
+import { Send, Sprout, MessagesSquare, Handshake } from "lucide-react";
 import { cookies } from "next/headers";
 import { resolveCountry } from "@/data/countries";
 import "./styles.css";
@@ -39,7 +40,7 @@ export default async function AlianzasPage({
 
   const links = [
     {
-      key: "01",
+      key: "01", icon: Send,
       title: t("Compartí la invitación", "Compartilhe o convite"),
       text: t(
         "Compartí RentoCampo en tus canales institucionales para que tus asociados conozcan esta herramienta.",
@@ -47,7 +48,7 @@ export default async function AlianzasPage({
       ),
     },
     {
-      key: "02",
+      key: "02", icon: Sprout,
       title: t("Tus asociados publican gratis", "Seus associados anunciam grátis"),
       text: t(
         "Cada propietario o prestador crea su perfil y publica su campo o servicio sin costo durante esta etapa.",
@@ -55,7 +56,7 @@ export default async function AlianzasPage({
       ),
     },
     {
-      key: "03",
+      key: "03", icon: MessagesSquare,
       title: t("El contacto es directo", "O contato é direto"),
       text: t(
         "Los interesados pueden encontrar las publicaciones por zona y consultar directamente al anunciante.",
@@ -67,7 +68,7 @@ export default async function AlianzasPage({
     <div className="rc-partners">
         <section className="rc-partners-hero">
           <div className="rc-partners-container">
-            <p className="rc-partners-eyebrow">{t("RENTOCAMPO · ALIANZAS RURALES", "RENTOCAMPO · PARCERIAS RURAIS")}</p>
+            <p className="rc-partners-eyebrow"><Handshake size={24} aria-hidden="true" />{t("RENTOCAMPO · ALIANZAS RURALES", "RENTOCAMPO · PARCERIAS RURAIS")}</p>
             <h1>{t("Más oportunidades para tus asociados. Más conexiones para el campo.", "Mais oportunidades para seus associados. Mais conexões para o campo.")}</h1>
             <p className="rc-partners-subtitle">
               {t(
@@ -124,7 +125,7 @@ export default async function AlianzasPage({
             <div className="rc-partners-grid">
               {links.map((step) => (
                 <article className="rc-partners-card" key={step.key}>
-                  <span aria-hidden="true" className="rc-partners-number">{step.key}</span>
+                  <div className="rc-partners-card-top"><span className="rc-partners-icon"><step.icon size={30} aria-hidden="true" /></span><span aria-hidden="true" className="rc-partners-number">{step.key}</span></div>
                   <h3>{step.title}</h3>
                   <p>{step.text}</p>
                 </article>

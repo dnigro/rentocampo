@@ -1,57 +1,21 @@
-import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
-import { createClient as createAdminClient } from "@supabase/supabase-js";
+import { deleteOwnedPublication } from "@/lib/delete-owned-publication";
+import { revalidatePath } from "next/cache";
 
-export async function DELETE(
-  _request: Request,
-  { params }: { params: Promise<{ id: string }> },
-) {
+export async function DELETE(request: Request, { params }: { params: Promise<{ id: string }> }) {
+  const origin = request.headers.get("origin");
+  if (origin && origin !== new URL(request.url).origin) {
+    return Response.json({ error: "Origen inválido." }, { status: 403 });
+  }
   const { id } = await params;
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    return NextResponse.json({ error: "No autenticado" }, { status: 401 });
+  const result = await deleteOwnedPublication(await createClient(), "campos", id);
+  if (result.ok) {
+    revalidatePath("/mis-campos");
+    revalidatePath("/campos");
+    revalidatePath("/campos/" + id);
+    revalidatePath("/dashboard");
+    revalidatePath("/favoritos");
+    revalidatePath("/lite", "layout");
   }
-
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const serviceRole = process.env.SUPABASE_SERVICE_ROLE_KEY;
-
-  if (!url || !serviceRole) {
-    return NextResponse.json(
-      { error: "Servidor no configurado" },
-      { status: 503 },
-    );
-  }
-
-  const admin = createAdminClient(url, serviceRole, {
-    auth: { autoRefreshToken: false, persistSession: false },
-  });
-
-  const { data: campo } = await admin
-    .from("campos")
-    .select("id, propietario_id")
-    .eq("id", id)
-    .maybeSingle();
-
-  if (!campo || campo.propietario_id !== user.id) {
-    return NextResponse.json({ error: "Campo no encontrado" }, { status: 404 });
-  }
-
-  const { error } = await admin
-    .from("campos")
-    .delete()
-    .eq("id", id)
-    .eq("propietario_id", user.id);
-
-  if (error) {
-    return NextResponse.json(
-      { error: "No se pudo eliminar el campo." },
-      { status: 500 },
-    );
-  }
-
-  return NextResponse.json({ ok: true });
+  return result;
 }

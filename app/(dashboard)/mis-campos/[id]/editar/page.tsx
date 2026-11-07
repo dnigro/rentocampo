@@ -1,3 +1,4 @@
+import EliminarPublicacion from "@/components/publicaciones/EliminarPublicacion";
 import { createClient } from "@/lib/supabase/server";
 import { redirect, notFound } from "next/navigation";
 import CampoForm from "@/components/campos/CampoForm";
@@ -56,6 +57,7 @@ export default async function EditarCampoPage({
         initialData={campo}
         fotosIniciales={fotos ?? []}
       />
+    <div className="publication-edit-delete"><EliminarPublicacion id={id} titulo={campo.titulo} tipo="campo" returnTo="/mis-campos" /></div>
     </div>
   );
 }

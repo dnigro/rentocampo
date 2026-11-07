@@ -1,0 +1,134 @@
+/* A single blue shell on home, public, account, authentication and Lite routes. */
+@layer shared-site-shell {
+  html body header.navbar, html body footer.footer {background:#0b2035!important;color:#f5f8fb!important;border-color:#28475e!important;box-shadow:none!important;width:100%!important;box-sizing:border-box!important}
+  html body header.navbar {height:112px!important;min-height:112px!important;padding:0!important}
+  html body header.navbar .navbar-inner {width:100%!important;max-width:1536px!important;height:100%!important;margin:0 auto!important;padding:0 48px!important;gap:28px!important;box-sizing:border-box!important}
+  html body header.navbar .navbar-logo {gap:10px!important;min-width:0!important}
+  html body header.navbar .navbar-brand-title {font-size:clamp(34px,3.1vw,42px)!important;line-height:1.1!important;font-weight:750!important;color:#fff!important;-webkit-text-fill-color:#fff!important;white-space:nowrap!important}
+  html body header.navbar .navbar-brand-icon {width:48px!important;height:53px!important;object-fit:contain!important;flex-shrink:0!important}
+  html body header.navbar :is(.nav-link,.btn-ghost,.navbar-mensajes,.navbar-mobile-account,.hamburguesa), html body header.navbar .navbar-country-switch>label {color:#f5f8fb!important;-webkit-text-fill-color:#f5f8fb!important}
+  html body header.navbar :is(.nav-link,.btn-ghost) {font-size:clamp(18px,1.55vw,21px)!important;line-height:1.35!important;padding:10px 12px!important;min-height:44px!important;white-space:nowrap!important}
+  html body header.navbar .navbar-links {gap:8px!important;flex:1!important}
+  html body header.navbar :is(.navbar-actions,.navbar-desktop){gap:10px!important}
+  html body header.navbar :is(.btn-ghost,.navbar-mensajes,.navbar-mobile-account,.hamburguesa){background:transparent!important;border-color:transparent!important}
+  html body header.navbar :is(.nav-link,.btn-ghost,.navbar-mensajes,.navbar-mobile-account,.hamburguesa):hover {background:#24445e!important;color:#fff!important}
+  html body header.navbar :is(a,button,select):focus-visible {outline:2px solid #b9d9ed!important;outline-offset:3px!important}
+  html body header.navbar .navbar-country-switch>label {font-size:13px!important}
+  html body header.navbar .navbar-country-switch :is(select,button[aria-haspopup=listbox]) {background:#fff!important;color:#122f46!important;-webkit-text-fill-color:#122f46!important;font-size:15px!important;min-height:40px!important}
+  html body header.navbar .navbar-mensajes svg {width:26px!important;height:26px!important}
+  html body footer.footer {padding:28px 48px 0!important;margin:0!important}
+  html body footer.footer .footer-inner {max-width:1440px!important;width:100%!important;margin:0 auto!important;grid-template-columns:minmax(220px,1.4fr) repeat(4,minmax(0,1fr))!important;gap:26px!important;padding-bottom:26px!important}
+  html body footer.footer .footer-bottom {max-width:1440px!important;width:100%!important;margin:0 auto!important;padding:18px 0!important;color:#dce6ec!important}
+  html body footer.footer :is(.footer-col-title,.footer-brand-name) {color:#fff!important;-webkit-text-fill-color:#fff!important}
+  html body footer.footer :is(.footer-link,.footer-desc,.footer-bottom-link,.footer-bottom,.footer-contact-link) {color:#dce6ec!important;-webkit-text-fill-color:#dce6ec!important;font-size:15px!important;line-height:1.55!important}
+  html body footer.footer .footer-col-title {font-size:17px!important;line-height:1.35!important}
+  html body footer.footer .footer-col-title svg {width:22px!important;height:22px!important;min-width:22px!important}
+  html body footer.footer .footer-brand-name {font-size:30px!important;line-height:1.2!important}
+  html body footer.footer :is(a,button):focus-visible {outline:2px solid #b9d9ed!important;outline-offset:3px!important}
+  @media(max-width:1200px) {
+    html body header.navbar .navbar-inner {padding:0 24px!important;gap:16px!important}
+    html body header.navbar :is(.nav-link,.btn-ghost) {padding:8px!important}
+  }
+  @media(max-width:1000px) {
+    html body header.navbar :is(.navbar-links,.navbar-desktop){display:none!important}
+    html body header.navbar .navbar-mobile-right {display:flex!important;align-items:center!important;gap:12px!important;margin-left:auto!important}
+    html body header.navbar :is(.navbar-mobile-account,.hamburguesa){display:inline-flex!important;align-items:center!important;justify-content:center!important;min-width:44px!important;min-height:44px!important}
+    html body footer.footer .footer-inner {grid-template-columns:repeat(2,minmax(0,1fr))!important}
+    html body footer.footer .footer-brand {grid-column:1/-1!important}
+  }
+  @media(max-width:600px) {
+    html body header.navbar {height:80px!important;min-height:80px!important}
+    html body header.navbar .navbar-inner {padding:0 16px!important;gap:10px!important}
+    html body header.navbar .navbar-brand-title {font-size:23px!important}
+    html body header.navbar .navbar-brand-icon {width:30px!important;height:34px!important}
+    html body header.navbar .navbar-mobile-right {gap:4px!important}
+    html body header.navbar .navbar-country-switch>label {display:none!important}
+    html body header.navbar .navbar-country-switch select {min-width:64px!important;width:64px!important;padding:6px!important}
+    html body header.navbar .navbar-mobile-account {display:none!important}
+    html body header.navbar .navbar-mobile-right .navbar-mensajes {display:none!important}
+    html body footer.footer {padding:26px 16px 0!important}
+    html body footer.footer .footer-inner {gap:24px 16px!important}
+    html body footer.footer .footer-bottom {display:flex!important;flex-direction:column!important;align-items:flex-start!important;gap:12px!important}
+  }
+}
+/* Forms share the same rules on web and Lite. Scope to actual fields: do not
+   resize badges, avatars, charts or navigation as if they were form controls. */
+@layer account-readability {
+  html body :is(.app-shell,.lite-app) .account-workspace.account-workspace.account-workspace :is(form,.perfil-danger-zone,.form-section,.form-field,.form-row){min-width:0!important;box-sizing:border-box!important;max-width:100%!important}
+  html body :is(.app-shell,.lite-app) .account-workspace.account-workspace.account-workspace :is(.campo-form,.servicio-publicacion-form){width:100%!important;max-width:none!important;padding:24px!important}
+  html body :is(.app-shell,.lite-app) .account-workspace.account-workspace.account-workspace .form-row {display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:20px!important}
+  html body :is(.app-shell,.lite-app) .account-workspace.account-workspace.account-workspace :is(input.form-input,select.form-input,textarea.form-input){width:100%!important;min-width:0!important;max-width:100%!important;box-sizing:border-box!important;height:auto!important;min-height:52px!important;padding:12px 14px!important;font-size:18px!important;line-height:1.5!important}
+  html body :is(.app-shell,.lite-app) .account-workspace.account-workspace.account-workspace textarea.form-input{min-height:128px!important;resize:vertical!important}
+  html body :is(.app-shell,.lite-app) .account-workspace.account-workspace.account-workspace .form-section-title-editorial{display:flex!important;flex-wrap:wrap!important;gap:10px!important;align-items:center!important;min-height:60px!important;padding:12px!important}
+  html body :is(.app-shell,.lite-app) .account-workspace.account-workspace.account-workspace .form-section-copy{flex:1 1 180px!important;min-width:0!important;font-size:22px!important;line-height:1.35!important;white-space:normal!important}
+  html body :is(.app-shell,.lite-app) .account-workspace.account-workspace.account-workspace .form-section-copy em{font-size:inherit!important;font-style:normal!important}
+  html body :is(.app-shell,.lite-app) .account-workspace.account-workspace.account-workspace .form-section-hint{font-size:15px!important;white-space:normal!important}
+  html body :is(.app-shell,.lite-app) .account-workspace.account-workspace.account-workspace .form-actions{display:flex!important;flex-wrap:wrap!important;gap:12px!important;justify-content:flex-end!important;align-items:center!important}
+  html body :is(.app-shell,.lite-app) .account-workspace.account-workspace.account-workspace .perfil-role-options{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:12px!important}
+  html body :is(.app-shell,.lite-app) .account-workspace.account-workspace.account-workspace .perfil-role-option{min-width:0!important;white-space:normal!important;overflow-wrap:anywhere!important}
+  html body :is(.app-shell,.lite-app) .account-workspace.account-workspace.account-workspace .form-field{margin-bottom:18px!important}
+  html body :is(.app-shell,.lite-app) .account-workspace.account-workspace.account-workspace .perfil-avatar-panel .avatar-editor{flex-wrap:wrap!important}
+  html body :is(.app-shell,.lite-app) .account-workspace.account-workspace.account-workspace :is(.fotos-grid,.servicio-fotos-grid){display:grid!important;grid-template-columns:repeat(auto-fill,minmax(128px,160px))!important;grid-auto-rows:max-content!important;align-content:start!important;justify-content:start!important;gap:12px!important}
+  html body :is(.app-shell,.lite-app) .account-workspace.account-workspace.account-workspace .mensaje-compose{display:grid!important;grid-template-columns:minmax(0,1fr) auto!important}
+  html body :is(.app-shell,.lite-app) .account-workspace.account-workspace.account-workspace .mensaje-compose-submit{grid-column:2!important;grid-row:2!important;align-self:stretch!important;min-width:144px!important}
+  html body :is(.app-shell,.lite-app) .account-workspace.account-workspace.account-workspace .rc-decision__view{min-width:0!important;height:auto!important;overflow:visible!important}
+  @media(max-width:760px){
+    html body :is(.app-shell,.lite-app) .account-workspace.account-workspace.account-workspace :is(.form-row,.perfil-role-options){grid-template-columns:minmax(0,1fr)!important}
+    html body :is(.app-shell,.lite-app) .account-workspace.account-workspace.account-workspace :is(.campo-form,.servicio-publicacion-form){padding:16px!important}
+    html body :is(.app-shell,.lite-app) .account-workspace.account-workspace.account-workspace .form-actions>*{width:100%!important;min-height:48px!important}
+    html body :is(.app-shell,.lite-app) .account-workspace.account-workspace.account-workspace .mensaje-compose{grid-template-columns:minmax(0,1fr)!important}
+    html body :is(.app-shell,.lite-app) .account-workspace.account-workspace.account-workspace .mensaje-compose-submit{grid-column:1!important;grid-row:4!important;min-width:0!important}
+  }
+}
+@layer shared-site-shell {
+  @media(max-width:380px){
+    html body header.navbar .navbar-inner{padding:0 12px!important;gap:8px!important}
+    html body header.navbar .navbar-logo{gap:7px!important}
+    html body header.navbar .navbar-brand-title{font-size:20px!important}
+    html body header.navbar .navbar-brand-icon{width:26px!important;height:30px!important}
+  }
+}
+@layer shared-site-shell {
+  html body .lite-app-footer{background:#0b2035!important}
+}
+
+/* Photo picker parity: tiles retain Campo's original compact 4:3 size. */
+html body :is(.app-shell,.lite-app) :is(.campo-form,.servicio-publicacion-form,.rc-publish-form) .fotos-grid{display:grid!important;grid-template-columns:repeat(auto-fill,minmax(128px,160px))!important;grid-auto-rows:max-content!important;align-content:start!important;justify-content:start!important;gap:12px!important;min-height:0!important;height:auto!important;flex:none!important}
+html body :is(.app-shell,.lite-app) :is(.campo-form,.servicio-publicacion-form,.rc-publish-form) .fotos-grid > :is(.foto-add,.foto-thumb){width:100%!important;height:auto!important;min-height:0!important;max-height:120px!important;aspect-ratio:4/3!important;align-self:start!important}
+html body :is(.app-shell,.lite-app) :is(.campo-form,.servicio-publicacion-form,.rc-publish-form) .fotos-grid > .foto-thumb img{width:100%!important;height:100%!important;object-fit:cover!important}
+@media(max-width:420px){html body :is(.app-shell,.lite-app) :is(.campo-form,.servicio-publicacion-form,.rc-publish-form) .fotos-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+
+/* Unlayered canonical header: layered !important declarations lose to legacy
+   unlayered !important rules. Match the Home's full-size navigation everywhere. */
+@media(min-width:1001px){
+  html body header.navbar.navbar--home,
+  html body .app-shell header.navbar.navbar--home{height:clamp(112px,8.1vw,150px)!important;min-height:clamp(112px,8.1vw,150px)!important;padding:0!important;background:#0b2035!important}
+  html body header.navbar.navbar--home .navbar-inner,
+  html body .app-shell header.navbar.navbar--home .navbar-inner{height:100%!important;max-width:1920px!important;width:100%!important;padding-inline:clamp(24px,3.7vw,70px)!important;gap:clamp(18px,2vw,36px)!important;box-sizing:border-box!important}
+  html body header.navbar.navbar--home .navbar-brand-title,
+  html body .app-shell header.navbar.navbar--home .navbar-brand-title{font-size:clamp(40px,3.15vw,58px)!important;line-height:1.08!important;white-space:nowrap!important}
+  html body header.navbar.navbar--home .navbar-brand-icon,
+  html body .app-shell header.navbar.navbar--home .navbar-brand-icon{width:clamp(44px,3.4vw,64px)!important;height:clamp(49px,3.8vw,70px)!important}
+  html body header.navbar.navbar--home :is(.nav-link,.btn-ghost),
+  html body .app-shell header.navbar.navbar--home :is(.nav-link,.btn-ghost){font-size:clamp(19px,1.58vw,29px)!important;line-height:1.3!important;font-weight:750!important;min-height:48px!important}
+  html body header.navbar.navbar--home .navbar-country-switch>label{font-size:clamp(13px,1vw,18px)!important}
+  html body header.navbar.navbar--home .navbar-country-switch :is(select,button[aria-haspopup=listbox]){font-size:clamp(15px,1.1vw,20px)!important;min-height:48px!important}
+  html body header.navbar.navbar--home .navbar-mensajes svg{width:clamp(26px,1.8vw,34px)!important;height:clamp(26px,1.8vw,34px)!important}
+}
+
+/* Canonical unlayered footer. Maps and internal pages must not inherit smaller
+   typography from legacy route styles. Keep the same Home dimensions everywhere. */
+@media(min-width:1001px){
+  html body .app-shell footer.footer,
+  html body:has(.mapa-page) .app-shell footer.footer{padding:40px clamp(32px,3.6vw,64px) 0!important;background:#0b2035!important}
+  html body .app-shell footer.footer .footer-inner,
+  html body:has(.mapa-page) .app-shell footer.footer .footer-inner{width:100%!important;max-width:1600px!important;grid-template-columns:minmax(260px,1.4fr) repeat(4,minmax(0,1fr))!important;gap:clamp(24px,2.4vw,44px)!important;padding-bottom:36px!important;margin-inline:auto!important}
+  html body .app-shell footer.footer .footer-brand-name{font-size:clamp(30px,2.3vw,40px)!important;line-height:1.15!important;font-weight:800!important}
+  html body .app-shell footer.footer .footer-brand-icon{width:clamp(35px,2.4vw,44px)!important;height:clamp(38px,2.7vw,48px)!important}
+  html body .app-shell footer.footer .footer-desc,
+  html body .app-shell footer.footer :is(.footer-link,.footer-contact-link){font-size:clamp(16px,1.18vw,20px)!important;line-height:1.55!important}
+  html body .app-shell footer.footer .footer-col-title{font-size:clamp(19px,1.35vw,24px)!important;line-height:1.35!important;font-weight:800!important}
+  html body .app-shell footer.footer .footer-col-title svg{width:clamp(23px,1.5vw,28px)!important;height:clamp(23px,1.5vw,28px)!important}
+  html body .app-shell footer.footer .footer-bottom{max-width:1600px!important;width:100%!important;padding:24px 0!important;margin-inline:auto!important;font-size:clamp(15px,1.05vw,18px)!important}
+  html body .app-shell footer.footer :is(.footer-bottom-link,.footer-bottom-copy){font-size:inherit!important;line-height:1.5!important}
+}

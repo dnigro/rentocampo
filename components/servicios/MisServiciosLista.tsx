@@ -3,6 +3,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
+import { usePathname } from "next/navigation";
+import EliminarPublicacion from "@/components/publicaciones/EliminarPublicacion";
 import { createClient } from "@/lib/supabase/client";
 import { tituloServicioRural } from "@/data/servicios-rurales";
 import { useTranslations } from "@/lib/i18n/useTranslations";
@@ -23,8 +25,8 @@ export default function MisServiciosLista({ publicaciones }: { publicaciones: Se
   const {country}=useTranslations();
   const tt=(es:string,pt:string)=>country==="BR"?pt:es;
   const [lista, setLista] = useState(publicaciones);
-  const [pendienteEliminar, setPendienteEliminar] = useState<string | null>(null);
-  const [eliminando, setEliminando] = useState(false);
+  const [notice, setNotice] = useState("");
+  const lite = usePathname().startsWith("/lite/");
   const supabase = createClient();
 
   async function toggleEstado(id: string, activo: boolean) {
@@ -33,17 +35,8 @@ export default function MisServiciosLista({ publicaciones }: { publicaciones: Se
     setLista((prev) => prev.map((p) => p.id === id ? { ...p, activo: !activo } : p));
   }
 
-  async function eliminar() {
-    if (!pendienteEliminar || eliminando) return;
-    setEliminando(true);
-    const { error } = await supabase.from("servicios_publicaciones").delete().eq("id", pendienteEliminar);
-    setEliminando(false);
-    if (error) return window.alert(tt("No se pudo eliminar la publicación.","Não foi possível excluir o anúncio."));
-    setLista((prev) => prev.filter((p) => p.id !== pendienteEliminar));
-    setPendienteEliminar(null);
-  }
-
   return <>
+  {notice && <p role="status" className="publication-list-notice">{notice}</p>}
   <div className="campos-grid">
     {lista.map((pub) => {
       const rubros = (pub.servicios_rurales ?? []) as ServicioRural[];
@@ -58,26 +51,13 @@ export default function MisServiciosLista({ publicaciones }: { publicaciones: Se
           {pub.zona && <p className="campo-card-datos">{pub.zona}</p>}
         </div>
         <div className="campo-card-actions">
-          <Link href={`/mis-servicios-rurales/${pub.id}/editar`} className="btn-action">{tt("Editar","Editar")}</Link>
+          <Link href={lite ? `/lite/servicios/${pub.id}/editar` : `/mis-servicios-rurales/${pub.id}/editar`} className="btn-action">{tt("Editar","Editar")}</Link>
           <button type="button" onClick={()=>toggleEstado(pub.id,pub.activo)} className="btn-action">{pub.activo ? tt("Pausar","Pausar") : tt("Activar","Ativar")}</button>
-          {pub.activo && <Link href={`/servicios-rurales/${pub.id}`} className="btn-action">{tt("Ver","Ver")}</Link>}
-          <button type="button" onClick={()=>setPendienteEliminar(pub.id)} className="btn-action btn-action-danger">{tt("Eliminar","Excluir")}</button>
+          {pub.activo && <Link href={lite ? `/lite/servicios/${pub.id}` : `/servicios-rurales/${pub.id}`} className="btn-action">{tt("Ver","Ver")}</Link>}
+          <EliminarPublicacion id={pub.id} titulo={tituloServicioRural(rubros,country,pub.nombre_comercial)} tipo="servicio" onDeleted={() => {setLista(prev => prev.filter(item => item.id !== pub.id)); setNotice(tt("Servicio eliminado.", "Serviço excluído."));}} />
         </div>
       </article>;
     })}
   </div>
-  {pendienteEliminar && (
-    <div className="servicio-delete-backdrop" role="presentation" onMouseDown={(e) => { if (e.target === e.currentTarget && !eliminando) setPendienteEliminar(null); }}>
-      <div className="servicio-delete-modal" role="dialog" aria-modal="true" aria-labelledby="servicio-delete-title">
-        <span className="servicio-delete-kicker">RENTOCAMPO</span>
-        <h2 id="servicio-delete-title">{tt("¿Eliminar este servicio?","Excluir este serviço?")}</h2>
-        <p>{tt("La publicación dejará de aparecer en RentoCampo. Esta acción no se puede deshacer.","O anúncio não aparecerá mais na RentoCampo. Esta ação não pode ser desfeita.")}</p>
-        <div className="servicio-delete-actions">
-          <button type="button" className="servicio-delete-cancel" onClick={()=>setPendienteEliminar(null)} disabled={eliminando}>{tt("Cancelar","Cancelar")}</button>
-          <button type="button" className="servicio-delete-confirm" onClick={eliminar} disabled={eliminando}>{eliminando ? tt("Eliminando…","Excluindo…") : tt("Eliminar servicio","Excluir serviço")}</button>
-        </div>
-      </div>
-    </div>
-  )}
   </>;
 }

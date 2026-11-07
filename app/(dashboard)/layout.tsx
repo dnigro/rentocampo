@@ -3,7 +3,6 @@ import { redirect } from "next/navigation";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import DashboardReturn from "@/components/layout/DashboardReturn";
-import "@/styles/public.css";
 import "@/styles/dashboard.css";
 
 export default async function DashboardLayout({
@@ -21,7 +20,7 @@ export default async function DashboardLayout({
   return (
     <div className="app-shell">
       <Navbar />
-      <main className="main-content">
+      <main className="main-content account-workspace">
         <DashboardReturn />
         {children}
       </main>

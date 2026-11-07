@@ -30,7 +30,8 @@ test("web desktop, mobile and Lite share +SIMPLE with MAP and ONLINE CHAT", () =
   assert.ok(hero.includes('href="/campos/mapa"'));
   assert.ok(lite.includes('href="/lite/campos"'));
   assert.ok(lite.includes("<HowItWorksStrip lite />"));
-  assert.ok(read("components/lite/LiteHeader.tsx").includes('href="/lite#como-funciona-lite"'));
+  assert.ok(read("lib/site-surface.ts").includes('"/lite#como-funciona-lite"'));
+  assert.ok(read("components/lite/LiteHeader.tsx").includes("return <Navbar />"));
   assert.ok(css.includes("@media(max-width:850px)"));
   assert.ok(css.includes("grid-template-columns:1fr 1fr"));
   assert.ok(css.includes(".rcsm-button:focus-visible"));
@@ -308,7 +309,8 @@ test("desktop hero brings diagonal nearer to copy without changing mobile geomet
 
 test("PR319 corporate interior preserves management data and keeps chat composer outside the scroll area",()=>{
  const theme=read("styles/rc-internal-corporate.css");
- const reportCss=read("styles/rc-management-report.css");
+ const reportCss=read("styles/rc-decision-report.css");
+ const panel=read("components/gerencial/GerencialExplorador.tsx");
  const report=read("app/(dashboard)/gerencial/page.tsx");
  const dashboard=read("app/(dashboard)/dashboard/page.tsx");
  const fieldForm=read("components/campos/CampoForm.tsx");
@@ -326,11 +328,11 @@ test("PR319 corporate interior preserves management data and keeps chat composer
  assert.match(theme,/overflow-y:auto!important/);
  assert.match(report,/getCommercialStats\(\)/);
  assert.match(report,/INTERNAL_TEST_EMAILS/);
- assert.match(report,/rc-gerencial__metric/);
- assert.match(report,/rc-gerencial__table-scroll/);
- assert.ok(report.includes("rc-management-report.css"));
- assert.match(reportCss,/\.rc-gerencial__country-active/);
- assert.match(dashboard,/from "lucide-react"/);
+ assert.match(panel,/rc-decision__kpi/);
+ assert.match(panel,/rc-decision__country-card/);
+ assert.ok(report.includes("rc-decision-report.css"));
+ assert.match(reportCss,/\.rc-decision__country/);
+ assert.match(dashboard,/<ActionIcon/);
  assert.match(fieldForm,/className="campo-form rc-publish-form rc-publish-form--field"/);
  assert.match(serviceForm,/className="campo-form servicio-publicacion-form rc-publish-form rc-publish-form--service"/);
  for(const chat of messages){
@@ -345,8 +347,8 @@ test("PR319 corporate interior preserves management data and keeps chat composer
 
 
 test("PR319 mobile polish: actionable result count, readable back button and zebra bars", () => {
- const report = read("app/(dashboard)/gerencial/page.tsx");
- const reportCss = read("styles/rc-management-report.css");
+ const report = read("components/gerencial/GerencialExplorador.tsx");
+ const reportCss = read("styles/rc-decision-report.css");
  const toolbar = read("components/listings/ListingExplorerToolbar.tsx");
  const campos = read("components/campos/CamposListing.tsx");
  const servicios = read("app/(public)/servicios-rurales/page.tsx");
@@ -364,18 +366,18 @@ test("PR319 mobile polish: actionable result count, readable back button and zeb
  assert.ok(polish.includes("form.campo-form>.form-section"));
  assert.ok(polish.includes("border-left:1px solid #d8e2e9!important"));
  assert.ok(appLayout.includes('rc-interior-refinement.css'));
- assert.ok(report.includes('rc-gerencial__mobile-countries'));
- assert.ok(report.includes('rc-gerencial__country-bar-row'));
- assert.ok(report.includes("c.activeLands"));
- assert.ok(report.includes("c.activeServices"));
- assert.ok(reportCss.includes("rc-gerencial__country-bar-row:nth-child(even)"));
- assert.ok(reportCss.includes("rc-gerencial__table-scroll{display:none!important}"));
+ assert.ok(report.includes('rc-decision__country-picker'));
+ assert.ok(report.includes('rc-decision__country-track'));
+ assert.ok(report.includes("shown.activeLands"));
+ assert.ok(report.includes("shown.activeServices"));
+ assert.ok(reportCss.includes("rc-decision__country-track"));
+ assert.ok(reportCss.includes("@media"));
 });
 
 test("PR319 executive country control, professional inbox and mobile account card",()=>{
  const navbar=read("components/layout/Navbar.tsx");
  const navCss=read("styles/rc-nav-inbox.css");
- const inbox=read("app/(dashboard)/mensajes/page.tsx");
+ const inbox=read("components/mensajes/InboxShell.tsx");
  const report=read("app/(dashboard)/gerencial/page.tsx");
  const controller=read("components/gerencial/GerencialExplorador.tsx");
  const growthCss=read("styles/rc-growth-visual.css");
@@ -387,20 +389,20 @@ test("PR319 executive country control, professional inbox and mobile account car
  assert.ok(navCss.includes('.rc-inbox__'));
  assert.ok(root.includes('rc-nav-inbox.css'));
  assert.ok(inbox.includes('rc-inbox__header'));
- assert.ok(inbox.includes('hilo-no-leido'));
+ assert.ok(inbox.includes('inbox-thread--unread'));
  assert.ok(inbox.includes('rc-inbox__type'));
  assert.ok(inbox.includes('rc-inbox__own'));
- assert.ok(report.includes('<GerencialExplorador countries={report.countries} months={report.months} totals={report.totals} />'));
- assert.ok(report.includes('rc-gerencial__legacy-details'));
+ assert.match(report, /<GerencialExplorador\s+countries=\{report.countries\}/);
+ assert.ok(report.includes('rc-decision-page'));
  assert.ok(report.includes('getCommercialStats()'));
  assert.ok(report.includes('INTERNAL_TEST_EMAILS'));
  assert.ok(controller.includes('useState("ALL")'));
  assert.ok(controller.includes('<option value="ALL">'));
  assert.ok(controller.includes('countries.map((c)'));
- assert.ok(controller.includes('rc-growth__kpi'));
- assert.ok(controller.includes('rc-growth__stack'));
- assert.ok(controller.includes('inactiveCountries.map'));
- assert.ok(controller.includes('shownCountries'));
+ assert.ok(controller.includes('rc-decision__kpi'));
+ assert.ok(controller.includes('rc-decision__country-track'));
+ assert.ok(controller.includes('inactiveCount'));
+ assert.ok(controller.includes('shown.activeServices'));
  assert.ok(growthCss.includes('rc-growth__visuals'));
  assert.ok(growthCss.includes('rc-gerencial__legacy-details'));
 });

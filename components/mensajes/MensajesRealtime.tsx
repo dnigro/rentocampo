@@ -13,6 +13,8 @@ export default function MensajesRealtime({ userId }: { userId: string }) {
       router.refresh();
     }
 
+    window.addEventListener("mensajes:actualizar", informar);
+
     const channel = supabase
       .channel(`bandeja-mensajes-${userId}`)
       .on(
@@ -38,6 +40,7 @@ export default function MensajesRealtime({ userId }: { userId: string }) {
       .subscribe();
 
     return () => {
+      window.removeEventListener("mensajes:actualizar", informar);
       supabase.removeChannel(channel);
     };
   }, [router, supabase, userId]);

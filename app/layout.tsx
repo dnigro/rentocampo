@@ -5,6 +5,7 @@ import { cookies } from "next/headers";
 import { resolveCountry } from "@/data/countries";
 import GoogleAnalytics from "@/components/analytics/GoogleAnalytics";
 import "./globals.css";
+import "@/styles/public.css";
 import "@/styles/site-theme.css";
 import "@/styles/buttons.css";
 import "@/styles/brand-final.css";
@@ -14,6 +15,9 @@ import "@/styles/rc-interior-refinement.css";
 import "@/styles/rc-nav-inbox.css";
 import "@/styles/rc-publication-forms.css";
 import "@/styles/rc-icon-system.css";
+import "@/styles/account-workspace.css";
+import "@/styles/account-readability.css";
+import "@/styles/shared-site-shell.css";
 
 const SITE_URL = "https://rentocampo.com";
 const SITE_TITLE = "RentoCampo | Tierra, productores y servicios rurales";

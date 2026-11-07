@@ -102,6 +102,7 @@ export default async function HiloCampoPage({
       </div>
 
       <MensajeHilo
+        key={campoId}
         campoId={campoId}
         userId={user.id}
         destinatarioId={otroId ?? ""}

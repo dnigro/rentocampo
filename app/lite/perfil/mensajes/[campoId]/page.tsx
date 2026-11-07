@@ -1,4 +1,4 @@
-import LiteWorkflowLayout from "@/components/lite/LiteWorkflowLayout";
+
 import { requireLiteUser } from "@/lib/lite/require-user";
 import Workflow from "@/app/(dashboard)/mensajes/[campoId]/page";
 
@@ -11,8 +11,8 @@ export default async function Page({
 }) {
   await requireLiteUser();
   return (
-    <LiteWorkflowLayout>
+    
       <Workflow params={params} searchParams={searchParams} />
-    </LiteWorkflowLayout>
+    
   );
 }

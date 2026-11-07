@@ -33,7 +33,7 @@ export default async function Page() {
   return (
     <>
       <LiteHeader />
-      <main className="rc-lite-profile">
+      <main className="account-workspace lite-account-home rc-lite-profile">
         <div className="rc-lite-profile__eyebrow">{tt("MI CUENTA", "MINHA CONTA")}</div>
         <h1 className="rc-lite-profile__title">{tt("Mi perfil", "Meu perfil")}</h1>
         <p className="rc-lite-profile__subtitle">{tt("Tus publicaciones, mensajes y datos", "Seus anúncios, mensagens e dados")}</p>
