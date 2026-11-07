@@ -161,3 +161,79 @@ html body .app-shell .auth-page-register .register-terms{font-size:13px;line-hei
  html body .app-shell .auth-page-login .auth-card,
  html body .app-shell .auth-page-register .auth-card{padding:25px 20px!important;border-radius:18px!important}
 }
+
+/* Auth UX · 2026: stronger presence and hierarchy, shared between login/register.
+   No changes to validation, fields, authentication or country selection. */
+html body .app-shell :is(.auth-page-login,.auth-page-register){
+  position:relative!important;
+  min-height:calc(100dvh - 130px)!important;
+  padding:clamp(40px,5vw,76px) 20px!important;
+  background:linear-gradient(145deg,#e8edf1 0%,#f5f4f1 52%,#e5edf2 100%)!important;
+}
+html body .app-shell :is(.auth-page-login,.auth-page-register) .auth-card{
+  width:min(100%,650px)!important;max-width:650px!important;
+  padding:clamp(30px,4.2vw,56px)!important;
+  border:1px solid #c9d6df!important;border-top:6px solid #102a43!important;
+  border-radius:20px!important;background:#fff!important;
+  box-shadow:0 24px 65px rgba(11,32,53,.13)!important;
+}
+html body .app-shell :is(.auth-page-login,.auth-page-register) .auth-header{
+  margin-bottom:30px!important;padding-bottom:20px!important;
+  border-bottom:1px solid #e4ebef!important;
+}
+html body .app-shell :is(.auth-page-login,.auth-page-register) .auth-title{
+  font-family:var(--font-dm-sans),Arial,sans-serif!important;
+  font-size:clamp(38px,3.3vw,52px)!important;font-weight:850!important;
+  line-height:1.1!important;letter-spacing:-.045em!important;
+  color:#102a43!important;text-transform:none!important;
+}
+html body .app-shell :is(.auth-page-login,.auth-page-register) .auth-form{
+  gap:20px!important;
+}
+html body .app-shell :is(.auth-page-login,.auth-page-register) .form-label{
+  font-size:16px!important;font-weight:750!important;line-height:1.45!important;
+  color:#17344d!important;
+}
+html body .app-shell :is(.auth-page-login,.auth-page-register) .form-input{
+  min-height:58px!important;padding:14px 17px!important;font-size:17px!important;
+  border:1px solid #b8cbd8!important;border-radius:11px!important;
+  background:#fff!important;color:#102a43!important;
+}
+html body .app-shell :is(.auth-page-login,.auth-page-register) .form-input:focus-visible{
+  outline:3px solid #a2c6dd!important;outline-offset:1px!important;
+  border-color:#315e7d!important;
+}
+html body .app-shell :is(.auth-page-login,.auth-page-register) .btn-submit{
+  min-height:60px!important;padding:15px 24px!important;
+  font-size:19px!important;font-weight:850!important;
+  background:#102a43!important;color:#fff!important;border-radius:999px!important;
+  box-shadow:0 7px 18px rgba(16,42,67,.16)!important;
+}
+html body .app-shell :is(.auth-page-login,.auth-page-register) .btn-submit:hover{
+  background:#234d6c!important;
+}
+html body .app-shell :is(.auth-page-login,.auth-page-register) .auth-footer{
+  margin-top:26px!important;padding-top:24px!important;
+  font-size:16px!important;line-height:1.5!important;color:#445d70!important;
+}
+html body .app-shell :is(.auth-page-login,.auth-page-register) .auth-footer a,
+html body .app-shell :is(.auth-page-login,.auth-page-register) .auth-forgot-below{
+  font-size:16px!important;font-weight:750!important;color:#174969!important;
+}
+html body .app-shell :is(.auth-page-login,.auth-page-register) .form-hint{
+  font-size:14px!important;line-height:1.5!important;color:#536b7d!important;
+}
+@media(max-width:600px){
+  html body .app-shell :is(.auth-page-login,.auth-page-register){
+    min-height:0!important;padding:22px 12px 38px!important;
+  }
+  html body .app-shell :is(.auth-page-login,.auth-page-register) .auth-card{
+    padding:26px 20px!important;border-radius:15px!important;
+  }
+  html body .app-shell :is(.auth-page-login,.auth-page-register) .auth-title{
+    font-size:clamp(32px,8vw,40px)!important;
+  }
+  html body .app-shell :is(.auth-page-login,.auth-page-register) .auth-header{
+    margin-bottom:22px!important;padding-bottom:16px!important;
+  }
+}
