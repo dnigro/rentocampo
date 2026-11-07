@@ -32,20 +32,53 @@
   @media(max-width:1000px) {
     html body header.navbar :is(.navbar-links,.navbar-desktop){display:none!important}
     html body header.navbar .navbar-mobile-right {display:flex!important;align-items:center!important;gap:12px!important;margin-left:auto!important}
+    html body header.navbar .navbar-country-switch-mobile {display:inline-flex!important;align-items:center!important}
     html body header.navbar :is(.navbar-mobile-account,.hamburguesa){display:inline-flex!important;align-items:center!important;justify-content:center!important;min-width:44px!important;min-height:44px!important}
     html body footer.footer .footer-inner {grid-template-columns:repeat(2,minmax(0,1fr))!important}
     html body footer.footer .footer-brand {grid-column:1/-1!important}
   }
+  /* Header compacto móvil: bandera + ISO de dos letras, una sola fila. */
   @media(max-width:600px) {
     html body header.navbar {height:80px!important;min-height:80px!important}
-    html body header.navbar .navbar-inner {padding:0 16px!important;gap:10px!important}
-    html body header.navbar .navbar-brand-title {font-size:23px!important}
-    html body header.navbar .navbar-brand-icon {width:30px!important;height:34px!important}
-    html body header.navbar .navbar-mobile-right {gap:4px!important}
-    html body header.navbar .navbar-country-switch>label {display:none!important}
-    html body header.navbar .navbar-country-switch select {min-width:64px!important;width:64px!important;padding:6px!important}
+    html body header.navbar .navbar-inner {
+      display:flex!important;align-items:center!important;justify-content:space-between!important;
+      height:100%!important;min-height:80px!important;
+      padding:0 12px!important;gap:8px!important
+    }
+    html body header.navbar .navbar-logo {
+      display:flex!important;flex:0 1 auto!important;min-width:0!important;
+      gap:7px!important;overflow:visible!important
+    }
+    html body header.navbar .navbar-brand-title {font-size:clamp(19px,5.6vw,23px)!important}
+    html body header.navbar .navbar-brand-icon {width:29px!important;height:33px!important}
+    html body header.navbar .navbar-mobile-right {
+      display:flex!important;align-items:center!important;gap:8px!important;
+      flex:0 0 auto!important;min-width:0!important;margin-left:auto!important
+    }
+    html body header.navbar .navbar-country-switch-mobile {
+      display:inline-flex!important;align-items:center!important;gap:5px!important;
+      background:transparent!important;border:0!important;padding:0!important
+    }
+    html body header.navbar .navbar-country-switch-mobile>label {
+      display:inline-block!important;color:#f5f8fb!important;-webkit-text-fill-color:#f5f8fb!important;
+      font-size:11px!important;font-weight:850!important;letter-spacing:.01em!important;
+      line-height:1!important;white-space:nowrap!important;flex-shrink:0!important
+    }
+    html body header.navbar .navbar-country-switch-mobile select {
+      box-sizing:border-box!important;width:86px!important;
+      min-width:86px!important;max-width:86px!important;
+      min-height:40px!important;padding:6px 8px!important;
+      font-size:14px!important;font-weight:750!important;
+      color:#122f46!important;background:#fff!important;
+      text-overflow:clip!important;white-space:nowrap!important
+    }
+    html body header.navbar .hamburguesa {
+      display:inline-flex!important;width:44px!important;height:44px!important;
+      min-width:44px!important;min-height:44px!important;padding:9px!important;
+      flex:0 0 44px!important
+    }
     html body header.navbar .navbar-mobile-account {display:none!important}
-    html body header.navbar .navbar-mobile-right .navbar-mensajes {display:none!important}
+    html body header.navbar .navbar-mensajes {display:none!important}
     html body footer.footer {padding:26px 16px 0!important}
     html body footer.footer .footer-inner {gap:24px 16px!important}
     html body footer.footer .footer-bottom {display:flex!important;flex-direction:column!important;align-items:flex-start!important;gap:12px!important}
@@ -82,10 +115,13 @@
 }
 @layer shared-site-shell {
   @media(max-width:380px){
-    html body header.navbar .navbar-inner{padding:0 12px!important;gap:8px!important}
-    html body header.navbar .navbar-logo{gap:7px!important}
-    html body header.navbar .navbar-brand-title{font-size:20px!important}
-    html body header.navbar .navbar-brand-icon{width:26px!important;height:30px!important}
+    html body header.navbar .navbar-inner{padding:0 8px!important;gap:4px!important}
+    html body header.navbar .navbar-logo{gap:4px!important}
+    html body header.navbar .navbar-brand-title{font-size:18px!important}
+    html body header.navbar .navbar-brand-icon{width:24px!important;height:28px!important}
+    html body header.navbar .navbar-mobile-right{gap:3px!important}
+    html body header.navbar .navbar-country-switch-mobile{gap:3px!important}
+    html body header.navbar .navbar-country-switch-mobile select{width:78px!important;min-width:78px!important;max-width:78px!important;padding:5px 3px!important;font-size:12px!important}
   }
 }
 @layer shared-site-shell {
@@ -131,4 +167,51 @@ html body :is(.app-shell,.lite-app) :is(.campo-form,.servicio-publicacion-form,.
   html body .app-shell footer.footer .footer-col-title svg{width:clamp(23px,1.5vw,28px)!important;height:clamp(23px,1.5vw,28px)!important}
   html body .app-shell footer.footer .footer-bottom{max-width:1600px!important;width:100%!important;padding:24px 0!important;margin-inline:auto!important;font-size:clamp(15px,1.05vw,18px)!important}
   html body .app-shell footer.footer :is(.footer-bottom-link,.footer-bottom-copy){font-size:inherit!important;line-height:1.5!important}
+}
+
+/* Narrow-header override after legacy unlayered CSS; never clip flag or ISO. */
+@media (max-width:600px) {
+  html body header.navbar.navbar--home .navbar-inner {
+    display:flex!important;align-items:center!important;justify-content:space-between!important;
+    height:80px!important;min-height:80px!important;padding:0 12px!important;gap:8px!important
+  }
+  html body header.navbar.navbar--home .navbar-mobile-right {
+    display:flex!important;align-items:center!important;gap:8px!important;flex:0 0 auto!important
+  }
+  html body header.navbar.navbar--home .navbar-logo {gap:5px!important;min-width:0!important}
+  html body header.navbar.navbar--home .navbar-brand-title {font-size:clamp(18px,5.2vw,22px)!important}
+  html body header.navbar.navbar--home .navbar-brand-icon {width:27px!important;height:31px!important}
+  html body header.navbar.navbar--home .navbar-mobile-right {gap:5px!important}
+  html body header.navbar.navbar--home .navbar-country-switch-mobile {
+    display:inline-flex!important;align-items:center!important;gap:5px!important;white-space:nowrap!important
+  }
+  html body header.navbar.navbar--home .navbar-country-switch-mobile>label {
+    display:inline-block!important;color:#f5f8fb!important;-webkit-text-fill-color:#f5f8fb!important;
+    font-size:11px!important;letter-spacing:.01em!important;flex-shrink:0!important
+  }
+  html body header.navbar.navbar--home .navbar-country-switch-mobile select {
+    width:86px!important;min-width:86px!important;max-width:86px!important;
+    padding:6px 6px!important;font-size:13px!important
+  }
+  html body header.navbar.navbar--home .hamburguesa {width:44px!important;height:44px!important;padding:9px!important}
+}
+@media (max-width:375px) {
+  html body header.navbar.navbar--home .navbar-inner {padding-inline:8px!important;gap:4px!important}
+  html body header.navbar.navbar--home .navbar-brand-title {font-size:18px!important}
+  html body header.navbar.navbar--home .navbar-brand-icon {width:24px!important;height:28px!important}
+  html body header.navbar.navbar--home .navbar-logo {gap:4px!important}
+  html body header.navbar.navbar--home .navbar-mobile-right {gap:3px!important}
+  html body header.navbar.navbar--home .navbar-country-switch-mobile {gap:3px!important}
+}
+
+@media (max-width:340px) {
+  html body header.navbar.navbar--home .navbar-inner {padding-inline:6px!important;gap:3px!important}
+  html body header.navbar.navbar--home .navbar-brand-title {font-size:17px!important}
+  html body header.navbar.navbar--home .navbar-brand-icon {width:22px!important;height:26px!important}
+  html body header.navbar.navbar--home .navbar-country-switch-mobile>label {font-size:10px!important}
+  html body header.navbar.navbar--home .navbar-country-switch-mobile select {
+    width:78px!important;min-width:78px!important;max-width:78px!important;
+    font-size:12px!important;padding:5px 3px!important
+  }
+  html body header.navbar.navbar--home .hamburguesa {width:40px!important;height:44px!important;min-width:40px!important;flex-basis:40px!important}
 }

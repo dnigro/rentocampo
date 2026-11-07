@@ -269,7 +269,10 @@ function NavbarContent() {
             <button
               className="hamburguesa"
               onClick={() => setMenuAbierto((p) => !p)}
-              aria-label="Menú"
+              aria-label={regionalText(activeCountry, "Abrir o cerrar menú", "Abrir ou fechar menu", "Open or close menu")}
+              aria-controls="navbar-mobile-menu"
+              aria-expanded={menuAbierto}
+              type="button"
             >
               {menuAbierto ? <X size={24} strokeWidth={2.15} aria-hidden="true" /> : <Menu size={24} strokeWidth={2.15} aria-hidden="true" />}
             </button>
