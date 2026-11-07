@@ -1,5 +1,5 @@
 /* RentoCampo · lectura legal, alineada con la identidad institucional azul/gris */
-.terms-page{--rc-navy:#0b2035;--rc-blue:#163d5c;--rc-line:#d5e1e9;--rc-muted:#52677a;width:min(1320px,calc(100% - 72px));margin:0 auto;padding:32px 0 72px;color:#18374e;font-family:var(--font-dm-sans),Arial,sans-serif}
+.terms-page{--rc-navy:#0b2035;--rc-blue:#163d5c;--rc-line:#d5e1e9;--rc-muted:#52677a;width:min(1440px,calc(100% - 96px));margin:0 auto;padding:32px 0 72px;color:#18374e;font-family:var(--font-dm-sans),Arial,sans-serif}
 .terms-page *{box-sizing:border-box;min-width:0}
 .terms-header{position:relative;isolation:isolate;overflow:hidden;padding:clamp(30px,4vw,56px);border:1px solid #284960;border-radius:20px;background:linear-gradient(112deg,#0b2035 0%,#153b57 58%,#2b5370 100%);color:#e9f1f6}
 .terms-header:after{content:"";pointer-events:none;position:absolute;z-index:-1;right:-8%;top:-40%;width:46%;height:170%;transform:skewX(-23deg);border-left:1px solid #6e91a8;background:linear-gradient(110deg,#ffffff04,#ffffff11)}
