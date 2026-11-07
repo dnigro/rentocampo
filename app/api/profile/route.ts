@@ -27,7 +27,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: nombreErr ?? bioErr }, { status: 400 });
   }
   const telefono = typeof body.telefono === "string" ? body.telefono.trim() : "";
-  if (telefono && (!/^[+ds().-]{6,25}$/.test(telefono) || (telefono.match(/d/g) ?? []).length < 6)) {
+  if (telefono && (!/^[+\d\s().-]{6,25}$/.test(telefono) || (telefono.match(/\d/g) ?? []).length < 6)) {
     return NextResponse.json({ error: "Teléfono: escribí solo el número, con código de área." }, { status: 400 });
   }
 
