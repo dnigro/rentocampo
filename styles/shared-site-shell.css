@@ -68,7 +68,7 @@
   html body :is(.app-shell,.lite-app) .account-workspace.account-workspace.account-workspace .perfil-role-option{min-width:0!important;white-space:normal!important;overflow-wrap:anywhere!important}
   html body :is(.app-shell,.lite-app) .account-workspace.account-workspace.account-workspace .form-field{margin-bottom:18px!important}
   html body :is(.app-shell,.lite-app) .account-workspace.account-workspace.account-workspace .perfil-avatar-panel .avatar-editor{flex-wrap:wrap!important}
-  html body :is(.app-shell,.lite-app) .account-workspace.account-workspace.account-workspace :is(.fotos-grid,.servicio-fotos-grid){display:grid!important;grid-template-columns:repeat(auto-fit,minmax(150px,1fr))!important;gap:14px!important}
+  html body :is(.app-shell,.lite-app) .account-workspace.account-workspace.account-workspace :is(.fotos-grid,.servicio-fotos-grid){display:grid!important;grid-template-columns:repeat(auto-fill,minmax(128px,160px))!important;grid-auto-rows:max-content!important;align-content:start!important;justify-content:start!important;gap:12px!important}
   html body :is(.app-shell,.lite-app) .account-workspace.account-workspace.account-workspace .mensaje-compose{display:grid!important;grid-template-columns:minmax(0,1fr) auto!important}
   html body :is(.app-shell,.lite-app) .account-workspace.account-workspace.account-workspace .mensaje-compose-submit{grid-column:2!important;grid-row:2!important;align-self:stretch!important;min-width:144px!important}
   html body :is(.app-shell,.lite-app) .account-workspace.account-workspace.account-workspace .rc-decision__view{min-width:0!important;height:auto!important;overflow:visible!important}
@@ -91,3 +91,9 @@
 @layer shared-site-shell {
   html body .lite-app-footer{background:#0b2035!important}
 }
+
+/* Photo picker parity: tiles retain Campo's original compact 4:3 size. */
+html body :is(.app-shell,.lite-app) :is(.campo-form,.servicio-publicacion-form,.rc-publish-form) .fotos-grid{display:grid!important;grid-template-columns:repeat(auto-fill,minmax(128px,160px))!important;grid-auto-rows:max-content!important;align-content:start!important;justify-content:start!important;gap:12px!important;min-height:0!important;height:auto!important;flex:none!important}
+html body :is(.app-shell,.lite-app) :is(.campo-form,.servicio-publicacion-form,.rc-publish-form) .fotos-grid > :is(.foto-add,.foto-thumb){width:100%!important;height:auto!important;min-height:0!important;max-height:120px!important;aspect-ratio:4/3!important;align-self:start!important}
+html body :is(.app-shell,.lite-app) :is(.campo-form,.servicio-publicacion-form,.rc-publish-form) .fotos-grid > .foto-thumb img{width:100%!important;height:100%!important;object-fit:cover!important}
+@media(max-width:420px){html body :is(.app-shell,.lite-app) :is(.campo-form,.servicio-publicacion-form,.rc-publish-form) .fotos-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
