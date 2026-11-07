@@ -5,6 +5,7 @@ import { cookies } from "next/headers";
 import { resolveCountry } from "@/data/countries";
 import GoogleAnalytics from "@/components/analytics/GoogleAnalytics";
 import "./globals.css";
+import "@/styles/public.css";
 import "@/styles/site-theme.css";
 import "@/styles/buttons.css";
 import "@/styles/brand-final.css";
