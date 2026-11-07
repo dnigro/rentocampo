@@ -285,3 +285,9 @@ html body .app-shell .rc-publish-form .form-hint {line-height:1.5}
   html body .app-shell .rc-publish-form .rc-publish-group-copy small {font-size:11px}
   html body .app-shell .rc-publish-form .rc-publish-group {gap:9px}
 }
+
+/* Servicios: la misma galería y controles de fotografía que Publicar campo. */
+html body .app-shell .rc-publish-form .servicio-foto-editor .fotos-grid{width:100%!important;flex:1 1 100%!important;margin:12px 0!important}
+html body .app-shell .rc-publish-form .servicio-foto-editor .foto-thumb img{width:100%!important;height:100%!important;object-fit:cover!important}
+html body .app-shell .rc-publish-form .servicio-foto-editor .foto-remove{width:32px!important;height:32px!important;font-size:23px!important}
+html body .app-shell .rc-publish-form .servicio-foto-editor .foto-add-label{font-size:15px!important;color:#315e7d!important;font-weight:800!important}
