@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { FileText, Mail } from "lucide-react";
+import Link from "@/components/layout/SiteLink";
 import "./styles.css";
 
 export const metadata: Metadata = {
@@ -8,11 +10,17 @@ export const metadata: Metadata = {
   alternates: { canonical: "https://rentocampo.com/terminos-y-condiciones" },
 };
 
+const sections = [
+  "Alcance y rol de RentoCampo", "Cuenta y publicaciones", "Acuerdos entre usuarios",
+  "Obligaciones rurales y trato leal", "Pagos y condiciones comerciales",
+  "Alcance de la responsabilidad", "Reportes y conflictos", "Cambios y ley aplicable",
+];
+
 export default function TerminosYCondicionesPage() {
   return (
     <article className="terms-page">
       <header className="terms-header">
-        <p className="terms-kicker">Información legal · RentoCampo</p>
+        <p className="terms-kicker"><FileText size={24} aria-hidden="true" /> Información legal · RentoCampo</p>
         <h1>Términos y condiciones</h1>
         <p className="terms-intro">
           RentoCampo es un espacio para publicar oportunidades rurales y poner
@@ -26,8 +34,17 @@ export default function TerminosYCondicionesPage() {
         <p className="terms-date">Versión del 19 de octubre de 2026</p>
       </header>
 
+      <div className="terms-layout">
+        <aside className="terms-sidebar">
+          <nav aria-label="Índice de términos y condiciones">
+            <h2>En esta página</h2>
+            {sections.map((title, index) => <a key={title} href={`#condicion-${index+1}`}><span>{String(index+1).padStart(2,"0")}</span>{title}</a>)}
+          </nav>
+          <a className="terms-contact" href="mailto:hola@rentocampo.com"><Mail size={20} aria-hidden="true" /> Contactanos</a>
+          <Link className="terms-home" href="/">Volver a RentoCampo</Link>
+        </aside>
       <div className="terms-content">
-        <section>
+        <section id="condicion-1">
           <h2>1. Alcance y rol de RentoCampo</h2>
           <p>
             RentoCampo ofrece herramientas para crear perfiles, publicar campos
@@ -42,7 +59,7 @@ export default function TerminosYCondicionesPage() {
           </p>
         </section>
 
-        <section>
+        <section id="condicion-2">
           <h2>2. Cuenta y publicaciones</h2>
           <p>
             Quien usa RentoCampo debe aportar información veraz, actualizada y
@@ -63,7 +80,7 @@ export default function TerminosYCondicionesPage() {
           </p>
         </section>
 
-        <section>
+        <section id="condicion-3">
           <h2>3. Acuerdos entre usuarios</h2>
           <p>
             Los contactos y negociaciones se realizan directamente entre las
@@ -85,7 +102,7 @@ export default function TerminosYCondicionesPage() {
           </p>
         </section>
 
-        <section>
+        <section id="condicion-4">
           <h2>4. Obligaciones rurales y trato leal</h2>
           <p>
             Cada parte debe cumplir las normas que correspondan a su actividad
@@ -105,7 +122,7 @@ export default function TerminosYCondicionesPage() {
           </p>
         </section>
 
-        <section>
+        <section id="condicion-5">
           <h2>5. Pagos y condiciones comerciales</h2>
           <p>
             RentoCampo no recibe, custodia ni garantiza pagos entre usuarios
@@ -122,7 +139,7 @@ export default function TerminosYCondicionesPage() {
           </p>
         </section>
 
-        <section>
+        <section id="condicion-6">
           <h2>6. Alcance de la responsabilidad</h2>
           <p>
             RentoCampo presta el servicio digital de publicación, búsqueda y
@@ -144,7 +161,7 @@ export default function TerminosYCondicionesPage() {
           </p>
         </section>
 
-        <section>
+        <section id="condicion-7">
           <h2>7. Reportes y conflictos</h2>
           <p>
             Si detectás una publicación falsa, una conducta desleal o un
@@ -160,7 +177,7 @@ export default function TerminosYCondicionesPage() {
           </p>
         </section>
 
-        <section>
+        <section id="condicion-8">
           <h2>8. Cambios y ley aplicable</h2>
           <p>
             La versión vigente de estas condiciones se publicará en esta
@@ -173,6 +190,7 @@ export default function TerminosYCondicionesPage() {
             competencia o los derechos que la ley reconozca a consumidores.
           </p>
         </section>
+      </div>
       </div>
     </article>
   );
