@@ -1,6 +1,7 @@
 import EliminarPublicacion from "@/components/publicaciones/EliminarPublicacion";
 import { notFound, redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import ServicioRuralForm from "@/components/servicios/ServicioRuralForm";
 import "@/styles/perfil.css";
 import "@/styles/campos.css";
@@ -11,7 +12,7 @@ export default async function EditarServicioPage({ params }: { params: Promise<{
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/login");
   const [{ data: profile }, { data: publicacion }] = await Promise.all([
-    supabase.from("profiles").select("*").eq("id", user.id).single(),
+    createAdminClient().from("profiles").select("*").eq("id", user.id).single(),
     supabase.from("servicios_publicaciones").select("*").eq("id", id).eq("propietario_id", user.id).single(),
   ]);
   if (!publicacion) notFound();
