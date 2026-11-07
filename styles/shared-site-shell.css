@@ -56,13 +56,17 @@
       flex:0 0 auto!important;min-width:0!important;margin-left:auto!important
     }
     html body header.navbar .navbar-country-switch-mobile {
-      display:inline-flex!important;align-items:center!important;
+      display:inline-flex!important;align-items:center!important;gap:5px!important;
       background:transparent!important;border:0!important;padding:0!important
     }
-    html body header.navbar .navbar-country-switch-mobile>label {display:none!important}
+    html body header.navbar .navbar-country-switch-mobile>label {
+      display:inline-block!important;color:#f5f8fb!important;-webkit-text-fill-color:#f5f8fb!important;
+      font-size:11px!important;font-weight:850!important;letter-spacing:.01em!important;
+      line-height:1!important;white-space:nowrap!important;flex-shrink:0!important
+    }
     html body header.navbar .navbar-country-switch-mobile select {
-      box-sizing:border-box!important;width:96px!important;
-      min-width:96px!important;max-width:96px!important;
+      box-sizing:border-box!important;width:86px!important;
+      min-width:86px!important;max-width:86px!important;
       min-height:40px!important;padding:6px 8px!important;
       font-size:14px!important;font-weight:750!important;
       color:#122f46!important;background:#fff!important;
@@ -111,10 +115,13 @@
 }
 @layer shared-site-shell {
   @media(max-width:380px){
-    html body header.navbar .navbar-inner{padding:0 12px!important;gap:8px!important}
-    html body header.navbar .navbar-logo{gap:7px!important}
-    html body header.navbar .navbar-brand-title{font-size:20px!important}
-    html body header.navbar .navbar-brand-icon{width:26px!important;height:30px!important}
+    html body header.navbar .navbar-inner{padding:0 8px!important;gap:4px!important}
+    html body header.navbar .navbar-logo{gap:4px!important}
+    html body header.navbar .navbar-brand-title{font-size:18px!important}
+    html body header.navbar .navbar-brand-icon{width:24px!important;height:28px!important}
+    html body header.navbar .navbar-mobile-right{gap:3px!important}
+    html body header.navbar .navbar-country-switch-mobile{gap:3px!important}
+    html body header.navbar .navbar-country-switch-mobile select{width:78px!important;min-width:78px!important;max-width:78px!important;padding:5px 3px!important;font-size:12px!important}
   }
 }
 @layer shared-site-shell {
