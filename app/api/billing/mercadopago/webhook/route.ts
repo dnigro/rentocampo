@@ -51,6 +51,8 @@ export async function POST(request: Request) {
   const xRequestId = request.headers.get("x-request-id") ?? "";
 
   const isMercadoPagoSimulator =
+    process.env.VERCEL_ENV !== "production" &&
+    process.env.MERCADOPAGO_SIMULATOR_ENABLED === "true" &&
     body?.live_mode === false &&
     body?.action === "payment.updated" &&
     String(body?.data?.id ?? "") === "123456";
@@ -87,10 +89,6 @@ export async function POST(request: Request) {
   );
 
   if (!paymentResponse.ok) {
-    if (body?.live_mode === false) {
-      return NextResponse.json({ ok: true, simulated: true });
-    }
-
     return NextResponse.json(
       { error: "No se pudo consultar el pago" },
       { status: 502 },
