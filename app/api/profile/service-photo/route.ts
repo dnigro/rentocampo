@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { safeImageExtension } from "@/lib/security/image-upload";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 
@@ -17,18 +18,14 @@ export async function POST(request: Request) {
   const formData = await request.formData();
   const file = formData.get("file");
 
-  if (
-    !(file instanceof File) ||
-    !file.type.startsWith("image/") ||
-    file.size > MAX_SERVICE_PHOTO_BYTES
-  ) {
+  const extension = file instanceof File ? safeImageExtension(file, MAX_SERVICE_PHOTO_BYTES) : null;
+  if (!extension) {
     return NextResponse.json(
       { error: "Elegí una imagen de hasta 4 MB" },
       { status: 400 },
     );
   }
 
-  const extension = file.name.split(".").pop()?.toLowerCase() || "jpg";
   const path = `${user.id}/servicios/${crypto.randomUUID()}.${extension}`;
   const admin = createAdminClient();
 
