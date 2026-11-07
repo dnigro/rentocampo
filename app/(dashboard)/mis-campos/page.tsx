@@ -72,10 +72,6 @@ export default async function MisCamposPage() {
         </Link>
       </div>
 
-      <p className="page-subtitle" role="status">
-        {tt("Publicar campos y servicios es 100% gratis. Sin packs ni límites de publicaciones.",
-            "Anunciar terras e serviços é 100% grátis. Sem pacotes nem limites de anúncios.")}
-      </p>
       <MisCamposLista campos={campos ?? []} />
     </div>
   );

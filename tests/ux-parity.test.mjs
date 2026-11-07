@@ -30,7 +30,8 @@ test("web desktop, mobile and Lite share +SIMPLE with MAP and ONLINE CHAT", () =
   assert.ok(hero.includes('href="/campos/mapa"'));
   assert.ok(lite.includes('href="/lite/campos"'));
   assert.ok(lite.includes("<HowItWorksStrip lite />"));
-  assert.ok(read("components/lite/LiteHeader.tsx").includes('href="/lite#como-funciona-lite"'));
+  assert.ok(read("lib/site-surface.ts").includes('"/lite#como-funciona-lite"'));
+  assert.ok(read("components/lite/LiteHeader.tsx").includes("return <Navbar />"));
   assert.ok(css.includes("@media(max-width:850px)"));
   assert.ok(css.includes("grid-template-columns:1fr 1fr"));
   assert.ok(css.includes(".rcsm-button:focus-visible"));

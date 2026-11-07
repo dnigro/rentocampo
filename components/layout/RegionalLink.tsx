@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import Link from "@/components/layout/SiteLink";
 import { useSearchParams } from "next/navigation";
 import { Suspense, useSyncExternalStore, type ReactNode } from "react";
 import { resolveCountry, type CountryCode } from "@/data/countries";

@@ -1,7 +1,7 @@
 "use client";
 
 import RegionalLink from "@/components/layout/RegionalLink";
-import Link from "next/link";
+import Link from "@/components/layout/SiteLink";
 import Image from "next/image";
 import { Tractor, House, Sprout, Mail } from "lucide-react";
 import "@/styles/footer.css";

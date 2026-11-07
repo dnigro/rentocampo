@@ -85,11 +85,11 @@ test("localized hero CTA stays prominent on desktop, mobile and Lite",()=>{
 
 test("country switching is atomic on the first selection, including Lite", () => {
   const hook = read("lib/i18n/useRegionalCountry.ts");
-  const lite = read("components/lite/LiteHeader.tsx");
+  const lite = read("components/layout/Navbar.tsx");
   const link = read("components/layout/RegionalLink.tsx");
   assert.match(hook, /window\.history\.replaceState\(/);
   assert.ok(hook.indexOf('window.history.replaceState(') < hook.indexOf('window.dispatchEvent(new Event(CHANGE_EVENT))'));
-  assert.match(lite, /selectRegionalCountry\(next\)/);
+  assert.match(lite, /selectRegionalCountry\(country\)/);
   assert.ok(!lite.includes('router.push(`${destination.pathname}'));
   assert.match(link, /rentocampo:country-change/);
 });
@@ -155,7 +155,7 @@ test("growth mode does not silently hide a fourth real field or local AR demo", 
 
 test("web and Lite country selectors cannot swallow first choice before hydration", () => {
   const nav=read("components/layout/Navbar.tsx");
-  const lite=read("components/lite/LiteHeader.tsx");
+  const lite=read("components/layout/Navbar.tsx");
   assert.equal((nav.match(/disabled=\{!countrySelectReady\}/g)||[]).length, 2);
   assert.match(lite,/disabled=\{!countrySelectReady\}/);
   assert.match(nav,/setCountrySelectReady\(true\)/);

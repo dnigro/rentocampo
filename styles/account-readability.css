@@ -91,7 +91,7 @@ html body .publication-dialog .publication-dialog-eyebrow{font-size:14px}
     grid-column:1/-1!important;grid-row:auto!important;display:grid!important;
     grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:20px!important;
   }
-  html body :is(.app-shell,.lite-app) .account-workspace.account-workspace.account-workspace .perfil-page .perfil-layout>.perfil-section:not(.perfil-avatar-panel):not(.perfil-main-form) {grid-column:1!important;grid-row:auto!important}
+  html body :is(.app-shell,.lite-app) .account-workspace.account-workspace.account-workspace .perfil-page .perfil-layout>.perfil-section:not(.perfil-avatar-panel):not(.perfil-main-form):not(.perfil-danger-zone) {grid-column:1!important;grid-row:auto!important}
   html body :is(.app-shell,.lite-app) .account-workspace.account-workspace.account-workspace .perfil-page .perfil-layout>.perfil-danger-zone {grid-column:2!important;grid-row:auto!important}
   html body :is(.app-shell,.lite-app) .account-workspace.account-workspace.account-workspace .perfil-page :is(.form-input,.btn-primary-lg,.btn-secondary-lg) {min-height:52px!important}
   html body :is(.app-shell,.lite-app) .account-workspace.account-workspace.account-workspace .perfil-intro-icon {display:none!important}
