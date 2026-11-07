@@ -2,6 +2,7 @@ import { cookies } from "next/headers";
 import { resolveCountry } from "@/data/countries";
 import { regionalText } from "@/lib/i18n/regional";
 import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { redirect } from "next/navigation";
 import PerfilForm from "@/components/PerfilForm";
 import SeleccionarActividad from "@/components/auth/SeleccionarActividad";
@@ -16,8 +17,7 @@ export default async function PerfilPage() {
   } = await supabase.auth.getUser();
   if (!user) redirect("/login");
 
-  const { data: profile } = await supabase
-    .from("profiles")
+  const { data: profile } = await createAdminClient().from("profiles")
     .select("*")
     .eq("id", user.id)
     .single();

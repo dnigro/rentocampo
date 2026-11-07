@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { safeImageExtension } from "@/lib/security/image-upload";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { FREE_PUBLICATIONS_ENABLED } from "@/lib/commercial/free-publications";
@@ -23,7 +24,8 @@ export async function POST(request: Request) {
   if (typeof campoId !== "string" || !Number.isInteger(orden) || orden < 0 || !(file instanceof File)) {
     return NextResponse.json({ error: "Foto o campo inválidos" }, { status: 400 });
   }
-  if (!file.type.startsWith("image/") || file.size > MAX_FOTO_BYTES) {
+  const extension = safeImageExtension(file, MAX_FOTO_BYTES);
+  if (!extension) {
     return NextResponse.json({ error: "La foto debe ser una imagen de hasta 8 MB" }, { status: 400 });
   }
 
@@ -37,7 +39,6 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "No tenés permiso para agregar fotos a este campo" }, { status: 403 });
   }
 
-  const extension = file.name.split(".").pop()?.toLowerCase() || "jpg";
   const path = `${campo.propietario_id}/${crypto.randomUUID()}.${extension}`;
   const admin = FREE_PUBLICATIONS_ENABLED ? supabase : createAdminClient();
   const { error: uploadError } = await admin.storage

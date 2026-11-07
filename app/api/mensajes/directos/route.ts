@@ -81,6 +81,9 @@ export async function POST(request: Request) {
       { status: 400 },
     );
   }
+  if (contenido.length > 2000) {
+    return NextResponse.json({ error: "El mensaje supera los 2000 caracteres" }, { status: 400 });
+  }
   if (destinatarioId === user.id) {
     return NextResponse.json(
       { error: "No podés enviarte un mensaje a vos mismo" },
