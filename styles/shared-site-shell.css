@@ -115,3 +115,20 @@ html body :is(.app-shell,.lite-app) :is(.campo-form,.servicio-publicacion-form,.
   html body header.navbar.navbar--home .navbar-country-switch :is(select,button[aria-haspopup=listbox]){font-size:clamp(15px,1.1vw,20px)!important;min-height:48px!important}
   html body header.navbar.navbar--home .navbar-mensajes svg{width:clamp(26px,1.8vw,34px)!important;height:clamp(26px,1.8vw,34px)!important}
 }
+
+/* Canonical unlayered footer. Maps and internal pages must not inherit smaller
+   typography from legacy route styles. Keep the same Home dimensions everywhere. */
+@media(min-width:1001px){
+  html body .app-shell footer.footer,
+  html body:has(.mapa-page) .app-shell footer.footer{padding:40px clamp(32px,3.6vw,64px) 0!important;background:#0b2035!important}
+  html body .app-shell footer.footer .footer-inner,
+  html body:has(.mapa-page) .app-shell footer.footer .footer-inner{width:100%!important;max-width:1600px!important;grid-template-columns:minmax(260px,1.4fr) repeat(4,minmax(0,1fr))!important;gap:clamp(24px,2.4vw,44px)!important;padding-bottom:36px!important;margin-inline:auto!important}
+  html body .app-shell footer.footer .footer-brand-name{font-size:clamp(30px,2.3vw,40px)!important;line-height:1.15!important;font-weight:800!important}
+  html body .app-shell footer.footer .footer-brand-icon{width:clamp(35px,2.4vw,44px)!important;height:clamp(38px,2.7vw,48px)!important}
+  html body .app-shell footer.footer .footer-desc,
+  html body .app-shell footer.footer :is(.footer-link,.footer-contact-link){font-size:clamp(16px,1.18vw,20px)!important;line-height:1.55!important}
+  html body .app-shell footer.footer .footer-col-title{font-size:clamp(19px,1.35vw,24px)!important;line-height:1.35!important;font-weight:800!important}
+  html body .app-shell footer.footer .footer-col-title svg{width:clamp(23px,1.5vw,28px)!important;height:clamp(23px,1.5vw,28px)!important}
+  html body .app-shell footer.footer .footer-bottom{max-width:1600px!important;width:100%!important;padding:24px 0!important;margin-inline:auto!important;font-size:clamp(15px,1.05vw,18px)!important}
+  html body .app-shell footer.footer :is(.footer-bottom-link,.footer-bottom-copy){font-size:inherit!important;line-height:1.5!important}
+}
