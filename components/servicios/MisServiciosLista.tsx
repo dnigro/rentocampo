@@ -5,7 +5,6 @@ import Image from "next/image";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
 import EliminarPublicacion from "@/components/publicaciones/EliminarPublicacion";
-import { createClient } from "@/lib/supabase/client";
 import { tituloServicioRural } from "@/data/servicios-rurales";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import type { ServicioRural } from "@/types";
@@ -27,12 +26,20 @@ export default function MisServiciosLista({ publicaciones }: { publicaciones: Se
   const [lista, setLista] = useState(publicaciones);
   const [notice, setNotice] = useState("");
   const lite = usePathname().startsWith("/lite/");
-  const supabase = createClient();
 
   async function toggleEstado(id: string, activo: boolean) {
-    const { error } = await supabase.from("servicios_publicaciones").update({ activo: !activo }).eq("id", id);
-    if (error) return window.alert(tt("No se pudo actualizar el estado del servicio.","Não foi possível atualizar o estado do serviço."));
-    setLista((prev) => prev.map((p) => p.id === id ? { ...p, activo: !activo } : p));
+    try {
+      const response = await fetch("/api/servicios/estado", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, activo: !activo }),
+      });
+      if (!response.ok) throw new Error("No se pudo actualizar el servicio");
+      setLista((prev) => prev.map((p) => p.id === id ? { ...p, activo: !activo } : p));
+      setNotice("");
+    } catch {
+      setNotice(tt("No se pudo actualizar el estado del servicio.","Não foi possível atualizar o estado do serviço."));
+    }
   }
 
   return <>

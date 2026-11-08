@@ -108,7 +108,7 @@ test("free-growth mode hides paid packs and disables checkout and quota consumpt
   assert.match(quota, /limit: null, used: 0, remaining: null, unlimited: true/);
   assert.match(quota, /No billing event or quota is consumed/);
   assert.match(checkout, /code: "billing_paused"/);
-  assert.match(publish, /return \{ user, admin: supabase \}/);
+  assert.match(publish, /All writes run on this authenticated server route/);
   assert.match(fotos, /FREE_PUBLICATIONS_ENABLED \? supabase : createAdminClient/);
   assert.ok(!listings.includes("<PlanesTierra"));
   assert.ok(!liteFields.includes('href="/lite/campos/packs"'));

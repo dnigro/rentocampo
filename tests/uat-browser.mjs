@@ -360,18 +360,24 @@ async function regionalAuthenticatedWrites(){
      await open(page,"/campos?pais="+x.country,".campo-card-pub");
      if(!await page.locator('a[href="/campos/'+written.body.id+'"]').count())throw Error("Field missing public listing");
     },page);
-    await check("REGIONAL "+x.country+" service RLS insert and paid checkout blocked",async()=>{
+    await check("REGIONAL "+x.country+" service RLS direct insert blocked and server fixture visible",async()=>{
      await open(page,"/mis-servicios-rurales/nuevo","form.servicio-publicacion-form");
      if(await page.locator("#servicio-pais").inputValue()!==x.country)throw Error("Service form lost user's country");
      const authClient=createClient(uat,pub,{auth:{persistSession:false,autoRefreshToken:false}});
      const signed=await authClient.auth.signInWithPassword({email:u.email,password:u.password});
      if(signed.error)throw Error("Service login failed "+signed.error.message);
-     const {data:svc,error:sErr}=await authClient.from("servicios_publicaciones").insert({
+     const serviceFixture={
       propietario_id:created.data.user.id,country_code:x.country,servicios_rurales:["veterinaria"],
+      nombre_comercial:"UAT write "+x.country,
       foto_url:"/demo-servicio-veterinaria.jpg",provincia:x.provincia,localidad:x.localidad,
       zona:x.localidad,detalle:"UAT TEMP regional E2E",latitud:x.lat,longitud:x.lng
-     }).select("id").single();
-     if(sErr||!svc?.id)throw Error("Service authenticated RLS insert "+sErr?.message);
+     };
+     const {data:unexpected,error:directError}=await authClient
+       .from("servicios_publicaciones").insert(serviceFixture).select("id").single();
+     if(!directError||unexpected?.id)throw Error("Client-side service INSERT bypassed server controls");
+     const {data:svc,error:sErr}=await admin
+       .from("servicios_publicaciones").insert(serviceFixture).select("id").single();
+     if(sErr||!svc?.id)throw Error("Server-owned UAT service fixture: "+sErr?.message);
      regionalServiceIds.push(svc.id);
      const response=await page.evaluate(async()=>{
       const r=await fetch("/api/billing/checkout",{method:"POST",

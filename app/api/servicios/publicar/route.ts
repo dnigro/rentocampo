@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { isCountryCode } from "@/data/countries";
 import { SERVICIOS_RURALES } from "@/data/servicios-rurales";
 import { errorServicioPublico } from "@/lib/publication-content-guard";
@@ -9,7 +10,12 @@ const validServices = SERVICIOS_RURALES.map(({ value }) => value);
 async function contexto() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
-  return { supabase, user };
+  if (!user) return { user: null };
+  // A disabled account may stay signed in; enforce moderator status on writes.
+  const { data: profile, error } = await supabase.from("profiles")
+    .select("activo").eq("id", user.id).maybeSingle();
+  if (error || profile?.activo !== true) return { user: null };
+  return { user };
 }
 
 function validarInput(raw: unknown) {
@@ -40,26 +46,26 @@ function validarInput(raw: unknown) {
 }
 
 export async function POST(request: Request) {
-  const { supabase, user } = await contexto();
+  const { user } = await contexto();
   if (!user) return NextResponse.json({ error: "Iniciá sesión para publicar." }, { status: 401 });
   const input = await request.json().catch(() => null);
   const result = validarInput(input);
   if ("error" in result) return NextResponse.json({ error: result.error }, { status: 400 });
-  const { error } = await supabase.from("servicios_publicaciones")
+  const { error } = await createAdminClient().from("servicios_publicaciones")
     .insert({ ...result.payload, propietario_id: user.id });
   if (error) return NextResponse.json({ error: "No se pudo guardar el servicio." }, { status: 400 });
   return NextResponse.json({ ok: true }, { status: 201 });
 }
 
 export async function PATCH(request: Request) {
-  const { supabase, user } = await contexto();
+  const { user } = await contexto();
   if (!user) return NextResponse.json({ error: "Iniciá sesión para editar." }, { status: 401 });
   const body = await request.json().catch(() => null);
   const id = typeof body?.id === "string" && /^[0-9a-f-]{36}$/i.test(body.id) ? body.id : null;
   if (!id) return NextResponse.json({ error: "Publicación inválida." }, { status: 400 });
   const result = validarInput(body.form);
   if ("error" in result) return NextResponse.json({ error: result.error }, { status: 400 });
-  const { data, error } = await supabase.from("servicios_publicaciones")
+  const { data, error } = await createAdminClient().from("servicios_publicaciones")
     .update(result.payload)
     .eq("id", id)
     .eq("propietario_id", user.id)

@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import { errorCampoPublico } from "@/lib/publication-content-guard";
-import { FREE_PUBLICATIONS_ENABLED } from "@/lib/commercial/free-publications";
 import { createClient } from "@/lib/supabase/server";
 import { createClient as createAdminClient } from "@supabase/supabase-js";
 import {
@@ -47,9 +46,14 @@ async function getContext() {
 
   const { data: profile } = await supabase
     .from("profiles")
-    .select("roles")
+    .select("roles, activo")
     .eq("id", user.id)
     .single();
+
+  // A moderator-disabled account cannot create or edit new listings.
+  if (profile?.activo === false) {
+    return { error: "La cuenta está desactivada.", status: 403 as const };
+  }
 
   if (!profile?.roles?.includes("propietario")) {
     return {
@@ -59,10 +63,8 @@ async function getContext() {
     };
   }
 
-  // Free publishing runs as the authenticated user under database RLS,
-  // not with an admin credential. RLS checks ownership and 'propietario' role.
-  if (FREE_PUBLICATIONS_ENABLED) return { user, admin: supabase };
-
+  // All writes run on this authenticated server route, not the public Data API.
+  // Ownership and allowed fields are validated here before service-role writes.
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const serviceRole = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
