@@ -5,7 +5,6 @@ import Image from "next/image";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
 import EliminarPublicacion from "@/components/publicaciones/EliminarPublicacion";
-import { createClient } from "@/lib/supabase/client";
 import type { Campo } from "@/types";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 
@@ -26,14 +25,23 @@ export default function MisCamposLista({ campos }: Props) {
   const [lista, setLista] = useState(campos);
   const [notice, setNotice] = useState("");
   const lite = usePathname().startsWith("/lite/");
-  const supabase = createClient();
 
   async function toggleEstado(id: string, estadoActual: string) {
     const nuevoEstado = estadoActual === "activo" ? "pausado" : "activo";
-    await supabase.from("campos").update({ status: nuevoEstado }).eq("id", id);
-    setLista((prev) =>
-      prev.map((c) => (c.id === id ? { ...c, status: nuevoEstado } : c)),
-    );
+    try {
+      const response = await fetch("/api/campos/estado", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, status: nuevoEstado }),
+      });
+      if (!response.ok) throw new Error("No se pudo actualizar la publicación");
+      setLista((prev) =>
+        prev.map((c) => (c.id === id ? { ...c, status: nuevoEstado } : c)),
+      );
+      setNotice("");
+    } catch {
+      setNotice(tt("No se pudo actualizar el estado del campo.", "Não foi possível atualizar o estado da terra."));
+    }
   }
 
 
