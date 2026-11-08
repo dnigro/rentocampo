@@ -46,9 +46,14 @@ async function getContext() {
 
   const { data: profile } = await supabase
     .from("profiles")
-    .select("roles")
+    .select("roles, activo")
     .eq("id", user.id)
     .single();
+
+  // A moderator-disabled account cannot create or edit new listings.
+  if (profile?.activo === false) {
+    return { error: "La cuenta está desactivada.", status: 403 as const };
+  }
 
   if (!profile?.roles?.includes("propietario")) {
     return {
