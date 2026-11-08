@@ -162,3 +162,20 @@ test("API asigna el dueño autenticado e impide que el cliente se imponga como p
   assert.equal(writes[1].action, "update");
   assert.equal("propietario_id" in writes[1].row, false);
 });
+
+test("publication status changes require a server session, owner filter and server-only write privileges", () => {
+  const fieldStatus = source("app/api/campos/estado/route.ts");
+  const serviceStatus = source("app/api/servicios/estado/route.ts");
+  const fieldWrite = source("app/api/campos/publicar/route.ts");
+  const serviceWrite = source("app/api/servicios/publicar/route.ts");
+  const sql = source("supabase/migrations/20261108165500_server_only_publication_writes.sql");
+  for (const route of [fieldStatus, serviceStatus]) {
+    assert.ok(route.includes("client.auth.getUser()"));
+    assert.ok(route.includes('.eq("propietario_id", user.id)'));
+    assert.ok(route.includes("createAdminClient()"));
+  }
+  assert.ok(!fieldWrite.includes("if (FREE_PUBLICATIONS_ENABLED) return { user, admin: supabase }"));
+  assert.ok(serviceWrite.includes('createAdminClient().from("servicios_publicaciones")'));
+  assert.match(sql, /REVOKE INSERT, UPDATE ON TABLE public.campos/);
+  assert.match(sql, /REVOKE INSERT, UPDATE ON TABLE public.servicios_publicaciones/);
+});
