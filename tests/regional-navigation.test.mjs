@@ -363,3 +363,24 @@ test('US demo markers: 4 editorial zones, 2 fixture fields, 2 whitelisted servic
   assert.doesNotMatch(map,/leafletMap\.fitBounds\(/);
   assert.match(map,/tt\("Campo de demostración"/);
 });
+
+test('publication security preview refuses inherited production credentials', () => {
+  const env = {
+    VERCEL_ENV:'preview',
+    VERCEL_GIT_COMMIT_REF:'security/publication-state-controls-20261108',
+    NEXT_PUBLIC_SUPABASE_URL:'https://qidfchkdpbnuslozvfsd.supabase.co',
+    NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY:'sb_publishable_prod_fixture',
+    SUPABASE_SERVICE_ROLE_KEY:'prod-key-fixture',
+    MERCADOPAGO_WEBHOOK_SECRET:'payment-fixture',
+    RESEND_API_KEY:'mail-fixture',
+  };
+  assert.throws(() => enforceUatIsolation(env), /branch-specific UAT credentials/);
+  for (const key of ['SUPABASE_SERVICE_ROLE_KEY', 'MERCADOPAGO_WEBHOOK_SECRET', 'RESEND_API_KEY']) {
+    assert.equal(env[key],undefined);
+  }
+  const isolated = {...env,UAT_SUPABASE_PUBLISHABLE_KEY:'sb_publishable_uat_fixture'};
+  enforceUatIsolation(isolated);
+  assert.equal(isolated.NEXT_PUBLIC_SUPABASE_URL,'https://wibqszhvuvpjycheaxzi.supabase.co');
+  assert.equal(isolated.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY,'sb_publishable_uat_fixture');
+  assert.equal(isolated.SUPABASE_SERVICE_ROLE_KEY,undefined);
+});
