@@ -121,6 +121,7 @@ function loadServiceApi(userId, writeSpy) {
   const mocks = {
     "next/server": { NextResponse: { json: (body, init = {}) => ({ body, status: init.status ?? 200 }) } },
     "@/lib/supabase/server": { createClient: async () => mockClient },
+    "@/lib/supabase/admin": { createAdminClient: () => mockClient },
     "@/data/countries": { isCountryCode: code => ["AR", "US", "BR"].includes(code) },
     "@/data/servicios-rurales": { SERVICIOS_RURALES: ["cosecha", "siembra"].map(value => ({ value })) },
     "@/lib/publication-content-guard": { errorServicioPublico },
