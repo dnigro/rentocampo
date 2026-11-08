@@ -96,10 +96,13 @@ test("ambos formularios pasan por validaciones de servidor y el header no duplic
 });
 
 
-function loadServiceApi(userId, writeSpy) {
+function loadServiceApi(userId, writeSpy, { active = true } = {}) {
   const mockClient = {
     auth: { getUser: async () => ({ data: { user: userId ? { id: userId } : null } }) },
     from(table) {
+      if (table === "profiles") return {
+        select() { return { eq() { return { async maybeSingle() { return { data: { activo: active }, error: null }; } }; } }; },
+      };
       assert.equal(table, "servicios_publicaciones");
       return {
         async insert(row) {
@@ -213,7 +216,15 @@ function loadStatusRoute(path, scenario = {}) {
   };
   const mocks = {
     "next/server": { NextResponse: { json: (body, init = {}) => ({ body, status: init.status ?? 200 }) } },
-    "@/lib/supabase/server": { createClient: async () => ({ auth: { getUser: async () => ({ data: { user: userId ? { id: userId } : null } }) } }) },
+    "@/lib/supabase/server": { createClient: async () => ({
+      auth: { getUser: async () => ({ data: { user: userId ? { id: userId } : null } }) },
+      from(table) {
+        assert.equal(table, "profiles");
+        return { select() { return { eq() { return { async maybeSingle() {
+          return { data: { activo: scenario.active !== false }, error: null };
+        } }; } }; } };
+      },
+    }) },
     "@/lib/supabase/admin": { createAdminClient: () => mockedAdmin },
     "@/lib/billing/land-quota": {
       getLandQuotaStatus: async () => ({ canPublish: scenario.quota !== false }),
@@ -276,4 +287,20 @@ test("service activation must be authenticated and strictly scoped to the owner"
   assert.deepEqual(Array.from(mutation.filters, x => Array.from(x)), [
     ["id", statusId], ["propietario_id", "owner-1"],
   ]);
+});
+
+test("disabled accounts cannot create services or change listing state", async () => {
+  const writes = [];
+  const service = loadServiceApi("owner-123", writes, { active: false });
+  const response = await service.POST({ json: async () => servicioValido });
+  assert.equal(response.status, 401);
+  assert.equal(writes.length, 0);
+  for (const route of ["app/api/campos/estado/route.ts", "app/api/servicios/estado/route.ts"]) {
+    const disabled = loadStatusRoute(route, { active: false });
+    const status = await disabled.api.PATCH({ json: async () => ({
+      id: statusId, ...(route.includes("/campos/") ? { status: "activo" } : { activo: true }),
+    }) });
+    assert.equal(status.status, 403);
+    assert.equal(disabled.operations.length, 0);
+  }
 });
