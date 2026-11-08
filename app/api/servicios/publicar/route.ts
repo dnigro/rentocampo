@@ -53,7 +53,7 @@ export async function POST(request: Request) {
 }
 
 export async function PATCH(request: Request) {
-  const { supabase, user } = await contexto();
+  const { user } = await contexto();
   if (!user) return NextResponse.json({ error: "Iniciá sesión para editar." }, { status: 401 });
   const body = await request.json().catch(() => null);
   const id = typeof body?.id === "string" && /^[0-9a-f-]{36}$/i.test(body.id) ? body.id : null;
