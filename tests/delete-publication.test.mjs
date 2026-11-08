@@ -34,8 +34,8 @@ test("invalid ID never calls the database",async()=>{const db=client();assert.eq
 
 test("account deletion uses only authenticated server-side Admin Auth, not exposed RPC", () => {
   const route = readFileSync(new URL("../app/api/account/route.ts", import.meta.url), "utf8");
-  assert.match(route, /supabase\\.auth\\.getUser\\(\\)/);
-  assert.match(route, /body\\?\\.confirmation !== "ELIMINAR"/);
-  assert.match(route, /admin\\.auth\\.admin\\.deleteUser\\(user\\.id\\)/);
-  assert.doesNotMatch(route, /\\.rpc\\("delete_own_account"/);
+  assert.ok(route.includes("supabase.auth.getUser()"));
+  assert.ok(route.includes('body?.confirmation !== "ELIMINAR"'));
+  assert.ok(route.includes("admin.auth.admin.deleteUser(user.id)"));
+  assert.ok(!route.includes('rpc("delete_own_account"'));
 });
