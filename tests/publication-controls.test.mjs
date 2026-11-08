@@ -179,3 +179,101 @@ test("publication status changes require a server session, owner filter and serv
   assert.match(sql, /REVOKE INSERT, UPDATE ON TABLE public.campos/);
   assert.match(sql, /REVOKE INSERT, UPDATE ON TABLE public.servicios_publicaciones/);
 });
+
+
+function loadStatusRoute(path, scenario = {}) {
+  const userId = scenario.user === undefined ? "owner-1" : scenario.user;
+  const operations = [];
+  const mockedAdmin = {
+    from(table) {
+      const makeQuery = (operation, payload) => {
+        const filters = [];
+        const query = {
+          eq(column, value) { filters.push([column, value]); return query; },
+          select() { return query; },
+          async maybeSingle() {
+            operations.push({ table, operation, payload, filters: [...filters] });
+            if (operation === "read") {
+              return { data: scenario.owned === false ? null : { id: filters[0]?.[1], status: scenario.currentStatus ?? "pausado" }, error: null };
+            }
+            return { data: scenario.owned === false ? null : { id: filters[0]?.[1] }, error: null };
+          },
+          then(resolve, reject) {
+            operations.push({ table, operation, payload, filters: [...filters] });
+            return Promise.resolve({ error: scenario.writeError ?? null }).then(resolve, reject);
+          },
+        };
+        return query;
+      };
+      return {
+        select() { return makeQuery("read"); },
+        update(payload) { return makeQuery("update", payload); },
+      };
+    },
+  };
+  const mocks = {
+    "next/server": { NextResponse: { json: (body, init = {}) => ({ body, status: init.status ?? 200 }) } },
+    "@/lib/supabase/server": { createClient: async () => ({ auth: { getUser: async () => ({ data: { user: userId ? { id: userId } : null } }) } }) },
+    "@/lib/supabase/admin": { createAdminClient: () => mockedAdmin },
+    "@/lib/billing/land-quota": {
+      getLandQuotaStatus: async () => ({ canPublish: scenario.quota !== false }),
+      consumeLandPublicationQuota: async () => ({ ok: scenario.consumed !== false, code: "quota_exhausted" }),
+    },
+  };
+  const exports = {};
+  const compiled = ts.transpileModule(source(path), {
+    compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 },
+  }).outputText;
+  runInNewContext(compiled, { exports, require: name => {
+    assert.ok(Object.hasOwn(mocks, name), "Unexpected import: " + name);
+    return mocks[name];
+  }});
+  return { api: exports, operations };
+}
+
+const statusId = "123e4567-e89b-42d3-a456-426614174000";
+
+test("field status API rejects anonymous and invalid requests before admin access", async () => {
+  const anonymous = loadStatusRoute("app/api/campos/estado/route.ts", { user: null });
+  assert.equal((await anonymous.api.PATCH({ json: async () => ({ id: statusId, status: "activo" }) })).status, 401);
+  assert.equal(anonymous.operations.length, 0);
+  const invalid = loadStatusRoute("app/api/campos/estado/route.ts");
+  assert.equal((await invalid.api.PATCH({ json: async () => ({ id: "bad", status: "activo" }) })).status, 400);
+  assert.equal(invalid.operations.length, 0);
+});
+
+test("field status cannot be changed by someone other than the owner", async () => {
+  const forbidden = loadStatusRoute("app/api/campos/estado/route.ts", { owned: false });
+  const response = await forbidden.api.PATCH({ json: async () => ({ id: statusId, status: "activo" }) });
+  assert.equal(response.status, 404);
+  assert.equal(forbidden.operations.filter(x => x.operation === "update").length, 0);
+  assert.deepEqual(Array.from(forbidden.operations[0].filters, x => Array.from(x)), [
+    ["id", statusId], ["propietario_id", "owner-1"],
+  ]);
+});
+
+test("field activation checks quota and owner-scoped write", async () => {
+  const exhausted = loadStatusRoute("app/api/campos/estado/route.ts", { quota: false });
+  assert.equal((await exhausted.api.PATCH({ json: async () => ({ id: statusId, status: "activo" }) })).status, 409);
+  assert.equal(exhausted.operations.filter(x => x.operation === "update").length, 0);
+  const allowed = loadStatusRoute("app/api/campos/estado/route.ts");
+  assert.equal((await allowed.api.PATCH({ json: async () => ({ id: statusId, status: "activo" }) })).status, 200);
+  const mutation = allowed.operations.find(x => x.operation === "update");
+  assert.equal(mutation.payload.status, "activo");
+  assert.deepEqual(Array.from(mutation.filters, x => Array.from(x)), [
+    ["id", statusId], ["propietario_id", "owner-1"],
+  ]);
+});
+
+test("service activation must be authenticated and strictly scoped to the owner", async () => {
+  const anonymous = loadStatusRoute("app/api/servicios/estado/route.ts", { user: null });
+  assert.equal((await anonymous.api.PATCH({ json: async () => ({ id: statusId, activo: true }) })).status, 401);
+  const invalid = loadStatusRoute("app/api/servicios/estado/route.ts");
+  assert.equal((await invalid.api.PATCH({ json: async () => ({ id: statusId, activo: "true" }) })).status, 400);
+  const own = loadStatusRoute("app/api/servicios/estado/route.ts");
+  assert.equal((await own.api.PATCH({ json: async () => ({ id: statusId, activo: true }) })).status, 200);
+  const mutation = own.operations.find(x => x.operation === "update");
+  assert.deepEqual(Array.from(mutation.filters, x => Array.from(x)), [
+    ["id", statusId], ["propietario_id", "owner-1"],
+  ]);
+});
