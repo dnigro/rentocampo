@@ -171,7 +171,7 @@ test("publication status changes require a server session, owner filter and serv
   const serviceStatus = source("app/api/servicios/estado/route.ts");
   const fieldWrite = source("app/api/campos/publicar/route.ts");
   const serviceWrite = source("app/api/servicios/publicar/route.ts");
-  const sql = source("supabase/migrations/20261108165500_server_only_publication_writes.sql");
+  const sql = source("supabase/migrations/20261108173433_server_only_publication_writes.sql");
   for (const route of [fieldStatus, serviceStatus]) {
     assert.ok(route.includes("client.auth.getUser()"));
     assert.ok(route.includes('.eq("propietario_id", user.id)'));
