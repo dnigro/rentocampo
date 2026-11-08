@@ -39,3 +39,14 @@ test("account deletion uses only authenticated server-side Admin Auth, not expos
   assert.ok(route.includes("admin.auth.admin.deleteUser(user.id)"));
   assert.ok(!route.includes('rpc("delete_own_account"'));
 });
+
+test("SQL migrations preserve the database message length guard", () => {
+  const migration = readFileSync(
+    new URL("../supabase/migrations/20261108170925_enforce_message_2000_character_limit_in_database.sql", import.meta.url),
+    "utf8",
+  );
+  for (const table of ["public.mensajes", "public.mensajes_directos"]) {
+    assert.ok(migration.includes("ALTER TABLE " + table));
+  }
+  assert.equal(migration.split("CHECK (char_length(btrim(contenido)) BETWEEN 1 AND 2000)").length - 1, 2);
+});
