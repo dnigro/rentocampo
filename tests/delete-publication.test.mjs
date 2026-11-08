@@ -48,5 +48,5 @@ test("SQL migrations preserve the database message length guard", () => {
   for (const table of ["public.mensajes", "public.mensajes_directos"]) {
     assert.ok(migration.includes("ALTER TABLE " + table));
   }
-  assert.equal((migration.match(/char_length\\(btrim\\(contenido\\)\\) BETWEEN 1 AND 2000/g) ?? []).length, 2);
+  assert.equal(migration.split("CHECK (char_length(btrim(contenido)) BETWEEN 1 AND 2000)").length - 1, 2);
 });
