@@ -24,3 +24,11 @@ test("Lite reuses the same navigation, session and country controls as home",()=
  assert.match(read('app/lite/layout.tsx'),/<Footer \/>/);
  assert.doesNotMatch(read('app/(dashboard)/mis-campos/page.tsx'),/Sin packs ni límites de publicaciones/);
 });
+
+test("security headers force HTTPS without locking unrelated subdomains", () => {
+  const config = readFileSync(new URL("../next.config.ts", import.meta.url), "utf8");
+  assert.ok(config.includes('Strict-Transport-Security'));
+  assert.ok(config.includes('max-age=31536000'));
+  assert.ok(!config.includes('includeSubDomains'));
+  assert.ok(config.includes('X-Content-Type-Options'));
+});
