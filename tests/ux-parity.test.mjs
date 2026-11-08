@@ -431,7 +431,7 @@ test("publication forms share approved navy editorial cards without disrupting d
  assert.ok(service.includes("servicios.slice(1)"),"complementary tags");
  assert.ok(service.includes('fetch("/api/servicios/publicar"'),"server-validated storage path");
  const servicesApi=read("app/api/servicios/publicar/route.ts");
- assert.ok(servicesApi.includes('supabase.from("servicios_publicaciones")'),"unchanged Supabase storage table");
+ assert.ok(servicesApi.includes('createAdminClient().from("servicios_publicaciones")'),"publication writes use server-side Supabase storage");
  assert.ok(catalog.includes("Electricidad e iluminación"));
  assert.ok(catalog.includes("Tecnología y automatización"));
  assert.ok(catalog.includes("Conectividad y monitoreo"));
