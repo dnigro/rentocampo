@@ -9,6 +9,12 @@ export async function PATCH(request: Request) {
   const { data: { user } } = await client.auth.getUser();
   if (!user) return NextResponse.json({ error: "No autenticado" }, { status: 401 });
 
+  const { data: profile, error: profileError } = await client.from("profiles")
+    .select("activo").eq("id", user.id).maybeSingle();
+  if (profileError || profile?.activo !== true) {
+    return NextResponse.json({ error: "La cuenta está desactivada o no disponible" }, { status: 403 });
+  }
+
   const payload = await request.json().catch(() => null);
   if (typeof payload?.id !== "string" || !UUID.test(payload.id) ||
       typeof payload?.activo !== "boolean") {
