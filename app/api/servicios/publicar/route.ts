@@ -10,7 +10,12 @@ const validServices = SERVICIOS_RURALES.map(({ value }) => value);
 async function contexto() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
-  return { supabase, user };
+  if (!user) return { user: null };
+  // A disabled account may stay signed in; enforce moderator status on writes.
+  const { data: profile, error } = await supabase.from("profiles")
+    .select("activo").eq("id", user.id).maybeSingle();
+  if (error || profile?.activo !== true) return { user: null };
+  return { user };
 }
 
 function validarInput(raw: unknown) {
