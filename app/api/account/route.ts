@@ -45,9 +45,9 @@ export async function DELETE(request: Request) {
     await removeFolder(admin, "avatars", user.id);
     await removeFolder(admin, "campos-fotos", user.id);
 
-    const { error } = await supabase.rpc("delete_own_account", {
-      confirm_text: body.confirmation,
-    });
+    // Only the server may remove Auth identities. This operation requires
+    // service-role credentials and always targets the authenticated user.
+    const { error } = await admin.auth.admin.deleteUser(user.id);
     if (error) throw error;
 
     return NextResponse.json({ success: true });

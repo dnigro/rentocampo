@@ -1,5 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import { deleteOwnedPublication } from "../lib/delete-owned-publication.ts";
 
 const id = "12345678-1234-1234-1234-123456789abc";
@@ -30,3 +31,11 @@ for (const table of ["campos", "servicios_publicaciones"]) {
   });
 }
 test("invalid ID never calls the database",async()=>{const db=client();assert.equal((await deleteOwnedPublication(db,"campos","not-an-id")).status,400);assert.equal(db.tables.length,0);});
+
+test("account deletion uses only authenticated server-side Admin Auth, not exposed RPC", () => {
+  const route = readFileSync(new URL("../app/api/account/route.ts", import.meta.url), "utf8");
+  assert.ok(route.includes("supabase.auth.getUser()"));
+  assert.ok(route.includes('body?.confirmation !== "ELIMINAR"'));
+  assert.ok(route.includes("admin.auth.admin.deleteUser(user.id)"));
+  assert.ok(!route.includes('rpc("delete_own_account"'));
+});
