@@ -167,11 +167,6 @@ function NavbarContent() {
             <Link href="/servicios-rurales" className="nav-link">
               {regionalText(activeCountry, "Servicios rurales", "Serviços rurais")}
             </Link>
-            <Link href="/#como-funciona" className="nav-link" onClick={() => {
-              if (pathname === "/") document.getElementById("como-funciona")?.scrollIntoView({ behavior: "smooth" });
-            }}>
-              {regionalText(activeCountry, "Cómo funciona", "Como funciona")}
-            </Link>
             
           </nav>
 
