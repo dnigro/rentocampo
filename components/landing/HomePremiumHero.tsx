@@ -79,13 +79,6 @@ export default function HomePremiumHero({ country }: { country: CountryCode }) {
                 "Connect with farmers and rural services."
               )}
             </p>
-            <p className="rcp-home__direct">
-              {t(
-                "Mapa y chat online. Sin intermediarios.",
-                "Mapa e chat online. Sem intermediários.",
-                "Map and online chat. No middlemen."
-              )}
-            </p>
             <div className="rcp-home__proof" aria-label={t("Sin comisión y contacto directo", "Sem comissão e contato direto", "Zero commission and direct contact")}>
               <span className="rcp-home__proof-metric">
                 <strong>0%</strong> {t("COMISIÓN", "COMISSÃO", "COMMISSION")}
