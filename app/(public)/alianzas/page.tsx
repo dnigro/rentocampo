@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     title: "Alianzas rurales gratuitas | RentoCampo",
     description: "Conectá a tus asociados con propietarios, productores y servicios rurales. Publicación gratuita, contacto directo y cero comisión.",
     siteName: "RentoCampo",
-    images: [{ url: "/hero-campo.jpeg", width: 1200, height: 630, alt: "Paisaje rural de RentoCampo — Alianzas rurales gratuitas" }],
+    images: [{ url: "https://rentocampo.com/alianzas/opengraph-image", width: 1200, height: 630, alt: "RentoCampo — Alianzas rurales gratuitas para tu comunidad" }],
     url: "https://rentocampo.com/alianzas",
     type: "website",
     locale: "es_AR",
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Alianzas rurales gratuitas | RentoCampo",
     description: "Conectá a tus asociados con propietarios, productores y servicios rurales. Publicación gratuita y contacto directo.",
-    images: ["/hero-campo.jpeg"],
+    images: ["https://rentocampo.com/alianzas/opengraph-image"],
   },
 };
 
