@@ -1049,7 +1049,9 @@
   .rc-landing .rcp-home__title .rcp-home__title-accent {
     font-size:clamp(29px,3.15vw,55px);
     max-width:100%;
-    white-space:nowrap;
+    white-space:normal;
+    overflow-wrap:break-word;
+    text-wrap:balance;
     padding:7px 17px 10px 12px;
   }
   .rc-landing .rcp-home__description {
