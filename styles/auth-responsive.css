@@ -237,3 +237,11 @@ html body .app-shell :is(.auth-page-login,.auth-page-register) .form-hint{
     margin-bottom:22px!important;padding-bottom:16px!important;
   }
 }
+
+/* Auth refinement: remove the decorative top stripe and keep login/register aligned. */
+html body .app-shell :is(.auth-page-login,.auth-page-register) .auth-card {border-top:1px solid #c9d6df!important;}
+html body .app-shell :is(.auth-page-login,.auth-page-register) .auth-header {border-bottom:0!important;padding-bottom:0!important;margin-bottom:24px!important;}
+html body .app-shell :is(.auth-page-login,.auth-page-register) .auth-card::before {content:none!important;display:none!important;}
+html body .app-shell :is(.auth-page-login,.auth-page-register) .auth-form .password-input-wrapper .form-input {padding-right:54px!important;}
+html body .app-shell :is(.auth-page-login,.auth-page-register) .password-toggle {z-index:1;}
+@media(max-width:600px){html body .app-shell :is(.auth-page-login,.auth-page-register) .auth-card{padding:24px 20px!important;}}
