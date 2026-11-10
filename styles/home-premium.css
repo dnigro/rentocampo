@@ -725,3 +725,109 @@
   .rcp-home__button--register {min-height:58px;font-size:18px;}
   .rcp-home__buttons > .rcp-home__map-link {min-height:53px;font-size:16px;white-space:nowrap;}
 }
+
+
+/* Preview 2026-11-10: editorial navy hero, monochrome cattle, one clear claim.
+   Scoped to the web landing; header, cards and footer remain unchanged. */
+.rc-landing .rcp-home__hero {
+  background:linear-gradient(115deg,#0b2134 0%,#102c44 72%,#193950 100%);
+  color:#fff;
+  min-height:clamp(480px,34vw,610px);
+}
+.rc-landing .rcp-home__visual {
+  inset:0 0 0 43%;
+  clip-path:polygon(21% 0,100% 0,100% 100%,0 100%);
+  background:#344651;
+}
+.rc-landing .rcp-home__visual::after {
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:linear-gradient(90deg,rgba(11,33,52,.52),transparent 35%);
+}
+.rc-landing .rcp-home__image {
+  object-position:70% 50%;
+  filter:grayscale(1) contrast(1.14) brightness(.83);
+}
+.rc-landing .rcp-home__content {
+  width:min(63%,1040px);
+  padding:clamp(31px,4vw,66px) clamp(25px,5vw,94px);
+}
+.rc-landing .rcp-home__title {
+  color:#fff;
+  font-size:clamp(54px,5.1vw,91px);
+  line-height:1.02;
+  letter-spacing:-.055em;
+  text-wrap:initial;
+}
+.rc-landing .rcp-home__title span {display:block;color:#fff}
+.rc-landing .rcp-home__title .rcp-home__title-accent {
+  display:table;
+  max-width:100%;
+  margin-top:9px;
+  padding:4px 24px 10px 18px;
+  background:#2678b0;
+  color:#fff;
+  clip-path:polygon(2% 0,100% 0,97% 100%,0 100%);
+  font-size:.93em;
+  letter-spacing:-.051em;
+  line-height:1.08;
+}
+.rc-landing .rcp-home__description {
+  margin-top:clamp(19px,2.1vw,31px);
+  color:#eef5f9;
+  max-width:540px;
+  font-size:clamp(18px,1.5vw,24px);
+  line-height:1.42;
+}
+.rc-landing .rcp-home__proof,
+.rc-landing .rcp-home__proof-metric,
+.rc-landing .rcp-home__proof-contact {color:#f6fafc}
+.rc-landing .rcp-home__proof-divider {background:rgba(255,255,255,.58)}
+.rc-landing .rcp-home__button--register {
+  background:#2380ba;
+  border-color:#2380ba;
+  color:#fff!important;
+  box-shadow:0 10px 26px rgba(0,0,0,.18);
+}
+.rc-landing .rcp-home__button--register:hover {background:#166a9f;border-color:#166a9f}
+.rc-landing .rcp-home__buttons > .rcp-home__map-link {
+  background:rgba(9,30,48,.38);
+  border-color:#d9eaf4;
+  color:#fff!important;
+}
+.rc-landing .rcp-home__buttons > .rcp-home__map-link:hover {background:rgba(255,255,255,.14)}
+@media(min-width:701px) and (max-width:1050px) {
+  .rc-landing .rcp-home__content {width:67%;padding:28px 34px}
+  .rc-landing .rcp-home__title {font-size:clamp(43px,5.5vw,65px)}
+  .rc-landing .rcp-home__description {font-size:17px}
+  .rc-landing .rcp-home__visual {left:42%}
+}
+@media(max-width:700px) {
+  .rc-landing .rcp-home__hero {display:flex;flex-direction:column;min-height:0}
+  .rc-landing .rcp-home__visual {
+    position:relative;
+    inset:auto;
+    order:0;
+    width:100%;
+    height:clamp(205px,59vw,290px);
+    clip-path:none;
+  }
+  .rc-landing .rcp-home__visual::after {background:linear-gradient(0deg,rgba(11,33,52,.25),transparent 48%)}
+  .rc-landing .rcp-home__image {object-position:72% 52%;filter:grayscale(1) contrast(1.13) brightness(.91)}
+  .rc-landing .rcp-home__content {order:1;width:100%;min-height:0;padding:26px 20px 36px}
+  .rc-landing .rcp-home__title {font-size:clamp(40px,10.7vw,57px);line-height:1.08}
+  .rc-landing .rcp-home__title .rcp-home__title-accent {
+    margin-top:7px;padding:5px 19px 9px 13px;font-size:.92em
+  }
+  .rc-landing .rcp-home__description {margin-top:17px;font-size:17px;max-width:100%}
+  .rc-landing .rcp-home__proof {margin-top:18px;gap:12px}
+  .rc-landing .rcp-home__buttons {width:100%;margin-top:19px}
+  .rc-landing .rcp-home__buttons > .rcp-home__button--register,
+  .rc-landing .rcp-home__buttons > .rcp-home__map-link {width:100%;max-width:100%}
+}
+@media(max-width:350px) {
+  .rc-landing .rcp-home__title {font-size:37px}
+  .rc-landing .rcp-home__title .rcp-home__title-accent {font-size:.89em}
+}
