@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import GoogleAuthButton from "@/components/auth/GoogleAuthButton";
 import { createClient } from "@/lib/supabase/client";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 
@@ -77,6 +78,7 @@ export default function LoginPage() {
           </button>
         </form>
 
+        <GoogleAuthButton mode="login" />
         <div className="auth-footer">
           {t("auth.noAccount")} <Link href="/register">{t("auth.signUpFree")}</Link>
         </div>
