@@ -26,14 +26,15 @@ test("pt-BR and Spanish catalogs have matching message keys", () => {
   assert.equal(brData["fields.available"], "Terras disponíveis");
 });
 
-test("regional hero gives equivalent ES/PT/EN product messaging and zero commission",()=>{
+test("regional web and Lite hero provide current ES/PT/EN messaging and zero commission",()=>{
  const hero=read("components/landing/SimpleMapChatHero.tsx");
- assert.ok(hero.includes("Agregala al mapa.") && hero.includes("Adicione-a ao mapa.") && hero.includes("Add it to the map."));
- assert.ok(hero.includes("Chateá en línea.") && hero.includes("Converse online.") && hero.includes("Chat online."));
- assert.ok(hero.includes('<br />'), "hero title has deliberate two-sentence line break");
+ const premium=read("components/landing/HomePremiumHero.tsx");
  const styles=read("styles/hero-simple-map-chat.css");
- for(const phrase of ["TIERRAS QUE PRODUCEN FUTURO","TERRAS QUE PRODUZEM FUTURO","LAND THAT BUILDS THE FUTURE","Tu tierra tiene valor.","Sua terra tem valor.","Your land has value.","MAPA","CHAT ONLINE","ONLINE CHAT","Seleccioná la zona","Escolha a região","Select an area","Contactá en línea","Converse online","Connect online","0%</strong>","100%</strong>"]) {
-   assert.ok(hero.includes(phrase), "missing translated feature: "+phrase);
+ for(const phrase of ["El campo.","O campo.","The land.","Sin vueltas.","Sem complicações.","No hassle.","MAPA","CHAT ONLINE","ONLINE CHAT","Seleccioná la zona","Escolha a região","Select an area","Contactá en línea","Converse online","Connect online","0%</strong>","100%</strong>"]) {
+   assert.ok(hero.includes(phrase), "missing localized Lite feature: "+phrase);
+ }
+ for(const phrase of ["El campo.","O campo.","The land.","Sin vueltas.","Sem complicações.","No hassle."]) {
+   assert.ok(premium.includes(phrase), "missing localized web claim: "+phrase);
  }
  assert.ok(hero.includes('href={lite ? "/lite/cuenta/registro" : "/register"}'));
  assert.ok(hero.includes('href="/campos/mapa"'));
