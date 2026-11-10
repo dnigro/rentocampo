@@ -949,3 +949,71 @@
     pointer-events: none !important;
   }
 }
+
+
+/* RentoCampo · unified recovery flow: request, email sent and new password.
+   Scoped to avoid affecting the rest of the public site. */
+html body .rc-recovery-page {
+  isolation:isolate;display:flex;align-items:center;justify-content:center;
+  width:100%;min-height:calc(100dvh - 160px);padding:clamp(28px,5vw,64px) 16px;
+  background:linear-gradient(145deg,#e8edf1 0%,#f5f6f7 55%,#e5edf2 100%)!important;
+  box-sizing:border-box;
+}
+html body .rc-recovery-page::before {display:none!important;content:none!important}
+html body .rc-recovery-page .auth-card {
+  display:block;width:min(100%,540px);max-width:540px;min-width:0;
+  margin:0 auto;padding:clamp(24px,4vw,40px);
+  border:1px solid #dce1e4;border-radius:22px;background:#fff;
+  box-shadow:0 14px 38px rgba(16,42,67,.055);backdrop-filter:none;
+  box-sizing:border-box;overflow-wrap:anywhere;
+}
+html body .rc-recovery-page .auth-header {margin:0 0 24px;text-align:left}
+html body .rc-recovery-page .auth-title {
+  margin:0 0 12px!important;font-family:var(--font-dm-sans),Arial,sans-serif!important;
+  font-size:clamp(29px,4vw,40px)!important;line-height:1.14!important;
+  letter-spacing:-.035em!important;font-weight:800!important;
+  text-transform:none!important;color:#102a43!important;overflow-wrap:break-word;
+}
+html body .rc-recovery-page .auth-subtitle {
+  margin:0;color:#526577;font-size:16px;line-height:1.55;text-align:left;
+}
+html body .rc-recovery-page .auth-form {display:flex;flex-direction:column;gap:18px}
+html body .rc-recovery-page .form-field {margin:0;min-width:0}
+html body .rc-recovery-page .form-label {
+  display:block;margin-bottom:8px;color:#102a43;font-size:14px;font-weight:700;
+}
+html body .rc-recovery-page .form-input {
+  display:block;width:100%;max-width:100%;min-height:52px;padding:12px 16px;
+  box-sizing:border-box;border:1px solid #cdd6dd;border-radius:12px;
+  background:#fff;color:#102a43;font-size:16px;
+}
+html body .rc-recovery-page .form-input:focus {
+  outline:2px solid #376582;outline-offset:1px;border-color:#376582;
+}
+html body .rc-recovery-page .btn-submit {
+  display:flex;align-items:center;justify-content:center;width:100%;
+  min-height:54px;margin-top:5px;padding:12px 20px;box-sizing:border-box;
+  border:0;border-radius:999px;background:#102a43;color:#fff;
+  font:750 16px/1.4 var(--font-dm-sans),Arial,sans-serif;text-decoration:none;
+  text-align:center;cursor:pointer;
+}
+html body .rc-recovery-page .btn-submit:hover {background:#244760}
+html body .rc-recovery-page .btn-submit:disabled {opacity:.6;cursor:not-allowed}
+html body .rc-recovery-page .auth-footer,
+html body .rc-recovery-page .confirm-footer {
+  margin-top:24px;padding-top:20px;border-top:1px solid #e7eaed;
+  color:#526577;font-size:14px;text-align:center;
+}
+html body .rc-recovery-page .auth-footer a {color:#102a43;font-weight:750}
+html body .rc-recovery-page .confirm-icon {font-size:34px;margin-bottom:14px}
+html body .rc-recovery-page .confirm-pasos {display:grid;gap:12px;margin:22px 0}
+html body .rc-recovery-page .confirm-paso {display:flex;align-items:center;gap:12px;color:#334e68;font-size:15px}
+html body .rc-recovery-page .paso-num {
+  display:grid;place-items:center;flex:0 0 32px;width:32px;height:32px;
+  border-radius:50%;background:#e8eff4;color:#102a43;font-weight:800;
+}
+@media(max-width:600px){
+  html body .rc-recovery-page {min-height:0;padding:24px 12px}
+  html body .rc-recovery-page .auth-card {padding:26px 20px;border-radius:18px}
+  html body .rc-recovery-page .auth-title {font-size:clamp(28px,8vw,36px)!important}
+}
