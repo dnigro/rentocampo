@@ -725,3 +725,352 @@
   .rcp-home__button--register {min-height:58px;font-size:18px;}
   .rcp-home__buttons > .rcp-home__map-link {min-height:53px;font-size:16px;white-space:nowrap;}
 }
+
+
+/* Preview 2026-11-10: editorial navy hero, monochrome cattle, one clear claim.
+   Scoped to the web landing; header, cards and footer remain unchanged. */
+.rc-landing .rcp-home__hero {
+  background:linear-gradient(115deg,#0b2134 0%,#102c44 72%,#193950 100%);
+  color:#fff;
+  min-height:clamp(480px,34vw,610px);
+}
+.rc-landing .rcp-home__visual {
+  inset:0 0 0 43%;
+  clip-path:polygon(21% 0,100% 0,100% 100%,0 100%);
+  background:#344651;
+}
+.rc-landing .rcp-home__visual::after {
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:linear-gradient(90deg,rgba(11,33,52,.52),transparent 35%);
+}
+.rc-landing .rcp-home__image {
+  object-position:70% 50%;
+  filter:grayscale(1) contrast(1.14) brightness(.83);
+}
+.rc-landing .rcp-home__content {
+  width:min(63%,1040px);
+  padding:clamp(31px,4vw,66px) clamp(25px,5vw,94px);
+}
+.rc-landing .rcp-home__title {
+  color:#fff;
+  font-size:clamp(54px,5.1vw,91px);
+  line-height:1.02;
+  letter-spacing:-.055em;
+  text-wrap:initial;
+}
+.rc-landing .rcp-home__title span {display:block;color:#fff}
+.rc-landing .rcp-home__title .rcp-home__title-accent {
+  display:table;
+  max-width:100%;
+  margin-top:9px;
+  padding:4px 24px 10px 18px;
+  background:#2678b0;
+  color:#fff;
+  clip-path:polygon(2% 0,100% 0,97% 100%,0 100%);
+  font-size:.93em;
+  letter-spacing:-.051em;
+  line-height:1.08;
+}
+.rc-landing .rcp-home__description {
+  margin-top:clamp(19px,2.1vw,31px);
+  color:#eef5f9;
+  max-width:540px;
+  font-size:clamp(18px,1.5vw,24px);
+  line-height:1.42;
+}
+.rc-landing .rcp-home__proof,
+.rc-landing .rcp-home__proof-metric,
+.rc-landing .rcp-home__proof-contact {color:#f6fafc}
+.rc-landing .rcp-home__proof-divider {background:rgba(255,255,255,.58)}
+.rc-landing .rcp-home__button--register {
+  background:#2380ba;
+  border-color:#2380ba;
+  color:#fff!important;
+  box-shadow:0 10px 26px rgba(0,0,0,.18);
+}
+.rc-landing .rcp-home__button--register:hover {background:#166a9f;border-color:#166a9f}
+.rc-landing .rcp-home__buttons > .rcp-home__map-link {
+  background:rgba(9,30,48,.38);
+  border-color:#d9eaf4;
+  color:#fff!important;
+}
+.rc-landing .rcp-home__buttons > .rcp-home__map-link:hover {background:rgba(255,255,255,.14)}
+@media(min-width:701px) and (max-width:1050px) {
+  .rc-landing .rcp-home__content {width:67%;padding:28px 34px}
+  .rc-landing .rcp-home__title {font-size:clamp(43px,5.5vw,65px)}
+  .rc-landing .rcp-home__description {font-size:17px}
+  .rc-landing .rcp-home__visual {left:42%}
+}
+@media(max-width:700px) {
+  .rc-landing .rcp-home__hero {display:flex;flex-direction:column;min-height:0}
+  .rc-landing .rcp-home__visual {
+    position:relative;
+    inset:auto;
+    order:0;
+    width:100%;
+    height:clamp(205px,59vw,290px);
+    clip-path:none;
+  }
+  .rc-landing .rcp-home__visual::after {background:linear-gradient(0deg,rgba(11,33,52,.25),transparent 48%)}
+  .rc-landing .rcp-home__image {object-position:72% 52%;filter:grayscale(1) contrast(1.13) brightness(.91)}
+  .rc-landing .rcp-home__content {order:1;width:100%;min-height:0;padding:26px 20px 36px}
+  .rc-landing .rcp-home__title {font-size:clamp(40px,10.7vw,57px);line-height:1.08}
+  .rc-landing .rcp-home__title .rcp-home__title-accent {
+    margin-top:7px;padding:5px 19px 9px 13px;font-size:.92em
+  }
+  .rc-landing .rcp-home__description {margin-top:17px;font-size:17px;max-width:100%}
+  .rc-landing .rcp-home__proof {margin-top:18px;gap:12px}
+  .rc-landing .rcp-home__buttons {width:100%;margin-top:19px}
+  .rc-landing .rcp-home__buttons > .rcp-home__button--register,
+  .rc-landing .rcp-home__buttons > .rcp-home__map-link {width:100%;max-width:100%}
+}
+@media(max-width:350px) {
+  .rc-landing .rcp-home__title {font-size:37px}
+  .rc-landing .rcp-home__title .rcp-home__title-accent {font-size:.89em}
+}
+
+
+/* Refinamiento tipográfico móvil 10/11: jerarquía limpia, sin cartel sobredimensionado. */
+.rc-landing .rcp-home__title {
+  font-family:var(--font-rounded),var(--font-dm-sans),Arial,sans-serif;
+  font-weight:850;
+}
+.rc-landing .rcp-home__title .rcp-home__title-accent {
+  font-weight:800;
+  letter-spacing:-.045em;
+}
+@media(max-width:700px) {
+  .rc-landing .rcp-home__title {
+    font-size:clamp(36px,9.1vw,49px);
+    line-height:1.1;
+    letter-spacing:-.045em;
+  }
+  .rc-landing .rcp-home__title .rcp-home__title-accent {
+    display:table;
+    max-width:100%;
+    margin-top:10px;
+    padding:7px 18px 9px 13px;
+    font-size:.76em;
+    line-height:1.15;
+    letter-spacing:-.035em;
+  }
+  .rc-landing .rcp-home__description {
+    margin-top:21px;
+  }
+}
+@media(max-width:350px) {
+  .rc-landing .rcp-home__title {font-size:clamp(32px,9vw,36px)}
+  .rc-landing .rcp-home__title .rcp-home__title-accent {font-size:.76em}
+}
+
+
+/* Preview 10/11 — titulares con carácter: cursiva fuerte y banda diagonal protagonista. */
+.rc-landing .rcp-home__title {
+  font-family:var(--font-dm-sans),Arial,sans-serif;
+  font-weight:950;
+  font-style:italic;
+  letter-spacing:-.065em;
+  line-height:1.04;
+}
+.rc-landing .rcp-home__title > span:first-child {
+  display:block;
+  transform:skewX(-5deg);
+  transform-origin:left center;
+}
+.rc-landing .rcp-home__title .rcp-home__title-accent {
+  display:table;
+  width:max-content;
+  max-width:100%;
+  margin-top:11px;
+  padding:10px 27px 15px 17px;
+  background:#2389c8;
+  color:#fff;
+  clip-path:polygon(4% 0,100% 0,96% 100%,0 100%);
+  font-size:.94em;
+  font-style:italic;
+  font-weight:950;
+  letter-spacing:-.062em;
+  line-height:1.08;
+  text-shadow:0 2px 1px rgba(0,0,0,.08);
+  box-shadow:none;
+}
+@media(max-width:700px) {
+  .rc-landing .rcp-home__content {padding-left:18px;padding-right:18px}
+  .rc-landing .rcp-home__title {
+    font-size:clamp(48px,12.5vw,67px);
+    letter-spacing:-.068em;
+    line-height:1.05;
+  }
+  .rc-landing .rcp-home__title .rcp-home__title-accent {
+    width:max-content;
+    max-width:100%;
+    margin-top:12px;
+    padding:9px 21px 13px 15px;
+    font-size:.90em;
+    line-height:1.08;
+    letter-spacing:-.068em;
+  }
+  .rc-landing .rcp-home__description {margin-top:25px}
+}
+@media(max-width:380px) {
+  .rc-landing .rcp-home__title {font-size:clamp(43px,11.8vw,48px)}
+  .rc-landing .rcp-home__title .rcp-home__title-accent {font-size:.88em;padding-right:16px}
+}
+
+
+/* Preview 10/11: hero blanco, tipografía azul petróleo y acento azul vivo. */
+.rc-landing .rcp-home__hero {
+  background:#fff;
+  color:#112d43;
+}
+.rc-landing .rcp-home__title,
+.rc-landing .rcp-home__title > span:first-child {
+  color:#102b40;
+}
+.rc-landing .rcp-home__title .rcp-home__title-accent {
+  color:#fff;
+  background:#2389c8;
+}
+.rc-landing .rcp-home__description {
+  color:#29495e;
+}
+.rc-landing .rcp-home__proof,
+.rc-landing .rcp-home__proof-metric,
+.rc-landing .rcp-home__proof-contact {
+  color:#15364e;
+}
+.rc-landing .rcp-home__proof-divider {
+  background:#a9bcc9;
+}
+.rc-landing .rcp-home__buttons > .rcp-home__map-link {
+  background:#fff;
+  color:#143d59!important;
+  border-color:#8da9bc;
+}
+.rc-landing .rcp-home__buttons > .rcp-home__map-link:hover {
+  background:#eaf4fa;
+}
+@media(max-width:700px) {
+  .rc-landing .rcp-home__content {background:#fff}
+}
+
+
+/* Preview premium: slate blue accent, solid navy registration CTA. */
+.rc-landing .rcp-home__title .rcp-home__title-accent {
+  background:#536579;
+  color:#fff;
+}
+.rc-landing .rcp-home__button--register,
+.rc-landing .rcp-home__buttons > .rcp-home__button--register {
+  background:#10283C;
+  border-color:#10283C;
+  color:#fff!important;
+  box-shadow:0 8px 20px rgba(16,40,60,.13);
+}
+.rc-landing .rcp-home__button--register:hover,
+.rc-landing .rcp-home__buttons > .rcp-home__button--register:hover {
+  background:#1C3B53;
+  border-color:#1C3B53;
+}
+
+
+/* Preview 10/11 — editorial refinement: quieter slant, lighter accent and tighter rhythm. */
+.rc-landing .rcp-home__title > span:first-child {
+  transform:skewX(-2deg);
+}
+.rc-landing .rcp-home__title .rcp-home__title-accent {
+  font-size:.80em;
+  margin-top:8px;
+  padding:8px 21px 11px 14px;
+  letter-spacing:-.05em;
+}
+.rc-landing .rcp-home__description {margin-top:17px}
+.rc-landing .rcp-home__proof {margin-top:13px}
+.rc-landing .rcp-home__buttons {margin-top:15px;gap:10px}
+.rc-landing .rcp-home__buttons > .rcp-home__button--register {min-height:52px;box-shadow:none}
+.rc-landing .rcp-home__buttons > .rcp-home__map-link {min-height:48px}
+@media(max-width:700px) {
+  .rc-landing .rcp-home__content {padding-top:23px;padding-bottom:27px}
+  .rc-landing .rcp-home__title {font-size:clamp(46px,11.8vw,62px)}
+  .rc-landing .rcp-home__title .rcp-home__title-accent {
+    font-size:.80em;
+    margin-top:8px;
+    padding:7px 18px 10px 13px;
+  }
+  .rc-landing .rcp-home__description {margin-top:17px}
+  .rc-landing .rcp-home__proof {margin-top:13px}
+  .rc-landing .rcp-home__buttons {margin-top:16px;gap:9px}
+  .rc-landing .rcp-home__buttons > .rcp-home__button--register {min-height:52px}
+  .rc-landing .rcp-home__buttons > .rcp-home__map-link {min-height:48px}
+}
+
+
+/* Responsive release: desktop copy stays on its own white panel, never over the photo. */
+@media(min-width:701px) {
+  .rc-landing .rcp-home__hero {
+    display:grid;
+    grid-template-columns:minmax(0, 54fr) minmax(0, 46fr);
+    align-items:stretch;
+    min-height:clamp(490px,36vw,610px);
+  }
+  .rc-landing .rcp-home__visual {
+    position:relative;
+    grid-column:2;
+    grid-row:1;
+    inset:auto;
+    width:100%;
+    height:100%;
+    clip-path:none;
+    overflow:hidden;
+  }
+  .rc-landing .rcp-home__visual::after {background:none}
+  .rc-landing .rcp-home__image {object-position:65% 50%}
+  .rc-landing .rcp-home__content {
+    grid-column:1;
+    grid-row:1;
+    position:relative;
+    width:100%;
+    min-width:0;
+    padding:clamp(24px,3vw,52px) clamp(24px,3.5vw,66px);
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:flex-start;
+    background:#fff;
+  }
+  .rc-landing .rcp-home__title {
+    max-width:100%;
+    font-size:clamp(43px,4.2vw,73px);
+    line-height:1.04;
+  }
+  .rc-landing .rcp-home__title .rcp-home__title-accent {
+    font-size:clamp(29px,3.15vw,55px);
+    max-width:100%;
+    white-space:nowrap;
+    padding:7px 17px 10px 12px;
+  }
+  .rc-landing .rcp-home__description {
+    max-width:100%;
+    font-size:clamp(16px,1.35vw,21px);
+    line-height:1.35;
+  }
+  .rc-landing .rcp-home__proof {flex-wrap:wrap;gap:9px 13px}
+  .rc-landing .rcp-home__buttons {width:min(100%,400px)}
+  .rc-landing .rcp-home__buttons > .rcp-home__button--register,
+  .rc-landing .rcp-home__buttons > .rcp-home__map-link {width:100%;max-width:100%}
+}
+@media(min-width:701px) and (max-width:1050px) {
+  .rc-landing .rcp-home__hero {grid-template-columns:minmax(0,57fr) minmax(0,43fr)}
+  .rc-landing .rcp-home__content {width:100%;padding:25px 26px}
+  .rc-landing .rcp-home__title {font-size:clamp(40px,4.8vw,52px)}
+  .rc-landing .rcp-home__title .rcp-home__title-accent {font-size:clamp(27px,3.6vw,39px)}
+}
+@media(max-width:700px) {
+  .rc-landing .rcp-home__hero {display:flex;min-height:0}
+  .rc-landing .rcp-home__visual {height:clamp(205px,59vw,290px)}
+  .rc-landing .rcp-home__content {width:100%;min-width:0}
+  .rc-landing .rcp-home__title .rcp-home__title-accent {max-width:100%;white-space:normal}
+}

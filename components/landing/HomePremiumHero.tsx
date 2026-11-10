@@ -65,12 +65,9 @@ export default function HomePremiumHero({ country }: { country: CountryCode }) {
           </div>
 
           <div className="rcp-home__content">
-            <p className="rcp-home__eyebrow">
-              {t("EL CAMPO. SIN VUELTAS.", "O CAMPO. SEM COMPLICAÇÕES.", "RURAL CONNECTIONS. MADE SIMPLE.")}
-            </p>
             <h1 className="rcp-home__title" id="rcp-home-title">
-              {t("Tu tierra tiene valor.", "Sua terra tem valor.", "Your land has value.")}
-              <span>{t("Agregala en el mapa.", "Coloque-a no mapa.", "Put it on the map.")}</span>
+              <span>{t("El campo.", "O campo.", "The land.")}</span>
+              <span className="rcp-home__title-accent">{t("Sin vueltas.", "Sem complicações.", "No hassle.")}</span>
             </h1>
             <p className="rcp-home__description">
               {t(
