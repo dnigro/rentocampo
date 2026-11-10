@@ -1008,13 +1008,14 @@
 }
 
 
-/* Responsive release: desktop copy stays on its own white panel, never over the photo. */
-@media(min-width:701px) {
+/* Desktop hero layout — canonical white copy panel and angled photo.
+   Keep mobile/App Lite rules independent; avoid stacking historic overrides. */
+@media (min-width:701px) {
   .rc-landing .rcp-home__hero {
     display:grid;
-    grid-template-columns:minmax(0, 54fr) minmax(0, 46fr);
+    grid-template-columns:minmax(0,52fr) minmax(0,48fr);
     align-items:stretch;
-    min-height:clamp(490px,36vw,610px);
+    min-height:clamp(395px,28vw,485px);
   }
   .rc-landing .rcp-home__visual {
     position:relative;
@@ -1023,18 +1024,18 @@
     inset:auto;
     width:100%;
     height:100%;
-    clip-path:none;
+    clip-path:polygon(14% 0,100% 0,100% 100%,0 100%);
     overflow:hidden;
   }
   .rc-landing .rcp-home__visual::after {background:none}
-  .rc-landing .rcp-home__image {object-position:65% 50%}
+  .rc-landing .rcp-home__image {object-position:85% 50%}
   .rc-landing .rcp-home__content {
     grid-column:1;
     grid-row:1;
     position:relative;
     width:100%;
     min-width:0;
-    padding:clamp(24px,3vw,52px) clamp(24px,3.5vw,66px);
+    padding:clamp(18px,2vw,32px) clamp(24px,3.5vw,66px);
     display:flex;
     flex-direction:column;
     justify-content:center;
@@ -1064,54 +1065,21 @@
   .rc-landing .rcp-home__buttons > .rcp-home__button--register,
   .rc-landing .rcp-home__buttons > .rcp-home__map-link {width:100%;max-width:100%}
 }
-@media(min-width:701px) and (max-width:1050px) {
-  .rc-landing .rcp-home__hero {grid-template-columns:minmax(0,57fr) minmax(0,43fr)}
-  .rc-landing .rcp-home__content {width:100%;padding:25px 26px}
+@media (min-width:701px) and (max-width:1050px) {
+  .rc-landing .rcp-home__hero {
+    grid-template-columns:minmax(0,55fr) minmax(0,45fr);
+    min-height:clamp(410px,43vw,470px);
+  }
+  .rc-landing .rcp-home__content {padding:25px 26px}
   .rc-landing .rcp-home__title {font-size:clamp(40px,4.8vw,52px)}
   .rc-landing .rcp-home__title .rcp-home__title-accent {font-size:clamp(27px,3.6vw,39px)}
 }
-@media(max-width:700px) {
+@media (max-width:700px) {
   .rc-landing .rcp-home__hero {display:flex;min-height:0}
   .rc-landing .rcp-home__visual {height:clamp(205px,59vw,290px)}
   .rc-landing .rcp-home__content {width:100%;min-width:0}
   .rc-landing .rcp-home__title .rcp-home__title-accent {max-width:100%;white-space:normal}
 }
-
-
-/* Desktop photo composition: restore angled edge and keep cattle in frame. */
-@media(min-width:701px) {
-  .rc-landing .rcp-home__visual {
-    clip-path:polygon(17% 0,100% 0,100% 100%,0 100%);
-  }
-  .rc-landing .rcp-home__image {
-    object-position:88% 50%;
-  }
-}
-
-
-/* Desktop refinement: reduce unused white space without sacrificing copy. */
-@media(min-width:701px) {
-  .rc-landing .rcp-home__hero {
-    min-height:clamp(395px,28vw,485px);
-    grid-template-columns:minmax(0,52fr) minmax(0,48fr);
-  }
-  .rc-landing .rcp-home__content {
-    justify-content:center;
-    padding-top:clamp(18px,2vw,32px);
-    padding-bottom:clamp(18px,2vw,32px);
-  }
-  .rc-landing .rcp-home__visual {
-    clip-path:polygon(14% 0,100% 0,100% 100%,0 100%);
-  }
-  .rc-landing .rcp-home__image {object-position:85% 50%}
-}
-@media(min-width:701px) and (max-width:1050px) {
-  .rc-landing .rcp-home__hero {
-    grid-template-columns:minmax(0,55fr) minmax(0,45fr);
-    min-height:clamp(410px,43vw,470px);
-  }
-}
-
 
 /* Final desktop optical alignment: lower copy slightly, keep photo and diagonal unchanged. */
 @media(min-width:701px) {
