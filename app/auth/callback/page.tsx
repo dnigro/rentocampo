@@ -15,7 +15,6 @@ export default function AuthCallbackPage() {
 
     async function completeAuthentication() {
       const url = new URL(window.location.href);
-      const code = url.searchParams.get("code");
       const requestedNext = url.searchParams.get("next");
       const next =
         requestedNext?.startsWith("/") && !requestedNext.startsWith("//")
@@ -30,47 +29,33 @@ export default function AuthCallbackPage() {
         return;
       }
 
-      // PKCE: Supabase returns a one-time authorization code.
-      // Exchange it once in this callback, then continue with the new session.
-      if (code) {
-        const { error: exchangeError } =
-          await supabase.auth.exchangeCodeForSession(code);
-
-        if (exchangeError) {
-          if (!cancelled) {
-            setError(
-              "No pudimos confirmar el acceso. El enlace puede haber vencido o ya haber sido utilizado.",
-            );
-          }
-          return;
-        }
-
+      // createBrowserClient automatically exchanges the one-time PKCE code.
+      // Await that initialization instead of exchanging the same code twice.
+      const { error: initializationError } = await supabase.auth.initialize();
+      if (initializationError) {
         if (!cancelled) {
-          // Preserve existing accounts; only new Google signups complete onboarding.
-          if (next.startsWith("/perfil?elegir=rol")) {
-            const { data: userData } = await supabase.auth.getUser();
-            const createdAt = userData.user?.created_at ? Date.parse(userData.user.created_at) : 0;
-            const isNew = createdAt > 0 && Date.now() - createdAt < 5 * 60 * 1000;
-            router.replace(isNew ? next : "/dashboard");
-          } else {
-            router.replace(next);
-          }
+          setError("No pudimos confirmar el acceso. Volvé a ingresar para iniciar una nueva sesión.");
         }
         return;
       }
 
-      // Compatibility with implicit/magic-link redirects where the SDK may
-      // already have restored a session from the URL.
-      const { data, error: sessionError } = await supabase.auth.getSession();
-      if (!sessionError && data.session) {
-        if (!cancelled) router.replace(next);
+      const { data: { user }, error: userError } = await supabase.auth.getUser();
+      if (userError || !user) {
+        if (!cancelled) {
+          setError("No encontramos una sesión válida. Volvé a ingresar e intentá nuevamente.");
+        }
         return;
       }
 
       if (!cancelled) {
-        setError(
-          "El enlace no contiene una confirmación válida. Solicitá uno nuevo e intentá nuevamente.",
-        );
+        // Preserve existing accounts; only new Google signups complete onboarding.
+        if (next.startsWith("/perfil?elegir=rol")) {
+          const createdAt = user.created_at ? Date.parse(user.created_at) : 0;
+          const isNew = createdAt > 0 && Date.now() - createdAt < 5 * 60 * 1000;
+          router.replace(isNew ? next : "/dashboard");
+        } else {
+          router.replace(next);
+        }
       }
     }
 
@@ -92,9 +77,9 @@ export default function AuthCallbackPage() {
               <button
                 type="button"
                 className="btn-submit"
-                onClick={() => router.replace("/recuperar-contrasena")}
+                onClick={() => router.replace("/login")}
               >
-                Solicitar un nuevo link
+                Volver a ingresar
               </button>
             </>
           ) : (

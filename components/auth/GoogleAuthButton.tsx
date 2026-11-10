@@ -5,7 +5,7 @@ import { createClient } from "@/lib/supabase/client";
 
 type Props = { mode: "login" | "register"; country?: string; acceptedTerms?: boolean };
 
-export default function GoogleAuthButton({ mode, country, acceptedTerms = false }: Props) {
+export default function GoogleAuthButton({ mode, acceptedTerms = false }: Props) {
   const googleConfigured = process.env.NEXT_PUBLIC_GOOGLE_OAUTH_ENABLED === "true";
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
