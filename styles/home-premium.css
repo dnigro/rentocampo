@@ -956,3 +956,22 @@
 @media(max-width:700px) {
   .rc-landing .rcp-home__content {background:#fff}
 }
+
+
+/* Preview premium: slate blue accent, solid navy registration CTA. */
+.rc-landing .rcp-home__title .rcp-home__title-accent {
+  background:#536579;
+  color:#fff;
+}
+.rc-landing .rcp-home__button--register,
+.rc-landing .rcp-home__buttons > .rcp-home__button--register {
+  background:#10283C;
+  border-color:#10283C;
+  color:#fff!important;
+  box-shadow:0 8px 20px rgba(16,40,60,.13);
+}
+.rc-landing .rcp-home__button--register:hover,
+.rc-landing .rcp-home__buttons > .rcp-home__button--register:hover {
+  background:#1C3B53;
+  border-color:#1C3B53;
+}
