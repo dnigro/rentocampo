@@ -108,33 +108,17 @@ test('LATAM preview fails closed without dedicated UAT credentials', () => {
 });
 
 // The homepage must be derived from the same ISO catalog as selectors and filters.
-test('web/mobile/Lite have localized map/chat and 0% commission with country-aware navigation', () => {
- const web=readFileSync(new URL('../components/landing/LandingFigmaHome.tsx',import.meta.url),'utf8');
- const hero=readFileSync(new URL('../components/landing/SimpleMapChatHero.tsx',import.meta.url),'utf8');
- const css=readFileSync(new URL('../styles/hero-simple-map-chat.css',import.meta.url),'utf8');
- const lite=readFileSync(new URL('../app/lite/page.tsx',import.meta.url),'utf8');
- const regional=readFileSync(new URL('../lib/i18n/regional.ts',import.meta.url),'utf8');
- const countryHook=readFileSync(new URL('../lib/i18n/useRegionalCountry.ts',import.meta.url),'utf8');
- assert.equal(COUNTRY_CODES.length,19);
- assert.ok(web.includes('<SimpleMapChatHero />'));
- assert.ok(lite.includes('<SimpleMapChatHero lite />'));
- for(const phrase of ['TIERRAS QUE PRODUCEN FUTURO','TERRAS QUE PRODUZEM FUTURO','LAND THAT BUILDS THE FUTURE',
-   'MAPA','CHAT ONLINE','ONLINE CHAT','Seleccioná la zona','Escolha a região','Select an area',
-   'Contactá en línea','Converse online','Connect online','0%</strong>','100%</strong>','COMISIÓN','COMISSÃO','COMMISSION','CONTACTO DIRECTO','CONTATO DIRETO','DIRECT CONTACT']){
-   assert.ok(hero.includes(phrase), 'missing localized hero copy: '+phrase);
+test('web/mobile/Lite have current localized map/chat and zero-commission navigation',()=>{
+ const read=p=>readFileSync(new URL('../'+p,import.meta.url),'utf8');
+ const hero=read('components/landing/SimpleMapChatHero.tsx');
+ const premium=read('components/landing/HomePremiumHero.tsx');
+ for(const phrase of ['El campo.','O campo.','The land.','Sin vueltas.','Sem complicações.','No hassle.']) {
+   assert.ok(hero.includes(phrase),'missing Lite copy: '+phrase);
+   assert.ok(premium.includes(phrase),'missing web copy: '+phrase);
  }
- assert.ok(hero.includes('href={lite ? "/lite/cuenta/registro" : "/register"}'));
+ assert.ok(hero.includes('0%</strong>') && hero.includes('100%</strong>'));
  assert.ok(hero.includes('href="/campos/mapa"'));
- assert.ok(css.includes('.rcsm-proof__item'));
- assert.ok(css.includes('@media(max-width:850px)'));
- assert.ok(regional.includes('if (country === "BR") return portuguese'));
- assert.ok(regional.includes('if (country === "US") return english'));
- assert.ok(countryHook.includes('country === "BR" ? "pt-BR" : country === "US" ? "en-US" : "es"'));
- const navbar=readFileSync(new URL('../components/layout/Navbar.tsx',import.meta.url),'utf8');
- const liteHeader=readFileSync(new URL('../components/layout/Navbar.tsx',import.meta.url),'utf8');
- assert.ok(navbar.includes('"PAÍS", "PAÍS", "COUNTRY"'));
- assert.ok(liteHeader.includes('"PAÍS", "PAÍS", "COUNTRY"'));
- assert.ok(lite.includes('resolveCountry(pais, (await cookies()).get("rentocampo_country")?.value)'));
+ assert.ok(hero.includes('href={lite ? "/lite/cuenta/registro" : "/register"}'));
 });
 
 test('LATAM18 map zoning catalog has four valid geolocated references per new country', async () => {

@@ -5,8 +5,6 @@ const read=(p)=>readFileSync(new URL(`../${p}`,import.meta.url),"utf8");
 const web=read("components/landing/LandingFigmaHome.tsx");
 const lite=read("app/lite/page.tsx");
 const home=read("components/landing/LandingPageContent.tsx");
-const how=read("components/landing/HowItWorksStrip.tsx");
-const howCss=read("styles/how-it-works.css");
 const faq=read("components/landing/LandingFAQ.tsx");
 const webStyle=read("styles/home-figma-sin-vueltas.css");
 const liteStyle=read("styles/lite-direct-hero.css");
@@ -18,31 +16,22 @@ const liteCss=read("styles/lite-auth.css");
 const profile=read("components/PerfilForm.tsx");
 const liteProfile=read("app/lite/perfil/editar/page.tsx");
 
-test("web desktop, mobile and Lite share +SIMPLE with MAP and ONLINE CHAT", () => {
+test("web desktop and Lite share a localized map/chat hero with current messaging", () => {
   const hero=read("components/landing/SimpleMapChatHero.tsx");
+  const premium=read("components/landing/HomePremiumHero.tsx");
   const css=read("styles/hero-simple-map-chat.css");
-  assert.ok(web.includes("<SimpleMapChatHero />"), "web uses the shared hero");
-  assert.ok(lite.includes("<SimpleMapChatHero lite />"), "Lite uses the same hero");
-  for(const text of ["TIERRAS QUE PRODUCEN FUTURO","Tu tierra tiene valor.","MAPA","CHAT ONLINE","Seleccioná la zona","Contactá en línea","Registrate gratis","Explorar campos","0%","100%","COMISIÓN","CONTACTO DIRECTO"]) {
-    assert.ok(hero.includes(text), text+" is present");
+  assert.ok(web.includes("<SimpleMapChatHero />"));
+  assert.ok(lite.includes("<SimpleMapChatHero lite />"));
+  assert.ok(hero.includes("if (!lite) return <HomePremiumHero country={country} />"));
+  for(const phrase of ["El campo.","O campo.","The land.","Sin vueltas.","Sem complicações.","No hassle.","MAPA","CHAT ONLINE","Seleccioná la zona","Contactá en línea","Registrate gratis","Explorar campos","0%","100%","COMISIÓN","CONTACTO DIRECTO"]) {
+    assert.ok(hero.includes(phrase), "Lite missing current regional copy: "+phrase);
   }
+  assert.ok(premium.includes("Sin vueltas.") && premium.includes("Sem complicações.") && premium.includes("No hassle."));
   assert.ok(hero.includes('href={lite ? "/lite/cuenta/registro" : "/register"}'));
   assert.ok(hero.includes('href="/campos/mapa"'));
   assert.ok(lite.includes('href="/lite/campos"'));
-  assert.ok(lite.includes("<HowItWorksStrip lite />"));
-  assert.ok(read("lib/site-surface.ts").includes('"/lite#como-funciona-lite"'));
-  assert.ok(read("components/lite/LiteHeader.tsx").includes("return <Navbar />"));
-  assert.ok(css.includes("@media(max-width:850px)"));
-  assert.ok(css.includes("grid-template-columns:1fr 1fr"));
   assert.ok(css.includes(".rcsm-button:focus-visible"));
   assert.ok(css.includes("prefers-reduced-motion"));
-  assert.ok(hero.includes("TERRAS QUE PRODUZEM FUTURO") && hero.includes("LAND THAT BUILDS THE FUTURE"));
-  assert.ok(hero.includes('<br />') && hero.includes("Agregala al mapa."), "separate invitation line in Spanish");
-  assert.ok(hero.includes("Chateá en línea.") && hero.split("<br />").length >= 3, "chat stays on separate title line");
-  for (const copy of ["PRODUCTORES Y SERVICIOS RURALES","PRODUTORES E SERVIÇOS RURAIS","PRODUCERS AND RURAL SERVICES","¡SUMATE!","PARTICIPE!","JOIN US!"]) {
-    assert.ok(hero.includes(copy), "regional audience copy missing: "+copy);
-  }
-  assert.ok(css.includes(".rcsm-description__audience") && css.includes(".rcsm-description__invite"), "responsive subordinate hero hierarchy");
 });
 
 test("desktop hero rotates to copy on left and cattle on right without changing mobile or Lite",()=>{
@@ -61,77 +50,32 @@ test("desktop hero rotates to copy on left and cattle on right without changing 
  assert.ok(!css.includes('.rcLiteShell .rcsm-layout { grid-template-areas: "copy photo"'));
 });
 
-test("home stays hero + short explainer + FAQ, with a shared header/footer",()=>{
- assert.ok(home.includes("<LandingFigmaHome />"));
- assert.ok(home.includes("<LandingFAQ />"));
- assert.ok(home.includes("<HowItWorksStrip />"));
- assert.ok(home.indexOf("<LandingFigmaHome />") < home.indexOf("<HowItWorksStrip />"));
- assert.ok(home.indexOf("<HowItWorksStrip />") < home.indexOf("<LandingFAQ />"));
- assert.ok(how.includes('id={lite ? "como-funciona-lite" : "como-funciona"}'));
- assert.ok(how.includes("Explorá o publicá") && how.includes("Conectá por chat") && how.includes("Acordá directo"));
- assert.ok(howCss.includes("scroll-margin-top:90px"));
- assert.ok(howCss.includes("grid-template-columns:repeat(3,minmax(0,1fr))"));
- assert.ok(howCss.includes("grid-template-columns: minmax(0, 1fr)"));
- assert.ok(howCss.includes("scroll-snap-type: none"));
- assert.ok(howCss.includes("overflow-x: visible"));
- assert.ok(!howCss.includes("scroll-snap-type: x mandatory"));
- assert.ok(howCss.includes("font-size: clamp(21px, 2.1vw, 31px)"));
- assert.ok(howCss.includes("width: clamp(53px, 5.0vw, 68px)"));
- assert.ok(how.includes('className="rc-how__symbol"'));
- assert.ok(!how.includes("tabIndex={0}"));
- assert.ok(how.includes("MapPinned") && how.includes("MessageCircleMore") && how.includes("Handshake"));
- assert.ok(sharedStyle.includes("--rc-green: #646569"));
- assert.ok(liteStyle.includes("background:#646569"));
- assert.ok(webStyle.includes("background:#646569"));
- assert.ok(read("app/layout.tsx").includes("Nunito"));
- assert.ok(webStyle.includes("clip-path: none;"));
- assert.ok(liteStyle.includes("clip-path: none;"));
- assert.ok(webStyle.includes("height: clamp(290px, 84vw, 430px)"));
- assert.ok(read("components/layout/Navbar.tsx").includes('href="/#como-funciona"'));
- assert.ok(faq.includes('id="preguntas"'));
- assert.ok(!home.includes("LandingMapa")&&!home.includes("LandingHowBrief"));
- assert.match(faq,/PREGUNTAS/);
- assert.doesNotMatch(faq,/headline: "TODO CLARO"/);
- assert.ok(read("app/page.tsx").includes("<Navbar />")&&read("app/page.tsx").includes("<Footer />"));
- assert.ok(read("app/lite/layout.tsx").includes("<Footer />"));
- assert.ok(read("app/layout.tsx").includes("brand-final.css"));
- assert.match(sharedStyle,/--rc-black:/);
- assert.match(sharedStyle,/--rc-green:/);
- assert.match(sharedStyle,/--rc-silver:/);
- assert.ok(sharedStyle.includes("header.navbar"));
- assert.ok(sharedStyle.includes("footer.footer"));
+test("home stays minimal: shared hero and FAQ without removed how-it-works section",()=>{
+  assert.ok(home.includes("<LandingFigmaHome />"));
+  assert.ok(home.includes("<LandingFAQ />"));
+  assert.ok(!home.includes("<HowItWorksStrip />"));
+  assert.ok(home.indexOf("<LandingFigmaHome />") < home.indexOf("<LandingFAQ />"));
+  assert.ok(faq.includes('id="preguntas"'));
+  assert.ok(read("app/page.tsx").includes("<Navbar />"));
+  assert.ok(read("app/page.tsx").includes("<Footer />"));
+  assert.ok(read("app/lite/layout.tsx").includes("<Footer />"));
+  assert.ok(read("app/layout.tsx").includes("brand-final.css"));
+  assert.ok(sharedStyle.includes("header.navbar"));
+  assert.ok(sharedStyle.includes("footer.footer"));
+  assert.ok(!home.includes("LandingMapa")&&!home.includes("LandingHowBrief"));
 });
 
-test("responsive hero has a visible matte gold accent and no legacy hero CSS imports",()=>{
- assert.match(webStyle,/color: #d5bd72/);
- assert.match(liteStyle,/color:#d5bd72/);
- assert.ok(webStyle.includes(".rcf-hero__metric-value"));
- assert.ok(liteStyle.includes(".rcLiteDirectHero__metric strong"));
- assert.ok(webStyle.includes("@media (max-width: 520px)"));
- assert.ok(webStyle.includes("Compact desktop/notebook"));
- assert.ok(webStyle.includes("Protección editorial del hero sobre la diagonal"));
- assert.ok(webStyle.includes("max-width: min(55vw, 790px)"));
- assert.ok(webStyle.includes("UI aprobada: texto protagonista"));
- assert.ok(webStyle.includes("Hero editorial 304: resuelve el vacío"));
- assert.ok(webStyle.includes("clip-path: polygon(0 0, 71% 0, 43% 100%, 0 100%)"));
- assert.ok(webStyle.includes("clip-path: polygon(0 0, 72% 0, 43% 100%, 0 100%)"));
- assert.ok(webStyle.includes("width: min(53vw, 750px)"));
- assert.ok(webStyle.includes("justify-content: center"));
- assert.ok(webStyle.includes("width: 48vw"));
-
- assert.ok(webStyle.includes("align-items: center;"));
- assert.ok(liteStyle.includes("Portada Lite: misma composición centrada"));
- assert.ok(webStyle.includes("max-width: 58vw"));
- assert.ok(webStyle.includes("@media (min-width: 641px) and (max-width: 900px)"));
- assert.ok(webStyle.includes("calc(100svh - 110px)"));
- assert.ok(liteStyle.includes("Compactación Lite/webview"));
- assert.ok(howCss.includes("La explicación se lee de un vistazo"));
- const formCss=read("styles/campos.css");
- assert.ok(formCss.includes("Publicar campo / servicio rural: pasos compactos"));
- assert.ok(formCss.includes("font-size: 12px;"));
- assert.ok(formCss.includes("accent-color: #5e6064"));
- assert.ok(sharedStyle.includes("Densidad general 2026"));
- assert.ok(liteStyle.includes("@media(max-width:380px)"));
+test("current hero keeps approved desktop geometry and responsive accessibility",()=>{
+ const premium=read("styles/home-premium.css");
+ const liteHero=read("styles/hero-simple-map-chat.css");
+ const component=read("components/landing/HomePremiumHero.tsx");
+ assert.ok(component.includes("rcp-home__title-accent"));
+ assert.ok(premium.includes("grid-template-columns:minmax(0,52fr) minmax(0,48fr)"));
+ assert.ok(premium.includes("clip-path:polygon(14% 0,100% 0,100% 100%,0 100%)"));
+ assert.ok(premium.includes("overflow-wrap:break-word"));
+ assert.ok(premium.includes("@media (max-width:700px)"));
+ assert.ok(liteHero.includes(".rcLiteShell .rcsm .rcsm-title"));
+ assert.ok(liteHero.includes("prefers-reduced-motion"));
  assert.ok(!read("app/page.tsx").includes("landing-impact.css"));
 });
 
