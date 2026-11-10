@@ -35,7 +35,7 @@ export default function RecuperarPage() {
 
   if (enviado) {
     return (
-      <div className="auth-page">
+      <div className="auth-page rc-recovery-page">
         <div className="auth-card">
           <div className="auth-header">
             <div className="confirm-icon">📬</div>
@@ -81,7 +81,7 @@ export default function RecuperarPage() {
   }
 
   return (
-    <div className="auth-page">
+    <div className="auth-page rc-recovery-page">
       <div className="auth-card">
         <div className="auth-header">
           <h1 className="auth-title">{t("auth.recover")}</h1>
