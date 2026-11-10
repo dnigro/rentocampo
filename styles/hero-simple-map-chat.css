@@ -230,3 +230,20 @@ background:linear-gradient(90deg,rgba(12,34,48,.92),rgba(12,34,48,.56)),linear-g
 /* First headline sentence stays on one line; shrink proportionally on narrow screens. */
 .rcsm .rcsm-title__first-line{display:inline-block;white-space:nowrap;color:inherit;font-size:clamp(26px,4.05vw,62px);letter-spacing:-.055em}
 @media(max-width:850px){.rcsm .rcsm-title__first-line{font-size:clamp(20px,5.5vw,45px)}}
+
+
+/* Preview 2026-11-10: match the web claim in App Lite, preserving its own CTAs and flows. */
+.rcLiteShell .rcsm .rcsm-title {
+  font-size:clamp(45px,5.2vw,76px);
+  line-height:1.06;
+  max-width:660px;
+  color:#fff;
+}
+.rcLiteShell .rcsm .rcsm-title__first-line {
+  font-size:inherit;
+  color:#fff;
+  white-space:normal;
+}
+@media(max-width:850px){
+  .rcLiteShell .rcsm .rcsm-title {font-size:clamp(39px,10vw,56px)}
+}
