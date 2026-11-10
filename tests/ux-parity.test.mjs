@@ -6,6 +6,7 @@ const web=read("components/landing/LandingFigmaHome.tsx");
 const lite=read("app/lite/page.tsx");
 const home=read("components/landing/LandingPageContent.tsx");
 const faq=read("components/landing/LandingFAQ.tsx");
+const howCss=read("styles/how-it-works.css");
 const webStyle=read("styles/home-figma-sin-vueltas.css");
 const liteStyle=read("styles/lite-direct-hero.css");
 const sharedStyle=read("styles/brand-final.css");
