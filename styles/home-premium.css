@@ -919,3 +919,40 @@
   .rc-landing .rcp-home__title {font-size:clamp(43px,11.8vw,48px)}
   .rc-landing .rcp-home__title .rcp-home__title-accent {font-size:.88em;padding-right:16px}
 }
+
+
+/* Preview 10/11: hero blanco, tipografía azul petróleo y acento azul vivo. */
+.rc-landing .rcp-home__hero {
+  background:#fff;
+  color:#112d43;
+}
+.rc-landing .rcp-home__title,
+.rc-landing .rcp-home__title > span:first-child {
+  color:#102b40;
+}
+.rc-landing .rcp-home__title .rcp-home__title-accent {
+  color:#fff;
+  background:#2389c8;
+}
+.rc-landing .rcp-home__description {
+  color:#29495e;
+}
+.rc-landing .rcp-home__proof,
+.rc-landing .rcp-home__proof-metric,
+.rc-landing .rcp-home__proof-contact {
+  color:#15364e;
+}
+.rc-landing .rcp-home__proof-divider {
+  background:#a9bcc9;
+}
+.rc-landing .rcp-home__buttons > .rcp-home__map-link {
+  background:#fff;
+  color:#143d59!important;
+  border-color:#8da9bc;
+}
+.rc-landing .rcp-home__buttons > .rcp-home__map-link:hover {
+  background:#eaf4fa;
+}
+@media(max-width:700px) {
+  .rc-landing .rcp-home__content {background:#fff}
+}
