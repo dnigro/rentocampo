@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 import { useTranslations } from "@/lib/i18n/useTranslations";
 import { resolveCountry } from "@/data/countries";
@@ -150,6 +151,9 @@ export default function ResetPasswordPage() {
             {validandoLink ? t("auth.validating") : loading ? t("auth.saving") : t("auth.savePassword")}
           </button>
         </form>
+        <div className="auth-footer">
+          {linkError ? <Link href="/recuperar-contrasena">Solicitar un nuevo enlace</Link> : <Link href="/login">Volver a ingresar</Link>}
+        </div>
       </div>
     </div>
   );
