@@ -831,3 +831,37 @@
   .rc-landing .rcp-home__title {font-size:37px}
   .rc-landing .rcp-home__title .rcp-home__title-accent {font-size:.89em}
 }
+
+
+/* Refinamiento tipográfico móvil 10/11: jerarquía limpia, sin cartel sobredimensionado. */
+.rc-landing .rcp-home__title {
+  font-family:var(--font-rounded),var(--font-dm-sans),Arial,sans-serif;
+  font-weight:850;
+}
+.rc-landing .rcp-home__title .rcp-home__title-accent {
+  font-weight:800;
+  letter-spacing:-.045em;
+}
+@media(max-width:700px) {
+  .rc-landing .rcp-home__title {
+    font-size:clamp(36px,9.1vw,49px);
+    line-height:1.1;
+    letter-spacing:-.045em;
+  }
+  .rc-landing .rcp-home__title .rcp-home__title-accent {
+    display:table;
+    max-width:100%;
+    margin-top:10px;
+    padding:7px 18px 9px 13px;
+    font-size:.76em;
+    line-height:1.15;
+    letter-spacing:-.035em;
+  }
+  .rc-landing .rcp-home__description {
+    margin-top:21px;
+  }
+}
+@media(max-width:350px) {
+  .rc-landing .rcp-home__title {font-size:clamp(32px,9vw,36px)}
+  .rc-landing .rcp-home__title .rcp-home__title-accent {font-size:.76em}
+}
