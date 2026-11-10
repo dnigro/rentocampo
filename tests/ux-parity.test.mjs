@@ -6,7 +6,6 @@ const web=read("components/landing/LandingFigmaHome.tsx");
 const lite=read("app/lite/page.tsx");
 const home=read("components/landing/LandingPageContent.tsx");
 const faq=read("components/landing/LandingFAQ.tsx");
-const howCss=read("styles/how-it-works.css");
 const webStyle=read("styles/home-figma-sin-vueltas.css");
 const liteStyle=read("styles/lite-direct-hero.css");
 const sharedStyle=read("styles/brand-final.css");
@@ -66,36 +65,17 @@ test("home stays minimal: shared hero and FAQ without removed how-it-works secti
   assert.ok(!home.includes("LandingMapa")&&!home.includes("LandingHowBrief"));
 });
 
-test("responsive hero has a visible matte gold accent and no legacy hero CSS imports",()=>{
- assert.match(webStyle,/color: #d5bd72/);
- assert.match(liteStyle,/color:#d5bd72/);
- assert.ok(webStyle.includes(".rcf-hero__metric-value"));
- assert.ok(liteStyle.includes(".rcLiteDirectHero__metric strong"));
- assert.ok(webStyle.includes("@media (max-width: 520px)"));
- assert.ok(webStyle.includes("Compact desktop/notebook"));
- assert.ok(webStyle.includes("Protección editorial del hero sobre la diagonal"));
- assert.ok(webStyle.includes("max-width: min(55vw, 790px)"));
- assert.ok(webStyle.includes("UI aprobada: texto protagonista"));
- assert.ok(webStyle.includes("Hero editorial 304: resuelve el vacío"));
- assert.ok(webStyle.includes("clip-path: polygon(0 0, 71% 0, 43% 100%, 0 100%)"));
- assert.ok(webStyle.includes("clip-path: polygon(0 0, 72% 0, 43% 100%, 0 100%)"));
- assert.ok(webStyle.includes("width: min(53vw, 750px)"));
- assert.ok(webStyle.includes("justify-content: center"));
- assert.ok(webStyle.includes("width: 48vw"));
-
- assert.ok(webStyle.includes("align-items: center;"));
- assert.ok(liteStyle.includes("Portada Lite: misma composición centrada"));
- assert.ok(webStyle.includes("max-width: 58vw"));
- assert.ok(webStyle.includes("@media (min-width: 641px) and (max-width: 900px)"));
- assert.ok(webStyle.includes("calc(100svh - 110px)"));
- assert.ok(liteStyle.includes("Compactación Lite/webview"));
- assert.ok(howCss.includes("La explicación se lee de un vistazo"));
- const formCss=read("styles/campos.css");
- assert.ok(formCss.includes("Publicar campo / servicio rural: pasos compactos"));
- assert.ok(formCss.includes("font-size: 12px;"));
- assert.ok(formCss.includes("accent-color: #5e6064"));
- assert.ok(sharedStyle.includes("Densidad general 2026"));
- assert.ok(liteStyle.includes("@media(max-width:380px)"));
+test("current hero keeps approved desktop geometry and responsive accessibility",()=>{
+ const premium=read("styles/home-premium.css");
+ const liteHero=read("styles/hero-simple-map-chat.css");
+ const component=read("components/landing/HomePremiumHero.tsx");
+ assert.ok(component.includes("rcp-home__title-accent"));
+ assert.ok(premium.includes("grid-template-columns:minmax(0,52fr) minmax(0,48fr)"));
+ assert.ok(premium.includes("clip-path:polygon(14% 0,100% 0,100% 100%,0 100%)"));
+ assert.ok(premium.includes("overflow-wrap:break-word"));
+ assert.ok(premium.includes("@media (max-width:700px)"));
+ assert.ok(liteHero.includes(".rcLiteShell .rcsm .rcsm-title"));
+ assert.ok(liteHero.includes("prefers-reduced-motion"));
  assert.ok(!read("app/page.tsx").includes("landing-impact.css"));
 });
 
