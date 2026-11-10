@@ -1006,3 +1006,71 @@
   .rc-landing .rcp-home__buttons > .rcp-home__button--register {min-height:52px}
   .rc-landing .rcp-home__buttons > .rcp-home__map-link {min-height:48px}
 }
+
+
+/* Responsive release: desktop copy stays on its own white panel, never over the photo. */
+@media(min-width:701px) {
+  .rc-landing .rcp-home__hero {
+    display:grid;
+    grid-template-columns:minmax(0, 54fr) minmax(0, 46fr);
+    align-items:stretch;
+    min-height:clamp(490px,36vw,610px);
+  }
+  .rc-landing .rcp-home__visual {
+    position:relative;
+    grid-column:2;
+    grid-row:1;
+    inset:auto;
+    width:100%;
+    height:100%;
+    clip-path:none;
+    overflow:hidden;
+  }
+  .rc-landing .rcp-home__visual::after {background:none}
+  .rc-landing .rcp-home__image {object-position:65% 50%}
+  .rc-landing .rcp-home__content {
+    grid-column:1;
+    grid-row:1;
+    position:relative;
+    width:100%;
+    min-width:0;
+    padding:clamp(24px,3vw,52px) clamp(24px,3.5vw,66px);
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:flex-start;
+    background:#fff;
+  }
+  .rc-landing .rcp-home__title {
+    max-width:100%;
+    font-size:clamp(43px,4.2vw,73px);
+    line-height:1.04;
+  }
+  .rc-landing .rcp-home__title .rcp-home__title-accent {
+    font-size:clamp(29px,3.15vw,55px);
+    max-width:100%;
+    white-space:nowrap;
+    padding:7px 17px 10px 12px;
+  }
+  .rc-landing .rcp-home__description {
+    max-width:100%;
+    font-size:clamp(16px,1.35vw,21px);
+    line-height:1.35;
+  }
+  .rc-landing .rcp-home__proof {flex-wrap:wrap;gap:9px 13px}
+  .rc-landing .rcp-home__buttons {width:min(100%,400px)}
+  .rc-landing .rcp-home__buttons > .rcp-home__button--register,
+  .rc-landing .rcp-home__buttons > .rcp-home__map-link {width:100%;max-width:100%}
+}
+@media(min-width:701px) and (max-width:1050px) {
+  .rc-landing .rcp-home__hero {grid-template-columns:minmax(0,57fr) minmax(0,43fr)}
+  .rc-landing .rcp-home__content {width:100%;padding:25px 26px}
+  .rc-landing .rcp-home__title {font-size:clamp(40px,4.8vw,52px)}
+  .rc-landing .rcp-home__title .rcp-home__title-accent {font-size:clamp(27px,3.6vw,39px)}
+}
+@media(max-width:700px) {
+  .rc-landing .rcp-home__hero {display:flex;min-height:0}
+  .rc-landing .rcp-home__visual {height:clamp(205px,59vw,290px)}
+  .rc-landing .rcp-home__content {width:100%;min-width:0}
+  .rc-landing .rcp-home__title .rcp-home__title-accent {max-width:100%;white-space:normal}
+}
