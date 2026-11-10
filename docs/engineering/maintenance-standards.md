@@ -24,6 +24,12 @@
 - Any new `*.test.mjs` is automatically included in `npm run test` and the Quality workflow.
 - Security audit results are tracked independently; a successful reporting job does **not** mean zero vulnerabilities.
 
+## Completed cleanup (2026-11-10)
+
+- Removed retired landing stylesheets with no import references: `landing-bold.css`, `landing-impact.css`, `landing-triptych-hero.css`, `landing-triptych-refinements.css`, `hero-editorial-stable.css`, `landing.css`, `home.css`, `rc-management-report.css`.
+- Extracted active FAQ CSS into `styles/landing-faq.css`; removed the retired mixed hero stylesheet.
+- Made CI discover all `tests/*.test.mjs` automatically.
+
 ## Follow-up debt (requires visual verification)
 
 - Gradually split the old mixed hero/FAQ stylesheet into explicitly owned modules.
