@@ -22,18 +22,15 @@ export default function RecuperarPage() {
     const origin = window.location.origin;
     const recoveryPath = "/auth/reset-password";
     const redirectTo = `${origin}/auth/confirm?next=${encodeURIComponent(recoveryPath)}`;
-    const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), {
-      redirectTo,
-    });
-
-    if (error) {
-      setError(error.message);
+    try {
+      const { error: recoveryError } = await supabase.auth.resetPasswordForEmail(email.trim(), { redirectTo });
+      if (recoveryError) throw recoveryError;
+      setEnviado(true);
+    } catch {
+      setError("No pudimos enviar el enlace de recuperación. Intentá nuevamente en unos minutos.");
+    } finally {
       setLoading(false);
-      return;
     }
-
-    setEnviado(true);
-    setLoading(false);
   }
 
   if (enviado) {
@@ -94,7 +91,7 @@ export default function RecuperarPage() {
         </div>
 
         <form className="auth-form" onSubmit={handleSubmit}>
-          {error && <div className="auth-error">{error}</div>}
+          {error && <div className="auth-error" role="alert">{error}</div>}
 
           <div className="form-field">
             <label className="form-label" htmlFor="email">
