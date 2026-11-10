@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { errorTextoPublico } from "@/lib/publication-content-guard";
 import Link from "next/link";
+import GoogleAuthButton from "@/components/auth/GoogleAuthButton";
 import { createClient } from "@/lib/supabase/client";
 import { displayCountryName, COUNTRIES, COUNTRY_CODES_ALPHABETICAL, type CountryCode } from "@/data/countries";
 import { trackEvent } from "@/lib/analytics";
@@ -268,6 +269,7 @@ export default function RegisterForm({ initialCountry: paisInicial }: { initialC
           </button>
         </form>
 
+        <GoogleAuthButton mode="register" />
         <div className="auth-footer">
           {tt("¿Ya tenés cuenta?", "Já tem conta?")} <Link href="/login">{tt("Ingresá acá", "Entre aqui")}</Link>
         </div>
