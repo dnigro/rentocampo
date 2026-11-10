@@ -1109,3 +1109,12 @@
     min-height:clamp(410px,43vw,470px);
   }
 }
+
+
+/* Final desktop optical alignment: lower copy slightly, keep photo and diagonal unchanged. */
+@media(min-width:701px) {
+  .rc-landing .rcp-home__content {
+    padding-top:calc(clamp(18px,2vw,32px) + 16px);
+    padding-bottom:clamp(18px,2vw,32px);
+  }
+}
