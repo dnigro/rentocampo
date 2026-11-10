@@ -1013,7 +1013,7 @@
 @media (min-width:701px) {
   .rc-landing .rcp-home__hero {
     display:grid;
-    grid-template-columns:minmax(0,47fr) minmax(0,53fr);
+    grid-template-columns:minmax(0,45fr) minmax(0,55fr);
     align-items:stretch;
     min-height:clamp(395px,28vw,485px);
   }
@@ -1024,7 +1024,7 @@
     inset:auto;
     width:100%;
     height:100%;
-    clip-path:polygon(12% 0,100% 0,100% 100%,0 100%);
+    clip-path:polygon(8% 0,100% 0,100% 100%,0 100%);
     overflow:hidden;
   }
   .rc-landing .rcp-home__visual::after {background:none}
@@ -1040,7 +1040,7 @@
     flex-direction:column;
     justify-content:center;
     align-items:flex-start;
-    background:#fff;
+    background:linear-gradient(112deg,#ffffff 0%,#f7f9fa 100%);
   }
   .rc-landing .rcp-home__title {
     max-width:100%;
