@@ -247,3 +247,20 @@ background:linear-gradient(90deg,rgba(12,34,48,.92),rgba(12,34,48,.56)),linear-g
 @media(max-width:850px){
   .rcLiteShell .rcsm .rcsm-title {font-size:clamp(39px,10vw,56px)}
 }
+
+
+/* Responsive Lite: consistent premium slate/navy, keep all headline text visible. */
+.rcLiteShell .rcsm .rcsm-panel {box-sizing:border-box;min-width:0;width:100%;max-width:min(100%,850px)}
+.rcLiteShell .rcsm .rcsm-title {overflow-wrap:normal;max-width:100%;font-weight:900;letter-spacing:-.055em}
+.rcLiteShell .rcsm .rcsm-title__first-line {white-space:normal}
+.rcLiteShell .rcsm .rcsm-button--primary {background:#10283c;color:#fff;border-color:#10283c}
+.rcLiteShell .rcsm .rcsm-button--primary:hover {background:#1c3b53}
+.rcLiteShell .rcsm .rcsm-button--secondary {border-color:#c2d1db}
+@media(max-width:850px) {
+  .rcLiteShell .rcsm .rcsm-layout {min-height:0}
+  .rcLiteShell .rcsm .rcsm-panel {min-height:0;padding:clamp(32px,7vw,48px) 20px}
+  .rcLiteShell .rcsm .rcsm-title {font-size:clamp(34px,9vw,53px);line-height:1.07}
+  .rcLiteShell .rcsm .rcsm-actions {width:100%;gap:10px}
+  .rcLiteShell .rcsm .rcsm-button {width:100%;min-height:52px}
+  .rcLiteShell .rcsm .rcsm-features {flex-wrap:wrap}
+}
