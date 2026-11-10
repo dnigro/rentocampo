@@ -1074,3 +1074,14 @@
   .rc-landing .rcp-home__content {width:100%;min-width:0}
   .rc-landing .rcp-home__title .rcp-home__title-accent {max-width:100%;white-space:normal}
 }
+
+
+/* Desktop photo composition: restore angled edge and keep cattle in frame. */
+@media(min-width:701px) {
+  .rc-landing .rcp-home__visual {
+    clip-path:polygon(17% 0,100% 0,100% 100%,0 100%);
+  }
+  .rc-landing .rcp-home__image {
+    object-position:88% 50%;
+  }
+}
