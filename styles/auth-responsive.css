@@ -245,3 +245,12 @@ html body .app-shell :is(.auth-page-login,.auth-page-register) .auth-card::befor
 html body .app-shell :is(.auth-page-login,.auth-page-register) .auth-form .password-input-wrapper .form-input {padding-right:54px!important;}
 html body .app-shell :is(.auth-page-login,.auth-page-register) .password-toggle {z-index:1;}
 @media(max-width:600px){html body .app-shell :is(.auth-page-login,.auth-page-register) .auth-card{padding:24px 20px!important;}}
+
+/* Google OAuth: shared accessible secondary action; no changes to existing auth. */
+.auth-google-section{margin-top:22px;width:100%;}
+.auth-google-divider{display:flex;align-items:center;gap:14px;color:#536b7d;font-size:14px;margin-bottom:15px;text-align:center;}
+.auth-google-divider::before,.auth-google-divider::after{content:"";height:1px;flex:1;background:#d9e2e8;}
+.auth-google-button{width:100%;min-height:54px;border:1px solid #b8cbd8;border-radius:999px;background:#fff;color:#102a43;display:flex;align-items:center;justify-content:center;gap:12px;font:700 16px var(--font-dm-sans),sans-serif;cursor:pointer;}
+.auth-google-button:hover{background:#f3f7f9;border-color:#376582;}
+.auth-google-button:focus-visible{outline:3px solid #a2c6dd;outline-offset:2px;}
+.auth-google-button:disabled{opacity:.6;cursor:wait;}
