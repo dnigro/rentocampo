@@ -6,6 +6,7 @@ const web=read("components/landing/LandingFigmaHome.tsx");
 const lite=read("app/lite/page.tsx");
 const home=read("components/landing/LandingPageContent.tsx");
 const faq=read("components/landing/LandingFAQ.tsx");
+const faqStyle=read("styles/landing-faq.css");
 const webStyle=read("styles/home-premium.css");
 const liteStyle=read("styles/lite-direct-hero.css");
 const sharedStyle=read("styles/brand-final.css");
@@ -56,6 +57,7 @@ test("home stays minimal: shared hero and FAQ without removed how-it-works secti
   assert.ok(!home.includes("<HowItWorksStrip />"));
   assert.ok(home.indexOf("<LandingFigmaHome />") < home.indexOf("<LandingFAQ />"));
   assert.ok(faq.includes('id="preguntas"'));
+  assert.ok(faqStyle.includes(".rc-landing .rcf-faq"));
   assert.ok(read("app/page.tsx").includes("<Navbar />"));
   assert.ok(read("app/page.tsx").includes("<Footer />"));
   assert.ok(read("app/lite/layout.tsx").includes("<Footer />"));
