@@ -975,3 +975,34 @@
   background:#1C3B53;
   border-color:#1C3B53;
 }
+
+
+/* Preview 10/11 — editorial refinement: quieter slant, lighter accent and tighter rhythm. */
+.rc-landing .rcp-home__title > span:first-child {
+  transform:skewX(-2deg);
+}
+.rc-landing .rcp-home__title .rcp-home__title-accent {
+  font-size:.80em;
+  margin-top:8px;
+  padding:8px 21px 11px 14px;
+  letter-spacing:-.05em;
+}
+.rc-landing .rcp-home__description {margin-top:17px}
+.rc-landing .rcp-home__proof {margin-top:13px}
+.rc-landing .rcp-home__buttons {margin-top:15px;gap:10px}
+.rc-landing .rcp-home__buttons > .rcp-home__button--register {min-height:52px;box-shadow:none}
+.rc-landing .rcp-home__buttons > .rcp-home__map-link {min-height:48px}
+@media(max-width:700px) {
+  .rc-landing .rcp-home__content {padding-top:23px;padding-bottom:27px}
+  .rc-landing .rcp-home__title {font-size:clamp(46px,11.8vw,62px)}
+  .rc-landing .rcp-home__title .rcp-home__title-accent {
+    font-size:.80em;
+    margin-top:8px;
+    padding:7px 18px 10px 13px;
+  }
+  .rc-landing .rcp-home__description {margin-top:17px}
+  .rc-landing .rcp-home__proof {margin-top:13px}
+  .rc-landing .rcp-home__buttons {margin-top:16px;gap:9px}
+  .rc-landing .rcp-home__buttons > .rcp-home__button--register {min-height:52px}
+  .rc-landing .rcp-home__buttons > .rcp-home__map-link {min-height:48px}
+}
