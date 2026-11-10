@@ -3,27 +3,36 @@
 import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 
-type Props = { mode: "login" | "register"; country?: string };
+type Props = { mode: "login" | "register"; country?: string; acceptedTerms?: boolean };
 
-export default function GoogleAuthButton({ mode, country }: Props) {
+export default function GoogleAuthButton({ mode, country, acceptedTerms = false }: Props) {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   async function start() {
+    if (mode === "register" && !acceptedTerms) {
+      setError("Para crear tu cuenta con Google, primero aceptá los términos y condiciones.");
+      return;
+    }
     setBusy(true);
     setError("");
     const next = mode === "register" ? "/perfil?elegir=rol" : "/dashboard";
     const redirectTo = new URL("/auth/callback", window.location.origin);
     redirectTo.searchParams.set("next", next);
+    try {
     const { error: authError } = await createClient().auth.signInWithOAuth({
       provider: "google",
       options: {
         redirectTo: redirectTo.toString(),
         scopes: "openid email profile",
-        ...(country ? { queryParams: { prompt: "select_account" } } : {}),
+        queryParams: { prompt: "select_account" },
       },
     });
     if (authError) {
       setError("No pudimos iniciar sesión con Google. Probá nuevamente o usá tu email.");
+      setBusy(false);
+    }
+    } catch {
+      setError("No pudimos conectar con Google. Probá nuevamente.");
       setBusy(false);
     }
   }
