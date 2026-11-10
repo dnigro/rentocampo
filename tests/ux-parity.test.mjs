@@ -5,7 +5,6 @@ const read=(p)=>readFileSync(new URL(`../${p}`,import.meta.url),"utf8");
 const web=read("components/landing/LandingFigmaHome.tsx");
 const lite=read("app/lite/page.tsx");
 const home=read("components/landing/LandingPageContent.tsx");
-const how=read("components/landing/HowItWorksStrip.tsx");
 const howCss=read("styles/how-it-works.css");
 const faq=read("components/landing/LandingFAQ.tsx");
 const webStyle=read("styles/home-figma-sin-vueltas.css");
