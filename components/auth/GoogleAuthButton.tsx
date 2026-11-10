@@ -6,7 +6,6 @@ import { createClient } from "@/lib/supabase/client";
 type Props = { mode: "login" | "register"; country?: string; acceptedTerms?: boolean };
 
 export default function GoogleAuthButton({ mode, acceptedTerms = false }: Props) {
-  const googleConfigured = process.env.NEXT_PUBLIC_GOOGLE_OAUTH_ENABLED === "true";
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   async function start() {
@@ -37,7 +36,6 @@ export default function GoogleAuthButton({ mode, acceptedTerms = false }: Props)
       setBusy(false);
     }
   }
-  if (!googleConfigured) return null;
   return (
     <div className="auth-google-section">
       <div className="auth-google-divider"><span>o continuá con</span></div>
