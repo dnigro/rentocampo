@@ -269,7 +269,7 @@ export default function RegisterForm({ initialCountry: paisInicial }: { initialC
           </button>
         </form>
 
-        <GoogleAuthButton mode="register" />
+        <GoogleAuthButton mode="register" country={form.country_code} acceptedTerms={acceptedTerms} />
         <div className="auth-footer">
           {tt("¿Ya tenés cuenta?", "Já tem conta?")} <Link href="/login">{tt("Ingresá acá", "Entre aqui")}</Link>
         </div>
