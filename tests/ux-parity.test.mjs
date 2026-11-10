@@ -6,7 +6,7 @@ const web=read("components/landing/LandingFigmaHome.tsx");
 const lite=read("app/lite/page.tsx");
 const home=read("components/landing/LandingPageContent.tsx");
 const faq=read("components/landing/LandingFAQ.tsx");
-const webStyle=read("styles/home-figma-sin-vueltas.css");
+const webStyle=read("styles/home-premium.css");
 const liteStyle=read("styles/lite-direct-hero.css");
 const sharedStyle=read("styles/brand-final.css");
 const webLogin=read("app/(auth)/login/page.tsx");
@@ -114,9 +114,9 @@ test("approved compact footer and shared register CTA across web and Lite", () =
   assert.ok(footerCss.split(String.fromCharCode(10)).length < 300, "remove dead duplicated legacy footer CSS");
   assert.ok(web.includes("<SimpleMapChatHero />"));
   assert.ok(lite.includes("<SimpleMapChatHero lite />"));
-  assert.ok(webStyle.includes("background: #d5bd72 !important"));
+  assert.ok(webStyle.includes(".rcp-home__title-accent"));
   assert.ok(liteStyle.includes("background: #d5bd72"));
-  assert.ok(webStyle.includes("height: clamp(205px, 54vw, 278px)"));
+  assert.ok(webStyle.includes("height:clamp(205px,59vw,290px)"));
   assert.ok(liteStyle.includes("height: clamp(205px, 54vw, 278px)"));
 });
 
