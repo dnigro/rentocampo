@@ -228,11 +228,11 @@ test("map displays new-country field markers and refreshes on country change", (
  assert.match(nav,/router\.refresh\(\)/);
  assert.match(selector,/router\.replace\(/);
 });
-test("responsive simple map/chat hero and FAQ share the design with Lite",()=>{
+test("current responsive map/chat hero and FAQ share the design with Lite",()=>{
  const faq=read("components/landing/LandingFAQ.tsx");
  const css=read("styles/hero-simple-map-chat.css");
  const lite=read("app/lite/page.tsx");
- for(const phrase of ["TIERRAS QUE PRODUCEN FUTURO","TERRAS QUE PRODUZEM FUTURO","LAND THAT BUILDS THE FUTURE","MAPA","CHAT ONLINE","0%</strong>","100%</strong>"])assert.ok(hero.includes(phrase));
+ for(const phrase of ["El campo.","O campo.","The land.","Sin vueltas.","Sem complicações.","No hassle.","MAPA","CHAT ONLINE","0%</strong>","100%</strong>"])assert.ok(hero.includes(phrase),"missing current hero copy: "+phrase);
  assert.ok(webHome.includes("<SimpleMapChatHero />"));
  assert.ok(lite.includes("<SimpleMapChatHero lite />"));
  assert.ok(css.includes(".rcsm-photo__image"));
