@@ -865,3 +865,57 @@
   .rc-landing .rcp-home__title {font-size:clamp(32px,9vw,36px)}
   .rc-landing .rcp-home__title .rcp-home__title-accent {font-size:.76em}
 }
+
+
+/* Preview 10/11 — titulares con carácter: cursiva fuerte y banda diagonal protagonista. */
+.rc-landing .rcp-home__title {
+  font-family:var(--font-dm-sans),Arial,sans-serif;
+  font-weight:950;
+  font-style:italic;
+  letter-spacing:-.065em;
+  line-height:1.04;
+}
+.rc-landing .rcp-home__title > span:first-child {
+  display:block;
+  transform:skewX(-5deg);
+  transform-origin:left center;
+}
+.rc-landing .rcp-home__title .rcp-home__title-accent {
+  display:table;
+  width:max-content;
+  max-width:100%;
+  margin-top:11px;
+  padding:10px 27px 15px 17px;
+  background:#2389c8;
+  color:#fff;
+  clip-path:polygon(4% 0,100% 0,96% 100%,0 100%);
+  font-size:.94em;
+  font-style:italic;
+  font-weight:950;
+  letter-spacing:-.062em;
+  line-height:1.08;
+  text-shadow:0 2px 1px rgba(0,0,0,.08);
+  box-shadow:none;
+}
+@media(max-width:700px) {
+  .rc-landing .rcp-home__content {padding-left:18px;padding-right:18px}
+  .rc-landing .rcp-home__title {
+    font-size:clamp(48px,12.5vw,67px);
+    letter-spacing:-.068em;
+    line-height:1.05;
+  }
+  .rc-landing .rcp-home__title .rcp-home__title-accent {
+    width:max-content;
+    max-width:100%;
+    margin-top:12px;
+    padding:9px 21px 13px 15px;
+    font-size:.90em;
+    line-height:1.08;
+    letter-spacing:-.068em;
+  }
+  .rc-landing .rcp-home__description {margin-top:25px}
+}
+@media(max-width:380px) {
+  .rc-landing .rcp-home__title {font-size:clamp(43px,11.8vw,48px)}
+  .rc-landing .rcp-home__title .rcp-home__title-accent {font-size:.88em;padding-right:16px}
+}
