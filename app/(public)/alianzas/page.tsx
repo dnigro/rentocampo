@@ -11,11 +11,19 @@ export const metadata: Metadata = {
     "Invitá a tus asociados a publicar campos y servicios rurales gratis. Una propuesta de colaboración para cooperativas, cámaras y organizaciones del campo.",
   alternates: { canonical: "https://rentocampo.com/alianzas" },
   openGraph: {
-    title: "Alianzas rurales | RentoCampo",
-    description: "Más visibilidad para tus asociados: campos, servicios rurales y contacto directo, sin costo de publicación en esta etapa.",
+    title: "Alianzas rurales gratuitas | RentoCampo",
+    description: "Conectá a tus asociados con propietarios, productores y servicios rurales. Publicación gratuita, contacto directo y cero comisión.",
+    siteName: "RentoCampo",
+    images: [{ url: "/hero-campo.jpeg", width: 1200, height: 630, alt: "Paisaje rural de RentoCampo — Alianzas rurales gratuitas" }],
     url: "https://rentocampo.com/alianzas",
     type: "website",
     locale: "es_AR",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Alianzas rurales gratuitas | RentoCampo",
+    description: "Conectá a tus asociados con propietarios, productores y servicios rurales. Publicación gratuita y contacto directo.",
+    images: ["/hero-campo.jpeg"],
   },
 };
 
@@ -36,7 +44,7 @@ export default async function AlianzasPage({
     ? "Conheça o RentoCampo: anuncie propriedades e serviços rurais gratuitamente nesta etapa. "
     : "Conocé RentoCampo: publicá campos y servicios rurales gratis en esta etapa. ";
   const whatsappShareHref = `https://wa.me/?text=${encodeURIComponent(shareText + shareTarget)}`;
-  const facebookShareHref = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent("https://rentocampo.com/alianzas?pais=" + country)}`;
+  const facebookShareHref = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent("https://rentocampo.com/alianzas")}`;
 
   const links = [
     {
