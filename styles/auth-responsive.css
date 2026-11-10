@@ -254,3 +254,38 @@ html body .app-shell :is(.auth-page-login,.auth-page-register) .password-toggle 
 .auth-google-button:hover{background:#f3f7f9;border-color:#376582;}
 .auth-google-button:focus-visible{outline:3px solid #a2c6dd;outline-offset:2px;}
 .auth-google-button:disabled{opacity:.6;cursor:wait;}
+
+
+/* Shared auth identity for sign-in, registration, recovery and password reset. */
+html body .app-shell :is(.auth-page-login,.auth-page-register,.auth-page:not(.auth-page-login):not(.auth-page-register)) {
+  background:linear-gradient(145deg,#e8edf1,#f5f6f7 54%,#e5edf2)!important;
+}
+html body .app-shell .auth-page:not(.auth-page-login):not(.auth-page-register) {
+  min-height:calc(100dvh - 190px);
+  padding:clamp(24px,5vw,56px) 16px;
+}
+html body .app-shell .auth-page:not(.auth-page-login):not(.auth-page-register)::before {display:none!important}
+html body .app-shell .auth-page:not(.auth-page-login):not(.auth-page-register) .auth-card {
+  width:min(100%,540px);max-width:540px;padding:clamp(24px,4vw,42px);
+  background:#fff;border:1px solid #dce1e4;border-radius:22px;
+  box-shadow:0 14px 38px rgba(16,42,67,.055);
+}
+html body .app-shell .auth-page:not(.auth-page-login):not(.auth-page-register) .auth-title {
+  color:#102a43;font-family:inherit;font-weight:750;font-size:clamp(30px,5vw,42px);
+  line-height:1.12;letter-spacing:-.035em;
+}
+html body .app-shell .auth-page:not(.auth-page-login):not(.auth-page-register) .form-input {
+  width:100%;min-height:52px;padding:12px 16px;border:1px solid #cdd6dd;
+  border-radius:12px;background:#fff;color:#102a43;font-size:16px;box-sizing:border-box;
+}
+html body .app-shell .auth-page:not(.auth-page-login):not(.auth-page-register) .btn-submit {
+  width:100%;min-height:54px;border:0;border-radius:999px;
+  background:#102a43;color:#fff;font-size:16px;font-weight:750;
+}
+html body .app-shell .auth-page:not(.auth-page-login):not(.auth-page-register) .auth-footer {
+  margin-top:24px;padding-top:20px;border-top:1px solid #e7eaed;text-align:center;
+}
+@media(max-width:600px){
+ html body .app-shell .auth-page:not(.auth-page-login):not(.auth-page-register){min-height:0;padding:22px 12px}
+ html body .app-shell .auth-page:not(.auth-page-login):not(.auth-page-register) .auth-card{padding:25px 20px;border-radius:18px}
+}
