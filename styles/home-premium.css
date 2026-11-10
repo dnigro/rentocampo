@@ -1035,7 +1035,7 @@
     position:relative;
     width:100%;
     min-width:0;
-    padding:clamp(18px,2vw,32px) clamp(24px,3.5vw,66px);
+    padding:calc(clamp(18px,2vw,32px) + 16px) clamp(24px,3.5vw,66px) clamp(18px,2vw,32px);
     display:flex;
     flex-direction:column;
     justify-content:center;
@@ -1070,7 +1070,7 @@
     grid-template-columns:minmax(0,55fr) minmax(0,45fr);
     min-height:clamp(410px,43vw,470px);
   }
-  .rc-landing .rcp-home__content {padding:25px 26px}
+  .rc-landing .rcp-home__content {padding:calc(25px + 16px) 26px 25px}
   .rc-landing .rcp-home__title {font-size:clamp(40px,4.8vw,52px)}
   .rc-landing .rcp-home__title .rcp-home__title-accent {font-size:clamp(27px,3.6vw,39px)}
 }
@@ -1079,12 +1079,4 @@
   .rc-landing .rcp-home__visual {height:clamp(205px,59vw,290px)}
   .rc-landing .rcp-home__content {width:100%;min-width:0}
   .rc-landing .rcp-home__title .rcp-home__title-accent {max-width:100%;white-space:normal}
-}
-
-/* Final desktop optical alignment: lower copy slightly, keep photo and diagonal unchanged. */
-@media(min-width:701px) {
-  .rc-landing .rcp-home__content {
-    padding-top:calc(clamp(18px,2vw,32px) + 16px);
-    padding-bottom:clamp(18px,2vw,32px);
-  }
 }
