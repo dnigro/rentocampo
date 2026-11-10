@@ -45,7 +45,17 @@ export default function AuthCallbackPage() {
           return;
         }
 
-        if (!cancelled) router.replace(next);
+        if (!cancelled) {
+          // Preserve existing accounts; only new Google signups complete onboarding.
+          if (next.startsWith("/perfil?elegir=rol")) {
+            const { data: userData } = await supabase.auth.getUser();
+            const createdAt = userData.user?.created_at ? Date.parse(userData.user.created_at) : 0;
+            const isNew = createdAt > 0 && Date.now() - createdAt < 5 * 60 * 1000;
+            router.replace(isNew ? next : "/dashboard");
+          } else {
+            router.replace(next);
+          }
+        }
         return;
       }
 
