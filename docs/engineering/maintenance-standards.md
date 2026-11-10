@@ -4,7 +4,7 @@
 
 - The public homepage is rendered by `LandingPageContent` → `LandingFigmaHome` → `SimpleMapChatHero` → `HomePremiumHero`. The Lite variant remains in `SimpleMapChatHero(lite=true)`.
 - The approved public desktop hero lives in `styles/home-premium.css`. Prefer editing existing selectors in their current responsive scope rather than appending a new override.
-- The legacy `styles/home-figma-sin-vueltas.css` also contains active FAQ (`.rcf-faq*`) styles. Do not delete it merely because its old hero (`.rcf-hero*`) is not rendered.
+- FAQ (`.rcf-faq*`) rules were extracted from the retired mixed hero bundle into `styles/landing-faq.css`; the unused `.rcf-hero*` rules were removed.
 - Shared header/footer rules live in `styles/shared-site-shell.css`. Check web, mobile and Lite when changing them.
 - `app/globals.css` currently applies `html { zoom: .8 }` on wide viewports; the public landing overrides it. Removing it is a **visual redesign**, not a safe cleanup: review all internal routes and screenshots before attempting it.
 
