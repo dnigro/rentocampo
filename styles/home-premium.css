@@ -1240,3 +1240,18 @@
     padding-right:43px;
   }
 }
+
+/* 11/11: subtítulo principal con mayor jerarquía y sin texto secundario. */
+.rc-landing .rcp-home__description {
+  font-size:clamp(21px,1.65vw,28px);
+  line-height:1.25;
+  font-weight:850;
+  letter-spacing:-.025em;
+}
+@media(max-width:700px) {
+  .rc-landing .rcp-home__description {
+    font-size:clamp(21px,5.4vw,27px);
+    line-height:1.25;
+    margin-top:20px;
+  }
+}
