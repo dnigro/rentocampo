@@ -359,102 +359,32 @@ export default function CampoMapa({
       )}
 
       {!mapError && (
-        <div className="mapa-filtros" aria-label={tt("Capas visibles del mapa","Camadas visíveis do mapa")}>
-          <div
-            className="mapa-modos"
-            role="group"
-            aria-label={tt("Qué querés encontrar","O que você procura")}
-          >
-            <button
-              type="button"
-              className={vista === "tierra" ? "activo" : ""}
-              aria-pressed={vista === "tierra"}
-              onClick={() => cambiarVista("tierra")}
-            >
-              {tt("Tierra productiva","Terra produtiva")}
+        <div className="mapa-filtros mapa-filtros-compactos" aria-label={tt("Controles del mapa", "Controles do mapa")}>
+          <div className="mapa-modos" role="group" aria-label={tt("Qué querés encontrar", "O que você procura")}>
+            <button type="button" className={vista === "tierra" ? "activo" : ""} aria-pressed={vista === "tierra"} onClick={() => cambiarVista("tierra")}>
+              {tt("Tierra productiva", "Terra produtiva")}
             </button>
-            <button
-              type="button"
-              className={
-                vista === "servicios" ? "activo activo-servicios" : ""
-              }
-              aria-pressed={vista === "servicios"}
-              onClick={() => cambiarVista("servicios")}
-            >
-              {tt("Servicios rurales","Serviços rurais")}
+            <button type="button" className={vista === "servicios" ? "activo activo-servicios" : ""} aria-pressed={vista === "servicios"} onClick={() => cambiarVista("servicios")}>
+              {tt("Servicios rurales", "Serviços rurais")}
             </button>
           </div>
-          <div className="mapa-pais-control">
-            <label htmlFor="mapa-pais-selector">{regionalText(countryCode, "País", "País", "Country")}</label>
-            <select
-              id="mapa-pais-selector"
-              value={countryCode}
-              onChange={(event) => cambiarPais(event.target.value as CountryCode)}
-              aria-label={regionalText(countryCode, "Seleccionar país para el mapa", "Selecionar país para o mapa", "Select country on map")}
-            >
-              {COUNTRY_CODES_ALPHABETICAL.map((code) => (
-                <option key={code} value={code}>
-                  {COUNTRIES[code].flag} {displayCountryName(code, countryCode)}
-                </option>
-              ))}
-            </select>
-          </div>
-          {vista === "tierra" ? (
-            <>
-              <p className="mapa-filtros-titulo">{tt("Mostrar en el mapa","Mostrar no mapa")}</p>
-              <button
-                type="button"
-                className={`mapa-filtro ${mostrarCampos ? "activo" : ""}`}
-                aria-pressed={mostrarCampos}
-                onClick={() => {
-                  setMostrarCampos((actual) => !actual);
-                  setSelectedCampo(null);
-                }}
-              >
-                <span className="mapa-filtro-punto mapa-filtro-punto-campo" />
-                {tt("Campos disponibles","Terras disponíveis")}
+          <div className="mapa-compacto-resumen">
+            <span className="mapa-compacto-cantidad" aria-live="polite">
+              <span className="mapa-filtro-punto mapa-filtro-punto-campo" aria-hidden="true" />
+              <strong>{vista === "tierra" ? camposConCoordenadas.length : prestadoresFiltrados.length}</strong>{" "}
+              {vista === "tierra" ? tt("campos disponibles", "terras disponíveis") : tt("servicios disponibles", "serviços disponíveis")}
+              <span className="mapa-compacto-pais"> · {displayCountryName(countryCode, countryCode)}</span>
+            </span>
+            {vista === "tierra" && (
+              <button type="button" className="mapa-compacto-filtro" aria-pressed={!mostrarCampos} onClick={() => { setMostrarCampos((actual) => !actual); setSelectedCampo(null); }}>
+                {mostrarCampos ? tt("Ocultar", "Ocultar") : tt("Mostrar", "Mostrar")}
               </button>
-            </>
-          ) : (
-            <div
-              className="mapa-filtro mapa-filtro-fijo mapa-filtro-servicios"
-              aria-label={tt("Servicios ofrecidos siempre visibles","Serviços oferecidos sempre visíveis")}
-            >
-              <span className="mapa-filtro-punto mapa-filtro-punto-servicio" />
-              {tt("Servicios ofrecidos","Serviços oferecidos")}
-            </div>
-          )}          <div className="mapa-contador">
-            {vista === "tierra" ? (
-              <>
-                <strong>{camposConCoordenadas.length}</strong> {tt("campos en","terras em")}{" "}
-                {displayCountryName(countryCode, countryCode)}
-              </>
-            ) : (
-              <>
-                <strong>{prestadoresFiltrados.length}</strong> {regionalText(countryCode, "servicios en", "serviços em", "services in")}{" "}{displayCountryName(countryCode, countryCode)}
-              </>
             )}
           </div>
-
-          <div
-            className="mapa-publicar-acciones"
-            aria-label={tt("Publicar en RentoCampo","Anunciar na RentoCampo")}
-          >
-            {vista === "tierra" ? (
-              <Link
-                href={regionalPublicationHref({ country: countryCode, kind: "campo", authenticated: Boolean(resolvedUserId) })}
-                className="mapa-publicar-btn mapa-publicar-btn-principal"
-              >
-                {tt("Publicar un campo →","Anunciar terra →")}
-              </Link>
-            ) : (
-              <Link
-                href={regionalPublicationHref({ country: countryCode, kind: "servicio", authenticated: Boolean(resolvedUserId) })}
-                className="mapa-publicar-btn mapa-publicar-btn-principal mapa-publicar-btn-principal-servicio"
-              >
-                {tt("Publicar mis servicios →","Anunciar meus serviços →")}
-              </Link>
-            )}
+          <div className="mapa-compacto-publicar">
+            <Link href={regionalPublicationHref({ country: countryCode, kind: vista === "tierra" ? "campo" : "servicio", authenticated: Boolean(resolvedUserId) })}>
+              + {vista === "tierra" ? tt("Publicar un campo", "Anunciar terra") : tt("Publicar mis servicios", "Anunciar meus serviços")}
+            </Link>
           </div>
         </div>
       )}
