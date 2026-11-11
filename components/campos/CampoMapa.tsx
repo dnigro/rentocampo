@@ -85,6 +85,7 @@ export default function CampoMapa({
   const tt = useCallback((es: string, pt: string) => regionalText(countryCode, es, pt), [countryCode]);
   const [mostrarCampos, setMostrarCampos] = useState(true);
   const [mapError, setMapError] = useState(false);
+  const [viewport, setViewport] = useState<{zoom:number;north:number;south:number;east:number;west:number}|null>(null);
   const [supabase] = useState(createClient);
   const [fetchedUserId, setFetchedUserId] = useState<
     string | null | undefined
@@ -165,6 +166,9 @@ export default function CampoMapa({
           country.mapZoom,
         );
         map.current = leafletMap;
+        const updateViewport = () => { const b = leafletMap.getBounds(); setViewport({zoom:leafletMap.getZoom(),north:b.getNorth(),south:b.getSouth(),east:b.getEast(),west:b.getWest()}); };
+        leafletMap.on("moveend zoomend",updateViewport);
+        leafletMap.whenReady(updateViewport);
 
         L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
           maxZoom: 19,
@@ -319,6 +323,20 @@ export default function CampoMapa({
       leafletMap.removeLayer(layer);
   }, [mostrarCampos]);
 
+  const visibleCards = useMemo(() => {
+    if (!viewport || viewport.zoom < 9) return [];
+    const inside = (lat:number,lng:number) => lat >= viewport.south && lat <= viewport.north && lng >= viewport.west && lng <= viewport.east;
+    if (vista === "tierra") return mostrarCampos ? camposConCoordenadas.filter((c,i) => {
+      const lat = normalizarCoordenada(c.latitud), lng = normalizarCoordenada(c.longitud);
+      const center = CENTROS_PROVINCIA[c.provincia], offset = ((i % 5) - 2) * 0.045;
+      return lat !== null && lng !== null && lat >= -90 && lat <= 90 && lng >= -180 && lng <= 180 ? inside(lat,lng) : Boolean(center && inside(center[0]+offset,center[1]-offset));
+    }).slice(0,12).map(c => ({id:c.id,title:c.titulo,place:[c.localidad,c.provincia].filter(Boolean).join(", "),kind:"campo"})) : [];
+    return prestadoresFiltrados.filter((p,i) => {
+      const center = CENTROS_PROVINCIA[p.provincia_servicio], offset = ((i % 5) - 2) * 0.16;
+      return Number.isFinite(p.latitud) && Number.isFinite(p.longitud) ? inside(p.latitud!,p.longitud!) : Boolean(center && inside(center[0]+offset,center[1]-offset));
+    }).slice(0,12).map(p => ({id:p.id,title:p.titulo,place:[p.localidad_servicio,p.provincia_servicio].filter(Boolean).join(", "),kind:"servicio"}));
+  },[viewport,vista,mostrarCampos,camposConCoordenadas,prestadoresFiltrados]);
+
   const APTITUD_LABEL: Record<string, string> = {
     agricola: "Agrícola",
     ganadera: "Ganadera",
@@ -381,7 +399,7 @@ export default function CampoMapa({
               </button>
             )}
           </div>
-          <div className="mapa-compacto-publicar">
+          <div className={visibleCards.length ? "mapa-compacto-publicar mapa-publicar-con-fichas" : "mapa-compacto-publicar"}>
             <Link href={regionalPublicationHref({ country: countryCode, kind: vista === "tierra" ? "campo" : "servicio", authenticated: Boolean(resolvedUserId) })}>
               + {vista === "tierra" ? tt("Publicar un campo", "Anunciar terra") : tt("Publicar mis servicios", "Anunciar meus serviços")}
             </Link>
@@ -389,6 +407,21 @@ export default function CampoMapa({
         </div>
       )}
 
+      {!mapError && visibleCards.length > 0 && !selectedCampo && !selectedServicio && !selectedDemanda && (
+        <div className="mapa-fichas-carrusel" aria-label={tt("Publicaciones en esta zona","Anúncios nesta região")}>
+          {visibleCards.map(card => (
+            <button key={card.kind+card.id} type="button" className="mapa-ficha-mini" onClick={() => {
+              setSelectedDemanda(null);
+              if (card.kind === "campo") { setSelectedCampo(camposConCoordenadas.find(c => c.id === card.id) ?? null); setSelectedServicio(null); }
+              else { setSelectedServicio(prestadoresFiltrados.find(p => p.id === card.id) ?? null); setSelectedCampo(null); }
+            }}>
+              <span>{card.kind === "campo" ? tt("Campo","Terra") : tt("Servicio rural","Serviço rural")}</span>
+              <strong>{card.title}</strong>
+              <small>{card.place}</small>
+            </button>
+          ))}
+        </div>
+      )}
       {selectedCampo && (
         <div className="mapa-panel mapa-panel-campo">
           <button
