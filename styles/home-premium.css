@@ -1317,3 +1317,28 @@
   .rc-landing .rcp-home__title .rcp-home__accent-row .rcp-home__title-accent {font-size:clamp(19px,5.4vw,21px);padding-inline:8px;}
   .rc-landing .rcp-home__title .rcp-home__accent-row .rcp-home__chevrons i {width:16px;}
 }
+
+/* Sin chevrones: cierre definitivo del hero aprobado para producción. */
+.rc-landing .rcp-home__title .rcp-home__title-accent {
+  position:relative;
+  display:table;
+  width:max-content;
+  max-width:100%;
+  margin:10px 0 0;
+  padding:9px 16px 12px;
+  background:#102d43;
+  color:#fff;
+  border:0;
+  border-radius:11px;
+  clip-path:none;
+  transform:none;
+  font-size:clamp(25px,2.8vw,45px);
+  line-height:1.12;
+  white-space:normal;
+}
+@media(max-width:700px) {
+  .rc-landing .rcp-home__title .rcp-home__title-accent {
+    font-size:clamp(23px,6.2vw,34px);
+    padding:9px 12px 11px;
+  }
+}
