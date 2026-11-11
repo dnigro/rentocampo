@@ -273,7 +273,7 @@ test("PR319 corporate interior preserves management data and keeps chat composer
  assert.match(theme,/flex:0 0 auto!important/);
  assert.match(theme,/overflow-y:auto!important/);
  assert.match(report,/getCommercialStats\(\)/);
- assert.match(report,/INTERNAL_TEST_EMAILS/);
+ assert.match(report,/canAccessManagementReport/);
  assert.match(panel,/rc-decision__kpi/);
  assert.match(panel,/rc-decision__country-card/);
  assert.ok(report.includes("rc-decision-report.css"));
@@ -341,7 +341,7 @@ test("PR319 executive country control, professional inbox and mobile account car
  assert.match(report, /<GerencialExplorador\s+countries=\{report.countries\}/);
  assert.ok(report.includes('rc-decision-page'));
  assert.ok(report.includes('getCommercialStats()'));
- assert.ok(report.includes('INTERNAL_TEST_EMAILS'));
+ assert.ok(report.includes('canAccessManagementReport'));
  assert.ok(controller.includes('useState("ALL")'));
  assert.ok(controller.includes('<option value="ALL">'));
  assert.ok(controller.includes('countries.map((c)'));
