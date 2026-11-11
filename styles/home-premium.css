@@ -1116,3 +1116,16 @@
   .rcp-home__proof--concept06 .rcp-home__proof-divider {height:25px;}
   .rcp-home__proof--concept06 .rcp-home__proof-metric strong {font-size:30px;}
 }
+
+/* Acento celeste vertical del concepto visual aprobado. */
+.rcp-home__title .rcp-home__title-accent {position:relative;margin-left:clamp(12px,1.1vw,21px);}
+.rcp-home__title .rcp-home__title-accent::before {
+  content:"";position:absolute;top:0;bottom:0;
+  left:calc(-1 * clamp(12px,1.1vw,21px));
+  width:clamp(6px,.58vw,11px);background:#42c4ed;
+  transform:skew(-7deg);
+}
+@media(max-width:700px) {
+  .rcp-home__title .rcp-home__title-accent {margin-left:12px;}
+  .rcp-home__title .rcp-home__title-accent::before {left:-12px;width:7px;}
+}
