@@ -1254,3 +1254,66 @@
   }
   .rc-landing .rcp-home__chevrons i {width:16px;}
 }
+
+/* 11/11: composición definitiva — dos hermanos en flex, sin posicionamiento absoluto. */
+.rc-landing .rcp-home__title .rcp-home__accent-row {
+  display:flex;
+  align-items:stretch;
+  width:max-content;
+  max-width:100%;
+  gap:6px;
+  margin-top:10px;
+  color:#fff;
+  transform:none;
+  background:transparent;
+}
+.rc-landing .rcp-home__title .rcp-home__accent-row .rcp-home__title-accent {
+  display:flex;
+  align-items:center;
+  flex:0 1 auto;
+  min-width:0;
+  max-width:none;
+  width:auto;
+  margin:0;
+  padding:9px 14px 11px;
+  background:#102d43;
+  border-radius:10px 4px 4px 10px;
+  transform:none;
+  clip-path:none;
+  font-size:clamp(24px,2.65vw,44px);
+  line-height:1.1;
+  white-space:nowrap;
+}
+.rc-landing .rcp-home__title .rcp-home__accent-row .rcp-home__chevrons {
+  position:static;
+  inset:auto;
+  display:flex;
+  flex:none;
+  align-items:stretch;
+  gap:4px;
+  height:auto;
+  transform:none;
+}
+.rc-landing .rcp-home__title .rcp-home__accent-row .rcp-home__chevrons i {
+  display:block;
+  width:clamp(22px,2.1vw,31px);
+  height:auto;
+  min-height:100%;
+  background:#102d43;
+  clip-path:polygon(0 0,58% 0,100% 50%,58% 100%,0 100%,43% 50%);
+}
+.rc-landing .rcp-home__title .rcp-home__accent-row .rcp-home__chevrons i:last-child {background:#8fa9bf;}
+@media(max-width:700px) {
+  .rc-landing .rcp-home__title .rcp-home__accent-row {gap:5px;margin-top:10px;}
+  .rc-landing .rcp-home__title .rcp-home__accent-row .rcp-home__title-accent {
+    font-size:clamp(21px,5.7vw,32px);
+    padding:9px 10px 11px;
+    letter-spacing:-.065em;
+  }
+  .rc-landing .rcp-home__title .rcp-home__accent-row .rcp-home__chevrons {gap:3px;}
+  .rc-landing .rcp-home__title .rcp-home__accent-row .rcp-home__chevrons i {width:clamp(17px,4.6vw,23px);}
+}
+@media(max-width:370px) {
+  .rc-landing .rcp-home__title .rcp-home__accent-row .rcp-home__title-accent {font-size:clamp(19px,5.4vw,21px);padding-inline:8px;}
+  .rc-landing .rcp-home__title .rcp-home__accent-row .rcp-home__chevrons i {width:16px;}
+}
