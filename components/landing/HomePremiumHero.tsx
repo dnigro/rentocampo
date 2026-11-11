@@ -67,7 +67,7 @@ export default function HomePremiumHero({ country }: { country: CountryCode }) {
           <div className="rcp-home__content">
             <h1 className="rcp-home__title" id="rcp-home-title">
               <span>{t("Todo el campo.", "Todo o campo.", "All things rural.")}</span>
-              <span className="rcp-home__accent-row"><span className="rcp-home__title-accent">{t("En un solo lugar.", "Em um só lugar.", "In one place.")}</span><span className="rcp-home__chevrons" aria-hidden="true"><i /><i /></span></span>
+              <span className="rcp-home__title-accent">{t("En un solo lugar.", "Em um só lugar.", "In one place.")}</span>
             </h1>
             <p className="rcp-home__description">
               {t(
