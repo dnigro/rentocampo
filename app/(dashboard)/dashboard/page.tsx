@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import ActionIcon from "@/components/ui/ActionIcon";
 import "@/styles/dashboard.css";
-import { INTERNAL_TEST_EMAILS } from "@/lib/analytics/commercial-filters";
+import { canAccessManagementReport } from "@/lib/analytics/commercial-filters";
 import { cookies } from "next/headers";
 import { resolveCountry } from "@/data/countries";
 import { regionalText } from "@/lib/i18n/regional";
@@ -20,9 +20,7 @@ export default async function DashboardPage() {
   if (user.user_metadata?.onboarding_pending_roles === true) {
     redirect("/perfil?elegir=rol");
   }
-  const canViewCommercialReport = Boolean(
-    user.email && INTERNAL_TEST_EMAILS.includes(user.email.trim().toLowerCase()),
-  );
+  const canViewCommercialReport = canAccessManagementReport(user.email);
 
   const { data: profile } = await supabase
     .from("profiles")
