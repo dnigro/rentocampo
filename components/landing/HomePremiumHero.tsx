@@ -71,9 +71,9 @@ export default function HomePremiumHero({ country }: { country: CountryCode }) {
             </h1>
             <p className="rcp-home__description">
               {t(
-                "Campos, productores y servicios. Conexión directa.",
-                "Terras, produtores e serviços. Conexão direta.",
-                "Land, producers and services. Direct connections."
+                "Campos, productores y servicios.",
+                "Terras, produtores e serviços.",
+                "Land, producers and services."
               )}
             </p>
             <div className="rcp-home__proof rcp-home__proof--concept06" aria-label={t("Publicación gratis, contacto directo y cero comisión", "Anúncios grátis, contato direto e zero comissão", "Free listings, direct contact and zero commission")}>
