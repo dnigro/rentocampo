@@ -85,6 +85,7 @@ export default function CampoMapa({
   const tt = useCallback((es: string, pt: string) => regionalText(countryCode, es, pt), [countryCode]);
   const [mostrarCampos, setMostrarCampos] = useState(true);
   const [mapError, setMapError] = useState(false);
+  const [viewport, setViewport] = useState<{zoom:number;north:number;south:number;east:number;west:number}|null>(null);
   const [supabase] = useState(createClient);
   const [fetchedUserId, setFetchedUserId] = useState<
     string | null | undefined
@@ -165,6 +166,9 @@ export default function CampoMapa({
           country.mapZoom,
         );
         map.current = leafletMap;
+        const updateViewport = () => { const b = leafletMap.getBounds(); setViewport({zoom:leafletMap.getZoom(),north:b.getNorth(),south:b.getSouth(),east:b.getEast(),west:b.getWest()}); };
+        leafletMap.on("moveend zoomend",updateViewport);
+        leafletMap.whenReady(updateViewport);
 
         L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
           maxZoom: 19,
@@ -319,6 +323,20 @@ export default function CampoMapa({
       leafletMap.removeLayer(layer);
   }, [mostrarCampos]);
 
+  const visibleCards = useMemo(() => {
+    if (!viewport || viewport.zoom < 9) return [];
+    const inside = (lat:number,lng:number) => lat >= viewport.south && lat <= viewport.north && lng >= viewport.west && lng <= viewport.east;
+    if (vista === "tierra") return mostrarCampos ? camposConCoordenadas.filter((c,i) => {
+      const lat = normalizarCoordenada(c.latitud), lng = normalizarCoordenada(c.longitud);
+      const center = CENTROS_PROVINCIA[c.provincia], offset = ((i % 5) - 2) * 0.045;
+      return lat !== null && lng !== null && lat >= -90 && lat <= 90 && lng >= -180 && lng <= 180 ? inside(lat,lng) : Boolean(center && inside(center[0]+offset,center[1]-offset));
+    }).slice(0,12).map(c => ({id:c.id,title:c.titulo,place:[c.localidad,c.provincia].filter(Boolean).join(", "),kind:"campo"})) : [];
+    return prestadoresFiltrados.filter((p,i) => {
+      const center = CENTROS_PROVINCIA[p.provincia_servicio], offset = ((i % 5) - 2) * 0.16;
+      return Number.isFinite(p.latitud) && Number.isFinite(p.longitud) ? inside(p.latitud!,p.longitud!) : Boolean(center && inside(center[0]+offset,center[1]-offset));
+    }).slice(0,12).map(p => ({id:p.id,title:p.titulo,place:[p.localidad_servicio,p.provincia_servicio].filter(Boolean).join(", "),kind:"servicio"}));
+  },[viewport,vista,mostrarCampos,camposConCoordenadas,prestadoresFiltrados]);
+
   const APTITUD_LABEL: Record<string, string> = {
     agricola: "Agrícola",
     ganadera: "Ganadera",
@@ -359,106 +377,51 @@ export default function CampoMapa({
       )}
 
       {!mapError && (
-        <div className="mapa-filtros" aria-label={tt("Capas visibles del mapa","Camadas visíveis do mapa")}>
-          <div
-            className="mapa-modos"
-            role="group"
-            aria-label={tt("Qué querés encontrar","O que você procura")}
-          >
-            <button
-              type="button"
-              className={vista === "tierra" ? "activo" : ""}
-              aria-pressed={vista === "tierra"}
-              onClick={() => cambiarVista("tierra")}
-            >
-              {tt("Tierra productiva","Terra produtiva")}
+        <div className="mapa-filtros mapa-filtros-compactos" aria-label={tt("Controles del mapa", "Controles do mapa")}>
+          <div className="mapa-modos" role="group" aria-label={tt("Qué querés encontrar", "O que você procura")}>
+            <button type="button" className={vista === "tierra" ? "activo" : ""} aria-pressed={vista === "tierra"} onClick={() => cambiarVista("tierra")}>
+              {tt("Tierra productiva", "Terra produtiva")}
             </button>
-            <button
-              type="button"
-              className={
-                vista === "servicios" ? "activo activo-servicios" : ""
-              }
-              aria-pressed={vista === "servicios"}
-              onClick={() => cambiarVista("servicios")}
-            >
-              {tt("Servicios rurales","Serviços rurais")}
+            <button type="button" className={vista === "servicios" ? "activo activo-servicios" : ""} aria-pressed={vista === "servicios"} onClick={() => cambiarVista("servicios")}>
+              {tt("Servicios rurales", "Serviços rurais")}
             </button>
           </div>
-          <div className="mapa-pais-control">
-            <label htmlFor="mapa-pais-selector">{regionalText(countryCode, "País", "País", "Country")}</label>
-            <select
-              id="mapa-pais-selector"
-              value={countryCode}
-              onChange={(event) => cambiarPais(event.target.value as CountryCode)}
-              aria-label={regionalText(countryCode, "Seleccionar país para el mapa", "Selecionar país para o mapa", "Select country on map")}
-            >
-              {COUNTRY_CODES_ALPHABETICAL.map((code) => (
-                <option key={code} value={code}>
-                  {COUNTRIES[code].flag} {displayCountryName(code, countryCode)}
-                </option>
-              ))}
-            </select>
-          </div>
-          {vista === "tierra" ? (
-            <>
-              <p className="mapa-filtros-titulo">{tt("Mostrar en el mapa","Mostrar no mapa")}</p>
-              <button
-                type="button"
-                className={`mapa-filtro ${mostrarCampos ? "activo" : ""}`}
-                aria-pressed={mostrarCampos}
-                onClick={() => {
-                  setMostrarCampos((actual) => !actual);
-                  setSelectedCampo(null);
-                }}
-              >
-                <span className="mapa-filtro-punto mapa-filtro-punto-campo" />
-                {tt("Campos disponibles","Terras disponíveis")}
+          <div className="mapa-compacto-resumen">
+            <span className="mapa-compacto-cantidad" aria-live="polite">
+              <span className="mapa-filtro-punto mapa-filtro-punto-campo" aria-hidden="true" />
+              <strong>{vista === "tierra" ? camposConCoordenadas.length : prestadoresFiltrados.length}</strong>{" "}
+              {vista === "tierra" ? tt("campos disponibles", "terras disponíveis") : tt("servicios disponibles", "serviços disponíveis")}
+              <span className="mapa-compacto-pais"> · {displayCountryName(countryCode, countryCode)}</span>
+            </span>
+            {vista === "tierra" && (
+              <button type="button" className="mapa-compacto-filtro" aria-pressed={!mostrarCampos} onClick={() => { setMostrarCampos((actual) => !actual); setSelectedCampo(null); }}>
+                {mostrarCampos ? tt("Ocultar", "Ocultar") : tt("Mostrar", "Mostrar")}
               </button>
-            </>
-          ) : (
-            <div
-              className="mapa-filtro mapa-filtro-fijo mapa-filtro-servicios"
-              aria-label={tt("Servicios ofrecidos siempre visibles","Serviços oferecidos sempre visíveis")}
-            >
-              <span className="mapa-filtro-punto mapa-filtro-punto-servicio" />
-              {tt("Servicios ofrecidos","Serviços oferecidos")}
-            </div>
-          )}          <div className="mapa-contador">
-            {vista === "tierra" ? (
-              <>
-                <strong>{camposConCoordenadas.length}</strong> {tt("campos en","terras em")}{" "}
-                {displayCountryName(countryCode, countryCode)}
-              </>
-            ) : (
-              <>
-                <strong>{prestadoresFiltrados.length}</strong> {regionalText(countryCode, "servicios en", "serviços em", "services in")}{" "}{displayCountryName(countryCode, countryCode)}
-              </>
             )}
           </div>
-
-          <div
-            className="mapa-publicar-acciones"
-            aria-label={tt("Publicar en RentoCampo","Anunciar na RentoCampo")}
-          >
-            {vista === "tierra" ? (
-              <Link
-                href={regionalPublicationHref({ country: countryCode, kind: "campo", authenticated: Boolean(resolvedUserId) })}
-                className="mapa-publicar-btn mapa-publicar-btn-principal"
-              >
-                {tt("Publicar un campo →","Anunciar terra →")}
-              </Link>
-            ) : (
-              <Link
-                href={regionalPublicationHref({ country: countryCode, kind: "servicio", authenticated: Boolean(resolvedUserId) })}
-                className="mapa-publicar-btn mapa-publicar-btn-principal mapa-publicar-btn-principal-servicio"
-              >
-                {tt("Publicar mis servicios →","Anunciar meus serviços →")}
-              </Link>
-            )}
+          <div className={visibleCards.length ? "mapa-compacto-publicar mapa-publicar-con-fichas" : "mapa-compacto-publicar"}>
+            <Link href={regionalPublicationHref({ country: countryCode, kind: vista === "tierra" ? "campo" : "servicio", authenticated: Boolean(resolvedUserId) })}>
+              + {vista === "tierra" ? tt("Publicar un campo", "Anunciar terra") : tt("Publicar mis servicios", "Anunciar meus serviços")}
+            </Link>
           </div>
         </div>
       )}
 
+      {!mapError && visibleCards.length > 0 && !selectedCampo && !selectedServicio && !selectedDemanda && (
+        <div className="mapa-fichas-carrusel" aria-label={tt("Publicaciones en esta zona","Anúncios nesta região")}>
+          {visibleCards.map(card => (
+            <button key={card.kind+card.id} type="button" className="mapa-ficha-mini" onClick={() => {
+              setSelectedDemanda(null);
+              if (card.kind === "campo") { setSelectedCampo(camposConCoordenadas.find(c => c.id === card.id) ?? null); setSelectedServicio(null); }
+              else { setSelectedServicio(prestadoresFiltrados.find(p => p.id === card.id) ?? null); setSelectedCampo(null); }
+            }}>
+              <span>{card.kind === "campo" ? tt("Campo","Terra") : tt("Servicio rural","Serviço rural")}</span>
+              <strong>{card.title}</strong>
+              <small>{card.place}</small>
+            </button>
+          ))}
+        </div>
+      )}
       {selectedCampo && (
         <div className="mapa-panel mapa-panel-campo">
           <button
