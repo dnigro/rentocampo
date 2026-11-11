@@ -1,6 +1,6 @@
-import { notFound } from "next/navigation";
+import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { INTERNAL_TEST_EMAILS } from "@/lib/analytics/commercial-filters";
+import { canAccessManagementReport } from "@/lib/analytics/commercial-filters";
 import { getCommercialStats } from "@/lib/analytics/commercial-stats";
 import GerencialExplorador from "@/components/gerencial/GerencialExplorador";
 import "@/styles/rc-decision-report.css";
@@ -10,10 +10,8 @@ export const dynamic = "force-dynamic";
 export default async function GerencialPage() {
   const client = await createClient();
   const { data: { user }, error } = await client.auth.getUser();
-  // Sólo acceso a las cuentas administradoras ya autorizadas.
-  if (error || !user?.email || !INTERNAL_TEST_EMAILS.includes(user.email.trim().toLowerCase())) {
-    notFound();
-  }
+  if (error || !user) redirect("/login");
+  if (!canAccessManagementReport(user.email)) redirect("/acceso-restringido");
   const report = await getCommercialStats();
 
   return (
