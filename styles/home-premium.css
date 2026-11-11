@@ -1129,3 +1129,15 @@
   .rcp-home__title .rcp-home__title-accent {margin-left:12px;}
   .rcp-home__title .rcp-home__title-accent::before {left:-12px;width:7px;}
 }
+
+/* Fix: acento visible sin depender de pseudo-elementos o del recorte del texto. */
+.rc-landing .rcp-home__title .rcp-home__title-accent {
+  border-left:clamp(7px,.65vw,12px) solid #42c4ed;
+  margin-left:0;
+  padding-left:clamp(13px,1.05vw,19px);
+  box-decoration-break:clone;
+}
+.rc-landing .rcp-home__title .rcp-home__title-accent::before {content:none;display:none;}
+@media(max-width:700px) {
+  .rc-landing .rcp-home__title .rcp-home__title-accent {margin-left:0;border-left-width:7px;padding-left:12px;}
+}
