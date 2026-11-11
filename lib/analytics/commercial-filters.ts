@@ -7,6 +7,15 @@ export const INTERNAL_TEST_EMAILS = Object.freeze([
   "dantenigro@gmail.com",
 ]);
 
+/** Acceso al reporte interno: independiente de las exclusiones de métricas. */
+export const MANAGEMENT_REPORT_EMAILS = Object.freeze([
+  "dantenigro@gmail.com",
+]);
+
+export function canAccessManagementReport(email: string | null | undefined): boolean {
+  return Boolean(email && MANAGEMENT_REPORT_EMAILS.includes(email.trim().toLowerCase()));
+}
+
 export type CommercialIdentity = {
   email: string | null | undefined;
   email_confirmed_at?: string | null;
