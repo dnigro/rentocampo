@@ -1342,3 +1342,22 @@
     padding:9px 12px 11px;
   }
 }
+
+/* Hero aprobado: Todo el campo, sin vueltas — 11/11/2026 */
+.rcp-home__title {font-style:italic;color:#102c43;letter-spacing:-.055em;}
+.rcp-home__title span:first-child {color:#102c43;}
+.rcp-home__title .rcp-home__title-accent {display:table;position:relative;width:max-content;max-width:100%;padding:.08em .23em .15em;background:#576c80;color:white;transform:skewX(-9deg);margin-top:.12em;}
+.rcp-home__title .rcp-home__title-accent::after {content:"";position:absolute;right:4%;bottom:-.19em;width:57%;height:.12em;background:#f6c629;border-radius:100% 70% 60% 60%;transform:rotate(-3deg);}
+.rcp-home__proof--new {display:flex;flex-wrap:nowrap;gap:clamp(8px,1.1vw,20px);align-items:center;}
+.rcp-home__proof--new .rcp-home__proof-contact {font-weight:900;gap:7px;white-space:nowrap;}
+.rcp-home__proof--new .rcp-home__proof-contact svg {width:clamp(19px,2vw,28px);height:clamp(19px,2vw,28px);flex:none;}
+.rcp-home__proof--new .rcp-home__proof-divider {height:28px;}
+@media(max-width:700px) {
+ .rcp-home__title {font-size:clamp(30px,8.1vw,48px);line-height:1.12;}
+ .rcp-home__title .rcp-home__title-accent {font-size:1.03em;}
+ .rcp-home__description {font-weight:700;}
+ .rcp-home__proof--new {width:100%;justify-content:space-between;gap:5px;font-size:clamp(9px,2.75vw,13px);}
+ .rcp-home__proof--new .rcp-home__proof-contact {gap:4px;}
+ .rcp-home__proof--new .rcp-home__proof-contact svg {width:clamp(16px,5vw,23px);height:clamp(16px,5vw,23px);}
+ .rcp-home__proof--new .rcp-home__proof-divider {height:24px;}
+}
