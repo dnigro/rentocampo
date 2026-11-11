@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { ArrowUpRight, LandPlot, MapPinned, MessagesSquare, Tractor, UserRoundPlus } from "lucide-react";
+import { ArrowUpRight, LandPlot, MapPinned, Handshake, Tractor, UserRoundPlus } from "lucide-react";
 import RegionalLink from "@/components/layout/RegionalLink";
 import { regionalText } from "@/lib/i18n/regional";
 import type { CountryCode } from "@/data/countries";
@@ -66,25 +66,22 @@ export default function HomePremiumHero({ country }: { country: CountryCode }) {
 
           <div className="rcp-home__content">
             <h1 className="rcp-home__title" id="rcp-home-title">
-              <span>{t("El campo.", "O campo.", "The land.")}</span>
-              <span className="rcp-home__title-accent">{t("Sin vueltas.", "Sem complicações.", "No hassle.")}</span>
+              <span>{t("Todo el campo.", "Todo o campo.", "All things rural.")}</span>
+              <span className="rcp-home__title-accent">{t("En un lugar.", "Em um só lugar.", "In one place.")}</span>
             </h1>
             <p className="rcp-home__description">
               {t(
-                "Conectá con productores y servicios rurales.",
-                "Conecte-se com produtores e serviços rurais.",
-                "Connect with farmers and rural services."
+                "Campos, productores y servicios. Conexión directa.",
+                "Terras, produtores e serviços. Conexão direta.",
+                "Land, producers and services. Direct connections."
               )}
             </p>
-            <div className="rcp-home__proof" aria-label={t("Sin comisión y contacto directo", "Sem comissão e contato direto", "Zero commission and direct contact")}>
-              <span className="rcp-home__proof-metric">
-                <strong>0%</strong> {t("COMISIÓN", "COMISSÃO", "COMMISSION")}
-              </span>
+            <div className="rcp-home__proof rcp-home__proof--concept06" aria-label={t("Publicación gratis, contacto directo y cero comisión", "Anúncios grátis, contato direto e zero comissão", "Free listings, direct contact and zero commission")}>
+              <span className="rcp-home__proof-contact"><Tractor aria-hidden="true" size={26} strokeWidth={1.8} />{t("PUBLICACIÓN GRATIS", "ANÚNCIO GRÁTIS", "FREE LISTINGS")}</span>
               <span className="rcp-home__proof-divider" aria-hidden="true" />
-              <span className="rcp-home__proof-contact">
-                <MessagesSquare aria-hidden="true" size={23} strokeWidth={1.9} />
-                {t("MAPA + CHAT ONLINE", "MAPA + CHAT ONLINE", "MAP + ONLINE CHAT")}
-              </span>
+              <span className="rcp-home__proof-contact"><Handshake aria-hidden="true" size={26} strokeWidth={1.8} />{t("CONTACTO DIRECTO", "CONTATO DIRETO", "DIRECT CONTACT")}</span>
+              <span className="rcp-home__proof-divider" aria-hidden="true" />
+              <span className="rcp-home__proof-metric"><strong>0%</strong> {t("COMISIÓN", "COMISSÃO", "COMMISSION")}</span>
             </div>
             <div className="rcp-home__buttons">
               <RegionalLink href="/register" fallbackCountry={country} className="rcp-home__button rcp-home__button--register">

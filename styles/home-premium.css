@@ -1080,3 +1080,105 @@
   .rc-landing .rcp-home__content {width:100%;min-width:0}
   .rc-landing .rcp-home__title .rcp-home__title-accent {max-width:100%;white-space:normal}
 }
+
+
+/* Concepto 06 · Hero editorial, sin afectar el resto de la portada ni App Lite. */
+.rcp-home__title span:first-child {color:#102b42;}
+.rcp-home__title .rcp-home__title-accent {
+  display:table;
+  width:max-content;
+  max-width:100%;
+  margin-top:clamp(5px,.65vw,11px);
+  padding:.055em .2em .13em;
+  background:#52667a;
+  color:#fff;
+  line-height:1.08;
+  letter-spacing:-.052em;
+  transform:skew(-7deg);
+}
+.rcp-home__description {max-width:780px;font-weight:750;}
+.rcp-home__proof--concept06 {gap:clamp(9px,1.3vw,22px);flex-wrap:wrap;}
+.rcp-home__proof--concept06 .rcp-home__proof-contact {white-space:normal;max-width:195px;line-height:1.18;}
+.rcp-home__proof--concept06 .rcp-home__proof-metric {gap:7px;}
+.rcp-home__proof--concept06 .rcp-home__proof-metric strong {font-size:clamp(30px,2.5vw,48px);}
+.rcp-home__buttons .rcp-home__map-link {border:1.5px solid #16364f;background:rgba(255,255,255,.9);}
+@media(min-width:1200px) {
+  .rcp-home__content {width:min(62%,1100px);}
+  .rcp-home__title {font-size:clamp(42px,4.1vw,77px);}
+  .rcp-home__buttons {gap:15px;}
+  .rcp-home__button--register {min-width:0;}
+}
+@media(max-width:700px) {
+  .rcp-home__title .rcp-home__title-accent {max-width:95%;font-size:.98em;}
+  .rcp-home__proof--concept06 {gap:10px;}
+  .rcp-home__proof--concept06 .rcp-home__proof-contact {max-width:45%;font-size:11px;}
+  .rcp-home__proof--concept06 .rcp-home__proof-contact svg {width:21px;height:21px;flex:none;}
+  .rcp-home__proof--concept06 .rcp-home__proof-divider {height:25px;}
+  .rcp-home__proof--concept06 .rcp-home__proof-metric strong {font-size:30px;}
+}
+
+/* Acento celeste vertical del concepto visual aprobado. */
+.rcp-home__title .rcp-home__title-accent {position:relative;margin-left:clamp(12px,1.1vw,21px);}
+.rcp-home__title .rcp-home__title-accent::before {
+  content:"";position:absolute;top:0;bottom:0;
+  left:calc(-1 * clamp(12px,1.1vw,21px));
+  width:clamp(6px,.58vw,11px);background:#42c4ed;
+  transform:skew(-7deg);
+}
+@media(max-width:700px) {
+  .rcp-home__title .rcp-home__title-accent {margin-left:12px;}
+  .rcp-home__title .rcp-home__title-accent::before {left:-12px;width:7px;}
+}
+
+/* Fix: acento visible sin depender de pseudo-elementos o del recorte del texto. */
+.rc-landing .rcp-home__title .rcp-home__title-accent {
+  border-left:clamp(7px,.65vw,12px) solid #42c4ed;
+  margin-left:0;
+  padding-left:clamp(13px,1.05vw,19px);
+  box-decoration-break:clone;
+}
+.rc-landing .rcp-home__title .rcp-home__title-accent::before {content:none;display:none;}
+@media(max-width:700px) {
+  .rc-landing .rcp-home__title .rcp-home__title-accent {margin-left:0;border-left-width:7px;padding-left:12px;}
+}
+
+/* Concepto 06: franja celeste integrada al bloque, no escondida detrás del skew. */
+.rc-landing .rcp-home__title .rcp-home__title-accent {
+  border-left:0;
+  margin-left:0;
+  padding-left:clamp(22px,1.7vw,32px);
+  background:linear-gradient(to right,#42c4ed 0,#42c4ed 11px,#52667a 11px,#52667a 100%);
+  transform:skew(-7deg);
+}
+@media(max-width:700px){
+  .rc-landing .rcp-home__title .rcp-home__title-accent {
+    border-left:0;
+    padding-left:23px;
+    background:linear-gradient(to right,#42c4ed 0,#42c4ed 8px,#52667a 8px,#52667a 100%);
+  }
+}
+
+/* Fix definitivo: el clip-path previo recortaba el inicio de la franja. */
+.rc-landing .rcp-home__title .rcp-home__title-accent {
+  clip-path:none;
+  border:0;
+  margin-left:0;
+  padding-left:clamp(30px,2.2vw,42px);
+  background:linear-gradient(90deg,#f6c744 0 17px,#52667a 17px 100%);
+  transform:skewX(-7deg);
+}
+@media(max-width:700px){
+  .rc-landing .rcp-home__title .rcp-home__title-accent {
+    clip-path:none;
+    padding-left:29px;
+    background:linear-gradient(90deg,#f6c744 0 13px,#52667a 13px 100%);
+  }
+}
+
+/* Separación entre la franja amarilla y el texto, sin mover la franja. */
+.rc-landing .rcp-home__title .rcp-home__title-accent {
+  padding-left:clamp(42px,3vw,56px);
+}
+@media(max-width:700px){
+  .rc-landing .rcp-home__title .rcp-home__title-accent {padding-left:41px;}
+}
