@@ -1141,3 +1141,19 @@
 @media(max-width:700px) {
   .rc-landing .rcp-home__title .rcp-home__title-accent {margin-left:0;border-left-width:7px;padding-left:12px;}
 }
+
+/* Concepto 06: franja celeste integrada al bloque, no escondida detrás del skew. */
+.rc-landing .rcp-home__title .rcp-home__title-accent {
+  border-left:0;
+  margin-left:0;
+  padding-left:clamp(22px,1.7vw,32px);
+  background:linear-gradient(to right,#42c4ed 0,#42c4ed 11px,#52667a 11px,#52667a 100%);
+  transform:skew(-7deg);
+}
+@media(max-width:700px){
+  .rc-landing .rcp-home__title .rcp-home__title-accent {
+    border-left:0;
+    padding-left:23px;
+    background:linear-gradient(to right,#42c4ed 0,#42c4ed 8px,#52667a 8px,#52667a 100%);
+  }
+}
