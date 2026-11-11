@@ -1182,3 +1182,61 @@
 @media(max-width:700px){
   .rc-landing .rcp-home__title .rcp-home__title-accent {padding-left:41px;}
 }
+
+/* Hero aprobado 11/11: banda azul petróleo con doble chevrón, sin amarillo. */
+.rc-landing .rcp-home__title .rcp-home__title-accent {
+  position:relative;
+  display:table;
+  width:max-content;
+  max-width:100%;
+  margin-left:0;
+  margin-top:10px;
+  padding:9px clamp(54px,5vw,76px) 12px 18px;
+  border:0;
+  border-radius:14px;
+  background:#102d43;
+  color:#fff;
+  clip-path:none;
+  transform:skewX(-7deg);
+  font-size:clamp(26px,3.05vw,51px);
+  line-height:1.08;
+  letter-spacing:-.05em;
+  white-space:normal;
+  overflow-wrap:normal;
+}
+.rc-landing .rcp-home__title .rcp-home__title-accent::before {content:none;display:none;}
+.rc-landing .rcp-home__chevrons {
+  position:absolute;
+  right:10px;
+  top:50%;
+  display:flex;
+  gap:3px;
+  align-items:center;
+  transform:translateY(-50%);
+}
+.rc-landing .rcp-home__chevrons i {
+  display:block;
+  width:15px;
+  height:26px;
+  background:#fff;
+  clip-path:polygon(0 0,43% 0,100% 50%,43% 100%,0 100%,57% 50%);
+}
+.rc-landing .rcp-home__chevrons i:last-child {background:#9fb2c4;}
+@media(max-width:700px) {
+  .rc-landing .rcp-home__title .rcp-home__title-accent {
+    font-size:clamp(25px,7.3vw,43px);
+    max-width:100%;
+    margin-top:9px;
+    padding:9px 49px 12px 13px;
+    border-radius:12px;
+    letter-spacing:-.055em;
+  }
+  .rc-landing .rcp-home__chevrons {right:8px;gap:2px;}
+  .rc-landing .rcp-home__chevrons i {width:11px;height:20px;}
+}
+@media(max-width:370px) {
+  .rc-landing .rcp-home__title .rcp-home__title-accent {
+    font-size:clamp(22px,6.9vw,26px);
+    padding-right:43px;
+  }
+}
