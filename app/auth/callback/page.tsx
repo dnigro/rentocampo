@@ -65,30 +65,24 @@ export default function AuthCallbackPage() {
     };
   }, [router, supabase]);
 
+  // Keep OAuth validation and session creation; do not render a full-page
+  // intermediate screen while redirecting to the requested destination.
+  if (!error) return <span className="sr-only" role="status">Ingresando a RentoCampo...</span>;
+
   return (
     <div className="auth-page">
       <div className="auth-card">
         <div className="auth-header">
-          {error ? (
-            <>
-              <div className="confirm-icon">⚠️</div>
-              <h1 className="auth-title">No pudimos validar el link</h1>
-              <p className="auth-subtitle">{error}</p>
-              <button
-                type="button"
-                className="btn-submit"
-                onClick={() => router.replace("/login")}
-              >
-                Volver a ingresar
-              </button>
-            </>
-          ) : (
-            <>
-              <div className="confirm-icon">🔐</div>
-              <h1 className="auth-title">Validando tu acceso</h1>
-              <p className="auth-subtitle">Un momento, por favor...</p>
-            </>
-          )}
+          <div className="confirm-icon">⚠️</div>
+          <h1 className="auth-title">No pudimos completar el ingreso</h1>
+          <p className="auth-subtitle" role="alert">{error}</p>
+          <button
+            type="button"
+            className="btn-submit"
+            onClick={() => router.replace("/login")}
+          >
+            Volver a ingresar
+          </button>
         </div>
       </div>
     </div>
