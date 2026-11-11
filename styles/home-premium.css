@@ -1157,3 +1157,20 @@
     background:linear-gradient(to right,#42c4ed 0,#42c4ed 8px,#52667a 8px,#52667a 100%);
   }
 }
+
+/* Fix definitivo: el clip-path previo recortaba el inicio de la franja. */
+.rc-landing .rcp-home__title .rcp-home__title-accent {
+  clip-path:none;
+  border:0;
+  margin-left:0;
+  padding-left:clamp(30px,2.2vw,42px);
+  background:linear-gradient(90deg,#f6c744 0 17px,#52667a 17px 100%);
+  transform:skewX(-7deg);
+}
+@media(max-width:700px){
+  .rc-landing .rcp-home__title .rcp-home__title-accent {
+    clip-path:none;
+    padding-left:29px;
+    background:linear-gradient(90deg,#f6c744 0 13px,#52667a 13px 100%);
+  }
+}
