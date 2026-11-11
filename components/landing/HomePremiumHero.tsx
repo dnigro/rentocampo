@@ -67,13 +67,13 @@ export default function HomePremiumHero({ country }: { country: CountryCode }) {
           <div className="rcp-home__content">
             <h1 className="rcp-home__title" id="rcp-home-title">
               <span>{t("Todo el campo.", "Todo o campo.", "All things rural.")}</span>
-              <span className="rcp-home__title-accent">{t("En un lugar.", "Em um só lugar.", "In one place.")}</span>
+              <span className="rcp-home__title-accent">{t("En un solo lugar.", "Em um só lugar.", "In one place.")}</span>
             </h1>
             <p className="rcp-home__description">
               {t(
-                "Campos, productores y servicios. Conexión directa.",
-                "Terras, produtores e serviços. Conexão direta.",
-                "Land, producers and services. Direct connections."
+                "Campos, productores y servicios.",
+                "Terras, produtores e serviços.",
+                "Land, producers and services."
               )}
             </p>
             <div className="rcp-home__proof rcp-home__proof--concept06" aria-label={t("Publicación gratis, contacto directo y cero comisión", "Anúncios grátis, contato direto e zero comissão", "Free listings, direct contact and zero commission")}>
