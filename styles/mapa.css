@@ -1255,3 +1255,77 @@ body:has(.mapa-page) footer.footer {
   .mapa-page .explorador-back-links a { font-size: 13px !important; }
   .mapa-page .explorador-tabs button { min-height: 44px; font-size: 14px !important; }
 }
+
+
+/* Hero compacto del explorador: foto y diagonal sin afectar al mapa Leaflet. */
+.mapa-page .rc-map-hero {
+  position:relative; isolation:isolate; display:flex; align-items:center;
+  min-height:230px; width:100%; overflow:hidden;
+  background:linear-gradient(110deg,#fff 0%,#edf7fc 68%,#fff 100%);
+  color:#0b2944;
+}
+.mapa-page .rc-map-hero__copy {
+  position:relative; z-index:2; width:72%; min-width:0;
+  padding:24px clamp(20px,3vw,58px);
+}
+.mapa-page .rc-map-hero h2 {
+  margin:0 0 10px; font-size:clamp(25px,2.8vw,46px);
+  font-style:italic; font-weight:900; letter-spacing:-.045em; line-height:1.13;
+}
+.mapa-page .rc-map-hero h2::before {
+  content:""; display:inline-block; width:8px; height:1em;
+  margin-right:18px; border-radius:8px; background:#f7bd00; vertical-align:-.13em;
+}
+.mapa-page .rc-map-hero h2 em {
+  display:inline-block; padding:2px 12px 5px; border-radius:9px;
+  background:#0b2944; color:#fff; font-style:inherit;
+}
+.mapa-page .rc-map-hero__details { display:flex; align-items:center; gap:24px; flex-wrap:wrap; }
+.mapa-page .rc-map-hero__details p { margin:0; font-size:clamp(13px,1.15vw,19px); font-weight:800; }
+.mapa-page .rc-map-hero__features { display:flex; align-items:center; flex-wrap:wrap; gap:0; font-size:13px; font-weight:850; white-space:nowrap; }
+.mapa-page .rc-map-hero__features span+span { border-left:1px solid #b9cbd7; margin-left:12px; padding-left:12px; }
+.mapa-page .rc-map-hero__actions { display:flex; flex-wrap:wrap; gap:12px; margin-top:18px; }
+.mapa-page .rc-map-hero__actions a {
+  display:inline-flex; align-items:center; justify-content:center;
+  min-height:48px; padding:10px 27px; border:1px solid #0b2944;
+  border-radius:999px; font-size:14px; font-weight:850;
+  text-decoration:none; color:#0b2944; background:#fff;
+}
+.mapa-page .rc-map-hero__actions a:first-child { color:#fff; background:#0b2944; }
+.mapa-page .rc-map-hero__actions a:hover { box-shadow:0 3px 12px #0b294433; }
+.mapa-page .rc-map-hero__photo {
+  position:absolute; inset:0 0 0 auto; width:39%;
+  background:#c5c9c8 url("/rentocampo-hero-campo-bn-1920x1080.webp") center / cover no-repeat;
+  clip-path:polygon(15% 0,100% 0,100% 100%,0 100%);
+}
+.mapa-page .rc-map-anchor { height:0; scroll-margin-top:85px; }
+@media(max-width:1050px) {
+ .mapa-page .rc-map-hero__copy { width:77%; }
+ .mapa-page .rc-map-hero__photo { width:33%; opacity:.8; }
+ .mapa-page .rc-map-hero__features { font-size:12px; }
+}
+@media(max-width:700px) {
+ .mapa-page .rc-map-hero { min-height:0; }
+ .mapa-page .rc-map-hero__copy { width:100%; padding:22px 18px 24px; }
+ .mapa-page .rc-map-hero__photo { display:none; }
+ .mapa-page .rc-map-hero h2 { font-size:clamp(24px,6.5vw,34px); }
+ .mapa-page .rc-map-hero__details { gap:10px; }
+ .mapa-page .rc-map-hero__features { white-space:normal; }
+ .mapa-page .rc-map-hero__actions a { flex:1 1 145px; padding:10px 12px; font-size:12px; }
+}
+/* Barra de oportunidades: proporción estable, sin desplazamientos ni adornos heredados. */
+.mapa-page .explorador-header::before,
+.mapa-page .explorador-header::after { content:none!important; display:none!important; }
+@media(min-width:1100px) {
+ .mapa-page .explorador-header {
+   grid-template-columns:minmax(0,1fr) auto!important;
+   grid-template-areas:"title tabs" "count tabs" "links links"!important;
+   gap:8px 24px!important;
+   min-height:0!important;
+   padding:20px clamp(24px,2.4vw,44px)!important;
+ }
+ .mapa-page .explorador-header h1 { font-size:clamp(25px,2.2vw,36px)!important; }
+ .mapa-page .explorador-back-links { justify-content:flex-start!important; }
+ .mapa-page .explorador-tabs { justify-self:end; }
+ .mapa-page .explorador-results { padding-top:20px; }
+}
