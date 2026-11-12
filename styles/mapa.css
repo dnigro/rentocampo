@@ -1927,3 +1927,37 @@ body:has(.mapa-page) footer.footer {
  .mapa-page .explorador-info small{font-size:clamp(15px,1vw,17px)!important;line-height:1.45!important}
  .mapa-page .explorador-ver{font-size:15px!important;font-weight:800!important}
 }
+
+/* Explorador desktop: solo las fichas hacen scroll; mapa inmóvil a la derecha. */
+@media(min-width:1100px){
+ body:has(.mapa-page) .mapa-page > .mapa-wrapper{
+  display:grid!important;
+  grid-template-columns:minmax(0,62%) minmax(0,38%)!important;
+  grid-template-rows:auto minmax(0,1fr)!important;
+  height:calc(100dvh - 120px)!important;
+  min-height:580px!important;
+  max-height:none!important;
+  overflow:hidden!important;
+  align-items:stretch!important;
+ }
+ body:has(.mapa-page) .explorador-sidebar{display:contents!important}
+ body:has(.mapa-page) .explorador-header{
+  grid-column:1/-1!important;grid-row:1!important;
+ }
+ body:has(.mapa-page) .explorador-results{
+  grid-column:1!important;grid-row:2!important;
+  height:100%!important;min-height:0!important;max-height:none!important;
+  overflow-x:hidden!important;overflow-y:auto!important;
+  overscroll-behavior-y:contain!important;
+  align-self:stretch!important;
+ }
+ body:has(.mapa-page) .explorador-map-area{
+  grid-column:2!important;grid-row:2!important;
+  position:relative!important;top:auto!important;
+  height:calc(100% - 52px)!important;
+  min-height:0!important;max-height:none!important;
+  align-self:stretch!important;
+  margin:26px 26px 26px 6px!important;
+  overflow:hidden!important;
+ }
+}
