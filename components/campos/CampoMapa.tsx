@@ -42,6 +42,8 @@ interface Props {
   initialVista?: "tierra" | "servicios";
   initialServicio?: ServicioRural;
   initialCountry?: CountryCode;
+  camposListHref: string;
+  serviciosListHref: string;
 }
 
 interface ServicioPin {
@@ -67,6 +69,8 @@ export default function CampoMapa({
   currentUserId,
   initialVista = "tierra",
   initialCountry = "AR",
+  camposListHref,
+  serviciosListHref,
 }: Props) {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<LeafletMap | null>(null);
@@ -353,6 +357,10 @@ export default function CampoMapa({
         <div className="explorador-header">
           <h1>{tt("Explorá el campo", "Explore o campo")}</h1>
           <p>{vista === "tierra" ? camposConCoordenadas.length : prestadoresFiltrados.length} {vista === "tierra" ? tt("campos publicados", "terras anunciadas") : tt("servicios rurales", "serviços rurais")} · {displayCountryName(countryCode,countryCode)}</p>
+          <nav className="explorador-back-links" aria-label={tt("Volver a los listados completos","Voltar às listas completas")}>
+            <Link href={camposListHref}>← {tt("Volver al listado de campos","Voltar à lista de terras")}</Link>
+            <Link href={serviciosListHref}>← {tt("Volver al listado de servicios","Voltar à lista de serviços")}</Link>
+          </nav>
           <div className="explorador-tabs" role="group" aria-label={tt("Tipo de publicación","Tipo de anúncio")}>
             <button type="button" aria-pressed={vista==="tierra"} onClick={()=>cambiarVista("tierra")}>{tt("Campos","Terras")}</button>
             <button type="button" aria-pressed={vista==="servicios"} onClick={()=>cambiarVista("servicios")}>{tt("Servicios rurales","Serviços rurais")}</button>
