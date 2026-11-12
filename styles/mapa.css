@@ -1577,3 +1577,29 @@ body:has(.mapa-page) footer.footer {
   padding-bottom:18px!important;
  }
 }
+
+
+/* Mapa: cabecera editorial limpia, consistente con el listado de servicios. */
+.mapa-page .rc-map-hero {display:none!important;}
+.mapa-page .explorador-header {
+ background:#fff!important;
+ border-bottom:1px solid #dbe3e9!important;
+ padding:clamp(20px,2vw,36px)!important;
+}
+.mapa-page .explorador-header p {color:#506477!important;font-weight:600!important;}
+@media(min-width:1100px){
+ .mapa-page .explorador-header {
+  display:grid!important;
+  grid-template-areas:"count links tabs"!important;
+  grid-template-columns:minmax(190px,1fr) minmax(320px,1.7fr) auto!important;
+  align-items:center!important;
+  gap:24px!important;
+  min-height:112px!important;
+ }
+ .mapa-page .explorador-header p {margin:0!important;}
+ .mapa-page .explorador-back-links {justify-content:flex-start!important;flex-wrap:wrap!important;}
+}
+@media(max-width:1099px){
+ .mapa-page .explorador-header {display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:14px!important;}
+ .mapa-page .explorador-back-links {display:flex!important;flex-wrap:wrap!important;gap:12px!important;}
+}
