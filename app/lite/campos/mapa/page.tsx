@@ -1,1 +1,10 @@
-import LiteWorkflowLayout from "@/components/lite/LiteWorkflowLayout";import Workflow from "@/app/(public)/campos/mapa/page";export default async function Page(props:{searchParams:Promise<{vista?:string;servicio?:string;pais?:string}>}){return <LiteWorkflowLayout><Workflow searchParams={props.searchParams}/></LiteWorkflowLayout>}
+import { redirect } from "next/navigation";
+
+export default async function Page({ searchParams }: { searchParams: Promise<Record<string, string | undefined>> }) {
+  const params = await searchParams;
+  const query = new URLSearchParams();
+  for (const [key, value] of Object.entries(params)) {
+    if (value && key !== "vista" && key !== "servicio") query.set(key, value);
+  }
+  redirect("/campos" + (query.size ? "?" + query.toString() : ""));
+}
