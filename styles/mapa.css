@@ -1865,3 +1865,28 @@ body:has(.mapa-page) footer.footer {
   padding-bottom:28px!important;
  }
 }
+
+/* Desktop: scroll de documento, mapa sticky y márgenes del listado. */
+@media (min-width:1100px) {
+ body:has(.mapa-page) .mapa-page {
+  display:block!important;
+  height:auto!important;
+  min-height:100vh!important;
+  overflow:visible!important;
+  background:#f6f4f0!important;
+  padding:0 clamp(20px,2.4vw,48px) 40px!important;
+ }
+ body:has(.mapa-page) .mapa-page > .mapa-wrapper {
+  flex:none!important;
+  width:100%!important;
+  max-width:1840px!important;
+  margin:0 auto!important;
+  background:#fff!important;
+  overflow:visible!important;
+  height:auto!important;
+ }
+ body:has(.mapa-page) .explorador-map-area {
+  position:sticky!important;
+  top:18px!important;
+ }
+}
