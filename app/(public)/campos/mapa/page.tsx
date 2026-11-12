@@ -113,18 +113,6 @@ export default async function MapaPage({
 
   return (
     <div className="mapa-page">
-      <section className="rc-map-hero" aria-label="RentoCampo, todo el campo sin vueltas">
-        <div className="rc-map-hero__copy">
-          <h2><span>{tt("Todo el campo,","Todo o campo,")}</span> <em>{tt("sin vueltas.","sem complicações.")}</em></h2>
-          <div className="rc-map-hero__details">
-            <p>{tt("Campos, productores y servicios rurales. Conexión directa.","Terras, produtores e serviços rurais. Conexão direta.")}</p>
-            <div className="rc-map-hero__features"><span>◇ {tt("COSTO 0","CUSTO 0")}</span><span>♧ {tt("MAPA","MAPA")}</span><span>▢ CHAT ONLINE</span></div>
-          </div>
-          <div className="rc-map-hero__actions"><Link href="/register">{tt("REGISTRATE GRATIS","CADASTRE-SE GRÁTIS")}</Link><a href="#explorador-mapa">{tt("EXPLORAR MAPA ↗","EXPLORAR MAPA ↗")}</a></div>
-        </div>
-        <div className="rc-map-hero__photo" aria-hidden="true" />
-      </section>
-      <div id="explorador-mapa" className="rc-map-anchor" />
       <CampoMapa
         key={selectedCountry}
         campos={camposMapa}
