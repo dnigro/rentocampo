@@ -354,17 +354,19 @@ export default function CampoMapa({
   return (
     <div className="mapa-wrapper" data-country={countryCode} data-map-center={COUNTRIES[countryCode].mapCenter.join(",")}>
       <aside className={`explorador-sidebar ${mobileMap ? "explorador-mobile-hidden" : ""}`} aria-label={tt("Publicaciones rurales", "Anúncios rurais")}>
-        <div className="explorador-header">
-          <h1>{tt("Explora Oportunidades", "Explore Oportunidades")}</h1>
-          <p>{vista === "tierra" ? camposConCoordenadas.length : prestadoresFiltrados.length} {vista === "tierra" ? tt("campos publicados", "terras anunciadas") : tt("servicios rurales", "serviços rurais")} · {displayCountryName(countryCode,countryCode)}</p>
-          <nav className="explorador-back-links" aria-label={tt("Volver a los listados completos","Voltar às listas completas")}>
-            <Link href={camposListHref}>← {tt("Volver al listado de campos","Voltar à lista de terras")}</Link>
-            <Link href={serviciosListHref}>← {tt("Volver al listado de servicios","Voltar à lista de serviços")}</Link>
-          </nav>
-          <div className="explorador-tabs" role="group" aria-label={tt("Tipo de publicación","Tipo de anúncio")}>
-            <button type="button" aria-pressed={vista==="tierra"} onClick={()=>cambiarVista("tierra")}>{tt("Campos","Terras")}</button>
-            <button type="button" aria-pressed={vista==="servicios"} onClick={()=>cambiarVista("servicios")}>{tt("Servicios rurales","Serviços rurais")}</button>
+        <div className="explorador-header" style={{display:"flex",alignItems:"center",justifyContent:"space-between",gap:24,flexWrap:"wrap",padding:"28px 32px",background:"#fff"}}>
+          <div style={{minWidth:260,flex:"1 1 360px"}}>
+            <p style={{fontSize:13,letterSpacing:2,fontWeight:700,color:"#64748b",margin:"0 0 8px"}}>{vista==="tierra" ? tt("CAMPOS Y OPORTUNIDADES","TERRAS E OPORTUNIDADES") : tt("SERVICIOS PARA PRODUCIR","SERVIÇOS PARA PRODUZIR")}</p>
+            <h1 style={{fontSize:"clamp(30px,3vw,48px)",lineHeight:1.1,margin:"0 0 10px",color:"#102b43"}}>{vista==="tierra" ? tt("Campos disponibles","Terras disponíveis") : tt("Servicios rurales","Serviços rurais")}</h1>
+            <p style={{fontSize:17,margin:0,color:"#526477"}}>{vista === "tierra" ? camposConCoordenadas.length : prestadoresFiltrados.length} {vista === "tierra" ? tt("campos publicados","terras anunciadas") : tt("servicios rurales","serviços rurais")} · {displayCountryName(countryCode,countryCode)}</p>
           </div>
+          <nav aria-label={tt("Navegación del mapa","Navegação do mapa")} style={{display:"flex",alignItems:"center",gap:12,flexWrap:"wrap"}}>
+            <Link href={vista==="tierra"?camposListHref:serviciosListHref} style={{display:"inline-flex",alignItems:"center",justifyContent:"center",minHeight:54,padding:"0 26px",borderRadius:999,background:"#102b43",color:"#fff",fontSize:17,fontWeight:700,textDecoration:"none"}}>{tt("Ver lista","Ver lista")}</Link>
+            <div className="explorador-tabs" role="group" aria-label={tt("Tipo de publicación","Tipo de anúncio")} style={{display:"flex",gap:10,alignItems:"center"}}>
+              <button type="button" aria-pressed={vista==="tierra"} onClick={()=>cambiarVista("tierra")}>{tt("Campos","Terras")}</button>
+              <button type="button" aria-pressed={vista==="servicios"} onClick={()=>cambiarVista("servicios")}>{tt("Servicios rurales","Serviços rurais")}</button>
+            </div>
+          </nav>
         </div>
         <div className="explorador-results">
           {vista==="tierra" ? camposConCoordenadas.map(campo=>{
