@@ -36,7 +36,7 @@ export default async function V3Campos({ searchParams }: { searchParams: Promise
 
   const { data, error } = await query;
   const visible = seleccionarCamposPublicos(data || []).filter(campo =>
-    !String(campo.id).startsWith("20000000-") && !/\\bDEMO\\b/i.test(campo.titulo || "")
+    !String(campo.id).startsWith("20000000-") && !String(campo.titulo || "").toUpperCase().includes("DEMO")
   );
   const campos: V3Campo[] = visible.map(campo => {
     const fotos = [...(campo.fotos || [])].sort((a, b) => (a.orden ?? 0) - (b.orden ?? 0));
