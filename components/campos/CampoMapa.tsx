@@ -13,8 +13,7 @@ import {
   servicioLabel,
 } from "@/data/servicios-rurales";
 import type { ServicioRural } from "@/types";
-import { COUNTRIES, COUNTRY_CODES_ALPHABETICAL, displayCountryName, type CountryCode } from "@/data/countries";
-import { selectRegionalCountry } from "@/lib/i18n/useRegionalCountry";
+import { COUNTRIES, displayCountryName, type CountryCode } from "@/data/countries";
 import { regionalText } from "@/lib/i18n/regional";
 import { createClient } from "@/lib/supabase/client";
 import { normalizarCoordenada } from "@/lib/campos/visible-fields";
@@ -110,32 +109,6 @@ export default function CampoMapa({
     setSelectedCampo(null);
     setSelectedDemanda(null);
     setSelectedServicio(null);
-  }
-
-  function cambiarPais(nuevoPais: CountryCode) {
-    const pais = COUNTRIES[nuevoPais];
-    // El país elegido define SIEMPRE el centro y el zoom, en ambas capas.
-    // Centrar inmediatamente para que la interacción tenga respuesta visual.
-    map.current?.setView([...pais.mapCenter] as [number, number], pais.mapZoom, { animate: false });
-    if (nuevoPais === countryCode) return;
-
-    setSelectedCampo(null);
-    setSelectedDemanda(null);
-    setSelectedServicio(null);
-
-    // Igual que el selector del encabezado: navegar de forma completa.
-    // Un router.refresh() después de history.replaceState puede reutilizar
-    // los datos del país anterior. Reload fuerza las nuevas consultas
-    // servidoras para campos, servicios y DEMOs, también en App Lite.
-    selectRegionalCountry(nuevoPais);
-    const destino = new URL(window.location.href);
-    destino.searchParams.set("vista", vista);
-    window.history.replaceState(
-      window.history.state,
-      "",
-      `${destino.pathname}${destino.search}${destino.hash}`,
-    );
-    window.location.reload();
   }
 
   const prestadoresFiltrados = useMemo(
