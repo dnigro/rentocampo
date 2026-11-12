@@ -1705,3 +1705,64 @@ body:has(.mapa-page) footer.footer {
  .mapa-page .explorador-header::after{font-size:38px;}
  .mapa-page .explorador-tabs button{min-width:150px!important;font-size:15px!important;}
 }
+
+/* Cabecera mapa: misma composición visual del listado, sin pseudo-grid conflictivo. */
+@media (min-width:1100px) {
+ .mapa-page .explorador-header {
+   display:grid!important;
+   grid-template-columns:minmax(0,1fr) auto!important;
+   grid-template-rows:22px auto auto!important;
+   grid-template-areas:"kicker controls" "title controls" "summary controls"!important;
+   align-items:center!important;
+   align-content:center!important;
+   row-gap:12px!important;
+   min-height:320px!important;
+   padding:42px 48px!important;
+ }
+ .mapa-page .explorador-header::before{
+   display:block!important;
+   position:static!important;
+   grid-area:kicker!important;
+   content:"CAMPOS Y OPORTUNIDADES"!important;
+   font-size:13px!important;
+   letter-spacing:.17em!important;
+   font-weight:750!important;
+   line-height:22px!important;
+ }
+ .mapa-page .explorador-header::after{
+   display:block!important;
+   position:static!important;
+   grid-area:title!important;
+   content:"Campos disponibles"!important;
+   font-size:clamp(42px,3.3vw,60px)!important;
+   font-weight:850!important;
+   line-height:1.12!important;
+   letter-spacing:-.04em!important;
+   color:#11283f!important;
+   visibility:visible!important;
+   opacity:1!important;
+ }
+ .mapa-page .explorador-header:has(.explorador-tabs button:last-child[aria-pressed="true"])::before{
+   content:"SERVICIOS PARA PRODUCIR"!important;
+ }
+ .mapa-page .explorador-header:has(.explorador-tabs button:last-child[aria-pressed="true"])::after{
+   content:"Servicios rurales en Argentina"!important;
+ }
+ .mapa-page .explorador-header p{
+   grid-area:summary!important;
+   grid-column:1!important;
+   grid-row:3!important;
+   font-size:19px!important;
+ }
+ .mapa-page .explorador-tabs{
+   grid-area:controls!important;
+   grid-column:2!important;
+   grid-row:1 / 4!important;
+   display:flex!important;
+   align-items:center!important;
+   align-self:end!important;
+   justify-self:end!important;
+   flex-wrap:nowrap!important;
+ }
+ .mapa-page .explorador-tabs button{min-width:170px!important;}
+}
