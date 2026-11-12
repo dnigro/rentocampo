@@ -1,18 +1,10 @@
-import LiteWorkflowLayout from "@/components/lite/LiteWorkflowLayout";
-import Workflow from "@/app/(public)/campos/mapa/page";
+import { redirect } from "next/navigation";
 
-type MapSearchParams = {
-  pais?: string;
-  vista?: string;
-  servicio?: string;
-  provincia?: string;
-};
-
-export default async function Page({ searchParams }: { searchParams: Promise<MapSearchParams> }) {
+export default async function Page({ searchParams }: { searchParams: Promise<Record<string, string | undefined>> }) {
   const params = await searchParams;
-  return (
-    <LiteWorkflowLayout>
-      <Workflow searchParams={Promise.resolve({ ...params, vista: params.vista ?? "servicios" })} />
-    </LiteWorkflowLayout>
-  );
+  const query = new URLSearchParams();
+  for (const [key, value] of Object.entries(params)) {
+    if (value && key !== "vista" && key !== "servicio") query.set(key, value);
+  }
+  redirect("/servicios-rurales" + (query.size ? "?" + query.toString() : ""));
 }
