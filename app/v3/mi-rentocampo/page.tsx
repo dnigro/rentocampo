@@ -17,10 +17,13 @@ export default function V3Cuenta() {
   const [active, setActive] = useState<SectionKey>("resumen");
   const [favCount, setFavCount] = useState(0);
   useEffect(() => {
-    try {
-      const stored: unknown = JSON.parse(sessionStorage.getItem("rentocampo_v3_uat_favs") || "[]");
-      if (Array.isArray(stored)) setFavCount(stored.filter(x => typeof x === "string").length);
-    } catch { /* Safari private browsing or disabled storage */ }
+    const frame = window.requestAnimationFrame(() => {
+      try {
+        const stored: unknown = JSON.parse(sessionStorage.getItem("rentocampo_v3_uat_favs") || "[]");
+        if (Array.isArray(stored)) setFavCount(stored.filter(x => typeof x === "string").length);
+      } catch { /* Safari private browsing or disabled storage */ }
+    });
+    return () => window.cancelAnimationFrame(frame);
   }, []);
   return <div className="v3-account-page">
     <header className="v3-account-heading"><span className="v3-kicker">TU ESPACIO RURAL</span>
