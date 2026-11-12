@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import V3Home from "@/app/v3/page";
+import V3Layout from "@/app/v3/layout";
 import { redirect } from "next/navigation";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
@@ -42,6 +44,10 @@ export default async function LandingPage({
     redirect(
       `/auth/callback?code=${encodeURIComponent(code)}&next=${encodeURIComponent("/auth/reset-password")}`,
     );
+  }
+
+  if (process.env.VERCEL_ENV === "preview" && process.env.VERCEL_GIT_COMMIT_REF === "feature/rentocampo-v3") {
+    return <V3Layout><V3Home /></V3Layout>;
   }
 
   return (
