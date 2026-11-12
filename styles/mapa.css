@@ -1540,3 +1540,28 @@ body:has(.mapa-page) footer.footer {
    padding:15px clamp(19px,1.35vw,30px)!important;
  }
 }
+
+
+/* Simplificación solicitada: sin beneficios redundantes en el hero. */
+.mapa-page .rc-map-hero__features { display:none!important; }
+/* Pestañas equivalentes en peso, tamaño y ancho, sin alterar estado activo. */
+.mapa-page .explorador-tabs { display:flex!important; align-items:stretch!important; gap:12px!important; }
+.mapa-page .explorador-tabs button {
+ flex:0 0 auto!important;
+ min-width:clamp(175px,11.5vw,220px)!important;
+ min-height:60px!important;
+ padding:13px 20px!important;
+ display:inline-flex!important;
+ justify-content:center!important;
+ align-items:center!important;
+ text-align:center!important;
+ font-size:clamp(16px,1.05vw,20px)!important;
+ font-weight:800!important;
+ line-height:1.2!important;
+ border-width:1px!important;
+ border-radius:999px!important;
+}
+@media(max-width:700px) {
+ .mapa-page .explorador-tabs {width:100%;gap:8px!important;}
+ .mapa-page .explorador-tabs button {flex:1 1 0!important;min-width:0!important;min-height:46px!important;padding:10px!important;font-size:14px!important;}
+}
