@@ -17,6 +17,7 @@ export default function V3Map({ campos, country, selectedId, onSelect }: Props) 
   useEffect(() => {
     let cancelled = false;
     let map: LeafletMap | null = null;
+    let resizeObserver: ResizeObserver | null = null;
     async function initialize() {
       const L = await import("leaflet");
       if (cancelled || !containerRef.current) return;
@@ -51,12 +52,15 @@ export default function V3Map({ campos, country, selectedId, onSelect }: Props) 
       if (locations.length > 0) {
         map.fitBounds(L.latLngBounds(locations).pad(0.2), { maxZoom: 9 });
       }
-      window.setTimeout(() => map?.invalidateSize(), 100);
+      resizeObserver = new ResizeObserver(() => { if (!cancelled) map?.invalidateSize(); });
+      resizeObserver.observe(containerRef.current);
+      window.setTimeout(() => { if (!cancelled) map?.invalidateSize(); }, 100);
     }
     void initialize();
     return () => {
       cancelled = true;
       markerRef.current.clear();
+      resizeObserver?.disconnect();
       map?.remove();
       mapRef.current = null;
     };
