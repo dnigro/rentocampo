@@ -369,11 +369,13 @@ export default function CampoMapa({
 
             <p style={{fontSize:17,margin:0,color:"#526477"}}>{vista === "tierra" ? camposConCoordenadas.length : prestadoresFiltrados.length} {vista === "tierra" ? tt("campos publicados","terras anunciadas") : tt("servicios rurales","serviços rurais")} · {displayCountryName(countryCode,countryCode)}</p>
           </div>
-          <nav aria-label={tt("Navegación del mapa","Navegação do mapa")} style={{display:"flex",alignItems:"center",gap:12,flexWrap:"wrap"}}>
-            <div className="explorador-tabs" role="group" aria-label={tt("Tipo de publicación","Tipo de anúncio")} style={{display:"flex",gap:10,alignItems:"center"}}>
-              <button type="button" aria-pressed={vista==="tierra"} onClick={()=>cambiarVista("tierra")}>{tt("Campos","Terras")}</button>
-              <button type="button" aria-pressed={vista==="servicios"} onClick={()=>cambiarVista("servicios")}>{tt("Servicios rurales","Serviços rurais")}</button>
-            </div>
+          <nav className="rc-map-header-actions" aria-label={tt("Navegación del mapa","Navegação do mapa")}>
+            <button type="button" className="rc-map-action-secondary" onClick={()=>cambiarVista(vista==="tierra"?"servicios":"tierra")}>
+              ☰  {vista==="tierra" ? tt("Explorar servicios rurales","Explorar serviços rurais") : tt("Explorar campos","Explorar terras")}
+            </button>
+            <button type="button" className="rc-map-action-primary" onClick={()=>document.querySelector(".explorador-results")?.scrollTo({top:0,behavior:"smooth"})}>
+              {vista==="tierra" ? camposConCoordenadas.length : prestadoresFiltrados.length} {vista==="tierra" ? tt("campos encontrados","terras encontradas") : tt("prestadores encontrados","prestadores encontrados")} ↓
+            </button>
           </nav>
         </div>
         <div className="explorador-results">
