@@ -1073,3 +1073,533 @@ body:has(.mapa-page) footer.footer {
   .mapa-fichas-carrusel {bottom:12px;left:8px;right:8px;gap:8px}
   .mapa-ficha-mini {flex-basis:min(78vw,280px);min-height:108px}
 }
+
+/* Explorador rural: tarjetas y mapa sincronizados, sin reservas ni intermediarios. */
+.mapa-page .mapa-wrapper { display:grid!important; grid-template-columns:minmax(360px,55%) minmax(0,45%); height:clamp(570px,calc(100dvh - 180px),900px)!important; overflow:hidden!important; background:#fff; }
+.explorador-sidebar { grid-column:1; grid-row:1; display:flex; flex-direction:column; min-width:0; min-height:0; border-right:1px solid #dce3e8; }
+.explorador-header { padding:22px 26px 14px; border-bottom:1px solid #e5e9ed; }
+.explorador-header h1 { margin:0 0 4px; color:#11283f; font-size:clamp(23px,2vw,30px); font-weight:850; }
+.explorador-header p { margin:0 0 14px; color:#536576; font-size:14px; }
+.explorador-tabs { display:flex; gap:8px; }
+.explorador-tabs button { border:1px solid #cdd9e1; border-radius:999px; background:#fff; padding:10px 17px; color:#11283f; font-weight:750; cursor:pointer; }
+.explorador-tabs button[aria-pressed="true"] { background:#11283f; border-color:#11283f; color:#fff; }
+.explorador-results { overflow-y:auto; padding:16px 24px 28px; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); align-content:start; gap:22px 16px; }
+.explorador-card { min-width:0; border:1px solid transparent; background:#fff; padding:0; text-align:left; border-radius:15px; overflow:hidden; cursor:pointer; color:#11283f; }
+.explorador-card:hover,.explorador-card.selected { border-color:#9eb6c7; box-shadow:0 4px 16px #11283f15; }
+.explorador-thumb { display:flex; width:100%; aspect-ratio:1.5; background:#e8eeeb; color:#66786f; align-items:center; justify-content:center; border-radius:14px; overflow:hidden; font-size:13px; }
+.explorador-thumb img { width:100%; height:100%; object-fit:cover; }
+.explorador-info { display:flex; flex-direction:column; gap:5px; padding:10px 5px 13px; }
+.explorador-info strong { font-size:15px; line-height:1.3; }
+.explorador-info small { font-size:12px; color:#607080; }
+.explorador-ver { font-size:12px; font-weight:800; color:#176144; }
+.explorador-map-area { grid-column:2; grid-row:1; position:relative; min-width:0; min-height:0; overflow:hidden; }
+.explorador-map-area .mapa-canvas { position:absolute; inset:0; width:100%; height:100%; }
+.explorador-map-area .explorador-old-controls { display:none!important; }
+.explorador-map-area .mapa-panel { z-index:800; }
+.explorador-mobile-toggle { display:none; }
+@media(max-width:850px) {
+ .mapa-page .mapa-wrapper { display:block!important; height:clamp(520px,calc(100dvh - 170px),760px)!important; position:relative; }
+ .explorador-sidebar,.explorador-map-area { position:absolute; inset:0; width:100%; height:100%; }
+ .explorador-sidebar { display:flex; }
+ .explorador-sidebar.explorador-mobile-hidden { display:none; }
+ .explorador-map-area { display:none; }
+ .explorador-map-area.explorador-map-visible { display:block; }
+ .explorador-results { grid-template-columns:repeat(2,minmax(0,1fr)); padding:12px; }
+ .explorador-header { padding:16px; }
+ .explorador-mobile-toggle { display:block; position:absolute; z-index:1100; bottom:20px; left:50%; transform:translateX(-50%); background:#11283f; color:white; border:0; border-radius:999px; padding:13px 22px; font-weight:800; box-shadow:0 4px 15px #0003; white-space:nowrap; }
+}
+@media(max-width:480px) { .explorador-results { grid-template-columns:1fr; } .explorador-card { display:grid; grid-template-columns:42% 1fr; gap:10px; } .explorador-thumb { height:100%; min-height:120px; aspect-ratio:auto; } }
+
+/* Ajuste de altura real de las fichas: evitar que Grid comprima imágenes y texto. */
+.mapa-page .explorador-sidebar { overflow:hidden; }
+.mapa-page .explorador-results { flex:1 1 auto; min-height:0; grid-auto-rows:max-content; align-items:start; overflow-y:auto; }
+.mapa-page .explorador-card { display:flex; flex-direction:column; height:auto; min-height:0; overflow:visible; }
+.mapa-page .explorador-thumb { display:block; flex:none; position:relative; height:auto; min-height:0; aspect-ratio: 3 / 2; overflow:hidden; }
+.mapa-page .explorador-thumb img { display:block; width:100%; height:100%; position:absolute; inset:0; object-fit:cover; }
+.mapa-page .explorador-info { display:flex; flex:none; flex-direction:column; min-height:95px; overflow:visible; }
+.mapa-page .explorador-info strong { display:block; white-space:normal; overflow-wrap:anywhere; }
+.mapa-page .explorador-back-links { display:flex; flex-wrap:wrap; gap:8px 18px; margin:12px 0 14px; }
+.mapa-page .explorador-back-links a { color:#315f7b; font-size:12px; font-weight:750; text-decoration:none; }
+.mapa-page .explorador-back-links a:hover { text-decoration:underline; text-underline-offset:3px; }
+.mapa-page .explorador-header { padding-top:16px; }
+@media(max-width:480px) {
+ .mapa-page .explorador-card { display:grid; grid-template-columns:42% minmax(0,1fr); gap:10px; }
+ .mapa-page .explorador-thumb { height:100%; min-height:120px; aspect-ratio:auto; }
+ .mapa-page .explorador-info { min-height:120px; padding:8px 6px; }
+ .mapa-page .explorador-back-links { gap:7px 14px; }
+}
+
+/* Cabecera consistente al cambiar país o idioma: título y botones nunca se apilan. */
+.mapa-page .explorador-header { display:grid!important; grid-template-columns:minmax(0,1fr) auto; grid-template-areas:"title tabs" "count tabs" "links links"; align-items:center; gap:5px 16px; padding:18px 24px 15px; }
+.mapa-page .explorador-header h1 { grid-area:title; font-size:clamp(20px,1.65vw,27px); white-space:nowrap; line-height:1.2; margin:0; letter-spacing:-.03em; }
+.mapa-page .explorador-header p { grid-area:count; margin:0; font-size:13px; }
+.mapa-page .explorador-tabs { grid-area:tabs; display:flex; flex-wrap:nowrap; align-self:center; gap:8px; }
+.mapa-page .explorador-tabs button { flex:0 0 auto; white-space:nowrap; font-size:13px; padding:10px 14px; }
+.mapa-page .explorador-back-links { grid-area:links; display:flex; flex-wrap:wrap; margin:9px 0 0; }
+@media(min-width:851px) and (max-width:1450px) {
+ .mapa-page .explorador-header { grid-template-columns:minmax(0,1fr); grid-template-areas:"title" "count" "tabs" "links"; gap:8px; }
+ .mapa-page .explorador-tabs { justify-self:start; }
+}
+@media(max-width:850px) { .mapa-page .explorador-header { grid-template-columns:minmax(0,1fr); grid-template-areas:"title" "count" "tabs" "links"; } }
+@media(max-width:390px) { .mapa-page .explorador-header h1 { font-size:20px; } .mapa-page .explorador-tabs button { font-size:12px; padding:9px 11px; } }
+
+/* Keep all explorer header controls aligned horizontally on wide screens. */
+@media(min-width:1451px) {
+ .mapa-page .explorador-header { grid-template-columns:minmax(0,1fr) auto; grid-template-areas:"title tabs" "count tabs" "links links"; }
+}
+@media(min-width:851px) and (max-width:1450px) {
+ .mapa-page .explorador-header { grid-template-columns:minmax(0,1fr) auto; grid-template-areas:"title tabs" "count tabs" "links links"; }
+ .mapa-page .explorador-header h1 { font-size:clamp(18px,1.45vw,24px); }
+ .mapa-page .explorador-tabs button { font-size:12px; padding:9px 11px; }
+}
+
+/* Final map revision: single-line editorial toolbar above split view. */
+@media(min-width:1100px) {
+ .mapa-page .mapa-wrapper { grid-template-rows:auto minmax(0,1fr); height:clamp(620px,calc(100dvh - 125px),950px)!important; }
+ .mapa-page .explorador-sidebar { display:contents; }
+ .mapa-page .explorador-header { grid-column:1 / -1; grid-row:1; display:flex!important; flex-wrap:nowrap; align-items:center; gap:clamp(10px,1.3vw,22px); padding:18px 24px!important; border-bottom:1px solid #dce5eb; background:#fff; min-width:0; }
+ .mapa-page .explorador-header h1 { flex:0 0 auto; white-space:nowrap; font-size:clamp(21px,2vw,31px); }
+ .mapa-page .explorador-header p { flex:0 1 auto; white-space:nowrap; font-size:12px; }
+ .mapa-page .explorador-back-links { flex:1 1 auto; min-width:0; display:flex; flex-wrap:nowrap; align-items:center; justify-content:center; gap:12px; margin:0; }
+ .mapa-page .explorador-back-links a { white-space:nowrap; font-size:clamp(10px,.8vw,12px); }
+ .mapa-page .explorador-tabs { flex:0 0 auto; align-self:center; }
+ .mapa-page .explorador-tabs button { white-space:nowrap; font-size:12px; padding:11px 14px; }
+ .mapa-page .explorador-results { grid-column:1; grid-row:2; min-height:0; overflow-y:auto; background:#fff; padding:20px 24px; }
+ .mapa-page .explorador-map-area { grid-column:2; grid-row:2; }
+}
+@media(min-width:1100px) and (max-width:1450px) {
+ .mapa-page .explorador-header { gap:9px; padding:14px 16px!important; }
+ .mapa-page .explorador-header h1 { font-size:21px; }
+ .mapa-page .explorador-header p { font-size:11px; }
+ .mapa-page .explorador-back-links { gap:7px; }
+ .mapa-page .explorador-back-links a { font-size:10px; }
+ .mapa-page .explorador-tabs button { font-size:11px; padding:9px 10px; }
+}
+
+
+/* Revision visual: barra de oportunidades legible, consistente en AR y BR.
+   El encabezado ocupa todo el ancho; las fichas y el mapa conservan su split. */
+@media (min-width: 1100px) {
+  .mapa-page .mapa-wrapper {
+    grid-template-columns: minmax(0, 54%) minmax(0, 46%);
+    grid-template-rows: auto minmax(0, 1fr);
+  }
+  .mapa-page .explorador-header {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas: "title tabs" "count tabs" "links links";
+    column-gap: 28px;
+    row-gap: 9px;
+    padding: 23px clamp(24px, 3vw, 54px) 21px !important;
+    min-height: 148px;
+    align-content: center;
+  }
+  .mapa-page .explorador-header h1 {
+    grid-area: title;
+    font-size: clamp(28px, 2.3vw, 38px) !important;
+    letter-spacing: -.035em;
+    line-height: 1.15;
+  }
+  .mapa-page .explorador-header p {
+    grid-area: count;
+    font-size: 15px !important;
+    line-height: 1.35;
+  }
+  .mapa-page .explorador-back-links {
+    grid-area: links;
+    justify-content: flex-start;
+    gap: 14px 26px;
+    margin: 5px 0 0;
+  }
+  .mapa-page .explorador-back-links a {
+    font-size: 14px !important;
+    font-weight: 750;
+    line-height: 1.4;
+  }
+  .mapa-page .explorador-tabs {
+    grid-area: tabs;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .mapa-page .explorador-tabs button {
+    min-height: 48px;
+    padding: 12px 23px !important;
+    font-size: 15px !important;
+    font-weight: 800;
+  }
+  .mapa-page .explorador-results {
+    padding: 24px clamp(20px, 2vw, 36px);
+    gap: 22px 18px;
+  }
+}
+@media (min-width: 1100px) and (max-width: 1280px) {
+  .mapa-page .explorador-header {
+    grid-template-columns: minmax(0, 1fr) auto;
+    padding: 20px 24px !important;
+  }
+  .mapa-page .explorador-header h1 { font-size: 27px !important; }
+  .mapa-page .explorador-tabs button { padding: 11px 16px !important; font-size: 14px !important; }
+}
+@media (min-width: 851px) and (max-width: 1099px) {
+  .mapa-page .explorador-header { padding: 20px !important; gap: 10px; }
+  .mapa-page .explorador-header h1 { font-size: 27px !important; }
+  .mapa-page .explorador-header p,
+  .mapa-page .explorador-back-links a { font-size: 14px !important; }
+  .mapa-page .explorador-tabs button { min-height: 45px; font-size: 14px !important; padding: 10px 16px !important; }
+}
+@media (max-width: 850px) {
+  .mapa-page .explorador-header { padding: 19px 18px !important; gap: 9px; }
+  .mapa-page .explorador-header h1 { font-size: clamp(25px, 5vw, 32px) !important; }
+  .mapa-page .explorador-header p { font-size: 14px !important; }
+  .mapa-page .explorador-back-links a { font-size: 13px !important; }
+  .mapa-page .explorador-tabs button { min-height: 44px; font-size: 14px !important; }
+}
+
+
+/* Hero compacto del explorador: foto y diagonal sin afectar al mapa Leaflet. */
+.mapa-page .rc-map-hero {
+  position:relative; isolation:isolate; display:flex; align-items:center;
+  min-height:230px; width:100%; overflow:hidden;
+  background:linear-gradient(110deg,#fff 0%,#edf7fc 68%,#fff 100%);
+  color:#0b2944;
+}
+.mapa-page .rc-map-hero__copy {
+  position:relative; z-index:2; width:72%; min-width:0;
+  padding:24px clamp(20px,3vw,58px);
+}
+.mapa-page .rc-map-hero h2 {
+  margin:0 0 10px; font-size:clamp(25px,2.8vw,46px);
+  font-style:italic; font-weight:900; letter-spacing:-.045em; line-height:1.13;
+}
+.mapa-page .rc-map-hero h2::before {
+  content:""; display:inline-block; width:8px; height:1em;
+  margin-right:18px; border-radius:8px; background:#f7bd00; vertical-align:-.13em;
+}
+.mapa-page .rc-map-hero h2 em {
+  display:inline-block; padding:2px 12px 5px; border-radius:9px;
+  background:#0b2944; color:#fff; font-style:inherit;
+}
+.mapa-page .rc-map-hero__details { display:flex; align-items:center; gap:24px; flex-wrap:wrap; }
+.mapa-page .rc-map-hero__details p { margin:0; font-size:clamp(13px,1.15vw,19px); font-weight:800; }
+.mapa-page .rc-map-hero__features { display:flex; align-items:center; flex-wrap:wrap; gap:0; font-size:13px; font-weight:850; white-space:nowrap; }
+.mapa-page .rc-map-hero__features span+span { border-left:1px solid #b9cbd7; margin-left:12px; padding-left:12px; }
+.mapa-page .rc-map-hero__actions { display:flex; flex-wrap:wrap; gap:12px; margin-top:18px; }
+.mapa-page .rc-map-hero__actions a {
+  display:inline-flex; align-items:center; justify-content:center;
+  min-height:48px; padding:10px 27px; border:1px solid #0b2944;
+  border-radius:999px; font-size:14px; font-weight:850;
+  text-decoration:none; color:#0b2944; background:#fff;
+}
+.mapa-page .rc-map-hero__actions a:first-child { color:#fff; background:#0b2944; }
+.mapa-page .rc-map-hero__actions a:hover { box-shadow:0 3px 12px #0b294433; }
+.mapa-page .rc-map-hero__photo {
+  position:absolute; inset:0 0 0 auto; width:39%;
+  background:#c5c9c8 url("/rentocampo-hero-campo-bn-1920x1080.webp") center / cover no-repeat;
+  clip-path:polygon(15% 0,100% 0,100% 100%,0 100%);
+}
+.mapa-page .rc-map-anchor { height:0; scroll-margin-top:85px; }
+@media(max-width:1050px) {
+ .mapa-page .rc-map-hero__copy { width:77%; }
+ .mapa-page .rc-map-hero__photo { width:33%; opacity:.8; }
+ .mapa-page .rc-map-hero__features { font-size:12px; }
+}
+@media(max-width:700px) {
+ .mapa-page .rc-map-hero { min-height:0; }
+ .mapa-page .rc-map-hero__copy { width:100%; padding:22px 18px 24px; }
+ .mapa-page .rc-map-hero__photo { display:none; }
+ .mapa-page .rc-map-hero h2 { font-size:clamp(24px,6.5vw,34px); }
+ .mapa-page .rc-map-hero__details { gap:10px; }
+ .mapa-page .rc-map-hero__features { white-space:normal; }
+ .mapa-page .rc-map-hero__actions a { flex:1 1 145px; padding:10px 12px; font-size:12px; }
+}
+/* Barra de oportunidades: proporción estable, sin desplazamientos ni adornos heredados. */
+.mapa-page .explorador-header::before,
+.mapa-page .explorador-header::after { content:none!important; display:none!important; }
+@media(min-width:1100px) {
+ .mapa-page .explorador-header {
+   grid-template-columns:minmax(0,1fr) auto!important;
+   grid-template-areas:"title tabs" "count tabs" "links links"!important;
+   gap:8px 24px!important;
+   min-height:0!important;
+   padding:20px clamp(24px,2.4vw,44px)!important;
+ }
+ .mapa-page .explorador-header h1 { font-size:clamp(25px,2.2vw,36px)!important; }
+ .mapa-page .explorador-back-links { justify-content:flex-start!important; }
+ .mapa-page .explorador-tabs { justify-self:end; }
+ .mapa-page .explorador-results { padding-top:20px; }
+}
+
+
+/* Ajuste final aprobado: vacas del sitio y una sola fila de navegación grande. */
+.mapa-page .rc-map-hero__photo {
+  background-image:url("/image_vaca_pix.png")!important;
+  background-position:center 48%!important;
+  filter:grayscale(1);
+}
+@media(min-width:1100px) {
+  .mapa-page .explorador-header {
+    display:grid!important;
+    grid-template-columns:auto minmax(0,1fr) auto!important;
+    grid-template-areas:"title title title" "count links tabs"!important;
+    column-gap:clamp(18px,2vw,38px)!important;
+    row-gap:16px!important;
+    align-items:center!important;
+    padding:22px clamp(24px,2.4vw,44px)!important;
+  }
+  .mapa-page .explorador-header h1 {
+    grid-area:title!important;
+    font-size:clamp(29px,2.35vw,39px)!important;
+    line-height:1.2;
+  }
+  .mapa-page .explorador-header p {
+    grid-area:count!important;
+    font-size:clamp(14px,1vw,17px)!important;
+    white-space:nowrap;
+  }
+  .mapa-page .explorador-back-links {
+    grid-area:links!important;
+    display:flex!important;
+    flex-wrap:nowrap!important;
+    justify-content:center!important;
+    align-items:center!important;
+    gap:clamp(12px,1.5vw,28px)!important;
+    min-width:0;
+    margin:0!important;
+  }
+  .mapa-page .explorador-back-links a {
+    font-size:clamp(13px,.94vw,16px)!important;
+    white-space:nowrap;
+  }
+  .mapa-page .explorador-tabs {
+    grid-area:tabs!important;
+    display:flex!important;
+    gap:12px!important;
+    justify-self:end;
+  }
+  .mapa-page .explorador-tabs button {
+    min-height:50px!important;
+    padding:12px clamp(16px,1.35vw,25px)!important;
+    font-size:clamp(14px,1vw,17px)!important;
+    white-space:nowrap;
+  }
+}
+@media(min-width:1100px) and (max-width:1530px) {
+  .mapa-page .explorador-header {
+    grid-template-columns:auto minmax(0,1fr)!important;
+    grid-template-areas:"title title" "count tabs" "links links"!important;
+  }
+  .mapa-page .explorador-back-links { justify-content:flex-start!important; }
+}
+
+
+/* Desktop: una sola fila real para título, cantidad, retornos y pestañas. */
+@media (min-width: 1450px) {
+ .mapa-page .explorador-header {
+   grid-template-columns:max-content max-content minmax(0,1fr) max-content!important;
+   grid-template-areas:"title count links tabs"!important;
+   gap:clamp(14px,1.25vw,26px)!important;
+   align-items:center!important;
+   padding:22px clamp(22px,2vw,38px)!important;
+ }
+ .mapa-page .explorador-header h1 {
+   margin:0!important;
+   font-size:clamp(27px,1.8vw,36px)!important;
+   white-space:nowrap!important;
+ }
+ .mapa-page .explorador-header p {margin:0!important;font-size:clamp(13px,.84vw,16px)!important;}
+ .mapa-page .explorador-back-links {
+   justify-content:center!important;
+   flex-wrap:nowrap!important;
+   gap:clamp(10px,1vw,20px)!important;
+ }
+ .mapa-page .explorador-back-links a {font-size:clamp(12px,.76vw,15px)!important;white-space:nowrap!important;}
+ .mapa-page .explorador-tabs {gap:12px!important;}
+ .mapa-page .explorador-tabs button {
+   min-height:56px!important;
+   padding:14px clamp(22px,1.6vw,34px)!important;
+   font-size:clamp(16px,1vw,19px)!important;
+ }
+ .mapa-page .rc-map-hero__details {flex-wrap:nowrap!important;gap:clamp(12px,1.2vw,22px)!important;}
+ .mapa-page .rc-map-hero__details p {white-space:nowrap!important;font-size:clamp(13px,.91vw,18px)!important;}
+ .mapa-page .rc-map-hero__features {flex-wrap:nowrap!important;}
+}
+@media (min-width:1100px) and (max-width:1449px) {
+ .mapa-page .explorador-header {
+   grid-template-columns:max-content minmax(0,1fr) max-content!important;
+   grid-template-areas:"title count tabs" "links links links"!important;
+   row-gap:10px!important;
+ }
+ .mapa-page .explorador-back-links {justify-content:flex-start!important;}
+}
+
+
+/* Navegación desktop: contador, ambos retornos y pestañas en UNA fila.
+   El título permanece arriba; no se crean filas separadas para los enlaces. */
+@media (min-width:1100px) {
+  .mapa-page .explorador-header {
+    display:grid!important;
+    grid-template-columns:max-content minmax(0,1fr) max-content!important;
+    grid-template-areas:"title title title" "count links tabs"!important;
+    align-items:center!important;
+    column-gap:clamp(12px,1.5vw,28px)!important;
+    row-gap:12px!important;
+    padding:18px clamp(20px,2vw,38px)!important;
+  }
+  .mapa-page .explorador-header h1 {grid-area:title!important;margin:0!important;}
+  .mapa-page .explorador-header p {
+    grid-area:count!important;
+    margin:0!important;
+    white-space:nowrap!important;
+    font-size:clamp(12px,.82vw,16px)!important;
+  }
+  .mapa-page .explorador-back-links {
+    grid-area:links!important;
+    display:flex!important;
+    flex-direction:row!important;
+    flex-wrap:nowrap!important;
+    align-items:center!important;
+    justify-content:center!important;
+    gap:clamp(8px,1vw,20px)!important;
+    margin:0!important;
+    min-width:0!important;
+  }
+  .mapa-page .explorador-back-links a {
+    display:inline-block!important;
+    flex:0 1 auto!important;
+    font-size:clamp(11px,.78vw,15px)!important;
+    line-height:1.25!important;
+    white-space:nowrap!important;
+  }
+  .mapa-page .explorador-tabs {
+    grid-area:tabs!important;
+    display:flex!important;
+    flex-direction:row!important;
+    flex-wrap:nowrap!important;
+    align-items:center!important;
+    justify-self:end!important;
+    gap:10px!important;
+    margin:0!important;
+  }
+  .mapa-page .explorador-tabs button {
+    min-height:52px!important;
+    padding:12px clamp(14px,1.2vw,24px)!important;
+    font-size:clamp(14px,.95vw,18px)!important;
+    white-space:nowrap!important;
+  }
+}
+
+
+/* Corrección de escala visual: iconos consistentes y navegación legible. */
+.mapa-page .rc-map-hero__features { gap:0!important; font-size:clamp(14px,.95vw,17px)!important; font-weight:800; }
+.mapa-page .rc-map-hero__features span { display:inline-flex; align-items:center; gap:7px; line-height:1.35; }
+.mapa-page .rc-map-hero__features span::first-letter { font-size:0; }
+.mapa-page .rc-map-hero__features span::before {
+ content:""; width:21px; height:21px; flex:0 0 21px;
+ background-color:#0b2944;
+ mask-repeat:no-repeat; mask-position:center; mask-size:contain;
+}
+.mapa-page .rc-map-hero__features span:nth-child(1)::before {
+ mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8Z'/%3E%3Ccircle cx='7.5' cy='7.5' r='1'/%3E%3C/svg%3E");
+}
+.mapa-page .rc-map-hero__features span:nth-child(2)::before {
+ mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m3 6 6-3 6 3 6-3v15l-6 3-6-3-6 3z'/%3E%3Cpath d='M9 3v15M15 6v15'/%3E%3C/svg%3E");
+}
+.mapa-page .rc-map-hero__features span:nth-child(3)::before {
+ mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8A8.5 8.5 0 0 1 12.5 3H13a8.5 8.5 0 0 1 8 8z'/%3E%3C/svg%3E");
+}
+@media(min-width:1100px) {
+ .mapa-page .explorador-header { column-gap:clamp(14px,1.35vw,26px)!important; }
+ .mapa-page .explorador-header p { font-size:clamp(15px,.94vw,18px)!important; font-weight:600!important; }
+ .mapa-page .explorador-back-links { justify-content:center!important; gap:clamp(12px,1vw,22px)!important; }
+ .mapa-page .explorador-back-links a { font-size:clamp(14px,.88vw,17px)!important; font-weight:750!important; }
+ .mapa-page .explorador-tabs button { min-height:54px!important; font-size:clamp(16px,1vw,19px)!important; padding:12px clamp(16px,1.25vw,26px)!important; }
+}
+
+
+/* Desktop: mayor jerarquía visual en la barra del explorador. */
+@media (min-width:1100px) {
+ .mapa-page .explorador-header {
+   padding:24px clamp(24px,2vw,40px)!important;
+   row-gap:16px!important;
+ }
+ .mapa-page .explorador-header h1 {
+   font-size:clamp(34px,2.25vw,44px)!important;
+ }
+ .mapa-page .explorador-header p {
+   font-size:clamp(17px,1.05vw,21px)!important;
+   font-weight:650!important;
+ }
+ .mapa-page .explorador-back-links a {
+   font-size:clamp(16px,.98vw,20px)!important;
+   font-weight:750!important;
+ }
+ .mapa-page .explorador-tabs button {
+   min-height:62px!important;
+   font-size:clamp(18px,1.12vw,22px)!important;
+   padding:15px clamp(19px,1.35vw,30px)!important;
+ }
+}
+
+
+/* Simplificación solicitada: sin beneficios redundantes en el hero. */
+.mapa-page .rc-map-hero__features { display:none!important; }
+/* Pestañas equivalentes en peso, tamaño y ancho, sin alterar estado activo. */
+.mapa-page .explorador-tabs { display:flex!important; align-items:stretch!important; gap:12px!important; }
+.mapa-page .explorador-tabs button {
+ flex:0 0 auto!important;
+ min-width:clamp(175px,11.5vw,220px)!important;
+ min-height:60px!important;
+ padding:13px 20px!important;
+ display:inline-flex!important;
+ justify-content:center!important;
+ align-items:center!important;
+ text-align:center!important;
+ font-size:clamp(16px,1.05vw,20px)!important;
+ font-weight:800!important;
+ line-height:1.2!important;
+ border-width:1px!important;
+ border-radius:999px!important;
+}
+@media(max-width:700px) {
+ .mapa-page .explorador-tabs {width:100%;gap:8px!important;}
+ .mapa-page .explorador-tabs button {flex:1 1 0!important;min-width:0!important;min-height:46px!important;padding:10px!important;font-size:14px!important;}
+}
+
+
+/* Retirar el título redundante del explorador; conservar la barra de navegación. */
+.mapa-page .explorador-header h1 {display:none!important;}
+@media(min-width:1100px) {
+ .mapa-page .explorador-header {
+  grid-template-areas:"count links tabs"!important;
+  grid-template-columns:max-content minmax(0,1fr) max-content!important;
+  padding-top:18px!important;
+  padding-bottom:18px!important;
+ }
+}
+
+
+/* Mapa: cabecera editorial limpia, consistente con el listado de servicios. */
+.mapa-page .rc-map-hero {display:none!important;}
+.mapa-page .explorador-header {
+ background:#fff!important;
+ border-bottom:1px solid #dbe3e9!important;
+ padding:clamp(20px,2vw,36px)!important;
+}
+.mapa-page .explorador-header p {color:#506477!important;font-weight:600!important;}
+@media(min-width:1100px){
+ .mapa-page .explorador-header {
+  display:grid!important;
+  grid-template-areas:"count links tabs"!important;
+  grid-template-columns:minmax(190px,1fr) minmax(320px,1.7fr) auto!important;
+  align-items:center!important;
+  gap:24px!important;
+  min-height:112px!important;
+ }
+ .mapa-page .explorador-header p {margin:0!important;}
+ .mapa-page .explorador-back-links {justify-content:flex-start!important;flex-wrap:wrap!important;}
+}
+@media(max-width:1099px){
+ .mapa-page .explorador-header {display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:14px!important;}
+ .mapa-page .explorador-back-links {display:flex!important;flex-wrap:wrap!important;gap:12px!important;}
+}

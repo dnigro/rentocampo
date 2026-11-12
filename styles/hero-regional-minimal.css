@@ -122,3 +122,10 @@
 .rc-landing .editorialHero .editorialHero__desktopActions > a:visited {
   border-radius: 12px !important;
 }
+
+/* Hero compacto en desktop sin recortar CTAs, foto ni diagonal. */
+@media(min-width:901px) {
+ .rc-landing .editorialHero { min-height:0!important; height:auto!important; }
+ .rc-landing .editorialHero__content { min-height:clamp(400px,43vw,530px); }
+ .rc-landing .editorialHero__desktopImpact { padding-top:clamp(16px,2vw,30px); padding-bottom:clamp(16px,2vw,30px); }
+}

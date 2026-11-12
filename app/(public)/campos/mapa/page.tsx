@@ -1,5 +1,4 @@
 import { createClient } from "@/lib/supabase/server";
-import Link from "next/link";
 import CampoMapa from "@/components/campos/CampoMapa";
 import { SERVICIOS_RURALES, tituloServicioRural } from "@/data/servicios-rurales";
 import { campoFilterParams } from "@/lib/campos/filter-params";
@@ -9,6 +8,7 @@ import { regionalText } from "@/lib/i18n/regional";
 import type { ServicioRural } from "@/types";
 import type { Metadata } from "next";
 import { cookies } from "next/headers";
+import Link from "next/link";
 import "@/styles/mapa.css";
 import { seleccionarCamposPublicos } from "@/lib/campos/visible-fields";
 import { esServicioDemoVisible } from "@/data/visible-demo-services";
@@ -113,14 +113,24 @@ export default async function MapaPage({
 
   return (
     <div className="mapa-page">
-      <nav className="mapa-listas-nav" aria-label={tt("Volver a los listados","Voltar às listas")}>
-        <Link href={`/campos?${listaCamposParams}`} className="mapa-lista-link">{tt("Lista de campos","Lista de terras")}</Link>
-        <Link href={`/servicios-rurales?${listaServiciosParams}`} className="mapa-lista-link">{tt("Lista de servicios","Lista de serviços")}</Link>
-      </nav>
+      <section className="rc-map-hero" aria-label="RentoCampo, todo el campo sin vueltas">
+        <div className="rc-map-hero__copy">
+          <h2><span>{tt("Todo el campo,","Todo o campo,")}</span> <em>{tt("sin vueltas.","sem complicações.")}</em></h2>
+          <div className="rc-map-hero__details">
+            <p>{tt("Campos, productores y servicios rurales. Conexión directa.","Terras, produtores e serviços rurais. Conexão direta.")}</p>
+            <div className="rc-map-hero__features"><span>◇ {tt("COSTO 0","CUSTO 0")}</span><span>♧ {tt("MAPA","MAPA")}</span><span>▢ CHAT ONLINE</span></div>
+          </div>
+          <div className="rc-map-hero__actions"><Link href="/register">{tt("REGISTRATE GRATIS","CADASTRE-SE GRÁTIS")}</Link><a href="#explorador-mapa">{tt("EXPLORAR MAPA ↗","EXPLORAR MAPA ↗")}</a></div>
+        </div>
+        <div className="rc-map-hero__photo" aria-hidden="true" />
+      </section>
+      <div id="explorador-mapa" className="rc-map-anchor" />
       <CampoMapa
         key={selectedCountry}
         campos={camposMapa}
         prestadores={prestadoresMapa}
+        camposListHref={`/campos?${listaCamposParams}`}
+        serviciosListHref={`/servicios-rurales?${listaServiciosParams}`}
         currentUserId={user?.id}
         initialVista={vista === "servicios" ? "servicios" : "tierra"}
         initialServicio={servicioInicial}
