@@ -1565,3 +1565,15 @@ body:has(.mapa-page) footer.footer {
  .mapa-page .explorador-tabs {width:100%;gap:8px!important;}
  .mapa-page .explorador-tabs button {flex:1 1 0!important;min-width:0!important;min-height:46px!important;padding:10px!important;font-size:14px!important;}
 }
+
+
+/* Retirar el título redundante del explorador; conservar la barra de navegación. */
+.mapa-page .explorador-header h1 {display:none!important;}
+@media(min-width:1100px) {
+ .mapa-page .explorador-header {
+  grid-template-areas:"count links tabs"!important;
+  grid-template-columns:max-content minmax(0,1fr) max-content!important;
+  padding-top:18px!important;
+  padding-bottom:18px!important;
+ }
+}
