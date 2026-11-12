@@ -101,7 +101,7 @@ export default async function CamposListing({ params, titulo, descripcion, soloA
     </nav>
     <div className="rc-v2-grid">
       <section aria-label="Campos disponibles">
-        {campos.length>0?<div className="rc-v2-cards">{campos.map(campo=><div key={campo.id}><CampoCard campo={campo} userId={user?.id}/><button className="rc-v2-chip" style={{marginTop:8}} type="button" data-campo-id={campo.id}>📍 {tt("Ubicar en mapa","Ver no mapa")}</button></div>)}</div>:<div className="rc-v2-empty">{tt("Todavía no hay campos publicados con estos filtros.","Ainda não há terras com estes filtros.")}</div>}
+        {campos.length>0?<div className="rc-v2-cards">{campos.map(campo=><div key={campo.id}><CampoCard campo={campo} userId={user?.id}/></div>)}</div>:<div className="rc-v2-empty">{tt("Todavía no hay campos publicados con estos filtros.","Ainda não há terras com estes filtros.")}</div>}
         {totalPages>1&&<nav className="rc-v2-bottom" aria-label="Paginación">{page>1&&<Link className="rc-v2-chip" href={`? ${new URLSearchParams({...params,page:String(page-1)})}`.replace("? ","?")}>← Anterior</Link>} <span>Página {page} de {totalPages}</span> {page<totalPages&&<Link className="rc-v2-chip" href={`?${new URLSearchParams({...params,page:String(page+1)})}`}>Siguiente →</Link>}</nav>}
       </section>
       <aside className="rc-v2-map" aria-label="Mapa interactivo de campos"><CamposMapaUnificado campos={camposVisibles} pais={pais as CountryCode}/></aside>
