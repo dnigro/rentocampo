@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Heart, Map as MapIcon, MapPin, SlidersHorizontal, Search, List, ArrowUpRight } from "lucide-react";
@@ -45,15 +45,16 @@ export default function V3Explorer({ campos, country, filter, error }: Props) {
     setLoaded(true);
   }, []);
 
+  useEffect(() => {
+    if (!loaded) return;
+    try { sessionStorage.setItem("rentocampo_v3_uat_favs", JSON.stringify(favs)); } catch { /* Optional storage */ }
+  }, [favs, loaded]);
+
   const toggleFav = (id: string) => {
-    setFavs(previous => {
-      const next = previous.includes(id) ? previous.filter(item => item !== id) : [...previous, id];
-      try { sessionStorage.setItem("rentocampo_v3_uat_favs", JSON.stringify(next)); } catch { /* Optional preview storage */ }
-      return next;
-    });
+    setFavs(previous => previous.includes(id) ? previous.filter(item => item !== id) : [...previous, id]);
   };
 
-  const visibleCampos = useMemo(() => campos, [campos]);
+  const visibleCampos = campos;
   const handleSelect = useCallback((id: string) => {
     setSelected(id);
     setMobileMap(false);
