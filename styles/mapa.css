@@ -1142,3 +1142,13 @@ body:has(.mapa-page) footer.footer {
 }
 @media(max-width:850px) { .mapa-page .explorador-header { grid-template-columns:minmax(0,1fr); grid-template-areas:"title" "count" "tabs" "links"; } }
 @media(max-width:390px) { .mapa-page .explorador-header h1 { font-size:20px; } .mapa-page .explorador-tabs button { font-size:12px; padding:9px 11px; } }
+
+/* Keep all explorer header controls aligned horizontally on wide screens. */
+@media(min-width:1451px) {
+ .mapa-page .explorador-header { grid-template-columns:minmax(0,1fr) auto; grid-template-areas:"title tabs" "count tabs" "links links"; }
+}
+@media(min-width:851px) and (max-width:1450px) {
+ .mapa-page .explorador-header { grid-template-columns:minmax(0,1fr) auto; grid-template-areas:"title tabs" "count tabs" "links links"; }
+ .mapa-page .explorador-header h1 { font-size:clamp(18px,1.45vw,24px); }
+ .mapa-page .explorador-tabs button { font-size:12px; padding:9px 11px; }
+}
