@@ -13,7 +13,7 @@ import {
   servicioLabel,
 } from "@/data/servicios-rurales";
 import type { ServicioRural } from "@/types";
-import { COUNTRIES, COUNTRY_CODES_ALPHABETICAL, displayCountryName, type CountryCode } from "@/data/countries";
+import { COUNTRIES, displayCountryName, type CountryCode } from "@/data/countries";
 import { selectRegionalCountry } from "@/lib/i18n/useRegionalCountry";
 import { regionalText } from "@/lib/i18n/regional";
 import { createClient } from "@/lib/supabase/client";
@@ -112,6 +112,8 @@ export default function CampoMapa({
     setSelectedServicio(null);
   }
 
+  // Kept as a legacy API contract for the regional map (map-country-picker tests).
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   function cambiarPais(nuevoPais: CountryCode) {
     const pais = COUNTRIES[nuevoPais];
     // El país elegido define SIEMPRE el centro y el zoom, en ambas capas.
