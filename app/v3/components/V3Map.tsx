@@ -18,6 +18,7 @@ export default function V3Map({ campos, country, selectedId, onSelect }: Props) 
     let cancelled = false;
     let map: LeafletMap | null = null;
     let resizeObserver: ResizeObserver | null = null;
+    const markers = markerRef.current;
     async function initialize() {
       const L = await import("leaflet");
       if (cancelled || !containerRef.current) return;
@@ -30,7 +31,7 @@ export default function V3Map({ campos, country, selectedId, onSelect }: Props) 
         maxZoom: 18
       }).addTo(map);
       const locations: [number, number][] = [];
-      markerRef.current.clear();
+      markers.clear();
       for (const campo of campos) {
         if (campo.lat == null || campo.lng == null) continue;
         const position: [number, number] = [campo.lat, campo.lng];
@@ -47,7 +48,7 @@ export default function V3Map({ campos, country, selectedId, onSelect }: Props) 
           title: campo.titulo
         }).addTo(map);
         marker.on("click", () => selectRef.current(campo.id));
-        markerRef.current.set(campo.id, marker);
+        markers.set(campo.id, marker);
       }
       if (locations.length > 0) {
         map.fitBounds(L.latLngBounds(locations).pad(0.2), { maxZoom: 9 });
@@ -59,7 +60,7 @@ export default function V3Map({ campos, country, selectedId, onSelect }: Props) 
     void initialize();
     return () => {
       cancelled = true;
-      markerRef.current.clear();
+      markers.clear();
       resizeObserver?.disconnect();
       map?.remove();
       mapRef.current = null;
