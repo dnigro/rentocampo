@@ -5,8 +5,8 @@ import "./v3.css";
 export const metadata: Metadata = { title: "RentoCampo V3 | Vista previa", robots: { index: false, follow: false } };
 export default function V3Layout({ children }: { children: React.ReactNode }) {
  return <div className="v3-shell">
-  <header className="v3-header"><Link href="/" className="v3-brand"><span className="v3-shield">RC</span><span>Rento<span className="v3-brand-bold">Campo</span></span><small>V3</small></Link>
-   <nav aria-label="Navegación V3"><Link href="/campos">Campos</Link><Link href="/servicios-rurales">Servicios rurales</Link><Link href="/dashboard">Mi RentoCampo</Link><Link href="/#como-funciona">Cómo funciona</Link></nav>
+  <header className="v3-header"><Link href="/v3" className="v3-brand" aria-label="RentoCampo V3 inicio"><span className="v3-shield">RC</span><span>Rento<span className="v3-brand-bold">Campo</span></span><small>V3</small></Link>
+   <nav aria-label="Navegación V3"><Link href="/v3/campos">Campos</Link><Link href="/v3/servicios">Servicios rurales</Link><Link href="/v3/mi-rentocampo">Mi RentoCampo</Link><Link href="/v3#como-funciona">Cómo funciona</Link></nav>
    <div className="v3-header-actions"><Link href="/v3/mi-rentocampo" className="v3-account"><UserRound size={18}/> Mi cuenta</Link><Link href="/publicar" className="v3-publish">Publicar gratis</Link></div>
   </header>
   <main>{children}</main>
