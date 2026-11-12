@@ -1109,3 +1109,22 @@ body:has(.mapa-page) footer.footer {
  .explorador-mobile-toggle { display:block; position:absolute; z-index:1100; bottom:20px; left:50%; transform:translateX(-50%); background:#11283f; color:white; border:0; border-radius:999px; padding:13px 22px; font-weight:800; box-shadow:0 4px 15px #0003; white-space:nowrap; }
 }
 @media(max-width:480px) { .explorador-results { grid-template-columns:1fr; } .explorador-card { display:grid; grid-template-columns:42% 1fr; gap:10px; } .explorador-thumb { height:100%; min-height:120px; aspect-ratio:auto; } }
+
+/* Ajuste de altura real de las fichas: evitar que Grid comprima imágenes y texto. */
+.mapa-page .explorador-sidebar { overflow:hidden; }
+.mapa-page .explorador-results { flex:1 1 auto; min-height:0; grid-auto-rows:max-content; align-items:start; overflow-y:auto; }
+.mapa-page .explorador-card { display:flex; flex-direction:column; height:auto; min-height:0; overflow:visible; }
+.mapa-page .explorador-thumb { display:block; flex:none; position:relative; height:auto; min-height:0; aspect-ratio: 3 / 2; overflow:hidden; }
+.mapa-page .explorador-thumb img { display:block; width:100%; height:100%; position:absolute; inset:0; object-fit:cover; }
+.mapa-page .explorador-info { display:flex; flex:none; flex-direction:column; min-height:95px; overflow:visible; }
+.mapa-page .explorador-info strong { display:block; white-space:normal; overflow-wrap:anywhere; }
+.mapa-page .explorador-back-links { display:flex; flex-wrap:wrap; gap:8px 18px; margin:12px 0 14px; }
+.mapa-page .explorador-back-links a { color:#315f7b; font-size:12px; font-weight:750; text-decoration:none; }
+.mapa-page .explorador-back-links a:hover { text-decoration:underline; text-underline-offset:3px; }
+.mapa-page .explorador-header { padding-top:16px; }
+@media(max-width:480px) {
+ .mapa-page .explorador-card { display:grid; grid-template-columns:42% minmax(0,1fr); gap:10px; }
+ .mapa-page .explorador-thumb { height:100%; min-height:120px; aspect-ratio:auto; }
+ .mapa-page .explorador-info { min-height:120px; padding:8px 6px; }
+ .mapa-page .explorador-back-links { gap:7px 14px; }
+}
