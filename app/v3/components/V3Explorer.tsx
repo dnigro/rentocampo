@@ -56,7 +56,10 @@ export default function V3Explorer({ campos, country, filter, error }: Props) {
   const visibleCampos = useMemo(() => campos, [campos]);
   const handleSelect = useCallback((id: string) => {
     setSelected(id);
-    document.getElementById("v3-listing-" + id)?.scrollIntoView({ behavior: "smooth", block: "center" });
+    setMobileMap(false);
+    window.setTimeout(() => {
+      document.getElementById("v3-listing-" + id)?.scrollIntoView({ behavior: "smooth", block: "center" });
+    }, 60);
   }, []);
 
   return <div className="v3-marketplace">
