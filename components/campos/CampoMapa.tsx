@@ -13,7 +13,7 @@ import {
   servicioLabel,
 } from "@/data/servicios-rurales";
 import type { ServicioRural } from "@/types";
-import { COUNTRIES, displayCountryName, type CountryCode } from "@/data/countries";
+import { COUNTRIES, COUNTRY_CODES_ALPHABETICAL, displayCountryName, type CountryCode } from "@/data/countries";
 import { selectRegionalCountry } from "@/lib/i18n/useRegionalCountry";
 import { regionalText } from "@/lib/i18n/regional";
 import { createClient } from "@/lib/supabase/client";
@@ -388,6 +388,19 @@ export default function CampoMapa({
               {tt("Servicios rurales", "Serviços rurais")}
             </button>
           </div>
+          <div className="mapa-pais-control">
+            <label htmlFor="mapa-pais-v3-compat">País</label>
+            <select id="mapa-pais-v3-compat" value={countryCode} onChange={(event) => cambiarPais(event.target.value as CountryCode)}>
+              {COUNTRY_CODES_ALPHABETICAL.map(code => (
+                <option key={code} value={code}>{displayCountryName(code, countryCode)}</option>
+              ))}
+            </select>
+          </div>
+          {vista === "tierra" ? (
+            <span className="mapa-modo-label">{tt("Campos disponibles", "Terras disponíveis")}</span>
+          ) : (
+            <span className="mapa-modo-label">{tt("Servicios rurales", "Serviços rurais")}</span>
+          )}
           <div className="mapa-compacto-resumen">
             <span className="mapa-compacto-cantidad" aria-live="polite">
               <span className="mapa-filtro-punto mapa-filtro-punto-campo" aria-hidden="true" />
