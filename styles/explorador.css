@@ -1482,3 +1482,15 @@
 .explorador-layout .campo-card-pub,.explorador-layout .servicio-campo-card,
 .servicios-prestadores-grid .servicio-campo-card { background:#fff; border:1px solid #dce5eb; border-radius:16px; overflow:hidden; box-shadow:0 2px 9px rgba(16,42,67,.05); }
 .explorador-layout .campo-card-pub:hover,.servicios-prestadores-grid .servicio-campo-card:hover { box-shadow:0 8px 24px rgba(16,42,67,.12); }
+
+/* RentoCampo unified directory visual language — map and listings. */
+body:has(.rc-explorer-toolbar) { background:#fff!important; }
+body:has(.rc-explorer-toolbar) main { background:#fff!important; }
+body:has(.rc-explorer-toolbar) .explorador-layout { background:#fff!important; }
+body:has(.rc-explorer-toolbar) .explorador-layout > .explorador-sidebar { background:#fff!important; border:1px solid #dce5eb; border-radius:16px; }
+body:has(.rc-explorer-toolbar) .campo-card-pub,
+body:has(.rc-explorer-toolbar) .servicio-campo-card { border:1px solid #dce5eb!important; background:#fff!important; border-radius:16px!important; overflow:hidden; }
+body:has(.rc-explorer-toolbar) .rc-explorer-toolbar { display:flex; align-items:center; flex-wrap:wrap; gap:12px; }
+body:has(.rc-explorer-toolbar) .rc-explorer-toolbar__map,
+body:has(.rc-explorer-toolbar) .rc-explorer-toolbar__related,
+body:has(.rc-explorer-toolbar) .rc-explorer-toolbar__count { min-height:44px; border-radius:999px!important; font-weight:750; }
