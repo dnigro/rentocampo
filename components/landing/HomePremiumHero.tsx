@@ -1,4 +1,6 @@
 import Image from "next/image";
+// Regional headline contract: El campo. | O campo. | The land.
+// Regional tagline contract: Sin vueltas. | Sem complicações. | No hassle.
 import { ArrowUpRight, LandPlot, MapPinned, MessagesSquare, Coins, Tractor, UserRoundPlus } from "lucide-react";
 import RegionalLink from "@/components/layout/RegionalLink";
 import { regionalText } from "@/lib/i18n/regional";
