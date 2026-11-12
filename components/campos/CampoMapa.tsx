@@ -355,7 +355,7 @@ export default function CampoMapa({
     <div className="mapa-wrapper" data-country={countryCode} data-map-center={COUNTRIES[countryCode].mapCenter.join(",")}>
       <aside className={`explorador-sidebar ${mobileMap ? "explorador-mobile-hidden" : ""}`} aria-label={tt("Publicaciones rurales", "Anúncios rurais")}>
         <div className="explorador-header">
-          <h1>{tt("Explorá el campo", "Explore o campo")}</h1>
+          <h1>{tt("Explora Oportunidades", "Explore Oportunidades")}</h1>
           <p>{vista === "tierra" ? camposConCoordenadas.length : prestadoresFiltrados.length} {vista === "tierra" ? tt("campos publicados", "terras anunciadas") : tt("servicios rurales", "serviços rurais")} · {displayCountryName(countryCode,countryCode)}</p>
           <nav className="explorador-back-links" aria-label={tt("Volver a los listados completos","Voltar às listas completas")}>
             <Link href={camposListHref}>← {tt("Volver al listado de campos","Voltar à lista de terras")}</Link>
