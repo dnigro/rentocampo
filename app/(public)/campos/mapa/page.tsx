@@ -113,9 +113,14 @@ export default async function MapaPage({
 
   return (
     <div className="mapa-page">
-      <nav className="mapa-listas-nav" aria-label={tt("Volver a los listados","Voltar às listas")}>
-        <Link href={`/campos?${listaCamposParams}`} className="mapa-lista-link">{tt("Lista de campos","Lista de terras")}</Link>
-        <Link href={`/servicios-rurales?${listaServiciosParams}`} className="mapa-lista-link">{tt("Lista de servicios","Lista de serviços")}</Link>
+      <nav className="mapa-listas-nav" aria-label={tt("Volver al listado","Voltar à lista")}>
+        <Link
+          href={vista === "servicios" ? `/servicios-rurales?${listaServiciosParams}` : `/campos?${listaCamposParams}`}
+          className="mapa-lista-link"
+          style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", minHeight: 54, padding: "0 28px", borderRadius: 999, background: "#102b43", color: "#fff", fontSize: 17, fontWeight: 700, textDecoration: "none" }}
+        >
+          {tt("Ver lista", "Ver lista")}
+        </Link>
       </nav>
       <CampoMapa
         key={selectedCountry}
