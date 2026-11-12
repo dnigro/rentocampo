@@ -24,7 +24,7 @@ export default function V3Map({ campos, country, selectedId, onSelect }: Props) 
       if (cancelled || !containerRef.current) return;
       const region = COUNTRIES[country];
       map = L.map(containerRef.current, { scrollWheelZoom: false, zoomControl: true })
-        .setView(region.mapCenter, region.mapZoom);
+        .setView([...region.mapCenter] as [number, number], region.mapZoom);
       mapRef.current = map;
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
