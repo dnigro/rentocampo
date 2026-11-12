@@ -12,7 +12,7 @@ export default function V3Map({ campos, country, selectedId, onSelect }: Props) 
   const mapRef = useRef<LeafletMap | null>(null);
   const markerRef = useRef<Map<string, Marker>>(new Map());
   const selectRef = useRef(onSelect);
-  selectRef.current = onSelect;
+  useEffect(() => { selectRef.current = onSelect; }, [onSelect]);
 
   useEffect(() => {
     let cancelled = false;
