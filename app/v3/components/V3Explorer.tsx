@@ -35,14 +35,17 @@ export default function V3Explorer({ campos, country, filter, error }: Props) {
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    try {
-      const stored = sessionStorage.getItem("rentocampo_v3_uat_favs");
-      if (stored) {
-        const parsed: unknown = JSON.parse(stored);
-        if (Array.isArray(parsed)) setFavs(parsed.filter((x): x is string => typeof x === "string"));
-      }
-    } catch { /* Storage disabled, session-only state still works. */ }
-    setLoaded(true);
+    const frame = window.requestAnimationFrame(() => {
+      try {
+        const stored = sessionStorage.getItem("rentocampo_v3_uat_favs");
+        if (stored) {
+          const parsed: unknown = JSON.parse(stored);
+          if (Array.isArray(parsed)) setFavs(parsed.filter((x): x is string => typeof x === "string"));
+        }
+      } catch { /* Storage disabled, session-only state still works. */ }
+      setLoaded(true);
+    });
+    return () => window.cancelAnimationFrame(frame);
   }, []);
 
   useEffect(() => {
