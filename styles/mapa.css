@@ -1827,3 +1827,41 @@ body:has(.mapa-page) footer.footer {
  padding:9px 16px; color:#102b43; font-weight:700; cursor:pointer;
 }
 .mapa-page .explorador-pagination button:disabled {opacity:.4;cursor:default;}
+
+/* Explorador desktop tipo Airbnb: el listado desplaza la página y el mapa queda anclado. */
+@media (min-width:1100px) {
+ .mapa-page .mapa-wrapper {
+  height:auto!important;
+  min-height:0!important;
+  overflow:visible!important;
+  grid-template-rows:auto auto!important;
+  align-items:start!important;
+  max-width:1840px;
+  margin-inline:auto;
+ }
+ .mapa-page .explorador-results {
+  overflow:visible!important;
+  height:auto!important;
+  max-height:none!important;
+  min-height:0!important;
+  align-self:start!important;
+  padding-bottom:38px!important;
+ }
+ .mapa-page .explorador-map-area {
+  position:sticky!important;
+  top:20px!important;
+  height:clamp(460px,calc(100dvh - 50px),780px)!important;
+  min-height:460px!important;
+  max-height:calc(100dvh - 40px)!important;
+  align-self:start!important;
+  margin:26px 26px 26px 6px!important;
+  border:1px solid #dbe3e9!important;
+  border-radius:18px!important;
+  overflow:hidden!important;
+  box-shadow:0 3px 12px rgba(17,40,63,.10)!important;
+ }
+ .mapa-page .explorador-header {
+  padding-top:36px!important;
+  padding-bottom:28px!important;
+ }
+}
