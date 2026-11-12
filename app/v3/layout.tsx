@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
-import { MapPinned, UserRound, Sprout } from "lucide-react";
+import { MapPinned, UserRound, Sprout, Menu } from "lucide-react";
 import "./v3.css";
 import "./v3-marketplace.css";
 export const metadata: Metadata = { title: "RentoCampo V3 | Vista previa", robots: { index: false, follow: false } };
@@ -9,6 +9,7 @@ export default function V3Layout({ children }: { children: React.ReactNode }) {
  return <div className="v3-shell">
   <header className="v3-header"><Link href="/v3" className="v3-brand" aria-label="RentoCampo V3 inicio"><Image src="/icon-512.png" alt="" width={39} height={39} className="v3-shield-logo" /><span>Rento<span className="v3-brand-bold">Campo</span></span><small>V3</small></Link>
    <nav aria-label="Navegación V3"><Link href="/v3/campos">Campos</Link><Link href="/v3/servicios">Servicios rurales</Link><Link href="/v3/mi-rentocampo">Mi RentoCampo</Link><Link href="/v3#como-funciona">Cómo funciona</Link></nav>
+   <details className="v3-mobile-nav"><summary aria-label="Abrir navegación"><Menu size={23}/></summary><nav aria-label="Navegación móvil V3"><Link href="/v3">Inicio</Link><Link href="/v3/campos">Campos</Link><Link href="/v3/servicios">Servicios rurales</Link><Link href="/v3/mi-rentocampo">Mi RentoCampo</Link></nav></details>
    <div className="v3-header-actions"><Link href="/v3/mi-rentocampo" className="v3-account"><UserRound size={18}/> Mi cuenta</Link><span className="v3-publish v3-publish-disabled" title="Publicación deshabilitada en la vista previa de solo lectura" aria-disabled="true">Publicar gratis</span></div>
   </header>
   <main>{children}</main>
