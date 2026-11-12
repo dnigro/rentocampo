@@ -1,5 +1,4 @@
 import { createClient } from "@/lib/supabase/server";
-import Link from "next/link";
 import CampoMapa from "@/components/campos/CampoMapa";
 import { SERVICIOS_RURALES, tituloServicioRural } from "@/data/servicios-rurales";
 import { campoFilterParams } from "@/lib/campos/filter-params";
@@ -113,14 +112,12 @@ export default async function MapaPage({
 
   return (
     <div className="mapa-page">
-      <nav className="mapa-listas-nav" aria-label={tt("Volver a los listados","Voltar às listas")}>
-        <Link href={`/campos?${listaCamposParams}`} className="mapa-lista-link">{tt("Lista de campos","Lista de terras")}</Link>
-        <Link href={`/servicios-rurales?${listaServiciosParams}`} className="mapa-lista-link">{tt("Lista de servicios","Lista de serviços")}</Link>
-      </nav>
       <CampoMapa
         key={selectedCountry}
         campos={camposMapa}
         prestadores={prestadoresMapa}
+        camposListHref={`/campos?${listaCamposParams}`}
+        serviciosListHref={`/servicios-rurales?${listaServiciosParams}`}
         currentUserId={user?.id}
         initialVista={vista === "servicios" ? "servicios" : "tierra"}
         initialServicio={servicioInicial}
