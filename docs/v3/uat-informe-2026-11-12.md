@@ -15,11 +15,11 @@ Fecha: 2026-11-12 · Rama: `feature/rentocampo-v3` · PR: #371 (borrador) · Ent
 | Control | Estado | Criterio de cierre |
 | --- | --- | --- |
 | Código comprometido en rama V3 | IMPLEMENTADO | Comprobar hashes y diferencia respecto de main |
-| Pruebas de contrato `tests/v3-contract.test.mjs` | AGREGADAS, PENDIENTES DE EJECUCIÓN | CI Quality = success |
-| `npm run lint` | PENDIENTE DE RESULTADO | CI Quality = success |
-| `npm run test` | PENDIENTE DE RESULTADO | CI Quality = success |
-| `npm run build` | PENDIENTE DE RESULTADO | CI Quality = success |
-| Despliegue Vercel Preview | BLOQUEADO / SIN URL VERIFICADA | Deployment READY para commit HEAD |
+| Pruebas de contrato `tests/v3-contract.test.mjs` | APROBADAS en GitHub CI | CI Quality = success |
+| `npm run lint` | APROBADO en CI | CI Quality = success |
+| `npm run test` | APROBADO: 144/144 pruebas | CI Quality = success |
+| `npm run build` | APROBADO (Next.js 16.4.5) | CI Quality = success |
+| Despliegue Vercel Preview | READY según GitHub Vercel bot (commit `519b1b0`); acceso HTTP directo pendiente por protección/permisos | Verificar navegación desde cuenta autorizada |
 | UAT visual desktop/tablet/mobile | PENDIENTE | Evidencia visual real por ancho |
 | Registro/chat/publicaciones con UAT Supabase | NO HABILITADO | Base UAT aislada, tests de permisos y datos sintéticos |
 | Validación de producción | FUERA DE ALCANCE | Prohibido alterar main/producción |
@@ -39,7 +39,13 @@ Fecha: 2026-11-12 · Rama: `feature/rentocampo-v3` · PR: #371 (borrador) · Ent
 12. Comprobar que ninguna acción edita, elimina o publica registros reales.
 
 ## Bloqueos y restricciones
-- La conexión Vercel reconoce el equipo RentoCampo, pero list_projects/list_deployments devolvieron cero resultados y los intentos de crear proyectos fueron rechazados (403). Se solicitó autorización de equipo.
-- No se debe declarar un Preview en línea sin estado READY y URL verificada. Una URL de un commit anterior no valida este código.
+- La conexión Vercel reconoce el equipo RentoCampo, pero list_projects/list_deployments devolvieron cero resultados y los intentos de crear proyectos fueron rechazados (403). Se solicitó autorización de equipo. El bot Vercel confirmó READY para el commit `519b1b073abdcce122900d0398891dcf2701ae54`, y generó la URL `https://rentocampo-git-feature-rentocampo-v3-rento-campo.vercel.app`. Las solicitudes HTTP sin la autorización de Vercel no pudieron leer las páginas, por lo que no se acredita UAT visual manual.
+- Preview: `https://rentocampo-git-feature-rentocampo-v3-rento-campo.vercel.app/v3` (estado READY informado por bot de Vercel; acceso del navegador y recorridos manuales **pendientes** por protección). El estado READY por sí solo no acredita funcionamiento real de rutas.
 - Los datos comerciales solo se consultan públicamente. Las operaciones de usuario exigen una base y autenticación de UAT separadas.
 - La versión de producción en `rentocampo.com` no debe modificarse hasta autorización explícita.
+
+## Evidencia CI (commit 519b1b0)
+- GitHub Actions Quality #1532: **success** — instalación, ESLint, 144/144 pruebas Node y Next.js build.
+- Dependency security audit #136: **success**. El comando `npm ci` informó 24 advisories en dependencias (1 bajo, 12 moderados, 11 altos); el workflow exitoso no implica ausencia de vulnerabilidades. Debe evaluarse la criticidad real en producción por ruta/dependencia antes de aprobar un merge.
+- GitHub Vercel status: **success**, despliegue READY según bot en PR #371.
+- El intento de inspección HTTP de la URL Preview no fue posible sin acceso a la cuenta/protección, por lo que el UAT interactivo permanece **pendiente**.
