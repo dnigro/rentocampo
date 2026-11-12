@@ -29,7 +29,7 @@
 .v3-heart-button.saved{color:#d93460}
 .v3-listing-placeholder{display:grid;place-items:center;height:100%;width:100%;background:linear-gradient(135deg,#dbe6ee,#f3f5f6);font-size:12px;color:#65788b}
 .v3-listing-info{display:flex;flex-direction:column;gap:5px;padding:10px 2px 0;color:#132c46;min-width:0}
-.v3-listing-info strong{font-size:14px;font-weight:800;line-height:1.35;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.v3-listing-info strong{font-size:14px;font-weight:800;line-height:1.35;overflow-wrap:anywhere;white-space:normal}
 .v3-listing-info>span{font-size:12px;color:#667586;line-height:1.5;display:flex;gap:4px;align-items:center}
 .v3-listing-info b{margin-top:4px;color:#102c4c;font-weight:800;font-size:14px}
 .v3-listing-info .v3-listing-details{font-size:11px;color:#1d649b;font-weight:800}
@@ -143,3 +143,26 @@
  .v3-header .v3-mobile-nav nav a:hover{background:#eef5fa}
  .v3-header .v3-header-actions{order:1}
 }
+
+/* Keep map controls clear and selected mobile listings outside the map canvas. */
+.v3-marketplace-map-panel{display:flex;flex-direction:column}
+.v3-map-frame{position:relative;flex:1;min-height:0;height:100%}
+.v3-map-caption{left:auto;right:12px;max-width:calc(100% - 70px)}
+.v3-map-selection{display:none}
+.v3-map-error{position:absolute;bottom:26px;left:12px;right:12px;z-index:450;margin:0;padding:10px;background:#fff;border-radius:12px;color:#24384e;font-size:12px}
+@media(max-width:700px){
+ .v3-marketplace-map-panel{display:none}
+ .v3-mobile-show-map .v3-marketplace-map-panel{display:flex}
+ .v3-map-selection{display:flex;flex-direction:column;gap:4px;flex-shrink:0;padding:12px 16px;background:white;color:#102c4c;font-size:13px;overflow-wrap:anywhere}
+ .v3-map-selection a{display:inline-flex;align-items:center;gap:5px;color:#0d4d87;font-weight:800}
+}
+@media(max-width:550px){
+ .v3-shell .v3-header{padding:0 14px;gap:8px;min-height:70px}
+ .v3-shell .v3-header-actions .v3-publish{display:none}
+ .v3-shell .v3-brand{font-size:18px;gap:6px}
+ .v3-shell .v3-shield-logo{width:32px;height:32px}
+ .v3-shell .v3-header-actions{margin-left:auto;flex-shrink:0}
+ .v3-shell .v3-mobile-nav{margin-left:0;flex-shrink:0}
+}
+/* Leaflet panes have zero layout width; inherited max-width:100% collapses their markers. */
+.v3-map-canvas .leaflet-marker-icon{max-width:none}

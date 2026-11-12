@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { Map as LeafletMap, Marker } from "leaflet";
 import type { V3Campo } from "./V3Explorer";
 import { COUNTRIES, type CountryCode } from "@/data/countries";
@@ -8,6 +8,7 @@ import { COUNTRIES, type CountryCode } from "@/data/countries";
 type Props = { campos: V3Campo[]; country: CountryCode; selectedId: string | null; onSelect: (id: string) => void };
 
 export default function V3Map({ campos, country, selectedId, onSelect }: Props) {
+  const [mapError, setMapError] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<LeafletMap | null>(null);
   const markerRef = useRef<Map<string, Marker>>(new Map());
@@ -29,7 +30,7 @@ export default function V3Map({ campos, country, selectedId, onSelect }: Props) 
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
         maxZoom: 18
-      }).addTo(map);
+      }).on("tileerror", () => { if (!cancelled) setMapError(true); }).addTo(map);
       const locations: [number, number][] = [];
       markers.clear();
       for (const campo of campos) {
@@ -57,7 +58,7 @@ export default function V3Map({ campos, country, selectedId, onSelect }: Props) 
       resizeObserver.observe(containerRef.current);
       window.setTimeout(() => { if (!cancelled) map?.invalidateSize(); }, 100);
     }
-    void initialize();
+    void initialize().catch(() => { if (!cancelled) setMapError(true); });
     return () => {
       cancelled = true;
       markers.clear();
@@ -76,5 +77,8 @@ export default function V3Map({ campos, country, selectedId, onSelect }: Props) 
     });
   }, [selectedId, campos]);
 
-  return <div className="v3-map-canvas" ref={containerRef} role="region" aria-label="Mapa interactivo de campos publicados" />;
+  return <div className="v3-map-frame">
+    <div className="v3-map-canvas" ref={containerRef} role="region" aria-label="Mapa interactivo de campos publicados" />
+    {mapError && <p className="v3-map-error" role="status">No pudimos cargar el mapa completo. Podés seguir consultando las fichas del listado.</p>}
+  </div>;
 }

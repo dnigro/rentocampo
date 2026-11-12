@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Form from "next/form";
 import Link from "next/link";
 import Image from "next/image";
 import { cookies } from "next/headers";
@@ -32,7 +33,7 @@ export default async function V3Servicios({ searchParams }: { searchParams: Prom
         <p>Conectá con prestadores de {COUNTRIES[country].name}. Sin intermediarios.</p>
       </div>
     </div>
-    <form action="/v3/servicios" method="get" className="v3-marketplace-filters v3-services-filters">
+    <Form action="/v3/servicios" className="v3-marketplace-filters v3-services-filters">
       <label><span>País</span><select name="pais" defaultValue={country}>
         {COUNTRY_CODES_ALPHABETICAL.map(code => <option value={code} key={code}>{COUNTRIES[code].name}</option>)}
       </select></label>
@@ -42,7 +43,7 @@ export default async function V3Servicios({ searchParams }: { searchParams: Prom
         {SERVICIOS_RURALES.map(item => <option value={item.value} key={item.value}>{servicioLabel(item.value, country)}</option>)}
       </select></label>
       <button className="v3-filter-submit" type="submit"><Search size={18}/> Buscar</button>
-    </form>
+    </Form>
     <div className="v3-marketplace-toolbar"><p><strong>{servicios.length}</strong> prestadores encontrados</p>
       <Link className="v3-quiet-action" href={`/v3/servicios?pais=${country}`}>Limpiar filtros</Link>
     </div>

@@ -2,14 +2,16 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { MapPin, ArrowLeft, ShieldCheck, MessageCircle } from "lucide-react";
+import { campoFilterParams } from "@/lib/campos/filter-params";
 import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 
-type Props = { params: Promise<{ id: string }> };
+type Props = { params: Promise<{ id: string }>; searchParams: Promise<Record<string, string | undefined>> };
 export const metadata: Metadata = { title: "Detalle de campo | RentoCampo V3", robots: { index: false, follow: false } };
 
-export default async function V3CampoDetalle({ params }: Props) {
+export default async function V3CampoDetalle({ params, searchParams }: Props) {
   const { id } = await params;
+  const filters = await searchParams;
   const supabase = await createClient();
   const { data: campo, error } = await supabase
     .from("campos")
@@ -19,8 +21,9 @@ export default async function V3CampoDetalle({ params }: Props) {
   const images = [...(campo.fotos || [])].filter(f => Boolean(f.url)).sort((a, b) => (a.orden ?? 0) - (b.orden ?? 0)).slice(0, 8);
   const format = (v: number) => Number(v).toLocaleString("es-AR");
   const price = campo.precio != null ? `${campo.moneda ?? ""} ${format(campo.precio)}` : "Precio a consultar";
+  const backSearch = campoFilterParams({ ...filters, pais: campo.country_code || "AR" });
   return <article className="v3-detail">
-    <Link href={`/v3/campos?pais=${campo.country_code || "AR"}`} className="v3-detail-back"><ArrowLeft size={17}/> Volver al explorador</Link>
+    <Link href={`/v3/campos?${backSearch.toString()}`} className="v3-detail-back"><ArrowLeft size={17}/> Volver al explorador</Link>
     <h1>{campo.titulo}</h1>
     <p className="v3-detail-location"><MapPin size={16}/>{[campo.localidad, campo.provincia].filter(Boolean).join(", ") || campo.country_code}</p>
     {images.length ? <div className="v3-detail-gallery">
