@@ -1638,165 +1638,71 @@ body:has(.mapa-page) footer.footer {
   .mapa-page .explorador-header {min-height:0!important;}
 }
 
-/* Refinamiento editorial del explorador: cabecera de listados y mapa en tarjeta. */
-@media(min-width:1100px){
- .mapa-page .mapa-wrapper{
-   grid-template-columns:minmax(0,62%) minmax(0,38%)!important;
-   column-gap:0!important;
- }
- .mapa-page .explorador-header{
-   position:relative!important;
-   display:grid!important;
-   grid-template-columns:minmax(0,1fr) auto!important;
-   grid-template-rows:auto auto auto!important;
-   grid-template-areas:"eyebrow tabs" "heading tabs" "count tabs"!important;
-   align-content:center!important;
-   align-items:center!important;
-   min-height:260px!important;
-   padding:38px clamp(32px,3.2vw,64px)!important;
-   gap:8px 28px!important;
-   background:#fff!important;
- }
- .mapa-page .explorador-header::before{
-   content:"CAMPOS Y OPORTUNIDADES";
-   grid-column:1;grid-row:1;
-   font-size:13px;letter-spacing:.19em;font-weight:750;color:#667381;
- }
- .mapa-page .explorador-header:has(.explorador-tabs button:last-child[aria-pressed="true"])::before{
-   content:"SERVICIOS PARA PRODUCIR";
- }
- .mapa-page .explorador-header::after{
-   content:"Campos disponibles";
-   grid-column:1;grid-row:2;
-   font-size:clamp(36px,3.3vw,58px);font-weight:850;
-   letter-spacing:-.04em;line-height:1.12;color:#11283f;
- }
- .mapa-page .explorador-header:has(.explorador-tabs button:last-child[aria-pressed="true"])::after{
-   content:"Servicios rurales en Argentina";
- }
- .mapa-page .explorador-header h1{display:none!important;}
- .mapa-page .explorador-header p{
-   grid-column:1!important;grid-row:3!important;
-   font-size:18px!important;font-weight:500!important;
-   margin:0!important;color:#536576!important;
- }
- .mapa-page .explorador-tabs{
-   grid-column:2!important;grid-row:1 / 4!important;
-   justify-self:end!important;align-self:end!important;
-   gap:12px!important;
- }
- .mapa-page .explorador-tabs button{min-width:180px!important;min-height:56px!important;}
- .mapa-page .explorador-results{padding:26px 22px 34px 32px!important;}
- .mapa-page .explorador-map-area{
-   position:relative!important;
-   margin:26px 32px 26px 6px!important;
-   border:1px solid #dbe3e9!important;
-   border-radius:17px!important;
-   overflow:hidden!important;
-   box-shadow:0 3px 12px rgba(17,40,63,.10)!important;
-   background:#e7f1f4!important;
- }
- .mapa-page .explorador-map-area .mapa-canvas{
-   border-radius:inherit!important;
- }
-}
-@media(min-width:1100px) and (max-width:1350px){
- .mapa-page .explorador-header{min-height:230px!important;padding:30px!important;}
- .mapa-page .explorador-header::after{font-size:38px;}
- .mapa-page .explorador-tabs button{min-width:150px!important;font-size:15px!important;}
-}
 
-/* Cabecera mapa: misma composición visual del listado, sin pseudo-grid conflictivo. */
-@media (min-width:1100px) {
- .mapa-page .explorador-header {
-   display:grid!important;
-   grid-template-columns:minmax(0,1fr) auto!important;
-   grid-template-rows:22px auto auto!important;
-   grid-template-areas:"kicker controls" "title controls" "summary controls"!important;
-   align-items:center!important;
-   align-content:center!important;
-   row-gap:12px!important;
-   min-height:320px!important;
-   padding:42px 48px!important;
- }
- .mapa-page .explorador-header::before{
-   display:block!important;
-   position:static!important;
-   grid-area:kicker!important;
-   content:"CAMPOS Y OPORTUNIDADES"!important;
-   font-size:13px!important;
-   letter-spacing:.17em!important;
-   font-weight:750!important;
-   line-height:22px!important;
- }
- .mapa-page .explorador-header::after{
-   display:block!important;
-   position:static!important;
-   grid-area:title!important;
-   content:"Campos disponibles"!important;
-   font-size:clamp(42px,3.3vw,60px)!important;
-   font-weight:850!important;
-   line-height:1.12!important;
-   letter-spacing:-.04em!important;
-   color:#11283f!important;
-   visibility:visible!important;
-   opacity:1!important;
- }
- .mapa-page .explorador-header:has(.explorador-tabs button:last-child[aria-pressed="true"])::before{
-   content:"SERVICIOS PARA PRODUCIR"!important;
- }
- .mapa-page .explorador-header:has(.explorador-tabs button:last-child[aria-pressed="true"])::after{
-   content:"Servicios rurales en Argentina"!important;
- }
- .mapa-page .explorador-header p{
-   grid-area:summary!important;
-   grid-column:1!important;
-   grid-row:3!important;
-   font-size:19px!important;
- }
- .mapa-page .explorador-tabs{
-   grid-area:controls!important;
-   grid-column:2!important;
-   grid-row:1 / 4!important;
-   display:flex!important;
-   align-items:center!important;
-   align-self:end!important;
-   justify-self:end!important;
-   flex-wrap:nowrap!important;
- }
- .mapa-page .explorador-tabs button{min-width:170px!important;}
+/* Cabecera reconstruida con contenido real de CampoMapa.tsx.
+   Sin títulos artificiales, sin grillas de pseudo-elementos ni reglas acumuladas. */
+.mapa-page .explorador-header::before,
+.mapa-page .explorador-header::after { content:none!important; display:none!important; }
+.mapa-page .explorador-header {
+ display:flex!important; flex-direction:column!important; align-items:stretch!important;
+ justify-content:center!important; flex-wrap:nowrap!important;
+ gap:0!important; min-height:0!important; height:auto!important;
+ padding:46px clamp(28px,3.2vw,60px) 34px!important;
+ background:#fff!important; border-bottom:1px solid #dbe3e9!important;
 }
-
-/* Ajuste definitivo: orden editorial idéntico al encabezado del listado. */
-@media(min-width:1100px){
- .mapa-page .explorador-header{
-  grid-template-areas:none!important;
-  grid-template-rows:22px minmax(64px,auto) minmax(32px,auto)!important;
-  grid-template-columns:minmax(0,1fr) auto!important;
-  align-content:center!important;
-  gap:12px 24px!important;
-  padding:42px clamp(38px,3.2vw,64px)!important;
-  min-height:330px!important;
+.mapa-page .explorador-header > div:first-child {
+ display:flex!important; flex-direction:column!important; align-items:flex-start!important;
+ flex:initial!important; min-width:0!important; width:100%!important;
+}
+.mapa-page .explorador-header h1 {
+ display:block!important; font-size:clamp(38px,3.6vw,60px)!important;
+ line-height:1.08!important; font-weight:850!important;
+ margin:0 0 18px!important; color:#102b43!important;
+}
+.mapa-page .explorador-header > div:first-child > p:first-child {
+ order:0!important; font-size:13px!important; letter-spacing:.17em!important;
+ margin:0 0 13px!important;
+}
+.mapa-page .explorador-header h1 {order:1!important;}
+.mapa-page .explorador-header > div:first-child > p:last-child {
+ order:2!important; margin:0!important; font-size:19px!important;
+ font-weight:500!important; line-height:1.5!important;
+}
+.mapa-page .explorador-header nav {
+ display:flex!important; align-items:center!important; justify-content:flex-start!important;
+ flex-wrap:wrap!important; align-self:stretch!important; width:100%!important;
+ gap:14px!important; margin:30px 0 0!important;
+}
+.mapa-page .explorador-header nav > a {
+ min-height:54px!important; border-radius:999px!important;
+ padding:0 26px!important; font-size:17px!important; font-weight:800!important;
+}
+.mapa-page .explorador-header .explorador-tabs {
+ display:flex!important; flex-wrap:wrap!important; align-items:center!important;
+ justify-content:flex-start!important; gap:12px!important;
+ margin:0!important; width:auto!important; grid-area:auto!important;
+}
+.mapa-page .explorador-header .explorador-tabs button {
+ min-width:175px!important; min-height:54px!important;
+ padding:12px 22px!important; font-size:17px!important;
+ font-weight:800!important; border-radius:999px!important;
+}
+@media(min-width:1100px) {
+ .mapa-page .mapa-wrapper {grid-template-columns:minmax(0,62%) minmax(0,38%)!important;}
+ .mapa-page .explorador-header {padding:44px clamp(32px,3.2vw,60px) 34px!important;}
+ .mapa-page .explorador-header nav {justify-content:flex-end!important;}
+ .mapa-page .explorador-results {padding:26px 22px 34px 32px!important;}
+ .mapa-page .explorador-map-area {
+  position:relative!important; margin:26px 32px 26px 6px!important;
+  border:1px solid #dbe3e9!important; border-radius:17px!important;
+  overflow:hidden!important; box-shadow:0 3px 12px rgba(17,40,63,.10)!important;
+  background:#e7f1f4!important;
  }
- .mapa-page .explorador-header::before{
-  grid-area:1 / 1 / 2 / 2!important;
-  align-self:end!important;
- }
- .mapa-page .explorador-header::after{
-  grid-area:2 / 1 / 3 / 2!important;
-  align-self:center!important;
-  margin:0!important;
- }
- .mapa-page .explorador-header p{
-  grid-area:3 / 1 / 4 / 2!important;
-  align-self:start!important;
-  margin:0!important;
-  font-size:19px!important;
- }
- .mapa-page .explorador-header .explorador-tabs{
-  grid-area:3 / 2 / 4 / 3!important;
-  align-self:end!important;
-  justify-self:end!important;
-  margin:0!important;
- }
+}
+@media(max-width:700px){
+ .mapa-page .explorador-header {padding:26px 20px!important;}
+ .mapa-page .explorador-header h1 {font-size:36px!important;}
+ .mapa-page .explorador-header nav {justify-content:flex-start!important;}
+ .mapa-page .explorador-header .explorador-tabs {width:100%!important;}
+ .mapa-page .explorador-header .explorador-tabs button {flex:1 1 0!important;min-width:0!important;font-size:14px!important;}
 }
