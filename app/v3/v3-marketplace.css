@@ -106,3 +106,20 @@
 .v3-account-security{display:flex;align-items:center;gap:10px;color:#597486;font-size:12px;margin-top:35px;line-height:1.6}
 @media(max-width:950px){.v3-account-layout{grid-template-columns:200px minmax(0,1fr);gap:20px}.v3-account-stats>div{padding:18px}.v3-account-callout{flex-wrap:wrap}.v3-account-callout>a{margin-left:0}}
 @media(max-width:700px){.v3-services-filters{grid-template-columns:repeat(2,minmax(0,1fr))}.v3-service-detail-grid{grid-template-columns:1fr}.v3-service-detail-image{min-height:300px}.v3-account-page{padding:32px 17px 80px}.v3-account-layout{grid-template-columns:1fr;gap:23px}.v3-account-sidebar{display:flex;flex-direction:row;overflow:auto;padding:8px;gap:3px}.v3-account-sidebar button{flex-shrink:0;padding:10px;font-size:12px}.v3-account-sidebar button svg{width:16px}.v3-account-stats{gap:9px}.v3-account-stats>div{padding:12px;min-height:135px}.v3-account-stats>div strong{font-size:26px}.v3-account-callout{align-items:flex-start}}
+
+/* Real featured listings on the V3 home */
+.v3-home-featured{max-width:1350px;margin:0 auto;padding:4px 35px 78px}
+.v3-home-featured-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:28px 17px}
+.v3-home-card{display:flex;flex-direction:column;min-width:0;gap:5px;color:#102c4c}
+.v3-home-card-image{position:relative;aspect-ratio:1.15;border-radius:17px;background:#eef2f5;overflow:hidden;margin-bottom:7px}
+.v3-home-card-image img{object-fit:cover;transition:transform .25s ease}
+.v3-home-card:hover img{transform:scale(1.035)}
+.v3-home-card-image>span{display:grid;place-items:center;width:100%;height:100%;font-size:12px;color:#657b8f}
+.v3-home-card>strong{font-size:14px;line-height:1.4;font-weight:800}
+.v3-home-card>span{font-size:12px;color:#68798b}
+.v3-home-card>b{font-size:14px;font-weight:800;margin-top:3px}
+.v3-home-featured-empty{border:1px solid #e5ebf0;background:#f7f9fb;border-radius:20px;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:24px;color:#60768a}
+.v3-home-featured-empty a{display:flex;gap:7px;align-items:center;color:#0d4d87;font-weight:800;white-space:nowrap}
+@media(max-width:900px){.v3-home-featured-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:700px){.v3-home-featured{padding:0 18px 55px}.v3-home-featured-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px 12px}.v3-home-featured-empty{flex-direction:column;align-items:start}}
+@media(max-width:390px){.v3-home-card-image{aspect-ratio:1}.v3-home-card>strong{font-size:13px}}
