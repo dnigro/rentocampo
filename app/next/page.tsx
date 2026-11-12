@@ -21,7 +21,7 @@ export default function NextHome(){
  return <div className="next-site">
   <header className="next-header"><Link className="next-logo" href="/next" aria-label="RentoCampo Next inicio"><span className="next-logo-mark">R</span><span>RentoCampo</span></Link>
    <nav className="next-nav" aria-label="Principal"><Link href="/next/campos?pais=AR">Explorar campos</Link><Link href="/next/servicios?pais=AR">Servicios</Link></nav>
-   <div className="next-actions"><Link className="next-publish" href="/login">Publicá gratis</Link><Link className="next-account" href="/login" aria-label="Ingresar a mi cuenta"><Menu size={19}/><span className="next-avatar">●</span></Link></div>
+   <div className="next-actions"><Link className="next-publish" href="/login">Publicá gratis</Link><Link className="next-account" href="/next/cuenta" aria-label="Ingresar a mi cuenta"><Menu size={19}/><span className="next-avatar">●</span></Link></div>
   </header>
   <main>
    <section className="next-intro"><p className="next-eyebrow">CONECTAMOS EL CAMPO</p><h1>El campo, sin vueltas.</h1><p>Encontrá tierras, productores y servicios rurales. Todo en un lugar.</p></section>
