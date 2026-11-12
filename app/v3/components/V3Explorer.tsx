@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Heart, Map as MapIcon, MapPin, SlidersHorizontal, Search, List, ArrowUpRight } from "lucide-react";
-import type { CountryCode } from "@/data/countries";
+import { COUNTRIES, COUNTRY_CODES_ALPHABETICAL, type CountryCode } from "@/data/countries";
 import V3Map from "./V3Map";
 
 export type V3Campo = {
@@ -61,7 +61,7 @@ export default function V3Explorer({ campos, country, filter, error }: Props) {
 
   return <div className="v3-marketplace">
     <form className="v3-marketplace-filters" action="/v3/campos" method="get" aria-label="Filtrar campos">
-      <input type="hidden" name="pais" value={country}/>
+      <label><span>País</span><select name="pais" defaultValue={country}>{COUNTRY_CODES_ALPHABETICAL.map(code => <option key={code} value={code}>{COUNTRIES[code].name}</option>)}</select></label>
       <label><span>Operación</span><select name="operacion" defaultValue={filter.operacion || ""}>
         <option value="">Todas</option><option value="alquiler">Alquiler</option><option value="venta">Venta</option><option value="ambas">Alquiler y venta</option>
       </select></label>
