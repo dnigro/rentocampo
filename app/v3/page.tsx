@@ -22,7 +22,7 @@ export default async function HomeV3() {
  </div></section>
  <section className="v3-category-section"><div className="v3-section-heading"><div><span className="v3-kicker">EXPLORÁ A TU MANERA</span><h2>Todo el campo, en un lugar.</h2></div><Link href="/v3/campos">Explorar campos <ArrowRight size={17}/></Link></div><div className="v3-categories">{categories.map(({name,href,Icon})=><Link href={href} key={name} className="v3-category"><Icon size={28} strokeWidth={1.7}/><span>{name}</span></Link>)}</div></section>
  <section className="v3-home-featured">
-   <div className="v3-section-heading"><div><span className="v3-kicker">OPORTUNIDADES REALES</span><h2>Descubrí campos en ${COUNTRIES[country].name}</h2></div><Link href={`/v3/campos?pais=${country}`}>Ver todos <ArrowRight size={17}/></Link></div>
+   <div className="v3-section-heading"><div><span className="v3-kicker">OPORTUNIDADES REALES</span><h2>Descubrí campos en {COUNTRIES[country].name}</h2></div><Link href={`/v3/campos?pais=${country}`}>Ver todos <ArrowRight size={17}/></Link></div>
    {featured.length ? <div className="v3-home-featured-grid">{featured.map(item=>{
      const foto=[...(item.fotos||[])].sort((a,b)=>(a.orden??0)-(b.orden??0))[0]?.url;
      return <Link href={`/v3/campos/${item.id}`} className="v3-home-card" key={item.id}>
