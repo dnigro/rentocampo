@@ -358,6 +358,7 @@ export default function CampoMapa({
           <div style={{minWidth:260,flex:"1 1 360px"}}>
             <p style={{fontSize:13,letterSpacing:2,fontWeight:700,color:"#64748b",margin:"0 0 8px"}}>{vista==="tierra" ? tt("CAMPOS Y OPORTUNIDADES","TERRAS E OPORTUNIDADES") : tt("SERVICIOS PARA PRODUCIR","SERVIÇOS PARA PRODUZIR")}</p>
             <h1 style={{fontSize:"clamp(30px,3vw,48px)",lineHeight:1.1,margin:"0 0 10px",color:"#102b43"}}>{vista==="tierra" ? tt("Campos disponibles","Terras disponíveis") : tt("Servicios rurales","Serviços rurais")}</h1>
+            <p className="rc-map-header-description">{vista==="tierra" ? tt("Explorá campos para venta o alquiler en Argentina. Contactá directamente a sus propietarios.","Explore terras para venda ou arrendamento na Argentina. Entre em contato diretamente com os proprietários.") : tt("Encontrá profesionales y servicios rurales en Argentina. Contactalos directamente.","Encontre profissionais e serviços rurais na Argentina. Entre em contato diretamente.")}</p>
             <p style={{fontSize:17,margin:0,color:"#526477"}}>{vista === "tierra" ? camposConCoordenadas.length : prestadoresFiltrados.length} {vista === "tierra" ? tt("campos publicados","terras anunciadas") : tt("servicios rurales","serviços rurais")} · {displayCountryName(countryCode,countryCode)}</p>
           </div>
           <nav aria-label={tt("Navegación del mapa","Navegação do mapa")} style={{display:"flex",alignItems:"center",gap:12,flexWrap:"wrap"}}>
