@@ -89,6 +89,8 @@ export default function CampoMapa({
   const tt = useCallback((es: string, pt: string) => regionalText(countryCode, es, pt), [countryCode]);
   const [mostrarCampos, setMostrarCampos] = useState(true);
   const [mobileMap, setMobileMap] = useState(false);
+  const [resultsPage, setResultsPage] = useState(1);
+  const resultsPageSize = 10;
   useEffect(() => { if (mobileMap) { const id = window.setTimeout(() => map.current?.invalidateSize(), 80); return () => window.clearTimeout(id); } }, [mobileMap]);
   const [mapError, setMapError] = useState(false);
   const [viewport, setViewport] = useState<{zoom:number;north:number;south:number;east:number;west:number}|null>(null);
@@ -113,6 +115,7 @@ export default function CampoMapa({
 
   function cambiarVista(nuevaVista: "tierra" | "servicios") {
     setVista(nuevaVista);
+    setResultsPage(1);
     setSelectedCampo(null);
     setSelectedDemanda(null);
     setSelectedServicio(null);
@@ -379,17 +382,24 @@ export default function CampoMapa({
           </nav>
         </div>
         <div className="explorador-results">
-          {vista==="tierra" ? camposConCoordenadas.map(campo=>{
+          {vista==="tierra" ? camposConCoordenadas.slice((resultsPage-1)*resultsPageSize,resultsPage*resultsPageSize).map(campo=>{
             const foto=[...(campo.fotos??[])].sort((a,b)=>(a.orden??0)-(b.orden??0))[0]?.url;
             return <button type="button" key={campo.id} className={`explorador-card ${selectedCampo?.id===campo.id?"selected":""}`} onClick={()=>{setSelectedCampo(campo);setSelectedServicio(null);setSelectedDemanda(null);const lat=normalizarCoordenada(campo.latitud),lng=normalizarCoordenada(campo.longitud);if(lat!==null&&lng!==null)map.current?.flyTo([lat,lng],Math.max(map.current.getZoom(),10));setMobileMap(true);}}>
               <span className="explorador-thumb">{foto ? <Image src={foto} alt={campo.titulo} width={320} height={220} /> : <span>{tt("Sin fotografía","Sem foto")}</span>}</span>
               <span className="explorador-info"><strong>{campo.titulo}</strong><small>{[campo.localidad,campo.provincia].filter(Boolean).join(", ")}</small><small>{campo.hectareas?.toLocaleString(COUNTRIES[countryCode].locale)} ha · {campo.operacion==="venta"?tt("Venta","Venda"):campo.operacion==="ambas"?tt("Alquiler o venta","Arrendamento ou venda"):tt("Alquiler","Arrendamento")}</small><span className="explorador-ver">{tt("Ver en el mapa","Ver no mapa")} ↗</span></span>
             </button>;
-          }) : prestadoresFiltrados.map(servicio=><button type="button" key={servicio.publicacion_id??servicio.id} className={`explorador-card ${selectedServicio?.id===servicio.id?"selected":""}`} onClick={()=>{setSelectedServicio(servicio);setSelectedCampo(null);setSelectedDemanda(null);if(Number.isFinite(servicio.latitud)&&Number.isFinite(servicio.longitud))map.current?.flyTo([servicio.latitud!,servicio.longitud!],Math.max(map.current.getZoom(),10));setMobileMap(true);}}>
+          }) : prestadoresFiltrados.slice((resultsPage-1)*resultsPageSize,resultsPage*resultsPageSize).map(servicio=><button type="button" key={servicio.publicacion_id??servicio.id} className={`explorador-card ${selectedServicio?.id===servicio.id?"selected":""}`} onClick={()=>{setSelectedServicio(servicio);setSelectedCampo(null);setSelectedDemanda(null);if(Number.isFinite(servicio.latitud)&&Number.isFinite(servicio.longitud))map.current?.flyTo([servicio.latitud!,servicio.longitud!],Math.max(map.current.getZoom(),10));setMobileMap(true);}}>
             <span className="explorador-thumb">{servicio.service_photo_url ? <Image src={servicio.service_photo_url} alt={servicio.titulo} width={320} height={220}/> : <span>{tt("Sin fotografía","Sem foto")}</span>}</span>
             <span className="explorador-info"><strong>{servicio.titulo}</strong><small>{[servicio.localidad_servicio,servicio.provincia_servicio].filter(Boolean).join(", ")}</small><small>{servicio.zona_servicio||tt("Servicio rural","Serviço rural")}</small><span className="explorador-ver">{tt("Ver en el mapa","Ver no mapa")} ↗</span></span>
           </button>)}
         </div>
+        {Math.ceil((vista==="tierra" ? camposConCoordenadas.length : prestadoresFiltrados.length)/resultsPageSize)>1 && (
+          <div className="explorador-pagination">
+            <button type="button" disabled={resultsPage===1} onClick={()=>setResultsPage(p=>Math.max(1,p-1))}>← {tt("Anterior","Anterior")}</button>
+            <span>{tt("Página","Página")} {resultsPage} / {Math.ceil((vista==="tierra" ? camposConCoordenadas.length : prestadoresFiltrados.length)/resultsPageSize)}</span>
+            <button type="button" disabled={resultsPage>=Math.ceil((vista==="tierra" ? camposConCoordenadas.length : prestadoresFiltrados.length)/resultsPageSize)} onClick={()=>setResultsPage(p=>p+1)}>{tt("Siguiente","Próxima")} →</button>
+          </div>
+        )}
       </aside>
       <button type="button" className="explorador-mobile-toggle" onClick={()=>setMobileMap(v=>!v)}>{mobileMap?tt("Ver publicaciones","Ver anúncios"):tt("Ver mapa","Ver mapa")}</button>
       <div className={`explorador-map-area ${mobileMap?"explorador-map-visible":""}`}>
