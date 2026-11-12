@@ -84,6 +84,7 @@ export default function CampoMapa({
   const countryCode = initialCountry;
   const tt = useCallback((es: string, pt: string) => regionalText(countryCode, es, pt), [countryCode]);
   const [mostrarCampos, setMostrarCampos] = useState(true);
+  const [mobileMap, setMobileMap] = useState(false);
   const [mapError, setMapError] = useState(false);
   const [viewport, setViewport] = useState<{zoom:number;north:number;south:number;east:number;west:number}|null>(null);
   const [supabase] = useState(createClient);
@@ -347,6 +348,30 @@ export default function CampoMapa({
 
   return (
     <div className="mapa-wrapper" data-country={countryCode} data-map-center={COUNTRIES[countryCode].mapCenter.join(",")}>
+      <aside className={`explorador-sidebar ${mobileMap ? "explorador-mobile-hidden" : ""}`} aria-label={tt("Publicaciones rurales", "Anúncios rurais")}>
+        <div className="explorador-header">
+          <h1>{tt("Explorá el campo", "Explore o campo")}</h1>
+          <p>{vista === "tierra" ? camposConCoordenadas.length : prestadoresFiltrados.length} {vista === "tierra" ? tt("campos publicados", "terras anunciadas") : tt("servicios rurales", "serviços rurais")} · {displayCountryName(countryCode,countryCode)}</p>
+          <div className="explorador-tabs" role="group" aria-label={tt("Tipo de publicación","Tipo de anúncio")}>
+            <button type="button" aria-pressed={vista==="tierra"} onClick={()=>cambiarVista("tierra")}>{tt("Campos","Terras")}</button>
+            <button type="button" aria-pressed={vista==="servicios"} onClick={()=>cambiarVista("servicios")}>{tt("Servicios rurales","Serviços rurais")}</button>
+          </div>
+        </div>
+        <div className="explorador-results">
+          {vista==="tierra" ? camposConCoordenadas.map(campo=>{
+            const foto=[...(campo.fotos??[])].sort((a,b)=>(a.orden??0)-(b.orden??0))[0]?.url;
+            return <button type="button" key={campo.id} className={`explorador-card ${selectedCampo?.id===campo.id?"selected":""}`} onClick={()=>{setSelectedCampo(campo);setSelectedServicio(null);setSelectedDemanda(null);const lat=normalizarCoordenada(campo.latitud),lng=normalizarCoordenada(campo.longitud);if(lat!==null&&lng!==null)map.current?.flyTo([lat,lng],Math.max(map.current.getZoom(),10));setMobileMap(true);}}>
+              <span className="explorador-thumb">{foto ? <Image src={foto} alt={campo.titulo} width={320} height={220} /> : <span>{tt("Sin fotografía","Sem foto")}</span>}</span>
+              <span className="explorador-info"><strong>{campo.titulo}</strong><small>{[campo.localidad,campo.provincia].filter(Boolean).join(", ")}</small><small>{campo.hectareas?.toLocaleString(COUNTRIES[countryCode].locale)} ha · {campo.operacion==="venta"?tt("Venta","Venda"):campo.operacion==="ambas"?tt("Alquiler o venta","Arrendamento ou venda"):tt("Alquiler","Arrendamento")}</small><span className="explorador-ver">{tt("Ver en el mapa","Ver no mapa")} ↗</span></span>
+            </button>;
+          }) : prestadoresFiltrados.map(servicio=><button type="button" key={servicio.publicacion_id??servicio.id} className={`explorador-card ${selectedServicio?.id===servicio.id?"selected":""}`} onClick={()=>{setSelectedServicio(servicio);setSelectedCampo(null);setSelectedDemanda(null);if(Number.isFinite(servicio.latitud)&&Number.isFinite(servicio.longitud))map.current?.flyTo([servicio.latitud!,servicio.longitud!],Math.max(map.current.getZoom(),10));setMobileMap(true);}}>
+            <span className="explorador-thumb">{servicio.service_photo_url ? <Image src={servicio.service_photo_url} alt={servicio.titulo} width={320} height={220}/> : <span>{tt("Sin fotografía","Sem foto")}</span>}</span>
+            <span className="explorador-info"><strong>{servicio.titulo}</strong><small>{[servicio.localidad_servicio,servicio.provincia_servicio].filter(Boolean).join(", ")}</small><small>{servicio.zona_servicio||tt("Servicio rural","Serviço rural")}</small><span className="explorador-ver">{tt("Ver en el mapa","Ver no mapa")} ↗</span></span>
+          </button>)}
+        </div>
+      </aside>
+      <button type="button" className="explorador-mobile-toggle" onClick={()=>setMobileMap(v=>!v)}>{mobileMap?tt("Ver publicaciones","Ver anúncios"):tt("Ver mapa","Ver mapa")}</button>
+      <div className={`explorador-map-area ${mobileMap?"explorador-map-visible":""}`}>
       <div
         ref={mapContainer}
         className={`mapa-canvas ${mapError ? "mapa-canvas-oculto" : ""}`}
@@ -377,7 +402,7 @@ export default function CampoMapa({
       )}
 
       {!mapError && (
-        <div className="mapa-filtros mapa-filtros-compactos" aria-label={tt("Controles del mapa", "Controles do mapa")}>
+        <div className="mapa-filtros mapa-filtros-compactos explorador-old-controls" aria-label={tt("Controles del mapa", "Controles do mapa")}>
           <div className="mapa-modos" role="group" aria-label={tt("Qué querés encontrar", "O que você procura")}>
             <button type="button" className={vista === "tierra" ? "activo" : ""} aria-pressed={vista === "tierra"} onClick={() => cambiarVista("tierra")}>
               {tt("Tierra productiva", "Terra produtiva")}
@@ -407,7 +432,7 @@ export default function CampoMapa({
         </div>
       )}
 
-      {!mapError && visibleCards.length > 0 && !selectedCampo && !selectedServicio && !selectedDemanda && (
+      {!mapError && false && visibleCards.length > 0 && !selectedCampo && !selectedServicio && !selectedDemanda && (
         <div className="mapa-fichas-carrusel" aria-label={tt("Publicaciones en esta zona","Anúncios nesta região")}>
           {visibleCards.map(card => (
             <button key={card.kind+card.id} type="button" className="mapa-ficha-mini" onClick={() => {
@@ -562,6 +587,7 @@ export default function CampoMapa({
         </div>
       )}
 
+      </div>
     </div>
   );
 }
