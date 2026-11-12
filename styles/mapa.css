@@ -1603,3 +1603,37 @@ body:has(.mapa-page) footer.footer {
  .mapa-page .explorador-header {display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:14px!important;}
  .mapa-page .explorador-back-links {display:flex!important;flex-wrap:wrap!important;gap:12px!important;}
 }
+
+/* 2026-11-12: cabecera del mapa igual a los listados; fichas protagonistas. */
+@media (min-width:1100px) {
+  .mapa-page .mapa-wrapper {
+    grid-template-columns:minmax(0,62%) minmax(0,38%)!important;
+    grid-template-rows:auto minmax(0,1fr)!important;
+  }
+  .mapa-page .explorador-header {
+    display:flex!important;
+    flex-direction:row!important;
+    flex-wrap:nowrap!important;
+    align-items:center!important;
+    justify-content:space-between!important;
+    gap:28px!important;
+    min-height:185px!important;
+    padding:30px clamp(30px,3vw,60px)!important;
+  }
+  .mapa-page .explorador-header h1 {
+    display:block!important;
+    font-size:clamp(34px,3vw,54px)!important;
+    white-space:normal!important;
+    line-height:1.12!important;
+    margin:0 0 12px!important;
+  }
+  .mapa-page .explorador-header p {font-size:17px!important;line-height:1.5!important;}
+  .mapa-page .explorador-header nav {margin-left:auto;justify-content:flex-end;}
+  .mapa-page .explorador-results {padding:24px 30px 36px!important;gap:24px!important;}
+  .mapa-page .explorador-thumb {aspect-ratio:1.55;}
+  .mapa-page .explorador-tabs button {min-width:175px!important;}
+}
+@media (max-width:1099px) {
+  .mapa-page .explorador-header h1 {display:block!important;font-size:clamp(30px,5vw,44px)!important;}
+  .mapa-page .explorador-header {min-height:0!important;}
+}
