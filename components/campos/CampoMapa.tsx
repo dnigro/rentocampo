@@ -359,10 +359,16 @@ export default function CampoMapa({
             <p style={{fontSize:13,letterSpacing:2,fontWeight:700,color:"#64748b",margin:"0 0 8px"}}>{vista==="tierra" ? tt("CAMPOS Y OPORTUNIDADES","TERRAS E OPORTUNIDADES") : tt("SERVICIOS PARA PRODUCIR","SERVIÇOS PARA PRODUZIR")}</p>
             <h1 style={{fontSize:"clamp(30px,3vw,48px)",lineHeight:1.1,margin:"0 0 10px",color:"#102b43"}}>{vista==="tierra" ? tt("Campos disponibles","Terras disponíveis") : tt("Servicios rurales","Serviços rurais")}</h1>
             <p className="rc-map-header-description">{vista==="tierra" ? tt("Explorá campos para venta o alquiler en Argentina. Contactá directamente a sus propietarios.","Explore terras para venda ou arrendamento na Argentina. Entre em contato diretamente com os proprietários.") : tt("Encontrá profesionales y servicios rurales en Argentina. Contactalos directamente.","Encontre profissionais e serviços rurais na Argentina. Entre em contato diretamente.")}</p>
+            <div style={{display:"flex",alignItems:"center",gap:14,flexWrap:"wrap",marginTop:24}}>
+              <Link href={vista==="tierra"?camposListHref:serviciosListHref} style={{display:"inline-flex",alignItems:"center",justifyContent:"center",minHeight:56,padding:"0 26px",borderRadius:999,background:"#102b43",color:"#fff",fontSize:16,fontWeight:700,textDecoration:"none"}}>▤ {tt("Ver en lista","Ver na lista")}</Link>
+              <label htmlFor="rc-map-country" style={{fontWeight:700,fontSize:15,color:"#102b43"}}>{tt("País","País")}</label>
+              <select id="rc-map-country" value={countryCode} onChange={e=>selectRegionalCountry(e.target.value as CountryCode)} style={{minHeight:56,minWidth:220,border:"1px solid #bfd0de",borderRadius:999,padding:"0 18px",fontWeight:600,color:"#102b43",background:"#fff"}}>
+                {COUNTRY_CODES_ALPHABETICAL.map(code=><option key={code} value={code}>{displayCountryName(code,code)}</option>)}
+              </select>
+            </div>
             <p style={{fontSize:17,margin:0,color:"#526477"}}>{vista === "tierra" ? camposConCoordenadas.length : prestadoresFiltrados.length} {vista === "tierra" ? tt("campos publicados","terras anunciadas") : tt("servicios rurales","serviços rurais")} · {displayCountryName(countryCode,countryCode)}</p>
           </div>
           <nav aria-label={tt("Navegación del mapa","Navegação do mapa")} style={{display:"flex",alignItems:"center",gap:12,flexWrap:"wrap"}}>
-            <Link href={vista==="tierra"?camposListHref:serviciosListHref} style={{display:"inline-flex",alignItems:"center",justifyContent:"center",minHeight:54,padding:"0 26px",borderRadius:999,background:"#102b43",color:"#fff",fontSize:17,fontWeight:700,textDecoration:"none"}}>{tt("Ver lista","Ver lista")}</Link>
             <div className="explorador-tabs" role="group" aria-label={tt("Tipo de publicación","Tipo de anúncio")} style={{display:"flex",gap:10,alignItems:"center"}}>
               <button type="button" aria-pressed={vista==="tierra"} onClick={()=>cambiarVista("tierra")}>{tt("Campos","Terras")}</button>
               <button type="button" aria-pressed={vista==="servicios"} onClick={()=>cambiarVista("servicios")}>{tt("Servicios rurales","Serviços rurais")}</button>
