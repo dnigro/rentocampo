@@ -1,0 +1,75 @@
+"use client";
+
+import { useEffect, useRef } from "react";
+import type { Map as LeafletMap, Marker } from "leaflet";
+import type { V3Campo } from "./V3Explorer";
+import { COUNTRIES, type CountryCode } from "@/data/countries";
+
+type Props = { campos: V3Campo[]; country: CountryCode; selectedId: string | null; onSelect: (id: string) => void };
+
+export default function V3Map({ campos, country, selectedId, onSelect }: Props) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const mapRef = useRef<LeafletMap | null>(null);
+  const markerRef = useRef<Map<string, Marker>>(new Map());
+  const selectRef = useRef(onSelect);
+  selectRef.current = onSelect;
+
+  useEffect(() => {
+    let cancelled = false;
+    let map: LeafletMap | null = null;
+    async function initialize() {
+      const L = await import("leaflet");
+      if (cancelled || !containerRef.current) return;
+      const region = COUNTRIES[country];
+      map = L.map(containerRef.current, { scrollWheelZoom: false, zoomControl: true })
+        .setView(region.mapCenter, region.mapZoom);
+      mapRef.current = map;
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+        maxZoom: 18
+      }).addTo(map);
+      const locations: [number, number][] = [];
+      markerRef.current.clear();
+      for (const campo of campos) {
+        if (campo.lat == null || campo.lng == null) continue;
+        const position: [number, number] = [campo.lat, campo.lng];
+        locations.push(position);
+        const number = campo.hectareas != null ? Number(campo.hectareas).toLocaleString("es-AR") : "";
+        const label = number ? number + " ha" : "Campo";
+        const marker = L.marker(position, {
+          icon: L.divIcon({
+            html: '<span class="v3-price-pin">' + label + '</span>',
+            className: "v3-pin-wrapper",
+            iconSize: [94, 38],
+            iconAnchor: [47, 38]
+          }),
+          title: campo.titulo
+        }).addTo(map);
+        marker.on("click", () => selectRef.current(campo.id));
+        markerRef.current.set(campo.id, marker);
+      }
+      if (locations.length > 0) {
+        map.fitBounds(L.latLngBounds(locations).pad(0.2), { maxZoom: 9 });
+      }
+      window.setTimeout(() => map?.invalidateSize(), 100);
+    }
+    void initialize();
+    return () => {
+      cancelled = true;
+      markerRef.current.clear();
+      map?.remove();
+      mapRef.current = null;
+    };
+  }, [campos, country]);
+
+  useEffect(() => {
+    markerRef.current.forEach((marker, id) => {
+      const element = marker.getElement();
+      element?.classList.toggle("v3-marker-active", id === selectedId);
+      if (id === selectedId) marker.setZIndexOffset(1000);
+      else marker.setZIndexOffset(0);
+    });
+  }, [selectedId, campos]);
+
+  return <div className="v3-map-canvas" ref={containerRef} role="region" aria-label="Mapa interactivo de campos publicados" />;
+}
