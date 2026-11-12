@@ -1515,3 +1515,28 @@ body:has(.mapa-page) footer.footer {
  .mapa-page .explorador-back-links a { font-size:clamp(14px,.88vw,17px)!important; font-weight:750!important; }
  .mapa-page .explorador-tabs button { min-height:54px!important; font-size:clamp(16px,1vw,19px)!important; padding:12px clamp(16px,1.25vw,26px)!important; }
 }
+
+
+/* Desktop: mayor jerarquía visual en la barra del explorador. */
+@media (min-width:1100px) {
+ .mapa-page .explorador-header {
+   padding:24px clamp(24px,2vw,40px)!important;
+   row-gap:16px!important;
+ }
+ .mapa-page .explorador-header h1 {
+   font-size:clamp(34px,2.25vw,44px)!important;
+ }
+ .mapa-page .explorador-header p {
+   font-size:clamp(17px,1.05vw,21px)!important;
+   font-weight:650!important;
+ }
+ .mapa-page .explorador-back-links a {
+   font-size:clamp(16px,.98vw,20px)!important;
+   font-weight:750!important;
+ }
+ .mapa-page .explorador-tabs button {
+   min-height:62px!important;
+   font-size:clamp(18px,1.12vw,22px)!important;
+   padding:15px clamp(19px,1.35vw,30px)!important;
+ }
+}
