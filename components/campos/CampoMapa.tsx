@@ -85,6 +85,7 @@ export default function CampoMapa({
   const tt = useCallback((es: string, pt: string) => regionalText(countryCode, es, pt), [countryCode]);
   const [mostrarCampos, setMostrarCampos] = useState(true);
   const [mobileMap, setMobileMap] = useState(false);
+  useEffect(() => { if (mobileMap) { const id = window.setTimeout(() => map.current?.invalidateSize(), 80); return () => window.clearTimeout(id); } }, [mobileMap]);
   const [mapError, setMapError] = useState(false);
   const [viewport, setViewport] = useState<{zoom:number;north:number;south:number;east:number;west:number}|null>(null);
   const [supabase] = useState(createClient);
