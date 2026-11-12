@@ -69,3 +69,40 @@ No se aplicaron migraciones ni cambios de configuración, usuarios o datos en ni
 - Internacionalización integral V3, detalle de servicios con filtros de regreso, contacto directo, SEO de transición y medición de rendimiento siguen pendientes.
 
 **Sin merge a `main`, sin deployment Production y sin cambios en datos reales.**
+
+## Segunda revisión: referencia Airbnb, mapa y fichas
+
+Se consultó el HTML de la referencia de Airbnb en Miramar suministrada por el usuario. El patrón trasladado a RentoCampo es búsqueda compacta, fichas y mapa coordinados; no se copiaron marca, valoraciones, reservas ni información comercial inexistente.
+
+### Implementado
+
+- Explorador desktop que aprovecha el alto disponible, con lista de scroll independiente y mapa persistente; tres columnas de fichas en pantallas amplias y dos en laptop.
+- Móvil con filtros plegables, fichas de una columna legibles y alternancia lista/mapa. La selección se muestra debajo del mapa, reservando espacio para el botón flotante.
+- Búsqueda al desplazar/zoom del mapa y modo manual «Buscar en esta zona». «Ver todo el país» restaura resultados y encuadre. Los campos sin coordenadas no reciben posiciones inventadas; se informa cómo recuperarlos en el listado general.
+- Zona geográfica preservada en enlaces a detalle y regreso; soporte de límites que cruzan el antimeridiano. Se mantiene el país y los filtros comerciales.
+- Marcadores con precio y moneda si ambos existen; en su ausencia, hectáreas verificadas o «Ver campo». El texto del marcador se construye con DOM seguro, sin interpolar datos como HTML.
+- Filtros de superficie máxima y precio mínimo/máximo. El rango de precio requiere elegir moneda; no hay conversiones implícitas.
+- Fotos navegables en tarjetas y galería de hasta ocho fotos en detalle, con diálogo nativo, teclado, Escape y devolución del foco.
+- El catálogo avisa si alcanza el límite de 120 publicaciones cargadas. La búsqueda por mapa opera sobre ese conjunto filtrado; no representa un servicio de búsqueda geográfica ilimitado.
+
+### Evidencia adicional
+
+- 152 tests Node aprobados, TypeScript y lint sin errores. Build local de Preview aprobado.
+- Recorrido Chromium: nueve anchos, búsqueda por movimiento, modo manual, restablecimiento de país, selección móvil, enlaces con zona, detalle/regreso y redirecciones web/Lite aprobados; cero errores JavaScript y ninguna escritura de navegador a Supabase.
+- Galería y carrusel probados con fixture **sintética local y temporal**, eliminada al terminar. Se verificaron ocho fotos, navegación circular por teclado, Escape, devolución de foco y avance en tarjeta. No se publicaron fixtures ni se crearon datos en Supabase.
+- Se visualizaron mosaicos reales OpenStreetMap. Para resolver la falta de confianza del certificado del proxy en Chromium, el runner ofrece `V3_TILE_BRIDGE=1`: descarga tiles por curl con validación TLS normal y los entrega al navegador. No modifica el producto ni desactiva la verificación de certificados. Analytics continúa fuera de la validación del navegador por el certificado del proxy.
+- Se comprobó que el botón de alternancia móvil no cubre el enlace de la ficha seleccionada.
+
+Reproducción adicional:
+
+```sh
+# Con el dev server UAT de la sección anterior iniciado:
+node tests/v3-browser.mjs
+node tests/v3-gallery-browser.mjs
+# Solo si Chromium no confía en el CA del proxy de este entorno:
+V3_TILE_BRIDGE=1 node tests/v3-browser.mjs
+```
+
+El runner de galería solo acepta un servidor local, se niega a sobrescribir una fixture preexistente y elimina la ruta temporal en `finally`. Las variables `PLAYWRIGHT_MODULE` y `CHROMIUM_PATH` permiten usar las herramientas ya instaladas sin añadir dependencias al producto.
+
+El alcance implementado y validado es **mapa y fichas del catálogo V3**. La migración integral del panel privado, contacto y autenticación de toda la misión original conserva los pendientes indicados anteriormente.

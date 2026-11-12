@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
-import Image from "next/image";
+import V3PhotoGallery from "../../components/V3PhotoGallery";
 import Link from "next/link";
 import { MapPin, ArrowLeft, ShieldCheck, MessageCircle } from "lucide-react";
+import { addMapBounds, parseMapBounds } from "@/lib/campos/map-search";
 import { campoFilterParams } from "@/lib/campos/filter-params";
 import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
@@ -21,15 +22,13 @@ export default async function V3CampoDetalle({ params, searchParams }: Props) {
   const images = [...(campo.fotos || [])].filter(f => Boolean(f.url)).sort((a, b) => (a.orden ?? 0) - (b.orden ?? 0)).slice(0, 8);
   const format = (v: number) => Number(v).toLocaleString("es-AR");
   const price = campo.precio != null ? `${campo.moneda ?? ""} ${format(campo.precio)}` : "Precio a consultar";
-  const backSearch = campoFilterParams({ ...filters, pais: campo.country_code || "AR" });
+  const backSearch = addMapBounds(campoFilterParams({ ...filters, pais: campo.country_code || "AR" }), parseMapBounds(filters));
+  if (filters.moneda && /^[A-Z]{3}$/.test(filters.moneda)) backSearch.set("moneda", filters.moneda);
   return <article className="v3-detail">
     <Link href={`/v3/campos?${backSearch.toString()}`} className="v3-detail-back"><ArrowLeft size={17}/> Volver al explorador</Link>
     <h1>{campo.titulo}</h1>
     <p className="v3-detail-location"><MapPin size={16}/>{[campo.localidad, campo.provincia].filter(Boolean).join(", ") || campo.country_code}</p>
-    {images.length ? <div className="v3-detail-gallery">
-      {images.map((photo, i) => <div className="v3-detail-gallery-image" key={i}><Image
-        src={photo.url} fill alt={`Imagen ${i+1} de ${campo.titulo}`} sizes="(max-width: 700px) 90vw, (max-width: 1100px) 50vw, 33vw" priority={i === 0}/></div>)}
-    </div> : <div className="v3-detail-gallery-empty">Esta publicación todavía no tiene fotografías disponibles.</div>}
+    <V3PhotoGallery photos={images.map(photo => photo.url)} title={campo.titulo}/>
     <div className="v3-detail-columns">
       <div>
         <h2>Acerca de este campo</h2>
