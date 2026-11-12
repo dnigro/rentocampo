@@ -131,3 +131,15 @@
  .v3-shell .v3-categories{gap:13px}
  .v3-shell .v3-categories .v3-category{background:#fff;min-height:125px;border-radius:21px;box-shadow:0 10px 35px #0c213333}
 }
+
+.v3-mobile-nav{display:none}
+@media(max-width:850px){
+ .v3-shell .v3-header{position:sticky}
+ .v3-mobile-nav{display:block;margin-left:auto;order:2}
+ .v3-mobile-nav summary{list-style:none;cursor:pointer;display:grid;place-items:center;border:1px solid #dce4ea;border-radius:50%;width:38px;height:38px;color:#102c4c}
+ .v3-mobile-nav summary::-webkit-details-marker{display:none}
+ .v3-header .v3-mobile-nav nav{display:flex!important;position:absolute;top:calc(100% + 5px);right:14px;min-width:220px;background:white;box-shadow:0 10px 34px #102c4c33;border:1px solid #e0e8ef;border-radius:17px;flex-direction:column;gap:0;padding:10px;z-index:100}
+ .v3-header .v3-mobile-nav nav a{display:block;padding:12px;border-radius:11px;font-size:13px}
+ .v3-header .v3-mobile-nav nav a:hover{background:#eef5fa}
+ .v3-header .v3-header-actions{order:1}
+}
