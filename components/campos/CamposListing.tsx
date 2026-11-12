@@ -1,4 +1,6 @@
-import { COUNTRIES, resolveCountry } from "@/data/countries";
+import CamposMapaUnificado from "@/components/campos/CamposMapaUnificado";
+import "@/styles/campos-unificados-v2.css";
+import { COUNTRIES, resolveCountry, type CountryCode } from "@/data/countries";
 import { campoFilterParams } from "@/lib/campos/filter-params";
 import Link from "next/link";
 import { cookies } from "next/headers";
@@ -85,93 +87,25 @@ export default async function CamposListing({ params, titulo, descripcion, soloA
     (key) => key !== "page" && key !== "pais" && params[key],
   );
 
-  return (
-    <div className="explorador-layout explorador-layout-results-first">
-      <ListingHeader
-        title={titulo ?? (hayFiltros ? tt("Resultados","Resultados") : tt("Campos disponibles","Terras disponíveis"))}
-        description={descripcion ?? (pais === "US" ? "Explore farmland for sale or rent in the United States. Connect directly with landowners." : tt(`Explorá campos para venta o alquiler en ${COUNTRIES[pais].name}. Contactá directamente a sus propietarios.`, `Explore terras para venda ou arrendamento no ${COUNTRIES[pais].name}. Fale diretamente com os proprietários.`))}
-        eyebrow={tt("CAMPOS Y OPORTUNIDADES", "TERRAS E OPORTUNIDADES")}
-        count={pais==="US"?`${count} listing${count === 1 ? "" : "s"} found`:pais==="BR"?`${count} terra${count!==1?"s":""} encontrada${count!==1?"s":""}`:`${count} campo${count !== 1 ? "s" : ""} encontrado${count !== 1 ? "s" : ""}`}
-      />
-
-      <ListingExplorerToolbar
-        country={pais}
-        count={pais==="US"?`${count} listings found`:pais==="BR"?`${count} terras encontradas`:`${count} campos encontrados`}
-        mapHref={`/campos/mapa?${mapParams}`}
-        mapLabel={tt("Ver en mapa", "Ver no mapa")}
-        relatedHref={`/servicios-rurales?pais=${pais}`}
-        relatedLabel={tt("Explorar servicios rurales", "Explorar serviços rurais")}
-        ariaLabel={tt("Explorar campos por país", "Explorar terras por país")}
-      />
-
-      <main className="explorador-main">
-        <div className="rc-explorer-grid">
-          <ListingFiltersPanel
-            title={tt("Filtrar campos", "Filtrar terras")}
-            activeCount={["operacion", "provincia", "aptitud", "disponibilidad", "hectareas_min", "hectareas_max", "precio_min", "precio_max"].filter(key => Boolean(params[key])).length}
-          >
-            <CampoFiltros key={pais} filtrosActivos={{ ...params, pais }} />
-          </ListingFiltersPanel>
-        <div className="explorador-contenido">
-          <section className="explorador-resultados" id="rc-explorer-results">
-            {campos && campos.length > 0 ? (
-              <>
-                <div className="campos-explorador-grid">
-                  {campos.map((campo) => (
-                    <CampoCard key={campo.id} campo={campo} userId={user?.id} />
-                  ))}
-                </div>
-
-                {totalPages > 1 && (
-                  <div className="paginacion">
-                    {page > 1 && (
-                      <Link
-                        href={`?${new URLSearchParams({ ...params, page: String(page - 1) })}`}
-                        className="listing-button"
-                      >
-                        ← {tt("Anterior","Anterior")}
-                      </Link>
-                    )}
-                    <span className="pagina-info">{tt("Página","Página")} {page} {tt("de","de")} {totalPages}</span>
-                    {page < totalPages && (
-                      <Link
-                        href={`?${new URLSearchParams({ ...params, page: String(page + 1) })}`}
-                        className="listing-button"
-                      >
-                        {tt("Siguiente","Próxima")} →
-                      </Link>
-                    )}
-                  </div>
-                )}
-              </>
-            ) : (
-              <div className="empty-state">
-                <span className="empty-icon">🔍</span>
-                <p className="empty-title">{tt("Todavía no hay campos publicados en esta categoría", "Ainda não há terras anunciadas nesta categoria")}</p>
-                <p className="empty-desc">{tt("Podés explorar el mapa o publicar un campo gratuitamente.", "Você pode explorar o mapa ou anunciar uma terra gratuitamente.")}</p>
-                <Link href={`/campos?pais=${pais}`} className="listing-button">{tt("Ver todos los campos", "Ver todas as terras")}</Link>
-              </div>
-            )}
-          </section>
-
-        </div>
-        </div>
-
-        <DemandaZonasPanel country={pais} provincia={params.provincia} authenticated={Boolean(user)} kind="campo" />
-
-        <section className="demanda-cta">
-          <div>
-            <p className="demanda-cta-kicker">{tt("Publicar es gratis", "Anunciar é grátis")}</p>
-            <h2>{tt("¿Tenés un campo para publicar?", "Você tem uma terra para anunciar?")}</h2>
-            <p>{tt("Sumá tu publicación a la red rural y contactá directamente a otros usuarios.", "Adicione seu anúncio à rede rural e entre em contato diretamente com outros usuários.")}</p>
-          </div>
-          <Link href={regionalPublicationHref({ country: pais, kind: "campo", authenticated: Boolean(user) })} className="demanda-cta-boton">
-            {regionalPublicationLabel({ country: pais, kind: "campo", authenticated: Boolean(user) })} →
-          </Link>
-        </section>
-
-
-      </main>
+  const filterHref=(key:string,value:string)=>{const p=new URLSearchParams();for(const [k,v] of Object.entries(params)){if(v&&k!=="page")p.set(k,v)}p.set("pais",pais);if(p.get(key)===value)p.delete(key);else p.set(key,value);return `/campos?${p.toString()}`;};
+  const aptitudes=[["agricola","Agrícola"],["ganadera","Ganadero"],["mixta","Mixto"]];
+  return <main className="rc-v2-shell">
+    <div className="rc-v2-top"><div><h1>{titulo??tt(`Campos disponibles en ${COUNTRIES[pais].name}`,`Terras disponíveis em ${COUNTRIES[pais].name}`)}</h1><p className="rc-v2-sub">{count} {tt("publicaciones · Venta, alquiler y oportunidades rurales","anúncios · Venda, arrendamento e oportunidades rurais")}</p></div><a className="rc-v2-chip" href={regionalPublicationHref({country:pais,kind:"campo",authenticated:Boolean(user)})}>{tt("Publicar gratis","Anunciar grátis")}</a></div>
+    <nav className="rc-v2-filters" aria-label="Filtros de campos">
+      <a className="rc-v2-chip" href={`/campos?pais=${pais}`}>⚙ {tt("Filtros","Filtros")}</a>
+      {([["venta","Venta"],["alquiler","Alquiler"]] as const).map(([value,label])=><Link key={value} className={`rc-v2-chip ${params.operacion===value?"active":""}`} href={filterHref("operacion",value)}>{label}</Link>)}
+      {aptitudes.map(([value,label])=><Link key={value} className={`rc-v2-chip ${params.aptitud===value?"active":""}`} href={filterHref("aptitud",value)}>{label}</Link>)}
+      <details className="rc-v2-chip"><summary>Hectáreas</summary><div><Link href={filterHref("hectareas_min","100")}>100+ ha</Link> · <Link href={filterHref("hectareas_min","500")}>500+ ha</Link></div></details>
+      <Link className="rc-v2-chip" href={`/servicios-rurales?pais=${pais}`}>{tt("Servicios","Serviços")} ↗</Link>
+      {hayFiltros&&<Link className="rc-v2-chip" href={`/campos?pais=${pais}`}>✕ Limpiar</Link>}
+    </nav>
+    <div className="rc-v2-grid">
+      <section aria-label="Campos disponibles">
+        {campos.length>0?<div className="rc-v2-cards">{campos.map(campo=><div key={campo.id}><CampoCard campo={campo} userId={user?.id}/><button className="rc-v2-chip" style={{marginTop:8}} type="button" data-campo-id={campo.id}>📍 {tt("Ubicar en mapa","Ver no mapa")}</button></div>)}</div>:<div className="rc-v2-empty">{tt("Todavía no hay campos publicados con estos filtros.","Ainda não há terras com estes filtros.")}</div>}
+        {totalPages>1&&<nav className="rc-v2-bottom" aria-label="Paginación">{page>1&&<Link className="rc-v2-chip" href={`? ${new URLSearchParams({...params,page:String(page-1)})}`.replace("? ","?")}>← Anterior</Link>} <span>Página {page} de {totalPages}</span> {page<totalPages&&<Link className="rc-v2-chip" href={`?${new URLSearchParams({...params,page:String(page+1)})}`}>Siguiente →</Link>}</nav>}
+      </section>
+      <aside className="rc-v2-map" aria-label="Mapa interactivo de campos"><CamposMapaUnificado campos={camposVisibles} pais={pais as CountryCode}/></aside>
     </div>
-  );
+    <div className="rc-v2-bottom"><DemandaZonasPanel country={pais} provincia={params.provincia} authenticated={Boolean(user)} kind="campo"/></div>
+  </main>;
 }
