@@ -366,6 +366,7 @@ export default function CampoMapa({
                 {COUNTRY_CODES_ALPHABETICAL.map(code=><option key={code} value={code}>{displayCountryName(code,code)}</option>)}
               </select>
             </div>
+
             <p style={{fontSize:17,margin:0,color:"#526477"}}>{vista === "tierra" ? camposConCoordenadas.length : prestadoresFiltrados.length} {vista === "tierra" ? tt("campos publicados","terras anunciadas") : tt("servicios rurales","serviços rurais")} · {displayCountryName(countryCode,countryCode)}</p>
           </div>
           <nav aria-label={tt("Navegación del mapa","Navegação do mapa")} style={{display:"flex",alignItems:"center",gap:12,flexWrap:"wrap"}}>
