@@ -1706,3 +1706,11 @@ body:has(.mapa-page) footer.footer {
  .mapa-page .explorador-header .explorador-tabs {width:100%!important;}
  .mapa-page .explorador-header .explorador-tabs button {flex:1 1 0!important;min-width:0!important;font-size:14px!important;}
 }
+
+/* Descripción editorial de cada vista, antes del contador. */
+.mapa-page .explorador-header .rc-map-header-description {
+ order:2!important; max-width:760px!important; margin:0 0 12px!important;
+ color:#526477!important; font-size:clamp(17px,1.3vw,21px)!important;
+ line-height:1.55!important; font-weight:400!important;
+}
+.mapa-page .explorador-header > div:first-child > p:last-child {order:3!important;}
