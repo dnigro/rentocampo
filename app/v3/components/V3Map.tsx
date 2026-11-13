@@ -51,43 +51,34 @@ export default function V3Map({ campos, country, selectedId, onSelect, onViewpor
       }).on("tileerror", () => { if (!cancelled) setMapError(true); }).addTo(map);
       const locations: [number, number][] = [];
       markers.clear();
-      const colocated = new Map<string, { total: number; seen: number }>();
+      const colocated = new Map<string, number>();
       for (const item of campos) {
         if (item.lat == null || item.lng == null) continue;
         const key = `${item.lat},${item.lng}`;
-        const group = colocated.get(key) || { total: 0, seen: 0 };
-        group.total++; colocated.set(key, group);
+        colocated.set(key,(colocated.get(key)||0)+1);
       }
+      const seen = new Map<string,number>();
       for (const campo of campos) {
         if (campo.lat == null || campo.lng == null) continue;
-        const position: [number, number] = [campo.lat, campo.lng];
-        const group = colocated.get(`${campo.lat},${campo.lng}`)!;
-        const slot = group.seen++;
-        // Offset labels at shared coordinates; never invent a different geographic location.
-        const columns = Math.min(group.total, 3);
-        const anchorX = 66 + ((slot % 3) - (columns - 1) / 2) * 136;
-        const anchorY = 38 + Math.floor(slot / 3) * 40;
+        const position: [number,number] = [campo.lat,campo.lng];
         locations.push(position);
-        const label = campo.demo ? "DEMO" : campo.kind === "servicio" ? (country === "BR" ? "Serviço" : country === "US" ? "Service" : "Servicio") : markerLabel(campo, region.locale);
-        // Build text with DOM APIs: currency/data must never be interpreted as HTML.
-        const pin = document.createElement("span");
-        pin.className = `v3-price-pin ${campo.kind === "servicio" ? "rural-service-pin" : "rural-field-pin"}`;
-        pin.textContent = label;
-        const marker = L.marker(position, {
-          icon: L.divIcon({
-            html: pin,
-            className: "v3-pin-wrapper",
-            iconSize: [132, 38],
-            iconAnchor: [anchorX, anchorY]
-          }),
-          title: `${campo.titulo} · ${label}`
+        const key = `${campo.lat},${campo.lng}`;
+        const index = seen.get(key)||0;
+        seen.set(key,index+1);
+        const count = colocated.get(key)||1;
+        const dot=document.createElement("span");
+        dot.className="v3-dot-pin "+(campo.kind==="servicio"?"v3-dot-service":"v3-dot-field");
+        dot.textContent=count>1?String(count):"";
+        const marker=L.marker(position,{
+          icon:L.divIcon({html:dot,className:"v3-dot-wrapper",iconSize:[26,26],iconAnchor:[13,13]}),
+          title:campo.titulo,
+          keyboard:true
         }).addTo(map);
-        marker.on("click", () => selectRef.current(campo.id));
-        markers.set(campo.id, marker);
-        if (campo.id === selectedRef.current) {
-          marker.getElement()?.classList.add("v3-marker-active");
-          marker.setZIndexOffset(1000);
-        }
+        marker.on("click",()=>{
+          selectRef.current(campo.id);
+          if(map && map.getZoom()<11)map.flyTo(position,Math.min(11,map.getMaxZoom()),{duration:.5});
+        });
+        markers.set(campo.id,marker);
       }
       const viewport = initialBoundsRef.current;
       if (viewport) {
