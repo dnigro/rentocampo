@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
-import Link from "next/link";
+import Link from "@/components/layout/RegionalLink";
+import { ArrowUpRight } from "lucide-react";
 import ActionIcon from "@/components/ui/ActionIcon";
 import "@/styles/dashboard.css";
 import { canAccessManagementReport } from "@/lib/analytics/commercial-filters";
@@ -53,41 +54,41 @@ export default async function DashboardPage() {
 
       <div className="dashboard-cards">
         {canViewCommercialReport && (
-          <Link href="/gerencial" className="dash-card" aria-label={tt("Abrir reporte gerencial por país", "Abrir relatório gerencial por país")}>
+          <Link href="/gerencial" className="dash-card">
             <span className="dash-card-icon"><ActionIcon name="report" /></span>
             <span className="dash-card-label">{tt("Reporte gerencial", "Relatório gerencial")}</span>
             <span className="dash-card-desc">{tt("Registros, campos y servicios reales por país", "Cadastros, terras e serviços reais por país")}</span>
-          </Link>
+          <ArrowUpRight className="dash-card-arrow" size={18} aria-hidden="true"/></Link>
         )}
         <Link href="/perfil" className="dash-card">
           <span className="dash-card-icon"><ActionIcon name="profile" /></span>
           <span className="dash-card-label">{tt("Mi perfil", "Meu perfil")}</span>
           <span className="dash-card-desc">{tt("Datos y configuración", "Dados e configurações")}</span>
-        </Link>
+        <ArrowUpRight className="dash-card-arrow" size={18} aria-hidden="true"/></Link>
         {(esProductor || esPropietario) && (
           <Link href="/mis-campos" className="dash-card">
             <span className="dash-card-icon"><ActionIcon name="fields" /></span>
             <span className="dash-card-label">{tt("Mis campos", "Minhas terras")}</span>
             <span className="dash-card-desc">{tt("Publicar y gestionar", "Anunciar e gerenciar")}</span>
-          </Link>
+          <ArrowUpRight className="dash-card-arrow" size={18} aria-hidden="true"/></Link>
         )}
         {esPrestador && (
           <Link href="/mis-servicios-rurales" className="dash-card">
             <span className="dash-card-icon"><ActionIcon name="services" /></span>
             <span className="dash-card-label">{tt("Mis servicios rurales", "Meus serviços rurais")}</span>
             <span className="dash-card-desc">{tt("Publicar y gestionar", "Anunciar e gerenciar")}</span>
-          </Link>
+          <ArrowUpRight className="dash-card-arrow" size={18} aria-hidden="true"/></Link>
         )}
         <Link href="/favoritos" className="dash-card">
           <span className="dash-card-icon"><ActionIcon name="favorites" /></span>
           <span className="dash-card-label">{tt("Favoritos", "Favoritos")}</span>
           <span className="dash-card-desc">{tt("Campos guardados", "Terras salvas")}</span>
-        </Link>
+        <ArrowUpRight className="dash-card-arrow" size={18} aria-hidden="true"/></Link>
         <Link href="/mensajes" className="dash-card">
           <span className="dash-card-icon"><ActionIcon name="messages" /></span>
           <span className="dash-card-label">{tt("Mensajes", "Mensagens")}</span>
           <span className="dash-card-desc">{tt("Mis consultas", "Minhas consultas")}</span>
-        </Link>
+        <ArrowUpRight className="dash-card-arrow" size={18} aria-hidden="true"/></Link>
       </div>
     </div>
   );

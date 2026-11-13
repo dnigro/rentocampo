@@ -28,7 +28,7 @@ export default function V3UnifiedExplorer({ listings, country, filter, errors, c
     const [bounds, setBounds] = useState(initialBounds);
     const [reset, setReset] = useState(0);
     const [selected, setSelected] = useState<string | null>(null);
-    const [mobileMap, setMobileMap] = useState(false);
+    const [mobileMap, setMobileMap] = useState(filter.vista === "mapa");
     const [autoSearch, setAutoSearch] = useState(true);
     const [pending, setPending] = useState<MapBounds | null>(null);
     const [location, setLocation] = useState(filter.provincia || "");
@@ -41,7 +41,7 @@ export default function V3UnifiedExplorer({ listings, country, filter, errors, c
     const matches = useMemo(() => filterRuralListings(listings, kind, applied), [listings, kind, applied]);
     const visible = useMemo(() => bounds ? matches.filter(item => matchesMapArea(item, bounds)) : matches, [matches, bounds]);
     const missing = matches.filter(item => !hasMapLocation(item)).length;
-    const search = addMapBounds(new URLSearchParams({ pais: country, tipo: kind, ...(applied.location ? { provincia: applied.location } : {}), ...(kind === "campo" ? { operacion: applied.operation, aptitud: applied.aptitude } : {}), ...(kind === "servicio" ? { servicio: applied.service } : {}) }), bounds);
+    const search = addMapBounds(new URLSearchParams({ pais: country, tipo: kind, ...(mobileMap ? {vista:"mapa"} : {}), ...(applied.location ? { provincia: applied.location } : {}), ...(kind === "campo" ? { operacion: applied.operation, aptitud: applied.aptitude } : {}), ...(kind === "servicio" ? { servicio: applied.service } : {}) }), bounds);
     const href = (item: RuralListing) => item.demo ? demoListingHref(country,item.kind,item.localidad) : `/v3/${item.kind === "campo" ? "campos" : "servicios"}/${item.sourceId}?${search}&origen=home`;
     const selectedItem = matches.find(item => item.id === selected);
     const onMove = useCallback((next: MapBounds) => { setPending(next); if (autoSearch)

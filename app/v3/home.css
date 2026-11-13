@@ -16,16 +16,16 @@
   margin: auto;
   padding: 28px 40px;
   display: grid;
-  grid-template-columns: 1.15fr 1fr;
+  grid-template-columns: 1fr 1fr;
   gap: 44px;
   align-items: center;
   min-height: 0
 }
 
 .rural-hero h1 {
-  font-size: clamp(36px,3.3vw,48px);
+  font-size: clamp(48px,5.2vw,76px);
   font-weight: 800;
-  letter-spacing: -1.6px;
+  letter-spacing: -3px;
   line-height: 1.08;
   margin: 10px 0 20px;
   color: #102c4c;
@@ -73,7 +73,7 @@
 .rural-hero-image {
   position: relative;
   height: 300px;
-  border-radius: 22px;
+  border-radius: 180px 16px 16px 180px;
   overflow: hidden;
   background: #284057;
   min-height: 0;
@@ -319,8 +319,8 @@
 }
 
 .rural-map-panel {
-  height: 720px;
-  min-height: 420px;
+  height: min(720px,calc(100dvh - 120px));
+  min-height: 360px;
   display: flex;
   flex-direction: column;
   position: sticky;
@@ -888,14 +888,14 @@
 }
 
 .rural-hero-copy{padding:0;position:relative;z-index:1}
-.rural-hero-impact{position:relative;display:inline-block;color:#102c4c;margin-top:3px;font-size:1em;letter-spacing:inherit}
-.rural-hero-impact:after{content:"";position:absolute;bottom:-6px;left:0;width:52%;height:4px;border-radius:4px;background:#c72b4c}
+.rural-hero-impact{display:inline-block;color:#102c4c;margin-top:0;font-size:.72em;letter-spacing:-2px}
+.rural-hero-impact:after{content:"";display:inline-block;width:9px;height:9px;margin-left:6px;border-radius:50%;background:#c72b4c}
 .rural-hero-benefits{display:flex;flex-wrap:wrap;gap:12px 18px;margin:14px 0 18px;color:#183c55}
 .rural-hero-benefits>span{display:flex;align-items:center;gap:7px;font-size:11px;font-weight:800;line-height:1.5}
 .rural-hero-actions{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
 .rural-hero-publish{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:48px;padding:10px 18px;border:1px solid #9cb3c5;border-radius:28px;font-size:14px;font-weight:750;color:#183c55;background:#fff}
-@media(max-width:1000px){.rural-hero{padding:24px;gap:28px}.rural-hero-copy{padding:0}.rural-hero h1{font-size:38px}.rural-hero-image{height:290px;min-height:0}}
-@media(max-width:700px){.rural-hero{padding:22px 18px;gap:20px;min-height:0}.rural-hero-copy{padding:0}.rural-hero h1{font-size:34px;letter-spacing:-1.2px}.rural-hero p{font-size:16px}.rural-hero-benefits{gap:10px 14px;margin:14px 0}.rural-hero-benefits>span{font-size:10px}.rural-hero-image{height:112px;min-height:112px;clip-path:none;border-radius:16px}.rural-hero-actions{gap:9px}.rural-hero-link,.rural-hero-publish{padding:10px 14px;font-size:13px;min-height:46px}}
+@media(max-width:1000px){.rural-hero{padding:24px;gap:28px}.rural-hero-copy{padding:0}.rural-hero h1{font-size:52px}.rural-hero-image{height:290px;min-height:0}}
+@media(max-width:700px){.rural-hero{padding:22px 18px;gap:20px;min-height:0}.rural-hero-copy{padding:0}.rural-hero h1{font-size:48px;letter-spacing:-2px}.rural-hero p{font-size:16px}.rural-hero-benefits{gap:10px 14px;margin:14px 0}.rural-hero-benefits>span{font-size:10px}.rural-hero-image{height:112px;min-height:112px;clip-path:none;border-radius:16px}.rural-hero-actions{gap:9px}.rural-hero-link,.rural-hero-publish{padding:10px 14px;font-size:13px;min-height:46px}}
 /* Keep the compact hero compact on phones as well. */
 @media(max-width:700px){
  .rural-hero{padding-block:18px}
@@ -905,3 +905,5 @@
  .rural-hero-actions svg{display:none}
  .rural-hero-image{height:96px;min-height:96px}
 }
+
+.rural-home-actions,.rural-home-faq{scroll-margin-top:100px}

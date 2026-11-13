@@ -4,10 +4,15 @@ import type { CountryCode } from "@/data/countries";
 import { regionalText } from "@/lib/i18n/regional";
 import { homeFAQContent } from "@/data/home-faq";
 import RuralIcon from "./RuralIcon";
-export default function V3HomeActions({ country }: {
+export default function V3HomeActions({ country, help }: {
     country: CountryCode;
+    help?: string;
 }) {
     const t = (es: string, pt: string, en: string) => regionalText(country, es, pt, en);
+    const guides = [
+        { key:"alquiler", question:t("¿Cómo alquilo un campo?","Como arrendo uma terra?","How do I rent farmland?"), answer:t("Elegí tu país y zona, seleccioná Campos y filtrá por Alquiler. Abrí una publicación y registrate o ingresá para consultar. Las condiciones se acuerdan directamente con quien publica.","Escolha o país e a região, selecione Terras e filtre por Arrendamento. Abra um anúncio e cadastre-se ou entre para consultar. As condições são combinadas diretamente com o anunciante.","Choose your country and area, select Farmland and filter by Lease. Open a listing and sign in or register to send an inquiry. Agree on terms directly with the advertiser.") },
+        { key:"publicar", question:t("¿Cómo publico un campo o servicio?","Como anuncio uma terra ou serviço?","How do I list farmland or a service?"), answer:t("Elegí Publicar campo u Ofrecer servicios en esta página. Ingresá a tu cuenta, completá los datos y agregá fotos. Después podés gestionar la publicación desde Mi cuenta.","Escolha Anunciar terra ou Oferecer serviços nesta página. Entre na sua conta, preencha os dados e adicione fotos. Depois você pode gerenciar o anúncio em Minha conta.","Choose List farmland or Offer services on this page. Sign in, complete the details and add photos. Then manage your listing from My account.") },
+    ];
     const actions = [
         {
             icon: "campo",
@@ -43,9 +48,10 @@ export default function V3HomeActions({ country }: {
             <span>{action.cta} <ArrowUpRight size={15} aria-hidden="true"/></span>
           </Link>))}
       </div>
-      <details className="rural-home-faq">
+      <details className="rural-home-faq" id="preguntas-frecuentes" open={guides.some(guide=>guide.key===help)}>
         <summary>{t("Preguntas frecuentes", "Perguntas frequentes", "Frequently asked questions")} <ChevronDown size={20} aria-hidden="true"/></summary>
         <div className="rural-home-faq-items">
+          {guides.map(guide=><details key={guide.key} open={help===guide.key}><summary>{guide.question}<span aria-hidden="true">+</span></summary><p>{guide.answer}</p></details>)}
           {homeFAQContent(country).items.map((item) => (<details name="rural-home-question" key={item.question}>
               <summary>{item.question}<span aria-hidden="true">+</span></summary>
               <p>{item.answer}</p>

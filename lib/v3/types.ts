@@ -23,6 +23,8 @@ export type RuralListing = {
 export type HomeFilters = {
     pais?: string;
     tipo?: string;
+    vista?: string;
+    ayuda?: string;
     provincia?: string;
     operacion?: string;
     aptitud?: string;

@@ -119,3 +119,6 @@ html body .v3-integrated footer.footer.v3-footer .footer-bottom-link{font-size:1
 .v3-country-menu>summary:focus-visible{outline:3px solid #8eb8d7;outline-offset:3px}
 @media(max-width:600px){.v3-country-menu>summary{min-width:73px;padding:9px 7px;gap:4px;font-size:13px}.v3-country-options{right:-45px}}
 .v3-regional-panel .rc-regions-showcase__flag{display:flex;align-items:center;gap:7px;font-size:14px;flex-shrink:0}
+
+/* Clip horizontally without creating a scroll container that traps sticky maps. */
+html:has(.v3-integrated),body:has(.v3-integrated){overflow-x:clip}

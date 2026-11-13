@@ -17,6 +17,6 @@ export default async function HomeV3({ searchParams, }: {
     return (<div className="v3-home rural-white-home">
       <V3HomeHero country={country}/>
       <V3UnifiedExplorer key={JSON.stringify(params)} listings={listings} country={country} filter={params} errors={errors} capped={capped} initialBounds={parseMapBounds(params)}/>
-      <V3HomeActions country={country}/>
+      <V3HomeActions country={country} help={params.ayuda}/>
     </div>);
 }

@@ -18,7 +18,7 @@ export function SiteFooter({ countryOverride, preview = false }: { countryOverri
     <footer className={preview ? "footer v3-footer" : "footer"}>
       <div className="footer-inner">
         <div className="footer-brand">
-          <Link href="/" className="footer-logo" aria-label="RentoCampo, inicio">
+          <Link href={preview ? `/v3?pais=${country}` : "/"} className="footer-logo" aria-label="RentoCampo, inicio">
             <Image src="/lite-logo.svg" width={31} height={34} alt="" className="footer-brand-icon" />
             <span className="footer-brand-name">RentoCampo</span>
           </Link>
@@ -33,10 +33,10 @@ export function SiteFooter({ countryOverride, preview = false }: { countryOverri
             <Link href={preview ? `/v3?pais=${country}&tipo=campo&operacion=alquiler#explorar` : "/alquiler-de-campos"} className="footer-link">
               {t("Alquiler de campos", "Arrendamento rural", "Farmland rentals")}
             </Link>
-            <Link href={preview ? `/v3?pais=${country}&tipo=campo#explorar` : "/campos/mapa"} className="footer-link">
+            <Link href={preview ? `/v3?pais=${country}&tipo=campo&vista=mapa#explorar` : "/campos/mapa"} className="footer-link">
               {t("Ver mapa", "Ver mapa", "View map")}
             </Link>
-            <RegionalLink href={preview ? "/v3?tipo=campo#explorar" : "/register?tipo=productor"} fallbackCountry={country} className="footer-link">
+            <RegionalLink href={preview ? "/v3?tipo=campo&ayuda=alquiler#preguntas-frecuentes" : "/register?tipo=productor"} fallbackCountry={country} className="footer-link">
               {t("Cómo alquilar", "Como arrendar", "How to rent")}
             </RegionalLink>
           </nav>
@@ -48,10 +48,10 @@ export function SiteFooter({ countryOverride, preview = false }: { countryOverri
             <RegionalLink href={preview ? "/mis-campos/nuevo" : "/register?tipo=propietario"} fallbackCountry={country} className="footer-link">
               {t("Publicar un campo", "Anunciar terra", "List farmland")}
             </RegionalLink>
-            <Link href="/mis-campos" className="footer-link">
+            <RegionalLink href="/mis-campos" fallbackCountry={country} className="footer-link">
               {t("Panel del propietario", "Painel do proprietário", "Landowner dashboard")}
-            </Link>
-            <RegionalLink href={preview ? "/v3#como-funciona" : "/register?tipo=propietario"} fallbackCountry={country} className="footer-link">
+            </RegionalLink>
+            <RegionalLink href={preview ? "/v3?ayuda=publicar#preguntas-frecuentes" : "/register?tipo=propietario"} fallbackCountry={country} className="footer-link">
               {t("Cómo publicar", "Como anunciar", "How to list")}
             </RegionalLink>
           </nav>
@@ -61,7 +61,7 @@ export function SiteFooter({ countryOverride, preview = false }: { countryOverri
           <h4 className="footer-col-title"><Sprout aria-hidden="true" />{t("Servicios rurales", "Serviços rurais", "Rural services")}</h4>
           <nav className="footer-nav footer-nav--services">
             <Link href={preview ? `/v3?pais=${country}&tipo=servicio#explorar` : "/servicios-rurales"} className="footer-link">{t("Buscar servicios", "Buscar serviços", "Find services")}</Link>
-            <Link href={preview ? `/v3?pais=${country}&tipo=servicio#explorar` : "/campos/mapa?vista=servicios"} className="footer-link">{t("Ver mapa de servicios", "Ver mapa de serviços", "Services map")}</Link>
+            <Link href={preview ? `/v3?pais=${country}&tipo=servicio&vista=mapa#explorar` : "/campos/mapa?vista=servicios"} className="footer-link">{t("Ver mapa de servicios", "Ver mapa de serviços", "Services map")}</Link>
             <RegionalLink href={preview ? "/mis-servicios-rurales/nuevo" : "/register?tipo=prestador"} fallbackCountry={country} className="footer-link">
               {t("Ofrecer mis servicios", "Oferecer meus serviços", "Offer services")}
             </RegionalLink>
