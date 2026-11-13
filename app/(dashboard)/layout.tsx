@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import Navbar from "@/components/layout/Navbar";
+import { isV3Preview } from "@/lib/v3-routing";
 import Footer from "@/components/layout/Footer";
 import DashboardReturn from "@/components/layout/DashboardReturn";
 import "@/styles/dashboard.css";
@@ -16,6 +17,8 @@ export default async function DashboardLayout({
   } = await supabase.auth.getUser();
 
   if (!user) redirect("/login");
+
+  if (isV3Preview(process.env)) return <main className="main-content account-workspace"><DashboardReturn />{children}</main>;
 
   return (
     <div className="app-shell">
