@@ -42,7 +42,7 @@ export default function V3Map({ campos, country, selectedId, onSelect, onViewpor
       const L = await import("leaflet");
       if (cancelled || !containerRef.current) return;
       const region = COUNTRIES[country];
-      map = L.map(containerRef.current, { scrollWheelZoom: false, zoomControl: false, zoomAnimation: true, fadeAnimation: true, markerZoomAnimation: true })
+      map = L.map(containerRef.current, { scrollWheelZoom: true, zoomControl: false, zoomAnimation: true, fadeAnimation: true, markerZoomAnimation: true })
         .setView([...region.mapCenter] as [number, number], region.mapZoom);
       mapRef.current = map;
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
