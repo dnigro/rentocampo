@@ -8,7 +8,7 @@ import type { V3Campo } from "./V3Explorer";
 import { markerLabel, type MapBounds } from "@/lib/campos/map-search";
 import { COUNTRIES, type CountryCode } from "@/data/countries";
 
-type Props = { campos: V3Campo[]; country: CountryCode; selectedId: string | null; onSelect: (id: string) => void; onViewportChange: (bounds: MapBounds) => void; initialBounds?: MapBounds | null; getHref?: (item: V3Campo) => string };
+type Props = { campos: V3Campo[]; country: CountryCode; selectedId: string | null; onSelect: (id: string) => void; onViewportChange: (bounds: MapBounds) => void; initialBounds?: MapBounds | null; getHref?: (id: string) => string };
 
 export default function V3Map({ campos, country, selectedId, onSelect, onViewportChange, initialBounds, getHref }: Props) {
   const [expanded,setExpanded]=useState(false);
@@ -88,7 +88,7 @@ export default function V3Map({ campos, country, selectedId, onSelect, onViewpor
         popup.appendChild(location);
         const link = document.createElement("a");
         link.textContent = "Ver publicación ↗";
-        link.href = hrefRef.current?.(campo) || "#";
+        link.href = hrefRef.current?.(campo.id) || "#";
         link.style.cssText = "font-weight:700;color:#12324b;text-decoration:underline";
         popup.appendChild(link);
         marker.bindPopup(popup, { autoPan: true, maxWidth:280, closeButton:true });
