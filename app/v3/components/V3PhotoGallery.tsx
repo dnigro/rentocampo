@@ -25,10 +25,10 @@ export default function V3PhotoGallery({ photos, title, country = "AR" }: Props)
   if (!visible.length) return <div className="v3-detail-gallery-empty">{t("Esta publicación todavía no tiene fotografías disponibles.")}</div>;
   if (visible.every(src => failed.has(src))) return <div className="v3-detail-gallery-empty">{t("No pudimos cargar las fotografías de esta publicación.")}</div>;
   return <>
-    <div className="v3-gallery-preview">
-      <div className={`v3-detail-gallery v3-gallery-count-${Math.min(visible.length, 5)}`}>
-        {visible.slice(0, 5).map((src, index) => <button type="button" key={`${src}-${index}`} className="v3-detail-gallery-image" onClick={() => open(index)} aria-label={`${t("Abrir foto")} ${index + 1}/${visible.length} · ${title}`}>
-          {failed.has(src) ? <span className="v3-gallery-photo-error">{t("Fotografía no disponible")}</span> : <Image onError={() => fail(src)} src={src} fill alt={`${t("Imagen")} ${index + 1} · ${title}`} sizes="(max-width: 700px) 95vw, (max-width: 1100px) 50vw, 33vw" priority={index === 0}/>}
+    <div className="v3-gallery-preview" style={{width:"100%",maxWidth:960,marginInline:"auto"}}>
+      <div className={`v3-detail-gallery v3-gallery-count-${Math.min(visible.length, 5)}`} style={{height:"clamp(220px,32vw,420px)",maxHeight:420,overflow:"hidden"}}>
+        {visible.slice(0, 5).map((src, index) => <button type="button" key={`${src}-${index}`} className="v3-detail-gallery-image" style={{minHeight:0,maxHeight:"100%",overflow:"hidden"}} onClick={() => open(index)} aria-label={`${t("Abrir foto")} ${index + 1}/${visible.length} · ${title}`}>
+          {failed.has(src) ? <span className="v3-gallery-photo-error">{t("Fotografía no disponible")}</span> : <Image onError={() => fail(src)} src={src} fill alt={`${t("Imagen")} ${index + 1} · ${title}`} sizes="(max-width: 700px) 95vw, (max-width: 1100px) 50vw, 33vw" priority={index === 0} style={{objectFit:"contain",background:"#f5f5f5"}}/>}
         </button>)}
       </div>
       <button type="button" className="v3-gallery-show-all" onClick={() => open(0)}><Images size={17}/> {t("Ver")} {visible.length} {visible.length === 1 ? t("foto") : t("fotos")}</button>
