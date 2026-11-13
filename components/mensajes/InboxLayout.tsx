@@ -195,5 +195,5 @@ export default async function InboxLayout({ children }: { children: React.ReactN
       new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
   );
 
-  return <InboxShell hilos={hilos} userId={user.id}>{children}</InboxShell>;
+  return <div style={{width:"100%",minWidth:0}}><InboxShell hilos={hilos} userId={user.id}>{children}</InboxShell></div>;
 }

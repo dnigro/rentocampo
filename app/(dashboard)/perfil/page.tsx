@@ -29,7 +29,7 @@ export default async function PerfilPage({ searchParams }: { searchParams?: Prom
     profileError = Boolean(result.error);
   } catch { profileError = true; }
 
-  if (profileError || (!profile && user.user_metadata?.onboarding_pending_roles !== true)) return <div className="page-container perfil-page"><h1>{tt("Mi perfil", "Meu perfil", "My profile")}</h1><p role="alert">{tt("No pudimos cargar tu perfil. Tus datos no se modificaron. Volvé a intentarlo.", "Não foi possível carregar seu perfil. Seus dados não foram alterados. Tente novamente.", "We couldn't load your profile. Your data has not changed. Please try again.")}</p><Link href={`/perfil?pais=${country}`}>{tt("Volver a intentar", "Tentar novamente", "Try again")}</Link></div>;
+  if (profileError || (!profile && user.user_metadata?.onboarding_pending_roles !== true)) return <div className="page-container perfil-page"><h1>{tt("Mi RentoCampo", "Meu RentoCampo", "My RentoCampo")}</h1><p role="alert">{tt("No pudimos cargar tu perfil. Tus datos no se modificaron. Volvé a intentarlo.", "Não foi possível carregar seu perfil. Seus dados não foram alterados. Tente novamente.", "We couldn't load your profile. Your data has not changed. Please try again.")}</p><Link href={`/perfil?pais=${country}`}>{tt("Volver a intentar", "Tentar novamente", "Try again")}</Link></div>;
 
   return (
     <div className="page-container perfil-page">
@@ -39,6 +39,7 @@ export default async function PerfilPage({ searchParams }: { searchParams?: Prom
           <p className="page-subtitle">{user.user_metadata?.onboarding_pending_roles === true ? tt("Elegí cómo querés usar RentoCampo", "Escolha como deseja usar a RentoCampo", "Choose how you want to use RentoCampo") : tt("Editá tus datos personales", "Edite seus dados pessoais", "Manage your personal information")}</p>
         </div>
       </div>
+      
       {user.user_metadata?.onboarding_pending_roles === true ? (
         <SeleccionarActividad country={country} />
       ) : (

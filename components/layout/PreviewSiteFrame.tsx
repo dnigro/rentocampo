@@ -52,7 +52,7 @@ function Frame({ children, root }: { children: ReactNode; root: boolean }) {
   catch{setSessionError(true);}finally{setSigningOut(false);}
  }
  const Content = root ? "div" : "main";
- return <div className={`v3-shell ${root ? "v3-integrated" : ""}`}>
+ return <div className="v3-shell v3-integrated">
   <a className="v3-skip-link" href="#site-content">{t("Saltar al contenido","Pular para o conteúdo","Skip to content")}</a>
   <header className="v3-header"><RegionalLink href="/v3" className="v3-brand"><Image src="/lite-logo.svg" alt="" width={50} height={50} className="v3-shield-logo"/><span>Rento<span className="v3-brand-bold">Campo</span></span></RegionalLink>
    <details className="v3-mobile-nav" key={`${pathname}?${params}`}><summary aria-label={t("Abrir navegación","Abrir navegação","Open navigation")}><Menu size={23}/></summary><nav aria-label={t("Navegación móvil","Navegação móvel","Mobile navigation")}><RegionalLink href="/v3">{t("Inicio","Início","Home")}</RegionalLink><RegionalLink href="/v3/mi-rentocampo">{t("Mi cuenta","Minha conta","My account")}</RegionalLink>{signedIn && <button type="button" className="v3-mobile-signout" onClick={signOut} disabled={signingOut}>{t("Salir","Sair","Log out")}</button>}</nav></details>

@@ -110,3 +110,231 @@
 @layer account-readability {
  html body .v3-shell.v3-integrated .account-workspace.account-workspace.account-workspace:has([data-account-overview]){background:#fff!important;color:#1d1d1f!important}
 }
+
+
+/* V3 review: restrained Apple-like internal workspace. Scoped to preview shell only. */
+@layer account-readability {
+ html body .v3-shell.v3-integrated main.account-workspace.account-workspace:not(:has(.rc-publish-form)) {
+  background:#fff!important;color:#1d1d1f!important;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif!important;
+ }
+ html body .v3-shell.v3-integrated .account-workspace.account-workspace:not(:has(.rc-publish-form)) :is(.page-header,.dashboard-header,.rc-decision__header) {
+  min-height:0!important;padding:8px 0 24px!important;margin:0 0 24px!important;
+  background:transparent!important;border:0!important;border-bottom:1px solid #e5e5e7!important;
+  border-radius:0!important;box-shadow:none!important;color:#1d1d1f!important;
+ }
+ html body .v3-shell.v3-integrated .account-workspace.account-workspace :is(.page-title,.dashboard-title,.rc-lite-profile__title,.rc-decision__header h1) {
+  color:#1d1d1f!important;font-weight:600!important;letter-spacing:-.7px!important;
+ }
+ html body .v3-shell.v3-integrated .account-workspace.account-workspace :is(.page-subtitle,.dashboard-subtitle,.rc-lite-profile__subtitle,.rc-decision__header p,.perfil-section-description,.empty-desc,.role-gate-card p) {
+  color:#6e6e73!important;
+ }
+ html body .v3-shell.v3-integrated .account-workspace.account-workspace :is(.perfil-section,.campo-card-admin,.campo-card-pub,.empty-state,.role-gate-card,.inbox-workspace,.rc-decision__view,.rc-decision__kpi) {
+  background:#fff!important;border:1px solid #e5e5e7!important;border-radius:12px!important;box-shadow:none!important;
+ }
+ html body .v3-shell.v3-integrated .account-workspace.account-workspace :is(.perfil-section-title,.empty-title,.rc-decision__view-heading h2,.campo-card-titulo,.campo-card-pub-titulo,.rc-decision__kpi strong,.rc-decision__kpi-title) {
+  color:#1d1d1f!important;font-weight:600!important;
+ }
+ html body .v3-shell.v3-integrated .account-workspace.account-workspace :is(.badge-tipo,.rc-decision__private) {
+  background:#f5f5f7!important;color:#6e6e73!important;border:1px solid #e5e5e7!important;
+ }
+ html body .v3-shell.v3-integrated .account-workspace.account-workspace :is(.dash-card,.rc-lite-profile__link,.v3-real-account-grid>a) {
+  background:transparent!important;border:0!important;border-bottom:1px solid #e5e5e7!important;
+  border-radius:0!important;box-shadow:none!important;
+ }
+ html body .v3-shell.v3-integrated .account-workspace.account-workspace :is(.dash-card-icon,.rc-lite-profile__link-icon,.v3-real-account-grid>a>svg:first-child) {
+  color:#6e6e73!important;background:none!important;border:0!important;
+ }
+ html body .v3-shell.v3-integrated .account-workspace.account-workspace :is(.dash-card-label,.rc-lite-profile__link-body strong,.v3-real-account-grid h2) {
+  color:#1d1d1f!important;font-weight:600!important;
+ }
+ html body .v3-shell.v3-integrated .account-workspace.account-workspace :is(.dash-card-desc,.rc-lite-profile__link-body small,.v3-real-account-grid p,.rc-decision__eyebrow) {
+  color:#6e6e73!important;
+ }
+ html body .v3-shell.v3-integrated .account-workspace.account-workspace :is(.form-input,.form-textarea,.inbox-search input,.rc-decision__country-picker select) {
+  background:#fff!important;color:#1d1d1f!important;border:1px solid #d2d2d7!important;border-radius:9px!important;
+  box-shadow:none!important;
+ }
+ html body .v3-shell.v3-integrated .account-workspace.account-workspace :is(.btn-primary-lg,.mensaje-compose-submit) {
+  color:white!important;background:#1d1d1f!important;border:1px solid #1d1d1f!important;
+  border-radius:9px!important;box-shadow:none!important;
+ }
+ html body .v3-shell.v3-integrated .account-workspace.account-workspace :is(.btn-secondary-lg,.btn-action) {
+  color:#1d1d1f!important;background:white!important;border:1px solid #d2d2d7!important;
+  border-radius:9px!important;box-shadow:none!important;
+ }
+ html body .v3-shell.v3-integrated .account-workspace.account-workspace :is(.rc-decision__kpi--featured,.inbox-sidebar) {
+  background:white!important;border-color:#e5e5e7!important;
+ }
+ html body .v3-shell.v3-integrated .account-workspace.account-workspace .rc-decision__tabs button[aria-selected=true] {
+  background:#1d1d1f!important;color:#fff!important;
+ }
+ html body .v3-shell.v3-integrated .account-workspace.account-workspace :is(.dash-card,.rc-lite-profile__link):hover {
+  background:#f5f5f7!important;
+ }
+ @media(max-width:700px) {
+  html body .v3-shell.v3-integrated .account-workspace.account-workspace :is(.page-header,.dashboard-header,.rc-decision__header) {
+   padding:8px 0 18px!important;border-radius:0!important;
+  }
+ }
+}
+/* Publication forms and auth retain their existing behavior; preview-only visual harmonization. */
+html body .v3-shell.v3-integrated main.account-workspace:has(.rc-publish-form){background:#fff!important}
+html body .v3-shell.v3-integrated form.campo-form.rc-publish-form{border-color:#e5e5e7!important;border-radius:12px!important;box-shadow:none!important}
+html body .v3-shell.v3-integrated form.campo-form.rc-publish-form .form-section-number{background:#f5f5f7!important;color:#6e6e73!important}
+html body .v3-shell.v3-integrated form.campo-form.rc-publish-form :is(.form-section-copy,.form-section-title-editorial){color:#1d1d1f!important;font-weight:600!important}
+html body .v3-shell.v3-integrated form.campo-form.rc-publish-form .rc-publish-group{background:#fff!important;border-color:#e5e5e7!important;border-radius:10px!important}
+html body .v3-shell.v3-integrated form.campo-form.rc-publish-form .form-actions :is(.btn-primary,.btn-primary-lg,.btn-submit){background:#1d1d1f!important;color:#fff!important;border-radius:9px!important}
+html body .v3-shell.v3-integrated .auth-main{background:#fafafa!important}
+html body .v3-shell.v3-integrated .auth-page .auth-card{border-color:#e5e5e7!important;border-radius:12px!important;box-shadow:none!important}
+html body .v3-shell.v3-integrated .auth-page .btn-submit{background:#1d1d1f!important;color:#fff!important;border-radius:9px!important}
+html body .v3-shell.v3-integrated .auth-page :is(.auth-footer a,.form-label-link){color:#1d1d1f!important}
+
+/* Final V3-only override: unlayered so legacy global page styles cannot win. */
+html body .v3-shell.v3-integrated .account-workspace{background:#fff!important;color:#1d1d1f!important}
+html body .v3-shell.v3-integrated .account-workspace .page-container{background:#fff!important}
+html body .v3-shell.v3-integrated .account-workspace .page-header{
+ background:#fff!important;border:0!important;border-bottom:1px solid #e5e5e7!important;
+ border-radius:0!important;box-shadow:none!important;min-height:0!important;
+ padding:12px 0 24px!important;margin-bottom:24px!important;
+}
+html body .v3-shell.v3-integrated .account-workspace .page-header::before,
+html body .v3-shell.v3-integrated .account-workspace .page-header::after{display:none!important;content:none!important}
+html body .v3-shell.v3-integrated .account-workspace .page-title{
+ color:#1d1d1f!important;font-weight:750!important;font-size:clamp(30px,3vw,42px)!important;letter-spacing:-1px!important;
+}
+html body .v3-shell.v3-integrated .account-workspace .page-subtitle{color:#6e6e73!important}
+html body .v3-shell.v3-integrated .account-workspace :is(.perfil-section,.perfil-page .perfil-section,.form-section,.perfil-form-section){
+ background:#fff!important;border:1px solid #e5e5e7!important;border-radius:14px!important;box-shadow:none!important;
+}
+html body .v3-shell.v3-integrated .account-workspace :is(.perfil-section-title,.perfil-page h2){color:#1d1d1f!important;font-weight:700!important}
+html body .v3-shell.v3-integrated .account-workspace :is(input,textarea,select){border-color:#d2d2d7!important;border-radius:9px!important}
+
+/* Final account-detail system: match large white cards from AccountOverview. */
+html body .v3-shell.v3-integrated .account-workspace .page-container{
+ max-width:1320px!important;width:calc(100% - 48px)!important;margin-inline:auto!important;
+ padding-top:36px!important;background:#fff!important;color:#1d1d1f!important;
+}
+html body .v3-shell.v3-integrated .account-workspace .page-header{
+ background:#fff!important;border:0!important;border-bottom:1px solid #e5e5e7!important;
+ border-radius:0!important;padding:0 0 28px!important;min-height:0!important;
+ box-shadow:none!important;margin-bottom:26px!important;
+}
+html body .v3-shell.v3-integrated .account-workspace .page-title{
+ font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif!important;
+ font-size:clamp(34px,3.5vw,46px)!important;font-weight:750!important;
+ line-height:1.12!important;letter-spacing:-1px!important;color:#1d1d1f!important;
+ text-transform:none!important;
+}
+html body .v3-shell.v3-integrated .account-workspace .page-subtitle{
+ color:#6e6e73!important;font-size:16px!important;font-weight:400!important;
+}
+html body .v3-shell.v3-integrated .account-workspace :is(
+ .perfil-section,.perfil-avatar-panel,.perfil-main-form,.perfil-danger-zone,
+ .campo-card-admin,.campo-card-pub,.empty-state,.role-gate-card,
+ .favorito-item,.inbox-workspace,.rc-decision__view,.rc-decision__kpi
+){
+ background:#fff!important;border:1px solid #e5e5e7!important;
+ border-radius:18px!important;box-shadow:none!important;
+}
+html body .v3-shell.v3-integrated .account-workspace .perfil-section{
+ padding:clamp(22px,3vw,36px)!important;margin-bottom:22px!important;
+}
+html body .v3-shell.v3-integrated .account-workspace :is(
+ .perfil-section-title,.form-section-title,.campo-card-titulo,.campo-card-pub-titulo,
+ .empty-title,.rc-decision__view-heading h2,.role-gate-card h2
+){
+ font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif!important;
+ font-size:clamp(22px,2vw,28px)!important;line-height:1.25!important;
+ font-weight:750!important;letter-spacing:-.5px!important;text-transform:none!important;
+ color:#1d1d1f!important;
+}
+html body .v3-shell.v3-integrated .account-workspace :is(
+ .perfil-section-description,.form-section-hint,.empty-desc,.campo-card-ubicacion,
+ .campo-card-datos,.campo-card-pub-ubicacion,.role-gate-card p
+){color:#6e6e73!important;font-size:15px!important;line-height:1.55!important}
+html body .v3-shell.v3-integrated .account-workspace .perfil-role-option{
+ background:#fff!important;border:1px solid #d2d2d7!important;border-radius:12px!important;
+ box-shadow:none!important;
+}
+html body .v3-shell.v3-integrated .account-workspace .perfil-role-option:has(input:checked){
+ background:#f5f5f7!important;border-color:#86868b!important;
+}
+html body .v3-shell.v3-integrated .account-workspace .perfil-role-option input{accent-color:#1d1d1f!important}
+html body .v3-shell.v3-integrated .account-workspace :is(.form-input,.form-textarea,select){
+ background:#fff!important;color:#1d1d1f!important;border:1px solid #d2d2d7!important;
+ border-radius:10px!important;box-shadow:none!important;
+}
+html body .v3-shell.v3-integrated .account-workspace :is(.btn-primary-lg,.btn-submit,.mensaje-compose-submit){
+ background:#1d1d1f!important;color:#fff!important;border:1px solid #1d1d1f!important;
+ border-radius:10px!important;box-shadow:none!important;
+}
+html body .v3-shell.v3-integrated .account-workspace :is(.btn-secondary-lg,.btn-action){
+ background:#fff!important;color:#1d1d1f!important;border:1px solid #d2d2d7!important;
+ border-radius:10px!important;box-shadow:none!important;
+}
+html body .v3-shell.v3-integrated .account-workspace .campo-card-admin{
+ overflow:hidden!important;min-height:230px!important;
+}
+html body .v3-shell.v3-integrated .account-workspace .campo-card-actions{
+ gap:10px!important;
+}
+html body .v3-shell.v3-integrated .account-workspace .perfil-danger-zone{
+ border-color:#e5e5e7!important;background:#fff!important;
+}
+html body .v3-shell.v3-integrated .account-workspace .avatar-preview{
+ border:2px solid #e5e5e7!important;background:#f5f5f7!important;
+}
+@media(max-width:700px){
+ html body .v3-shell.v3-integrated .account-workspace .page-container{
+  width:calc(100% - 32px)!important;padding-top:24px!important;
+ }
+ html body .v3-shell.v3-integrated .account-workspace .perfil-section{padding:22px!important}
+}
+
+/* V3 account interiors: no redundant page hero, white Apple-like surfaces. */
+html body .v3-shell.v3-integrated .account-workspace:not(:has(.dashboard-page)) :is(.page-header,.perfil-page>.page-header){display:none!important}
+html body .v3-shell.v3-integrated .account-workspace:not(:has(.dashboard-page)) .page-container{padding-top:20px!important}
+html body .v3-shell.v3-integrated .account-workspace :is(.perfil-section,.rc-decision__view,.rc-decision__kpi){border:1px solid #e5e5e7!important;background:#fff!important;box-shadow:none!important}
+html body .v3-shell.v3-integrated .account-workspace .perfil-photo-intro :is(.perfil-intro-icon){display:none!important}
+html body .v3-shell.v3-integrated .account-workspace .perfil-section-title{border:0!important;text-transform:none!important;padding:0!important;font-size:24px!important;font-weight:700!important;letter-spacing:-.4px!important}
+html body .v3-shell.v3-integrated .account-workspace .rc-decision-page{max-width:1280px!important;margin:0 auto!important;padding:28px 24px 60px!important;width:100%!important;min-width:0!important;box-sizing:border-box!important}
+html body .v3-shell.v3-integrated .account-workspace .rc-decision__header{display:none!important}
+html body .v3-shell.v3-integrated .account-workspace .rc-decision__tabs{display:flex!important;flex-wrap:wrap!important;gap:8px!important;padding:0 0 16px!important;margin:0 0 22px!important;border-bottom:1px solid #e5e5e7!important}
+html body .v3-shell.v3-integrated .account-workspace .rc-decision__tabs button{min-height:42px!important;padding:10px 16px!important;border:1px solid #e5e5e7!important;border-radius:9px!important;background:#fff!important;color:#1d1d1f!important;font-weight:600!important}
+html body .v3-shell.v3-integrated .account-workspace .rc-decision__tabs button[aria-selected=true]{background:#1d1d1f!important;color:#fff!important;border-color:#1d1d1f!important}
+html body .v3-shell.v3-integrated .account-workspace .rc-decision__view{display:grid!important;gap:20px!important;min-width:0!important;padding:24px!important}
+html body .v3-shell.v3-integrated .account-workspace .rc-decision__kpis{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:14px!important;min-width:0!important}
+html body .v3-shell.v3-integrated .account-workspace .rc-decision__kpi{min-width:0!important;min-height:125px!important;padding:20px!important;display:flex!important;flex-direction:column!important;gap:8px!important}
+html body .v3-shell.v3-integrated .account-workspace .rc-decision__kpi :is(strong,.rc-decision__kpi-title){color:#1d1d1f!important;font-weight:700!important}
+html body .v3-shell.v3-integrated .account-workspace .rc-decision__icon{background:#f5f5f7!important;color:#6e6e73!important}
+html body .v3-shell.v3-integrated .account-workspace .rc-decision__kpi--featured{background:#fff!important}
+html body .v3-shell.v3-integrated .account-workspace .rc-decision__country-card{background:#fff!important;border:1px solid #e5e5e7!important;border-radius:12px!important}
+html body .v3-shell.v3-integrated .account-workspace .inbox-workspace{
+ display:grid!important;grid-template-columns:minmax(280px,340px) minmax(0,1fr)!important;
+ width:min(1280px,calc(100% - 32px))!important;height:min(78dvh,800px)!important;
+ min-height:530px!important;margin:20px auto 36px!important;overflow:hidden!important;
+ background:#fff!important;border:1px solid #e5e5e7!important;border-radius:14px!important;
+}
+html body .v3-shell.v3-integrated .account-workspace .inbox-sidebar{min-width:0!important;overflow:hidden!important;background:#fff!important;border-right:1px solid #e5e5e7!important}
+html body .v3-shell.v3-integrated .account-workspace .inbox-threads{overflow-y:auto!important;min-height:0!important}
+html body .v3-shell.v3-integrated .account-workspace .inbox-thread{padding:16px!important;background:#fff!important;border-bottom:1px solid #e5e5e7!important;color:#1d1d1f!important}
+html body .v3-shell.v3-integrated .account-workspace .inbox-thread[aria-current],html body .v3-shell.v3-integrated .account-workspace .inbox-thread--active{background:#f5f5f7!important}
+html body .v3-shell.v3-integrated .account-workspace .inbox-chat{min-width:0!important;min-height:0!important;overflow:hidden!important;display:flex!important;flex-direction:column!important;background:#fff!important}
+html body .v3-shell.v3-integrated .account-workspace .inbox-chat>.page-container{width:100%!important;max-width:none!important;padding:0!important;margin:0!important;display:flex!important;flex-direction:column!important;flex:1!important;min-height:0!important}
+html body .v3-shell.v3-integrated .account-workspace .inbox-workspace .hilo-header{margin:0!important;padding:18px 22px!important;border:0!important;border-bottom:1px solid #e5e5e7!important;background:#fff!important;flex-shrink:0!important}
+html body .v3-shell.v3-integrated .account-workspace .inbox-workspace .hilo-container{min-height:0!important;height:auto!important;flex:1!important;overflow:hidden!important;border:0!important;box-shadow:none!important;background:#fff!important}
+html body .v3-shell.v3-integrated .account-workspace .inbox-workspace .hilo-mensajes{overflow-y:auto!important;min-height:0!important;background:#fff!important;padding:18px!important}
+html body .v3-shell.v3-integrated .account-workspace .inbox-workspace .mensaje-burbuja{background:#f5f5f7!important;border:1px solid #e5e5e7!important;color:#1d1d1f!important;border-radius:14px!important}
+html body .v3-shell.v3-integrated .account-workspace .inbox-workspace .burbuja-otra{background:#fff!important}
+html body .v3-shell.v3-integrated .account-workspace .inbox-workspace .mensaje-compose{background:#fff!important;border-top:1px solid #e5e5e7!important;flex-shrink:0!important}
+html body .v3-shell.v3-integrated .account-workspace .inbox-workspace .mensaje-compose-submit{background:#1d1d1f!important;border-color:#1d1d1f!important;color:#fff!important}
+html body .v3-shell.v3-integrated .account-workspace .inbox-workspace :is(.inbox-preview,.rc-inbox__type,.hilo-header-campo,.mensaje-hora){color:#6e6e73!important}
+@media(max-width:900px){html body .v3-shell.v3-integrated .account-workspace .rc-decision__kpis{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+@media(max-width:760px){
+ html body .v3-shell.v3-integrated .account-workspace .rc-decision__kpis{grid-template-columns:1fr!important}
+ html body .v3-shell.v3-integrated .account-workspace .rc-decision-page{padding:16px!important}
+ html body .v3-shell.v3-integrated .account-workspace .inbox-workspace{display:flex!important;height:calc(100dvh - 155px)!important;min-height:440px!important}
+ html body .v3-shell.v3-integrated .account-workspace .inbox-workspace:not(.inbox-workspace--open) .inbox-chat{display:none!important}
+ html body .v3-shell.v3-integrated .account-workspace .inbox-workspace--open .inbox-sidebar{display:none!important}
+}
