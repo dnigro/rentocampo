@@ -274,9 +274,9 @@ test("PR319 corporate interior preserves management data and keeps chat composer
  assert.match(theme,/overflow-y:auto!important/);
  assert.match(report,/getCommercialStats\(\)/);
  assert.match(report,/canAccessManagementReport/);
- assert.match(panel,/rc-executive-kpi/);
- assert.match(panel,/Alcance regional/);
- assert.ok(report.includes("rc-decision-report.css"));
+ assert.match(panel,/ag-kpis/);
+ assert.match(panel,/Actividad en Latinoamérica/);
+ assert.ok(report.includes("agtech-intelligence.css"));
  assert.match(reportCss,/\.rc-decision__country/);
  assert.match(dashboard,/<ActionIcon/);
  assert.match(fieldForm,/className="campo-form rc-publish-form rc-publish-form--field"/);
@@ -313,7 +313,7 @@ test("PR319 mobile polish: actionable result count, readable back button and zeb
  assert.ok(polish.includes("border-left:1px solid #d8e2e9!important"));
  assert.ok(appLayout.includes('rc-interior-refinement.css'));
  assert.ok(report.includes('<option value="ALL">'));
- assert.ok(report.includes('rc-executive-bartrack'));
+ assert.ok(report.includes('ag-track'));
  assert.ok(report.includes("current.activeLands"));
  assert.ok(report.includes("current.activeServices"));
  assert.ok(reportCss.includes("rc-decision__country-track"));
@@ -344,10 +344,10 @@ test("PR319 executive country control, professional inbox and mobile account car
  assert.ok(report.includes('canAccessManagementReport'));
  assert.ok(controller.includes('useState("ALL")'));
  assert.ok(controller.includes('<option value="ALL">'));
- assert.ok(controller.includes('rows.map(x=>'));
- assert.ok(controller.includes('rc-executive-kpi'));
- assert.ok(controller.includes('Alcance regional'));
- assert.ok(controller.includes('Publicaciones y conversión'));
+ assert.ok(controller.includes('rows.map(r=>'));
+ assert.ok(controller.includes('ag-kpis'));
+ assert.ok(controller.includes('Actividad en Latinoamérica'));
+ assert.ok(controller.includes('Servicios rurales'));
  assert.ok(controller.includes('current.activeServices'));
  assert.ok(growthCss.includes('rc-growth__visuals'));
  assert.ok(growthCss.includes('rc-gerencial__legacy-details'));
