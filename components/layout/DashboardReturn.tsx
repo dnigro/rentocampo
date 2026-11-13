@@ -34,7 +34,7 @@ export default function DashboardReturn() {
 
   return (
     <nav className="dashboard-return" aria-label={backLabel}>
-      <Link href={`${returnHref}?pais=${country}`} className="rc-dashboard-return-btn">
+      <Link href={`${returnHref}?pais=${country}`} className="rc-dashboard-return-btn" style={{background:"#ffffff",color:"#102c43",border:"1px solid #cbd0d5",borderRadius:12,boxShadow:"none",fontWeight:700}}>
         <ArrowLeft size={17} aria-hidden="true" />
         <span>{backLabel}</span>
       </Link>
