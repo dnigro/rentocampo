@@ -20,7 +20,7 @@ export default async function DashboardPage() {
   if (user.user_metadata?.onboarding_pending_roles === true) {
     redirect("/perfil?elegir=rol");
   }
-  const canViewCommercialReport = canAccessManagementReport(user.email);
+  const canViewCommercialReport = Boolean(user.email_confirmed_at) && canAccessManagementReport(user.email);
 
   const { data: profile } = await supabase
     .from("profiles")

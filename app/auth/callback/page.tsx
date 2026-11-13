@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
+import { safeAuthNext } from "@/lib/auth/safe-next";
 import { createClient } from "@/lib/supabase/client";
 import "@/styles/public.css";
 
@@ -16,10 +17,7 @@ export default function AuthCallbackPage() {
     async function completeAuthentication() {
       const url = new URL(window.location.href);
       const requestedNext = url.searchParams.get("next");
-      const next =
-        requestedNext?.startsWith("/") && !requestedNext.startsWith("//")
-          ? requestedNext
-          : "/dashboard";
+      const next = safeAuthNext(requestedNext);
 
       const authError = url.searchParams.get("error");
       if (authError) {

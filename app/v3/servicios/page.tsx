@@ -26,6 +26,9 @@ export default async function V3Servicios({ searchParams }: { searchParams: Prom
   const servicios = (data ?? []).filter(item =>
     !String(item.id).startsWith("20000000-") && !String(item.id).startsWith("10000000-")
   );
+  const detailSearch = new URLSearchParams({ pais: country });
+  if (params.provincia) detailSearch.set("provincia", params.provincia);
+  if (service) detailSearch.set("servicio", service);
   return <section className="v3-catalog v3-services-page">
     <div className="v3-catalog-heading">
       <div><span className="v3-kicker">SERVICIOS PARA EL CAMPO</span>
@@ -57,13 +60,13 @@ export default async function V3Servicios({ searchParams }: { searchParams: Prom
         const title = tituloServicioRural(item.servicios_rurales as ServicioRural[], country, item.nombre_comercial);
         return <article className="v3-listing-card" key={item.id}>
           <div className="v3-listing-media">
-            <Link href={`/v3/servicios/${item.id}`} aria-label={`Ver ${title}`}>
+            <Link href={`/v3/servicios/${item.id}?${detailSearch}`} aria-label={`Ver ${title}`}>
               {item.foto_url ? <Image src={item.foto_url} alt={title} fill sizes="(max-width:700px) 90vw, 25vw"/> :
                 <div className="v3-listing-placeholder"><Tractor size={36}/></div>}
             </Link>
             <span className="v3-listing-badge">Servicio rural</span>
           </div>
-          <Link className="v3-listing-info" href={`/v3/servicios/${item.id}`}>
+          <Link className="v3-listing-info" href={`/v3/servicios/${item.id}?${detailSearch}`}>
             <strong>{title}</strong>
             <span><MapPin size={14}/>{[item.localidad, item.provincia].filter(Boolean).join(", ") || country}</span>
             <span>{(item.servicios_rurales || []).slice(0, 2).map((s: ServicioRural) => servicioLabel(s, country)).join(" · ")}</span>

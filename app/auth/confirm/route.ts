@@ -1,4 +1,5 @@
 import { createServerClient } from "@supabase/ssr";
+import { safeAuthNext } from "@/lib/auth/safe-next";
 import { getSupabasePublicConfig } from "@/lib/supabase/config";
 import { NextResponse, type NextRequest } from "next/server";
 import type { EmailOtpType } from "@supabase/supabase-js";
@@ -30,23 +31,22 @@ export async function GET(request: NextRequest) {
   const tokenHash = searchParams.get("token_hash");
   const type = searchParams.get("type") as EmailOtpType | null;
   const requestedNext = searchParams.get("next");
-  const next =
-    requestedNext?.startsWith("/") && !requestedNext.startsWith("//")
-      ? requestedNext
-      : "/dashboard";
+  const next = safeAuthNext(requestedNext, type === "recovery" ? "/auth/reset-password" : "/dashboard");
 
   if (tokenHash && type) {
     // Verify OTP and attach every session cookie to the SAME redirect response.
     // cookies().set alone may not carry those cookies into a separately-created
     // NextResponse.redirect, leaving users back on /login after confirmation.
     const successResponse = NextResponse.redirect(new URL(next, origin));
+    successResponse.headers.set("Cache-Control", "private, no-store");
     const { url, key } = getSupabasePublicConfig();
     const supabase = createServerClient(url, key, {
       cookies: {
         getAll() {
           return request.cookies.getAll();
         },
-        setAll(cookiesToSet) {
+        setAll(cookiesToSet, headers) {
+          Object.entries(headers).forEach(([name, value]) => successResponse.headers.set(name, value));
           cookiesToSet.forEach(({ name, value, options }) => {
             request.cookies.set(name, value);
             successResponse.cookies.set(name, value, options);

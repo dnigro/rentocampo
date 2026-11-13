@@ -1,6 +1,7 @@
 import Image from "next/image";
 import heroTambo from "@/public/rentocampo-hero-campo-bn-1920x1080.webp";
 import Link from "next/link";
+import { canAccessManagementReport } from "@/lib/analytics/commercial-filters";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import { ArrowUpRight } from "lucide-react";
@@ -29,6 +30,8 @@ export default async function Page() {
     { href: "/lite/servicios/mis-publicaciones", title: tt("Mis servicios", "Meus serviços"), description: tt("Gestionar ofertas", "Gerenciar ofertas"), icon: "services" as ActionIconName },
     { href: "/lite/perfil/mensajes", title: tt("Mis mensajes", "Minhas mensagens"), description: tt("Consultas y contactos", "Consultas e contatos"), icon: "messages" as ActionIconName },
   ];
+
+  if (user?.email_confirmed_at && canAccessManagementReport(user.email)) links.unshift({ href: "/gerencial", title: tt("Reporte gerencial", "Relatório gerencial"), description: tt("Indicadores comerciales por país", "Indicadores comerciais por país"), icon: "report" as ActionIconName });
 
   return (
     <>

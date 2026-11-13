@@ -4,7 +4,7 @@
 
 Rama `codex/rentocampo-v3-review-20261112`, desde `feature/rentocampo-v3` (`48d8606`). Se inspeccionaron `main` (`284bda2`), la rama V3 y `feature/rentocampo-next-day1` (`17863d0`). Stack confirmado: Next.js 16.4.5, React 19, TypeScript, Supabase SSR y Leaflet.
 
-Esta entrega mejora la implementación V3 existente. **La misión completa todavía no está lista para revisión comercial**: el panel V3 sigue siendo una demostración de solo lectura, y faltan las pruebas autenticadas, CRUD, contacto, OAuth y el acceso al Preview protegido.
+Esta entrega mejora la implementación V3 existente. La evolución posterior de fichas, cuenta y autenticación está documentada en `auditoria-fichas-cuenta-email.md`; Mi RentoCampo ahora enlaza los módulos reales. Siguen pendientes las pruebas autenticadas de punta a punta, CRUD, contacto, OAuth y el acceso al Preview protegido para cerrar toda la misión.
 
 ## Cambios implementados
 
