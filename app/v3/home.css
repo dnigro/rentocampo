@@ -749,3 +749,9 @@ background:#fff!important;color:#102c43!important;border:1px solid #cbd0d5!impor
 .rural-white-home :is(.rural-search button,.rural-map-controls button,.v3-list-pagination button,.rural-mobile-toggle,.v3-map-tools button):hover{background:#f5f6f7!important}
 .rural-map-selection{border:1px solid #e5e7eb;border-radius:0 0 16px 16px}
 .rural-map-selection a{color:#102c43!important}
+
+/* V3: clearly separated marketplace category controls */
+.v3-home .rural-search-dock .rural-type-tabs{display:flex;align-items:center;justify-content:flex-start;flex-wrap:wrap;column-gap:16px;row-gap:10px;padding:12px 6px 14px;margin:0 0 10px;border-bottom:1px solid #e5e7eb}
+.v3-home .rural-search-dock .rural-type-tabs button{flex:0 0 auto;margin:0!important;border:1px solid #d7dce2!important;border-radius:13px!important;padding:12px 18px!important;min-height:52px;background:#fff!important;color:#102c4c!important;font-weight:750}
+.v3-home .rural-search-dock .rural-type-tabs button[aria-pressed=true]{border-color:#8797a5!important;background:#f4f6f8!important;box-shadow:inset 0 0 0 1px #8797a5}
+@media(max-width:650px){.v3-home .rural-search-dock .rural-type-tabs{column-gap:8px;row-gap:8px;padding:10px 0}.v3-home .rural-search-dock .rural-type-tabs button{padding:10px 12px!important}}
