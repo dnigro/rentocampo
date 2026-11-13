@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { safeAuthNext } from "@/lib/auth/safe-next";
 import { createClient } from "@/lib/supabase/client";
 
 type Props = { mode: "login" | "register"; country?: string; acceptedTerms?: boolean };
@@ -15,7 +16,7 @@ export default function GoogleAuthButton({ mode, acceptedTerms = false }: Props)
     }
     setBusy(true);
     setError("");
-    const next = mode === "register" ? "/perfil?elegir=rol" : "/dashboard";
+    const next = mode === "register" ? "/perfil?elegir=rol" : safeAuthNext(new URLSearchParams(window.location.search).get("next"));
     const redirectTo = new URL("/auth/callback", window.location.origin);
     redirectTo.searchParams.set("next", next);
     try {

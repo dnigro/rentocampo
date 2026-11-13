@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { safeAuthNext } from "@/lib/auth/safe-next";
 import GoogleAuthButton from "@/components/auth/GoogleAuthButton";
 import { createClient } from "@/lib/supabase/client";
 import { useTranslations } from "@/lib/i18n/useTranslations";
@@ -29,7 +30,7 @@ export default function LoginPage() {
     }
 
     const next = new URLSearchParams(window.location.search).get("next");
-    const destino = next?.startsWith("/") && !next.startsWith("//") ? next : "/dashboard";
+    const destino = safeAuthNext(next);
     window.location.assign(destino);
   }
 

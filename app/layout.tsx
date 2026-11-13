@@ -1,3 +1,5 @@
+import PreviewSiteFrame from "@/components/layout/PreviewSiteFrame";
+import { isV3Preview } from "@/lib/v3-routing";
 import { Bebas_Neue, DM_Sans, Nunito } from "next/font/google";
 import type { Metadata, Viewport } from "next";
 import { Suspense } from "react";
@@ -110,7 +112,7 @@ export default async function RootLayout({
         <Suspense fallback={null}>
           <GoogleAnalytics />
         </Suspense>
-        {children}
+        {isV3Preview(process.env) ? <PreviewSiteFrame root>{children}</PreviewSiteFrame> : children}
       </body>
     </html>
   );

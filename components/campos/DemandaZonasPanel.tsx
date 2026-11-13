@@ -1,4 +1,6 @@
-import Link from "next/link";
+import Image from "next/image";
+import { ArrowUpRight } from "lucide-react";
+import Link from "@/components/layout/SiteLink";
 import { COUNTRIES, type CountryCode } from "@/data/countries";
 import { regionalPublicationHref, regionalPublicationLabel, type PublicationKind } from "@/lib/publicacion-regional";
 import { REGIONES_PRODUCTIVAS, REGIONES_EDITORIALES_ES } from "@/data/regiones-productivas";
@@ -8,9 +10,11 @@ interface Props {
   provincia?: string;
   authenticated: boolean;
   kind?: PublicationKind;
+  entryMode?: "existing" | "protected";
 }
 
-export default function DemandaZonasPanel({ country, provincia, authenticated, kind = "campo" }: Props) {
+export default function DemandaZonasPanel({ country, provincia, authenticated: sessionAuthenticated, kind = "campo", entryMode = "existing" }: Props) {
+  const authenticated = entryMode === "protected" || sessionAuthenticated;
   const isBr = country === "BR";
   const isUs = country === "US";
   const regiones = [...REGIONES_PRODUCTIVAS[country]].sort(
@@ -34,7 +38,7 @@ export default function DemandaZonasPanel({ country, provincia, authenticated, k
           </p>
         </div>
         <span className="rc-regions-showcase__flag" aria-label={COUNTRIES[country].name}>
-          {COUNTRIES[country].flag}
+          <Image src={`/flags/${country.toLowerCase()}.svg`} alt="" width={26} height={19}/><strong>{country}</strong>
         </span>
       </div>
 
@@ -50,7 +54,7 @@ export default function DemandaZonasPanel({ country, provincia, authenticated, k
               aria-label={`${regionalPublicationLabel({ country, kind, authenticated })} · ${region.zona}`}
             >
               {regionalPublicationLabel({ country, kind, authenticated })}
-              <span aria-hidden="true"> ↗</span>
+              <ArrowUpRight size={14} aria-hidden="true"/>
             </Link>
           </article>
         ))}

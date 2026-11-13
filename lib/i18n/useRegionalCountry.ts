@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { isCountryCode, resolveCountry, type CountryCode } from "@/data/countries";
 
 const CHANGE_EVENT = "rentocampo:country-change";
@@ -9,11 +9,12 @@ const CHANGE_EVENT = "rentocampo:country-change";
 function detectRegionalCountry(): CountryCode {
   const query = new URLSearchParams(window.location.search).get("pais");
   const cookie = document.cookie.split("; ").find((value) => value.startsWith("rentocampo_country="))?.split("=")[1];
-  const saved = window.localStorage.getItem("rentocampo_country");
+  let saved: string | null = null;
+  try { saved = window.localStorage.getItem("rentocampo_country"); } catch { /* Cookies and URL remain available. */ }
   const country = resolveCountry(query, isCountryCode(cookie) ? cookie : saved);
   if (isCountryCode(query)) {
     document.cookie = `rentocampo_country=${country}; path=/; max-age=31536000; SameSite=Lax`;
-    window.localStorage.setItem("rentocampo_country", country);
+    try { window.localStorage.setItem("rentocampo_country", country); } catch { /* Optional persistence. */ }
   }
   document.documentElement.lang = country === "BR" ? "pt-BR" : country === "US" ? "en-US" : "es";
   return country;
@@ -21,6 +22,7 @@ function detectRegionalCountry(): CountryCode {
 
 export function useRegionalCountry(): CountryCode {
   const pathname = usePathname();
+  const queryCountry = useSearchParams().get("pais");
   const [country, setCountry] = useState<CountryCode>("AR");
   useEffect(() => {
     const sync = () => setCountry(detectRegionalCountry());
@@ -34,7 +36,7 @@ export function useRegionalCountry(): CountryCode {
       window.removeEventListener(CHANGE_EVENT, sync);
       window.removeEventListener("popstate", sync);
     };
-  }, [pathname]);
+  }, [pathname, queryCountry]);
   return country;
 }
 
@@ -51,8 +53,14 @@ export function selectRegionalCountry(country: CountryCode): void {
     "",
     `${destination.pathname}${destination.search}${destination.hash}`,
   );
-  window.localStorage.setItem("rentocampo_country", country);
+  try { window.localStorage.setItem("rentocampo_country", country); } catch { /* Optional persistence. */ }
   document.cookie = `rentocampo_country=${country}; path=/; max-age=31536000; SameSite=Lax`;
   document.documentElement.lang = country === "BR" ? "pt-BR" : country === "US" ? "en-US" : "es";
   window.dispatchEvent(new Event(CHANGE_EVENT));
+}
+
+/** Persist a market choice without changing history before Next performs navigation. */
+export function persistRegionalCountry(country: CountryCode): void {
+  document.cookie = `rentocampo_country=${country}; path=/; max-age=31536000; SameSite=Lax`;
+  try { window.localStorage.setItem("rentocampo_country", country); } catch { /* Optional persistence. */ }
 }

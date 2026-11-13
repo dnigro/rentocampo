@@ -309,7 +309,7 @@ test('United States English copy is shared by public landing, listings and publi
  const regional = readFileSync(new URL('../lib/i18n/regional.ts',import.meta.url),'utf8');
  const listing = readFileSync(new URL('../app/(public)/servicios-rurales/page.tsx',import.meta.url),'utf8');
  const forms = readFileSync(new URL('../components/campos/CampoForm.tsx',import.meta.url),'utf8');
- const faq = readFileSync(new URL('../components/landing/LandingFAQ.tsx',import.meta.url),'utf8');
+ const faq = (readFileSync(new URL('../components/landing/LandingFAQ.tsx',import.meta.url),'utf8') + readFileSync(new URL('../data/home-faq.ts',import.meta.url),'utf8'));
  const countries = readFileSync(new URL('../data/countries.ts',import.meta.url),'utf8');
  for (const sentence of ['PRODUCTIVE LAND ACROSS THE REGION','No service providers match these filters.','VIEW MAP','Select country']) {
   assert.ok(copy.includes(sentence),sentence);

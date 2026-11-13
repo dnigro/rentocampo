@@ -5,6 +5,9 @@ import {siteSurfaceHref} from "../lib/site-surface.ts";
 
 test("shared navigation preserves web routes and maps Lite destinations and query strings",()=>{
  const mappings = {
+  "/v3?pais=BR&vista=mapa#explorar":"/lite?pais=BR&vista=mapa#explorar",
+  "/v3/campos/field-id?pais=AR":"/lite/campos/field-id?pais=AR",
+  "/v3/servicios/service-id?pais=US":"/lite/servicios/service-id?pais=US",
   "/":"/lite", "/dashboard":"/lite/perfil", "/perfil":"/lite/perfil/editar",
   "/login":"/lite/cuenta/ingresar", "/register?pais=BR&tipo=prestador":"/lite/cuenta/registro?pais=BR&tipo=prestador",
   "/campos/mapa?vista=servicios":"/lite/campos/mapa?vista=servicios",

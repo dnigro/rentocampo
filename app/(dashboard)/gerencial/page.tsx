@@ -11,7 +11,7 @@ export default async function GerencialPage() {
   const client = await createClient();
   const { data: { user }, error } = await client.auth.getUser();
   if (error || !user) redirect("/login");
-  if (!canAccessManagementReport(user.email)) redirect("/acceso-restringido");
+  if (!user.email_confirmed_at || !canAccessManagementReport(user.email)) redirect("/acceso-restringido");
   const report = await getCommercialStats();
 
   return (

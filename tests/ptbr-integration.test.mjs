@@ -117,7 +117,7 @@ test("free-growth mode hides paid packs and disables checkout and quota consumpt
 });
 
 test("public marketing no longer promotes annual packs or only-first-listing free", () => {
-  const faq = read("components/landing/LandingFAQ.tsx");
+  const faq = (read("components/landing/LandingFAQ.tsx") + read("data/home-faq.ts"));
   const hero = read("components/landing/LandingFigmaHome.tsx");
   assert.ok(!faq.includes("Pack Tierra Productiva"));
   assert.ok(!faq.includes("mercado-pago-clean.png"));
@@ -229,7 +229,7 @@ test("map displays new-country field markers and refreshes on country change", (
  assert.match(selector,/router\.replace\(/);
 });
 test("current responsive map/chat hero and FAQ share the design with Lite",()=>{
- const faq=read("components/landing/LandingFAQ.tsx");
+ const faq=(read("components/landing/LandingFAQ.tsx") + read("data/home-faq.ts"));
  const css=read("styles/hero-simple-map-chat.css");
  const lite=read("app/lite/page.tsx");
  for(const phrase of ["El campo.","O campo.","The land.","Sin vueltas.","Sem complicações.","No hassle.","MAPA","CHAT ONLINE","0%</strong>","100%</strong>"])assert.ok(hero.includes(phrase),"missing current hero copy: "+phrase);

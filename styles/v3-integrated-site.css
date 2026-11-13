@@ -1,0 +1,124 @@
+/* One Preview shell; every override is scoped so the published site is unchanged. */
+.v3-integrated{--site-text:#222;--site-muted:#626262;--site-accent:#c72b4c;font-family:var(--font-dm-sans),sans-serif;font-size:16px;line-height:1.6;min-height:100dvh;display:flex;flex-direction:column;background:#fff;color:var(--site-text)}
+.v3-integrated>.v3-site-content{flex:1;min-width:0}
+.v3-integrated :is(input,select,textarea,button){font-family:inherit}
+.v3-integrated :is(h1,h2,h3){font-family:inherit;font-weight:800;line-height:1.2;text-transform:none}
+.v3-integrated :is(input,select,textarea){font-size:16px}
+.v3-integrated :is(a,button,input,select,textarea):focus-visible{outline:3px solid #174a72;outline-offset:3px}
+.v3-skip-link{position:fixed;top:8px;left:16px;transform:translateY(-160%);z-index:2000;padding:10px 18px;border-radius:12px;background:#102c4c;color:#fff;font-size:15px}
+.v3-skip-link:focus{transform:none}
+.v3-integrated .v3-header{min-height:84px;padding-inline:clamp(18px,4vw,60px);gap:24px}
+.v3-integrated .v3-header>nav{gap:22px}
+.v3-integrated .v3-header>nav a{font-size:14px;line-height:1.4;min-height:44px;display:flex;align-items:center}
+.v3-integrated .v3-account{font-size:14px;display:flex;align-items:center;gap:7px;min-height:44px}
+.v3-integrated .v3-brand{font-size:24px;letter-spacing:-.8px}
+.v3-integrated .v3-footer{display:grid;grid-template-columns:1fr 1.2fr 1fr;align-items:start;gap:30px;padding:35px clamp(18px,4vw,60px)}
+.v3-integrated .v3-footer-brand{font-size:23px;font-weight:800}
+.v3-integrated .v3-footer p{font-size:14px;line-height:1.6}
+.v3-integrated .v3-footer nav{display:flex;flex-wrap:wrap;gap:10px 24px}
+.v3-integrated .v3-footer a{font-size:14px;line-height:1.5;min-height:34px;align-items:center}
+.v3-integrated .v3-footer-legal{flex-direction:column}
+.v3-integrated .v3-footer-legal span{font-size:12px;line-height:1.6;color:#c0d0e0}
+.v3-integrated .app-shell{background:#fff;min-height:0}
+.v3-integrated .auth-main{padding:40px 20px 60px;background:linear-gradient(155deg,#f5eeeb,#f8fafb 65%);min-height:65vh}
+.v3-integrated .auth-page{display:block;width:100%;max-width:560px;margin:0 auto;padding:0;background:transparent;min-height:0}
+.v3-integrated .auth-page:before,.v3-integrated .auth-title:after{display:none!important;content:none!important}
+.v3-integrated .auth-card{width:100%;max-width:560px;margin:0 auto;border:1px solid #e5e5e5;border-radius:24px;background:#fff;padding:32px;box-shadow:0 8px 35px #102c4c09}
+.v3-integrated .auth-page-login .auth-card{border-left:1px solid #e5e5e5;border-radius:24px;padding:32px}
+.v3-integrated .auth-title,.v3-integrated .auth-page-login .auth-title{font-family:inherit!important;text-transform:none;font-size:32px!important;line-height:1.2!important;letter-spacing:-.8px!important;color:#222}
+.v3-integrated .auth-header{text-align:left;margin-bottom:24px}
+.v3-integrated :is(.auth-subtitle,.auth-footer,.confirm-paso,.confirm-footer,.form-label,.form-label-link,.form-checkbox-label){font-size:15px;line-height:1.6}
+.v3-integrated :is(.form-input,.auth-form input:not([type=checkbox])){font-size:16px!important;min-height:48px;border-radius:12px;border:1px solid #d9d9d9;background:#fff;color:#222;max-width:100%}
+.v3-integrated .auth-page .btn-submit{background:#c72b4c;color:white;border:0;border-radius:12px;min-height:48px;font-size:16px;font-weight:750;text-transform:none;letter-spacing:0}
+.v3-integrated .auth-page :is(.auth-footer a,.form-label-link,.confirm-footer a:not(.btn-submit)){color:#ad2442;font-size:15px}
+.v3-integrated .auth-form{min-width:0}.v3-integrated .auth-error{font-size:15px;line-height:1.6}
+.v3-integrated .v3-lite-integrated{background:#fff;min-height:0}
+.v3-integrated .lite-auth-page{max-width:560px;margin:35px auto 55px;padding:28px;background:#fff;border:1px solid #e5e5e5;border-radius:24px;box-shadow:0 8px 35px #102c4c09}
+.v3-integrated .lite-auth-title{font-size:32px;line-height:1.2;letter-spacing:-.8px;font-family:inherit}
+.v3-integrated .lite-auth-page :is(label,p,a){font-size:15px;line-height:1.6}
+.v3-integrated .lite-auth-page input:not([type=checkbox]){font-size:16px;min-height:48px;border-radius:12px}
+.v3-integrated .lite-auth-page button[type=submit]{background:#c72b4c;color:white;min-height:48px;border-radius:12px;font-size:16px}
+.v3-integrated .terms-page{max-width:960px;margin:auto;padding:42px 24px 65px;color:#333}
+.v3-integrated .terms-page :is(p,li){font-size:16px;line-height:1.8}
+.v3-integrated .terms-page h1{font-size:clamp(30px,4vw,44px);line-height:1.2;letter-spacing:-1px}
+.v3-integrated .terms-page h2{font-size:24px;line-height:1.35}
+.v3-integrated .v3-listing-info strong{font-size:16px;line-height:1.4}
+.v3-integrated .v3-listing-info>span,.v3-integrated .rural-card-features>span{font-size:14px;line-height:1.55}
+.v3-integrated .v3-listing-info b{font-size:16px}
+.v3-integrated .rural-search label>span{font-size:13px}.v3-integrated .rural-search :is(input,select){font-size:16px}
+.v3-integrated .rural-search button{font-size:16px}
+.v3-integrated .rural-result-toolbar p{font-size:15px}
+.v3-integrated .rural-type-tabs button{font-size:16px}
+.v3-integrated .rural-location-note,.v3-integrated .rural-notice{font-size:14px}
+.v3-integrated .rural-map-controls{font-size:13px}.v3-integrated .rural-map-controls button{font-size:13px}
+.v3-integrated .rural-map-legend{font-size:13px}.v3-integrated .rural-map-legend small{font-size:12px}
+.v3-integrated .rural-map-selection{font-size:14px}
+@media(max-width:1100px){.v3-integrated .v3-header>nav{gap:14px}.v3-integrated .v3-header>nav a{font-size:13px}.v3-integrated .v3-header{gap:14px}.v3-integrated .v3-brand{font-size:22px}}
+@media(max-width:850px){.v3-integrated .v3-header>nav{display:none}.v3-integrated .v3-header{min-height:72px}.v3-integrated .v3-footer{grid-template-columns:1fr 1fr}.v3-integrated .v3-footer-legal{grid-column:1/-1}}
+@media(max-width:600px){.v3-integrated .v3-header{gap:8px;padding-inline:12px}.v3-integrated .v3-brand{font-size:19px;gap:5px}.v3-integrated .v3-shield-logo{width:38px;height:38px}.v3-integrated .v3-account span{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}.v3-integrated .v3-account{font-size:14px;min-width:40px;justify-content:center}.v3-integrated .v3-mobile-nav summary{min-width:44px;min-height:44px}.v3-integrated .v3-footer{grid-template-columns:1fr;gap:22px}.v3-integrated .v3-footer-legal{grid-column:auto}.v3-integrated .auth-main{padding:25px 12px 40px}.v3-integrated .auth-card,.v3-integrated .auth-page-login .auth-card{padding:25px 18px;border-radius:20px}.v3-integrated .auth-title,.v3-integrated .auth-page-login .auth-title,.v3-integrated .lite-auth-title{font-size:28px!important}.v3-integrated .lite-auth-page{margin:25px 12px 40px;padding:24px 18px}.v3-integrated .terms-page{padding:30px 18px 45px}.v3-integrated .rural-type-tabs{gap:20px}.v3-integrated .rural-type-tabs button{font-size:14px}.v3-integrated .rural-result-toolbar p{font-size:13px}.v3-integrated .rural-result-toolbar button{font-size:12px}}
+
+/* Existing auth themes use !important; keep these overrides local to the Preview shell. */
+html body .v3-shell.v3-integrated .auth-main{background:linear-gradient(155deg,#f5eeeb,#f8fafb 65%)!important}
+html body .v3-shell.v3-integrated .auth-page{display:block!important;width:100%!important;max-width:560px!important;min-height:0!important;margin:0 auto!important;padding:0!important;background:transparent!important}
+html body .v3-shell.v3-integrated .auth-page .auth-card{width:100%!important;max-width:560px!important;margin:0 auto!important;padding:32px!important;border:1px solid #e5e5e5!important;border-radius:24px!important;background:#fff!important;box-shadow:0 8px 35px #102c4c09!important}
+html body .v3-shell.v3-integrated .auth-page .auth-title{font-family:var(--font-dm-sans),sans-serif!important;font-size:32px!important;line-height:1.2!important;letter-spacing:-.8px!important;text-transform:none!important;color:#222!important}
+html body .v3-shell.v3-integrated .auth-page .auth-header{margin:0 0 24px!important;padding:0!important;text-align:left!important}
+html body .v3-shell.v3-integrated .auth-page .form-label{font-family:inherit!important;font-size:15px!important;line-height:1.6!important;color:#333!important}
+html body .v3-shell.v3-integrated .auth-page .form-input{font-family:inherit!important;font-size:16px!important;min-height:48px!important;border:1px solid #d9d9d9!important;border-radius:12px!important;background:#fff!important;color:#222!important}
+html body .v3-shell.v3-integrated .auth-page .btn-submit{background:#c72b4c!important;color:white!important;border:0!important;border-radius:12px!important;min-height:48px!important;font-size:16px!important;font-weight:750!important;letter-spacing:0!important;text-transform:none!important;box-shadow:none!important}
+html body .v3-shell.v3-integrated .auth-page :is(.auth-footer a,.form-label-link){color:#ad2442!important;font-size:15px!important}
+.v3-integrated .v3-footer a.v3-footer-brand{font-size:23px;font-weight:800}
+@media(max-width:600px){html body .v3-shell.v3-integrated .auth-page .auth-card{padding:25px 18px!important;border-radius:20px!important}html body .v3-shell.v3-integrated .auth-page .auth-title{font-size:28px!important}}
+
+/* Simple production-style navigation, with market selection always within reach. */
+.v3-shell.v3-integrated .v3-header{background:#0b2238;border-color:#0b2238;min-height:88px;gap:32px}
+.v3-shell.v3-integrated .v3-header :is(.v3-brand,.v3-header>nav a,.v3-account,.v3-header-messages){color:#fff}
+.v3-shell.v3-integrated .v3-header>nav{margin-right:auto;gap:30px}
+.v3-shell.v3-integrated .v3-header>nav a{font-size:17px;color:#fff}
+.v3-shell.v3-integrated .v3-brand{font-size:28px;white-space:nowrap}
+.v3-header-country{display:flex;align-items:center;gap:9px;color:#fff;font-size:12px;font-weight:750}
+.v3-header-country select{width:145px;max-width:145px;min-height:44px;border:0;border-radius:25px;background:#fff;color:#102c4c;padding:9px 12px;font-size:14px;cursor:pointer}
+.v3-header-signout{display:flex;align-items:center;gap:7px;background:none;color:#fff;border:0;min-height:44px;padding:8px;font-size:14px;font-weight:750;cursor:pointer}
+.v3-header-messages{display:flex;align-items:center;justify-content:center;min-width:40px;min-height:44px}
+.v3-shell.v3-integrated .v3-mobile-nav summary{color:#fff;border-color:#ffffff60}
+.v3-session-error{font-size:14px;padding:12px 20px;margin:0;color:#8f203a;background:#fff0f3}
+@media(max-width:1100px){.v3-shell.v3-integrated .v3-header{gap:18px}.v3-shell.v3-integrated .v3-brand{font-size:23px}.v3-shell.v3-integrated .v3-header>nav{gap:18px}.v3-header-country>span{display:none}.v3-header-country select{width:115px}.v3-header-signout{font-size:13px}}
+@media(max-width:850px){.v3-shell.v3-integrated .v3-header{min-height:74px}.v3-shell.v3-integrated .v3-header-actions{margin-left:auto;gap:12px}.v3-header-signout,.v3-header-messages{display:none}}
+@media(max-width:600px){.v3-shell.v3-integrated .v3-header{gap:8px;padding-inline:12px}.v3-shell.v3-integrated .v3-brand{font-size:17px;gap:4px}.v3-shell.v3-integrated .v3-shield-logo{width:32px;height:36px}.v3-shell.v3-integrated .v3-header-actions{margin-left:auto;gap:0}.v3-shell.v3-integrated .v3-header-actions .v3-account{display:none}.v3-header-country select{width:73px;max-width:73px;padding:9px 6px;font-size:13px}.v3-shell.v3-integrated .v3-mobile-nav{margin-left:0}.v3-shell.v3-integrated .v3-mobile-nav summary{min-width:40px;min-height:44px}}
+.v3-mobile-signout{display:block;width:100%;text-align:left;min-height:44px;padding:12px;border:0;border-radius:11px;background:#fff;color:#173b55;font-size:14px;font-weight:750;cursor:pointer}
+.v3-country-picker{position:relative;display:inline-flex;width:96px;min-width:96px;height:44px;border-radius:25px;background:#fff}
+.v3-country-picker select{position:absolute;inset:0;width:100%;max-width:none;height:44px;opacity:0;z-index:1}
+.v3-country-value{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:7px;color:#102c4c;font-size:14px;font-weight:800;pointer-events:none}
+.v3-country-picker:focus-within{outline:3px solid #92bddf;outline-offset:3px}
+@media(max-width:600px){.v3-country-picker{width:73px;min-width:73px}.v3-country-value{gap:4px;font-size:13px}}
+
+/* Restore the original footer sections with the Preview's current route destinations. */
+html body .v3-shell.v3-integrated footer.footer.v3-footer{display:block!important;background:#0b2238!important;padding:32px clamp(18px,4vw,60px) 0!important}
+html body .v3-integrated footer.footer.v3-footer .footer-inner{display:grid!important;grid-template-columns:1.35fr repeat(4,minmax(0,1fr))!important;gap:26px!important;max-width:1440px!important;margin:auto!important;padding:0 0 25px!important}
+html body .v3-integrated footer.footer.v3-footer .footer-nav{display:flex!important;flex-direction:column!important;gap:9px!important}
+html body .v3-integrated footer.footer.v3-footer .footer-col-title{font-size:16px!important;margin:0 0 14px!important}
+html body .v3-integrated footer.footer.v3-footer .footer-brand-name{font-size:24px!important}
+html body .v3-integrated footer.footer.v3-footer .footer-desc{font-size:14px!important;line-height:1.6!important}
+html body .v3-integrated footer.footer.v3-footer .footer-link{font-size:14px!important;line-height:1.5!important;min-height:26px!important}
+html body .v3-integrated footer.footer.v3-footer .footer-bottom{display:flex!important;justify-content:space-between!important;flex-wrap:wrap!important;gap:12px!important;max-width:1440px!important;margin:auto!important;padding:18px 0!important}
+html body .v3-integrated footer.footer.v3-footer .footer-bottom-links{display:flex!important;gap:18px!important;flex-wrap:wrap!important}
+html body .v3-integrated footer.footer.v3-footer .footer-bottom-link{font-size:13px!important}
+@media(max-width:1000px){html body .v3-integrated footer.footer.v3-footer .footer-inner{grid-template-columns:repeat(2,minmax(0,1fr))!important}.footer.v3-footer .footer-brand{grid-column:1/-1}}
+@media(max-width:500px){html body .v3-integrated footer.footer.v3-footer .footer-inner{grid-template-columns:1fr!important}.footer.v3-footer .footer-brand{grid-column:auto}}
+
+/* SVG flags remain visible on Windows and mobile; every country has a real flag image. */
+.v3-integrated .v3-header-actions{margin-left:auto}
+.v3-country-menu{position:relative;color:#102c4c}
+.v3-country-menu>summary{display:flex;align-items:center;justify-content:center;gap:8px;min-height:44px;min-width:96px;list-style:none;border-radius:25px;background:white;padding:9px 12px;cursor:pointer;color:#102c4c}
+.v3-country-menu>summary::-webkit-details-marker{display:none}
+.v3-country-menu img,.v3-country-options img{width:24px!important;height:18px!important;object-fit:cover;flex-shrink:0;border-radius:2px}
+.v3-country-options{position:absolute;top:calc(100% + 8px);right:0;z-index:1500;width:285px;max-width:calc(100vw - 24px);max-height:min(65vh,420px);overflow-y:auto;background:#fff;border:1px solid #dce5ec;border-radius:16px;padding:7px;box-shadow:0 10px 32px #102c4c33}
+.v3-country-options button{display:flex;align-items:center;gap:10px;width:100%;min-height:44px;background:#fff;border:0;border-radius:10px;text-align:left;padding:10px;color:#102c4c;font-size:14px;cursor:pointer}
+.v3-country-options button[aria-pressed=true],.v3-country-options button:hover{background:#edf4f8}
+.v3-country-options button strong{min-width:25px}.v3-country-options button span{font-weight:500}
+.v3-country-menu>summary:focus-visible{outline:3px solid #8eb8d7;outline-offset:3px}
+@media(max-width:600px){.v3-country-menu>summary{min-width:73px;padding:9px 7px;gap:4px;font-size:13px}.v3-country-options{right:-45px}}
+.v3-regional-panel .rc-regions-showcase__flag{display:flex;align-items:center;gap:7px;font-size:14px;flex-shrink:0}
+
+/* Clip horizontally without creating a scroll container that traps sticky maps. */
+html:has(.v3-integrated),body:has(.v3-integrated){overflow-x:clip}

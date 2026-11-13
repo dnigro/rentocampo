@@ -1,3 +1,4 @@
+import { emailEventKey } from "./email-idempotency";
 import { Resend } from "resend";
 import type { PlanExpiryStage } from "@/lib/billing/plan-expiry";
 
@@ -81,7 +82,7 @@ export async function sendPlanExpiryNotification(args: {
         <a href="${appUrl}/mis-campos" style="${EMAIL_BUTTON_STYLE}">Ver y renovar mi plan</a>
         <p style="margin-top:26px;color:#666;font-size:13px;line-height:1.4">RentoCampo · Tierra productiva, productores y servicios rurales.</p>
       </div>`,
-  });
+  }, { idempotencyKey: emailEventKey("plan-expiry", args.email.toLowerCase(), args.planName, args.expiresAt, args.stage) });
 
   if (error) throw new Error(error.message);
 }

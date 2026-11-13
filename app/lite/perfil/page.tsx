@@ -1,6 +1,9 @@
+import AccountOverview from "@/components/account/AccountOverview";
+import { isV3Preview } from "@/lib/v3-routing";
 import Image from "next/image";
 import heroTambo from "@/public/rentocampo-hero-campo-bn-1920x1080.webp";
 import Link from "next/link";
+import { canAccessManagementReport } from "@/lib/analytics/commercial-filters";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import { ArrowUpRight } from "lucide-react";
@@ -21,6 +24,11 @@ export default async function Page() {
     redirect("/lite/perfil/editar");
   }
 
+  if (user && isV3Preview(process.env)) {
+    const {data:profile}=await supabase.from("profiles").select("nombre,roles").eq("id",user.id).maybeSingle();
+    return <><LiteHeader/><main className="account-workspace"><AccountOverview name={profile?.nombre} roles={profile?.roles || []} country={country} showAllPublications canViewReport={Boolean(user.email_confirmed_at) && canAccessManagementReport(user.email)}/></main></>;
+  }
+
   const links = [
     { href: "/lite/perfil/editar", title: tt("Editar mi perfil", "Editar meu perfil"), description: tt("Datos y configuración", "Dados e configurações"), icon: "profile" as ActionIconName },
     { href: "/lite/campos/publicar", title: tt("Publicar campo", "Anunciar terra"), description: tt("Nueva publicación", "Novo anúncio"), icon: "fields" as ActionIconName },
@@ -29,6 +37,8 @@ export default async function Page() {
     { href: "/lite/servicios/mis-publicaciones", title: tt("Mis servicios", "Meus serviços"), description: tt("Gestionar ofertas", "Gerenciar ofertas"), icon: "services" as ActionIconName },
     { href: "/lite/perfil/mensajes", title: tt("Mis mensajes", "Minhas mensagens"), description: tt("Consultas y contactos", "Consultas e contatos"), icon: "messages" as ActionIconName },
   ];
+
+  if (user?.email_confirmed_at && canAccessManagementReport(user.email)) links.unshift({ href: "/gerencial", title: tt("Reporte gerencial", "Relatório gerencial"), description: tt("Indicadores comerciales por país", "Indicadores comerciais por país"), icon: "report" as ActionIconName });
 
   return (
     <>

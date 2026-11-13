@@ -19,9 +19,10 @@ export async function proxy(request: NextRequest) {
       getAll() {
         return request.cookies.getAll();
       },
-      setAll(cookiesToSet) {
+      setAll(cookiesToSet, headers) {
         cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value));
         supabaseResponse = NextResponse.next({ request });
+        Object.entries(headers).forEach(([name, value]) => supabaseResponse.headers.set(name, value));
         cookiesToSet.forEach(({ name, value, options }) =>
           supabaseResponse.cookies.set(name, value, options),
         );
@@ -36,6 +37,8 @@ export async function proxy(request: NextRequest) {
   const protectedRoute =
     request.nextUrl.pathname.startsWith("/dashboard") ||
     request.nextUrl.pathname.startsWith("/mis-campos") ||
+    request.nextUrl.pathname.startsWith("/mis-servicios-rurales") ||
+    request.nextUrl.pathname.startsWith("/gerencial") ||
     request.nextUrl.pathname.startsWith("/perfil") ||
     request.nextUrl.pathname.startsWith("/mensajes") ||
     request.nextUrl.pathname.startsWith("/favoritos");
@@ -46,9 +49,14 @@ export async function proxy(request: NextRequest) {
       "next",
       `${request.nextUrl.pathname}${request.nextUrl.search}`,
     );
-    return NextResponse.redirect(loginUrl);
+    const response = NextResponse.redirect(loginUrl);
+    supabaseResponse.cookies.getAll().forEach(cookie => response.cookies.set(cookie));
+    response.headers.set("Cache-Control", "private, no-store");
+    return response;
   }
 
+  const authRoute = request.nextUrl.pathname.startsWith("/auth/") || ["/login", "/register", "/recuperar-contrasena"].includes(request.nextUrl.pathname);
+  if (user || protectedRoute || authRoute) supabaseResponse.headers.set("Cache-Control", "private, no-store");
   return supabaseResponse;
 }
 

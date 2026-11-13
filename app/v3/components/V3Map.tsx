@@ -1,67 +1,139 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { Maximize2, Minimize2, Plus, Minus } from "lucide-react";
+import { v3Text } from "@/lib/i18n/v3-copy";
+import { useEffect, useRef, useState } from "react";
 import type { Map as LeafletMap, Marker } from "leaflet";
 import type { V3Campo } from "./V3Explorer";
+import { markerLabel, type MapBounds } from "@/lib/campos/map-search";
 import { COUNTRIES, type CountryCode } from "@/data/countries";
 
-type Props = { campos: V3Campo[]; country: CountryCode; selectedId: string | null; onSelect: (id: string) => void };
+type Props = { campos: V3Campo[]; country: CountryCode; selectedId: string | null; onSelect: (id: string) => void; onViewportChange: (bounds: MapBounds) => void; initialBounds?: MapBounds | null };
 
-export default function V3Map({ campos, country, selectedId, onSelect }: Props) {
+export default function V3Map({ campos, country, selectedId, onSelect, onViewportChange, initialBounds }: Props) {
+  const [expanded,setExpanded]=useState(false);
+  const frameRef=useRef<HTMLDivElement>(null);
+  const expandButtonRef=useRef<HTMLButtonElement>(null);
+  const t=(es:string,pt:string,en:string)=>country==="BR"?pt:country==="US"?en:es;
+  const [mapReady, setMapReady] = useState(false);
+  const [mapError, setMapError] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<LeafletMap | null>(null);
   const markerRef = useRef<Map<string, Marker>>(new Map());
   const selectRef = useRef(onSelect);
+  const viewportRef = useRef(onViewportChange);
+  const selectedRef = useRef(selectedId);
+  const zoomLockedUntil = useRef(0);
+  const markControlInteraction = useRef<() => void>(() => {});
+  const initialBoundsRef = useRef(initialBounds);
+  useEffect(() => { initialBoundsRef.current = initialBounds; }, [initialBounds]);
+  useEffect(() => { viewportRef.current = onViewportChange; }, [onViewportChange]);
+  useEffect(() => { selectedRef.current = selectedId; }, [selectedId]);
   useEffect(() => { selectRef.current = onSelect; }, [onSelect]);
 
   useEffect(() => {
     let cancelled = false;
     let map: LeafletMap | null = null;
     let resizeObserver: ResizeObserver | null = null;
+    let viewportTimer: ReturnType<typeof setTimeout> | undefined;
+    let cleanupInteractions: (() => void) | null = null;
     const markers = markerRef.current;
     async function initialize() {
       const L = await import("leaflet");
       if (cancelled || !containerRef.current) return;
       const region = COUNTRIES[country];
-      map = L.map(containerRef.current, { scrollWheelZoom: false, zoomControl: true })
+      map = L.map(containerRef.current, { scrollWheelZoom: false, zoomControl: false, zoomAnimation: true, fadeAnimation: true, markerZoomAnimation: true })
         .setView([...region.mapCenter] as [number, number], region.mapZoom);
       mapRef.current = map;
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
         maxZoom: 18
-      }).addTo(map);
+      }).on("tileerror", () => { if (!cancelled) setMapError(true); }).addTo(map);
       const locations: [number, number][] = [];
       markers.clear();
+      const colocated = new Map<string, { total: number; seen: number }>();
+      for (const item of campos) {
+        if (item.lat == null || item.lng == null) continue;
+        const key = `${item.lat},${item.lng}`;
+        const group = colocated.get(key) || { total: 0, seen: 0 };
+        group.total++; colocated.set(key, group);
+      }
       for (const campo of campos) {
         if (campo.lat == null || campo.lng == null) continue;
         const position: [number, number] = [campo.lat, campo.lng];
+        const group = colocated.get(`${campo.lat},${campo.lng}`)!;
+        const slot = group.seen++;
+        // Offset labels at shared coordinates; never invent a different geographic location.
+        const columns = Math.min(group.total, 3);
+        const anchorX = 66 + ((slot % 3) - (columns - 1) / 2) * 136;
+        const anchorY = 38 + Math.floor(slot / 3) * 40;
         locations.push(position);
-        const number = campo.hectareas != null ? Number(campo.hectareas).toLocaleString("es-AR") : "";
-        const label = number ? number + " ha" : "Campo";
+        const label = campo.demo ? "DEMO" : campo.kind === "servicio" ? (country === "BR" ? "Serviço" : country === "US" ? "Service" : "Servicio") : markerLabel(campo, region.locale);
+        // Build text with DOM APIs: currency/data must never be interpreted as HTML.
+        const pin = document.createElement("span");
+        pin.className = `v3-price-pin ${campo.kind === "servicio" ? "rural-service-pin" : "rural-field-pin"}`;
+        pin.textContent = label;
         const marker = L.marker(position, {
           icon: L.divIcon({
-            html: '<span class="v3-price-pin">' + label + '</span>',
+            html: pin,
             className: "v3-pin-wrapper",
-            iconSize: [94, 38],
-            iconAnchor: [47, 38]
+            iconSize: [132, 38],
+            iconAnchor: [anchorX, anchorY]
           }),
-          title: campo.titulo
+          title: `${campo.titulo} · ${label}`
         }).addTo(map);
         marker.on("click", () => selectRef.current(campo.id));
         markers.set(campo.id, marker);
+        if (campo.id === selectedRef.current) {
+          marker.getElement()?.classList.add("v3-marker-active");
+          marker.setZIndexOffset(1000);
+        }
       }
-      if (locations.length > 0) {
-        map.fitBounds(L.latLngBounds(locations).pad(0.2), { maxZoom: 9 });
+      const viewport = initialBoundsRef.current;
+      if (viewport) {
+        const east = viewport.east < viewport.west ? viewport.east + 360 : viewport.east;
+        map.fitBounds([[viewport.south, viewport.west], [viewport.north, east]], { animate: false });
+      } else if (locations.length > 0) {
+        map.fitBounds(L.latLngBounds(locations).pad(0.2), { maxZoom: 9, animate: false });
       }
+      let userMoved = false;
+      markControlInteraction.current = () => { userMoved = true; };
+      map.on("dragstart", () => { userMoved = true; });
+      const container = containerRef.current;
+      const markInteraction = (event: Event) => {
+        if (event.type === "wheel" && !map?.scrollWheelZoom.enabled()) return;
+        if (event.type === "keydown" && !["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", "+", "-", "="].includes((event as KeyboardEvent).key)) return;
+        if (event.type === "click" && !(event.target instanceof Element && event.target.closest("[data-map-zoom]"))) return;
+        userMoved = true;
+      };
+      // Track real interactions, excluding initial fitBounds and selection panTo.
+      for (const type of ["click", "wheel", "keydown", "touchstart"]) container.addEventListener(type, markInteraction, { capture: true, passive: true });
+      cleanupInteractions = () => {
+        for (const type of ["click", "wheel", "keydown", "touchstart"]) container.removeEventListener(type, markInteraction, true);
+      };
+      map.on("moveend", () => {
+        if (!map || !userMoved) return;
+        userMoved = false;
+        clearTimeout(viewportTimer);
+        viewportTimer = setTimeout(() => {
+          if (cancelled || !map) return;
+          const bounds = map.getBounds();
+          viewportRef.current({ north: bounds.getNorth(), south: bounds.getSouth(), east: bounds.getEast(), west: bounds.getWest() });
+        }, 350);
+      });
       resizeObserver = new ResizeObserver(() => { if (!cancelled) map?.invalidateSize(); });
       resizeObserver.observe(containerRef.current);
+      setMapReady(true);
       window.setTimeout(() => { if (!cancelled) map?.invalidateSize(); }, 100);
     }
-    void initialize();
+    void initialize().catch(() => { if (!cancelled) setMapError(true); });
     return () => {
       cancelled = true;
+      clearTimeout(viewportTimer);
+      markControlInteraction.current = () => {};
       markers.clear();
       resizeObserver?.disconnect();
+      cleanupInteractions?.();
       map?.remove();
       mapRef.current = null;
     };
@@ -71,10 +143,49 @@ export default function V3Map({ campos, country, selectedId, onSelect }: Props) 
     markerRef.current.forEach((marker, id) => {
       const element = marker.getElement();
       element?.classList.toggle("v3-marker-active", id === selectedId);
-      if (id === selectedId) marker.setZIndexOffset(1000);
+      if (id === selectedId) {
+        marker.setZIndexOffset(1000);
+
+      }
       else marker.setZIndexOffset(0);
     });
   }, [selectedId, campos]);
 
-  return <div className="v3-map-canvas" ref={containerRef} role="region" aria-label="Mapa interactivo de campos publicados" />;
+  useEffect(()=>{
+    if(!expanded)return;
+    const previous=document.body.style.overflow;document.body.style.overflow="hidden";
+    const escape=(event:KeyboardEvent)=>{if(event.key==="Escape"){setExpanded(false);expandButtonRef.current?.focus();}};
+    document.addEventListener("keydown",escape);
+    return ()=>{document.body.style.overflow=previous;document.removeEventListener("keydown",escape);};
+  },[expanded]);
+  useEffect(()=>{
+    const sync=()=>{if(!document.fullscreenElement)setExpanded(false);};
+    document.addEventListener("fullscreenchange",sync);
+    return ()=>document.removeEventListener("fullscreenchange",sync);
+  },[]);
+  function changeZoom(delta:number){
+    const map = mapRef.current;
+    if (!map || performance.now() < zoomLockedUntil.current) return;
+    const nextZoom = Math.max(map.getMinZoom(), Math.min(map.getMaxZoom(), map.getZoom() + delta));
+    if (nextZoom === map.getZoom()) return;
+    zoomLockedUntil.current = performance.now() + 450;
+    markControlInteraction.current();
+    map.setZoom(nextZoom, { animate: !window.matchMedia("(prefers-reduced-motion: reduce)").matches });
+  }
+  async function toggleExpanded(){
+    if(expanded){if(document.fullscreenElement===frameRef.current)await document.exitFullscreen();setExpanded(false);expandButtonRef.current?.focus();return;}
+    setExpanded(true);
+    try{await frameRef.current?.requestFullscreen?.();}catch{/* CSS expansion also works without native fullscreen. */}
+  }
+  return <div ref={frameRef} className={`v3-map-frame ${expanded?"v3-map-expanded":""}`} aria-busy={!mapReady && !mapError}>
+    <div className="v3-map-tools">
+      <button ref={expandButtonRef} type="button" onClick={toggleExpanded} aria-pressed={expanded} aria-label={expanded?t("Restaurar mapa","Restaurar mapa","Restore map"):t("Ampliar mapa","Ampliar mapa","Expand map")}>{expanded?<Minimize2 size={20}/>:<Maximize2 size={20}/>}</button>
+      <div className="v3-map-zoom-tools">
+        <button type="button" data-map-zoom disabled={!mapReady} onClick={()=>changeZoom(1)} aria-label={t("Acercar mapa","Aproximar mapa","Zoom in")}><Plus size={24}/></button>
+        <button type="button" data-map-zoom disabled={!mapReady} onClick={()=>changeZoom(-1)} aria-label={t("Alejar mapa","Afastar mapa","Zoom out")}><Minus size={24}/></button>
+      </div>
+    </div>
+    <div className="v3-map-canvas" ref={containerRef} role="region" aria-label={country === "BR" ? "Mapa de terras e serviços" : country === "US" ? "Farmland and services map" : "Mapa de campos y servicios"} />
+    {mapError && <p className="v3-map-error" role="status">{v3Text(country,"No pudimos cargar el mapa completo. Podés seguir consultando las fichas del listado.")}</p>}
+  </div>;
 }

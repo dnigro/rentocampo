@@ -5,7 +5,7 @@ const read=(p)=>readFileSync(new URL(`../${p}`,import.meta.url),"utf8");
 const web=read("components/landing/LandingFigmaHome.tsx");
 const lite=read("app/lite/page.tsx");
 const home=read("components/landing/LandingPageContent.tsx");
-const faq=read("components/landing/LandingFAQ.tsx");
+const faq=(read("components/landing/LandingFAQ.tsx") + read("data/home-faq.ts"));
 const faqStyle=read("styles/landing-faq.css");
 const webStyle=read("styles/home-premium.css");
 const liteStyle=read("styles/lite-direct-hero.css");
@@ -388,4 +388,32 @@ test("publication forms share approved navy editorial cards without disrupting d
  assert.ok(css.includes("@media(max-width:620px)"),"mobile treatment");
  assert.ok(css.includes("rc-publish-chip"),"tactile grouped categories");
  assert.ok(css.includes("rc-publish-choice"),"field operation choices");
+});
+
+test("V3 preview home shares web/mobile and Lite entry points without enabling production", async () => {
+ const { isV3Preview, v3PreviewRoutes } = await import("../lib/v3-routing.ts");
+ const preview = {VERCEL_ENV:"preview",VERCEL_GIT_COMMIT_REF:"codex/rentocampo-v3-review-20261112"};
+ assert.equal(isV3Preview(preview),true);
+ assert.deepEqual(v3PreviewRoutes(preview).rewrites.beforeFiles.find(route=>route.source==="/lite"),{source:"/lite",destination:"/v3"});
+ assert.equal(isV3Preview({...preview,VERCEL_ENV:"production"}),false);
+ assert.equal(isV3Preview({...preview,VERCEL_GIT_COMMIT_REF:"main"}),false);
+});
+
+// The Preview home is shared by web and Lite; detailed legacy aliases remain isolated.
+test("unified rural home remains shared across web and Lite preview",()=>{
+ const rootPage=read("app/page.tsx"), routing=read("lib/v3-routing.ts"), homePage=read("app/v3/page.tsx");
+ assert.ok(rootPage.includes("<V3Home searchParams={searchParams}"));
+ assert.ok(routing.includes('{ source: "/lite", destination: "/v3" }'));
+ assert.ok(homePage.includes("V3UnifiedExplorer"));
+ for(const path of ["app/v3/campos/page.tsx","app/v3/servicios/page.tsx","app/v3/components/V3UnifiedExplorer.tsx"]) assert.ok(read(path).includes("<V3RegionalPanel country={country}"));
+});
+
+
+test("Preview integrates web auth, public and Lite into the shared site frame",()=>{
+ const root=read("app/layout.tsx"), frame=read("components/layout/PreviewSiteFrame.tsx");
+ assert.ok(root.includes("isV3Preview(process.env) ? <PreviewSiteFrame root>"));
+ assert.ok(frame.includes("SharedPreviewChrome.Provider"));
+ assert.ok(read("components/layout/Footer.tsx").includes('href="/terminos-y-condiciones"'));
+ for(const file of ["components/layout/Navbar.tsx","components/layout/Footer.tsx"]) assert.ok(read(file).includes("useSharedPreviewChrome"));
+ assert.ok(read("app/lite/layout.tsx").includes("isV3Preview(process.env)"));
 });

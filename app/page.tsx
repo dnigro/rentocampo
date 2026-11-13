@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { isV3Preview } from "@/lib/v3-routing";
 import V3Home from "@/app/v3/page";
 import V3Layout from "@/app/v3/layout";
 import { redirect } from "next/navigation";
@@ -7,6 +8,7 @@ import Footer from "@/components/layout/Footer";
 import LandingPageContent from "@/components/landing/LandingPageContent";
 
 export const metadata: Metadata = {
+  ...(isV3Preview(process.env) ? { robots: { index: false, follow: false } } : {}),
   title: "RentoCampo | Alquiler de campos y servicios rurales sin comisión",
   description:
     "Buscá o publicá campos en alquiler o venta y servicios rurales. Explorá el mapa, chateá directamente y conectá sin comisiones.",
@@ -33,7 +35,7 @@ export const metadata: Metadata = {
 export default async function LandingPage({
   searchParams,
 }: {
-  searchParams: Promise<{ code?: string }>;
+  searchParams: Promise<{ code?: string; pais?: string }>;
 }) {
   const { code } = await searchParams;
 
@@ -46,8 +48,8 @@ export default async function LandingPage({
     );
   }
 
-  if (process.env.VERCEL_ENV === "preview" && process.env.VERCEL_GIT_COMMIT_REF === "feature/rentocampo-v3") {
-    return <V3Layout><V3Home /></V3Layout>;
+  if (isV3Preview(process.env)) {
+    return <V3Layout><V3Home searchParams={searchParams} /></V3Layout>;
   }
 
   return (

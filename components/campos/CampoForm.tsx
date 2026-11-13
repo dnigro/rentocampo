@@ -380,7 +380,7 @@ export default function CampoForm({
 
         <div className="form-field">
           <label className="form-label">
-            {tt("País","País")} <span className="required">*</span>
+            <span className="v3-publication-country-flag"><Image src={`/flags/${countryCode.toLowerCase()}.svg`} alt="" width={24} height={18}/></span>{tt("País","País")} <span className="required">*</span>
           </label>
           <select
             name="country_code"
@@ -403,7 +403,7 @@ export default function CampoForm({
             }}
             required
           >
-            {COUNTRY_CODES_ALPHABETICAL.map((code) => <option key={code} value={code}>{COUNTRIES[code].flag} {displayCountryName(code, countryCode)}</option>)}
+            {COUNTRY_CODES_ALPHABETICAL.map((code) => <option key={code} value={code}>{code} · {displayCountryName(code, countryCode)}</option>)}
           </select>
         </div>
 

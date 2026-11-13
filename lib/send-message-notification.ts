@@ -1,3 +1,4 @@
+import { emailEventKey } from "./email-idempotency";
 import { Resend } from "resend";
 import { createAdminClient } from "@/lib/supabase/admin";
 
@@ -75,6 +76,7 @@ export async function sendMessageNotification(mensajeId: string) {
   const { data: resendData, error: resendError } = await resend.emails.send({
     from: process.env.RESEND_FROM_EMAIL ?? "RentoCampo <no-reply@rentocampo.com>",
     to: destinatario.email,
+    text: `Tenés un nuevo mensaje en RentoCampo. Ingresá a tu cuenta para leerlo y responder: ${urlMensaje}`,
     subject: `Nuevo mensaje de ${remitente?.nombre || "un interesado"} — ${campo?.titulo || "tu campo"}`,
     html: `
       <div style="font-family:Arial,sans-serif;max-width:520px;margin:auto;padding:32px;background:#fff;border:1px solid #e8e6e0;border-radius:16px">
@@ -83,7 +85,7 @@ export async function sendMessageNotification(mensajeId: string) {
         <blockquote style="margin:24px 0;padding:16px;border-left:3px solid #2d6a2d;background:#f7f5f0">${contenido}</blockquote>
         <a href="${urlMensaje}" style="display:inline-block;background:#2d6a2d;color:#fff;padding:13px 20px;border-radius:8px;text-decoration:none;font-weight:bold">Responder mensaje</a>
       </div>`,
-  });
+  }, { idempotencyKey: emailEventKey("campo-message", mensajeId) });
 
   if (resendError) throw new Error(resendError.message);
   console.log(JSON.stringify({
@@ -142,6 +144,7 @@ export async function sendDirectMessageNotification(mensajeId: string) {
   const { data: resendData, error: resendError } = await resend.emails.send({
     from: process.env.RESEND_FROM_EMAIL ?? "RentoCampo <no-reply@rentocampo.com>",
     to: destinatario.email,
+    text: `Tenés un nuevo mensaje en RentoCampo. Ingresá a tu cuenta para leerlo y responder: ${urlMensaje}`,
     subject: `Nuevo mensaje de ${remitente?.nombre || "un usuario"} — RentoCampo`,
     html: `
       <div style="font-family:Arial,sans-serif;max-width:520px;margin:auto;padding:32px;background:#fff;border:1px solid #e8e6e0;border-radius:16px">
@@ -150,7 +153,7 @@ export async function sendDirectMessageNotification(mensajeId: string) {
         <blockquote style="margin:24px 0;padding:16px;border-left:3px solid #2d6a2d;background:#f7f5f0">${contenido}</blockquote>
         <a href="${urlMensaje}" style="display:inline-block;background:#2d6a2d;color:#fff;padding:13px 20px;border-radius:8px;text-decoration:none;font-weight:bold">Responder mensaje</a>
       </div>`,
-  });
+  }, { idempotencyKey: emailEventKey("direct-message", mensajeId) });
 
   if (resendError) throw new Error(resendError.message);
   console.log(JSON.stringify({

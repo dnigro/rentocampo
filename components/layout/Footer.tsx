@@ -1,5 +1,6 @@
 "use client";
 
+import { useSharedPreviewChrome } from "./PreviewChromeContext";
 import RegionalLink from "@/components/layout/RegionalLink";
 import Link from "@/components/layout/SiteLink";
 import Image from "next/image";
@@ -9,15 +10,15 @@ import type { CountryCode } from "@/data/countries";
 import { regionalText } from "@/lib/i18n/regional";
 import { useRegionalCountry } from "@/lib/i18n/useRegionalCountry";
 
-export default function Footer({ countryOverride }: { countryOverride?: CountryCode } = {}) {
+export function SiteFooter({ countryOverride, preview = false }: { countryOverride?: CountryCode; preview?: boolean } = {}) {
   const detectedCountry = useRegionalCountry();
   const country = countryOverride ?? detectedCountry;
   const t = (es: string, pt: string, en?: string) => regionalText(country, es, pt, en);
   return (
-    <footer className="footer">
+    <footer className={preview ? "footer v3-footer" : "footer"}>
       <div className="footer-inner">
         <div className="footer-brand">
-          <Link href="/" className="footer-logo" aria-label="RentoCampo, inicio">
+          <Link href={preview ? `/v3?pais=${country}` : "/"} className="footer-logo" aria-label="RentoCampo, inicio">
             <Image src="/lite-logo.svg" width={31} height={34} alt="" className="footer-brand-icon" />
             <span className="footer-brand-name">RentoCampo</span>
           </Link>
@@ -29,13 +30,13 @@ export default function Footer({ countryOverride }: { countryOverride?: CountryC
         <div className="footer-col">
           <h4 className="footer-col-title"><Tractor aria-hidden="true" />{t("Productores", "Produtores", "Farmers")}</h4>
           <nav className="footer-nav">
-            <Link href="/alquiler-de-campos" className="footer-link">
+            <Link href={preview ? `/v3?pais=${country}&tipo=campo&operacion=alquiler#explorar` : "/alquiler-de-campos"} className="footer-link">
               {t("Alquiler de campos", "Arrendamento rural", "Farmland rentals")}
             </Link>
-            <Link href="/campos/mapa" className="footer-link">
+            <Link href={preview ? `/v3?pais=${country}&tipo=campo&vista=mapa#explorar` : "/campos/mapa"} className="footer-link">
               {t("Ver mapa", "Ver mapa", "View map")}
             </Link>
-            <RegionalLink href="/register?tipo=productor" fallbackCountry={country} className="footer-link">
+            <RegionalLink href={preview ? "/v3?tipo=campo&ayuda=alquiler#preguntas-frecuentes" : "/register?tipo=productor"} fallbackCountry={country} className="footer-link">
               {t("Cómo alquilar", "Como arrendar", "How to rent")}
             </RegionalLink>
           </nav>
@@ -44,13 +45,13 @@ export default function Footer({ countryOverride }: { countryOverride?: CountryC
         <div className="footer-col">
           <h4 className="footer-col-title"><House aria-hidden="true" />{t("Propietarios", "Proprietários", "Landowners")}</h4>
           <nav className="footer-nav">
-            <RegionalLink href="/register?tipo=propietario" fallbackCountry={country} className="footer-link">
+            <RegionalLink href={preview ? "/mis-campos/nuevo" : "/register?tipo=propietario"} fallbackCountry={country} className="footer-link">
               {t("Publicar un campo", "Anunciar terra", "List farmland")}
             </RegionalLink>
-            <Link href="/mis-campos" className="footer-link">
+            <RegionalLink href="/mis-campos" fallbackCountry={country} className="footer-link">
               {t("Panel del propietario", "Painel do proprietário", "Landowner dashboard")}
-            </Link>
-            <RegionalLink href="/register?tipo=propietario" fallbackCountry={country} className="footer-link">
+            </RegionalLink>
+            <RegionalLink href={preview ? "/v3?ayuda=publicar#preguntas-frecuentes" : "/register?tipo=propietario"} fallbackCountry={country} className="footer-link">
               {t("Cómo publicar", "Como anunciar", "How to list")}
             </RegionalLink>
           </nav>
@@ -59,9 +60,9 @@ export default function Footer({ countryOverride }: { countryOverride?: CountryC
         <div className="footer-col footer-col--services">
           <h4 className="footer-col-title"><Sprout aria-hidden="true" />{t("Servicios rurales", "Serviços rurais", "Rural services")}</h4>
           <nav className="footer-nav footer-nav--services">
-            <Link href="/servicios-rurales" className="footer-link">{t("Buscar servicios", "Buscar serviços", "Find services")}</Link>
-            <Link href="/campos/mapa?vista=servicios" className="footer-link">{t("Ver mapa de servicios", "Ver mapa de serviços", "Services map")}</Link>
-            <RegionalLink href="/register?tipo=prestador" fallbackCountry={country} className="footer-link">
+            <Link href={preview ? `/v3?pais=${country}&tipo=servicio#explorar` : "/servicios-rurales"} className="footer-link">{t("Buscar servicios", "Buscar serviços", "Find services")}</Link>
+            <Link href={preview ? `/v3?pais=${country}&tipo=servicio&vista=mapa#explorar` : "/campos/mapa?vista=servicios"} className="footer-link">{t("Ver mapa de servicios", "Ver mapa de serviços", "Services map")}</Link>
+            <RegionalLink href={preview ? "/mis-servicios-rurales/nuevo" : "/register?tipo=prestador"} fallbackCountry={country} className="footer-link">
               {t("Ofrecer mis servicios", "Oferecer meus serviços", "Offer services")}
             </RegionalLink>
           </nav>
@@ -97,8 +98,8 @@ export default function Footer({ countryOverride }: { countryOverride?: CountryC
           © {new Date().getFullYear()} RentoCampo. {t("Todos los derechos reservados.", "Todos os direitos reservados.", "All rights reserved.")}
         </span>
         <nav className="footer-bottom-links" aria-label="Información legal">
-          <Link href="/us" className="footer-bottom-link" lang="en">United States</Link>
-          <Link href="/br" className="footer-bottom-link" lang="pt-BR">Brasil</Link>
+          <Link href={preview ? "/v3?pais=US" : "/us"} className="footer-bottom-link" lang="en">United States</Link>
+          <Link href={preview ? "/v3?pais=BR" : "/br"} className="footer-bottom-link" lang="pt-BR">Brasil</Link>
           <Link href="/terminos-y-condiciones" className="footer-bottom-link">
             {t("Términos y condiciones", "Termos e condições", "Terms and conditions")}
           </Link>
@@ -106,4 +107,9 @@ export default function Footer({ countryOverride }: { countryOverride?: CountryC
       </div>
     </footer>
   );
+}
+
+export default function Footer(props: { countryOverride?: CountryCode } = {}) {
+ const shared = useSharedPreviewChrome();
+ return shared ? null : <SiteFooter {...props}/>;
 }
