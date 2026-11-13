@@ -162,7 +162,7 @@ export default function CampoMapa({
         if (cancelled || map.current || !mapContainer.current) return;
 
         const country = COUNTRIES[countryCode];
-        const leafletMap = L.map(mapContainer.current).setView(
+        const leafletMap = L.map(mapContainer.current, { scrollWheelZoom: true, doubleClickZoom: true }).setView(
           [...country.mapCenter] as [number, number],
           country.mapZoom,
         );
