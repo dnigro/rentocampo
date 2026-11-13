@@ -21,13 +21,13 @@ function ActivityMap({rows,selected,onSelect}:{rows:CountryStats[];selected:stri
    const color=(count:number)=>count===0?"#e2e7e3":count<10?"#c1dfc8":count<50?"#78b68a":count<200?"#36885a":"#126a39";
    let layer:ReturnType<typeof L.geoJSON>|null=null;
    try{
-    const response=await fetch("/geo/latam-countries.geojson");
+    const response=await fetch("https://raw.githubusercontent.com/datasets/geo-countries/master/data/countries.geojson");
     if(!response.ok)throw new Error("Mapa geográfico no disponible");
     const geo=await response.json();
     if(!alive)return;
     layer=L.geoJSON(geo,{style:(feature)=>{
      const p=feature?.properties||{};
-     const code=iso3to2[String(p.ISO_A3||p.ADM0_A3||p.iso_a3||p.id||"")]||String(p.ISO_A2||p.iso_a2||"");
+     const code=iso3to2[String(p["ISO3166-1-Alpha-3"]||p.ISO_A3||p.ADM0_A3||p.iso_a3||p.id||"")]||String(p.ISO_A2||p.iso_a2||"");
      const count=stats.get(code)||0;
      return {color:selected===code?"#18221b":"#fff",weight:selected===code?2.5:1,fillColor:color(count),fillOpacity:.88};
     },onEachFeature:(feature,shape)=>{
