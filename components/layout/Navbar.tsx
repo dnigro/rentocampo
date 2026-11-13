@@ -1,5 +1,6 @@
 "use client";
 
+import { useSharedPreviewChrome } from "./PreviewSiteFrame";
 import Link from "@/components/layout/SiteLink";
 import Image from "next/image";
 import { ArrowRight, ChevronDown, Menu, MessagesSquare, X, UserRound } from "lucide-react";
@@ -335,5 +336,7 @@ function NavbarContent() {
 }
 
 export default function Navbar() {
+  const shared = useSharedPreviewChrome();
+  if (shared) return null;
   return <Suspense fallback={null}><NavbarContent /></Suspense>;
 }

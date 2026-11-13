@@ -17,10 +17,11 @@ const subscribe = (listener: () => void) => {
 const savedCountry = () => resolveCountry(document.cookie.split("; ").find((item) => item.startsWith("rentocampo_country="))?.split("=")[1]);
 
 function countryHref(href: string, country: CountryCode) {
-  const [path, query] = href.split("?");
+  const [destination, hash] = href.split("#", 2);
+  const [path, query] = destination.split("?");
   const params = new URLSearchParams(query);
   params.set("pais", country);
-  return `${path}?${params}`;
+  return `${path}?${params}${hash ? `#${hash}` : ""}`;
 }
 
 function ResolvedLink({ href, className, children, fallbackCountry = "AR" }: Props) {

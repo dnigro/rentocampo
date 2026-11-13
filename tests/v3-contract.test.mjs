@@ -19,9 +19,10 @@ test("V3 critical routes are present and isolated from main", () => {
   for (const path of paths) assert.ok(existsSync(join(root, path)), path);
   const layout = read("app/v3/layout.tsx");
   assert.match(layout, /robots:\s*\{\s*index:\s*false/);
-  assert.match(layout, /href="\/v3\/campos"/);
-  assert.match(layout, /href="\/v3\/servicios"/);
-  assert.match(layout, /href="\/v3\/mi-rentocampo"/);
+  const frame = read("components/layout/PreviewSiteFrame.tsx");
+  assert.match(frame, /href="\/v3\/campos"/);
+  assert.match(frame, /href="\/v3\/servicios"/);
+  assert.match(frame, /href="\/v3\/mi-rentocampo"/);
 });
 
 test("Marketplace reuses published data and exposes unified map/list", () => {

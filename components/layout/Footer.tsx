@@ -1,5 +1,6 @@
 "use client";
 
+import { useSharedPreviewChrome } from "./PreviewSiteFrame";
 import RegionalLink from "@/components/layout/RegionalLink";
 import Link from "@/components/layout/SiteLink";
 import Image from "next/image";
@@ -9,7 +10,7 @@ import type { CountryCode } from "@/data/countries";
 import { regionalText } from "@/lib/i18n/regional";
 import { useRegionalCountry } from "@/lib/i18n/useRegionalCountry";
 
-export default function Footer({ countryOverride }: { countryOverride?: CountryCode } = {}) {
+function LegacyFooter({ countryOverride }: { countryOverride?: CountryCode } = {}) {
   const detectedCountry = useRegionalCountry();
   const country = countryOverride ?? detectedCountry;
   const t = (es: string, pt: string, en?: string) => regionalText(country, es, pt, en);
@@ -106,4 +107,9 @@ export default function Footer({ countryOverride }: { countryOverride?: CountryC
       </div>
     </footer>
   );
+}
+
+export default function Footer(props: { countryOverride?: CountryCode } = {}) {
+ const shared = useSharedPreviewChrome();
+ return shared ? null : <LegacyFooter {...props}/>;
 }
