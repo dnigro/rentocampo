@@ -4,11 +4,11 @@ import { Maximize2, Minimize2, Plus, Minus, Layers, LocateFixed, Scan, X } from 
 import { v3Text } from "@/lib/i18n/v3-copy";
 import { useEffect, useRef, useState } from "react";
 import type { Map as LeafletMap, Marker } from "leaflet";
-import type { RuralListing } from "@/lib/v3/types";
+import type { V3Campo } from "./V3Explorer";
 import { type MapBounds } from "@/lib/campos/map-search";
 import { COUNTRIES, type CountryCode } from "@/data/countries";
 
-type Props = { campos: RuralListing[]; country: CountryCode; selectedId: string | null; onSelect: (id: string) => void; onViewportChange: (bounds: MapBounds) => void; initialBounds?: MapBounds | null; getHref?: (id: string) => string };
+type Props = { campos: V3Campo[]; country: CountryCode; selectedId: string | null; onSelect: (id: string) => void; onViewportChange: (bounds: MapBounds) => void; initialBounds?: MapBounds | null; getHref?: (id: string) => string };
 
 export default function V3Map({ campos, country, selectedId, onSelect, onViewportChange, initialBounds, getHref }: Props) {
   const [expanded,setExpanded]=useState(false);
@@ -95,7 +95,7 @@ export default function V3Map({ campos, country, selectedId, onSelect, onViewpor
         location.style.cssText = "color:#667085;font-size:13px";
         popup.appendChild(location);
         if(campo.kind==="campo" && campo.hectareas != null){const area=document.createElement("span");area.textContent=`${campo.hectareas.toLocaleString()} ha`;popup.appendChild(area);}
-        if(campo.kind==="servicio" && campo.coverage){const coverage=document.createElement("span");coverage.textContent=`Cobertura: ${campo.coverage}`;popup.appendChild(coverage);}
+        if(campo.kind==="servicio" && "coverage" in campo && typeof campo.coverage === "string" && campo.coverage){const coverage=document.createElement("span");coverage.textContent=`Cobertura: ${campo.coverage}`;popup.appendChild(coverage);}
         const link = document.createElement("a");
         link.textContent = "Ver publicación ↗";
         link.href = hrefRef.current?.(campo.id) || "#";
