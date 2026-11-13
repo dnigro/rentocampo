@@ -31,6 +31,6 @@ try {
  await page.locator('a[href="/recuperar-contrasena"]').click();await page.waitForURL('**/recuperar-contrasena');assert.equal(await page.locator('.v3-header').count(),1);
  await page.locator('.v3-footer a[href*="terminos-y-condiciones"]').click();await page.waitForURL('**/terminos-y-condiciones**');await page.getByRole('heading',{name:'Términos y condiciones',exact:true}).waitFor();
  for(const [country,label] of [['BR','Termos e condições'],['US','Terms and conditions']]){await page.goto(`${origin}/login?pais=${country}`,{waitUntil:'networkidle'});await page.locator('.v3-footer').getByRole('link',{name:label,exact:true}).waitFor();const how=await page.locator('.v3-header>nav a[href*="como-funciona"]').getAttribute('href');assert.equal(new URL(how,origin).searchParams.get('pais'),country);assert.equal(new URL(how,origin).hash,'#como-funciona');}
- await page.goto(`${origin}/?pais=AR`,{waitUntil:'networkidle'});assert.notEqual(await page.locator('.rural-white-home').evaluate(e=>getComputedStyle(e).backgroundImage),'none');
+ await page.goto(`${origin}/?pais=AR`,{waitUntil:'networkidle'});assert.notEqual(await page.locator('.rural-hero-band').evaluate(e=>getComputedStyle(e).backgroundImage),'none');
  assert.equal(writes,0,'No Supabase writes');assert.deepEqual(errors,[]);console.log('PASS auth navigation, password visibility, terms destination, BR/US shared chrome, colored hero, zero writes/errors');
 }finally{await browser.close();}

@@ -43,6 +43,7 @@ test("Marketplace reuses published data and exposes unified map/list", () => {
 test("V3 UAT does not introduce mutations on real Supabase data", () => {
   const files = [
     "app/v3/page.tsx",
+    "lib/v3/load-home-listings.ts",
     "app/v3/campos/page.tsx",
     "app/v3/campos/[id]/page.tsx",
     "app/v3/servicios/page.tsx",
