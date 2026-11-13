@@ -209,3 +209,85 @@ html body .v3-shell.v3-integrated .account-workspace :is(.perfil-section,.perfil
 }
 html body .v3-shell.v3-integrated .account-workspace :is(.perfil-section-title,.perfil-page h2){color:#1d1d1f!important;font-weight:700!important}
 html body .v3-shell.v3-integrated .account-workspace :is(input,textarea,select){border-color:#d2d2d7!important;border-radius:9px!important}
+
+/* Final account-detail system: match large white cards from AccountOverview. */
+html body .v3-shell.v3-integrated .account-workspace .page-container{
+ max-width:1320px!important;width:calc(100% - 48px)!important;margin-inline:auto!important;
+ padding-top:36px!important;background:#fff!important;color:#1d1d1f!important;
+}
+html body .v3-shell.v3-integrated .account-workspace .page-header{
+ background:#fff!important;border:0!important;border-bottom:1px solid #e5e5e7!important;
+ border-radius:0!important;padding:0 0 28px!important;min-height:0!important;
+ box-shadow:none!important;margin-bottom:26px!important;
+}
+html body .v3-shell.v3-integrated .account-workspace .page-title{
+ font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif!important;
+ font-size:clamp(34px,3.5vw,46px)!important;font-weight:750!important;
+ line-height:1.12!important;letter-spacing:-1px!important;color:#1d1d1f!important;
+ text-transform:none!important;
+}
+html body .v3-shell.v3-integrated .account-workspace .page-subtitle{
+ color:#6e6e73!important;font-size:16px!important;font-weight:400!important;
+}
+html body .v3-shell.v3-integrated .account-workspace :is(
+ .perfil-section,.perfil-avatar-panel,.perfil-main-form,.perfil-danger-zone,
+ .campo-card-admin,.campo-card-pub,.empty-state,.role-gate-card,
+ .favorito-item,.inbox-workspace,.rc-decision__view,.rc-decision__kpi
+){
+ background:#fff!important;border:1px solid #e5e5e7!important;
+ border-radius:18px!important;box-shadow:none!important;
+}
+html body .v3-shell.v3-integrated .account-workspace .perfil-section{
+ padding:clamp(22px,3vw,36px)!important;margin-bottom:22px!important;
+}
+html body .v3-shell.v3-integrated .account-workspace :is(
+ .perfil-section-title,.form-section-title,.campo-card-titulo,.campo-card-pub-titulo,
+ .empty-title,.rc-decision__view-heading h2,.role-gate-card h2
+){
+ font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif!important;
+ font-size:clamp(22px,2vw,28px)!important;line-height:1.25!important;
+ font-weight:750!important;letter-spacing:-.5px!important;text-transform:none!important;
+ color:#1d1d1f!important;
+}
+html body .v3-shell.v3-integrated .account-workspace :is(
+ .perfil-section-description,.form-section-hint,.empty-desc,.campo-card-ubicacion,
+ .campo-card-datos,.campo-card-pub-ubicacion,.role-gate-card p
+){color:#6e6e73!important;font-size:15px!important;line-height:1.55!important}
+html body .v3-shell.v3-integrated .account-workspace .perfil-role-option{
+ background:#fff!important;border:1px solid #d2d2d7!important;border-radius:12px!important;
+ box-shadow:none!important;
+}
+html body .v3-shell.v3-integrated .account-workspace .perfil-role-option:has(input:checked){
+ background:#f5f5f7!important;border-color:#86868b!important;
+}
+html body .v3-shell.v3-integrated .account-workspace .perfil-role-option input{accent-color:#1d1d1f!important}
+html body .v3-shell.v3-integrated .account-workspace :is(.form-input,.form-textarea,select){
+ background:#fff!important;color:#1d1d1f!important;border:1px solid #d2d2d7!important;
+ border-radius:10px!important;box-shadow:none!important;
+}
+html body .v3-shell.v3-integrated .account-workspace :is(.btn-primary-lg,.btn-submit,.mensaje-compose-submit){
+ background:#1d1d1f!important;color:#fff!important;border:1px solid #1d1d1f!important;
+ border-radius:10px!important;box-shadow:none!important;
+}
+html body .v3-shell.v3-integrated .account-workspace :is(.btn-secondary-lg,.btn-action){
+ background:#fff!important;color:#1d1d1f!important;border:1px solid #d2d2d7!important;
+ border-radius:10px!important;box-shadow:none!important;
+}
+html body .v3-shell.v3-integrated .account-workspace .campo-card-admin{
+ overflow:hidden!important;min-height:230px!important;
+}
+html body .v3-shell.v3-integrated .account-workspace .campo-card-actions{
+ gap:10px!important;
+}
+html body .v3-shell.v3-integrated .account-workspace .perfil-danger-zone{
+ border-color:#e5e5e7!important;background:#fff!important;
+}
+html body .v3-shell.v3-integrated .account-workspace .avatar-preview{
+ border:2px solid #e5e5e7!important;background:#f5f5f7!important;
+}
+@media(max-width:700px){
+ html body .v3-shell.v3-integrated .account-workspace .page-container{
+  width:calc(100% - 32px)!important;padding-top:24px!important;
+ }
+ html body .v3-shell.v3-integrated .account-workspace .perfil-section{padding:22px!important}
+}
