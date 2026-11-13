@@ -84,7 +84,7 @@ export default function V3Map({ campos, country, selectedId, onSelect, onViewpor
         }).addTo(map);
         const popup = document.createElement("div");
         popup.className = "rural-pro-popup";
-        popup.style.cssText = "box-sizing:border-box;width:min(330px,calc(100vw - 90px));max-height:360px;overflow-y:auto;background:white;color:#102b43;border-radius:14px;font-family:inherit;";
+        popup.style.cssText = "box-sizing:border-box;width:300px;max-width:calc(100vw - 76px);max-height:390px;overflow-y:auto;background:#fff;color:#102b43;border-radius:18px;font-family:inherit;";
         if (group.length > 1) {
           const heading = document.createElement("div");
           heading.textContent = `${group.length} publicaciones en esta ubicación`;
@@ -94,12 +94,12 @@ export default function V3Map({ campos, country, selectedId, onSelect, onViewpor
         for (const campo of group) {
           const card = document.createElement("a");
           card.href = hrefRef.current?.(campo.id) || "#";
-          card.style.cssText = "display:flex;align-items:center;gap:10px;padding:11px 12px;color:#102b43;text-decoration:none;border-bottom:1px solid #e5e9ed;min-height:76px;";
+          card.style.cssText = "display:flex;flex-direction:column;align-items:stretch;gap:9px;padding:12px;color:#102b43;text-decoration:none;border-bottom:1px solid #e5e9ed;min-height:76px;";
           const photo = campo.foto || campo.fotos?.[0];
           if (photo && (/^https:\/\//i.test(photo) || photo.startsWith("/"))) {
             const img = document.createElement("img");
             img.src = photo; img.alt = ""; img.loading = "lazy";
-            img.style.cssText = "width:82px;height:70px;flex-shrink:0;object-fit:cover;border-radius:9px;background:#f2f4f6;";
+            img.style.cssText = "display:block;width:100%;height:148px;object-fit:cover;border-radius:12px;background:#f2f4f6;";
             card.appendChild(img);
           }
           const body = document.createElement("div");
@@ -114,11 +114,15 @@ export default function V3Map({ campos, country, selectedId, onSelect, onViewpor
           meta.textContent = [campo.localidad, campo.provincia, campo.hectareas != null && campo.kind !== "servicio" ? `${campo.hectareas} ha` : ""].filter(Boolean).join(" · ");
           meta.style.cssText = "font-size:11px;color:#667085;line-height:1.3;";
           body.append(kind,title,meta);
+          const action = document.createElement("span");
+          action.textContent = country === "BR" ? "Ver publicação ↗" : country === "US" ? "View listing ↗" : "Ver publicación ↗";
+          action.style.cssText = "display:block;margin-top:5px;padding:10px;border:1px solid #d5dce3;border-radius:11px;text-align:center;font-size:13px;font-weight:700;";
+          body.appendChild(action);
           card.appendChild(body);
           card.addEventListener("mouseenter",()=>selectRef.current(campo.id));
           popup.appendChild(card);
         }
-        marker.bindPopup(popup,{autoPan:true,autoPanPaddingTopLeft:[18,105],autoPanPaddingBottomRight:[18,20],minWidth:260,maxWidth:340,closeButton:true,className:"rural-pro-leaflet-popup"});
+        marker.bindPopup(popup,{autoPan:true,autoPanPaddingTopLeft:[18,105],autoPanPaddingBottomRight:[18,20],minWidth:280,maxWidth:320,closeButton:true,className:"rural-pro-leaflet-popup"});
         marker.on("click",()=>selectRef.current(first.id));
         for (const item of group) markers.set(item.id,marker);
       }
@@ -236,6 +240,14 @@ export default function V3Map({ campos, country, selectedId, onSelect, onViewpor
       </div>
     </div>
     <div className="v3-map-canvas" ref={containerRef} role="region" aria-label={country === "BR" ? "Mapa de terras e serviços" : country === "US" ? "Farmland and services map" : "Mapa de campos y servicios"} />
+    <style jsx global>{`
+      .v3-map-frame .leaflet-popup.rural-pro-leaflet-popup { max-width: calc(100vw - 32px) !important; }
+      .v3-map-frame .rural-pro-leaflet-popup .leaflet-popup-content-wrapper { padding: 0 !important; border-radius: 18px !important; background: #fff !important; box-shadow: 0 12px 35px rgba(9,30,50,.2) !important; overflow: hidden; }
+      .v3-map-frame .rural-pro-leaflet-popup .leaflet-popup-content { margin: 0 !important; width: 300px !important; max-width: calc(100vw - 76px) !important; min-width: 0 !important; white-space: normal !important; }
+      .v3-map-frame .rural-pro-leaflet-popup .leaflet-popup-tip { background: #fff !important; }
+      .v3-map-frame .rural-pro-leaflet-popup .leaflet-popup-close-button { z-index: 5; top: 8px !important; right: 8px !important; width: 28px !important; height: 28px !important; border-radius: 50%; background: #fff !important; color: #102b43 !important; font-size: 22px !important; line-height: 26px !important; }
+      @media (max-width: 640px) { .v3-map-frame .rural-pro-leaflet-popup .leaflet-popup-content { width: min(280px, calc(100vw - 76px)) !important; } }
+    `}</style>
     {mapError && <p className="v3-map-error" role="status">{v3Text(country,"No pudimos cargar el mapa completo. Podés seguir consultando las fichas del listado.")}</p>}
   </div>;
 }
