@@ -13,7 +13,7 @@ export default function V3HomeHero({country}: {country: CountryCode}) {
   <div className={styles.content}>
    <h1 id="v3-home-title" className={styles.title}><span>{t("EL CAMPO","O CAMPO","THE COUNTRYSIDE")}</span><span className={styles.emphasis}>{t("TE CONECTA","CONECTA VOCÊ","CONNECTS YOU")}</span></h1>
    <p className={styles.description}>{t("Campos y servicios rurales. Contacto directo.","Terras e serviços rurais. Contato direto.","Farmland and rural services. Direct contact.")}</p>
-   <div className={styles.actions}><Link href={`/v3?pais=${country}&vista=mapa#explorar`} className={styles.primary}>{t("Explorar mapa","Explorar mapa","Explore map")}</Link><Link href={`/registro?pais=${country}`} className={styles.secondary}>{t("Quiero publicar","Quero anunciar","Create a listing")}</Link></div>
+   <div className={styles.actions}><Link href={`/v3?pais=${country}&vista=mapa#explorar`} className={styles.primary}>{t("Explorar mapa","Explorar mapa","Explore map")}</Link><Link href={`/register?pais=${country}`} className={styles.secondary}>{t("Quiero publicar","Quero anunciar","Create a listing")}</Link></div>
   </div>
 
  </section>;
