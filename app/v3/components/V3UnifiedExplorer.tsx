@@ -1,6 +1,7 @@
 "use client";
 import { useCallback, useMemo, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { MapPin, Map as MapIcon, List, Search, ArrowUpRight, RotateCcw } from "lucide-react";
 import { COUNTRIES, COUNTRY_CODES_ALPHABETICAL, displayCountryName, type CountryCode } from "@/data/countries";
 import { SERVICIOS_RURALES, servicioLabel } from "@/data/servicios-rurales";
@@ -14,6 +15,7 @@ import type { V3Campo } from "./V3Explorer";
 export type RuralListing = V3Campo & { kind: "campo" | "servicio"; sourceId: string; services: ServicioRural[]; coverage: string | null };
 export type HomeFilters = { pais?: string; tipo?: string; provincia?: string; operacion?: string; aptitud?: string; servicio?: string; north?: string; south?: string; east?: string; west?: string };
 export default function V3UnifiedExplorer({ listings, country, filter, errors, capped, initialBounds }: { listings: RuralListing[]; country: CountryCode; filter: HomeFilters; errors: string[]; capped: boolean; initialBounds: MapBounds | null }) {
+ const router = useRouter();
  const t = (es: string, pt: string, en: string) => country === "BR" ? pt : country === "US" ? en : es;
  const [kind, setKind] = useState(["campo","servicio"].includes(filter.tipo || "") ? filter.tipo! : "todo");
  const [bounds, setBounds] = useState(initialBounds);
@@ -52,7 +54,7 @@ export default function V3UnifiedExplorer({ listings, country, filter, errors, c
    {["todo","campo","servicio"].map(value=><button key={value} type="button" aria-pressed={kind===value} onClick={()=>changeKind(value)}><RuralIcon name={value === "todo" ? "mixta" : value}/>{kindName(value)}</button>)}
   </div>
   <form className="v3-home-search rural-search" onSubmit={event=>{event.preventDefault();setApplied({location,operation,aptitude,service});setSelected(null);}}>
-   <label><span>{t("País","País","Country")}</span><select aria-label={t("País","País","Country")} name="pais" value={country} onChange={event=>{window.location.assign(`/v3?pais=${event.target.value}&tipo=${kind}#explorar`);}}>{COUNTRY_CODES_ALPHABETICAL.map(code=><option key={code} value={code}>{displayCountryName(code,country)}</option>)}</select></label>
+   <label><span>{t("País","País","Country")}</span><select aria-label={t("País","País","Country")} name="pais" value={country} onChange={event=>{router.push(`/v3?pais=${event.target.value}&tipo=${kind}#explorar`);}}>{COUNTRY_CODES_ALPHABETICAL.map(code=><option key={code} value={code}>{displayCountryName(code,country)}</option>)}</select></label>
    <label className="rural-location-input"><span>{t("¿Dónde buscás?","Onde você procura?","Where are you looking?")}</span><input name="provincia" value={location} onChange={event=>setLocation(event.target.value)} placeholder={t("Provincia, localidad o zona","Estado, cidade ou região","State, town or area")}/></label>
    {kind === "campo" && <><label><span>{t("Operación","Operação","Transaction")}</span><select name="operacion" value={operation} onChange={event=>setOperation(event.target.value)}><option value="">{t("Todas","Todas","All")}</option><option value="alquiler">{t("Alquiler","Arrendamento","Lease")}</option><option value="venta">{t("Venta","Venda","Sale")}</option></select></label><label><span>{t("Aptitud","Aptidão","Land use")}</span><select name="aptitud" value={aptitude} onChange={event=>setAptitude(event.target.value)}><option value="">{t("Todas","Todas","All")}</option>{["agricola","ganadera","mixta","forestal"].map(value=><option key={value} value={value}>{aptitudeName(value)}</option>)}</select></label></>}
    {kind === "servicio" && <label><span>{t("Especialidad","Especialidade","Specialty")}</span><select name="servicio" value={service} onChange={event=>setService(event.target.value)}><option value="">{t("Todos los servicios","Todos os serviços","All services")}</option>{SERVICIOS_RURALES.map(item=><option key={item.value} value={item.value}>{servicioLabel(item.value,country)}</option>)}</select></label>}
@@ -77,7 +79,7 @@ export default function V3UnifiedExplorer({ listings, country, filter, errors, c
      </Link></article>)}</div>
    </div>
    <div className="rural-map-panel"><div className="rural-map-controls"><label><input type="checkbox" checked={autoSearch} onChange={event=>{setAutoSearch(event.target.checked);if(event.target.checked && pending)setBounds(pending);}}/>{t("Buscar al mover el mapa","Buscar ao mover o mapa","Search as map moves")}</label>{!autoSearch && pending && <button type="button" onClick={()=>setBounds(pending)}>{t("Buscar en esta zona","Buscar nesta região","Search this area")}</button>}{bounds && <button type="button" onClick={resetArea}>{t("Ver todo el país","Ver todo o país","View whole country")}</button>}</div>
-    <V3Map key={`${country}-${kind}-${reset}`} campos={matches} country={country} selectedId={selected} onSelect={onSelect} onViewportChange={onMove} initialBounds={bounds && reset === 0 ? initialBounds : null}/>
+    <V3Map key={`${country}-${kind}-${reset}`} campos={matches} country={country} selectedId={selected} onSelect={onSelect} onViewportChange={onMove} initialBounds={bounds}/>
     <div className="rural-map-legend"><span><i/>{kindName("campo")}</span><span><i/>{kindName("servicio")}</span><small>{t("Servicios: base declarada, no límite de cobertura.","Serviços: base declarada, não limite de cobertura.","Services: declared base, not coverage boundary.")}</small></div>
     {selectedItem && <div className="rural-map-selection"><strong>{selectedItem.titulo}</strong>{selectedItem.coverage && <span>{t("Cobertura:","Atendimento:","Coverage:")} {selectedItem.coverage}</span>}<Link href={href(selectedItem)}>{t("Ver publicación","Ver anúncio","View listing")} <ArrowUpRight size={14}/></Link></div>}
    </div>

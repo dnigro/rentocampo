@@ -19,6 +19,7 @@ export function v3PreviewRoutes(env: Record<string, string | undefined>) {
       ...["/campos", "/lite/campos"].map(source => ({ source: `${source}/:id([0-9a-fA-F-]{36})`, destination: "/v3/campos/:id" })),
       ...["/servicios-rurales", "/lite/servicios"].map(source => ({ source: `${source}/:id([0-9a-fA-F-]{36})`, destination: "/v3/servicios/:id" })),
       { source: "/lite/campos", destination: "/v3/campos" },
+      { source: "/lite/servicios", destination: "/v3/servicios" },
     ] : [] },
   };
 }

@@ -30,18 +30,23 @@ try {
   }
   // Filter selection changes the map and cards together, with specialized controls.
   await page.locator('.rural-type-tabs button').nth(1).click();
+  await page.locator('select[name=operacion]').waitFor();
   assert.equal(await page.locator('select[name=operacion]').count(),1);
   assert.equal(await page.locator('.rural-service-card').count(),0);
   await page.locator('.rural-type-tabs button').nth(2).click();
+  await page.locator('select[name=servicio]').waitFor();
   assert.equal(await page.locator('select[name=servicio]').count(),1);
   assert.equal(await page.locator('select[name=operacion]').count(),0);
   assert.equal(await page.locator('.rural-field-card').count(),0);
   await page.locator('.rural-type-tabs button').first().click();
+  await page.locator('select[name=servicio]').waitFor({state:'detached'});
   assert.equal(await page.locator('select[name=servicio],select[name=operacion]').count(),0);
   await page.locator('input[name=provincia]').fill('No existe esta zona 182873');
   await page.locator('.v3-home-search button').click();
+  await page.locator('.rural-card-grid article').first().waitFor({state:'detached'});
   assert.equal(await page.locator('.rural-card-grid article').count(),0);
   await page.locator('.rural-result-toolbar button').click();
+  await page.locator('.rural-card-grid article').first().waitFor();
   await page.setViewportSize({width:375,height:900});
   await page.locator('.rural-mobile-toggle').click();
   assert.ok(await page.locator('.rural-map-panel').isVisible());
@@ -70,6 +75,7 @@ try {
   assert.ok((await page.locator('h1').innerText()).includes(headline));
   assert.equal(await page.locator('select[name=pais]').inputValue(),country);
   await page.locator('.rural-type-tabs button').nth(2).click();
+  await page.locator('select[name=servicio]').waitFor();
   assert.equal(await page.locator('select[name=servicio]').count(),1);
   console.log('PASS localized unified country',country);
  }

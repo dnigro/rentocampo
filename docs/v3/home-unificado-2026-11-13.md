@@ -10,7 +10,7 @@ La selección visual del usuario se implementa como una página blanca, con el e
 - Solo características publicadas: no se deducen prestaciones de campos a partir de fotos ni se inventan mejoras, precios, testimonios o calificaciones.
 - Coordenadas válidas para los marcadores. Para servicios, el marcador es la base declarada; cobertura por texto, sin radio geográfico inventado. Etiquetas diferenciadas por color y texto. Cuando comparten coordenadas se desplazan las etiquetas visuales, no las ubicaciones.
 - Búsqueda automática al mover el mapa, búsqueda manual opcional y restablecimiento de zona. Selección entre fichas y marcadores. Regreso desde el detalle conserva país, tipo, filtros y límites geográficos mediante una lista permitida de parámetros.
-- En móvil, botón fijo para alternar fichas/mapa sin perder la búsqueda. El home de `/lite` comparte el mismo componente mediante la reescritura de Preview; los detalles Lite ya comparten componentes.
+- En móvil, botón fijo para alternar fichas/mapa sin perder la búsqueda. Los enlaces principales Campos/Servicios abren el mismo explorador con el tipo seleccionado. El catálogo de servicios Lite también comparte el catálogo V3 únicamente en Preview, sin alterar publicar/editar. El home de `/lite` comparte el mismo componente mediante la reescritura de Preview; los detalles Lite ya comparten componentes.
 - Consultas independientes en paralelo y errores independientes: el fallo de servicios no elimina campos disponibles y viceversa. Sin coordenadas se mantiene la ficha al buscar en todo el país.
 
 ## Alcance de datos

@@ -17,6 +17,8 @@ export default function V3Map({ campos, country, selectedId, onSelect, onViewpor
   const selectRef = useRef(onSelect);
   const viewportRef = useRef(onViewportChange);
   const selectedRef = useRef(selectedId);
+  const initialBoundsRef = useRef(initialBounds);
+  useEffect(() => { initialBoundsRef.current = initialBounds; }, [initialBounds]);
   useEffect(() => { viewportRef.current = onViewportChange; }, [onViewportChange]);
   useEffect(() => { selectedRef.current = selectedId; }, [selectedId]);
   useEffect(() => { selectRef.current = onSelect; }, [onSelect]);
@@ -78,9 +80,10 @@ export default function V3Map({ campos, country, selectedId, onSelect, onViewpor
           marker.setZIndexOffset(1000);
         }
       }
-      if (initialBounds) {
-        const east = initialBounds.east < initialBounds.west ? initialBounds.east + 360 : initialBounds.east;
-        map.fitBounds([[initialBounds.south, initialBounds.west], [initialBounds.north, east]], { animate: false });
+      const viewport = initialBoundsRef.current;
+      if (viewport) {
+        const east = viewport.east < viewport.west ? viewport.east + 360 : viewport.east;
+        map.fitBounds([[viewport.south, viewport.west], [viewport.north, east]], { animate: false });
       } else if (locations.length > 0) {
         map.fitBounds(L.latLngBounds(locations).pad(0.2), { maxZoom: 9, animate: false });
       }
@@ -118,7 +121,7 @@ export default function V3Map({ campos, country, selectedId, onSelect, onViewpor
       map?.remove();
       mapRef.current = null;
     };
-  }, [campos, country, initialBounds]);
+  }, [campos, country]);
 
   useEffect(() => {
     markerRef.current.forEach((marker, id) => {

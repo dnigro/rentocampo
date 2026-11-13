@@ -6,6 +6,7 @@ import { campoFilterParams } from '../lib/campos/filter-params.ts';
 for (const branch of ['feature/rentocampo-v3', 'codex/rentocampo-v3-review-20261112']) {
   test(`V3 preview routes support web and Lite on ${branch}`, () => {
     const routes = v3PreviewRoutes({ VERCEL_ENV: 'preview', VERCEL_GIT_COMMIT_REF: branch });
+    assert.deepEqual(routes.rewrites.beforeFiles.find(r => r.source === "/lite/servicios"), {source:"/lite/servicios",destination:"/v3/servicios"});
     for (const prefix of ['', '/lite']) {
       assert.deepEqual(routes.redirects.find(r => r.source === `${prefix}/campos/mapa`), {
         source: `${prefix}/campos/mapa`, destination: `${prefix}/campos`, permanent: false,
