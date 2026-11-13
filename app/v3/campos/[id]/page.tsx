@@ -1,3 +1,5 @@
+import { unifiedExplorerHref } from "@/lib/campos/unified-search";
+import RuralIcon from "../../components/RuralIcon";
 import type { Metadata } from "next";
 import V3PhotoGallery from "../../components/V3PhotoGallery";
 import Link from "next/link";
@@ -34,7 +36,7 @@ export default async function V3CampoDetalle({ params, searchParams }: Props) {
   const backSearch = addMapBounds(campoFilterParams({ ...filters, pais: campo.country_code || "AR" }), parseMapBounds(filters));
   if (filters.moneda && /^[A-Z]{3}$/.test(filters.moneda)) backSearch.set("moneda", filters.moneda);
   return <article className="v3-detail v3-detail-refined">
-    <Link href={`/v3/campos?${backSearch.toString()}`} className="v3-detail-back"><ArrowLeft size={17}/> Volver al explorador</Link>
+    <Link href={filters.origen === "home" ? unifiedExplorerHref(filters,country) : `/v3/campos?${backSearch.toString()}`} className="v3-detail-back"><ArrowLeft size={17}/> Volver al explorador</Link>
     <div className="v3-detail-eyebrow">CAMPOS · {campo.operacion === "ambas" ? "ALQUILER Y VENTA" : campo.operacion?.toUpperCase() || "PUBLICACIÓN RURAL"}</div>
     <h1>{campo.titulo}</h1>
     <p className="v3-detail-location"><MapPin size={16}/>{[campo.localidad, campo.provincia].filter(Boolean).join(", ") || campo.country_code}</p>
@@ -44,9 +46,9 @@ export default async function V3CampoDetalle({ params, searchParams }: Props) {
       <div>
         <section id="informacion" className="v3-detail-section"><h2>Acerca de este campo</h2>
         <div className="v3-detail-features">
-          {campo.hectareas != null && <span>{format(campo.hectareas)} hectáreas</span>}
-          {aptitude && <span>{aptitude}</span>}
-          {campo.operacion && <span>{campo.operacion === "ambas" ? "Alquiler y venta" : campo.operacion}</span>}
+          {campo.hectareas != null && <span><RuralIcon name="superficie"/>{format(campo.hectareas)} hectáreas</span>}
+          {aptitude && <span><RuralIcon name={campo.aptitud || "campo"}/>{aptitude}</span>}
+          {campo.operacion && <span><RuralIcon name="operacion"/>{campo.operacion === "ambas" ? "Alquiler y venta" : campo.operacion}</span>}
           {campo.mejoras === "Sí" && <span>Con mejoras</span>}
         </div>
         <V3DetailFacts facts={[

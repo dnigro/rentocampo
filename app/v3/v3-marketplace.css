@@ -268,3 +268,13 @@
 @media(max-width:700px){.v3-detail-map{height:280px}.v3-detail-jump{gap:8px 18px}.v3-detail-refined .v3-detail-columns{display:flex;flex-direction:column}.v3-detail-refined .v3-contact-panel{width:100%;order:-1}.v3-detail-facts{gap:0 16px}.v3-detail-refined .v3-contact-panel strong{font-size:24px}}
 .v3-detail-refined .v3-detail-gallery-empty{min-height:150px;padding:25px;text-align:center;line-height:1.7;font-size:14px;border:1px dashed #d5e1eb;background:#f5f8fa}
 .v3-gallery-photo-error{display:grid;place-items:center;position:absolute;inset:0;padding:20px;text-align:center;color:#627084;background:#edf2f6;font-size:13px}
+
+/* Consistent rural feature language across cards and internal detail pages. */
+.v3-detail-features span{display:inline-flex;align-items:center;gap:8px;font-size:13px;background:#fafafa;color:#333;border:1px solid #e5e5e5}
+.v3-detail-features svg{color:#b02748;flex-shrink:0}
+.v3-shell .v3-header{background:#fff;border-bottom:1px solid #ececec;box-shadow:none}
+.v3-shell .v3-brand{color:#222}.v3-shell .v3-brand-bold{font-weight:800}
+.v3-shell .v3-shield-logo{width:50px;height:50px;object-fit:contain}
+
+.rural-card-features{display:flex;flex-wrap:wrap;gap:7px 12px;margin:3px 0}.rural-card-features>span{display:inline-flex;gap:6px;align-items:center;font-size:12px;line-height:1.5;color:#555}.rural-card-features svg{color:#b02748;flex-shrink:0}
+.v3-shell .v3-listing-info strong{font-weight:800}.v3-shell .v3-detail h1{font-weight:800}

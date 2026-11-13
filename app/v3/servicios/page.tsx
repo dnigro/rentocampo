@@ -1,3 +1,4 @@
+import RuralIcon from "../components/RuralIcon";
 import type { Metadata } from "next";
 import Form from "next/form";
 import Link from "next/link";
@@ -69,7 +70,7 @@ export default async function V3Servicios({ searchParams }: { searchParams: Prom
           <Link className="v3-listing-info" href={`/v3/servicios/${item.id}?${detailSearch}`}>
             <strong>{title}</strong>
             <span><MapPin size={14}/>{[item.localidad, item.provincia].filter(Boolean).join(", ") || country}</span>
-            <span>{(item.servicios_rurales || []).slice(0, 2).map((s: ServicioRural) => servicioLabel(s, country)).join(" · ")}</span>
+            <div className="rural-card-features">{(item.servicios_rurales || []).slice(0, 3).map((s: ServicioRural) => <span key={s}><RuralIcon name={s}/>{servicioLabel(s, country)}</span>)}</div>
             <span className="v3-listing-details">Ver prestador <ArrowUpRight size={14}/></span>
           </Link>
         </article>;

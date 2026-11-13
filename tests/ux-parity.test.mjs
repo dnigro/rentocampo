@@ -398,3 +398,11 @@ test("V3 preview home shares web/mobile and Lite entry points without enabling p
  assert.equal(isV3Preview({...preview,VERCEL_ENV:"production"}),false);
  assert.equal(isV3Preview({...preview,VERCEL_GIT_COMMIT_REF:"main"}),false);
 });
+
+// The Preview home is shared by web and Lite; detailed legacy aliases remain isolated.
+test("unified rural home remains shared across web and Lite preview",()=>{
+ const rootPage=read("app/page.tsx"), routing=read("lib/v3-routing.ts"), homePage=read("app/v3/page.tsx");
+ assert.ok(rootPage.includes("<V3Home searchParams={searchParams}"));
+ assert.ok(routing.includes('{ source: "/lite", destination: "/v3" }'));
+ assert.ok(homePage.includes("V3UnifiedExplorer"));
+});

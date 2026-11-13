@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import Form from "next/form";
 import { campoFilterParams } from "@/lib/campos/filter-params";
+import RuralIcon from "./RuralIcon";
 import V3CardPhotos from "./V3CardPhotos";
 import { Heart, Map as MapIcon, MapPin, SlidersHorizontal, Search, List, ArrowUpRight } from "lucide-react";
 import { COUNTRIES, COUNTRY_CODES_ALPHABETICAL, type CountryCode } from "@/data/countries";
@@ -14,7 +15,7 @@ export type V3Campo = {
   id: string; titulo: string; localidad: string | null; provincia: string | null;
   hectareas: number | null; aptitud: string | null; operacion: string | null;
   precio: number | null; moneda: string | null; foto: string | null; fotos?: string[];
-  lat: number | null; lng: number | null;
+  lat: number | null; lng: number | null; kind?: "campo" | "servicio";
 };
 
 type Props = { campos: V3Campo[]; country: CountryCode; filter: {
@@ -150,7 +151,7 @@ export default function V3Explorer({ campos, country, filter, error, initialBoun
             <Link href={detailHref(campo.id)} className="v3-listing-info">
               <strong>{campo.titulo}</strong>
               <span><MapPin size={14}/>{[campo.localidad, campo.provincia].filter(Boolean).join(", ") || country}</span>
-              <span>{campo.hectareas != null ? campo.hectareas.toLocaleString("es-AR") + " ha · " : ""}
+              <span><RuralIcon name={campo.aptitud || "campo"} size={16}/>{campo.hectareas != null ? campo.hectareas.toLocaleString("es-AR") + " ha · " : ""}
                 {campo.operacion === "ambas" ? "Alquiler y venta" : campo.operacion || "Campo"}</span>
               <b>{priceText(campo)}</b>
               <span className="v3-listing-details">Ver publicación <ArrowUpRight size={14}/></span>

@@ -6,7 +6,7 @@ const run=promisify(execFile);
 export async function installVisualBridge(context) {
  const cache=new Map();
  const fetchImage=url=>{
-  if(!cache.has(url)) cache.set(url,run('curl',['-fsS','--max-time','20','--proxy',process.env.HTTPS_PROXY||'',url],{encoding:'buffer',maxBuffer:12*1024*1024}));
+  if(!cache.has(url)) cache.set(url,run('curl',['-fsS','--max-time','20','--proxy',process.env.HTTPS_PROXY||'', '-A','RentoCampo-Preview-QA/3.0 (+https://rentocampo.com)', '-e','https://rentocampo.com/',url],{encoding:'buffer',maxBuffer:12*1024*1024}));
   return cache.get(url);
  };
  async function fulfill(route,url) {
@@ -16,7 +16,7 @@ export async function installVisualBridge(context) {
    await route.fulfill({contentType:type,body:stdout});
   } catch {await route.abort();}
  }
- await context.route('https://*.tile.openstreetmap.org/**',route=>fulfill(route,route.request().url()));
+ await context.route('https://*.tile.openstreetmap.org/**',route=>{const url=new URL(route.request().url());url.hostname='tile.openstreetmap.org';return fulfill(route,url.href);});
  await context.route('**/_next/image?*',route=>{
   const src=new URL(route.request().url()).searchParams.get('url');
   try {

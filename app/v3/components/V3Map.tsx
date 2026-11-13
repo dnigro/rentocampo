@@ -31,7 +31,7 @@ export default function V3Map({ campos, country, selectedId, onSelect, onViewpor
       const L = await import("leaflet");
       if (cancelled || !containerRef.current) return;
       const region = COUNTRIES[country];
-      map = L.map(containerRef.current, { scrollWheelZoom: false, zoomControl: true })
+      map = L.map(containerRef.current, { scrollWheelZoom: false, zoomControl: true, zoomAnimation: false, fadeAnimation: false, markerZoomAnimation: false })
         .setView([...region.mapCenter] as [number, number], region.mapZoom);
       mapRef.current = map;
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -40,21 +40,34 @@ export default function V3Map({ campos, country, selectedId, onSelect, onViewpor
       }).on("tileerror", () => { if (!cancelled) setMapError(true); }).addTo(map);
       const locations: [number, number][] = [];
       markers.clear();
+      const colocated = new Map<string, { total: number; seen: number }>();
+      for (const item of campos) {
+        if (item.lat == null || item.lng == null) continue;
+        const key = `${item.lat},${item.lng}`;
+        const group = colocated.get(key) || { total: 0, seen: 0 };
+        group.total++; colocated.set(key, group);
+      }
       for (const campo of campos) {
         if (campo.lat == null || campo.lng == null) continue;
         const position: [number, number] = [campo.lat, campo.lng];
+        const group = colocated.get(`${campo.lat},${campo.lng}`)!;
+        const slot = group.seen++;
+        // Offset labels at shared coordinates; never invent a different geographic location.
+        const columns = Math.min(group.total, 3);
+        const anchorX = 66 + ((slot % 3) - (columns - 1) / 2) * 136;
+        const anchorY = 38 + Math.floor(slot / 3) * 40;
         locations.push(position);
-        const label = markerLabel(campo, region.locale);
+        const label = campo.kind === "servicio" ? (country === "BR" ? "Serviço" : country === "US" ? "Service" : "Servicio") : markerLabel(campo, region.locale);
         // Build text with DOM APIs: currency/data must never be interpreted as HTML.
         const pin = document.createElement("span");
-        pin.className = "v3-price-pin";
+        pin.className = `v3-price-pin ${campo.kind === "servicio" ? "rural-service-pin" : "rural-field-pin"}`;
         pin.textContent = label;
         const marker = L.marker(position, {
           icon: L.divIcon({
             html: pin,
             className: "v3-pin-wrapper",
             iconSize: [132, 38],
-            iconAnchor: [66, 38]
+            iconAnchor: [anchorX, anchorY]
           }),
           title: `${campo.titulo} · ${label}`
         }).addTo(map);
@@ -69,7 +82,7 @@ export default function V3Map({ campos, country, selectedId, onSelect, onViewpor
         const east = initialBounds.east < initialBounds.west ? initialBounds.east + 360 : initialBounds.east;
         map.fitBounds([[initialBounds.south, initialBounds.west], [initialBounds.north, east]], { animate: false });
       } else if (locations.length > 0) {
-        map.fitBounds(L.latLngBounds(locations).pad(0.2), { maxZoom: 9 });
+        map.fitBounds(L.latLngBounds(locations).pad(0.2), { maxZoom: 9, animate: false });
       }
       let userMoved = false;
       map.on("dragstart", () => { userMoved = true; });
@@ -122,7 +135,7 @@ export default function V3Map({ campos, country, selectedId, onSelect, onViewpor
   }, [selectedId, campos]);
 
   return <div className="v3-map-frame" aria-busy={!mapReady && !mapError}>
-    <div className="v3-map-canvas" ref={containerRef} role="region" aria-label="Mapa interactivo de campos publicados" />
+    <div className="v3-map-canvas" ref={containerRef} role="region" aria-label={country === "BR" ? "Mapa de terras e serviços" : country === "US" ? "Farmland and services map" : "Mapa de campos y servicios"} />
     {mapError && <p className="v3-map-error" role="status">No pudimos cargar el mapa completo. Podés seguir consultando las fichas del listado.</p>}
   </div>;
 }
