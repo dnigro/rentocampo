@@ -13,9 +13,10 @@ export function v3Routes(env: Record<string, string | undefined>) {
   const production = enabled && env.VERCEL_ENV === "production";
   return {
     redirects: enabled ? [
+      ...(production ? [{ source: "/v3", destination: "/", permanent: true }] : []),
       ...(production ? [
-        { source: "/campos/mapa", has: [{ type: "query" as const, key: "vista", value: "servicios" }], destination: "/v3?tipo=servicio&vista=mapa", permanent: false },
-        { source: "/campos/mapa", destination: "/v3?tipo=campo&vista=mapa", permanent: false },
+        { source: "/campos/mapa", has: [{ type: "query" as const, key: "vista", value: "servicios" }], destination: "/?tipo=servicio&vista=mapa", permanent: false },
+        { source: "/campos/mapa", destination: "/?tipo=campo&vista=mapa", permanent: false },
         { source: "/lite/campos/mapa", destination: "/lite?tipo=campo&vista=mapa", permanent: false },
         { source: "/lite/servicios/mapa", destination: "/lite?tipo=servicio&vista=mapa", permanent: false },
       ] : []),
