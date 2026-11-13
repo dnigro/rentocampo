@@ -1,3 +1,4 @@
+import { v3Text } from "@/lib/i18n/v3-copy";
 import { unifiedExplorerHref } from "@/lib/campos/unified-search";
 import RuralIcon from "../../components/RuralIcon";
 import type { Metadata } from "next";
@@ -28,51 +29,52 @@ export default async function V3CampoDetalle({ params, searchParams }: Props) {
   if (error || !campo || String(campo.id).startsWith("20000000-") || /\bDEMO\b/i.test(campo.titulo ?? "")) notFound();
   const images = [...(campo.fotos || [])].filter(f => Boolean(f.url)).sort((a, b) => (a.orden ?? 0) - (b.orden ?? 0)).slice(0, 8);
   const country = resolveCountry(campo.country_code);
+  const t = (source: string) => v3Text(country, source);
   const format = (v: number) => Number(v).toLocaleString(COUNTRIES[country].locale);
   const lat = normalizarCoordenada(campo.latitud), lng = normalizarCoordenada(campo.longitud);
   const hasLocation = lat != null && lng != null && Math.abs(lat) <= 90 && Math.abs(lng) <= 180;
-  const price = campo.precio != null ? `${campo.moneda || "Moneda a confirmar"} ${format(campo.precio)}` : "Precio a consultar";
-  const aptitude = ({agricola:"Agrícola",ganadera:"Ganadera",mixta:"Mixta",forestal:"Forestal"} as Record<string,string>)[campo.aptitud || ""] || campo.aptitud;
+  const price = campo.precio != null ? `${campo.moneda || t("Moneda a confirmar")} ${format(campo.precio)}` : t("Precio a consultar");
+  const aptitude = ({agricola:t("Agrícola"),ganadera:t("Ganadera"),mixta:t("Mixta"),forestal:t("Forestal")} as Record<string,string>)[campo.aptitud || ""] || campo.aptitud;
   const backSearch = addMapBounds(campoFilterParams({ ...filters, pais: campo.country_code || "AR" }), parseMapBounds(filters));
   if (filters.moneda && /^[A-Z]{3}$/.test(filters.moneda)) backSearch.set("moneda", filters.moneda);
   return <article className="v3-detail v3-detail-refined">
-    <Link href={filters.origen === "home" ? unifiedExplorerHref(filters,country) : `/v3/campos?${backSearch.toString()}`} className="v3-detail-back"><ArrowLeft size={17}/> Volver al explorador</Link>
-    <div className="v3-detail-eyebrow">CAMPOS · {campo.operacion === "ambas" ? "ALQUILER Y VENTA" : campo.operacion?.toUpperCase() || "PUBLICACIÓN RURAL"}</div>
+    <Link href={filters.origen === "home" ? unifiedExplorerHref(filters,country) : `/v3/campos?${backSearch.toString()}`} className="v3-detail-back"><ArrowLeft size={17}/>{t("Volver al explorador")}</Link>
+    <div className="v3-detail-eyebrow">{t("Campo rural").toUpperCase()} · {t(campo.operacion === "ambas" ? "Alquiler y venta" : campo.operacion === "venta" ? "Venta" : "Alquiler").toUpperCase()}</div>
     <h1>{campo.titulo}</h1>
     <p className="v3-detail-location"><MapPin size={16}/>{[campo.localidad, campo.provincia].filter(Boolean).join(", ") || campo.country_code}</p>
-    <V3PhotoGallery photos={images.map(photo => photo.url)} title={campo.titulo}/>
-    <nav className="v3-detail-jump" aria-label="En esta publicación"><a href="#informacion">Información</a><a href="#descripcion">Descripción</a><a href="#ubicacion">Ubicación</a></nav>
+    <V3PhotoGallery country={country} photos={images.map(photo => photo.url)} title={campo.titulo}/>
+    <nav className="v3-detail-jump" aria-label={t("En esta publicación")}><a href="#informacion">{t("Información")}</a><a href="#descripcion">{t("Descripción")}</a><a href="#ubicacion">{t("Ubicación")}</a></nav>
     <div className="v3-detail-columns">
       <div>
-        <section id="informacion" className="v3-detail-section"><h2>Acerca de este campo</h2>
+        <section id="informacion" className="v3-detail-section"><h2>{t("Acerca de este campo")}</h2>
         <div className="v3-detail-features">
-          {campo.hectareas != null && <span><RuralIcon name="superficie"/>{format(campo.hectareas)} hectáreas</span>}
-          {aptitude && <span><RuralIcon name={campo.aptitud || "campo"}/>{aptitude}</span>}
-          {campo.operacion && <span><RuralIcon name="operacion"/>{campo.operacion === "ambas" ? "Alquiler y venta" : campo.operacion}</span>}
-          {campo.mejoras === "Sí" && <span>Con mejoras</span>}
+          {campo.hectareas != null && <span><RuralIcon name="superficie"/>{format(campo.hectareas)} {t("Hectáreas")}</span>}
+          {aptitude && <span><RuralIcon name={campo.aptitud || "campo"}/>{t(aptitude || "")}</span>}
+          {campo.operacion && <span><RuralIcon name="operacion"/>{campo.operacion === "ambas" ? t("Alquiler y venta") : t(campo.operacion === "venta" ? "Venta" : "Alquiler")}</span>}
+          {campo.mejoras === "Sí" && <span>{t("Con mejoras")}</span>}
         </div>
         <V3DetailFacts facts={[
-          {label:"Superficie",value:campo.hectareas != null ? `${format(campo.hectareas)} ha` : null},
-          {label:"País",value:displayCountryName(country,country)},
-          {label:"Departamento",value:campo.departamento},
-          {label:"Ambiente",value:campo.ambiente},
-          {label:"Rendimiento informado",value:campo.rendimiento_estimado},
-          {label:"Disponibilidad",value:campo.disponibilidad},
-          {label:"Disponible desde",value:campo.disponibilidad_desde ? new Intl.DateTimeFormat(COUNTRIES[country].locale,{dateStyle:"medium",timeZone:"UTC"}).format(new Date(campo.disponibilidad_desde)) : null},
-          {label:"Mejoras",value:campo.mejoras},
+          {label:t("Superficie"),value:campo.hectareas != null ? `${format(campo.hectareas)} ha` : null},
+          {label:t("País"),value:displayCountryName(country,country)},
+          {label:t("Departamento"),value:campo.departamento},
+          {label:t("Ambiente"),value:campo.ambiente},
+          {label:t("Rendimiento informado"),value:campo.rendimiento_estimado},
+          {label:t("Disponibilidad"),value:campo.disponibilidad},
+          {label:t("Disponible desde"),value:campo.disponibilidad_desde ? new Intl.DateTimeFormat(COUNTRIES[country].locale,{dateStyle:"medium",timeZone:"UTC"}).format(new Date(campo.disponibilidad_desde)) : null},
+          {label:t("Mejoras"),value:campo.mejoras},
         ]}/></section>
-        <section id="descripcion" className="v3-detail-section"><h2>Descripción</h2>
-        <p className="v3-detail-description">{campo.descripcion || "El anunciante todavía no agregó una descripción de este campo."}</p>
+        <section id="descripcion" className="v3-detail-section"><h2>{t("Descripción")}</h2>
+        <p className="v3-detail-description">{campo.descripcion || t("El anunciante todavía no agregó una descripción de este campo.")}</p>
         </section>
-        <section id="ubicacion" className="v3-detail-section"><h2>Ubicación del establecimiento</h2><p className="v3-detail-description">{[campo.localidad,campo.provincia].filter(Boolean).join(", ") || displayCountryName(country,country)}</p>
-        {hasLocation ? <V3LocationMap lat={lat!} lng={lng!} country={country} title={campo.titulo}/> : <p className="v3-detail-description">Esta publicación no informa coordenadas precisas. No se muestra una ubicación estimada.</p>}</section>
+        <section id="ubicacion" className="v3-detail-section"><h2>{t("Ubicación del establecimiento")}</h2><p className="v3-detail-description">{[campo.localidad,campo.provincia].filter(Boolean).join(", ") || displayCountryName(country,country)}</p>
+        {hasLocation ? <V3LocationMap lat={lat!} lng={lng!} country={country} title={campo.titulo}/> : <p className="v3-detail-description">{t("Esta publicación no informa coordenadas precisas. No se muestra una ubicación estimada.")}</p>}</section>
       </div>
       <aside className="v3-contact-panel">
-        <span className="v3-kicker">INFORMACIÓN COMERCIAL</span>
+        <span className="v3-kicker">{t("INFORMACIÓN COMERCIAL")}</span>
         <strong>{price.trim()}</strong>
-        <p><ShieldCheck size={16} style={{display:"inline",verticalAlign:"middle"}}/> Publicación visible en RentoCampo</p>
-        <div className="v3-contact-disabled" aria-disabled="true"><MessageCircle size={17} style={{display:"inline",verticalAlign:"middle"}}/> Mensajería no habilitada en UAT</div>
-        <p>Esta vista previa no envía consultas.</p>
+        <p><ShieldCheck size={16} style={{display:"inline",verticalAlign:"middle"}}/>{t("Publicación visible en RentoCampo")}</p>
+        <div className="v3-contact-disabled" aria-disabled="true"><MessageCircle size={17} style={{display:"inline",verticalAlign:"middle"}}/>{t("Mensajería no habilitada en UAT")}</div>
+        <p>{t("Esta vista previa no envía consultas.")}</p>
       </aside>
     </div>
   </article>;

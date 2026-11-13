@@ -1,5 +1,6 @@
 "use client";
 
+import { v3Text } from "@/lib/i18n/v3-copy";
 import { useEffect, useRef, useState } from "react";
 import type { Map as LeafletMap, Marker } from "leaflet";
 import type { V3Campo } from "./V3Explorer";
@@ -139,6 +140,6 @@ export default function V3Map({ campos, country, selectedId, onSelect, onViewpor
 
   return <div className="v3-map-frame" aria-busy={!mapReady && !mapError}>
     <div className="v3-map-canvas" ref={containerRef} role="region" aria-label={country === "BR" ? "Mapa de terras e serviços" : country === "US" ? "Farmland and services map" : "Mapa de campos y servicios"} />
-    {mapError && <p className="v3-map-error" role="status">No pudimos cargar el mapa completo. Podés seguir consultando las fichas del listado.</p>}
+    {mapError && <p className="v3-map-error" role="status">{v3Text(country,"No pudimos cargar el mapa completo. Podés seguir consultando las fichas del listado.")}</p>}
   </div>;
 }

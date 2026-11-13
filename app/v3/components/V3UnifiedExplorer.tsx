@@ -6,6 +6,7 @@ import { MapPin, Map as MapIcon, List, Search, ArrowUpRight, RotateCcw } from "l
 import { COUNTRIES, COUNTRY_CODES_ALPHABETICAL, displayCountryName, type CountryCode } from "@/data/countries";
 import { SERVICIOS_RURALES, servicioLabel } from "@/data/servicios-rurales";
 import { addMapBounds, isWithinBounds, type MapBounds } from "@/lib/campos/map-search";
+import V3RegionalPanel from "./V3RegionalPanel";
 import V3Map from "./V3Map";
 import V3CardPhotos from "./V3CardPhotos";
 import RuralIcon from "./RuralIcon";
@@ -66,7 +67,7 @@ export default function V3UnifiedExplorer({ listings, country, filter, errors, c
     {missing > 0 && <p className="rural-location-note">{missing} {t("sin coordenadas: disponibles en la lista al ampliar a todo el país.", "sem coordenadas: disponíveis na lista ao ampliar para todo o país.", "without coordinates: available in the list when viewing the whole country.")}{bounds && <button type="button" onClick={resetArea}>{t("Ver todo el país", "Ver todo o país", "View whole country")}</button>}</p>}
     {!visible.length && <div className="v3-marketplace-empty"><RuralIcon name={kind} size={32}/><h2>{t("Ampliá tu búsqueda", "Amplie sua busca", "Broaden your search")}</h2><p>{t("Probá otra zona o quitá filtros.", "Tente outra região ou remova filtros.", "Try another area or remove filters.")}</p>{bounds && <button type="button" onClick={resetArea}>{t("Ver todo el país", "Ver todo o país", "View whole country")}</button>}</div>}
     <div className="rural-card-grid">{visible.map(item => <article key={item.id} id={`rural-${item.id}`} className={`v3-listing-card ${item.kind === "servicio" ? "rural-service-card" : "rural-field-card"} ${selected === item.id ? "v3-selected-card" : ""}`} onMouseEnter={() => setSelected(item.id)} onFocus={() => setSelected(item.id)}>
-     <div className="v3-listing-media"><V3CardPhotos photos={item.fotos || []} title={item.titulo} href={href(item)}/><span className="v3-listing-badge"><RuralIcon name={item.kind} size={14}/>{kindName(item.kind)}</span></div>
+     <div className="v3-listing-media"><V3CardPhotos country={country} photos={item.fotos || []} title={item.titulo} href={href(item)}/><span className="v3-listing-badge"><RuralIcon name={item.kind} size={14}/>{kindName(item.kind)}</span></div>
      <Link href={href(item)} className="v3-listing-info"><strong>{item.titulo}</strong><span><MapPin size={14} aria-hidden="true"/>{[item.localidad, item.provincia].filter(Boolean).join(", ") || displayCountryName(country, country)}</span>
       <div className="rural-card-features">
        {item.kind === "campo" ? <>{item.hectareas != null && <span><RuralIcon name="superficie"/>{item.hectareas.toLocaleString(COUNTRIES[country].locale)} ha</span>}{item.aptitud && <span><RuralIcon name={item.aptitud}/>{aptitudeName(item.aptitud)}</span>}{item.operacion && <span><RuralIcon name="operacion"/>{item.operacion === "ambas" ? t("Alquiler y venta", "Arrendamento e venda", "Lease and sale") : item.operacion === "venta" ? t("Venta", "Venda", "Sale") : t("Alquiler", "Arrendamento", "Lease")}</span>}</> : item.services.slice(0, 3).map(value => <span key={value}><RuralIcon name={value}/>{servicioLabel(value, country)}</span>)}
@@ -84,5 +85,6 @@ export default function V3UnifiedExplorer({ listings, country, filter, errors, c
    </div>
   </div>
   <button className="rural-mobile-toggle" type="button" aria-pressed={mobileMap} onClick={() => setMobileMap(!mobileMap)}>{mobileMap ? <List size={18}/> : <MapIcon size={18}/>} {mobileMap ? t("Ver fichas", "Ver anúncios", "Show listings") : t("Ver mapa", "Ver mapa", "Show map")}</button>
- </section>;
+ <V3RegionalPanel country={country} kind={kind === "servicio" ? "servicio" : "campo"} provincia={applied.location} collapsed />
+    </section>;
 }

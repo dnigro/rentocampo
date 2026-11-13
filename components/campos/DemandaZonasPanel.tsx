@@ -1,4 +1,5 @@
-import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
+import Link from "@/components/layout/SiteLink";
 import { COUNTRIES, type CountryCode } from "@/data/countries";
 import { regionalPublicationHref, regionalPublicationLabel, type PublicationKind } from "@/lib/publicacion-regional";
 import { REGIONES_PRODUCTIVAS, REGIONES_EDITORIALES_ES } from "@/data/regiones-productivas";
@@ -8,9 +9,11 @@ interface Props {
   provincia?: string;
   authenticated: boolean;
   kind?: PublicationKind;
+  entryMode?: "existing" | "protected";
 }
 
-export default function DemandaZonasPanel({ country, provincia, authenticated, kind = "campo" }: Props) {
+export default function DemandaZonasPanel({ country, provincia, authenticated: sessionAuthenticated, kind = "campo", entryMode = "existing" }: Props) {
+  const authenticated = entryMode === "protected" || sessionAuthenticated;
   const isBr = country === "BR";
   const isUs = country === "US";
   const regiones = [...REGIONES_PRODUCTIVAS[country]].sort(
@@ -50,7 +53,7 @@ export default function DemandaZonasPanel({ country, provincia, authenticated, k
               aria-label={`${regionalPublicationLabel({ country, kind, authenticated })} · ${region.zona}`}
             >
               {regionalPublicationLabel({ country, kind, authenticated })}
-              <span aria-hidden="true"> ↗</span>
+              <ArrowUpRight size={14} aria-hidden="true"/>
             </Link>
           </article>
         ))}

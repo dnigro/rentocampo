@@ -278,3 +278,24 @@
 
 .rural-card-features{display:flex;flex-wrap:wrap;gap:7px 12px;margin:3px 0}.rural-card-features>span{display:inline-flex;gap:6px;align-items:center;font-size:12px;line-height:1.5;color:#555}.rural-card-features svg{color:#b02748;flex-shrink:0}
 .v3-shell .v3-listing-info strong{font-weight:800}.v3-shell .v3-detail h1{font-weight:800}
+
+/* Preserve each market's own productive regions using the existing editorial data. */
+.v3-regional-panel{max-width:1440px;margin:28px auto;padding:0 24px;color:#173b55}
+.v3-regional-panel .rc-regions-showcase{max-width:none;margin:0;padding:24px;border:1px solid #dce5ec;border-radius:20px;background:#f2f7fa}
+.v3-regional-panel .rc-regions-showcase__head{display:flex;justify-content:space-between;align-items:flex-start;gap:20px}
+.v3-regional-panel .rc-regions-showcase__kicker{font-size:11px;font-weight:750;letter-spacing:1px;margin:0 0 8px}
+.v3-regional-panel .rc-regions-showcase h2{font-family:inherit!important;font-size:26px!important;line-height:1.25!important;letter-spacing:-.6px;text-transform:none;margin:0 0 10px;color:#102c4c}
+.v3-regional-panel .rc-regions-showcase__description{font-size:14px;line-height:1.6;margin:0}
+.v3-regional-panel .rc-regions-showcase__grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:20px}
+.v3-regional-panel .rc-regions-showcase__card{display:flex;flex-direction:column;min-width:0;padding:18px;border:1px solid #dce5ec;border-radius:14px;background:#fff}
+.v3-regional-panel .rc-regions-showcase__area{font-size:11px;color:#526d82;line-height:1.5}
+.v3-regional-panel .rc-regions-showcase__card h3{font-family:inherit;font-size:18px;margin:6px 0;line-height:1.35;text-transform:none}
+.v3-regional-panel .rc-regions-showcase__card p{font-size:13px;line-height:1.6;margin:0 0 15px;color:#526d82}
+.v3-regional-panel .rc-regions-showcase__action{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:44px;padding:10px 12px;border-radius:10px;background:#102c4c;color:#fff;font-size:11px;line-height:1.5;font-weight:750;margin-top:auto}
+.v3-regional-panel .rc-regions-showcase__disclaimer{font-size:12px;line-height:1.6;color:#526d82;margin:16px 0 0}
+.v3-regional-disclosure{padding:0;margin:24px 0 0;border-top:1px solid #e1e7ec}
+.v3-regional-disclosure>summary{display:flex;align-items:center;justify-content:space-between;gap:15px;min-height:52px;padding:14px 0;list-style:none;cursor:pointer;font-size:15px;font-weight:750}
+.v3-regional-disclosure>summary::-webkit-details-marker{display:none}
+.v3-regional-disclosure[open]>summary svg{transform:rotate(180deg)}
+@media(max-width:900px){.v3-regional-panel .rc-regions-showcase__grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:550px){.v3-regional-panel{padding:0 18px}.v3-regional-disclosure{padding:0}.v3-regional-panel .rc-regions-showcase{padding:18px}.v3-regional-panel .rc-regions-showcase h2{font-size:23px!important}.v3-regional-panel .rc-regions-showcase__grid{grid-template-columns:1fr}.v3-regional-panel .rc-regions-showcase__action{font-size:12px}}

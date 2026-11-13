@@ -405,6 +405,7 @@ test("unified rural home remains shared across web and Lite preview",()=>{
  assert.ok(rootPage.includes("<V3Home searchParams={searchParams}"));
  assert.ok(routing.includes('{ source: "/lite", destination: "/v3" }'));
  assert.ok(homePage.includes("V3UnifiedExplorer"));
+ for(const path of ["app/v3/campos/page.tsx","app/v3/servicios/page.tsx","app/v3/components/V3UnifiedExplorer.tsx"]) assert.ok(read(path).includes("<V3RegionalPanel country={country}"));
 });
 
 

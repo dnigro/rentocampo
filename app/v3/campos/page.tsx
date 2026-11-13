@@ -1,7 +1,9 @@
+import { v3Text } from "@/lib/i18n/v3-copy";
+import V3RegionalPanel from "../components/V3RegionalPanel";
 import type { Metadata } from "next";
 import { cookies } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
-import { COUNTRIES, resolveCountry } from "@/data/countries";
+import { COUNTRIES, displayCountryName, resolveCountry } from "@/data/countries";
 import { normalizarCoordenada, seleccionarCamposPublicos } from "@/lib/campos/visible-fields";
 import { parseMapBounds } from "@/lib/campos/map-search";
 import V3Explorer, { type V3Campo } from "../components/V3Explorer";
@@ -19,6 +21,7 @@ export default async function V3Campos({ searchParams }: { searchParams: Promise
   const params = await searchParams;
   const storedCountry = (await cookies()).get("rentocampo_country")?.value;
   const country = resolveCountry(params.pais, storedCountry);
+  const t = (source: string) => v3Text(country, source);
   const supabase = await createClient();
 
   let query = supabase
@@ -68,15 +71,15 @@ export default async function V3Campos({ searchParams }: { searchParams: Promise
     };
   });
 
-  return <div className="v3-catalog v3-catalog-map">
+  return <><div className="v3-catalog v3-catalog-map">
     <div className="v3-catalog-heading">
-      <div><span className="v3-kicker">EXPLORADOR RURAL</span>
-        <h1>Todo el campo, en un lugar.</h1>
-        <p>Descubrí oportunidades en {COUNTRIES[country].name}. Fichas y mapa juntos, sin intermediarios.</p>
+      <div><span className="v3-kicker">{t("EXPLORADOR RURAL")}</span>
+        <h1>{t("Todo el campo, en un lugar.")}</h1>
+        <p>{t("Descubrí oportunidades en")} {displayCountryName(country, country)}. {t("Fichas y mapa juntos, sin intermediarios.")}</p>
       </div>
     </div>
-    {priceNeedsCurrency && <p role="alert" className="v3-price-filter-notice">Elegí una moneda en Más filtros para aplicar el rango de precio.</p>}
+    {priceNeedsCurrency && <p role="alert" className="v3-price-filter-notice">{t("Elegí una moneda en Más filtros para aplicar el rango de precio.")}</p>}
     <V3Explorer key={JSON.stringify(params)} campos={campos} country={country} filter={params} error={Boolean(error)} initialBounds={parseMapBounds(params)} truncated={data?.length === 120}/>
-    <p className="v3-uat-disclaimer">V3 Preview de solo lectura. Favoritos temporales para UAT; los mensajes y las publicaciones no se modifican.</p>
-  </div>;
+    <p className="v3-uat-disclaimer">{t("V3 Preview de solo lectura. Favoritos temporales para UAT; los mensajes y las publicaciones no se modifican.")}</p>
+  </div><V3RegionalPanel country={country} kind="campo" provincia={params.provincia}/></>;
 }

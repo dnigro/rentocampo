@@ -7,7 +7,8 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import ts from 'typescript';
 const require=createRequire(import.meta.url);
 let source=readFileSync(new URL('../app/v3/mi-rentocampo/page.tsx',import.meta.url),'utf8');
-source=source.replace('import Link from "next/link";',`import React from ${JSON.stringify(pathToFileURL(require.resolve('react')).href)}; const Link=({children,...props})=>React.createElement('a',props,children);`);
+source=source.replace('import { v3Text } from "@/lib/i18n/v3-copy";','const v3Text = (_country, source) => source;')
+    .replace('import Link from "next/link";',`import React from ${JSON.stringify(pathToFileURL(require.resolve('react')).href)}; const Link=({children,...props})=>React.createElement('a',props,children);`);
 source=source.replace('import { cookies } from "next/headers";','const cookies=async()=>({get:()=>undefined});');
 source=source.replace('import { createClient } from "@/lib/supabase/server";','const createClient=globalThis.__v3AccountClient;');
 source=source.replace('"@/data/countries"',JSON.stringify(new URL('../data/countries.ts',import.meta.url).href));
