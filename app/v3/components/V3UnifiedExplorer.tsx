@@ -84,6 +84,7 @@ export default function V3UnifiedExplorer({ listings, country, filter, errors, c
       <span className="v3-listing-details">{item.demo ? t("Publicar en esta zona","Anunciar nesta região","List in this area") : t("Ver publicación", "Ver anúncio", "View listing")} <ArrowUpRight size={14}/></span>
      </Link></article>)}</div>
    </div>
+   {pages>1 && <nav className="v3-list-pagination" aria-label="Paginación"><button type="button" disabled={currentPage===1} onClick={()=>setPage(currentPage-1)}>Anterior</button><span>Página {currentPage} de {pages}</span><button type="button" disabled={currentPage===pages} onClick={()=>setPage(currentPage+1)}>Siguiente</button></nav>}
    <div className="rural-map-panel"><div className="rural-map-controls"><label><input type="checkbox" checked={autoSearch} onChange={event => { setAutoSearch(event.target.checked); if (event.target.checked && pending)
         setBounds(pending); }}/>{t("Buscar al mover el mapa", "Buscar ao mover o mapa", "Search as map moves")}</label>{!autoSearch && pending && <button type="button" onClick={() => setBounds(pending)}>{t("Buscar en esta zona", "Buscar nesta região", "Search this area")}</button>}{bounds && <button type="button" onClick={resetArea}>{t("Ver todo el país", "Ver todo o país", "View whole country")}</button>}</div>
     <V3Map key={`${country}-${kind}-${reset}`} campos={matches} country={country} selectedId={selected} onSelect={onSelect} onViewportChange={onMove} initialBounds={bounds}/>
