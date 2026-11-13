@@ -7,7 +7,7 @@ import { regionalText } from "@/lib/i18n/regional";
 import { usePathname } from "next/navigation";
 import { useSharedPreviewChrome } from "./PreviewChromeContext";
 
-export default function DashboardReturn() {
+export default function DashboardReturn({ embedded = false }: { embedded?: boolean } = {}) {
   const pathname = usePathname();
   const v3 = useSharedPreviewChrome();
   const country = useRegionalCountry();
@@ -30,10 +30,10 @@ export default function DashboardReturn() {
       ? regionalText(country, "Volver a Mis servicios rurales", "Voltar aos meus serviços rurais", "Back to my rural services")
       : regionalText(country, "Volver a mi cuenta", "Voltar à minha conta", "Back to my account");
 
-  if (pathname === "/dashboard") return null;
+  if (pathname === "/dashboard" || (pathname === "/perfil" && !embedded) || (embedded && pathname !== "/perfil")) return null;
 
   return (
-    <nav className="dashboard-return" aria-label={backLabel}>
+    <nav className={embedded ? "dashboard-return dashboard-return-embedded" : "dashboard-return" } aria-label={backLabel}>
       <Link href={`${returnHref}?pais=${country}`} className="rc-dashboard-return-btn" style={{background:"#ffffff",color:"#102c43",border:"1px solid #cbd0d5",borderRadius:12,boxShadow:"none",fontWeight:700}}>
         <ArrowLeft size={17} aria-hidden="true" />
         <span>{backLabel}</span>
