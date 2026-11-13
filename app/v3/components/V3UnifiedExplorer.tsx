@@ -88,9 +88,16 @@ export default function V3UnifiedExplorer({ listings, country, filter, errors, c
 
    <div className="rural-map-panel"><div className="rural-map-controls"><label><input type="checkbox" checked={autoSearch} onChange={event => { setAutoSearch(event.target.checked); if (event.target.checked && pending)
         setBounds(pending); }}/>{t("Buscar al mover el mapa", "Buscar ao mover o mapa", "Search as map moves")}</label>{!autoSearch && pending && <button type="button" onClick={() => setBounds(pending)}>{t("Buscar en esta zona", "Buscar nesta região", "Search this area")}</button>}{bounds && <button type="button" onClick={resetArea}>{t("Ver todo el país", "Ver todo o país", "View whole country")}</button>}</div>
-    <V3Map key={`${country}-${kind}-${reset}`} campos={matches} country={country} selectedId={selected} onSelect={onSelect} onViewportChange={onMove} initialBounds={bounds}/>
+    <div style={{position:"relative"}}><V3Map key={`${country}-${kind}-${reset}`} campos={matches} country={country} selectedId={selected} onSelect={onSelect} onViewportChange={onMove} initialBounds={bounds}/>
+    {selectedItem && <div role="dialog" aria-label={selectedItem.titulo} style={{position:"absolute",zIndex:1000,bottom:16,left:16,right:16,maxWidth:370,background:"#fff",border:"1px solid #d9dfe5",borderRadius:16,boxShadow:"0 8px 28px #0002",padding:16,display:"grid",gap:8}}>
+      <button type="button" onClick={()=>setSelected(null)} aria-label="Cerrar ficha" style={{position:"absolute",right:10,top:8,background:"#fff",border:"1px solid #ddd",borderRadius:20,padding:"4px 10px",cursor:"pointer"}}>×</button>
+      <strong style={{paddingRight:32,fontSize:16}}>{selectedItem.titulo}</strong>
+      <span style={{fontSize:13,color:"#667085"}}>{[selectedItem.localidad,selectedItem.provincia].filter(Boolean).join(", ")}</span>
+      {selectedItem.kind==="campo" && <b>{selectedItem.precio != null ? `${selectedItem.moneda||""} ${selectedItem.precio.toLocaleString(COUNTRIES[country].locale)}` : t("Precio a consultar","Preço sob consulta","Price on request")}</b>}
+      <Link href={href(selectedItem)} style={{fontWeight:700,color:"#12324b",textDecoration:"underline"}}>{t("Ver publicación","Ver anúncio","View listing")} <ArrowUpRight size={14}/></Link>
+    </div>}</div>
     <div className="rural-map-legend"><span><i />{kindName("campo")}</span><span><i />{kindName("servicio")}</span><small>{t("Servicios: base declarada, no límite de cobertura.", "Serviços: base declarada, não limite de cobertura.", "Services: declared base, not coverage boundary.")}</small></div>
-    {selectedItem && <div className="rural-map-selection"><strong>{selectedItem.titulo}</strong>{selectedItem.coverage && <span>{t("Cobertura:", "Atendimento:", "Coverage:")} {selectedItem.coverage}</span>}<Link href={href(selectedItem)}>{t("Ver publicación", "Ver anúncio", "View listing")} <ArrowUpRight size={14}/></Link></div>}
+
    </div>
   </div>
   <button className="rural-mobile-toggle" type="button" aria-pressed={mobileMap} onClick={() => setMobileMap(!mobileMap)}>{mobileMap ? <List size={18}/> : <MapIcon size={18}/>} {mobileMap ? t("Ver fichas", "Ver anúncios", "Show listings") : t("Ver mapa", "Ver mapa", "Show map")}</button>
