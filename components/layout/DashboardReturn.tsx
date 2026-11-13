@@ -30,10 +30,10 @@ export default function DashboardReturn({ embedded = false }: { embedded?: boole
       ? regionalText(country, "Volver a Mis servicios rurales", "Voltar aos meus serviços rurais", "Back to my rural services")
       : regionalText(country, "Volver a mi cuenta", "Voltar à minha conta", "Back to my account");
 
-  if (pathname === "/dashboard" || (pathname === "/perfil" && !embedded) || (embedded && pathname !== "/perfil")) return null;
+  if (pathname === "/dashboard" || pathname === "/v3/mi-rentocampo") return null;
 
   return (
-    <nav className="rc-return-inline" aria-label={backLabel}>
+    <nav className="rc-return-inline" style={{margin:"16px 0 24px",padding:"0 8px",display:"flex",alignItems:"center"}} aria-label={backLabel}>
       <Link href={`${returnHref}?pais=${country}`} className="rc-publish-button" style={{background:"#ffffff",color:"#102c43",border:"1px solid #cbd0d5",borderRadius:12,boxShadow:"none",fontWeight:700}}>
         <ArrowLeft size={17} aria-hidden="true" />
         <span>{backLabel}</span>
