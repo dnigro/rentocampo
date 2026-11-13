@@ -76,7 +76,7 @@ export default function V3Map({ campos, country, selectedId, onSelect, onViewpor
         }).addTo(map);
         marker.on("click",()=>{
           selectRef.current(campo.id);
-          if(map && map.getZoom()<11)map.flyTo(position,Math.min(11,map.getMaxZoom()),{duration:.5});
+          if(map)map.flyTo(position,Math.min(13,map.getMaxZoom()),{duration:.5});
         });
         markers.set(campo.id,marker);
       }
