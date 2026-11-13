@@ -107,3 +107,6 @@
  html body .v3-shell.v3-integrated .account-workspace.account-workspace.account-workspace .dashboard-return a.rc-dashboard-return-btn[href] :is(span,svg){color:#fff!important;-webkit-text-fill-color:#fff!important;stroke:currentColor!important}
  html body .v3-shell.v3-integrated .account-workspace.account-workspace.account-workspace .dashboard-return a.rc-dashboard-return-btn[href]:hover{background:#244c68!important;border-color:#244c68!important}
 }
+@layer account-readability {
+ html body .v3-shell.v3-integrated .account-workspace.account-workspace.account-workspace:has([data-account-overview]){background:#fff!important;color:#1d1d1f!important}
+}

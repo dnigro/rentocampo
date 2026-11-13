@@ -50,6 +50,7 @@ export default function V3UnifiedExplorer({ listings, country, filter, errors, c
     const resetArea = () => { setBounds(null); setPending(null); setReset(value => value + 1); setSelected(null); };
     const changeKind = (value: string) => { setKind(value); setSelected(null); };
     return <section className="v3-unified" id="explorar" aria-label={t("Explorar campos y servicios", "Explorar terras e serviços", "Explore farmland and services")}>
+  <div className="rural-search-dock">
   <div className="rural-type-tabs" role="group" aria-label={t("Tipo de publicación", "Tipo de anúncio", "Listing type")}>
    {["todo", "campo", "servicio"].map(value => <button key={value} type="button" aria-pressed={kind === value} onClick={() => changeKind(value)}><RuralIcon name={value === "todo" ? "mixta" : value}/>{kindName(value)}</button>)}
   </div>
@@ -60,6 +61,7 @@ export default function V3UnifiedExplorer({ listings, country, filter, errors, c
    {kind === "servicio" && <label><span>{t("Especialidad", "Especialidade", "Specialty")}</span><select name="servicio" value={service} onChange={event => setService(event.target.value)}><option value="">{t("Todos los servicios", "Todos os serviços", "All services")}</option>{SERVICIOS_RURALES.map(item => <option key={item.value} value={item.value}>{servicioLabel(item.value, country)}</option>)}</select></label>}
    <button type="submit"><Search size={20}/>{t("Buscar", "Buscar", "Search")}</button>
   </form>
+  </div>
   <div className="rural-result-toolbar"><p aria-live="polite"><strong>{visible.length}</strong> {t("publicaciones", "anúncios", "listings")} · {displayCountryName(country, country)}{bounds ? (missing ? t(" · zona del mapa y ubicaciones pendientes", " · área do mapa e localizações pendentes", " · map area and pending locations") : t(" · en esta zona", " · nesta região", " · in this area")) : ""}</p><button type="button" onClick={() => { setLocation(""); setOperation(""); setAptitude(""); setService(""); setApplied({ location: "", operation: "", aptitude: "", service: "" }); resetArea(); }}><RotateCcw size={15}/>{t("Limpiar filtros", "Limpar filtros", "Clear filters")}</button></div>
   {errors.length > 0 && <p role="alert" className="rural-notice">{t("No pudimos cargar:", "Não foi possível carregar:", "Could not load:")} {errors.map(kindName).join(", ")}. {t("Volvé a intentarlo.", "Tente novamente.", "Please try again.")}</p>}
   {capped && <p className="rural-notice">{t("Mostramos hasta 120 campos y 120 servicios recientes por país. Los filtros y el mapa se aplican a este conjunto.", "Exibimos até 120 terras e 120 serviços recentes por país. Os filtros e o mapa se aplicam a esse conjunto.", "Showing up to 120 recent properties and 120 services per country. Filters and map apply to this set.")}</p>}
