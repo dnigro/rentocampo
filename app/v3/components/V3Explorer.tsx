@@ -1,4 +1,5 @@
 "use client";
+import { demoListingHref } from "@/lib/v3/demo-listings";
 import { v3Text } from "@/lib/i18n/v3-copy";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
@@ -16,7 +17,7 @@ export type V3Campo = {
   id: string; titulo: string; localidad: string | null; provincia: string | null;
   hectareas: number | null; aptitud: string | null; operacion: string | null;
   precio: number | null; moneda: string | null; foto: string | null; fotos?: string[];
-  lat: number | null; lng: number | null; kind?: "campo" | "servicio";
+  lat: number | null; lng: number | null; kind?: "campo" | "servicio"; demo?: boolean;
 };
 
 type Props = { campos: V3Campo[]; country: CountryCode; filter: {
@@ -82,14 +83,11 @@ export default function V3Explorer({ campos, country, filter, error, initialBoun
     if (searchOnMove) setMapBounds(bounds);
   }, [searchOnMove]);
   const listingSearch = addMapBounds(new URLSearchParams({ ...Object.fromEntries(campoFilterParams({ ...filter, pais: country })), ...(filter.moneda ? { moneda: filter.moneda } : {}) }), mapBounds).toString();
-  const detailHref = (id: string) => `/v3/campos/${id}?${listingSearch}`;
+  const detailHref = (id: string) => { const item=campos.find(campo=>campo.id===id); return item?.demo ? demoListingHref(country,"campo",item.localidad) : `/v3/campos/${id}?${listingSearch}`; };
   const selectedCampo = campos.find(campo => campo.id === selected);
   const handleSelect = useCallback((id: string) => {
     setSelected(id);
-    if (window.matchMedia("(max-width: 700px)").matches) return;
-    window.setTimeout(() => {
-      document.getElementById("v3-listing-" + id)?.scrollIntoView({ behavior: "smooth", block: "center" });
-    }, 60);
+
   }, []);
 
   return <div className="v3-marketplace">
@@ -138,12 +136,12 @@ export default function V3Explorer({ campos, country, filter, error, initialBoun
         {mapBounds && withoutCoordinates > 0 && <p className="v3-map-location-note">{withoutCoordinates} {withoutCoordinates === 1 ? t("publicación sin coordenadas verificadas no aparece") : t("publicaciones sin coordenadas verificadas no aparecen")} {t("en la búsqueda por mapa.")} <button type="button" onClick={resetMapSearch}>{t("Ver todas")}</button></p>}
         {truncated && <p className="v3-map-location-note">{t("Mostramos las primeras")} {campos.length} {t("publicaciones. Ajustá los filtros para acotar la búsqueda.")}</p>}
         <div className="v3-marketplace-grid">
-          {visibleCampos.map(campo => <article key={campo.id} id={`v3-listing-${campo.id}`}
+          {visibleCampos.map(campo => <article data-demo={campo.demo || false} key={campo.id} id={`v3-listing-${campo.id}`}
               className={`v3-listing-card ${selected === campo.id ? "v3-selected-card" : ""}`}
               onMouseEnter={() => setSelected(campo.id)} onFocus={() => setSelected(campo.id)}>
             <div className="v3-listing-media">
               <V3CardPhotos country={country} photos={campo.fotos || (campo.foto ? [campo.foto] : [])} title={campo.titulo} href={detailHref(campo.id)}/>
-              <span className="v3-listing-badge">{t(aptitudeLabels[campo.aptitud || ""] || campo.aptitud || "Campo rural")}</span>
+              <span className="v3-listing-badge">{campo.demo ? "DEMO · " : ""}{t(aptitudeLabels[campo.aptitud || ""] || campo.aptitud || "Campo rural")}</span>
               <button type="button" className={`v3-heart-button ${loaded && favs.includes(campo.id) ? "saved" : ""}`}
                 aria-label={favs.includes(campo.id) ? t("Quitar de favoritos de UAT") : t("Agregar a favoritos de UAT")}
                 aria-pressed={loaded && favs.includes(campo.id)} onClick={() => toggleFav(campo.id)}>
@@ -151,12 +149,12 @@ export default function V3Explorer({ campos, country, filter, error, initialBoun
               </button>
             </div>
             <Link href={detailHref(campo.id)} className="v3-listing-info">
-              <strong>{campo.titulo}</strong>
+              <strong>{campo.titulo}</strong>{campo.demo && <span className="rural-demo-note">{t("Ejemplo de referencia. No es una oferta real.")}</span>}
               <span><MapPin size={14}/>{[campo.localidad, campo.provincia].filter(Boolean).join(", ") || country}</span>
               <span><RuralIcon name={campo.aptitud || "campo"} size={16}/>{campo.hectareas != null ? campo.hectareas.toLocaleString(COUNTRIES[country].locale) + " ha · " : ""}
                 {campo.operacion === "ambas" ? t("Alquiler y venta") : t(campo.operacion === "alquiler" ? "Alquiler" : campo.operacion === "venta" ? "Venta" : "Campo")}</span>
               <b>{priceText(campo, country)}</b>
-              <span className="v3-listing-details">{t("Ver publicación")} <ArrowUpRight size={14}/></span>
+              <span className="v3-listing-details">{campo.demo ? t("Publicar en esta zona") : t("Ver publicación")} <ArrowUpRight size={14}/></span>
             </Link>
           </article>)}
         </div>

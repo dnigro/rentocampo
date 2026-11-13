@@ -1,4 +1,5 @@
 "use client";
+import { demoListingHref } from "@/lib/v3/demo-listings";
 import { useCallback, useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -40,12 +41,11 @@ export default function V3UnifiedExplorer({ listings, country, filter, errors, c
     const visible = useMemo(() => bounds ? matches.filter(item => isWithinBounds(item, bounds)) : matches, [matches, bounds]);
     const missing = matches.filter(item => item.lat == null || item.lng == null).length;
     const search = addMapBounds(new URLSearchParams({ pais: country, tipo: kind, ...(applied.location ? { provincia: applied.location } : {}), ...(kind === "campo" ? { operacion: applied.operation, aptitud: applied.aptitude } : {}), ...(kind === "servicio" ? { servicio: applied.service } : {}) }), bounds);
-    const href = (item: RuralListing) => `/v3/${item.kind === "campo" ? "campos" : "servicios"}/${item.sourceId}?${search}&origen=home`;
+    const href = (item: RuralListing) => item.demo ? demoListingHref(country,item.kind,item.localidad) : `/v3/${item.kind === "campo" ? "campos" : "servicios"}/${item.sourceId}?${search}&origen=home`;
     const selectedItem = matches.find(item => item.id === selected);
     const onMove = useCallback((next: MapBounds) => { setPending(next); if (autoSearch)
         setBounds(next); }, [autoSearch]);
-    const onSelect = useCallback((id: string) => { setSelected(id); if (!window.matchMedia("(max-width:700px)").matches)
-        document.getElementById(`rural-${id}`)?.scrollIntoView({ block: "nearest", behavior: "smooth" }); }, []);
+    const onSelect = useCallback((id: string) => setSelected(id), []);
     const resetArea = () => { setBounds(null); setPending(null); setReset(value => value + 1); setSelected(null); };
     const changeKind = (value: string) => { setKind(value); setSelected(null); };
     return <section className="v3-unified" id="explorar" aria-label={t("Explorar campos y servicios", "Explorar terras e serviços", "Explore farmland and services")}>
@@ -66,15 +66,15 @@ export default function V3UnifiedExplorer({ listings, country, filter, errors, c
    <div className="rural-results">
     {missing > 0 && <p className="rural-location-note">{missing} {t("sin coordenadas: disponibles en la lista al ampliar a todo el país.", "sem coordenadas: disponíveis na lista ao ampliar para todo o país.", "without coordinates: available in the list when viewing the whole country.")}{bounds && <button type="button" onClick={resetArea}>{t("Ver todo el país", "Ver todo o país", "View whole country")}</button>}</p>}
     {!visible.length && <div className="v3-marketplace-empty"><RuralIcon name={kind} size={32}/><h2>{t("Ampliá tu búsqueda", "Amplie sua busca", "Broaden your search")}</h2><p>{t("Probá otra zona o quitá filtros.", "Tente outra região ou remova filtros.", "Try another area or remove filters.")}</p>{bounds && <button type="button" onClick={resetArea}>{t("Ver todo el país", "Ver todo o país", "View whole country")}</button>}</div>}
-    <div className="rural-card-grid">{visible.map(item => <article key={item.id} id={`rural-${item.id}`} className={`v3-listing-card ${item.kind === "servicio" ? "rural-service-card" : "rural-field-card"} ${selected === item.id ? "v3-selected-card" : ""}`} onMouseEnter={() => setSelected(item.id)} onFocus={() => setSelected(item.id)}>
-     <div className="v3-listing-media"><V3CardPhotos country={country} photos={item.fotos || []} title={item.titulo} href={href(item)}/><span className="v3-listing-badge"><RuralIcon name={item.kind} size={14}/>{kindName(item.kind)}</span></div>
-     <Link href={href(item)} className="v3-listing-info"><strong>{item.titulo}</strong><span><MapPin size={14} aria-hidden="true"/>{[item.localidad, item.provincia].filter(Boolean).join(", ") || displayCountryName(country, country)}</span>
+    <div className="rural-card-grid">{visible.map(item => <article data-demo={item.demo || false} key={item.id} id={`rural-${item.id}`} className={`v3-listing-card ${item.kind === "servicio" ? "rural-service-card" : "rural-field-card"} ${selected === item.id ? "v3-selected-card" : ""}`} onMouseEnter={() => setSelected(item.id)} onFocus={() => setSelected(item.id)}>
+     <div className="v3-listing-media"><V3CardPhotos country={country} photos={item.fotos || []} title={item.titulo} href={href(item)}/><span className="v3-listing-badge"><RuralIcon name={item.kind} size={14}/>{item.demo ? "DEMO · " : ""}{kindName(item.kind)}</span></div>
+     <Link href={href(item)} className="v3-listing-info"><strong>{item.titulo}</strong>{item.demo && <span className="rural-demo-note">{t("Ejemplo de referencia. No es una oferta real.","Exemplo de referência. Não é uma oferta real.","Reference example. Not a real offer.")}</span>}<span><MapPin size={14} aria-hidden="true"/>{[item.localidad, item.provincia].filter(Boolean).join(", ") || displayCountryName(country, country)}</span>
       <div className="rural-card-features">
        {item.kind === "campo" ? <>{item.hectareas != null && <span><RuralIcon name="superficie"/>{item.hectareas.toLocaleString(COUNTRIES[country].locale)} ha</span>}{item.aptitud && <span><RuralIcon name={item.aptitud}/>{aptitudeName(item.aptitud)}</span>}{item.operacion && <span><RuralIcon name="operacion"/>{item.operacion === "ambas" ? t("Alquiler y venta", "Arrendamento e venda", "Lease and sale") : item.operacion === "venta" ? t("Venta", "Venda", "Sale") : t("Alquiler", "Arrendamento", "Lease")}</span>}</> : item.services.slice(0, 3).map(value => <span key={value}><RuralIcon name={value}/>{servicioLabel(value, country)}</span>)}
       </div>
       {item.kind === "servicio" && item.coverage && <span className="rural-coverage">{t("Cobertura:", "Atendimento:", "Coverage:")} {item.coverage}</span>}
       {item.kind === "campo" && <b>{item.precio != null ? `${item.moneda || ""} ${item.precio.toLocaleString(COUNTRIES[country].locale)}` : t("Precio a consultar", "Preço sob consulta", "Price on request")}</b>}
-      <span className="v3-listing-details">{t("Ver publicación", "Ver anúncio", "View listing")} <ArrowUpRight size={14}/></span>
+      <span className="v3-listing-details">{item.demo ? t("Publicar en esta zona","Anunciar nesta região","List in this area") : t("Ver publicación", "Ver anúncio", "View listing")} <ArrowUpRight size={14}/></span>
      </Link></article>)}</div>
    </div>
    <div className="rural-map-panel"><div className="rural-map-controls"><label><input type="checkbox" checked={autoSearch} onChange={event => { setAutoSearch(event.target.checked); if (event.target.checked && pending)
@@ -85,6 +85,6 @@ export default function V3UnifiedExplorer({ listings, country, filter, errors, c
    </div>
   </div>
   <button className="rural-mobile-toggle" type="button" aria-pressed={mobileMap} onClick={() => setMobileMap(!mobileMap)}>{mobileMap ? <List size={18}/> : <MapIcon size={18}/>} {mobileMap ? t("Ver fichas", "Ver anúncios", "Show listings") : t("Ver mapa", "Ver mapa", "Show map")}</button>
- <V3RegionalPanel country={country} kind={kind === "servicio" ? "servicio" : "campo"} provincia={applied.location} collapsed />
+ <V3RegionalPanel country={country} kind={kind === "servicio" ? "servicio" : "campo"} provincia={applied.location} />
     </section>;
 }

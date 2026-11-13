@@ -75,6 +75,8 @@ const copy: Record<string, readonly [string, string]> = {
  "Abrir foto":["Abrir foto","Open photo"], "Fotos de":["Fotos de","Photos of"],
  "Esta publicación todavía no tiene fotografías disponibles.":["Este anúncio ainda não tem fotografias disponíveis.","This listing does not have photos yet."],
  "No pudimos cargar las fotografías de esta publicación.":["Não foi possível carregar as fotos deste anúncio.","Could not load photos for this listing."],
+ "Publicar en esta zona":["Anunciar nesta região","List in this area"],
+ "Ejemplo de referencia. No es una oferta real.":["Exemplo de referência. Não é uma oferta real.","Reference example. Not a real offer."],
 };
 
 export function v3Text(country: CountryCode, source: string): string {

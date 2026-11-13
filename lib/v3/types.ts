@@ -3,6 +3,7 @@ import type { ServicioRural } from "@/types";
 export type RuralListing = {
     id: string;
     sourceId: string;
+    demo?: boolean;
     kind: "campo" | "servicio";
     titulo: string;
     localidad: string | null;

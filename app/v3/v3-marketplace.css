@@ -299,3 +299,26 @@
 .v3-regional-disclosure[open]>summary svg{transform:rotate(180deg)}
 @media(max-width:900px){.v3-regional-panel .rc-regions-showcase__grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:550px){.v3-regional-panel{padding:0 18px}.v3-regional-disclosure{padding:0}.v3-regional-panel .rc-regions-showcase{padding:18px}.v3-regional-panel .rc-regions-showcase h2{font-size:23px!important}.v3-regional-panel .rc-regions-showcase__grid{grid-template-columns:1fr}.v3-regional-panel .rc-regions-showcase__action{font-size:12px}}
+
+/* A single document scroll avoids wheel capture and list/map jumps. */
+.rural-results{max-height:none!important;overflow:visible!important;overscroll-behavior:auto!important;scrollbar-gutter:auto!important}
+@media(min-width:1024px){
+ .v3-shell .v3-catalog-map{height:auto;min-height:0;display:block}
+ .v3-catalog-map .v3-marketplace{display:block}
+ .v3-catalog-map .v3-marketplace-list{overflow:visible;overscroll-behavior:auto;scrollbar-gutter:auto}
+ .v3-catalog-map .v3-marketplace-content{align-items:start}
+ .v3-catalog-map .v3-marketplace-map-panel{position:sticky;top:106px;height:min(74vh,740px);min-height:440px;align-self:start}
+}
+.v3-map-tools{position:absolute;right:14px;top:14px;z-index:600;display:flex;flex-direction:column;gap:12px}
+.v3-map-tools button{width:44px;height:44px;border:0;border-radius:50%;display:grid;place-items:center;background:white;color:#222;box-shadow:0 2px 10px #102c4c26;cursor:pointer}
+.v3-map-tools button:disabled{opacity:.55;cursor:default}
+.v3-map-zoom-tools{border-radius:26px;overflow:hidden;box-shadow:0 2px 10px #102c4c26;background:#fff}
+.v3-map-zoom-tools button{border-radius:0;box-shadow:none}
+.v3-map-zoom-tools button+button{border-top:1px solid #e3e3e3}
+.v3-map-frame.v3-map-expanded,.v3-map-frame:fullscreen{position:fixed;inset:12px;width:auto;height:auto;min-height:0;z-index:2500;background:#e9eee9;border:1px solid #dce3e9;border-radius:20px;box-shadow:0 0 0 20px #071d31c9}
+.v3-map-frame:fullscreen{inset:0;width:100%;height:100%;border-radius:0}
+.v3-map-caption{left:16px;right:76px;max-width:calc(100% - 100px)}
+.v3-map-search-controls{right:76px}
+@media(max-width:700px){.v3-map-frame.v3-map-expanded{inset:6px}.v3-map-tools{right:10px;top:10px}.v3-map-caption{font-size:11px}.v3-map-search-controls{right:65px}}
+.v3-listing-info .rural-demo-note{color:#725a24;font-size:12px;line-height:1.5}
+.v3-listing-card[data-demo=true] .v3-listing-badge{background:#fff3cf;color:#654d15}

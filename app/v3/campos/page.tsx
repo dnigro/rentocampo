@@ -1,4 +1,5 @@
 import { v3Text } from "@/lib/i18n/v3-copy";
+import { isDemoField } from "@/lib/v3/demo-listings";
 import V3RegionalPanel from "../components/V3RegionalPanel";
 import type { Metadata } from "next";
 import { cookies } from "next/headers";
@@ -50,15 +51,13 @@ export default async function V3Campos({ searchParams }: { searchParams: Promise
   }
   const priceNeedsCurrency = Boolean((params.precio_min || params.precio_max) && !validCurrency);
   const { data, error } = await query;
-  const visible = seleccionarCamposPublicos(data || []).filter(campo =>
-    !String(campo.id).startsWith("20000000-") && !String(campo.titulo || "").toUpperCase().includes("DEMO")
-  );
+  const visible = seleccionarCamposPublicos(data || []);
   const campos: V3Campo[] = visible.map(campo => {
     const fotos = [...(campo.fotos || [])].sort((a, b) => (a.orden ?? 0) - (b.orden ?? 0));
     const lat = normalizarCoordenada(campo.latitud);
     const lng = normalizarCoordenada(campo.longitud);
     return {
-      id: campo.id, titulo: campo.titulo || "Campo disponible",
+      id: campo.id, demo: isDemoField(campo.id,campo.titulo), titulo: campo.titulo || "Campo disponible",
       localidad: campo.localidad || null, provincia: campo.provincia || null,
       hectareas: campo.hectareas == null ? null : Number(campo.hectareas),
       aptitud: campo.aptitud || null, operacion: campo.operacion || null,

@@ -16,8 +16,8 @@ for(const [country,region] of [['AR','Pergamino'],['BR','Ribeirão Preto'],['US'
   console.log('PASS country regions, local publication links, responsive and language',surface,kind,country);
  }
 }
-await page.goto(`${origin}/?pais=AR`,{waitUntil:'networkidle'});assert.equal(await page.locator('.v3-regional-disclosure').getAttribute('open'),null);await page.locator('.v3-regional-disclosure>summary').click();assert.ok((await page.locator('.v3-regional-disclosure').innerText()).includes('Pergamino'));
-await page.locator('.rural-type-tabs button').nth(2).click();await page.waitForFunction(()=>document.querySelector('.v3-regional-disclosure .rc-regions-showcase__action')?.getAttribute('href').includes('mis-servicios-rurales'));
+await page.goto(`${origin}/?pais=AR`,{waitUntil:'networkidle'});await page.locator('.v3-regional-panel .rc-regions-showcase').waitFor();assert.ok((await page.locator('.v3-regional-panel').innerText()).includes('Pergamino'));
+await page.locator('.rural-type-tabs button').nth(2).click();await page.waitForFunction(()=>document.querySelector('.v3-regional-panel .rc-regions-showcase__action')?.getAttribute('href').includes('mis-servicios-rurales'));
 await page.goto(`${origin}/login?pais=AR`,{waitUntil:'networkidle'});await page.locator('input[type=email]').fill('qa@example.invalid');await page.evaluate(()=>history.pushState(null,'','/login?pais=BR'));await page.getByRole('heading',{name:'Entrar',exact:true}).waitFor();assert.equal(await page.locator('html').getAttribute('lang'),'pt-BR');assert.equal(await page.locator('input[type=email]').inputValue(),'qa@example.invalid');await page.evaluate(()=>history.pushState(null,'','/login?pais=US'));await page.getByRole('heading',{name:'Sign in',exact:true}).waitFor();assert.equal(await page.locator('html').getAttribute('lang'),'en-US');assert.equal(await page.locator('input[type=email]').inputValue(),'qa@example.invalid');
-assert.equal(writes,0);assert.deepEqual(errors,[]);console.log('PASS compact home regions follow catalog; same-route language changes preserve form data; no writes/errors');
+assert.equal(writes,0);assert.deepEqual(errors,[]);console.log('PASS visible home regions follow catalog; same-route language changes preserve form data; no writes/errors');
 }finally{await browser.close();}

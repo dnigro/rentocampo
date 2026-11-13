@@ -1,5 +1,6 @@
 "use client";
 
+import { Maximize2, Minimize2, Plus, Minus } from "lucide-react";
 import { v3Text } from "@/lib/i18n/v3-copy";
 import { useEffect, useRef, useState } from "react";
 import type { Map as LeafletMap, Marker } from "leaflet";
@@ -10,6 +11,10 @@ import { COUNTRIES, type CountryCode } from "@/data/countries";
 type Props = { campos: V3Campo[]; country: CountryCode; selectedId: string | null; onSelect: (id: string) => void; onViewportChange: (bounds: MapBounds) => void; initialBounds?: MapBounds | null };
 
 export default function V3Map({ campos, country, selectedId, onSelect, onViewportChange, initialBounds }: Props) {
+  const [expanded,setExpanded]=useState(false);
+  const frameRef=useRef<HTMLDivElement>(null);
+  const expandButtonRef=useRef<HTMLButtonElement>(null);
+  const t=(es:string,pt:string,en:string)=>country==="BR"?pt:country==="US"?en:es;
   const [mapReady, setMapReady] = useState(false);
   const [mapError, setMapError] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -34,7 +39,7 @@ export default function V3Map({ campos, country, selectedId, onSelect, onViewpor
       const L = await import("leaflet");
       if (cancelled || !containerRef.current) return;
       const region = COUNTRIES[country];
-      map = L.map(containerRef.current, { scrollWheelZoom: false, zoomControl: true, zoomAnimation: false, fadeAnimation: false, markerZoomAnimation: false })
+      map = L.map(containerRef.current, { scrollWheelZoom: false, zoomControl: false, zoomAnimation: false, fadeAnimation: false, markerZoomAnimation: false })
         .setView([...region.mapCenter] as [number, number], region.mapZoom);
       mapRef.current = map;
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -60,7 +65,7 @@ export default function V3Map({ campos, country, selectedId, onSelect, onViewpor
         const anchorX = 66 + ((slot % 3) - (columns - 1) / 2) * 136;
         const anchorY = 38 + Math.floor(slot / 3) * 40;
         locations.push(position);
-        const label = campo.kind === "servicio" ? (country === "BR" ? "Serviço" : country === "US" ? "Service" : "Servicio") : markerLabel(campo, region.locale);
+        const label = campo.demo ? "DEMO" : campo.kind === "servicio" ? (country === "BR" ? "Serviço" : country === "US" ? "Service" : "Servicio") : markerLabel(campo, region.locale);
         // Build text with DOM APIs: currency/data must never be interpreted as HTML.
         const pin = document.createElement("span");
         pin.className = `v3-price-pin ${campo.kind === "servicio" ? "rural-service-pin" : "rural-field-pin"}`;
@@ -94,7 +99,7 @@ export default function V3Map({ campos, country, selectedId, onSelect, onViewpor
       const markInteraction = (event: Event) => {
         if (event.type === "wheel" && !map?.scrollWheelZoom.enabled()) return;
         if (event.type === "keydown" && !["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", "+", "-", "="].includes((event as KeyboardEvent).key)) return;
-        if (event.type === "click" && !(event.target instanceof Element && event.target.closest(".leaflet-control-zoom"))) return;
+        if (event.type === "click" && !(event.target instanceof Element && event.target.closest("[data-map-zoom]"))) return;
         userMoved = true;
       };
       // Track real interactions, excluding initial fitBounds and selection panTo.
@@ -130,15 +135,43 @@ export default function V3Map({ campos, country, selectedId, onSelect, onViewpor
       element?.classList.toggle("v3-marker-active", id === selectedId);
       if (id === selectedId) {
         marker.setZIndexOffset(1000);
-        // Keep the selected location visible without changing the user's zoom.
-        const position = marker.getLatLng();
-        if (mapRef.current && !mapRef.current.getBounds().contains(position)) mapRef.current.panTo(position, { animate: false });
+
       }
       else marker.setZIndexOffset(0);
     });
   }, [selectedId, campos]);
 
-  return <div className="v3-map-frame" aria-busy={!mapReady && !mapError}>
+  useEffect(()=>{
+    if(!expanded)return;
+    const previous=document.body.style.overflow;document.body.style.overflow="hidden";
+    const escape=(event:KeyboardEvent)=>{if(event.key==="Escape"){setExpanded(false);expandButtonRef.current?.focus();}};
+    document.addEventListener("keydown",escape);
+    return ()=>{document.body.style.overflow=previous;document.removeEventListener("keydown",escape);};
+  },[expanded]);
+  useEffect(()=>{
+    const sync=()=>{if(!document.fullscreenElement)setExpanded(false);};
+    document.addEventListener("fullscreenchange",sync);
+    return ()=>document.removeEventListener("fullscreenchange",sync);
+  },[]);
+  function changeZoom(delta:number){
+    const map=mapRef.current;if(!map)return;
+    map.setZoom(map.getZoom()+delta,{animate:false});
+    const bounds=map.getBounds();
+    viewportRef.current({north:bounds.getNorth(),south:bounds.getSouth(),east:bounds.getEast(),west:bounds.getWest()});
+  }
+  async function toggleExpanded(){
+    if(expanded){if(document.fullscreenElement===frameRef.current)await document.exitFullscreen();setExpanded(false);expandButtonRef.current?.focus();return;}
+    setExpanded(true);
+    try{await frameRef.current?.requestFullscreen?.();}catch{/* CSS expansion also works without native fullscreen. */}
+  }
+  return <div ref={frameRef} className={`v3-map-frame ${expanded?"v3-map-expanded":""}`} aria-busy={!mapReady && !mapError}>
+    <div className="v3-map-tools">
+      <button ref={expandButtonRef} type="button" onClick={toggleExpanded} aria-pressed={expanded} aria-label={expanded?t("Restaurar mapa","Restaurar mapa","Restore map"):t("Ampliar mapa","Ampliar mapa","Expand map")}>{expanded?<Minimize2 size={20}/>:<Maximize2 size={20}/>}</button>
+      <div className="v3-map-zoom-tools">
+        <button type="button" data-map-zoom disabled={!mapReady} onClick={()=>changeZoom(1)} aria-label={t("Acercar mapa","Aproximar mapa","Zoom in")}><Plus size={24}/></button>
+        <button type="button" data-map-zoom disabled={!mapReady} onClick={()=>changeZoom(-1)} aria-label={t("Alejar mapa","Afastar mapa","Zoom out")}><Minus size={24}/></button>
+      </div>
+    </div>
     <div className="v3-map-canvas" ref={containerRef} role="region" aria-label={country === "BR" ? "Mapa de terras e serviços" : country === "US" ? "Farmland and services map" : "Mapa de campos y servicios"} />
     {mapError && <p className="v3-map-error" role="status">{v3Text(country,"No pudimos cargar el mapa completo. Podés seguir consultando las fichas del listado.")}</p>}
   </div>;

@@ -20,7 +20,7 @@ try {
    await page.setViewportSize({width,height:1000});
    assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),path+' overflow '+width);
    const block=await page.locator('.rural-home-actions').boundingBox();assert.ok(block.height<=(width===1440?370:610),'compact actions '+width+': '+block.height);
-   assert.equal(await page.locator('.rural-hero h1').evaluate(e=>getComputedStyle(e).color),'rgb(255, 255, 255)');
+   assert.equal(await page.locator('.rural-hero h1').evaluate(e=>getComputedStyle(e).color),'rgb(16, 44, 76)');
    if(width===320||width===1440)await page.screenshot({path:`${evidence}/${path==='/'?'home':path.slice(1)}-${width}.png`,fullPage:true,animations:'disabled'});
   }
   await page.locator('.rural-home-faq>summary').click();

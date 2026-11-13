@@ -1,4 +1,6 @@
 import { v3Text } from "@/lib/i18n/v3-copy";
+import { loadServiceDemos } from "@/lib/v3/load-service-demos";
+import { demoListingHref } from "@/lib/v3/demo-listings";
 import V3RegionalPanel from "../components/V3RegionalPanel";
 import RuralIcon from "../components/RuralIcon";
 import type { Metadata } from "next";
@@ -27,9 +29,9 @@ export default async function V3Servicios({ searchParams }: { searchParams: Prom
   if (params.provincia?.trim()) query = query.eq("provincia", params.provincia.trim());
   if (service) query = query.contains("servicios_rurales", [service]);
   const { data, error } = await query;
-  const servicios = (data ?? []).filter(item =>
-    !String(item.id).startsWith("20000000-") && !String(item.id).startsWith("10000000-")
-  );
+  let references: Awaited<ReturnType<typeof loadServiceDemos>> = [];
+  try { references = await loadServiceDemos(country,params.provincia,service); } catch { /* Real providers remain available. */ }
+  const servicios = [...(data || []).map(item=>({...item,demo:false})),...references.map(item=>({id:item.sourceId,nombre_comercial:item.titulo,foto_url:item.foto,provincia:item.provincia,localidad:item.localidad,zona:item.coverage,servicios_rurales:item.services,country_code:country,demo:true}))];
   const detailSearch = new URLSearchParams({ pais: country });
   if (params.provincia) detailSearch.set("provincia", params.provincia);
   if (service) detailSearch.set("servicio", service);
@@ -62,19 +64,20 @@ export default async function V3Servicios({ searchParams }: { searchParams: Prom
     <div className="v3-marketplace-grid v3-service-results">
       {servicios.map(item => {
         const title = tituloServicioRural(item.servicios_rurales as ServicioRural[], country, item.nombre_comercial);
-        return <article className="v3-listing-card" key={item.id}>
+        const detail = item.demo ? demoListingHref(country,"servicio",item.localidad) : `/v3/servicios/${item.id}?${detailSearch}`;
+        return <article data-demo={item.demo} className="v3-listing-card" key={item.id}>
           <div className="v3-listing-media">
-            <Link href={`/v3/servicios/${item.id}?${detailSearch}`} aria-label={`${t("Ver")} ${title}`}>
+            <Link href={detail} aria-label={`${t("Ver")} ${title}`}>
               {item.foto_url ? <Image src={item.foto_url} alt={title} fill sizes="(max-width:700px) 90vw, 25vw"/> :
                 <div className="v3-listing-placeholder"><Tractor size={36}/></div>}
             </Link>
-            <span className="v3-listing-badge">{t("Servicio rural")}</span>
+            <span className="v3-listing-badge">{item.demo ? "DEMO · " : ""}{t("Servicio rural")}</span>
           </div>
-          <Link className="v3-listing-info" href={`/v3/servicios/${item.id}?${detailSearch}`}>
-            <strong>{title}</strong>
+          <Link className="v3-listing-info" href={detail}>
+            <strong>{title}</strong>{item.demo && <span className="rural-demo-note">{t("Ejemplo de referencia. No es una oferta real.")}</span>}
             <span><MapPin size={14}/>{[item.localidad, item.provincia].filter(Boolean).join(", ") || country}</span>
             <div className="rural-card-features">{(item.servicios_rurales || []).slice(0, 3).map((s: ServicioRural) => <span key={s}><RuralIcon name={s}/>{servicioLabel(s, country)}</span>)}</div>
-            <span className="v3-listing-details">{t("Ver prestador")} <ArrowUpRight size={14}/></span>
+            <span className="v3-listing-details">{item.demo ? t("Publicar en esta zona") : t("Ver prestador")} <ArrowUpRight size={14}/></span>
           </Link>
         </article>;
       })}

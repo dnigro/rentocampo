@@ -1,4 +1,6 @@
 import "server-only";
+import { isDemoField } from "./demo-listings";
+import { loadServiceDemos } from "./load-service-demos";
 import { createClient } from "@/lib/supabase/server";
 import type { CountryCode } from "@/data/countries";
 import { tituloServicioRural } from "@/data/servicios-rurales";
@@ -27,10 +29,8 @@ export async function loadHomeListings(country: CountryCode) {
         else {
             capped ||= (fields.value.data || []).length === HOME_LISTING_LIMIT;
             for (const item of fields.value.data || []) {
-                if (item.id.startsWith("20000000-") || /DEMO/i.test(item.titulo || ""))
-                    continue;
                 const photos = [...(item.fotos || [])].filter(photo => photo.url).sort((a, b) => (a.orden ?? 0) - (b.orden ?? 0)).slice(0, 8).map(photo => photo.url);
-                listings.push({ id: `campo-${item.id}`, sourceId: item.id, kind: "campo", titulo: item.titulo, localidad: item.localidad, provincia: item.provincia, hectareas: item.hectareas == null ? null : Number(item.hectareas), aptitud: item.aptitud, operacion: item.operacion, precio: item.precio == null ? null : Number(item.precio), moneda: item.moneda, foto: photos[0] || null, fotos: photos, lat: coordinate(item.latitud, 90), lng: coordinate(item.longitud, 180), services: [], coverage: null });
+                listings.push({ id: `campo-${item.id}`, sourceId: item.id, kind: "campo", demo: isDemoField(item.id,item.titulo), titulo: item.titulo, localidad: item.localidad, provincia: item.provincia, hectareas: item.hectareas == null ? null : Number(item.hectareas), aptitud: item.aptitud, operacion: item.operacion, precio: item.precio == null ? null : Number(item.precio), moneda: item.moneda, foto: photos[0] || null, fotos: photos, lat: coordinate(item.latitud, 90), lng: coordinate(item.longitud, 180), services: [], coverage: null });
             }
         }
         const services = results[1];
@@ -48,6 +48,8 @@ export async function loadHomeListings(country: CountryCode) {
     catch {
         errors.push("campo", "servicio");
     }
+    try { listings.push(...await loadServiceDemos(country)); } catch { if(!errors.includes("servicio")) errors.push("servicio"); }
+    listings.sort((a,b)=>Number(Boolean(a.demo))-Number(Boolean(b.demo)));
     // Alternate types to make both discoverable; neither receives paid or invented ranking.
     const fields = listings.filter(item => item.kind === "campo"), services = listings.filter(item => item.kind === "servicio");
     const mixed: RuralListing[] = [];

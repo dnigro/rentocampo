@@ -69,3 +69,25 @@ html body .v3-shell.v3-integrated .auth-page .btn-submit{background:#c72b4c!impo
 html body .v3-shell.v3-integrated .auth-page :is(.auth-footer a,.form-label-link){color:#ad2442!important;font-size:15px!important}
 .v3-integrated .v3-footer a.v3-footer-brand{font-size:23px;font-weight:800}
 @media(max-width:600px){html body .v3-shell.v3-integrated .auth-page .auth-card{padding:25px 18px!important;border-radius:20px!important}html body .v3-shell.v3-integrated .auth-page .auth-title{font-size:28px!important}}
+
+/* Simple production-style navigation, with market selection always within reach. */
+.v3-shell.v3-integrated .v3-header{background:#0b2238;border-color:#0b2238;min-height:88px;gap:32px}
+.v3-shell.v3-integrated .v3-header :is(.v3-brand,.v3-header>nav a,.v3-account,.v3-header-messages){color:#fff}
+.v3-shell.v3-integrated .v3-header>nav{margin-right:auto;gap:30px}
+.v3-shell.v3-integrated .v3-header>nav a{font-size:17px;color:#fff}
+.v3-shell.v3-integrated .v3-brand{font-size:28px;white-space:nowrap}
+.v3-header-country{display:flex;align-items:center;gap:9px;color:#fff;font-size:12px;font-weight:750}
+.v3-header-country select{width:145px;max-width:145px;min-height:44px;border:0;border-radius:25px;background:#fff;color:#102c4c;padding:9px 12px;font-size:14px;cursor:pointer}
+.v3-header-signout{display:flex;align-items:center;gap:7px;background:none;color:#fff;border:0;min-height:44px;padding:8px;font-size:14px;font-weight:750;cursor:pointer}
+.v3-header-messages{display:flex;align-items:center;justify-content:center;min-width:40px;min-height:44px}
+.v3-shell.v3-integrated .v3-mobile-nav summary{color:#fff;border-color:#ffffff60}
+.v3-session-error{font-size:14px;padding:12px 20px;margin:0;color:#8f203a;background:#fff0f3}
+@media(max-width:1100px){.v3-shell.v3-integrated .v3-header{gap:18px}.v3-shell.v3-integrated .v3-brand{font-size:23px}.v3-shell.v3-integrated .v3-header>nav{gap:18px}.v3-header-country>span{display:none}.v3-header-country select{width:115px}.v3-header-signout{font-size:13px}}
+@media(max-width:850px){.v3-shell.v3-integrated .v3-header{min-height:74px}.v3-shell.v3-integrated .v3-header-actions{margin-left:auto;gap:12px}.v3-header-signout,.v3-header-messages{display:none}}
+@media(max-width:600px){.v3-shell.v3-integrated .v3-header{gap:8px;padding-inline:12px}.v3-shell.v3-integrated .v3-brand{font-size:17px;gap:4px}.v3-shell.v3-integrated .v3-shield-logo{width:32px;height:36px}.v3-shell.v3-integrated .v3-header-actions{margin-left:auto;gap:0}.v3-shell.v3-integrated .v3-header-actions .v3-account{display:none}.v3-header-country select{width:73px;max-width:73px;padding:9px 6px;font-size:13px}.v3-shell.v3-integrated .v3-mobile-nav{margin-left:0}.v3-shell.v3-integrated .v3-mobile-nav summary{min-width:40px;min-height:44px}}
+.v3-mobile-signout{display:block;width:100%;text-align:left;min-height:44px;padding:12px;border:0;border-radius:11px;background:#fff;color:#173b55;font-size:14px;font-weight:750;cursor:pointer}
+.v3-country-picker{position:relative;display:inline-flex;width:96px;min-width:96px;height:44px;border-radius:25px;background:#fff}
+.v3-country-picker select{position:absolute;inset:0;width:100%;max-width:none;height:44px;opacity:0;z-index:1}
+.v3-country-value{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:7px;color:#102c4c;font-size:14px;font-weight:800;pointer-events:none}
+.v3-country-picker:focus-within{outline:3px solid #92bddf;outline-offset:3px}
+@media(max-width:600px){.v3-country-picker{width:73px;min-width:73px}.v3-country-value{gap:4px;font-size:13px}}
