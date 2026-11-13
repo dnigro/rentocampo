@@ -42,6 +42,7 @@ export default function V3Explorer({ campos, country, filter, error, initialBoun
   const [searchOnMove, setSearchOnMove] = useState(true);
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [selected, setSelected] = useState<string | null>(null);
+  const [page,setPage]=useState(1);
   const [showMap, setShowMap] = useState(true);
   const [mobileMap, setMobileMap] = useState(false);
   const [favs, setFavs] = useState<string[]>([]);
@@ -77,6 +78,9 @@ export default function V3Explorer({ campos, country, filter, error, initialBoun
     setMapReset(value => value + 1);
   };
   const visibleCampos = useMemo(() => mapBounds ? campos.filter(campo => matchesMapArea(campo, mapBounds)) : campos, [campos, mapBounds]);
+  const pages=Math.max(1,Math.ceil(visibleCampos.length/10));
+  const currentPage=Math.min(page,pages);
+  const paged=visibleCampos.slice((currentPage-1)*10,currentPage*10);
   const withoutCoordinates = campos.filter(campo => !hasMapLocation(campo)).length;
   const handleViewportChange = useCallback((bounds: MapBounds) => {
     setSelected(null);
@@ -137,7 +141,7 @@ export default function V3Explorer({ campos, country, filter, error, initialBoun
         {withoutCoordinates > 0 && <p className="v3-map-location-note">{withoutCoordinates} {t("sin ubicación precisa: se mantienen en la lista y no tienen marcador en el mapa.")}</p>}
         {truncated && <p className="v3-map-location-note">{t("Mostramos las primeras")} {campos.length} {t("publicaciones. Ajustá los filtros para acotar la búsqueda.")}</p>}
         <div className="v3-marketplace-grid">
-          {visibleCampos.map(campo => <article data-demo={campo.demo || false} key={campo.id} id={`v3-listing-${campo.id}`}
+          {paged.map(campo => <article data-demo={campo.demo || false} key={campo.id} id={`v3-listing-${campo.id}`}
               className={`v3-listing-card ${selected === campo.id ? "v3-selected-card" : ""}`}
               onMouseEnter={() => setSelected(campo.id)} onFocus={() => setSelected(campo.id)}>
             <div className="v3-listing-media">
@@ -159,6 +163,7 @@ export default function V3Explorer({ campos, country, filter, error, initialBoun
             </Link>
           </article>)}
         </div>
+        {pages>1 && <nav className="v3-list-pagination" aria-label="Paginación"><button type="button" disabled={currentPage===1} onClick={()=>setPage(currentPage-1)}>Anterior</button><span>Página {currentPage} de {pages}</span><button type="button" disabled={currentPage===pages} onClick={()=>setPage(currentPage+1)}>Siguiente</button></nav>}
       </div>
       {showMap && <div className="v3-marketplace-map-panel">
         <div className="v3-map-caption"><MapPin size={16}/>{t("Explorá los campos en el mapa")}</div>
