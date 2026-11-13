@@ -8,9 +8,9 @@ import type { V3Campo } from "./V3Explorer";
 import { markerLabel, type MapBounds } from "@/lib/campos/map-search";
 import { COUNTRIES, type CountryCode } from "@/data/countries";
 
-type Props = { campos: V3Campo[]; country: CountryCode; selectedId: string | null; onSelect: (id: string) => void; onViewportChange: (bounds: MapBounds) => void; initialBounds?: MapBounds | null };
+type Props = { campos: V3Campo[]; country: CountryCode; selectedId: string | null; onSelect: (id: string) => void; onViewportChange: (bounds: MapBounds) => void; initialBounds?: MapBounds | null; getHref?: (item: V3Campo) => string };
 
-export default function V3Map({ campos, country, selectedId, onSelect, onViewportChange, initialBounds }: Props) {
+export default function V3Map({ campos, country, selectedId, onSelect, onViewportChange, initialBounds, getHref }: Props) {
   const [expanded,setExpanded]=useState(false);
   const frameRef=useRef<HTMLDivElement>(null);
   const expandButtonRef=useRef<HTMLButtonElement>(null);
@@ -21,6 +21,8 @@ export default function V3Map({ campos, country, selectedId, onSelect, onViewpor
   const mapRef = useRef<LeafletMap | null>(null);
   const markerRef = useRef<Map<string, Marker>>(new Map());
   const selectRef = useRef(onSelect);
+  const hrefRef = useRef(getHref);
+  useEffect(() => { hrefRef.current = getHref; }, [getHref]);
   const viewportRef = useRef(onViewportChange);
   const selectedRef = useRef(selectedId);
   const zoomLockedUntil = useRef(0);
@@ -74,6 +76,22 @@ export default function V3Map({ campos, country, selectedId, onSelect, onViewpor
           keyboard:true
         }).addTo(map);
         marker.bindTooltip(campo.titulo, { direction:"top", offset:[0,-14] });
+        const popup = document.createElement("div");
+        popup.style.cssText = "width:240px;max-width:70vw;display:grid;gap:8px;font-family:inherit";
+        const heading = document.createElement("strong");
+        heading.textContent = campo.titulo;
+        heading.style.cssText = "font-size:15px;line-height:1.3";
+        popup.appendChild(heading);
+        const location = document.createElement("span");
+        location.textContent = [campo.localidad, campo.provincia].filter(Boolean).join(", ");
+        location.style.cssText = "color:#667085;font-size:13px";
+        popup.appendChild(location);
+        const link = document.createElement("a");
+        link.textContent = "Ver publicación ↗";
+        link.href = hrefRef.current?.(campo) || "#";
+        link.style.cssText = "font-weight:700;color:#12324b;text-decoration:underline";
+        popup.appendChild(link);
+        marker.bindPopup(popup, { autoPan: true, maxWidth:280, closeButton:true });
         marker.on("click",()=>{
           selectRef.current(campo.id);
           if(map)map.flyTo(position,Math.min(13,map.getMaxZoom()),{duration:.5});
