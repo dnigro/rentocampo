@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import Link from "next/link";
+import DashboardReturn from "@/components/layout/DashboardReturn";
 import MisCamposLista from "@/components/campos/MisCamposLista";
 import { resolveCountry } from "@/data/countries";
 import { regionalText } from "@/lib/i18n/regional";
@@ -69,7 +70,7 @@ export default async function MisCamposPage() {
         </div>
       </div>
 
-      <div className="rc-publish-action"><Link href="/mis-campos/nuevo" className="rc-publish-button">+ {tt("Publicar campo","Anunciar terra")}</Link></div>
+      <div className="rc-publish-action" style={{display:"flex",justifyContent:"space-between",alignItems:"center",gap:12,flexWrap:"wrap"}}><DashboardReturn /><Link href="/mis-campos/nuevo" className="rc-publish-button">+ {tt("Publicar campo","Anunciar terra")}</Link></div>
       <MisCamposLista campos={campos ?? []} />
     </div>
   );
