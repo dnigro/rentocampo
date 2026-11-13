@@ -1,5 +1,5 @@
 import type { NextConfig } from "next";
-import { v3PreviewRoutes } from "./lib/v3-routing";
+import { v3Routes } from "./lib/v3-routing";
 import { enforceUatIsolation } from "./lib/uat-isolation";
 
 enforceUatIsolation(process.env);
@@ -35,10 +35,10 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     // Next.js forwards the original country and filter query parameters.
-    return v3PreviewRoutes(process.env).redirects;
+    return v3Routes(process.env).redirects;
   },
   async rewrites() {
-    return v3PreviewRoutes(process.env).rewrites;
+    return v3Routes(process.env).rewrites;
   },
   async headers() {
     return [

@@ -391,12 +391,12 @@ test("publication forms share approved navy editorial cards without disrupting d
 });
 
 test("V3 preview home shares web/mobile and Lite entry points without enabling production", async () => {
- const { isV3Preview, v3PreviewRoutes } = await import("../lib/v3-routing.ts");
+ const { isV3Enabled, v3Routes } = await import("../lib/v3-routing.ts");
  const preview = {VERCEL_ENV:"preview",VERCEL_GIT_COMMIT_REF:"codex/rentocampo-v3-review-20261112"};
- assert.equal(isV3Preview(preview),true);
- assert.deepEqual(v3PreviewRoutes(preview).rewrites.beforeFiles.find(route=>route.source==="/lite"),{source:"/lite",destination:"/v3"});
- assert.equal(isV3Preview({...preview,VERCEL_ENV:"production"}),false);
- assert.equal(isV3Preview({...preview,VERCEL_GIT_COMMIT_REF:"main"}),false);
+ assert.equal(isV3Enabled(preview),true);
+ assert.deepEqual(v3Routes(preview).rewrites.beforeFiles.find(route=>route.source==="/lite"),{source:"/lite",destination:"/v3"});
+ assert.equal(isV3Enabled({...preview,VERCEL_ENV:"production"}),false);
+ assert.equal(isV3Enabled({...preview,VERCEL_GIT_COMMIT_REF:"main"}),false);
 });
 
 // The Preview home is shared by web and Lite; detailed legacy aliases remain isolated.
@@ -411,9 +411,9 @@ test("unified rural home remains shared across web and Lite preview",()=>{
 
 test("Preview integrates web auth, public and Lite into the shared site frame",()=>{
  const root=read("app/layout.tsx"), frame=read("components/layout/PreviewSiteFrame.tsx");
- assert.ok(root.includes("isV3Preview(process.env) ? <PreviewSiteFrame root>"));
+ assert.ok(root.includes("isV3Enabled(process.env) ? <PreviewSiteFrame root>"));
  assert.ok(frame.includes("SharedPreviewChrome.Provider"));
  assert.ok(read("components/layout/Footer.tsx").includes('href="/terminos-y-condiciones"'));
  for(const file of ["components/layout/Navbar.tsx","components/layout/Footer.tsx"]) assert.ok(read(file).includes("useSharedPreviewChrome"));
- assert.ok(read("app/lite/layout.tsx").includes("isV3Preview(process.env)"));
+ assert.ok(read("app/lite/layout.tsx").includes("isV3Enabled(process.env)"));
 });

@@ -11,7 +11,7 @@ source=source.replace('import { v3Text } from "@/lib/i18n/v3-copy";','const v3Te
     .replace('import Link from "next/link";',`import React from ${JSON.stringify(pathToFileURL(require.resolve('react')).href)}; const Link=({children,...props})=>React.createElement('a',props,children);`);
 source=source
     .replace('import AccountOverview from "@/components/account/AccountOverview";', 'const AccountOverview = () => null;')
-    .replace('import { isV3Preview } from "@/lib/v3-routing";', 'const isV3Preview = () => false;');
+    .replace('import { isV3Enabled } from "@/lib/v3-routing";', 'const isV3Enabled = () => false;');
 source=source.replace('import { cookies } from "next/headers";','const cookies=async()=>({get:()=>undefined});');
 source=source.replace('import { createClient } from "@/lib/supabase/server";','const createClient=globalThis.__v3AccountClient;');
 source=source.replace('"@/data/countries"',JSON.stringify(new URL('../data/countries.ts',import.meta.url).href));

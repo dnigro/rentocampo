@@ -3,9 +3,9 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
-interface Props { campoId: string; userId?: string }
+interface Props { campoId: string; userId?: string; compact?: boolean }
 
-export default function FavoritoBtn({ campoId, userId }: Props) {
+export default function FavoritoBtn({ campoId, userId, compact = false }: Props) {
   const [esFavorito, setEsFavorito] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -43,6 +43,13 @@ export default function FavoritoBtn({ campoId, userId }: Props) {
       setError(cause instanceof Error ? cause.message : "No pudimos guardar el campo.");
     } finally { setLoading(false); }
   }
+
+  if (compact) return <div>
+    <button type="button" onClick={handleToggle} disabled={loading}
+      aria-label={esFavorito ? "Quitar de favoritos" : "Guardar campo"} aria-pressed={esFavorito}
+      className={`v3-heart-button ${esFavorito ? "saved" : ""}`}>{esFavorito ? "♥" : "♡"}</button>
+    {error && <p role="alert" className="fav-text-error">{error}</p>}
+  </div>;
 
   return <div><button type="button" onClick={handleToggle} disabled={loading} aria-pressed={esFavorito} className={`fav-text-btn ${esFavorito ? "fav-text-btn-activo" : ""}`}><span className="fav-text-btn-icon" aria-hidden="true">{esFavorito ? "♥" : "♡"}</span><span className="fav-text-btn-label">{loading ? "Guardando..." : esFavorito ? "Guardado" : "Guardar campo"}</span></button>{error && <p role="alert" className="fav-text-error">{error}</p>}</div>;
 }

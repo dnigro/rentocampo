@@ -1,3 +1,6 @@
+import ConsultaButton from "@/components/campos/ConsultaButton";
+import FavoritoBtn from "@/components/campos/FavoritoBtn";
+import { isV3Enabled, isV3Preview } from "@/lib/v3-routing";
 import { v3Text } from "@/lib/i18n/v3-copy";
 import { unifiedExplorerHref } from "@/lib/campos/unified-search";
 import RuralIcon from "../../components/RuralIcon";
@@ -15,7 +18,7 @@ import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 
 type Props = { params: Promise<{ id: string }>; searchParams: Promise<Record<string, string | undefined>> };
-export const metadata: Metadata = { title: "Detalle de campo | RentoCampo V3", robots: { index: false, follow: false } };
+export const metadata: Metadata = { title: "Detalle de campo | RentoCampo V3", ...(process.env.VERCEL_ENV !== "production" || isV3Preview(process.env) ? { robots: { index: false, follow: false } } : {}) };
 
 export default async function V3CampoDetalle({ params, searchParams }: Props) {
   const { id } = await params;
@@ -24,9 +27,11 @@ export default async function V3CampoDetalle({ params, searchParams }: Props) {
   const supabase = await createClient();
   const { data: campo, error } = await supabase
     .from("campos")
-    .select("id, titulo, descripcion, localidad, provincia, country_code, hectareas, aptitud, operacion, precio, moneda, mejoras, ambiente, departamento, disponibilidad, disponibilidad_desde, rendimiento_estimado, latitud, longitud, fotos:campos_fotos(url, orden)")
+    .select("id, propietario_id, titulo, descripcion, localidad, provincia, country_code, hectareas, aptitud, operacion, precio, moneda, mejoras, ambiente, departamento, disponibilidad, disponibilidad_desde, rendimiento_estimado, latitud, longitud, fotos:campos_fotos(url, orden)")
     .eq("id", id).eq("status", "activo").maybeSingle();
   if (error || !campo || String(campo.id).startsWith("20000000-") || /\bDEMO\b/i.test(campo.titulo ?? "")) notFound();
+  const production = isV3Enabled(process.env) && process.env.VERCEL_ENV === "production";
+  const userId = production ? (await supabase.auth.getUser()).data.user?.id : undefined;
   const images = [...(campo.fotos || [])].filter(f => Boolean(f.url)).sort((a, b) => (a.orden ?? 0) - (b.orden ?? 0)).slice(0, 8);
   const country = resolveCountry(campo.country_code);
   const t = (source: string) => v3Text(country, source);
@@ -73,8 +78,12 @@ export default async function V3CampoDetalle({ params, searchParams }: Props) {
         <span className="v3-kicker">{t("INFORMACIÓN COMERCIAL")}</span>
         <strong>{price.trim()}</strong>
         <p><ShieldCheck size={16} style={{display:"inline",verticalAlign:"middle"}}/>{t("Publicación visible en RentoCampo")}</p>
+        {production ? <>
+          <ConsultaButton campoId={campo.id} propietarioId={campo.propietario_id} userId={userId}/>
+          <FavoritoBtn campoId={campo.id} userId={userId}/>
+        </> : <>
         <div className="v3-contact-disabled" aria-disabled="true"><MessageCircle size={17} style={{display:"inline",verticalAlign:"middle"}}/>{t("Mensajería no habilitada en UAT")}</div>
-        <p>{t("Esta vista previa no envía consultas.")}</p>
+        <p>{t("Esta vista previa no envía consultas.")}</p></>}
       </aside>
     </div>
   </article>;

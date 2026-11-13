@@ -1,3 +1,4 @@
+import { isV3Preview } from "@/lib/v3-routing";
 import { v3Text } from "@/lib/i18n/v3-copy";
 import { loadServiceDemos } from "@/lib/v3/load-service-demos";
 import { demoListingHref } from "@/lib/v3/demo-listings";
@@ -15,7 +16,7 @@ import { SERVICIOS_RURALES, tituloServicioRural, servicioLabel } from "@/data/se
 import { createClient } from "@/lib/supabase/server";
 import type { ServicioRural } from "@/types";
 
-export const metadata: Metadata = { title: "Servicios rurales | RentoCampo V3", robots: { index: false, follow: false } };
+export const metadata: Metadata = { title: "Servicios rurales | RentoCampo V3", ...(process.env.VERCEL_ENV !== "production" || isV3Preview(process.env) ? { robots: { index: false, follow: false } } : {}) };
 
 type Filters = { pais?: string; provincia?: string; servicio?: string };
 export default async function V3Servicios({ searchParams }: { searchParams: Promise<Filters> }) {
@@ -80,7 +81,7 @@ export default async function V3Servicios({ searchParams }: { searchParams: Prom
         </article>;
       })}
     </div>
-    <div className="v3-safety v3-services-safety"><ShieldCheck size={20}/> {t("Preview de solo lectura: las consultas y publicaciones se habilitan después de aislar Supabase UAT.")}</div>
+    {process.env.VERCEL_ENV !== "production" && <div className="v3-safety v3-services-safety"><ShieldCheck size={20}/> {t("Preview de solo lectura: las consultas y publicaciones se habilitan después de aislar Supabase UAT.")}</div>}
     <V3RegionalPanel country={country} kind="servicio" provincia={params.provincia}/>
   </section>;
 }

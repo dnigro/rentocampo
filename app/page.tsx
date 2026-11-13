@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { isV3Preview } from "@/lib/v3-routing";
+import { isV3Enabled, isV3Preview } from "@/lib/v3-routing";
 import V3Home from "@/app/v3/page";
 import V3Layout from "@/app/v3/layout";
 import { redirect } from "next/navigation";
@@ -48,7 +48,7 @@ export default async function LandingPage({
     );
   }
 
-  if (isV3Preview(process.env)) {
+  if (isV3Enabled(process.env)) {
     return <V3Layout><V3Home searchParams={searchParams} /></V3Layout>;
   }
 

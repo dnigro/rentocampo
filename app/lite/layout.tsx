@@ -1,4 +1,4 @@
-import { isV3Preview } from "@/lib/v3-routing";
+import { isV3Enabled } from "@/lib/v3-routing";
 import type { Metadata } from "next";
 import Footer from "@/components/layout/Footer";
 import "@/styles/lite-header.css";
@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 /** Reutiliza exactamente el footer público para web, móvil y App Lite. */
 export default function LiteLayout({ children }: { children: React.ReactNode }) {
-  if (isV3Preview(process.env)) return <div className="lite-app v3-lite-integrated">{children}</div>;
+  if (isV3Enabled(process.env)) return <div className="lite-app v3-lite-integrated">{children}</div>;
   return (
     <div className="lite-app" style={{ minHeight: "100dvh", background: "#f7f7f5" }}>
       {children}

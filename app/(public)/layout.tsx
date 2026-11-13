@@ -1,4 +1,4 @@
-import { isV3Preview } from "@/lib/v3-routing";
+import { isV3Enabled } from "@/lib/v3-routing";
 import V3Layout from "@/app/v3/layout";
 import Footer from "@/components/layout/Footer";
 import Navbar from "@/components/layout/Navbar";
@@ -8,7 +8,7 @@ export default function PublicLayout({
 }: {
   children: React.ReactNode;
 }) {
-  if (isV3Preview(process.env)) {
+  if (isV3Enabled(process.env)) {
     return <V3Layout>{children}</V3Layout>;
   }
   return (

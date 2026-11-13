@@ -6,6 +6,7 @@ import { v3Text } from "@/lib/i18n/v3-copy";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import Form from "next/form";
+import FavoritoBtn from "@/components/campos/FavoritoBtn";
 import { campoFilterParams } from "@/lib/campos/filter-params";
 import RuralIcon from "./RuralIcon";
 import V3CardPhotos from "./V3CardPhotos";
@@ -21,7 +22,7 @@ export type V3Campo = {
   lat: number | null; lng: number | null; kind?: "campo" | "servicio"; demo?: boolean;
 };
 
-type Props = { campos: V3Campo[]; country: CountryCode; filter: {
+type Props = { production?: boolean; userId?: string; campos: V3Campo[]; country: CountryCode; filter: {
   provincia?: string; operacion?: string; aptitud?: string; hectareas_min?: string; hectareas_max?: string; precio_min?: string; precio_max?: string; moneda?: string;
 }; error?: boolean; initialBounds?: MapBounds | null; truncated?: boolean };
 
@@ -34,7 +35,7 @@ function priceText(campo: V3Campo, country: CountryCode) {
   return [campo.moneda, campo.precio.toLocaleString(COUNTRIES[country].locale)].filter(Boolean).join(" ");
 }
 
-export default function V3Explorer({ campos, country, filter, error, initialBounds = null, truncated }: Props) {
+export default function V3Explorer({ campos, country, filter, error, initialBounds = null, truncated, production = false, userId }: Props) {
   const t = (source: string) => v3Text(country, source);
   const [mapBounds, setMapBounds] = useState<MapBounds | null>(initialBounds);
   const [mapReset, setMapReset] = useState(0);
@@ -49,6 +50,7 @@ export default function V3Explorer({ campos, country, filter, error, initialBoun
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
+    if (production) return;
     const frame = window.requestAnimationFrame(() => {
       try {
         const stored = sessionStorage.getItem("rentocampo_v3_uat_favs");
@@ -60,7 +62,7 @@ export default function V3Explorer({ campos, country, filter, error, initialBoun
       setLoaded(true);
     });
     return () => window.cancelAnimationFrame(frame);
-  }, []);
+  }, [production]);
 
   useEffect(() => {
     if (!loaded) return;
@@ -147,11 +149,11 @@ export default function V3Explorer({ campos, country, filter, error, initialBoun
             <div className="v3-listing-media">
               <V3CardPhotos fallbackPhoto={campo.demo ? demoFieldPhoto(campo.aptitud) : undefined} country={country} photos={campo.fotos || (campo.foto ? [campo.foto] : [])} title={campo.titulo} href={detailHref(campo.id)}/>
               <span className="v3-listing-badge">{campo.demo ? "DEMO · " : ""}{t(aptitudeLabels[campo.aptitud || ""] || campo.aptitud || "Campo rural")}</span>
-              <button type="button" className={`v3-heart-button ${loaded && favs.includes(campo.id) ? "saved" : ""}`}
+              {!campo.demo && (production ? <FavoritoBtn campoId={campo.id} userId={userId} compact/> : <button type="button" className={`v3-heart-button ${loaded && favs.includes(campo.id) ? "saved" : ""}`}
                 aria-label={favs.includes(campo.id) ? t("Quitar de favoritos de UAT") : t("Agregar a favoritos de UAT")}
                 aria-pressed={loaded && favs.includes(campo.id)} onClick={() => toggleFav(campo.id)}>
                 <Heart size={19} fill={loaded && favs.includes(campo.id) ? "currentColor" : "none"}/>
-              </button>
+              </button>)}
             </div>
             <Link href={detailHref(campo.id)} className="v3-listing-info">
               <strong>{campo.titulo}</strong>{campo.demo && <span className="rural-demo-note">{t("Ejemplo de referencia. No es una oferta real.")}</span>}

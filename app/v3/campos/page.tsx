@@ -1,3 +1,4 @@
+import { isV3Enabled, isV3Preview } from "@/lib/v3-routing";
 import { v3Text } from "@/lib/i18n/v3-copy";
 import { demoFieldPhoto } from "@/lib/v3/demo-media";
 import { isDemoField } from "@/lib/v3/demo-listings";
@@ -14,7 +15,7 @@ import "leaflet/dist/leaflet.css";
 export const metadata: Metadata = {
   title: "Explorar campos | RentoCampo V3",
   description: "Explorá campos rurales, compará publicaciones y mirá sus ubicaciones en un mismo mapa.",
-  robots: { index: false, follow: false }
+  ...(process.env.VERCEL_ENV !== "production" || isV3Preview(process.env) ? { robots: { index: false, follow: false } } : {})
 };
 
 type Filters = { pais?: string; operacion?: string; provincia?: string; aptitud?: string; hectareas_min?: string; hectareas_max?: string; precio_min?: string; precio_max?: string; moneda?: string; north?: string; south?: string; east?: string; west?: string };
@@ -25,6 +26,8 @@ export default async function V3Campos({ searchParams }: { searchParams: Promise
   const country = resolveCountry(params.pais, storedCountry);
   const t = (source: string) => v3Text(country, source);
   const supabase = await createClient();
+  const production = isV3Enabled(process.env) && process.env.VERCEL_ENV === "production";
+  const userId = production ? (await supabase.auth.getUser()).data.user?.id : undefined;
 
   let query = supabase
     .from("campos")
@@ -80,7 +83,7 @@ export default async function V3Campos({ searchParams }: { searchParams: Promise
       </div>
     </div>
     {priceNeedsCurrency && <p role="alert" className="v3-price-filter-notice">{t("Elegí una moneda en Más filtros para aplicar el rango de precio.")}</p>}
-    <V3Explorer key={JSON.stringify(params)} campos={campos} country={country} filter={params} error={Boolean(error)} initialBounds={parseMapBounds(params)} truncated={data?.length === 120}/>
-    <p className="v3-uat-disclaimer">{t("V3 Preview de solo lectura. Favoritos temporales para UAT; los mensajes y las publicaciones no se modifican.")}</p>
+    <V3Explorer production={production} userId={userId} key={JSON.stringify(params)} campos={campos} country={country} filter={params} error={Boolean(error)} initialBounds={parseMapBounds(params)} truncated={data?.length === 120}/>
+    {!production && <p className="v3-uat-disclaimer">{t("V3 Preview de solo lectura. Favoritos temporales para UAT; los mensajes y las publicaciones no se modifican.")}</p>}
   </div><V3RegionalPanel country={country} kind="campo" provincia={params.provincia}/></>;
 }

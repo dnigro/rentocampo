@@ -1,3 +1,4 @@
+import { isV3Enabled, isV3Preview } from "@/lib/v3-routing";
 import { unifiedExplorerHref } from "@/lib/campos/unified-search";
 import RuralIcon from "../../components/RuralIcon";
 import type { Metadata } from "next";
@@ -15,7 +16,7 @@ import V3LocationMap from "../../components/V3LocationMap";
 import V3DetailFacts from "../../components/V3DetailFacts";
 import type { ServicioRural } from "@/types";
 
-export const metadata: Metadata = { title: "Detalle de servicio rural | RentoCampo V3", robots: { index: false, follow: false } };
+export const metadata: Metadata = { title: "Detalle de servicio rural | RentoCampo V3", ...(process.env.VERCEL_ENV !== "production" || isV3Preview(process.env) ? { robots: { index: false, follow: false } } : {}) };
 export default async function V3Servicio({ params, searchParams }: { params: Promise<{ id: string }>; searchParams: Promise<Record<string, string | undefined>> }) {
  const { id } = await params;
  if (!/^[\da-f-]{36}$/i.test(id)) notFound();
@@ -25,6 +26,13 @@ export default async function V3Servicio({ params, searchParams }: { params: Pro
   .select("*")
   .eq("id",id).eq("activo",true).maybeSingle();
  if(error || !data || id.startsWith("10000000-") || id.startsWith("20000000-")) notFound();
+ const production = isV3Enabled(process.env) && process.env.VERCEL_ENV === "production";
+ const user = production ? (await client.auth.getUser()).data.user : null;
+ const contactHref = !user
+  ? `/login?next=${encodeURIComponent(`/servicios-rurales/${id}`)}`
+  : user.id === data.propietario_id
+    ? `/mis-servicios-rurales/${id}/editar`
+    : `/mensajes/direct/${data.propietario_id}?borrador=servicio`;
  const country = resolveCountry(data.country_code);
  const t = (es:string,pt:string,en:string) => regionalText(country,es,pt,en);
  const title = tituloServicioRural(data.servicios_rurales as ServicioRural[],country,data.nombre_comercial);
@@ -43,6 +51,8 @@ export default async function V3Servicio({ params, searchParams }: { params: Pro
    <section id="informacion" className="v3-detail-section"><h2>{t("Conocé el servicio","Conheça o serviço","About this service")}</h2><p className="v3-detail-description">{data.detalle || t("El prestador todavía no agregó una descripción.","O prestador ainda não adicionou uma descrição.","The provider has not added a description yet.")}</p><V3DetailFacts facts={[{label:t("País","País","Country"),value:displayCountryName(country,country)},{label:t("Provincia o estado","Estado","State or province"),value:data.provincia},{label:t("Localidad","Localidade","Town"),value:data.localidad},{label:t("Zona de cobertura","Área de atendimento","Coverage area"),value:data.zona}]}/></section>
    <section id="actividades" className="v3-detail-section"><h2>{t("Actividades ofrecidas","Atividades oferecidas","Available activities")}</h2><div className="v3-detail-features">{(data.servicios_rurales || []).map((item:ServicioRural)=><span key={item}><RuralIcon name={item}/>{servicioLabel(item,country)}</span>)}</div></section>
    <section id="ubicacion" className="v3-detail-section"><h2>{t("Ubicación y cobertura","Localização e cobertura","Location and coverage")}</h2>{data.zona && <p className="v3-detail-description">{data.zona}</p>}{hasLocation ? <V3LocationMap lat={lat!} lng={lng!} country={country} title={title}/> : <p className="v3-detail-description">{t("La publicación no informa coordenadas precisas. Se muestra únicamente la zona declarada por el prestador.","O anúncio não informa coordenadas precisas. Apenas a região declarada pelo prestador é exibida.","No precise coordinates were provided. Only the provider's stated area is shown.")}</p>}</section>
-  </div><aside className="v3-contact-panel"><span className="v3-kicker">{t("CONTACTO DIRECTO","CONTATO DIRETO","DIRECT CONTACT")}</span><h2>{t("Consultá al prestador","Fale com o prestador","Ask the provider")}</h2><p>{t("Acordá disponibilidad, alcance y condiciones con quien presta el servicio.","Combine disponibilidade, escopo e condições com o prestador.","Discuss availability, scope and terms with the provider.")}</p><div className="v3-contact-disabled" aria-disabled="true"><MessageCircle size={17}/> {t("Contacto deshabilitado en UAT","Contato desabilitado na prévia","Contact disabled in preview")}</div><p className="v3-preview-contact-note">{t("Esta vista previa no envía consultas.","Esta prévia não envia consultas.","This preview does not send inquiries.")}</p><div className="v3-detail-assurance"><ShieldCheck size={18}/>{t("Sin intermediarios ni comisiones","Sem intermediários nem comissões","No intermediaries or commissions")}</div></aside></div>
+  </div><aside className="v3-contact-panel"><span className="v3-kicker">{t("CONTACTO DIRECTO","CONTATO DIRETO","DIRECT CONTACT")}</span><h2>{t("Consultá al prestador","Fale com o prestador","Ask the provider")}</h2><p>{t("Acordá disponibilidad, alcance y condiciones con quien presta el servicio.","Combine disponibilidade, escopo e condições com o prestador.","Discuss availability, scope and terms with the provider.")}</p>{production ? <Link href={contactHref} className="v3-primary-link">
+   {user?.id === data.propietario_id ? t("Editar publicación","Editar anúncio","Edit listing") : t("Consultar servicio","Consultar serviço","Contact provider")}
+  </Link> : <><div className="v3-contact-disabled" aria-disabled="true"><MessageCircle size={17}/> {t("Contacto deshabilitado en UAT","Contato desabilitado na prévia","Contact disabled in preview")}</div><p className="v3-preview-contact-note">{t("Esta vista previa no envía consultas.","Esta prévia não envia consultas.","This preview does not send inquiries.")}</p></>}<div className="v3-detail-assurance"><ShieldCheck size={18}/>{t("Sin intermediarios ni comisiones","Sem intermediários nem comissões","No intermediaries or commissions")}</div></aside></div>
  </article>;
 }
