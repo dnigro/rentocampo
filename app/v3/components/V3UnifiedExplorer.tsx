@@ -28,6 +28,7 @@ export default function V3UnifiedExplorer({ listings, country, filter, errors, c
     const [bounds, setBounds] = useState(initialBounds);
     const [reset, setReset] = useState(0);
     const [selected, setSelected] = useState<string | null>(null);
+  const [page,setPage]=useState(1);
     const [mobileMap, setMobileMap] = useState(filter.vista === "mapa");
     const [autoSearch, setAutoSearch] = useState(true);
     const [pending, setPending] = useState<MapBounds | null>(null);
@@ -40,6 +41,9 @@ export default function V3UnifiedExplorer({ listings, country, filter, errors, c
     const aptitudeName = (value: string) => ({ agricola: t("Agrícola", "Agrícola", "Agricultural"), ganadera: t("Ganadero", "Pecuária", "Livestock"), mixta: t("Mixto", "Misto", "Mixed use"), forestal: t("Forestal", "Florestal", "Forestry") } as Record<string, string>)[value] || value;
     const matches = useMemo(() => filterRuralListings(listings, kind, applied), [listings, kind, applied]);
     const visible = useMemo(() => bounds ? matches.filter(item => matchesMapArea(item, bounds)) : matches, [matches, bounds]);
+  const pages=Math.max(1,Math.ceil(visible.length/10));
+  const currentPage=Math.min(page,pages);
+  const paged=visible.slice((currentPage-1)*10,currentPage*10);
     const missing = matches.filter(item => !hasMapLocation(item)).length;
     const search = addMapBounds(new URLSearchParams({ pais: country, tipo: kind, ...(mobileMap ? {vista:"mapa"} : {}), ...(applied.location ? { provincia: applied.location } : {}), ...(kind === "campo" ? { operacion: applied.operation, aptitud: applied.aptitude } : {}), ...(kind === "servicio" ? { servicio: applied.service } : {}) }), bounds);
     const href = (item: RuralListing) => item.demo ? demoListingHref(country,item.kind,item.localidad) : `/v3/${item.kind === "campo" ? "campos" : "servicios"}/${item.sourceId}?${search}&origen=home`;
@@ -69,7 +73,7 @@ export default function V3UnifiedExplorer({ listings, country, filter, errors, c
    <div className="rural-results">
     {missing > 0 && <p className="rural-location-note">{missing} {t("sin ubicación precisa: se mantienen en la lista y no tienen marcador en el mapa.", "sem localização precisa: permanecem na lista e não têm marcador no mapa.", "without a precise location: kept in the list without a map marker.")}{bounds && <button type="button" onClick={resetArea}>{t("Ver todo el país", "Ver todo o país", "View whole country")}</button>}</p>}
     {!visible.length && <div className="v3-marketplace-empty"><RuralIcon name={kind} size={32}/><h2>{t("Ampliá tu búsqueda", "Amplie sua busca", "Broaden your search")}</h2><p>{t("Probá otra zona o quitá filtros.", "Tente outra região ou remova filtros.", "Try another area or remove filters.")}</p>{bounds && <button type="button" onClick={resetArea}>{t("Ver todo el país", "Ver todo o país", "View whole country")}</button>}</div>}
-    <div className="rural-card-grid">{visible.map(item => <article data-demo={item.demo || false} key={item.id} id={`rural-${item.id}`} className={`v3-listing-card ${item.kind === "servicio" ? "rural-service-card" : "rural-field-card"} ${selected === item.id ? "v3-selected-card" : ""}`} onMouseEnter={() => setSelected(item.id)} onFocus={() => setSelected(item.id)}>
+    <div className="rural-card-grid">{paged.map(item => <article data-demo={item.demo || false} key={item.id} id={`rural-${item.id}`} className={`v3-listing-card ${item.kind === "servicio" ? "rural-service-card" : "rural-field-card"} ${selected === item.id ? "v3-selected-card" : ""}`} onMouseEnter={() => setSelected(item.id)} onFocus={() => setSelected(item.id)}>
      <div className="v3-listing-media"><V3CardPhotos fallbackPhoto={item.demo ? (item.kind === "campo" ? demoFieldPhoto(item.aptitud) : demoServicePhoto(item.services)) : undefined} country={country} photos={item.fotos || []} title={item.titulo} href={href(item)}/><span className="v3-listing-badge"><RuralIcon name={item.kind} size={14}/>{item.demo ? "DEMO · " : ""}{kindName(item.kind)}</span></div>
      <Link href={href(item)} className="v3-listing-info"><strong>{item.titulo}</strong>{item.demo && <span className="rural-demo-note">{t("Ejemplo de referencia. No es una oferta real.","Exemplo de referência. Não é uma oferta real.","Reference example. Not a real offer.")}</span>}<span><MapPin size={14} aria-hidden="true"/>{[item.localidad, item.provincia].filter(Boolean).join(", ") || displayCountryName(country, country)}</span>
       {!hasMapLocation(item) && <span className="rural-location-note">{t("Sin ubicación precisa en el mapa", "Sem localização precisa no mapa", "No precise map location")}</span>}<div className="rural-card-features">
