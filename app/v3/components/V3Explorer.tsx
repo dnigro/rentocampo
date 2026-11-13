@@ -11,7 +11,7 @@ import RuralIcon from "./RuralIcon";
 import V3CardPhotos from "./V3CardPhotos";
 import { Heart, Map as MapIcon, MapPin, SlidersHorizontal, Search, List, ArrowUpRight } from "lucide-react";
 import { COUNTRIES, COUNTRY_CODES_ALPHABETICAL, displayCountryName, type CountryCode } from "@/data/countries";
-import { addMapBounds, isWithinBounds, type MapBounds } from "@/lib/campos/map-search";
+import { addMapBounds, hasMapLocation, matchesMapArea, type MapBounds } from "@/lib/campos/map-search";
 import V3Map from "./V3Map";
 
 export type V3Campo = {
@@ -76,8 +76,8 @@ export default function V3Explorer({ campos, country, filter, error, initialBoun
     setSelected(null);
     setMapReset(value => value + 1);
   };
-  const visibleCampos = useMemo(() => mapBounds ? campos.filter(campo => isWithinBounds(campo, mapBounds)) : campos, [campos, mapBounds]);
-  const withoutCoordinates = campos.filter(campo => campo.lat == null || campo.lng == null).length;
+  const visibleCampos = useMemo(() => mapBounds ? campos.filter(campo => matchesMapArea(campo, mapBounds)) : campos, [campos, mapBounds]);
+  const withoutCoordinates = campos.filter(campo => !hasMapLocation(campo)).length;
   const handleViewportChange = useCallback((bounds: MapBounds) => {
     setSelected(null);
     setPendingBounds(bounds);
@@ -118,7 +118,7 @@ export default function V3Explorer({ campos, country, filter, error, initialBoun
     </Form>
     </div>
     <div className="v3-marketplace-toolbar" aria-live="polite">
-      <p><strong>{visibleCampos.length}</strong> {visibleCampos.length === 1 ? t("campo encontrado") : t("campos encontrados")} · {country}{mapBounds ? t(" · en esta zona del mapa") : ""}</p>
+      <p><strong>{visibleCampos.length}</strong> {visibleCampos.length === 1 ? t("campo encontrado") : t("campos encontrados")} · {country}{mapBounds ? t(withoutCoordinates ? " · zona del mapa y ubicaciones pendientes" : " · en esta zona del mapa") : ""}</p>
       <div className="v3-marketplace-actions">
         {mapBounds && <button type="button" className="v3-quiet-action" onClick={resetMapSearch}>{t("Ver todo el país")}</button>}
         <Link href={`/v3/campos?pais=${country}`} className="v3-quiet-action"><SlidersHorizontal size={17}/>{t("Limpiar filtros")}</Link>
@@ -134,7 +134,7 @@ export default function V3Explorer({ campos, country, filter, error, initialBoun
           <h2>{t("No encontramos campos con estos filtros")}</h2><p>{t("Probá ampliando la búsqueda o cambiando la provincia.")}</p>
           {mapBounds ? <button type="button" className="v3-filter-submit" onClick={resetMapSearch}>{t("Ampliar a todo el país")}</button> : <Link href={`/v3/campos?pais=${country}`}>{t("Ver todos los campos")}</Link>}
         </div>}
-        {mapBounds && withoutCoordinates > 0 && <p className="v3-map-location-note">{withoutCoordinates} {withoutCoordinates === 1 ? t("publicación sin coordenadas verificadas no aparece") : t("publicaciones sin coordenadas verificadas no aparecen")} {t("en la búsqueda por mapa.")} <button type="button" onClick={resetMapSearch}>{t("Ver todas")}</button></p>}
+        {withoutCoordinates > 0 && <p className="v3-map-location-note">{withoutCoordinates} {t("sin ubicación precisa: se mantienen en la lista y no tienen marcador en el mapa.")}</p>}
         {truncated && <p className="v3-map-location-note">{t("Mostramos las primeras")} {campos.length} {t("publicaciones. Ajustá los filtros para acotar la búsqueda.")}</p>}
         <div className="v3-marketplace-grid">
           {visibleCampos.map(campo => <article data-demo={campo.demo || false} key={campo.id} id={`v3-listing-${campo.id}`}
@@ -155,7 +155,7 @@ export default function V3Explorer({ campos, country, filter, error, initialBoun
               <span><RuralIcon name={campo.aptitud || "campo"} size={16}/>{campo.hectareas != null ? campo.hectareas.toLocaleString(COUNTRIES[country].locale) + " ha · " : ""}
                 {campo.operacion === "ambas" ? t("Alquiler y venta") : t(campo.operacion === "alquiler" ? "Alquiler" : campo.operacion === "venta" ? "Venta" : "Campo")}</span>
               <b>{priceText(campo, country)}</b>
-              <span className="v3-listing-details">{campo.demo ? t("Publicar en esta zona") : t("Ver publicación")} <ArrowUpRight size={14}/></span>
+              {!hasMapLocation(campo) && <span>{t("Sin ubicación precisa en el mapa")}</span>}<span className="v3-listing-details">{campo.demo ? t("Publicar en esta zona") : t("Ver publicación")} <ArrowUpRight size={14}/></span>
             </Link>
           </article>)}
         </div>

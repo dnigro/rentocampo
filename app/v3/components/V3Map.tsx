@@ -23,6 +23,8 @@ export default function V3Map({ campos, country, selectedId, onSelect, onViewpor
   const selectRef = useRef(onSelect);
   const viewportRef = useRef(onViewportChange);
   const selectedRef = useRef(selectedId);
+  const zoomLockedUntil = useRef(0);
+  const markControlInteraction = useRef<() => void>(() => {});
   const initialBoundsRef = useRef(initialBounds);
   useEffect(() => { initialBoundsRef.current = initialBounds; }, [initialBounds]);
   useEffect(() => { viewportRef.current = onViewportChange; }, [onViewportChange]);
@@ -33,13 +35,14 @@ export default function V3Map({ campos, country, selectedId, onSelect, onViewpor
     let cancelled = false;
     let map: LeafletMap | null = null;
     let resizeObserver: ResizeObserver | null = null;
+    let viewportTimer: ReturnType<typeof setTimeout> | undefined;
     let cleanupInteractions: (() => void) | null = null;
     const markers = markerRef.current;
     async function initialize() {
       const L = await import("leaflet");
       if (cancelled || !containerRef.current) return;
       const region = COUNTRIES[country];
-      map = L.map(containerRef.current, { scrollWheelZoom: false, zoomControl: false, zoomAnimation: false, fadeAnimation: false, markerZoomAnimation: false })
+      map = L.map(containerRef.current, { scrollWheelZoom: false, zoomControl: false, zoomAnimation: true, fadeAnimation: true, markerZoomAnimation: true })
         .setView([...region.mapCenter] as [number, number], region.mapZoom);
       mapRef.current = map;
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -94,6 +97,7 @@ export default function V3Map({ campos, country, selectedId, onSelect, onViewpor
         map.fitBounds(L.latLngBounds(locations).pad(0.2), { maxZoom: 9, animate: false });
       }
       let userMoved = false;
+      markControlInteraction.current = () => { userMoved = true; };
       map.on("dragstart", () => { userMoved = true; });
       const container = containerRef.current;
       const markInteraction = (event: Event) => {
@@ -110,8 +114,12 @@ export default function V3Map({ campos, country, selectedId, onSelect, onViewpor
       map.on("moveend", () => {
         if (!map || !userMoved) return;
         userMoved = false;
-        const bounds = map.getBounds();
-        viewportRef.current({ north: bounds.getNorth(), south: bounds.getSouth(), east: bounds.getEast(), west: bounds.getWest() });
+        clearTimeout(viewportTimer);
+        viewportTimer = setTimeout(() => {
+          if (cancelled || !map) return;
+          const bounds = map.getBounds();
+          viewportRef.current({ north: bounds.getNorth(), south: bounds.getSouth(), east: bounds.getEast(), west: bounds.getWest() });
+        }, 350);
       });
       resizeObserver = new ResizeObserver(() => { if (!cancelled) map?.invalidateSize(); });
       resizeObserver.observe(containerRef.current);
@@ -121,6 +129,8 @@ export default function V3Map({ campos, country, selectedId, onSelect, onViewpor
     void initialize().catch(() => { if (!cancelled) setMapError(true); });
     return () => {
       cancelled = true;
+      clearTimeout(viewportTimer);
+      markControlInteraction.current = () => {};
       markers.clear();
       resizeObserver?.disconnect();
       cleanupInteractions?.();
@@ -154,10 +164,13 @@ export default function V3Map({ campos, country, selectedId, onSelect, onViewpor
     return ()=>document.removeEventListener("fullscreenchange",sync);
   },[]);
   function changeZoom(delta:number){
-    const map=mapRef.current;if(!map)return;
-    map.setZoom(map.getZoom()+delta,{animate:false});
-    const bounds=map.getBounds();
-    viewportRef.current({north:bounds.getNorth(),south:bounds.getSouth(),east:bounds.getEast(),west:bounds.getWest()});
+    const map = mapRef.current;
+    if (!map || performance.now() < zoomLockedUntil.current) return;
+    const nextZoom = Math.max(map.getMinZoom(), Math.min(map.getMaxZoom(), map.getZoom() + delta));
+    if (nextZoom === map.getZoom()) return;
+    zoomLockedUntil.current = performance.now() + 450;
+    markControlInteraction.current();
+    map.setZoom(nextZoom, { animate: !window.matchMedia("(prefers-reduced-motion: reduce)").matches });
   }
   async function toggleExpanded(){
     if(expanded){if(document.fullscreenElement===frameRef.current)await document.exitFullscreen();setExpanded(false);expandButtonRef.current?.focus();return;}

@@ -1,6 +1,17 @@
 export type MapBounds = { north: number; south: number; east: number; west: number };
 
 type Located = { lat: number | null; lng: number | null };
+/** A missing point must not silently remove an otherwise public listing. */
+export function hasMapLocation(location: Located): boolean {
+  const { lat, lng } = location;
+  return lat != null && lng != null && Number.isFinite(lat) && Number.isFinite(lng)
+    && Math.abs(lat) <= 90 && Math.abs(lng) <= 180;
+}
+
+export function matchesMapArea(location: Located, bounds: MapBounds): boolean {
+  return !hasMapLocation(location) || isWithinBounds(location, bounds);
+}
+
 export function isWithinBounds(location: Located, bounds: MapBounds): boolean {
   const { lat, lng } = location;
   if (lat == null || lng == null || !Number.isFinite(lat) || !Number.isFinite(lng)) return false;

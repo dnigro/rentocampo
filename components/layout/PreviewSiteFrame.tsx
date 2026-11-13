@@ -14,6 +14,7 @@ import "@/app/v3/v3.css";
 import "@/app/v3/v3-marketplace.css";
 import "@/styles/v3-integrated-site.css";
 import "@/styles/v3-publication-forms.css";
+import "@/styles/v3-account-sections.css";
 
 export {useSharedPreviewChrome} from "./PreviewChromeContext";
 

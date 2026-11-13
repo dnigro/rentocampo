@@ -33,3 +33,15 @@ test('map bounds round-trip through detail links and reject malformed query stri
     {north:'90',south:'-91',east:'-55',west:'-65'},
     {north:'0',south:'-40',east:'Infinity',west:'-65'}]) assert.equal(parseMapBounds(params),null);
 });
+
+// Listings without a precise point remain discoverable without a fabricated marker.
+test('map result list retains missing locations while respecting bounds for located listings', async () => {
+  const { hasMapLocation, matchesMapArea } = await import('../lib/campos/map-search.ts');
+  const area = {north:-30,south:-35,west:-65,east:-55};
+  assert.equal(matchesMapArea({lat:null,lng:null},area),true);
+  assert.equal(matchesMapArea({lat:-32,lng:null},area),true);
+  assert.equal(matchesMapArea({lat:-32,lng:-60},area),true);
+  assert.equal(matchesMapArea({lat:-20,lng:-60},area),false);
+  assert.equal(hasMapLocation({lat:null,lng:null}),false);
+  assert.equal(hasMapLocation({lat:-32,lng:-60}),true);
+});
