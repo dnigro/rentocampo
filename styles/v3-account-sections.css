@@ -189,3 +189,23 @@ html body .v3-shell.v3-integrated .auth-main{background:#fafafa!important}
 html body .v3-shell.v3-integrated .auth-page .auth-card{border-color:#e5e5e7!important;border-radius:12px!important;box-shadow:none!important}
 html body .v3-shell.v3-integrated .auth-page .btn-submit{background:#1d1d1f!important;color:#fff!important;border-radius:9px!important}
 html body .v3-shell.v3-integrated .auth-page :is(.auth-footer a,.form-label-link){color:#1d1d1f!important}
+
+/* Final V3-only override: unlayered so legacy global page styles cannot win. */
+html body .v3-shell.v3-integrated .account-workspace{background:#fff!important;color:#1d1d1f!important}
+html body .v3-shell.v3-integrated .account-workspace .page-container{background:#fff!important}
+html body .v3-shell.v3-integrated .account-workspace .page-header{
+ background:#fff!important;border:0!important;border-bottom:1px solid #e5e5e7!important;
+ border-radius:0!important;box-shadow:none!important;min-height:0!important;
+ padding:12px 0 24px!important;margin-bottom:24px!important;
+}
+html body .v3-shell.v3-integrated .account-workspace .page-header::before,
+html body .v3-shell.v3-integrated .account-workspace .page-header::after{display:none!important;content:none!important}
+html body .v3-shell.v3-integrated .account-workspace .page-title{
+ color:#1d1d1f!important;font-weight:750!important;font-size:clamp(30px,3vw,42px)!important;letter-spacing:-1px!important;
+}
+html body .v3-shell.v3-integrated .account-workspace .page-subtitle{color:#6e6e73!important}
+html body .v3-shell.v3-integrated .account-workspace :is(.perfil-section,.perfil-page .perfil-section,.form-section,.perfil-form-section){
+ background:#fff!important;border:1px solid #e5e5e7!important;border-radius:14px!important;box-shadow:none!important;
+}
+html body .v3-shell.v3-integrated .account-workspace :is(.perfil-section-title,.perfil-page h2){color:#1d1d1f!important;font-weight:700!important}
+html body .v3-shell.v3-integrated .account-workspace :is(input,textarea,select){border-color:#d2d2d7!important;border-radius:9px!important}
