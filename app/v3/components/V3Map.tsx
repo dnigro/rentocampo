@@ -128,7 +128,11 @@ export default function V3Map({ campos, country, selectedId, onSelect, onViewpor
             popup.appendChild(card);
           }
           marker.bindPopup(popup,{autoPan:true,autoPanPaddingTopLeft:[18,105],autoPanPaddingBottomRight:[18,20],minWidth:0,maxWidth:320,closeButton:true,className:"rural-pro-leaflet-popup"});
-          marker.on("click",()=>{\n            selectRef.current(first.id);\n            // Explicitly open the listing cards: selection alone only highlights a pin.\n            marker.openPopup();\n          });
+          marker.on("click",()=>{
+            selectRef.current(first.id);
+            // Explicitly open the listing cards: selection alone only highlights a pin.
+            marker.openPopup();
+          });
           for (const item of group) markers.set(item.id,marker);
         }
         const active = selectedRef.current && markers.get(selectedRef.current);
@@ -146,7 +150,15 @@ export default function V3Map({ campos, country, selectedId, onSelect, onViewpor
         map.fitBounds(L.latLngBounds(locations), { maxZoom: 9, animate: false, paddingTopLeft: [52, 125], paddingBottomRight: [52, 95] });
       }
       renderMarkers();
-      map.on("zoomend", () => {\n        // Clearing the marker layer destroys its open popup. Keep cards visible\n        // while Leaflet auto-pans/zooms to accommodate a selected listing.\n        let popupOpen = false;\n        markerLayer.eachLayer(layer => {\n          if (layer instanceof L.Marker && layer.isPopupOpen()) popupOpen = true;\n        });\n        if (!popupOpen) renderMarkers();\n      });
+      map.on("zoomend", () => {
+        // Clearing the marker layer destroys its open popup. Keep cards visible
+        // while Leaflet auto-pans/zooms to accommodate a selected listing.
+        let popupOpen = false;
+        markerLayer.eachLayer(layer => {
+          if (layer instanceof L.Marker && layer.isPopupOpen()) popupOpen = true;
+        });
+        if (!popupOpen) renderMarkers();
+      });
       let userMoved = false;
       markControlInteraction.current = () => { userMoved = true; };
       map.on("dragstart", () => { userMoved = true; });
@@ -250,7 +262,9 @@ export default function V3Map({ campos, country, selectedId, onSelect, onViewpor
     </div>
     <div className="v3-map-canvas" ref={containerRef} role="region" aria-label={country === "BR" ? "Mapa de terras e serviços" : country === "US" ? "Farmland and services map" : "Mapa de campos y servicios"} />
     <style jsx global>{`
-      .v3-map-frame .leaflet-control-attribution { background: rgba(255,255,255,.82) !important; color: #667085 !important; font-size: 10px !important; line-height: 1.35 !important; padding: 2px 6px !important; border-radius: 6px 0 0 0 !important; }\n      .v3-map-frame .leaflet-control-attribution a { color: #536477 !important; text-decoration: none !important; }\n      .v3-map-frame .leaflet-popup.rural-pro-leaflet-popup { max-width: calc(100vw - 32px) !important; }
+      .v3-map-frame .leaflet-control-attribution { background: rgba(255,255,255,.82) !important; color: #667085 !important; font-size: 10px !important; line-height: 1.35 !important; padding: 2px 6px !important; border-radius: 6px 0 0 0 !important; }
+      .v3-map-frame .leaflet-control-attribution a { color: #536477 !important; text-decoration: none !important; }
+      .v3-map-frame .leaflet-popup.rural-pro-leaflet-popup { max-width: calc(100vw - 32px) !important; }
       .v3-map-frame .rural-pro-leaflet-popup .leaflet-popup-content-wrapper { padding: 0 !important; border-radius: 18px !important; background: #fff !important; box-shadow: 0 12px 35px rgba(9,30,50,.2) !important; overflow: hidden; }
       .v3-map-frame .rural-pro-leaflet-popup .leaflet-popup-content { margin: 0 !important; width: 300px !important; max-width: calc(100vw - 76px) !important; min-width: 0 !important; white-space: normal !important; }
       .v3-map-frame .rural-pro-leaflet-popup .leaflet-popup-tip { background: #fff !important; }
