@@ -73,9 +73,9 @@ export default function HomePremiumHero({ country }: { country: CountryCode }) {
             </h1>
             <p className="rcp-home__description">
               {t(
-                "Campos, productores y servicios rurales. Conexión directa.",
-                "Terras, produtores e serviços rurais. Contato direto.",
-                "Farmland, producers and rural services. Direct contact."
+                "Campos y servicios rurales. Contacto directo.",
+                "Terras e serviços rurais. Contato direto.",
+                "Farmland and rural services. Direct contact."
               )}
             </p>
             <div className="rcp-home__proof rcp-home__proof--new" aria-label={t("Costo cero, mapa y chat online", "Custo zero, mapa e chat online", "Zero cost, map and online chat")}>
@@ -90,7 +90,7 @@ export default function HomePremiumHero({ country }: { country: CountryCode }) {
                 <UserRoundPlus aria-hidden="true" size={20} strokeWidth={2} />
                 {t("REGISTRATE GRATIS", "CADASTRE-SE GRÁTIS", "SIGN UP FREE")}
               </RegionalLink>
-              <RegionalLink href="/campos/mapa" fallbackCountry={country} className="rcp-home__map-link">
+              <RegionalLink href="/campos" fallbackCountry={country} className="rcp-home__map-link">
                 <MapPinned aria-hidden="true" size={21} />
                 {t("EXPLORAR MAPA", "EXPLORAR MAPA", "EXPLORE MAP")}
                 <ArrowUpRight aria-hidden="true" size={17} />
