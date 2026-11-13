@@ -88,7 +88,7 @@ export default function V3UnifiedExplorer({ listings, country, filter, errors, c
 
    <div className="rural-map-panel"><div className="rural-map-controls"><label><input type="checkbox" checked={autoSearch} onChange={event => { setAutoSearch(event.target.checked); if (event.target.checked && pending)
         setBounds(pending); }}/>{t("Buscar al mover el mapa", "Buscar ao mover o mapa", "Search as map moves")}</label>{!autoSearch && pending && <button type="button" onClick={() => setBounds(pending)}>{t("Buscar en esta zona", "Buscar nesta região", "Search this area")}</button>}{bounds && <button type="button" onClick={resetArea}>{t("Ver todo el país", "Ver todo o país", "View whole country")}</button>}</div>
-    <V3Map key={`${country}-${kind}-${reset}`} campos={matches} country={country} selectedId={selected} onSelect={onSelect} getHref={href} onViewportChange={onMove} initialBounds={bounds}/>
+    <V3Map key={`${country}-${kind}-${reset}`} campos={matches} country={country} selectedId={selected} onSelect={onSelect} getHref={(id) => { const item = matches.find(entry => entry.id === id); return item ? href(item) : "#"; }} onViewportChange={onMove} initialBounds={bounds}/>
     <div className="rural-map-legend"><span><i />{kindName("campo")}</span><span><i />{kindName("servicio")}</span><small>{t("Servicios: base declarada, no límite de cobertura.", "Serviços: base declarada, não limite de cobertura.", "Services: declared base, not coverage boundary.")}</small></div>
 
    </div>
