@@ -110,3 +110,82 @@
 @layer account-readability {
  html body .v3-shell.v3-integrated .account-workspace.account-workspace.account-workspace:has([data-account-overview]){background:#fff!important;color:#1d1d1f!important}
 }
+
+
+/* V3 review: restrained Apple-like internal workspace. Scoped to preview shell only. */
+@layer account-readability {
+ html body .v3-shell.v3-integrated main.account-workspace.account-workspace:not(:has(.rc-publish-form)) {
+  background:#fff!important;color:#1d1d1f!important;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif!important;
+ }
+ html body .v3-shell.v3-integrated .account-workspace.account-workspace:not(:has(.rc-publish-form)) :is(.page-header,.dashboard-header,.rc-decision__header) {
+  min-height:0!important;padding:8px 0 24px!important;margin:0 0 24px!important;
+  background:transparent!important;border:0!important;border-bottom:1px solid #e5e5e7!important;
+  border-radius:0!important;box-shadow:none!important;color:#1d1d1f!important;
+ }
+ html body .v3-shell.v3-integrated .account-workspace.account-workspace :is(.page-title,.dashboard-title,.rc-lite-profile__title,.rc-decision__header h1) {
+  color:#1d1d1f!important;font-weight:600!important;letter-spacing:-.7px!important;
+ }
+ html body .v3-shell.v3-integrated .account-workspace.account-workspace :is(.page-subtitle,.dashboard-subtitle,.rc-lite-profile__subtitle,.rc-decision__header p,.perfil-section-description,.empty-desc,.role-gate-card p) {
+  color:#6e6e73!important;
+ }
+ html body .v3-shell.v3-integrated .account-workspace.account-workspace :is(.perfil-section,.campo-card-admin,.campo-card-pub,.empty-state,.role-gate-card,.inbox-workspace,.rc-decision__view,.rc-decision__kpi) {
+  background:#fff!important;border:1px solid #e5e5e7!important;border-radius:12px!important;box-shadow:none!important;
+ }
+ html body .v3-shell.v3-integrated .account-workspace.account-workspace :is(.perfil-section-title,.empty-title,.rc-decision__view-heading h2,.campo-card-titulo,.campo-card-pub-titulo,.rc-decision__kpi strong,.rc-decision__kpi-title) {
+  color:#1d1d1f!important;font-weight:600!important;
+ }
+ html body .v3-shell.v3-integrated .account-workspace.account-workspace :is(.badge-tipo,.rc-decision__private) {
+  background:#f5f5f7!important;color:#6e6e73!important;border:1px solid #e5e5e7!important;
+ }
+ html body .v3-shell.v3-integrated .account-workspace.account-workspace :is(.dash-card,.rc-lite-profile__link,.v3-real-account-grid>a) {
+  background:transparent!important;border:0!important;border-bottom:1px solid #e5e5e7!important;
+  border-radius:0!important;box-shadow:none!important;
+ }
+ html body .v3-shell.v3-integrated .account-workspace.account-workspace :is(.dash-card-icon,.rc-lite-profile__link-icon,.v3-real-account-grid>a>svg:first-child) {
+  color:#6e6e73!important;background:none!important;border:0!important;
+ }
+ html body .v3-shell.v3-integrated .account-workspace.account-workspace :is(.dash-card-label,.rc-lite-profile__link-body strong,.v3-real-account-grid h2) {
+  color:#1d1d1f!important;font-weight:600!important;
+ }
+ html body .v3-shell.v3-integrated .account-workspace.account-workspace :is(.dash-card-desc,.rc-lite-profile__link-body small,.v3-real-account-grid p,.rc-decision__eyebrow) {
+  color:#6e6e73!important;
+ }
+ html body .v3-shell.v3-integrated .account-workspace.account-workspace :is(.form-input,.form-textarea,.inbox-search input,.rc-decision__country-picker select) {
+  background:#fff!important;color:#1d1d1f!important;border:1px solid #d2d2d7!important;border-radius:9px!important;
+  box-shadow:none!important;
+ }
+ html body .v3-shell.v3-integrated .account-workspace.account-workspace :is(.btn-primary-lg,.mensaje-compose-submit) {
+  color:white!important;background:#1d1d1f!important;border:1px solid #1d1d1f!important;
+  border-radius:9px!important;box-shadow:none!important;
+ }
+ html body .v3-shell.v3-integrated .account-workspace.account-workspace :is(.btn-secondary-lg,.btn-action) {
+  color:#1d1d1f!important;background:white!important;border:1px solid #d2d2d7!important;
+  border-radius:9px!important;box-shadow:none!important;
+ }
+ html body .v3-shell.v3-integrated .account-workspace.account-workspace :is(.rc-decision__kpi--featured,.inbox-sidebar) {
+  background:white!important;border-color:#e5e5e7!important;
+ }
+ html body .v3-shell.v3-integrated .account-workspace.account-workspace .rc-decision__tabs button[aria-selected=true] {
+  background:#1d1d1f!important;color:#fff!important;
+ }
+ html body .v3-shell.v3-integrated .account-workspace.account-workspace :is(.dash-card,.rc-lite-profile__link):hover {
+  background:#f5f5f7!important;
+ }
+ @media(max-width:700px) {
+  html body .v3-shell.v3-integrated .account-workspace.account-workspace :is(.page-header,.dashboard-header,.rc-decision__header) {
+   padding:8px 0 18px!important;border-radius:0!important;
+  }
+ }
+}
+/* Publication forms and auth retain their existing behavior; preview-only visual harmonization. */
+html body .v3-shell.v3-integrated main.account-workspace:has(.rc-publish-form){background:#fff!important}
+html body .v3-shell.v3-integrated form.campo-form.rc-publish-form{border-color:#e5e5e7!important;border-radius:12px!important;box-shadow:none!important}
+html body .v3-shell.v3-integrated form.campo-form.rc-publish-form .form-section-number{background:#f5f5f7!important;color:#6e6e73!important}
+html body .v3-shell.v3-integrated form.campo-form.rc-publish-form :is(.form-section-copy,.form-section-title-editorial){color:#1d1d1f!important;font-weight:600!important}
+html body .v3-shell.v3-integrated form.campo-form.rc-publish-form .rc-publish-group{background:#fff!important;border-color:#e5e5e7!important;border-radius:10px!important}
+html body .v3-shell.v3-integrated form.campo-form.rc-publish-form .form-actions :is(.btn-primary,.btn-primary-lg,.btn-submit){background:#1d1d1f!important;color:#fff!important;border-radius:9px!important}
+html body .v3-shell.v3-integrated .auth-main{background:#fafafa!important}
+html body .v3-shell.v3-integrated .auth-page .auth-card{border-color:#e5e5e7!important;border-radius:12px!important;box-shadow:none!important}
+html body .v3-shell.v3-integrated .auth-page .btn-submit{background:#1d1d1f!important;color:#fff!important;border-radius:9px!important}
+html body .v3-shell.v3-integrated .auth-page :is(.auth-footer a,.form-label-link){color:#1d1d1f!important}
