@@ -18,7 +18,7 @@ export default async function DashboardLayout({
 
   if (!user) redirect("/login");
 
-  if (isV3Preview(process.env)) return <main className="main-content account-workspace">{children}</main>;
+  if (isV3Preview(process.env)) return <main className="main-content account-workspace"><DashboardReturn />{children}</main>;
 
   return (
     <div className="app-shell">
