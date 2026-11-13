@@ -1,7 +1,7 @@
 /** V3 review branches are enabled only in Preview. */
 export function isV3Preview(env: Record<string, string | undefined>) {
   return env.VERCEL_ENV === "preview" &&
-    ["feature/rentocampo-v3", "codex/rentocampo-v3-review-20261112", "design/v3-internas-apple-minimal-20261113", "codex/rentocampo-v3-rc-20261113"].includes(env.VERCEL_GIT_COMMIT_REF ?? "");
+    ["feature/rentocampo-v3", "codex/rentocampo-v3-review-20261112", "design/v3-internas-apple-minimal-20261113", "codex/rentocampo-v3-rc-20261113", "feature/agtech-intelligence-dashboard-20261113"].includes(env.VERCEL_GIT_COMMIT_REF ?? "");
 }
 
 export function isV3Enabled(env: Record<string, string | undefined>) {
