@@ -7,6 +7,7 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import type { Profile } from "@/types";
 import { redirect } from "next/navigation";
 import PerfilForm from "@/components/PerfilForm";
+import DashboardReturn from "@/components/layout/DashboardReturn";
 import SeleccionarActividad from "@/components/auth/SeleccionarActividad";
 import "@/styles/perfil.css";
 
@@ -33,6 +34,7 @@ export default async function PerfilPage({ searchParams }: { searchParams?: Prom
 
   return (
     <div className="page-container perfil-page">
+      <DashboardReturn embedded />
       <div className="page-header">
         <div>
           <h1 className="page-title">{tt("Mi perfil", "Meu perfil", "My profile")}</h1>
