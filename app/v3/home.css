@@ -741,3 +741,11 @@
 .rural-search-dock .rural-type-tabs button{padding-block:10px;font-size:14px}
 .rural-search-dock .rural-search{margin-bottom:0;box-shadow:none;border:0;border-radius:0;padding-inline:0}
 @media(max-width:650px){.rural-search-dock{padding-inline:10px}.v3-home .rural-search-dock .rural-type-tabs{gap:8px;justify-content:space-between;min-width:0}.v3-home .rural-search-dock .rural-type-tabs button{font-size:13px;gap:5px;min-width:0;min-height:48px}}
+
+/* V3 unified commercial actions */
+.rural-white-home :is(.rural-search button,.rural-map-controls button,.v3-list-pagination button,.rural-mobile-toggle,.rural-location-note button,.v3-map-tools button,.rural-type-tabs button){
+background:#fff!important;color:#102c43!important;border:1px solid #cbd0d5!important;border-radius:10px!important;font-weight:700!important;box-shadow:none!important;
+}
+.rural-white-home :is(.rural-search button,.rural-map-controls button,.v3-list-pagination button,.rural-mobile-toggle,.v3-map-tools button):hover{background:#f5f6f7!important}
+.rural-map-selection{border:1px solid #e5e7eb;border-radius:0 0 16px 16px}
+.rural-map-selection a{color:#102c43!important}
