@@ -389,3 +389,12 @@ test("publication forms share approved navy editorial cards without disrupting d
  assert.ok(css.includes("rc-publish-chip"),"tactile grouped categories");
  assert.ok(css.includes("rc-publish-choice"),"field operation choices");
 });
+
+test("V3 preview home shares web/mobile and Lite entry points without enabling production", async () => {
+ const { isV3Preview, v3PreviewRoutes } = await import("../lib/v3-routing.ts");
+ const preview = {VERCEL_ENV:"preview",VERCEL_GIT_COMMIT_REF:"codex/rentocampo-v3-review-20261112"};
+ assert.equal(isV3Preview(preview),true);
+ assert.deepEqual(v3PreviewRoutes(preview).rewrites.beforeFiles.find(route=>route.source==="/lite"),{source:"/lite",destination:"/v3"});
+ assert.equal(isV3Preview({...preview,VERCEL_ENV:"production"}),false);
+ assert.equal(isV3Preview({...preview,VERCEL_GIT_COMMIT_REF:"main"}),false);
+});

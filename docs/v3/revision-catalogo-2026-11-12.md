@@ -106,3 +106,16 @@ V3_TILE_BRIDGE=1 node tests/v3-browser.mjs
 El runner de galería solo acepta un servidor local, se niega a sobrescribir una fixture preexistente y elimina la ruta temporal en `finally`. Las variables `PLAYWRIGHT_MODULE` y `CHROMIUM_PATH` permiten usar las herramientas ya instaladas sin añadir dependencias al producto.
 
 El alcance implementado y validado es **mapa y fichas del catálogo V3**. La migración integral del panel privado, contacto y autenticación de toda la misión original conserva los pendientes indicados anteriormente.
+
+## Mejora del inicio V3
+
+- Hero con fotografía rural existente, lema aprobado y buscador visible con país, operación, provincia/estado y aptitud.
+- Accesos directos al mapa y al catálogo de servicios; categorías compactas y publicaciones destacadas con el mismo carrusel de fotos del explorador.
+- Dos recorridos comerciales claros (campos y servicios), seguidos de una explicación de tres pasos. Se eliminaron secciones redundantes e invitaciones que sugerían publicación operativa dentro del Preview de solo lectura.
+- Textos del contenido de Home en español, portugués e inglés según AR/BR/US; formato numérico regional y nombres de países reutilizando los helpers existentes.
+- Estados distintos para ausencia de publicaciones y error de consulta, sin inventar ofertas, precios ni métricas.
+- `/` sirve el inicio nuevo solo en las ramas V3 de Preview, conservando antes la recuperación por código de Auth. `/lite` se reescribe al mismo inicio y layout para evitar duplicaciones de interfaz y footer. Producción y otras ramas conservan el inicio actual. Home de Preview: noindex.
+- Browser QA local de solo lectura aprobado: `/`, `/v3` y `/lite` a 320, 375, 390, 768, 1280, 1440 y 1920 px; sin desbordes, un único header/footer, búsqueda con todos sus filtros y navegación con país BR/US. Cero errores JavaScript.
+- 153 tests Node aprobados, lint y TypeScript sin errores, build de Preview aprobado. Sin nuevas dependencias ni cambios en datos, autenticación o configuración de servicios.
+
+Runner de reproducción: `tests/v3-home-browser.mjs`, con las mismas variables opcionales de Playwright, Chromium, URL y carpeta de evidencias del resto de runners.
