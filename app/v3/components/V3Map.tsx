@@ -91,10 +91,10 @@ export default function V3Map({ campos, country, selectedId, onSelect, onViewpor
         link.href = hrefRef.current?.(campo.id) || "#";
         link.style.cssText = "font-weight:700;color:#12324b;text-decoration:underline";
         popup.appendChild(link);
-        marker.bindPopup(popup, { autoPan: true, maxWidth:280, closeButton:true });
+        marker.bindPopup(popup, { autoPan: true, autoPanPadding: [24, 24], maxWidth:280, closeButton:true });
         marker.on("click",()=>{
           selectRef.current(campo.id);
-          if(map)map.flyTo(position,Math.min(13,map.getMaxZoom()),{duration:.5});
+          // Keep current zoom and viewport: popup opens anchored to the clicked marker.
         });
         markers.set(campo.id,marker);
       }
