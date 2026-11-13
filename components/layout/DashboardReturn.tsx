@@ -33,11 +33,12 @@ export default function DashboardReturn({ embedded = false }: { embedded?: boole
   if (pathname === "/dashboard" || pathname === "/v3/mi-rentocampo" || pathname === "/acceso-restringido") return null;
 
   return (
-    <nav className="rc-return-inline" style={{margin:"24px auto 28px",padding:"0 28px",width:"100%",maxWidth:1760,boxSizing:"border-box",display:"flex",alignItems:"center",minHeight:52}} aria-label={backLabel}>
+    <nav className="rc-return-inline" style={{margin:"24px auto 28px",padding:"0 28px",width:"100%",maxWidth:1760,boxSizing:"border-box",display:"flex",alignItems:"center",justifyContent:"space-between",gap:16,flexWrap:"wrap",minHeight:52}} aria-label={backLabel}>
       <Link href={`${returnHref}?pais=${country}`} className="rc-publish-button" style={{background:"#ffffff",color:"#102c43",border:"1px solid #cbd0d5",borderRadius:12,boxShadow:"none",fontWeight:700}}>
         <ArrowLeft size={17} aria-hidden="true" />
         <span>{backLabel}</span>
       </Link>
+      {pathname === "/mis-campos" && <Link href={`/mis-campos/nuevo?pais=${country}`} className="rc-publish-button" style={{background:"#fff",color:"#102c43",border:"1px solid #cbd0d5",borderRadius:12,boxShadow:"none",fontWeight:700}}>+ {regionalText(country,"Publicar campo","Anunciar terra","Publish field")}</Link>}
     </nav>
   );
 }
