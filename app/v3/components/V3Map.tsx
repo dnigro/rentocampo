@@ -126,9 +126,9 @@ export default function V3Map({ campos, country, selectedId, onSelect, onViewpor
       allBoundsRef.current=locations.length ? L.latLngBounds(locations).pad(0.2) : null;
       if (viewport) {
         const east = viewport.east < viewport.west ? viewport.east + 360 : viewport.east;
-        map.fitBounds([[viewport.south, viewport.west], [viewport.north, east]], { animate: false });
+        map.fitBounds([[viewport.south, viewport.west], [viewport.north, east]], { animate: false, paddingTopLeft: [48, 110], paddingBottomRight: [48, 80] });
       } else if (locations.length > 0) {
-        map.fitBounds(L.latLngBounds(locations).pad(0.2), { maxZoom: 9, animate: false });
+        map.fitBounds(L.latLngBounds(locations), { maxZoom: 9, animate: false, paddingTopLeft: [52, 125], paddingBottomRight: [52, 95] });
       }
       let userMoved = false;
       markControlInteraction.current = () => { userMoved = true; };
