@@ -30,8 +30,6 @@ export default function V3UnifiedExplorer({ listings, country, filter, errors, c
     const [selected, setSelected] = useState<string | null>(null);
   const [page,setPage]=useState(1);
     const [mobileMap, setMobileMap] = useState(filter.vista === "mapa");
-    const [autoSearch, setAutoSearch] = useState(false);
-    const [pending, setPending] = useState<MapBounds | null>(null);
     const [location, setLocation] = useState(filter.provincia || "");
     const [operation, setOperation] = useState(filter.operacion || "");
     const [aptitude, setAptitude] = useState(filter.aptitud || "");
@@ -48,10 +46,9 @@ export default function V3UnifiedExplorer({ listings, country, filter, errors, c
     const search = addMapBounds(new URLSearchParams({ pais: country, tipo: kind, ...(mobileMap ? {vista:"mapa"} : {}), ...(applied.location ? { provincia: applied.location } : {}), ...(kind === "campo" ? { operacion: applied.operation, aptitud: applied.aptitude } : {}), ...(kind === "servicio" ? { servicio: applied.service } : {}) }), bounds);
     const href = (item: RuralListing) => item.demo ? demoListingHref(country,item.kind,item.localidad) : `/v3/${item.kind === "campo" ? "campos" : "servicios"}/${item.sourceId}?${search}&origen=home`;
     const selectedItem = matches.find(item => item.id === selected);
-    const onMove = useCallback((next: MapBounds) => { setPending(next); if (autoSearch)
-        setBounds(next); }, [autoSearch]);
+    const onMove = useCallback((next: MapBounds) => { setBounds(next); setPage(1); }, []);
     const onSelect = useCallback((id: string) => setSelected(id), []);
-    const resetArea = () => { setBounds(null); setPending(null); setReset(value => value + 1); setSelected(null); };
+    const resetArea = () => { setBounds(null); setReset(value => value + 1); setSelected(null); };
     const changeKind = (value: string) => { setKind(value); setPage(1); setSelected(null); };
     return <section className="v3-unified" id="explorar" aria-label={t("Explorar campos y servicios", "Explorar terras e serviços", "Explore farmland and services")}>
   <div className="rural-search-dock">
@@ -86,8 +83,7 @@ export default function V3UnifiedExplorer({ listings, country, filter, errors, c
    {pages>1 && <nav className="v3-list-pagination" aria-label="Paginación"><button type="button" disabled={currentPage===1} onClick={()=>setPage(currentPage-1)}>Anterior</button><span>Página {currentPage} de {pages}</span><button type="button" disabled={currentPage===pages} onClick={()=>setPage(currentPage+1)}>Siguiente</button></nav>}
    </div>
 
-   <div className="rural-map-panel"><div className="rural-map-controls"><label><input type="checkbox" checked={autoSearch} onChange={event => { setAutoSearch(event.target.checked); if (event.target.checked && pending)
-        setBounds(pending); }}/>{t("Buscar al mover el mapa", "Buscar ao mover o mapa", "Search as map moves")}</label>{!autoSearch && pending && <button type="button" onClick={() => setBounds(pending)}>{t("Buscar en esta zona", "Buscar nesta região", "Search this area")}</button>}{bounds && <button type="button" onClick={resetArea}>{t("Ver todo el país", "Ver todo o país", "View whole country")}</button>}</div>
+   <div className="rural-map-panel"><div className="rural-map-controls">{bounds && <button type="button" onClick={resetArea}>{t("Ver todo el país", "Ver todo o país", "View whole country")}</button>}</div>
     <V3Map key={`${country}-${kind}-${reset}`} campos={matches} country={country} selectedId={selected} onSelect={onSelect} getHref={(id) => { const item = matches.find(entry => entry.id === id); return item ? href(item) : "#"; }} onViewportChange={onMove} initialBounds={bounds}/>
     <div className="rural-map-legend"><span><i />{kindName("campo")}</span><span><i />{kindName("servicio")}</span><small>{t("Servicios: base declarada, no límite de cobertura.", "Serviços: base declarada, não limite de cobertura.", "Services: declared base, not coverage boundary.")}</small></div>
 
