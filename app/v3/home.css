@@ -11,81 +11,6 @@
   --rural-muted: #626262
 }
 
-.rural-hero {
-  max-width: 1440px;
-  margin: auto;
-  padding: 28px 40px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 44px;
-  align-items: center;
-  min-height: 0
-}
-
-.rural-hero h1 {
-  font-size: clamp(48px,5.2vw,76px);
-  font-weight: 800;
-  letter-spacing: -3px;
-  line-height: 1.08;
-  margin: 10px 0 20px;
-  color: #102c4c;
-  font-style: normal
-}
-
-.rural-hero p {
-  font-size: 17px;
-  line-height: 1.5;
-  color: #365c76;
-  max-width: 510px;
-  margin: 0
-}
-
-.rural-hero .v3-kicker {
-  font-size: 10px;
-  color: #526f85;
-  letter-spacing: 1.9px;
-  font-weight: 750
-}
-
-.rural-direct {
-  font-size: 13px;
-  font-weight: 650;
-  color: #526f85;
-  display: block;
-  line-height: 1.7;
-  margin-top: 12px
-}
-
-.rural-hero-link {
-  display: inline-flex;
-  gap: 8px;
-  align-items: center;
-  font-size: 15px;
-  font-weight: 750;
-  color: #fff;
-  margin-top: 0;
-  background: #102c4c;
-  padding: 12px 20px;
-  border-radius: 28px;
-  min-height: 48px
-}
-
-.rural-hero-image {
-  position: relative;
-  height: 300px;
-  border-radius: 180px 16px 16px 180px;
-  overflow: hidden;
-  background: #284057;
-  min-height: 0;
-  clip-path: none
-}
-
-.rural-hero-image img {
-  object-fit: cover;
-  object-position: center 65%;
-  filter: grayscale(1)
-}
-
 .v3-unified {
   max-width: 1440px;
   padding: 0 40px 50px;
@@ -459,15 +384,6 @@
 
 @media(max-width:1000px) {
 
-  .rural-hero {
-    gap: 30px;
-    padding: 30px 24px
-  }
-
-  .rural-hero-image {
-    height: 250px
-  }
-
   .v3-unified {
     padding: 0 24px 40px
   }
@@ -487,36 +403,6 @@
 }
 
 @media(max-width:700px) {
-
-  .rural-hero {
-    grid-template-columns: 1fr;
-    padding: 26px 18px 20px;
-    gap: 22px
-  }
-
-  .rural-hero h1 {
-    font-size: 38px;
-    letter-spacing: -1.8px;
-    margin: 13px 0
-  }
-
-  .rural-hero p {
-    font-size: 16px;
-    margin-bottom: 12px
-  }
-
-  .rural-direct {
-    font-size: 13px
-  }
-
-  .rural-hero-link {
-    margin-top: 0
-  }
-
-  .rural-hero-image {
-    height: 160px;
-    border-radius: 18px
-  }
 
   .v3-unified {
     padding: 0 18px 35px
@@ -635,10 +521,6 @@
     grid-template-columns: 1fr
   }
 
-  .rural-hero h1 {
-    font-size: 38px
-  }
-
   .rural-type-tabs {
     gap: 18px
   }
@@ -654,21 +536,6 @@
     scroll-behavior: auto!important;
     transition: none!important
   }
-}
-
-/* Hero emphasis is contained in its own band; results remain on white. */
-
-.rural-hero-band {
-  background: linear-gradient(115deg,#fff,#f4f7f9);
-  color: #102c4c
-}
-
-.rural-hero-band .rural-hero-link:focus-visible {
-  outline-color: #c72b4c
-}
-
-.rural-hero-image img {
-  opacity: .94
 }
 
 /* A single compact block replaces the previous three-step section. */
@@ -833,27 +700,6 @@
 
 @media(max-width:700px) {
 
-  .rural-hero {
-    padding: 28px 18px;
-    gap: 20px
-  }
-
-  .rural-hero h1 {
-    font-size: 38px
-  }
-
-  .rural-hero-image {
-    height: 150px
-  }
-
-  .rural-hero p {
-    font-size: 16px
-  }
-
-  .rural-hero-link {
-    font-size: 14px
-  }
-
   .rural-home-actions {
     padding: 20px 18px
   }
@@ -885,25 +731,6 @@
   .rural-home-faq-items {
     grid-template-columns: 1fr
   }
-}
-
-.rural-hero-copy{padding:0;position:relative;z-index:1}
-.rural-hero-impact{display:inline-block;color:#102c4c;margin-top:0;font-size:.72em;letter-spacing:-2px}
-.rural-hero-impact:after{content:"";display:inline-block;width:9px;height:9px;margin-left:6px;border-radius:50%;background:#c72b4c}
-.rural-hero-benefits{display:flex;flex-wrap:wrap;gap:12px 18px;margin:14px 0 18px;color:#183c55}
-.rural-hero-benefits>span{display:flex;align-items:center;gap:7px;font-size:11px;font-weight:800;line-height:1.5}
-.rural-hero-actions{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
-.rural-hero-publish{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:48px;padding:10px 18px;border:1px solid #9cb3c5;border-radius:28px;font-size:14px;font-weight:750;color:#183c55;background:#fff}
-@media(max-width:1000px){.rural-hero{padding:24px;gap:28px}.rural-hero-copy{padding:0}.rural-hero h1{font-size:52px}.rural-hero-image{height:290px;min-height:0}}
-@media(max-width:700px){.rural-hero{padding:22px 18px;gap:20px;min-height:0}.rural-hero-copy{padding:0}.rural-hero h1{font-size:48px;letter-spacing:-2px}.rural-hero p{font-size:16px}.rural-hero-benefits{gap:10px 14px;margin:14px 0}.rural-hero-benefits>span{font-size:10px}.rural-hero-image{height:112px;min-height:112px;clip-path:none;border-radius:16px}.rural-hero-actions{gap:9px}.rural-hero-link,.rural-hero-publish{padding:10px 14px;font-size:13px;min-height:46px}}
-/* Keep the compact hero compact on phones as well. */
-@media(max-width:700px){
- .rural-hero{padding-block:18px}
- .rural-hero-benefits{display:none}
- .rural-hero-actions{flex-wrap:nowrap}
- .rural-hero-actions>a{flex:1 1 0;min-width:0;padding-inline:8px}
- .rural-hero-actions svg{display:none}
- .rural-hero-image{height:96px;min-height:96px}
 }
 
 .rural-home-actions,.rural-home-faq{scroll-margin-top:100px}

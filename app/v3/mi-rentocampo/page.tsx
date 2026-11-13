@@ -1,3 +1,5 @@
+import AccountOverview from "@/components/account/AccountOverview";
+import { isV3Preview } from "@/lib/v3-routing";
 import { v3Text } from "@/lib/i18n/v3-copy";
 import Link from "next/link";
 import { cookies } from "next/headers";
@@ -23,6 +25,11 @@ export default async function V3Cuenta({ searchParams }: { searchParams: Promise
     </div>
   </section>;
   const { data: profile, error } = await supabase.from("profiles").select("nombre, roles, activo").eq("id", user.id).maybeSingle();
+  if (isV3Preview(process.env)) return <>
+    {(error || !profile) && <p role="status">{t("No pudimos consultar los datos del perfil. Podés volver a intentarlo desde Mi perfil.")}</p>}
+    {profile?.activo === false && <p role="alert">{t("Tu perfil figura inactivo. Revisá el estado de tu cuenta antes de publicar.")}</p>}
+    <AccountOverview name={profile?.nombre} roles={profile?.roles || []} country={country} showAllPublications canViewReport={Boolean(user.email_confirmed_at) && canAccessManagementReport(user.email)}/>
+  </>;
   const links = [
     { title: t("Mi perfil"), description: t("Datos personales y configuración"), href: "/perfil", Icon: UserRound },
     { title: t("Mis campos"), description: t("Administrar mis publicaciones de campos"), href: "/mis-campos", Icon: ClipboardList },

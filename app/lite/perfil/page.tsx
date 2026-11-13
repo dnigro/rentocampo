@@ -1,3 +1,5 @@
+import AccountOverview from "@/components/account/AccountOverview";
+import { isV3Preview } from "@/lib/v3-routing";
 import Image from "next/image";
 import heroTambo from "@/public/rentocampo-hero-campo-bn-1920x1080.webp";
 import Link from "next/link";
@@ -20,6 +22,11 @@ export default async function Page() {
   const { data: { user } } = await supabase.auth.getUser();
   if (user?.user_metadata?.onboarding_pending_roles === true) {
     redirect("/lite/perfil/editar");
+  }
+
+  if (user && isV3Preview(process.env)) {
+    const {data:profile}=await supabase.from("profiles").select("nombre,roles").eq("id",user.id).maybeSingle();
+    return <><LiteHeader/><main className="account-workspace"><AccountOverview name={profile?.nombre} roles={profile?.roles || []} country={country} showAllPublications canViewReport={Boolean(user.email_confirmed_at) && canAccessManagementReport(user.email)}/></main></>;
   }
 
   const links = [

@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import Link from "@/components/layout/SiteLink";
 import { ArrowLeft } from "lucide-react";
 import { useRegionalCountry } from "@/lib/i18n/useRegionalCountry";
 import { regionalText } from "@/lib/i18n/regional";
@@ -32,7 +32,7 @@ export default function DashboardReturn() {
 
   return (
     <nav className="dashboard-return" aria-label={backLabel}>
-      <Link href={returnHref} className="rc-dashboard-return-btn">
+      <Link href={`${returnHref}?pais=${country}`} className="rc-dashboard-return-btn">
         <ArrowLeft size={17} aria-hidden="true" />
         <span>{backLabel}</span>
       </Link>

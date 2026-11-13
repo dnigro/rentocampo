@@ -1,3 +1,5 @@
+import AccountOverview from "@/components/account/AccountOverview";
+import { isV3Preview } from "@/lib/v3-routing";
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import Link from "@/components/layout/RegionalLink";
@@ -38,6 +40,8 @@ export default async function DashboardPage() {
     esPropietario ? tt("Propietario", "Proprietário") : null,
     esPrestador ? tt("Servicios rurales", "Serviços rurais") : null,
   ].filter(Boolean).join(" · ");
+
+  if (isV3Preview(process.env)) return <AccountOverview name={profile?.nombre} roles={roles} country={country} canViewReport={canViewCommercialReport}/>;
 
   return (
     <div className="dashboard-page">
