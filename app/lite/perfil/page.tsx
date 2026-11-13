@@ -26,7 +26,7 @@ export default async function Page() {
 
   if (user && isV3Enabled(process.env)) {
     const {data:profile}=await supabase.from("profiles").select("nombre,roles").eq("id",user.id).maybeSingle();
-    return <><LiteHeader/><main className="account-workspace"><AccountOverview name={profile?.nombre} roles={profile?.roles || []} country={country} showAllPublications canViewReport={Boolean(user.email_confirmed_at) && canAccessManagementReport(user.email)}/></main></>;
+    return <><LiteHeader/><main className="account-workspace"><AccountOverview name={profile?.nombre} roles={profile?.roles || []} country={country} canViewReport={Boolean(user.email_confirmed_at) && canAccessManagementReport(user.email)}/></main></>;
   }
 
   const links = [
