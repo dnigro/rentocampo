@@ -63,79 +63,64 @@ export default function V3Map({ campos, country, selectedId, onSelect, onViewpor
       baseLayerRef.current=tileLayer;
       const locations: [number, number][] = [];
       markers.clear();
-      const colocated = new Map<string, number>();
+      // One marker per coordinate, with every colocated listing accessible in its popup.
+      const groups = new Map<string, typeof camposRef.current>();
       for (const item of camposRef.current) {
         if (item.lat == null || item.lng == null) continue;
-        const key = `${item.lat},${item.lng}`;
-        colocated.set(key,(colocated.get(key)||0)+1);
+        const key = `${item.lat.toFixed(6)},${item.lng.toFixed(6)}`;
+        groups.set(key, [...(groups.get(key) || []), item]);
       }
-      const seen = new Map<string,number>();
-      for (const campo of camposRef.current) {
-        if (campo.lat == null || campo.lng == null) continue;
-        const position: [number,number] = [campo.lat,campo.lng];
+      for (const group of groups.values()) {
+        const first = group[0];
+        const position: [number, number] = [first.lat!, first.lng!];
         locations.push(position);
-        const key = `${campo.lat},${campo.lng}`;
-        seen.set(key,(seen.get(key)||0)+1);
-        const count = colocated.get(key)||1;
-        const dot=document.createElement("span");
-        dot.className="v3-dot-pin "+(campo.kind==="servicio"?"v3-dot-service":"v3-dot-field");
-        dot.textContent=count>1?String(count):"";
-        const marker=L.marker(position,{
-          icon:L.divIcon({html:dot,className:"v3-dot-wrapper",iconSize:[26,26],iconAnchor:[13,13]}),
-          title:campo.titulo,
+        const dot = document.createElement("span");
+        dot.className = "v3-dot-pin " + (group.length > 1 ? "v3-dot-field" : first.kind === "servicio" ? "v3-dot-service" : "v3-dot-field");
+        dot.textContent = group.length > 1 ? String(group.length) : "";
+        const marker = L.marker(position, {
+          icon: L.divIcon({html:dot,className:"v3-dot-wrapper",iconSize:[26,26],iconAnchor:[13,13]}),
+          title: group.length > 1 ? `${group.length} publicaciones` : first.titulo,
           keyboard:true
         }).addTo(map);
         const popup = document.createElement("div");
         popup.className = "rural-pro-popup";
-        popup.style.cssText = "box-sizing:border-box;display:flex;flex-direction:column;width:264px;max-width:calc(100vw - 88px);background:#fff;color:#102b43;border-radius:16px;overflow:hidden;box-shadow:0 10px 32px rgba(0,0,0,.13);font-family:inherit;";
-        const photo = campo.foto || campo.fotos?.[0];
-        if (photo && (/^https:\/\//i.test(photo) || photo.startsWith("/"))) {
-          const image = document.createElement("img");
-          image.src = photo;
-          image.alt = campo.titulo;
-          image.loading = "lazy";
-          image.style.cssText = "display:block;width:100%;height:132px;object-fit:cover;background:#f2f4f6;";
-          popup.appendChild(image);
+        popup.style.cssText = "box-sizing:border-box;width:min(330px,calc(100vw - 90px));max-height:360px;overflow-y:auto;background:white;color:#102b43;border-radius:14px;font-family:inherit;";
+        if (group.length > 1) {
+          const heading = document.createElement("div");
+          heading.textContent = `${group.length} publicaciones en esta ubicación`;
+          heading.style.cssText = "font-size:14px;font-weight:750;padding:12px 12px 6px;";
+          popup.appendChild(heading);
         }
-        const details = document.createElement("div");
-        details.style.cssText = "display:flex;flex-direction:column;gap:7px;padding:12px 14px 14px;";
-        const kind = document.createElement("span");
-        kind.textContent = campo.kind === "servicio" ? "SERVICIO RURAL" : "CAMPO";
-        kind.style.cssText = "font-size:10px;font-weight:750;letter-spacing:.07em;color:#687887;";
-        details.appendChild(kind);
-        const heading = document.createElement("strong");
-        heading.textContent = campo.titulo;
-        heading.style.cssText = "display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;font-size:15px;line-height:1.35;font-weight:750;";
-        details.appendChild(heading);
-        const location = document.createElement("span");
-        location.textContent = [campo.localidad, campo.provincia].filter(Boolean).join(", ");
-        location.style.cssText = "font-size:12px;color:#667085;line-height:1.4;";
-        if (location.textContent) details.appendChild(location);
-        const metadata = [campo.kind !== "servicio" && campo.hectareas != null ? `${campo.hectareas.toLocaleString()} ha` : "", campo.aptitud || ""].filter(Boolean).join(" · ");
-        if (metadata) {
-          const info = document.createElement("span");
-          info.textContent = metadata;
-          info.style.cssText = "font-size:12px;color:#566476;";
-          details.appendChild(info);
+        for (const campo of group) {
+          const card = document.createElement("a");
+          card.href = hrefRef.current?.(campo.id) || "#";
+          card.style.cssText = "display:flex;align-items:center;gap:10px;padding:11px 12px;color:#102b43;text-decoration:none;border-bottom:1px solid #e5e9ed;min-height:76px;";
+          const photo = campo.foto || campo.fotos?.[0];
+          if (photo && (/^https:\/\//i.test(photo) || photo.startsWith("/"))) {
+            const img = document.createElement("img");
+            img.src = photo; img.alt = ""; img.loading = "lazy";
+            img.style.cssText = "width:82px;height:70px;flex-shrink:0;object-fit:cover;border-radius:9px;background:#f2f4f6;";
+            card.appendChild(img);
+          }
+          const body = document.createElement("div");
+          body.style.cssText = "display:flex;flex-direction:column;gap:4px;min-width:0;";
+          const kind = document.createElement("span");
+          kind.textContent = campo.kind === "servicio" ? "SERVICIO RURAL" : "CAMPO";
+          kind.style.cssText = "font-size:10px;font-weight:750;letter-spacing:.06em;color:#c4254c;";
+          const title = document.createElement("strong");
+          title.textContent = campo.titulo;
+          title.style.cssText = "font-size:13px;line-height:1.3;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;";
+          const meta = document.createElement("span");
+          meta.textContent = [campo.localidad, campo.provincia, campo.hectareas != null && campo.kind !== "servicio" ? `${campo.hectareas} ha` : ""].filter(Boolean).join(" · ");
+          meta.style.cssText = "font-size:11px;color:#667085;line-height:1.3;";
+          body.append(kind,title,meta);
+          card.appendChild(body);
+          card.addEventListener("mouseenter",()=>selectRef.current(campo.id));
+          popup.appendChild(card);
         }
-        if (campo.precio != null && Number.isFinite(campo.precio)) {
-          const price = document.createElement("strong");
-          price.textContent = [campo.moneda, campo.precio.toLocaleString()].filter(Boolean).join(" ");
-          price.style.cssText = "font-size:15px;color:#102b43;";
-          details.appendChild(price);
-        }
-        const link = document.createElement("a");
-        link.textContent = "Ver publicación ↗";
-        link.href = hrefRef.current?.(campo.id) || "#";
-        link.style.cssText = "display:block;text-align:center;padding:10px 12px;border:1px solid #d2d9e0;border-radius:10px;background:#fff;color:#12324b;font-size:13px;font-weight:750;text-decoration:none;";
-        details.appendChild(link);
-        popup.appendChild(details);
-        marker.bindPopup(popup, { autoPan:true, autoPanPaddingTopLeft:[18,105], autoPanPaddingBottomRight:[18,20], minWidth:264, maxWidth:264, closeButton:true, className:"rural-pro-leaflet-popup" });
-        marker.on("click",()=>{
-          selectRef.current(campo.id);
-          // Keep current zoom and viewport: popup opens anchored to the clicked marker.
-        });
-        markers.set(campo.id,marker);
+        marker.bindPopup(popup,{autoPan:true,autoPanPaddingTopLeft:[18,105],autoPanPaddingBottomRight:[18,20],minWidth:260,maxWidth:340,closeButton:true,className:"rural-pro-leaflet-popup"});
+        marker.on("click",()=>selectRef.current(first.id));
+        for (const item of group) markers.set(item.id,marker);
       }
       const viewport = initialBoundsRef.current;
       allBoundsRef.current=locations.length ? L.latLngBounds(locations).pad(0.2) : null;
