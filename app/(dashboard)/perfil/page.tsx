@@ -7,7 +7,6 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import type { Profile } from "@/types";
 import { redirect } from "next/navigation";
 import PerfilForm from "@/components/PerfilForm";
-import DashboardReturn from "@/components/layout/DashboardReturn";
 import SeleccionarActividad from "@/components/auth/SeleccionarActividad";
 import "@/styles/perfil.css";
 
@@ -40,7 +39,7 @@ export default async function PerfilPage({ searchParams }: { searchParams?: Prom
           <p className="page-subtitle">{user.user_metadata?.onboarding_pending_roles === true ? tt("Elegí cómo querés usar RentoCampo", "Escolha como deseja usar a RentoCampo", "Choose how you want to use RentoCampo") : tt("Editá tus datos personales", "Edite seus dados pessoais", "Manage your personal information")}</p>
         </div>
       </div>
-      <DashboardReturn embedded />
+      
       {user.user_metadata?.onboarding_pending_roles === true ? (
         <SeleccionarActividad country={country} />
       ) : (
