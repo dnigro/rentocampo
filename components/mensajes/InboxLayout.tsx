@@ -2,6 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { redirect } from "next/navigation";
 import InboxShell from "@/components/mensajes/InboxShell";
+import DashboardReturn from "@/components/layout/DashboardReturn";
 import { isMissingMensajesDirectosLeido } from "@/lib/supabase/mensajes-directos";
 import "@/styles/mensajes.css";
 
@@ -195,5 +196,5 @@ export default async function InboxLayout({ children }: { children: React.ReactN
       new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
   );
 
-  return <InboxShell hilos={hilos} userId={user.id}>{children}</InboxShell>;
+  return <div style={{width:"100%",minWidth:0}}><DashboardReturn /><InboxShell hilos={hilos} userId={user.id}>{children}</InboxShell></div>;
 }
