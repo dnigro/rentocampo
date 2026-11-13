@@ -413,7 +413,7 @@ test("Preview integrates web auth, public and Lite into the shared site frame",(
  const root=read("app/layout.tsx"), frame=read("components/layout/PreviewSiteFrame.tsx");
  assert.ok(root.includes("isV3Preview(process.env) ? <PreviewSiteFrame root>"));
  assert.ok(frame.includes("SharedPreviewChrome.Provider"));
- assert.ok(frame.includes('href="/terminos-y-condiciones"'));
+ assert.ok(read("components/layout/Footer.tsx").includes('href="/terminos-y-condiciones"'));
  for(const file of ["components/layout/Navbar.tsx","components/layout/Footer.tsx"]) assert.ok(read(file).includes("useSharedPreviewChrome"));
  assert.ok(read("app/lite/layout.tsx").includes("isV3Preview(process.env)"));
 });

@@ -1,4 +1,5 @@
 import "server-only";
+import { demoFieldPhoto } from "./demo-media";
 import { isDemoField } from "./demo-listings";
 import { loadServiceDemos } from "./load-service-demos";
 import { createClient } from "@/lib/supabase/server";
@@ -30,6 +31,7 @@ export async function loadHomeListings(country: CountryCode) {
             capped ||= (fields.value.data || []).length === HOME_LISTING_LIMIT;
             for (const item of fields.value.data || []) {
                 const photos = [...(item.fotos || [])].filter(photo => photo.url).sort((a, b) => (a.orden ?? 0) - (b.orden ?? 0)).slice(0, 8).map(photo => photo.url);
+                if (!photos.length && isDemoField(item.id,item.titulo)) photos.push(demoFieldPhoto(item.aptitud));
                 listings.push({ id: `campo-${item.id}`, sourceId: item.id, kind: "campo", demo: isDemoField(item.id,item.titulo), titulo: item.titulo, localidad: item.localidad, provincia: item.provincia, hectareas: item.hectareas == null ? null : Number(item.hectareas), aptitud: item.aptitud, operacion: item.operacion, precio: item.precio == null ? null : Number(item.precio), moneda: item.moneda, foto: photos[0] || null, fotos: photos, lat: coordinate(item.latitud, 90), lng: coordinate(item.longitud, 180), services: [], coverage: null });
             }
         }

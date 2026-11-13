@@ -6,7 +6,8 @@ import RuralIcon from "../components/RuralIcon";
 import type { Metadata } from "next";
 import Form from "next/form";
 import Link from "next/link";
-import Image from "next/image";
+import V3CardPhotos from "../components/V3CardPhotos";
+import { demoServicePhoto } from "@/lib/v3/demo-media";
 import { cookies } from "next/headers";
 import { MapPin, Search, ArrowUpRight, Tractor, ShieldCheck } from "lucide-react";
 import { displayCountryName, COUNTRY_CODES_ALPHABETICAL, resolveCountry } from "@/data/countries";
@@ -67,10 +68,7 @@ export default async function V3Servicios({ searchParams }: { searchParams: Prom
         const detail = item.demo ? demoListingHref(country,"servicio",item.localidad) : `/v3/servicios/${item.id}?${detailSearch}`;
         return <article data-demo={item.demo} className="v3-listing-card" key={item.id}>
           <div className="v3-listing-media">
-            <Link href={detail} aria-label={`${t("Ver")} ${title}`}>
-              {item.foto_url ? <Image src={item.foto_url} alt={title} fill sizes="(max-width:700px) 90vw, 25vw"/> :
-                <div className="v3-listing-placeholder"><Tractor size={36}/></div>}
-            </Link>
+            <V3CardPhotos country={country} photos={item.foto_url?[item.foto_url]:[]} fallbackPhoto={item.demo ? demoServicePhoto(item.servicios_rurales || []) : undefined} title={title} href={detail}/>
             <span className="v3-listing-badge">{item.demo ? "DEMO · " : ""}{t("Servicio rural")}</span>
           </div>
           <Link className="v3-listing-info" href={detail}>

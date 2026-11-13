@@ -20,8 +20,10 @@ test("V3 critical routes are present and isolated from main", () => {
   const layout = read("app/v3/layout.tsx");
   assert.match(layout, /robots:\s*\{\s*index:\s*false/);
   const frame = read("components/layout/PreviewSiteFrame.tsx");
-  assert.match(frame, /href="\/v3\/campos"/);
-  assert.match(frame, /href="\/v3\/servicios"/);
+  assert.match(frame, /<SiteFooter/);
+  const footer = read("components/layout/Footer.tsx");
+  assert.ok(footer.includes("tipo=campo"));
+  assert.ok(footer.includes("tipo=servicio"));
   assert.match(frame, /href="\/v3\/mi-rentocampo"/);
 });
 

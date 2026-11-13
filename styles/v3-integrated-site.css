@@ -91,3 +91,31 @@ html body .v3-shell.v3-integrated .auth-page :is(.auth-footer a,.form-label-link
 .v3-country-value{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:7px;color:#102c4c;font-size:14px;font-weight:800;pointer-events:none}
 .v3-country-picker:focus-within{outline:3px solid #92bddf;outline-offset:3px}
 @media(max-width:600px){.v3-country-picker{width:73px;min-width:73px}.v3-country-value{gap:4px;font-size:13px}}
+
+/* Restore the original footer sections with the Preview's current route destinations. */
+html body .v3-shell.v3-integrated footer.footer.v3-footer{display:block!important;background:#0b2238!important;padding:32px clamp(18px,4vw,60px) 0!important}
+html body .v3-integrated footer.footer.v3-footer .footer-inner{display:grid!important;grid-template-columns:1.35fr repeat(4,minmax(0,1fr))!important;gap:26px!important;max-width:1440px!important;margin:auto!important;padding:0 0 25px!important}
+html body .v3-integrated footer.footer.v3-footer .footer-nav{display:flex!important;flex-direction:column!important;gap:9px!important}
+html body .v3-integrated footer.footer.v3-footer .footer-col-title{font-size:16px!important;margin:0 0 14px!important}
+html body .v3-integrated footer.footer.v3-footer .footer-brand-name{font-size:24px!important}
+html body .v3-integrated footer.footer.v3-footer .footer-desc{font-size:14px!important;line-height:1.6!important}
+html body .v3-integrated footer.footer.v3-footer .footer-link{font-size:14px!important;line-height:1.5!important;min-height:26px!important}
+html body .v3-integrated footer.footer.v3-footer .footer-bottom{display:flex!important;justify-content:space-between!important;flex-wrap:wrap!important;gap:12px!important;max-width:1440px!important;margin:auto!important;padding:18px 0!important}
+html body .v3-integrated footer.footer.v3-footer .footer-bottom-links{display:flex!important;gap:18px!important;flex-wrap:wrap!important}
+html body .v3-integrated footer.footer.v3-footer .footer-bottom-link{font-size:13px!important}
+@media(max-width:1000px){html body .v3-integrated footer.footer.v3-footer .footer-inner{grid-template-columns:repeat(2,minmax(0,1fr))!important}.footer.v3-footer .footer-brand{grid-column:1/-1}}
+@media(max-width:500px){html body .v3-integrated footer.footer.v3-footer .footer-inner{grid-template-columns:1fr!important}.footer.v3-footer .footer-brand{grid-column:auto}}
+
+/* SVG flags remain visible on Windows and mobile; every country has a real flag image. */
+.v3-integrated .v3-header-actions{margin-left:auto}
+.v3-country-menu{position:relative;color:#102c4c}
+.v3-country-menu>summary{display:flex;align-items:center;justify-content:center;gap:8px;min-height:44px;min-width:96px;list-style:none;border-radius:25px;background:white;padding:9px 12px;cursor:pointer;color:#102c4c}
+.v3-country-menu>summary::-webkit-details-marker{display:none}
+.v3-country-menu img,.v3-country-options img{width:24px!important;height:18px!important;object-fit:cover;flex-shrink:0;border-radius:2px}
+.v3-country-options{position:absolute;top:calc(100% + 8px);right:0;z-index:1500;width:285px;max-width:calc(100vw - 24px);max-height:min(65vh,420px);overflow-y:auto;background:#fff;border:1px solid #dce5ec;border-radius:16px;padding:7px;box-shadow:0 10px 32px #102c4c33}
+.v3-country-options button{display:flex;align-items:center;gap:10px;width:100%;min-height:44px;background:#fff;border:0;border-radius:10px;text-align:left;padding:10px;color:#102c4c;font-size:14px;cursor:pointer}
+.v3-country-options button[aria-pressed=true],.v3-country-options button:hover{background:#edf4f8}
+.v3-country-options button strong{min-width:25px}.v3-country-options button span{font-weight:500}
+.v3-country-menu>summary:focus-visible{outline:3px solid #8eb8d7;outline-offset:3px}
+@media(max-width:600px){.v3-country-menu>summary{min-width:73px;padding:9px 7px;gap:4px;font-size:13px}.v3-country-options{right:-45px}}
+.v3-regional-panel .rc-regions-showcase__flag{display:flex;align-items:center;gap:7px;font-size:14px;flex-shrink:0}

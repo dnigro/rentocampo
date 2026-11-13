@@ -1,4 +1,5 @@
 import "server-only";
+import { demoServicePhoto } from "./demo-media";
 import { createClient } from "@/lib/supabase/server";
 import { esServicioDemoVisible } from "@/data/visible-demo-services";
 import { tituloServicioRural } from "@/data/servicios-rurales";
@@ -19,10 +20,11 @@ export async function loadServiceDemos(country: CountryCode, province?: string, 
   if(error) throw new Error("Service reference catalog unavailable");
   return (data || []).filter(item=>esServicioDemoVisible(item.id)).map(item=>{
     const lat=normalizarCoordenada(item.latitud),lng=normalizarCoordenada(item.longitud);
+    const photo=item.imagen_url || demoServicePhoto(item.servicios_rurales || []);
     return {id:`servicio-demo-${item.id}`,sourceId:item.id,kind:"servicio",demo:true,
       titulo:tituloServicioRural(item.servicios_rurales as ServicioRural[],country),
       localidad:item.localidad_servicio,provincia:item.provincia_servicio,coverage:item.zona_servicio,
-      services:(item.servicios_rurales || []) as ServicioRural[],fotos:item.imagen_url?[item.imagen_url]:[],foto:item.imagen_url,
+      services:(item.servicios_rurales || []) as ServicioRural[],fotos:[photo],foto:photo,
       lat:lat!=null&&Math.abs(lat)<=90?lat:null,lng:lng!=null&&Math.abs(lng)<=180?lng:null,
       hectareas:null,aptitud:null,operacion:null,precio:null,moneda:null};
   });

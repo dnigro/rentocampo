@@ -16,7 +16,7 @@ try {
   const response=await page.goto(`${origin}${path}?pais=AR`,{waitUntil:'networkidle',timeout:60000});assert.equal(response.status(),200,path);
   await page.locator('.v3-header').waitFor();
   assert.equal(await page.locator('.v3-header').count(),1,path+' shared header');assert.equal(await page.locator('.v3-footer').count(),1,path+' shared footer');
-  assert.equal(await page.locator('header.navbar,footer.footer').count(),0,path+' legacy chrome');assert.equal(await page.locator('main').count(),1,path+' single main');
+  assert.equal(await page.locator('header.navbar').count(),0,path+' legacy chrome');assert.equal(await page.locator('main').count(),1,path+' single main');
   assert.equal(await page.locator('.v3-footer a[href*="terminos-y-condiciones"]').count(),1,path+' legal');
   for(const width of [320,375,390,1440]){await page.setViewportSize({width,height:1000});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),path+' overflow '+width);
    const fields=await page.locator('input:not([type=checkbox]):not([type=hidden]),textarea').all();for(const field of fields)if(await field.isVisible())assert.ok(await field.evaluate(e=>parseFloat(getComputedStyle(e).fontSize)>=16),path+' input font');
@@ -30,7 +30,7 @@ try {
  await page.locator('input[type=email]').fill('qa@example.invalid');await page.locator('#password').fill('test-only-no-submit');await page.locator('.password-toggle').click();assert.equal(await page.locator('#password').getAttribute('type'),'text');await page.locator('.password-toggle').click();
  await page.locator('a[href="/recuperar-contrasena"]').click();await page.waitForURL('**/recuperar-contrasena');assert.equal(await page.locator('.v3-header').count(),1);
  await page.locator('.v3-footer a[href*="terminos-y-condiciones"]').click();await page.waitForURL('**/terminos-y-condiciones**');await page.getByRole('heading',{name:'Términos y condiciones',exact:true}).waitFor();
- for(const [country,label] of [['BR','Termos e condições'],['US','Terms and conditions']]){await page.goto(`${origin}/login?pais=${country}`,{waitUntil:'networkidle'});await page.locator('.v3-footer').getByRole('link',{name:label,exact:true}).waitFor();const how=await page.locator('.v3-header>nav a[href*="como-funciona"]').getAttribute('href');assert.equal(new URL(how,origin).searchParams.get('pais'),country);assert.equal(new URL(how,origin).hash,'#como-funciona');}
+ for(const [country,label] of [['BR','Termos e condições'],['US','Terms and conditions']]){await page.goto(`${origin}/login?pais=${country}`,{waitUntil:'networkidle'});await page.locator('.v3-footer').getByRole('link',{name:label,exact:true}).waitFor();const how=await page.locator('.v3-footer a[href*="como-funciona"]').getAttribute('href');assert.equal(new URL(how,origin).searchParams.get('pais'),country);assert.equal(new URL(how,origin).hash,'#como-funciona');}
  await page.goto(`${origin}/?pais=AR`,{waitUntil:'networkidle'});assert.notEqual(await page.locator('.rural-hero-band').evaluate(e=>getComputedStyle(e).backgroundImage),'none');
  assert.equal(writes,0,'No Supabase writes');assert.deepEqual(errors,[]);console.log('PASS auth navigation, password visibility, terms destination, BR/US shared chrome, colored hero, zero writes/errors');
 }finally{await browser.close();}

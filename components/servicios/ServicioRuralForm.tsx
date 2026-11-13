@@ -349,13 +349,13 @@ export default function ServicioRuralForm({ profile, publicacion, initialCountry
       <div className="form-section">
         <h2 className="form-section-title form-section-title-editorial"><span className="form-section-number">03</span><span className="form-section-icon" aria-hidden="true"><MapPinned size={24} strokeWidth={1.8} /></span><span className="form-section-copy"><span>{tt("Zona","Área")}</span> <em>{tt("de cobertura","de atendimento")}</em></span></h2>
       <div className="form-field">
-        <label className="form-label" htmlFor="servicio-pais">{tt("País","País")}</label>
+        <label className="form-label" htmlFor="servicio-pais"><span className="v3-publication-country-flag"><Image src={`/flags/${country.toLowerCase()}.svg`} alt="" width={24} height={18}/></span>{tt("País","País")}</label>
         <select id="servicio-pais" className="form-input" value={country} onChange={(e) => {
           setCountry(e.target.value as CountryCode);
           setProvincia(""); setLocalidad(""); setUbicacion(""); setZona("");
           setLatitud(undefined); setLongitud(undefined);
         }}>
-          {COUNTRY_CODES_ALPHABETICAL.map((code) => <option key={code} value={code}>{COUNTRIES[code].flag} {displayCountryName(code, country)}</option>)}
+          {COUNTRY_CODES_ALPHABETICAL.map((code) => <option key={code} value={code}>{code} · {displayCountryName(code, country)}</option>)}
         </select>
       </div>
       <div className="form-field">

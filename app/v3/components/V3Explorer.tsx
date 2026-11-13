@@ -1,4 +1,5 @@
 "use client";
+import { demoFieldPhoto } from "@/lib/v3/demo-media";
 import { demoListingHref } from "@/lib/v3/demo-listings";
 import { v3Text } from "@/lib/i18n/v3-copy";
 
@@ -140,7 +141,7 @@ export default function V3Explorer({ campos, country, filter, error, initialBoun
               className={`v3-listing-card ${selected === campo.id ? "v3-selected-card" : ""}`}
               onMouseEnter={() => setSelected(campo.id)} onFocus={() => setSelected(campo.id)}>
             <div className="v3-listing-media">
-              <V3CardPhotos country={country} photos={campo.fotos || (campo.foto ? [campo.foto] : [])} title={campo.titulo} href={detailHref(campo.id)}/>
+              <V3CardPhotos fallbackPhoto={campo.demo ? demoFieldPhoto(campo.aptitud) : undefined} country={country} photos={campo.fotos || (campo.foto ? [campo.foto] : [])} title={campo.titulo} href={detailHref(campo.id)}/>
               <span className="v3-listing-badge">{campo.demo ? "DEMO · " : ""}{t(aptitudeLabels[campo.aptitud || ""] || campo.aptitud || "Campo rural")}</span>
               <button type="button" className={`v3-heart-button ${loaded && favs.includes(campo.id) ? "saved" : ""}`}
                 aria-label={favs.includes(campo.id) ? t("Quitar de favoritos de UAT") : t("Agregar a favoritos de UAT")}

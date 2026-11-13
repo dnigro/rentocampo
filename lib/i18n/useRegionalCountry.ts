@@ -58,3 +58,9 @@ export function selectRegionalCountry(country: CountryCode): void {
   document.documentElement.lang = country === "BR" ? "pt-BR" : country === "US" ? "en-US" : "es";
   window.dispatchEvent(new Event(CHANGE_EVENT));
 }
+
+/** Persist a market choice without changing history before Next performs navigation. */
+export function persistRegionalCountry(country: CountryCode): void {
+  document.cookie = `rentocampo_country=${country}; path=/; max-age=31536000; SameSite=Lax`;
+  try { window.localStorage.setItem("rentocampo_country", country); } catch { /* Optional persistence. */ }
+}

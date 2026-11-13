@@ -1,4 +1,5 @@
 import { v3Text } from "@/lib/i18n/v3-copy";
+import { demoFieldPhoto } from "@/lib/v3/demo-media";
 import { isDemoField } from "@/lib/v3/demo-listings";
 import V3RegionalPanel from "../components/V3RegionalPanel";
 import type { Metadata } from "next";
@@ -53,7 +54,8 @@ export default async function V3Campos({ searchParams }: { searchParams: Promise
   const { data, error } = await query;
   const visible = seleccionarCamposPublicos(data || []);
   const campos: V3Campo[] = visible.map(campo => {
-    const fotos = [...(campo.fotos || [])].sort((a, b) => (a.orden ?? 0) - (b.orden ?? 0));
+    const fotos = [...(campo.fotos || [])].filter(photo=>Boolean(photo.url)).sort((a, b) => (a.orden ?? 0) - (b.orden ?? 0));
+    if(!fotos.length && isDemoField(campo.id,campo.titulo)) fotos.push({url:demoFieldPhoto(campo.aptitud),orden:0,id:"demo-reference",storage_path:null});
     const lat = normalizarCoordenada(campo.latitud);
     const lng = normalizarCoordenada(campo.longitud);
     return {
