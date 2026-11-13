@@ -15,13 +15,13 @@ export default async function GerencialPage() {
   const report = await getCommercialStats();
 
   return (
-    <main className="rc-decision-page">
+    <div className="rc-decision-page">
       <GerencialExplorador
         countries={report.countries}
         months={report.months}
         totals={report.totals}
         updatedAt={report.updatedAt}
       />
-    </main>
+    </div>
   );
 }

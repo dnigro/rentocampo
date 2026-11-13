@@ -45,7 +45,6 @@ export default function V3UnifiedExplorer({ listings, country, filter, errors, c
     const missing = matches.filter(item => !hasMapLocation(item)).length;
     const search = addMapBounds(new URLSearchParams({ pais: country, tipo: kind, ...(mobileMap ? {vista:"mapa"} : {}), ...(applied.location ? { provincia: applied.location } : {}), ...(kind === "campo" ? { operacion: applied.operation, aptitud: applied.aptitude } : {}), ...(kind === "servicio" ? { servicio: applied.service } : {}) }), bounds);
     const href = (item: RuralListing) => item.demo ? demoListingHref(country,item.kind,item.localidad) : `/v3/${item.kind === "campo" ? "campos" : "servicios"}/${item.sourceId}?${search}&origen=home`;
-    const selectedItem = matches.find(item => item.id === selected);
     const onMove = useCallback((next: MapBounds) => { setBounds(next); setPage(1); }, []);
     const onSelect = useCallback((id: string) => setSelected(id), []);
     const resetArea = () => { setBounds(null); setReset(value => value + 1); setSelected(null); };

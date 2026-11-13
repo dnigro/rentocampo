@@ -1,9 +1,13 @@
-const UAT_BRANCHES = ["feat/brasil-foundation-20261019", "feat/regional-ar-uy-py-20261014", "feat/regional-six-countries-20261015", "feat/latam18-mx-uat-20261023", "feat/us19-flags-20261025", "security/publication-state-controls-20261108"];
+const V3_RC_BRANCH = "codex/rentocampo-v3-rc-20261113";
+const UAT_BRANCHES = ["feat/brasil-foundation-20261019", "feat/regional-ar-uy-py-20261014", "feat/regional-six-countries-20261015", "feat/latam18-mx-uat-20261023", "feat/us19-flags-20261025", "security/publication-state-controls-20261108", V3_RC_BRANCH];
 const UAT_REF = "wibqszhvuvpjycheaxzi";
 const UAT_URL = `https://${UAT_REF}.supabase.co`;
 
 /** Explicitly isolated preview branches use UAT; production is never changed. */
 export function enforceUatIsolation(env: Record<string, string | undefined>) {
+  if (env.VERCEL_ENV === "production" && env.VERCEL_GIT_COMMIT_REF === V3_RC_BRANCH) {
+    throw new Error("RentoCampo V3 RC can only be deployed to Preview.");
+  }
   if (env.VERCEL_ENV !== "preview" || !UAT_BRANCHES.includes(env.VERCEL_GIT_COMMIT_REF ?? "")) return;
 
   // Remove inherited production credentials before accepting any requests.
@@ -24,7 +28,7 @@ export function enforceUatIsolation(env: Record<string, string | undefined>) {
   // Only a key provided under the Brazil preview's branch-scoped UAT witness
   // may be used. Inherited NEXT_PUBLIC_* values can come from production;
   // overwrite them instead of accepting whichever env entry wins precedence.
-  const requiresBranchWitness =  ["feat/brasil-foundation-20261019", "feat/latam18-mx-uat-20261023", "feat/us19-flags-20261025", "security/publication-state-controls-20261108"].includes(env.VERCEL_GIT_COMMIT_REF ?? "");
+  const requiresBranchWitness =  ["feat/brasil-foundation-20261019", "feat/latam18-mx-uat-20261023", "feat/us19-flags-20261025", "security/publication-state-controls-20261108", V3_RC_BRANCH].includes(env.VERCEL_GIT_COMMIT_REF ?? "");
   if (requiresBranchWitness && (
     !env.UAT_SUPABASE_PUBLISHABLE_KEY ||
     !env.UAT_SUPABASE_PUBLISHABLE_KEY.startsWith("sb_publishable_")

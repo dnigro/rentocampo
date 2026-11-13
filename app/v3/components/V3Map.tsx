@@ -56,76 +56,87 @@ export default function V3Map({ campos, country, selectedId, onSelect, onViewpor
       map = L.map(containerRef.current, { scrollWheelZoom: true, zoomControl: false, zoomAnimation: true, fadeAnimation: true, markerZoomAnimation: true })
         .setView([...region.mapCenter] as [number, number], region.mapZoom);
       mapRef.current = map;
-      const tileLayer=L.tileLayer(basemap==="satellite" ? "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}" : "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        attribution: basemap==="satellite" ? 'Tiles &copy; Esri' : '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+      const tileLayer=L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
         maxZoom: 18
       }).on("tileerror", () => { if (!cancelled) setMapError(true); }).addTo(map);
       baseLayerRef.current=tileLayer;
-      const locations: [number, number][] = [];
-      markers.clear();
-      // One marker per coordinate, with every colocated listing accessible in its popup.
-      const groups = new Map<string, typeof camposRef.current>();
-      for (const item of camposRef.current) {
-        if (item.lat == null || item.lng == null) continue;
-        const key = `${item.lat.toFixed(6)},${item.lng.toFixed(6)}`;
-        groups.set(key, [...(groups.get(key) || []), item]);
-      }
-      for (const group of groups.values()) {
-        const first = group[0];
-        const position: [number, number] = [first.lat!, first.lng!];
-        locations.push(position);
-        const dot = document.createElement("span");
-        dot.className = "v3-dot-pin " + (group.length > 1 ? "v3-dot-field" : first.kind === "servicio" ? "v3-dot-service" : "v3-dot-field");
-        dot.textContent = group.length > 1 ? String(group.length) : "";
-        const marker = L.marker(position, {
-          icon: L.divIcon({html:dot,className:"v3-dot-wrapper",iconSize:[26,26],iconAnchor:[13,13]}),
-          title: group.length > 1 ? `${group.length} publicaciones` : first.titulo,
-          keyboard:true
-        }).addTo(map);
-        const popup = document.createElement("div");
-        popup.className = "rural-pro-popup";
-        popup.style.cssText = "box-sizing:border-box;width:300px;max-width:calc(100vw - 76px);max-height:390px;overflow-y:auto;background:#fff;color:#102b43;border-radius:18px;font-family:inherit;";
-        if (group.length > 1) {
-          const heading = document.createElement("div");
-          heading.textContent = `${group.length} publicaciones en esta ubicación`;
-          heading.style.cssText = "font-size:14px;font-weight:750;padding:12px 12px 6px;";
-          popup.appendChild(heading);
+      const located = camposRef.current.filter(item => item.lat != null && item.lng != null);
+      const locations: [number, number][] = located.map(item => [item.lat!, item.lng!]);
+      const markerLayer = L.layerGroup().addTo(map);
+      const currentMap = map;
+      const renderMarkers = () => {
+        markerLayer.clearLayers();
+        markers.clear();
+        const groups: { point: import("leaflet").Point; listings: typeof located }[] = [];
+        // Compare projected positions so adjacent markers can separate as the user zooms in.
+        for (const item of located) {
+          const point = currentMap.project([item.lat!, item.lng!]);
+          const group = groups.find(entry => entry.point.distanceTo(point) < 38);
+          if (group) group.listings.push(item);
+          else groups.push({ point, listings: [item] });
         }
-        for (const campo of group) {
-          const card = document.createElement("a");
-          card.href = hrefRef.current?.(campo.id) || "#";
-          card.style.cssText = "display:flex;flex-direction:column;align-items:stretch;gap:9px;padding:12px;color:#102b43;text-decoration:none;border-bottom:1px solid #e5e9ed;min-height:76px;";
-          const photo = campo.foto || campo.fotos?.[0];
-          if (photo && (/^https:\/\//i.test(photo) || photo.startsWith("/"))) {
-            const img = document.createElement("img");
-            img.src = photo; img.alt = ""; img.loading = "lazy";
-            img.style.cssText = "display:block;width:100%;height:148px;object-fit:cover;border-radius:12px;background:#f2f4f6;";
-            card.appendChild(img);
+        for (const group of groups.map(entry => entry.listings)) {
+          const first = group[0];
+          const position: [number, number] = [first.lat!, first.lng!];
+          const dot = document.createElement("span");
+          dot.className = "v3-dot-pin " + (group.length > 1 ? "v3-dot-field" : first.kind === "servicio" ? "v3-dot-service" : "v3-dot-field");
+          dot.textContent = group.length > 1 ? String(group.length) : "";
+          const marker = L.marker(position, {
+            icon: L.divIcon({html:dot,className:"v3-dot-wrapper",iconSize:[26,26],iconAnchor:[13,13]}),
+            title: group.length > 1 ? `${group.length} publicaciones` : first.titulo,
+            keyboard:true
+          }).addTo(markerLayer);
+          const popup = document.createElement("div");
+          popup.className = "rural-pro-popup";
+          popup.style.cssText = "box-sizing:border-box;width:100%;max-height:min(390px, 48dvh);overflow-y:auto;background:#fff;color:#102b43;border-radius:18px;font-family:inherit;";
+          if (group.length > 1) {
+            const heading = document.createElement("div");
+            heading.textContent = `${group.length} publicaciones en esta ubicación`;
+            heading.style.cssText = "font-size:14px;font-weight:750;padding:12px 12px 6px;";
+            popup.appendChild(heading);
           }
-          const body = document.createElement("div");
-          body.style.cssText = "display:flex;flex-direction:column;gap:4px;min-width:0;";
-          const kind = document.createElement("span");
-          kind.textContent = campo.kind === "servicio" ? "SERVICIO RURAL" : "CAMPO";
-          kind.style.cssText = "font-size:10px;font-weight:750;letter-spacing:.06em;color:#c4254c;";
-          const title = document.createElement("strong");
-          title.textContent = campo.titulo;
-          title.style.cssText = "font-size:13px;line-height:1.3;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;";
-          const meta = document.createElement("span");
-          meta.textContent = [campo.localidad, campo.provincia, campo.hectareas != null && campo.kind !== "servicio" ? `${campo.hectareas} ha` : ""].filter(Boolean).join(" · ");
-          meta.style.cssText = "font-size:11px;color:#667085;line-height:1.3;";
-          body.append(kind,title,meta);
-          const action = document.createElement("span");
-          action.textContent = country === "BR" ? "Ver publicação ↗" : country === "US" ? "View listing ↗" : "Ver publicación ↗";
-          action.style.cssText = "display:block;margin-top:5px;padding:10px;border:1px solid #d5dce3;border-radius:11px;text-align:center;font-size:13px;font-weight:700;";
-          body.appendChild(action);
-          card.appendChild(body);
-          card.addEventListener("mouseenter",()=>selectRef.current(campo.id));
-          popup.appendChild(card);
+          for (const campo of group) {
+            const card = document.createElement("a");
+            card.href = hrefRef.current?.(campo.id) || "#";
+            card.style.cssText = "display:flex;flex-direction:column;align-items:stretch;gap:9px;padding:12px;color:#102b43;text-decoration:none;border-bottom:1px solid #e5e9ed;min-height:76px;";
+            const photo = campo.foto || campo.fotos?.[0];
+            if (photo && (/^https:\/\//i.test(photo) || photo.startsWith("/"))) {
+              const img = document.createElement("img");
+              img.src = photo; img.alt = ""; img.loading = "lazy";
+              img.style.cssText = "display:block;width:100%;height:148px;object-fit:cover;border-radius:12px;background:#f2f4f6;";
+              card.appendChild(img);
+            }
+            const body = document.createElement("div");
+            body.style.cssText = "display:flex;flex-direction:column;gap:4px;min-width:0;";
+            const kind = document.createElement("span");
+            kind.textContent = campo.kind === "servicio" ? "SERVICIO RURAL" : "CAMPO";
+            kind.style.cssText = "font-size:10px;font-weight:750;letter-spacing:.06em;color:#c4254c;";
+            const title = document.createElement("strong");
+            title.textContent = campo.titulo;
+            title.style.cssText = "font-size:13px;line-height:1.3;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;";
+            const meta = document.createElement("span");
+            meta.textContent = [campo.localidad, campo.provincia, campo.hectareas != null && campo.kind !== "servicio" ? `${campo.hectareas} ha` : ""].filter(Boolean).join(" · ");
+            meta.style.cssText = "font-size:11px;color:#667085;line-height:1.3;";
+            body.append(kind,title,meta);
+            const action = document.createElement("span");
+            action.textContent = country === "BR" ? "Ver publicação ↗" : country === "US" ? "View listing ↗" : "Ver publicación ↗";
+            action.style.cssText = "display:block;margin-top:5px;padding:10px;border:1px solid #d5dce3;border-radius:11px;text-align:center;font-size:13px;font-weight:700;";
+            body.appendChild(action);
+            card.appendChild(body);
+            card.addEventListener("mouseenter",()=>selectRef.current(campo.id));
+            popup.appendChild(card);
+          }
+          marker.bindPopup(popup,{autoPan:true,autoPanPaddingTopLeft:[18,105],autoPanPaddingBottomRight:[18,20],minWidth:0,maxWidth:320,closeButton:true,className:"rural-pro-leaflet-popup"});
+          marker.on("click",()=>selectRef.current(first.id));
+          for (const item of group) markers.set(item.id,marker);
         }
-        marker.bindPopup(popup,{autoPan:true,autoPanPaddingTopLeft:[18,105],autoPanPaddingBottomRight:[18,20],minWidth:280,maxWidth:320,closeButton:true,className:"rural-pro-leaflet-popup"});
-        marker.on("click",()=>selectRef.current(first.id));
-        for (const item of group) markers.set(item.id,marker);
-      }
+        const active = selectedRef.current && markers.get(selectedRef.current);
+        if (active) {
+          active.getElement()?.classList.add("v3-marker-active");
+          active.setZIndexOffset(1000);
+        }
+      };
       const viewport = initialBoundsRef.current;
       allBoundsRef.current=locations.length ? L.latLngBounds(locations).pad(0.2) : null;
       if (viewport) {
@@ -134,6 +145,8 @@ export default function V3Map({ campos, country, selectedId, onSelect, onViewpor
       } else if (locations.length > 0) {
         map.fitBounds(L.latLngBounds(locations), { maxZoom: 9, animate: false, paddingTopLeft: [52, 125], paddingBottomRight: [52, 95] });
       }
+      renderMarkers();
+      map.on("zoomend", renderMarkers);
       let userMoved = false;
       markControlInteraction.current = () => { userMoved = true; };
       map.on("dragstart", () => { userMoved = true; });
@@ -190,15 +203,11 @@ export default function V3Map({ campos, country, selectedId, onSelect, onViewpor
   },[basemap,mapReady]);
 
   useEffect(() => {
-    markerRef.current.forEach((marker, id) => {
-      const element = marker.getElement();
-      element?.classList.toggle("v3-marker-active", id === selectedId);
-      if (id === selectedId) {
-        marker.setZIndexOffset(1000);
-
-      }
-      else marker.setZIndexOffset(0);
-    });
+    const selectedMarker = selectedId ? markerRef.current.get(selectedId) : null;
+    for (const marker of new Set(markerRef.current.values())) {
+      marker.getElement()?.classList.toggle("v3-marker-active", marker === selectedMarker);
+      marker.setZIndexOffset(marker === selectedMarker ? 1000 : 0);
+    }
   }, [selectedId, campos]);
 
   useEffect(()=>{

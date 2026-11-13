@@ -3,7 +3,8 @@ import { BackHandler, ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity,
 import { SafeAreaProvider, useSafeAreaInsets } from "react-native-safe-area-context";
 import { WebView } from "react-native-webview";
 
-const SITE = "https://rentocampo.com";
+const PREVIEW_SITE = process.env.EXPO_PUBLIC_RENTOCAMPO_PREVIEW_URL?.replace(/\/$/, "");
+const SITE = PREVIEW_SITE || "https://rentocampo.com";
 type Section = "inicio" | "campos" | "servicios" | "perfil";
 type WebDestination = { url: string; title: string };
 const NAV: { id: Section; title: string }[] = [
@@ -82,7 +83,7 @@ function AppShell() {
         <Text style={styles.description}>Encontrá oportunidades en Argentina.</Text>
         <View style={styles.space} />
         {action("Ver campos", "Listado de publicaciones", () => open("/campos", "Campos disponibles"), true)}
-        {action("Explorar mapa", "Ubicaciones de campos", () => open("/campos/mapa?vista=tierra", "Mapa de campos"))}
+        {action("Explorar mapa", "Ubicaciones de campos", () => PREVIEW_SITE ? open("/v3?tipo=campo&vista=mapa", "Mapa de campos") : open("/campos/mapa?vista=tierra", "Mapa de campos"))}
         <View style={styles.rule} />
         {action("Publicar un campo", "Accedé con tu cuenta", () => open("/login", "Ingresar"))}
       </>
@@ -94,7 +95,7 @@ function AppShell() {
         <Text style={styles.description}>Conectá con quienes trabajan en el campo.</Text>
         <View style={styles.space} />
         {action("Ver servicios", "Prestadores disponibles", () => open("/servicios-rurales", "Servicios disponibles"), true)}
-        {action("Explorar mapa", "Servicios por ubicación", () => open("/campos/mapa?vista=servicios", "Mapa de servicios"))}
+        {action("Explorar mapa", "Servicios por ubicación", () => PREVIEW_SITE ? open("/v3?tipo=servicio&vista=mapa", "Mapa de servicios") : open("/campos/mapa?vista=servicios", "Mapa de servicios"))}
         <View style={styles.rule} />
         {action("Ofrecer un servicio", "Accedé con tu cuenta", () => open("/login", "Ingresar"))}
       </>
@@ -105,7 +106,7 @@ function AppShell() {
         <Text style={styles.heading}>Mi perfil</Text>
         <Text style={styles.description}>Administrá tus publicaciones, consultas y datos.</Text>
         <View style={styles.space} />
-        {action("Ingresar", "Accedé a tu cuenta RentoCampo", () => open("/login", "Iniciar sesión"), true)}
+        {action("Ingresar", "Accedé a tu cuenta RentoCampo", () => open(PREVIEW_SITE ? "/v3/mi-rentocampo" : "/login", "Iniciar sesión"), true)}
         {action("Registrarme", "Creá tu cuenta gratis", () => open("/register", "Registro"))}
       </>
     );

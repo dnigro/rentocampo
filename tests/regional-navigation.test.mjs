@@ -368,3 +368,20 @@ test('publication security preview refuses inherited production credentials', ()
   assert.equal(isolated.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY,'sb_publishable_uat_fixture');
   assert.equal(isolated.SUPABASE_SERVICE_ROLE_KEY,undefined);
 });
+
+test('V3 RC only builds against isolated Preview credentials on Vercel', () => {
+  const branch = 'codex/rentocampo-v3-rc-20261113';
+  const env = {
+    VERCEL_ENV: 'preview', VERCEL_GIT_COMMIT_REF: branch,
+    NEXT_PUBLIC_SUPABASE_URL: 'https://production.invalid',
+    NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: 'sb_publishable_production_fixture',
+    SUPABASE_SERVICE_ROLE_KEY: 'production_fixture',
+  };
+  assert.throws(() => enforceUatIsolation({ ...env }), /branch-specific UAT credentials/);
+  assert.throws(() => enforceUatIsolation({ ...env, VERCEL_ENV: 'production' }), /only be deployed to Preview/);
+  const preview = { ...env, UAT_SUPABASE_PUBLISHABLE_KEY: 'sb_publishable_uat_fixture' };
+  enforceUatIsolation(preview);
+  assert.equal(preview.NEXT_PUBLIC_SUPABASE_URL, 'https://wibqszhvuvpjycheaxzi.supabase.co');
+  assert.equal(preview.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY, 'sb_publishable_uat_fixture');
+  assert.equal(preview.SUPABASE_SERVICE_ROLE_KEY, undefined);
+});
