@@ -322,3 +322,33 @@
 @media(max-width:700px){.v3-map-frame.v3-map-expanded{inset:6px}.v3-map-tools{right:10px;top:10px}.v3-map-caption{font-size:11px}.v3-map-search-controls{right:65px}}
 .v3-listing-info .rural-demo-note{color:#725a24;font-size:12px;line-height:1.5}
 .v3-listing-card[data-demo=true] .v3-listing-badge{background:#fff3cf;color:#654d15}
+
+/* V3 final review: large restrained listing cards, and map scrolls with document. */
+.v3-shell.v3-integrated .v3-listing-card{
+ background:#fff;border:1px solid #e5e5e7;border-radius:16px;overflow:hidden;
+ box-shadow:none;min-width:0;transition:border-color .15s ease;
+}
+.v3-shell.v3-integrated .v3-listing-card:hover{border-color:#c7c7cc;box-shadow:none}
+.v3-shell.v3-integrated .v3-listing-media{border-radius:0;aspect-ratio:1.35}
+.v3-shell.v3-integrated .v3-listing-info{padding:17px 18px 20px;gap:9px;color:#1d1d1f}
+.v3-shell.v3-integrated .v3-listing-info strong{font-size:18px;font-weight:750;line-height:1.35;color:#1d1d1f}
+.v3-shell.v3-integrated .v3-listing-info>span{font-size:13px;color:#6e6e73}
+.v3-shell.v3-integrated .v3-listing-info b{color:#1d1d1f;font-size:16px}
+.v3-shell.v3-integrated .v3-listing-info .v3-listing-details{color:#1d1d1f;font-weight:650;font-size:13px}
+.v3-shell.v3-integrated .v3-listing-badge{color:#1d1d1f;box-shadow:none;border:1px solid #e5e5e7}
+.v3-shell.v3-integrated .v3-listing-card .rural-card-features svg{color:#6e6e73}
+.v3-shell.v3-integrated .v3-selected-card{outline:1px solid #86868b;outline-offset:0;border-radius:16px}
+.v3-shell.v3-integrated .rural-map-panel,
+.v3-shell.v3-integrated .v3-marketplace-map-panel,
+.v3-shell.v3-integrated .v3-catalog-map .v3-marketplace-map-panel{
+ position:relative!important;top:auto!important;align-self:start;
+}
+@media(min-width:1024px){
+ .v3-shell.v3-integrated .rural-map-panel,
+ .v3-shell.v3-integrated .v3-catalog-map .v3-marketplace-map-panel{position:relative!important;top:auto!important}
+}
+@media(max-width:700px){
+ .v3-shell.v3-integrated .v3-listing-info{padding:12px 13px 16px}
+ .v3-shell.v3-integrated .v3-listing-info strong{font-size:15px}
+ .v3-shell.v3-integrated .v3-listing-media{aspect-ratio:1.15}
+}
