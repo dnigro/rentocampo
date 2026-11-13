@@ -85,13 +85,12 @@ export default function V3Map({ campos, country, selectedId, onSelect, onViewpor
           title:campo.titulo,
           keyboard:true
         }).addTo(map);
-        marker.bindTooltip(campo.titulo, { direction:"top", offset:[0,-14] });
         const popup = document.createElement("div");
         popup.className="rural-pro-popup";
-        popup.style.cssText="display:flex;flex-direction:column;gap:8px;min-width:220px;max-width:280px;overflow-wrap:anywhere;white-space:normal;line-height:1.4";
+        popup.style.cssText="box-sizing:border-box;display:flex;flex-direction:column;gap:7px;width:248px;max-width:calc(100vw - 90px);padding:12px 14px;background:#fff;color:#102b43;border-radius:14px;overflow-wrap:anywhere;white-space:normal;line-height:1.4;box-shadow:0 8px 28px rgba(0,0,0,.12);";
         const heading = document.createElement("strong");
         heading.textContent = campo.titulo;
-        heading.style.cssText = "font-size:15px;line-height:1.3";
+        heading.style.cssText = "display:block;font-size:15px;line-height:1.35;font-weight:750;max-height:4.05em;overflow:hidden";
         popup.appendChild(heading);
         const kind=document.createElement("span");kind.className="rural-pro-popup-kind";kind.textContent=campo.kind==="campo"?"Campo":"Servicio rural";popup.prepend(kind);
         const location = document.createElement("span");
@@ -105,7 +104,7 @@ export default function V3Map({ campos, country, selectedId, onSelect, onViewpor
         link.href = hrefRef.current?.(campo.id) || "#";
         link.style.cssText = "font-weight:700;color:#12324b;text-decoration:underline";
         popup.appendChild(link);
-        marker.bindPopup(popup, { autoPan: true, autoPanPaddingTopLeft: [24, 95], autoPanPaddingBottomRight: [24, 24], minWidth:240, maxWidth:300, closeButton:true, className:"rural-pro-leaflet-popup" });
+        marker.bindPopup(popup, { autoPan: true, autoPanPaddingTopLeft: [24, 115], autoPanPaddingBottomRight: [24, 24], minWidth:248, maxWidth:248, closeButton:true, className:"rural-pro-leaflet-popup" });
         marker.on("click",()=>{
           selectRef.current(campo.id);
           // Keep current zoom and viewport: popup opens anchored to the clicked marker.
