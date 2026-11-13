@@ -128,7 +128,7 @@ export default function V3Map({ campos, country, selectedId, onSelect, onViewpor
             popup.appendChild(card);
           }
           marker.bindPopup(popup,{autoPan:true,autoPanPaddingTopLeft:[18,105],autoPanPaddingBottomRight:[18,20],minWidth:0,maxWidth:320,closeButton:true,className:"rural-pro-leaflet-popup"});
-          marker.on("click",()=>selectRef.current(first.id));
+          marker.on("click",()=>{\n            selectRef.current(first.id);\n            // Explicitly open the listing cards: selection alone only highlights a pin.\n            marker.openPopup();\n          });
           for (const item of group) markers.set(item.id,marker);
         }
         const active = selectedRef.current && markers.get(selectedRef.current);
@@ -146,7 +146,7 @@ export default function V3Map({ campos, country, selectedId, onSelect, onViewpor
         map.fitBounds(L.latLngBounds(locations), { maxZoom: 9, animate: false, paddingTopLeft: [52, 125], paddingBottomRight: [52, 95] });
       }
       renderMarkers();
-      map.on("zoomend", renderMarkers);
+      map.on("zoomend", () => {\n        // Clearing the marker layer destroys its open popup. Keep cards visible\n        // while Leaflet auto-pans/zooms to accommodate a selected listing.\n        let popupOpen = false;\n        markerLayer.eachLayer(layer => {\n          if (layer instanceof L.Marker && layer.isPopupOpen()) popupOpen = true;\n        });\n        if (!popupOpen) renderMarkers();\n      });
       let userMoved = false;
       markControlInteraction.current = () => { userMoved = true; };
       map.on("dragstart", () => { userMoved = true; });
