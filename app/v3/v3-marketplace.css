@@ -352,3 +352,15 @@
  .v3-shell.v3-integrated .v3-listing-info strong{font-size:15px}
  .v3-shell.v3-integrated .v3-listing-media{aspect-ratio:1.15}
 }
+
+/* Keep the map alongside the listings during page scroll, without nested scrollbars. */
+@media(min-width:1024px){
+ html body .v3-shell.v3-integrated .rural-explorer-body{align-items:start!important;overflow:visible!important}
+ html body .v3-shell.v3-integrated .rural-results{overflow:visible!important;max-height:none!important;min-height:0!important}
+ html body .v3-shell.v3-integrated .rural-explorer-body>.rural-map-panel,
+ html body .v3-shell.v3-integrated .v3-catalog-map .v3-marketplace-map-panel{
+  position:sticky!important;top:106px!important;align-self:start!important;
+  height:min(74dvh,740px)!important;min-height:440px!important;
+ }
+ html body .v3-shell.v3-integrated .v3-catalog-map .v3-marketplace-list{overflow:visible!important;max-height:none!important}
+}
