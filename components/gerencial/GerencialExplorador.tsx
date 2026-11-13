@@ -1,48 +1,32 @@
 "use client";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useState } from "react";
 import { COUNTRIES, isCountryCode } from "@/data/countries";
-import "leaflet/dist/leaflet.css";
+import latamGeo from "@/data/latam-map.json";
 type CountryStats={country:string;registrations:number;activeLands:number;activeServices:number};
 type MonthStats={month:string;registrations:number;activeLands:number;activeServices:number};
 type Totals={registrations:number;activeLands:number;activeServices:number};
 const fmt=(n:number)=>n.toLocaleString("es-AR");
 const name=(c:string)=>isCountryCode(c)?COUNTRIES[c].name:c;
+type Position=number[];
+type Geometry={type:string;coordinates:unknown};
+type Feature={type:string;properties:{code:string;name:string};geometry:Geometry};
+const geoFeatures=(latamGeo.features as Feature[]).filter(f=>f.properties.code!=="US");
+const project=(p:Position):[number,number]=>[(p[0]+118)*5.15,(34-p[1])*5.15];
+function geometryPath(geometry:Geometry){
+ const polygons=geometry.type==="Polygon"?[geometry.coordinates]:geometry.type==="MultiPolygon"?geometry.coordinates:[];
+ return (polygons as Position[][][]).flatMap(poly=>poly.map(ring=>ring.map((pt,i)=>{
+  const [x,y]=project(pt);return (i?"L":"M")+x.toFixed(2)+" "+y.toFixed(2);
+ }).join(" ")+" Z")).join(" ");
+}
 function ActivityMap({rows,selected,onSelect}:{rows:CountryStats[];selected:string;onSelect:(v:string)=>void}){
- const node=useRef<HTMLDivElement>(null);
- useEffect(()=>{
-  let alive=true;
-  let cleanup=()=>{};
-  void import("leaflet").then(async L=>{
-   if(!alive||!node.current)return;
-   const m=L.map(node.current,{scrollWheelZoom:false,zoomControl:false,attributionControl:true,preferCanvas:true}).setView([-14,-72],3);
-   // No raster tile provider: the report is a clean political map, not a street map.
-   const stats=new Map(rows.map(r=>[r.country,r.registrations]));
-   const color=(count:number)=>count===0?"#e2e7e3":count<10?"#c1dfc8":count<50?"#78b68a":count<200?"#36885a":"#126a39";
-   let layer:ReturnType<typeof L.geoJSON>|null=null;
-   try{
-    const response=await fetch("/geo/latam-countries.geojson");
-    if(!response.ok)throw new Error("Mapa geográfico no disponible");
-    const geo=await response.json();
-    if(!alive)return;
-    layer=L.geoJSON(geo,{style:(feature)=>{
-     const p=feature?.properties||{};
-     const code=String(p.code||"");
-     const count=stats.get(code)||0;
-     return {color:selected===code?"#18221b":"#fff",weight:selected===code?2.5:1,fillColor:color(count),fillOpacity:.88};
-    },onEachFeature:(feature,shape)=>{
-     const p=feature.properties||{};
-     const code=String(p.code||"");
-     if(!stats.has(code))return;
-     shape.bindTooltip(name(code)+": "+fmt(stats.get(code)||0)+" registros verificados");
-     shape.on("click",()=>onSelect(code));
-    }}).addTo(m);
-    m.fitBounds([[-56,-118],[33,-34]],{padding:[8,8]});
-   }catch(error){if(alive&&node.current){node.current.setAttribute("data-map-error","true");node.current.setAttribute("aria-label","No se pudo cargar el mapa político");}}
-   cleanup=()=>{layer?.remove();m.remove()};
-  });
-  return ()=>{alive=false;cleanup()};
- },[rows,selected,onSelect]);
- return <div className="ag-map" ref={node} aria-label="Mapa coroplético de registros verificados por país en Latinoamérica"/>;
+ const stats=new Map(rows.map(r=>[r.country,r.registrations]));
+ const color=(count:number)=>count===0?"#e2e7e3":count<10?"#c1dfc8":count<50?"#78b68a":count<200?"#36885a":"#126a39";
+ return <div className="ag-map ag-svgmap"><svg viewBox="0 0 460 485" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Mapa de países de Latinoamérica coloreados según registros verificados">
+ {geoFeatures.map(feature=>{
+  const code=feature.properties.code,count=stats.get(code)||0;
+  return <path key={code} d={geometryPath(feature.geometry)} fill={color(count)} stroke={selected===code?"#16251c":"#fff"} strokeWidth={selected===code?2:0.8} strokeLinejoin="round" className="ag-country" tabIndex={stats.has(code)?0:undefined} role={stats.has(code)?"button":undefined} aria-label={name(code)+": "+fmt(count)+" registros verificados"} onClick={()=>stats.has(code)&&onSelect(code)} onKeyDown={e=>{if(stats.has(code)&&(e.key==="Enter"||e.key===" ")){e.preventDefault();onSelect(code)}}}><title>{name(code)+": "+fmt(count)+" registros verificados"}</title></path>
+ })}
+ </svg><div className="ag-maplegend"><span><i style={{background:"#e2e7e3"}}/>Sin registros</span><span><i style={{background:"#c1dfc8"}}/>Inicial</span><span><i style={{background:"#78b68a"}}/>Media</span><span><i style={{background:"#126a39"}}/>Mayor actividad</span></div></div>;
 }
 export default function GerencialExplorador({countries,months,totals,updatedAt}:{countries:CountryStats[];months:MonthStats[];totals:Totals;updatedAt:string}){
  const [selected,setSelected]=useState("ALL");
