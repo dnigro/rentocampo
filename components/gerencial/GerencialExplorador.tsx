@@ -7,7 +7,6 @@ type MonthStats={month:string;registrations:number;activeLands:number;activeServ
 type Totals={registrations:number;activeLands:number;activeServices:number};
 const fmt=(n:number)=>n.toLocaleString("es-AR");
 const name=(c:string)=>isCountryCode(c)?COUNTRIES[c].name:c;
-const iso3to2:Record<string,string>={ARG:"AR",URY:"UY",PRY:"PY",BRA:"BR",CHL:"CL",BOL:"BO",PER:"PE",ECU:"EC",COL:"CO",VEN:"VE",MEX:"MX",GTM:"GT",HND:"HN",SLV:"SV",NIC:"NI",CRI:"CR",PAN:"PA",USA:"US",DOM:"DO"};
 function ActivityMap({rows,selected,onSelect}:{rows:CountryStats[];selected:string;onSelect:(v:string)=>void}){
  const node=useRef<HTMLDivElement>(null);
  useEffect(()=>{
@@ -21,24 +20,24 @@ function ActivityMap({rows,selected,onSelect}:{rows:CountryStats[];selected:stri
    const color=(count:number)=>count===0?"#e2e7e3":count<10?"#c1dfc8":count<50?"#78b68a":count<200?"#36885a":"#126a39";
    let layer:ReturnType<typeof L.geoJSON>|null=null;
    try{
-    const response=await fetch("https://raw.githubusercontent.com/datasets/geo-countries/master/data/countries.geojson");
+    const response=await fetch("/geo/latam-countries.geojson");
     if(!response.ok)throw new Error("Mapa geográfico no disponible");
     const geo=await response.json();
     if(!alive)return;
     layer=L.geoJSON(geo,{style:(feature)=>{
      const p=feature?.properties||{};
-     const code=iso3to2[String(p["ISO3166-1-Alpha-3"]||p["ISO3166-1-Alpha-3"]||p.ISO_A3||p.ADM0_A3||p.iso_a3||p.id||"")]||String(p.ISO_A2||p.iso_a2||"");
+     const code=String(p.code||"");
      const count=stats.get(code)||0;
      return {color:selected===code?"#18221b":"#fff",weight:selected===code?2.5:1,fillColor:color(count),fillOpacity:.88};
     },onEachFeature:(feature,shape)=>{
      const p=feature.properties||{};
-     const code=iso3to2[String(p.ISO_A3||p.ADM0_A3||p.iso_a3||p.id||"")]||String(p.ISO_A2||p.iso_a2||"");
+     const code=String(p.code||"");
      if(!stats.has(code))return;
      shape.bindTooltip(name(code)+": "+fmt(stats.get(code)||0)+" registros verificados");
      shape.on("click",()=>onSelect(code));
     }}).addTo(m);
     m.fitBounds([[-56,-118],[33,-34]],{padding:[8,8]});
-   }catch(error){if(alive&&node.current){node.current.setAttribute("data-map-error","true");}}
+   }catch(error){if(alive&&node.current){node.current.setAttribute("data-map-error","true");node.current.setAttribute("aria-label","No se pudo cargar el mapa político");}}
    cleanup=()=>{layer?.remove();m.remove()};
   });
   return ()=>{alive=false;cleanup()};
