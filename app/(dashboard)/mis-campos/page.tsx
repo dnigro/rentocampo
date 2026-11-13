@@ -67,9 +67,6 @@ export default async function MisCamposPage() {
                : tt("Todavía no publicaste ningún campo","Você ainda não anunciou terras")}
           </p>
         </div>
-        <Link href="/mis-campos/nuevo" className="btn-primary-lg">
-          + {tt("Publicar campo","Anunciar terra")}
-        </Link>
       </div>
 
       <div className="rc-publish-action"><Link href="/mis-campos/nuevo" className="rc-publish-button">+ {tt("Publicar campo","Anunciar terra")}</Link></div>
