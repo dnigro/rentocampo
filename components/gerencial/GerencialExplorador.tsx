@@ -24,7 +24,7 @@ function ActivityMap({rows,selected,onSelect}:{rows:CountryStats[];selected:stri
    const m=L.map(node.current,{scrollWheelZoom:false,zoomControl:true,attributionControl:true}).setView([-15,-68],3);
    map.current=m;
    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:18,attribution:"© OpenStreetMap contributors"}).addTo(m);
-   const markers:L.CircleMarker[]=[];
+   const markers:ReturnType<typeof L.circleMarker>[]=[];
    rows.forEach(r=>{
     const point=centers[r.country];if(!point)return;
     const count=r.registrations;
