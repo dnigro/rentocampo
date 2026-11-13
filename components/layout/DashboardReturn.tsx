@@ -5,9 +5,11 @@ import { ArrowLeft } from "lucide-react";
 import { useRegionalCountry } from "@/lib/i18n/useRegionalCountry";
 import { regionalText } from "@/lib/i18n/regional";
 import { usePathname } from "next/navigation";
+import { useSharedPreviewChrome } from "./PreviewChromeContext";
 
 export default function DashboardReturn() {
   const pathname = usePathname();
+  const v3 = useSharedPreviewChrome();
   const country = useRegionalCountry();
   // Formulario de alta o edición: retorno al listado correcto, sin botón duplicado.
   const isCampoForm =
@@ -21,7 +23,7 @@ export default function DashboardReturn() {
     ? "/mis-campos"
     : isServicioForm
       ? "/mis-servicios-rurales"
-      : "/dashboard";
+      : v3 ? "/v3/mi-rentocampo" : "/dashboard";
   const backLabel = isCampoForm
     ? regionalText(country, "Volver a Mis campos", "Voltar aos meus campos", "Back to my fields")
     : isServicioForm
