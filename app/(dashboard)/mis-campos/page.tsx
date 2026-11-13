@@ -72,6 +72,7 @@ export default async function MisCamposPage() {
         </Link>
       </div>
 
+      <div className="rc-publish-action"><Link href="/mis-campos/nuevo" className="rc-publish-button">+ {tt("Publicar campo","Anunciar terra")}</Link></div>
       <MisCamposLista campos={campos ?? []} />
     </div>
   );
