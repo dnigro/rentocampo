@@ -86,25 +86,51 @@ export default function V3Map({ campos, country, selectedId, onSelect, onViewpor
           keyboard:true
         }).addTo(map);
         const popup = document.createElement("div");
-        popup.className="rural-pro-popup";
-        popup.style.cssText="box-sizing:border-box;display:flex;flex-direction:column;gap:7px;width:248px;max-width:calc(100vw - 90px);padding:12px 14px;background:#fff;color:#102b43;border-radius:14px;overflow-wrap:anywhere;white-space:normal;line-height:1.4;box-shadow:0 8px 28px rgba(0,0,0,.12);";
+        popup.className = "rural-pro-popup";
+        popup.style.cssText = "box-sizing:border-box;display:flex;flex-direction:column;width:264px;max-width:calc(100vw - 88px);background:#fff;color:#102b43;border-radius:16px;overflow:hidden;box-shadow:0 10px 32px rgba(0,0,0,.13);font-family:inherit;";
+        const photo = campo.foto || campo.fotos?.[0];
+        if (photo && (/^https:\/\//i.test(photo) || photo.startsWith("/"))) {
+          const image = document.createElement("img");
+          image.src = photo;
+          image.alt = campo.titulo;
+          image.loading = "lazy";
+          image.style.cssText = "display:block;width:100%;height:132px;object-fit:cover;background:#f2f4f6;";
+          popup.appendChild(image);
+        }
+        const details = document.createElement("div");
+        details.style.cssText = "display:flex;flex-direction:column;gap:7px;padding:12px 14px 14px;";
+        const kind = document.createElement("span");
+        kind.textContent = campo.kind === "servicio" ? "SERVICIO RURAL" : "CAMPO";
+        kind.style.cssText = "font-size:10px;font-weight:750;letter-spacing:.07em;color:#687887;";
+        details.appendChild(kind);
         const heading = document.createElement("strong");
         heading.textContent = campo.titulo;
-        heading.style.cssText = "display:block;font-size:15px;line-height:1.35;font-weight:750;max-height:4.05em;overflow:hidden";
-        popup.appendChild(heading);
-        const kind=document.createElement("span");kind.className="rural-pro-popup-kind";kind.textContent=campo.kind==="campo"?"Campo":"Servicio rural";popup.prepend(kind);
+        heading.style.cssText = "display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;font-size:15px;line-height:1.35;font-weight:750;";
+        details.appendChild(heading);
         const location = document.createElement("span");
         location.textContent = [campo.localidad, campo.provincia].filter(Boolean).join(", ");
-        location.style.cssText = "color:#667085;font-size:13px";
-        popup.appendChild(location);
-        if(campo.kind==="campo" && campo.hectareas != null){const area=document.createElement("span");area.textContent=`${campo.hectareas.toLocaleString()} ha`;popup.appendChild(area);}
-        if(campo.kind==="servicio" && "coverage" in campo && typeof campo.coverage === "string" && campo.coverage){const coverage=document.createElement("span");coverage.textContent=`Cobertura: ${campo.coverage}`;popup.appendChild(coverage);}
+        location.style.cssText = "font-size:12px;color:#667085;line-height:1.4;";
+        if (location.textContent) details.appendChild(location);
+        const metadata = [campo.kind !== "servicio" && campo.hectareas != null ? `${campo.hectareas.toLocaleString()} ha` : "", campo.aptitud || ""].filter(Boolean).join(" · ");
+        if (metadata) {
+          const info = document.createElement("span");
+          info.textContent = metadata;
+          info.style.cssText = "font-size:12px;color:#566476;";
+          details.appendChild(info);
+        }
+        if (campo.precio != null && Number.isFinite(campo.precio)) {
+          const price = document.createElement("strong");
+          price.textContent = [campo.moneda, campo.precio.toLocaleString()].filter(Boolean).join(" ");
+          price.style.cssText = "font-size:15px;color:#102b43;";
+          details.appendChild(price);
+        }
         const link = document.createElement("a");
         link.textContent = "Ver publicación ↗";
         link.href = hrefRef.current?.(campo.id) || "#";
-        link.style.cssText = "font-weight:700;color:#12324b;text-decoration:underline";
-        popup.appendChild(link);
-        marker.bindPopup(popup, { autoPan: true, autoPanPaddingTopLeft: [24, 115], autoPanPaddingBottomRight: [24, 24], minWidth:248, maxWidth:248, closeButton:true, className:"rural-pro-leaflet-popup" });
+        link.style.cssText = "display:block;text-align:center;padding:10px 12px;border:1px solid #d2d9e0;border-radius:10px;background:#fff;color:#12324b;font-size:13px;font-weight:750;text-decoration:none;";
+        details.appendChild(link);
+        popup.appendChild(details);
+        marker.bindPopup(popup, { autoPan:true, autoPanPaddingTopLeft:[18,105], autoPanPaddingBottomRight:[18,20], minWidth:264, maxWidth:264, closeButton:true, className:"rural-pro-leaflet-popup" });
         marker.on("click",()=>{
           selectRef.current(campo.id);
           // Keep current zoom and viewport: popup opens anchored to the clicked marker.
