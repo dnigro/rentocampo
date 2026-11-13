@@ -7,38 +7,43 @@ type MonthStats={month:string;registrations:number;activeLands:number;activeServ
 type Totals={registrations:number;activeLands:number;activeServices:number};
 const fmt=(n:number)=>n.toLocaleString("es-AR");
 const name=(c:string)=>isCountryCode(c)?COUNTRIES[c].name:c;
-const centers:Record<string,[number,number]>={
- AR:[-38.4,-63.6],UY:[-32.5,-55.8],PY:[-23.4,-58.4],BR:[-14.2,-51.9],CL:[-35.7,-71.5],
- BO:[-16.3,-63.6],PE:[-9.2,-75],EC:[-1.8,-78.2],CO:[4.6,-74.1],VE:[6.4,-66.6],
- MX:[23.6,-102.5],GT:[15.8,-90.2],HN:[15.2,-86.2],SV:[13.8,-88.9],NI:[12.9,-85.2],
- CR:[9.7,-84],PA:[8.5,-80],US:[38,-97]
-};
+const iso3to2:Record<string,string>={ARG:"AR",URY:"UY",PRY:"PY",BRA:"BR",CHL:"CL",BOL:"BO",PER:"PE",ECU:"EC",COL:"CO",VEN:"VE",MEX:"MX",GTM:"GT",HND:"HN",SLV:"SV",NIC:"NI",CRI:"CR",PAN:"PA",USA:"US",DOM:"DO"};
 function ActivityMap({rows,selected,onSelect}:{rows:CountryStats[];selected:string;onSelect:(v:string)=>void}){
  const node=useRef<HTMLDivElement>(null);
- const map=useRef<import("leaflet").Map|null>(null);
  useEffect(()=>{
   let alive=true;
   let cleanup=()=>{};
-  void import("leaflet").then(L=>{
+  void import("leaflet").then(async L=>{
    if(!alive||!node.current)return;
-   const m=L.map(node.current,{scrollWheelZoom:false,zoomControl:true,attributionControl:true}).setView([-15,-68],3);
-   map.current=m;
-   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:18,attribution:"© OpenStreetMap contributors"}).addTo(m);
-   const markers:ReturnType<typeof L.circleMarker>[]=[];
-   rows.forEach(r=>{
-    const point=centers[r.country];if(!point)return;
-    const count=r.registrations;
-    const intensity=count===0?"#cbd5d1":count<10?"#b4d7bd":count<50?"#6aa77c":"#126d38";
-    const circle=L.circleMarker(point,{radius:Math.min(26,7+Math.sqrt(count)*1.3),color:selected===r.country?"#111":"#fff",weight:selected===r.country?3:1.5,fillColor:intensity,fillOpacity:.83}).addTo(m);
-    circle.bindTooltip(name(r.country)+": "+fmt(count)+" registros verificados");
-    circle.on("click",()=>onSelect(r.country));markers.push(circle);
-   });
-   cleanup=()=>{markers.forEach(x=>x.remove());m.remove();map.current=null;};
-   setTimeout(()=>{if(alive)m.invalidateSize()},100);
+   const m=L.map(node.current,{scrollWheelZoom:false,zoomControl:false,attributionControl:true,preferCanvas:true}).setView([-14,-72],3);
+   L.tileLayer("https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png",{attribution:"© OpenStreetMap © CARTO",maxZoom:17}).addTo(m);
+   const stats=new Map(rows.map(r=>[r.country,r.registrations]));
+   const color=(count:number)=>count===0?"#e2e7e3":count<10?"#c1dfc8":count<50?"#78b68a":count<200?"#36885a":"#126a39";
+   let layer:ReturnType<typeof L.geoJSON>|null=null;
+   try{
+    const response=await fetch("/geo/latam-countries.geojson");
+    if(!response.ok)throw new Error("Mapa geográfico no disponible");
+    const geo=await response.json();
+    if(!alive)return;
+    layer=L.geoJSON(geo,{style:(feature)=>{
+     const p=feature?.properties||{};
+     const code=iso3to2[String(p.ISO_A3||p.ADM0_A3||p.iso_a3||p.id||"")]||String(p.ISO_A2||p.iso_a2||"");
+     const count=stats.get(code)||0;
+     return {color:selected===code?"#18221b":"#fff",weight:selected===code?2.5:1,fillColor:color(count),fillOpacity:.88};
+    },onEachFeature:(feature,shape)=>{
+     const p=feature.properties||{};
+     const code=iso3to2[String(p.ISO_A3||p.ADM0_A3||p.iso_a3||p.id||"")]||String(p.ISO_A2||p.iso_a2||"");
+     if(!stats.has(code))return;
+     shape.bindTooltip(name(code)+": "+fmt(stats.get(code)||0)+" registros verificados");
+     shape.on("click",()=>onSelect(code));
+    }}).addTo(m);
+    m.fitBounds([[-56,-118],[33,-34]],{padding:[8,8]});
+   }catch(error){if(alive&&node.current){node.current.setAttribute("data-map-error","true");}}
+   cleanup=()=>{layer?.remove();m.remove()};
   });
   return ()=>{alive=false;cleanup()};
  },[rows,selected,onSelect]);
- return <div className="ag-map" ref={node} aria-label="Mapa interactivo de actividad por país en Latinoamérica"/>;
+ return <div className="ag-map" ref={node} aria-label="Mapa coroplético de registros verificados por país en Latinoamérica"/>;
 }
 export default function GerencialExplorador({countries,months,totals,updatedAt}:{countries:CountryStats[];months:MonthStats[];totals:Totals;updatedAt:string}){
  const [selected,setSelected]=useState("ALL");
