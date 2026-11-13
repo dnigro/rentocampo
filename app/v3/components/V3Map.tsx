@@ -39,6 +39,8 @@ export default function V3Map({ campos, country, selectedId, onSelect, onViewpor
   useEffect(() => { selectedRef.current = selectedId; }, [selectedId]);
   useEffect(() => { selectRef.current = onSelect; }, [onSelect]);
 
+  const camposRef = useRef(campos);
+  useEffect(() => { camposRef.current = campos; }, [campos]);
   useEffect(() => {
     let cancelled = false;
     let map: LeafletMap | null = null;
@@ -61,13 +63,13 @@ export default function V3Map({ campos, country, selectedId, onSelect, onViewpor
       const locations: [number, number][] = [];
       markers.clear();
       const colocated = new Map<string, number>();
-      for (const item of campos) {
+      for (const item of camposRef.current) {
         if (item.lat == null || item.lng == null) continue;
         const key = `${item.lat},${item.lng}`;
         colocated.set(key,(colocated.get(key)||0)+1);
       }
       const seen = new Map<string,number>();
-      for (const campo of campos) {
+      for (const campo of camposRef.current) {
         if (campo.lat == null || campo.lng == null) continue;
         const position: [number,number] = [campo.lat,campo.lng];
         locations.push(position);
@@ -85,6 +87,7 @@ export default function V3Map({ campos, country, selectedId, onSelect, onViewpor
         marker.bindTooltip(campo.titulo, { direction:"top", offset:[0,-14] });
         const popup = document.createElement("div");
         popup.className="rural-pro-popup";
+        popup.style.cssText="display:flex;flex-direction:column;gap:8px;min-width:220px;max-width:280px;overflow-wrap:anywhere;white-space:normal;line-height:1.4";
         const heading = document.createElement("strong");
         heading.textContent = campo.titulo;
         heading.style.cssText = "font-size:15px;line-height:1.3";
@@ -101,7 +104,7 @@ export default function V3Map({ campos, country, selectedId, onSelect, onViewpor
         link.href = hrefRef.current?.(campo.id) || "#";
         link.style.cssText = "font-weight:700;color:#12324b;text-decoration:underline";
         popup.appendChild(link);
-        marker.bindPopup(popup, { autoPan: true, autoPanPaddingTopLeft: [24, 95], autoPanPaddingBottomRight: [24, 24], maxWidth:300, closeButton:true, className:"rural-pro-leaflet-popup" });
+        marker.bindPopup(popup, { autoPan: true, autoPanPaddingTopLeft: [24, 95], autoPanPaddingBottomRight: [24, 24], minWidth:240, maxWidth:300, closeButton:true, className:"rural-pro-leaflet-popup" });
         marker.on("click",()=>{
           selectRef.current(campo.id);
           // Keep current zoom and viewport: popup opens anchored to the clicked marker.
@@ -157,7 +160,7 @@ export default function V3Map({ campos, country, selectedId, onSelect, onViewpor
       map?.remove();
       mapRef.current = null;
     };
-  }, [campos, country]);
+  }, [country]);
 
   useEffect(()=>{
     const map=mapRef.current;
