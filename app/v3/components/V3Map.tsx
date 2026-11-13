@@ -1,17 +1,23 @@
 "use client";
 
-import { Maximize2, Minimize2, Plus, Minus } from "lucide-react";
+import { Maximize2, Minimize2, Plus, Minus, Layers, LocateFixed, Scan, X } from "lucide-react";
 import { v3Text } from "@/lib/i18n/v3-copy";
 import { useEffect, useRef, useState } from "react";
 import type { Map as LeafletMap, Marker } from "leaflet";
-import type { V3Campo } from "./V3Explorer";
-import { markerLabel, type MapBounds } from "@/lib/campos/map-search";
+import type { RuralListing } from "@/lib/v3/types";
+import { type MapBounds } from "@/lib/campos/map-search";
 import { COUNTRIES, type CountryCode } from "@/data/countries";
 
-type Props = { campos: V3Campo[]; country: CountryCode; selectedId: string | null; onSelect: (id: string) => void; onViewportChange: (bounds: MapBounds) => void; initialBounds?: MapBounds | null; getHref?: (id: string) => string };
+type Props = { campos: RuralListing[]; country: CountryCode; selectedId: string | null; onSelect: (id: string) => void; onViewportChange: (bounds: MapBounds) => void; initialBounds?: MapBounds | null; getHref?: (id: string) => string };
 
 export default function V3Map({ campos, country, selectedId, onSelect, onViewportChange, initialBounds, getHref }: Props) {
   const [expanded,setExpanded]=useState(false);
+  const [basemap,setBasemap]=useState<"standard"|"satellite">("standard");
+  const [layerMenu,setLayerMenu]=useState(false);
+  const [locating,setLocating]=useState(false);
+  const [locationError,setLocationError]=useState("");
+  const baseLayerRef=useRef<import("leaflet").TileLayer | null>(null);
+  const allBoundsRef=useRef<import("leaflet").LatLngBounds | null>(null);
   const frameRef=useRef<HTMLDivElement>(null);
   const expandButtonRef=useRef<HTMLButtonElement>(null);
   const t=(es:string,pt:string,en:string)=>country==="BR"?pt:country==="US"?en:es;
@@ -47,10 +53,11 @@ export default function V3Map({ campos, country, selectedId, onSelect, onViewpor
       map = L.map(containerRef.current, { scrollWheelZoom: true, zoomControl: false, zoomAnimation: true, fadeAnimation: true, markerZoomAnimation: true })
         .setView([...region.mapCenter] as [number, number], region.mapZoom);
       mapRef.current = map;
-      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+      const tileLayer=L.tileLayer(basemap==="satellite" ? "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}" : "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution: basemap==="satellite" ? 'Tiles &copy; Esri' : '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
         maxZoom: 18
       }).on("tileerror", () => { if (!cancelled) setMapError(true); }).addTo(map);
+      baseLayerRef.current=tileLayer;
       const locations: [number, number][] = [];
       markers.clear();
       const colocated = new Map<string, number>();
@@ -77,21 +84,24 @@ export default function V3Map({ campos, country, selectedId, onSelect, onViewpor
         }).addTo(map);
         marker.bindTooltip(campo.titulo, { direction:"top", offset:[0,-14] });
         const popup = document.createElement("div");
-        popup.style.cssText = "width:240px;max-width:70vw;display:grid;gap:8px;font-family:inherit";
+        popup.className="rural-pro-popup";
         const heading = document.createElement("strong");
         heading.textContent = campo.titulo;
         heading.style.cssText = "font-size:15px;line-height:1.3";
         popup.appendChild(heading);
+        const kind=document.createElement("span");kind.className="rural-pro-popup-kind";kind.textContent=campo.kind==="campo"?"Campo":"Servicio rural";popup.prepend(kind);
         const location = document.createElement("span");
         location.textContent = [campo.localidad, campo.provincia].filter(Boolean).join(", ");
         location.style.cssText = "color:#667085;font-size:13px";
         popup.appendChild(location);
+        if(campo.kind==="campo" && campo.hectareas != null){const area=document.createElement("span");area.textContent=`${campo.hectareas.toLocaleString()} ha`;popup.appendChild(area);}
+        if(campo.kind==="servicio" && campo.coverage){const coverage=document.createElement("span");coverage.textContent=`Cobertura: ${campo.coverage}`;popup.appendChild(coverage);}
         const link = document.createElement("a");
         link.textContent = "Ver publicación ↗";
         link.href = hrefRef.current?.(campo.id) || "#";
         link.style.cssText = "font-weight:700;color:#12324b;text-decoration:underline";
         popup.appendChild(link);
-        marker.bindPopup(popup, { autoPan: true, autoPanPadding: [24, 24], maxWidth:280, closeButton:true });
+        marker.bindPopup(popup, { autoPan: true, autoPanPaddingTopLeft: [24, 95], autoPanPaddingBottomRight: [24, 24], maxWidth:300, closeButton:true, className:"rural-pro-leaflet-popup" });
         marker.on("click",()=>{
           selectRef.current(campo.id);
           // Keep current zoom and viewport: popup opens anchored to the clicked marker.
@@ -99,6 +109,7 @@ export default function V3Map({ campos, country, selectedId, onSelect, onViewpor
         markers.set(campo.id,marker);
       }
       const viewport = initialBoundsRef.current;
+      allBoundsRef.current=locations.length ? L.latLngBounds(locations).pad(0.2) : null;
       if (viewport) {
         const east = viewport.east < viewport.west ? viewport.east + 360 : viewport.east;
         map.fitBounds([[viewport.south, viewport.west], [viewport.north, east]], { animate: false });
@@ -148,6 +159,18 @@ export default function V3Map({ campos, country, selectedId, onSelect, onViewpor
     };
   }, [campos, country]);
 
+  useEffect(()=>{
+    const map=mapRef.current;
+    if(!map || !baseLayerRef.current)return;
+    const url=basemap==="satellite" ? "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}" : "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
+    baseLayerRef.current.setUrl(url);
+    baseLayerRef.current.options.attribution=basemap==="satellite" ? "Tiles © Esri" : "© OpenStreetMap contributors";
+    map.attributionControl.setPrefix(false);
+    map.attributionControl.removeAttribution(basemap==="satellite" ? "© OpenStreetMap contributors" : "Tiles © Esri");
+    map.attributionControl.addAttribution(baseLayerRef.current.options.attribution);
+    setMapError(false);
+  },[basemap,mapReady]);
+
   useEffect(() => {
     markerRef.current.forEach((marker, id) => {
       const element = marker.getElement();
@@ -181,12 +204,16 @@ export default function V3Map({ campos, country, selectedId, onSelect, onViewpor
     markControlInteraction.current();
     map.setZoom(nextZoom, { animate: !window.matchMedia("(prefers-reduced-motion: reduce)").matches });
   }
+  function showAll(){const map=mapRef.current;const b=allBoundsRef.current;if(map&&b){map.closePopup();map.fitBounds(b,{maxZoom:10,animate:false,padding:[28,28]});}}
+  function locate(){if(!navigator.geolocation){setLocationError("Ubicación no disponible");return;}setLocating(true);setLocationError("");navigator.geolocation.getCurrentPosition(pos=>{setLocating(false);const map=mapRef.current;if(map){map.closePopup();map.setView([pos.coords.latitude,pos.coords.longitude],11,{animate:false});}},()=>{setLocating(false);setLocationError("No se pudo acceder a tu ubicación");},{enableHighAccuracy:false,timeout:9000});}
   async function toggleExpanded(){
     if(expanded){if(document.fullscreenElement===frameRef.current)await document.exitFullscreen();setExpanded(false);expandButtonRef.current?.focus();return;}
     setExpanded(true);
     try{await frameRef.current?.requestFullscreen?.();}catch{/* CSS expansion also works without native fullscreen. */}
   }
   return <div ref={frameRef} className={`v3-map-frame ${expanded?"v3-map-expanded":""}`} aria-busy={!mapReady && !mapError}>
+    <div className="rural-pro-map-toolbar" aria-label="Herramientas del mapa"><button type="button" onClick={showAll} disabled={!mapReady} title="Ver todas las publicaciones"><Scan size={17}/> Ver todos</button><button type="button" onClick={locate} disabled={!mapReady||locating} title="Buscar cerca de mi ubicación"><LocateFixed size={17}/>{locating?"Ubicando…":"Cerca de mí"}</button><button type="button" aria-expanded={layerMenu} onClick={()=>setLayerMenu(v=>!v)}><Layers size={17}/> Capas</button>{layerMenu&&<div className="rural-pro-layer-menu" role="group" aria-label="Tipo de mapa"><button type="button" aria-pressed={basemap==="standard"} onClick={()=>{setBasemap("standard");setLayerMenu(false)}}>Mapa</button><button type="button" aria-pressed={basemap==="satellite"} onClick={()=>{setBasemap("satellite");setLayerMenu(false)}}>Satélite</button></div>}</div>
+    {locationError&&<div className="rural-pro-location-error" role="status">{locationError}<button type="button" onClick={()=>setLocationError("")} aria-label="Cerrar"><X size={14}/></button></div>}
     <div className="v3-map-tools">
       <button ref={expandButtonRef} type="button" onClick={toggleExpanded} aria-pressed={expanded} aria-label={expanded?t("Restaurar mapa","Restaurar mapa","Restore map"):t("Ampliar mapa","Ampliar mapa","Expand map")}>{expanded?<Minimize2 size={20}/>:<Maximize2 size={20}/>}</button>
       <div className="v3-map-zoom-tools">
