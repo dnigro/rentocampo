@@ -359,3 +359,10 @@ html body .app-shell .dashboard-return a.rc-dashboard-return-btn {
 .account-workspace:has(.rc-publish-action) .rc-publish-action{margin:12px 16px 18px!important;width:calc(100% - 32px);justify-content:flex-start}
 .account-workspace:has(.rc-publish-action) .page-container{padding-top:0!important}
 }
+
+/* V3 global action system: consistent white actions and subtle outlines. */
+html body .account-workspace :is(a.btn-primary-lg,a.btn-secondary-lg,button.btn-primary-lg,button.btn-secondary-lg,.rc-publish-button,.rc-dashboard-return-btn),
+html body .app-shell :is(a.btn-primary-lg,a.btn-secondary-lg,button.btn-primary-lg,button.btn-secondary-lg,.rc-publish-button,.rc-dashboard-return-btn){
+background:#fff!important;color:#102c43!important;border:1px solid #cbd0d5!important;box-shadow:none!important;font-weight:700!important;border-radius:12px!important;
+}
+html body .account-workspace :is(a.btn-primary-lg,a.btn-secondary-lg,button.btn-primary-lg,button.btn-secondary-lg,.rc-publish-button,.rc-dashboard-return-btn):hover{background:#f5f6f7!important}
