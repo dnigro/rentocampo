@@ -3,7 +3,7 @@ import { createClient } from "@/lib/supabase/server";
 import { canAccessManagementReport } from "@/lib/analytics/commercial-filters";
 import { getCommercialStats } from "@/lib/analytics/commercial-stats";
 import GerencialExplorador from "@/components/gerencial/GerencialExplorador";
-import "@/styles/rc-decision-report.css";
+import "@/styles/agtech-intelligence.css";
 
 export const dynamic = "force-dynamic";
 
