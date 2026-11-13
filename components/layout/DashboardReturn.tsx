@@ -28,12 +28,12 @@ export default function DashboardReturn({ embedded = false }: { embedded?: boole
     ? regionalText(country, "Volver a Mis campos", "Voltar aos meus campos", "Back to my fields")
     : isServicioForm
       ? regionalText(country, "Volver a Mis servicios rurales", "Voltar aos meus serviços rurais", "Back to my rural services")
-      : regionalText(country, "Volver a mi cuenta", "Voltar à minha conta", "Back to my account");
+      : regionalText(country, "Volver a Mi RentoCampo", "Voltar ao Meu RentoCampo", "Back to My RentoCampo");
 
-  if (pathname === "/dashboard" || pathname === "/v3/mi-rentocampo") return null;
+  if (pathname === "/dashboard" || pathname === "/v3/mi-rentocampo" || pathname === "/acceso-restringido") return null;
 
   return (
-    <nav className="rc-return-inline" style={{margin:"16px 0 24px",padding:"0 8px",display:"flex",alignItems:"center"}} aria-label={backLabel}>
+    <nav className="rc-return-inline" style={{margin:"24px auto 28px",padding:"0 28px",width:"100%",maxWidth:1760,boxSizing:"border-box",display:"flex",alignItems:"center",minHeight:52}} aria-label={backLabel}>
       <Link href={`${returnHref}?pais=${country}`} className="rc-publish-button" style={{background:"#ffffff",color:"#102c43",border:"1px solid #cbd0d5",borderRadius:12,boxShadow:"none",fontWeight:700}}>
         <ArrowLeft size={17} aria-hidden="true" />
         <span>{backLabel}</span>
