@@ -3,6 +3,8 @@
  * a campos privados del perfil, no a títulos, descripciones ni ubicaciones.
  * Reutilizado en navegador y servidor.
  */
+export const PUBLICATION_TITLE_MAX_LENGTH = 70;
+
 export type OpcionesTexto = { required?: boolean; min?: number; max?: number };
 
 const EMAIL = /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}/i;
@@ -34,9 +36,9 @@ export function errorTextoPublico(
   return null;
 }
 
-export function errorCampoPublico(form: Record<string, unknown>): string | null {
+export function errorCampoPublico(form: Record<string, unknown>, titleMax = PUBLICATION_TITLE_MAX_LENGTH): string | null {
   const campos = [
-    ["titulo", "Título de la publicación", 100, true, 5],
+    ["titulo", "Título de la publicación", titleMax, true, 5],
     ["descripcion", "Descripción del campo", 2500, false, 0],
     ["ubicacion", "Ubicación", 250, true, 3],
     ["provincia", "Provincia o estado", 120, true, 2],
@@ -74,9 +76,9 @@ export function errorCampoPublico(form: Record<string, unknown>): string | null 
   return null;
 }
 
-export function errorServicioPublico(form: Record<string, unknown>, validServices: readonly string[]): string | null {
+export function errorServicioPublico(form: Record<string, unknown>, validServices: readonly string[], titleMax = PUBLICATION_TITLE_MAX_LENGTH): string | null {
   const campos = [
-    ["nombre_comercial", "Título del servicio", 100, true, 5],
+    ["nombre_comercial", "Título del servicio", titleMax, true, 5],
     ["detalle", "Descripción del servicio", 2500, false, 0],
     ["zona", "Zona de trabajo", 200, false, 0],
     ["provincia", "Provincia o estado", 120, true, 2],

@@ -18,7 +18,7 @@ async function contexto() {
   return { user };
 }
 
-function validarInput(raw: unknown) {
+function validarInput(raw: unknown, titleMax?: number) {
   if (!raw || typeof raw !== "object" || Array.isArray(raw)) {
     return { error: "Información de servicio inválida." };
   }
@@ -26,7 +26,7 @@ function validarInput(raw: unknown) {
   if (!isCountryCode(data.country_code)) {
     return { error: "Seleccioná un país válido." };
   }
-  const error = errorServicioPublico(data, validServices);
+  const error = errorServicioPublico(data, validServices, titleMax);
   if (error) return { error };
 
   const fotos = data.fotos_urls as string[];
@@ -63,7 +63,7 @@ export async function PATCH(request: Request) {
   const body = await request.json().catch(() => null);
   const id = typeof body?.id === "string" && /^[0-9a-f-]{36}$/i.test(body.id) ? body.id : null;
   if (!id) return NextResponse.json({ error: "Publicación inválida." }, { status: 400 });
-  const result = validarInput(body.form);
+  const result = validarInput(body.form, 100);
   if ("error" in result) return NextResponse.json({ error: result.error }, { status: 400 });
   const { data, error } = await createAdminClient().from("servicios_publicaciones")
     .update(result.payload)

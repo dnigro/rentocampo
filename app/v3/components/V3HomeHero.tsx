@@ -1,3 +1,4 @@
+import { BadgeCheck, MapPinned, MessagesSquare } from "lucide-react";
 import Image from "next/image";
 import Link from "@/components/layout/SiteLink";
 import { Montserrat } from "next/font/google";
@@ -13,6 +14,11 @@ export default function V3HomeHero({country}: {country: CountryCode}) {
   <div className={styles.content}>
    <h1 id="v3-home-title" className={styles.title}><span>{t("EL CAMPO","O CAMPO","THE COUNTRYSIDE")}</span><span className={styles.emphasis}>{t("TE CONECTA","CONECTA VOCÊ","CONNECTS YOU")}</span></h1>
    <p className={styles.description}>{t("Campos y servicios rurales. Contacto directo.","Terras e serviços rurais. Contato direto.","Farmland and rural services. Direct contact.")}</p>
+   <ul className={styles.benefits}>
+    <li><BadgeCheck size={19} aria-hidden="true"/>{t("COSTO 0","CUSTO 0","ZERO COST")}</li>
+    <li><MapPinned size={19} aria-hidden="true"/>{t("MAPA","MAPA","MAP")}</li>
+    <li><MessagesSquare size={19} aria-hidden="true"/>{t("CHAT ONLINE","CHAT ONLINE","ONLINE CHAT")}</li>
+   </ul>
    <div className={styles.actions}><Link href={`/v3?pais=${country}&vista=mapa#explorar`} className={styles.primary}>{t("Explorar mapa","Explorar mapa","Explore map")}</Link><Link href={`/register?pais=${country}`} className={styles.secondary}>{t("Quiero publicar","Quero anunciar","Create a listing")}</Link></div>
   </div>
 

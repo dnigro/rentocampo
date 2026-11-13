@@ -366,3 +366,20 @@ html body .app-shell :is(a.btn-primary-lg,a.btn-secondary-lg,button.btn-primary-
 background:#fff!important;color:#102c43!important;border:1px solid #cbd0d5!important;box-shadow:none!important;font-weight:700!important;border-radius:12px!important;
 }
 html body .account-workspace :is(a.btn-primary-lg,a.btn-secondary-lg,button.btn-primary-lg,button.btn-secondary-lg,.rc-publish-button,.rc-dashboard-return-btn):hover{background:#f5f6f7!important}
+
+.account-workspace .rc-return-inline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  width: min(100%, 1410px);
+  margin: 24px auto 20px;
+  padding-inline: clamp(16px, 3vw, 26px);
+  box-sizing: border-box;
+}
+
+.account-workspace .rc-return-inline .rc-publish-button {
+  gap: 6px;
+  max-width: 100%;
+  text-align: center;
+}

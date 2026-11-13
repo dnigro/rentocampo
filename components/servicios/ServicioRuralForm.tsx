@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { displayCountryName, COUNTRIES, COUNTRY_CODES_ALPHABETICAL, getCountrySubdivisions, resolveCountry, type CountryCode } from "@/data/countries";
 import { useRouter } from "next/navigation";
-import { errorTextoPublico } from "@/lib/publication-content-guard";
+import { errorTextoPublico, PUBLICATION_TITLE_MAX_LENGTH } from "@/lib/publication-content-guard";
 import { useRef, useState, useEffect } from "react";
 import { Check, FileText, Images, MapPinned, Wheat, Fence, Wifi, Handshake, Beef } from "lucide-react";
 import { SERVICIO_GRUPOS, servicioGrupoLabel, servicioGrupoDescripcion, servicioLabel } from "@/data/servicios-rurales";
@@ -35,6 +35,7 @@ interface Props {
 }
 
 export default function ServicioRuralForm({ profile, publicacion, initialCountry, initialZona }: Props) {
+  const titleMax = publicacion ? 100 : PUBLICATION_TITLE_MAX_LENGTH;
   const router = useRouter();
   const photoInputRef = useRef<HTMLInputElement>(null);
   const nombreInputRef = useRef<HTMLInputElement>(null);
@@ -116,7 +117,7 @@ export default function ServicioRuralForm({ profile, publicacion, initialCountry
     }
 
     for (const [value, label, max, required] of [
-      [nombreComercial, tt("Título", "Título", "Title"), 100, true],
+      [nombreComercial, tt("Título", "Título", "Title"), titleMax, true],
       [detalle, tt("Descripción", "Descrição", "Description"), 2500, false],
       [zona, tt("Zona", "Área", "Area"), 200, false],
       [localidad, tt("Localidad", "Cidade", "Town"), 120, false],
@@ -224,7 +225,7 @@ export default function ServicioRuralForm({ profile, publicacion, initialCountry
           className="form-input"
           type="text"
           minLength={5}
-          maxLength={100}
+          maxLength={titleMax}
           required
           aria-describedby="servicio-nombre-ayuda"
           value={nombreComercial}
@@ -232,6 +233,7 @@ export default function ServicioRuralForm({ profile, publicacion, initialCountry
           placeholder={tt("Ej.: Cosecha y siembra · Agroservicios López","Ex.: Colheita e plantio · Agroserviços Silva","E.g. Harvesting and planting · Farm Services")}
           autoComplete="off"
         />
+          <p className="form-hint">{tt("Título", "Título", "Title")} · {nombreComercial.length}/{titleMax} {tt("caracteres", "caracteres", "characters")}</p>
         <p id="servicio-nombre-ayuda" className="form-hint">
           {tt(
             "Este título aparecerá en el mapa y las fichas. No agregues teléfono, email, redes ni links: el contacto se hace por chat.",

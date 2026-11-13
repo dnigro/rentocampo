@@ -4,7 +4,7 @@ import Image from "next/image";
 
 import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { errorTextoPublico } from "@/lib/publication-content-guard";
+import { errorTextoPublico, PUBLICATION_TITLE_MAX_LENGTH } from "@/lib/publication-content-guard";
 import { createClient } from "@/lib/supabase/client";
 import { FileText, Images, MapPinned, Sprout, WalletCards, Check, ImagePlus } from "lucide-react";
 import { displayCountryName, COUNTRIES, COUNTRY_CODES_ALPHABETICAL, getCountrySubdivisions, type CountryCode } from "@/data/countries";
@@ -54,6 +54,7 @@ export default function CampoForm({
   puedePublicar = true,
   initialCountry = "AR",
 }: Props) {
+  const titleMax = campoId ? 100 : PUBLICATION_TITLE_MAX_LENGTH;
   const router = useRouter();
   const supabase = createClient();
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -178,7 +179,7 @@ export default function CampoForm({
     setError("");
 
     for (const [key, label, max, required] of [
-      ["titulo", tt("Título", "Título", "Title"), 100, true],
+      ["titulo", tt("Título", "Título", "Title"), titleMax, true],
       ["descripcion", tt("Descripción", "Descrição", "Description"), 2500, false],
       ["departamento", tt("Departamento", "Município", "District"), 120, false],
       ["localidad", tt("Localidad", "Cidade", "Town"), 120, false],
@@ -350,8 +351,9 @@ export default function CampoForm({
             value={form.titulo}
             onChange={handleChange}
             required
-            maxLength={100}
+            maxLength={titleMax}
           />
+          <p className="form-hint">{tt("Título", "Título", "Title")} · {form.titulo.length}/{titleMax} {tt("caracteres", "caracteres", "characters")}</p>
           <p className="form-hint">{tt("Este primer campo será el título visible en el mapa, los listados y la ficha. Describí la propiedad, no pongas tu nombre personal.", "Este primeiro campo será o título exibido no mapa, nas listas e na ficha. Descreva a propriedade, não use seu nome pessoal.", "This will be the public title on the map, search results and listing. Describe the property, not your personal name.")}</p>
         </div>
 

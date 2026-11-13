@@ -173,7 +173,7 @@ export async function PATCH(request: Request) {
     return NextResponse.json({ error: "Datos inválidos" }, { status: 400 });
   }
 
-  const publicError = errorCampoPublico(form);
+  const publicError = errorCampoPublico(form, 100);
   if (publicError) {
     return NextResponse.json({ error: publicError, code: "invalid_public_content" }, { status: 400 });
   }

@@ -66,6 +66,9 @@ test("rechaza datos de contacto en textos públicos", () => {
 
 test("validación del campo incluye títulos, ubicación, superficie y precio", () => {
   assert.equal(errorCampoPublico(campoValido), null);
+  assert.equal(errorCampoPublico({ ...campoValido, titulo: "A".repeat(70) }), null);
+  assert.match(errorCampoPublico({ ...campoValido, titulo: "A".repeat(71) }), /máximo 70/);
+  assert.equal(errorCampoPublico({ ...campoValido, titulo: "A".repeat(71) }, 100), null);
   assert.match(errorCampoPublico({ ...campoValido, titulo: "12345" }) ?? "", /descriptivo/);
   assert.match(errorCampoPublico({ ...campoValido, descripcion: "Tel. 11 5555-6666" }) ?? "", /chat/i);
   assert.match(errorCampoPublico({ ...campoValido, hectareas: 0 }) ?? "", /Superficie/);
@@ -75,6 +78,8 @@ test("validación del campo incluye títulos, ubicación, superficie y precio", 
 
 test("servicios controla rubros, foto, nombre y contacto", () => {
   assert.equal(errorServicioPublico(servicioValido, ["cosecha", "siembra"]), null);
+  assert.equal(errorServicioPublico({ ...servicioValido, nombre_comercial: "A".repeat(70) }, ["cosecha", "siembra"]), null);
+  assert.match(errorServicioPublico({ ...servicioValido, nombre_comercial: "A".repeat(71) }, ["cosecha", "siembra"]), /máximo 70/);
   assert.match(errorServicioPublico({ ...servicioValido, detalle: "Mi email es contacto@campo.com" }, ["cosecha", "siembra"]) ?? "", /chat/i);
   assert.match(errorServicioPublico({ ...servicioValido, servicios_rurales: ["cosecha", "cosecha"] }, ["cosecha", "siembra"]) ?? "", /sin repetirlas/);
   assert.match(errorServicioPublico({ ...servicioValido, fotos_urls: [] }, ["cosecha", "siembra"]) ?? "", /imágenes/);
@@ -89,7 +94,7 @@ test("ambos formularios pasan por validaciones de servidor y el header no duplic
   assert.doesNotMatch(nav, /className="navbar-register-btn"|className="navbar-mobile-signup"|className="btn-primary"/);
   assert.match(nav, /href="\/login"/);
   assert.match(fieldApi, /errorCampoPublico\(form\)/);
-  assert.match(serviceApi, /errorServicioPublico\(data, validServices\)/);
+  assert.match(serviceApi, /errorServicioPublico\(data, validServices, titleMax\)/);
   assert.match(serviceApi, /propietario_id: user.id/);
   assert.match(form, /fetch\("\/api\/servicios\/publicar"/);
   assert.doesNotMatch(form, /supabase\.from\("servicios_publicaciones"\)/);

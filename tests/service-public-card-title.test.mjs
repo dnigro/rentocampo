@@ -49,7 +49,7 @@ test("public listing title is mandatory for new service publications while legac
   assert.match(form, /nombreComercial\.trim\(\)\.length < 5/);
   assert.match(form, /required\s+aria-describedby="servicio-nombre-ayuda"/);
   assert.doesNotMatch(form, /Nombre comercial del servicio \(opcional\)/);
-  assert.match(form, /maxLength=\{100\}/);
+  assert.match(form, /maxLength=\{titleMax\}/);
   assert.match(form, /value=\{nombreComercial\}/);
   assert.match(form, /nombre_comercial: nombreComercial\.trim\(\)/);
   assert.match(form, /nombre_comercial\?: string \| null/);
