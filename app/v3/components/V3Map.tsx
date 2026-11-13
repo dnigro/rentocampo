@@ -2,7 +2,7 @@
 
 import { Maximize2, Minimize2, Plus, Minus, Layers, LocateFixed, Scan, X } from "lucide-react";
 import { v3Text } from "@/lib/i18n/v3-copy";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { Map as LeafletMap, Marker } from "leaflet";
 import type { V3Campo } from "./V3Explorer";
 import { type MapBounds } from "@/lib/campos/map-search";
@@ -39,6 +39,7 @@ export default function V3Map({ campos, country, selectedId, onSelect, onViewpor
   useEffect(() => { selectedRef.current = selectedId; }, [selectedId]);
   useEffect(() => { selectRef.current = onSelect; }, [onSelect]);
 
+  const datasetKey = useMemo(() => campos.map(item => `${item.id}:${item.lat}:${item.lng}`).join("|"), [campos]);
   const camposRef = useRef(campos);
   useEffect(() => { camposRef.current = campos; }, [campos]);
   useEffect(() => {
@@ -160,7 +161,7 @@ export default function V3Map({ campos, country, selectedId, onSelect, onViewpor
       map?.remove();
       mapRef.current = null;
     };
-  }, [country]);
+  }, [country, datasetKey]);
 
   useEffect(()=>{
     const map=mapRef.current;
