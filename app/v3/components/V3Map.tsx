@@ -63,8 +63,7 @@ export default function V3Map({ campos, country, selectedId, onSelect, onViewpor
         const position: [number,number] = [campo.lat,campo.lng];
         locations.push(position);
         const key = `${campo.lat},${campo.lng}`;
-        const index = seen.get(key)||0;
-        seen.set(key,index+1);
+        seen.set(key,(seen.get(key)||0)+1);
         const count = colocated.get(key)||1;
         const dot=document.createElement("span");
         dot.className="v3-dot-pin "+(campo.kind==="servicio"?"v3-dot-service":"v3-dot-field");
@@ -74,6 +73,7 @@ export default function V3Map({ campos, country, selectedId, onSelect, onViewpor
           title:campo.titulo,
           keyboard:true
         }).addTo(map);
+        marker.bindTooltip(campo.titulo, { direction:"top", offset:[0,-14] });
         marker.on("click",()=>{
           selectRef.current(campo.id);
           if(map)map.flyTo(position,Math.min(13,map.getMaxZoom()),{duration:.5});
