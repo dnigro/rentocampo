@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { MapPin, Map as MapIcon, List, Search, ArrowUpRight, RotateCcw } from "lucide-react";
 import { COUNTRIES, COUNTRY_CODES_ALPHABETICAL, displayCountryName, type CountryCode } from "@/data/countries";
 import { SERVICIOS_RURALES, servicioLabel } from "@/data/servicios-rurales";
-import { addMapBounds, hasMapLocation, matchesMapArea, type MapBounds } from "@/lib/campos/map-search";
+import { addMapBounds, matchesMapArea, type MapBounds } from "@/lib/campos/map-search";
 import V3RegionalPanel from "./V3RegionalPanel";
 import V3Map from "./V3Map";
 import V3CardPhotos from "./V3CardPhotos";
@@ -42,7 +42,6 @@ export default function V3UnifiedExplorer({ listings, country, filter, errors, c
   const pages=Math.max(1,Math.ceil(visible.length/10));
   const currentPage=Math.min(page,pages);
   const paged=visible.slice((currentPage-1)*10,currentPage*10);
-    const missing = matches.filter(item => !hasMapLocation(item)).length;
     const search = addMapBounds(new URLSearchParams({ pais: country, tipo: kind, ...(mobileMap ? {vista:"mapa"} : {}), ...(applied.location ? { provincia: applied.location } : {}), ...(kind === "campo" ? { operacion: applied.operation, aptitud: applied.aptitude } : {}), ...(kind === "servicio" ? { servicio: applied.service } : {}) }), bounds);
     const href = (item: RuralListing) => item.demo ? demoListingHref(country,item.kind,item.localidad) : `/v3/${item.kind === "campo" ? "campos" : "servicios"}/${item.sourceId}?${search}&origen=home`;
     const onMove = useCallback((next: MapBounds) => { setBounds(next); setPage(1); }, []);
